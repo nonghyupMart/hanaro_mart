@@ -2,15 +2,32 @@ import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import ReactNativeRingPicker from "./components/ReactNativeRingPicker";
+import TabViewExample from "./components/TabViewExample";
 
 function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>123Open up App.js to start working on your app!123123</Text>
       <StatusBar style="auto" />
-      <Button title="change text" />
+      <TabViewExample />
+
+      <View style={styles.ringPickerContainer}>
+        <ReactNativeRingPicker
+          icons={[{ id: "action_1", title: "농협몰" }, "올원뱅크", "NH멤버스"]}
+          girthAngle={120}
+          iconHideOnTheBackDuration={300}
+          styleIconText={{ fontWeight: "bold", color: "black" }}
+        />
+      </View>
     </View>
   );
 }
@@ -29,7 +46,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Home" component={TabViewExample} />
         <Drawer.Screen name="Notifications" component={NotificationsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
@@ -42,5 +59,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  ringPickerContainer: {
+    flex: 1,
+    position: "absolute",
+    bottom: -200,
   },
 });
