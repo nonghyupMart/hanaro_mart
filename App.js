@@ -1,55 +1,41 @@
-import "react-native-gesture-handler";
-import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  ScrollView,
-  Dimensions,
-} from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import ReactNativeRingPicker from "./components/ReactNativeRingPicker";
-import TabViewExample from "./components/TabViewExample";
+import { Provider } from "react-redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import { StyleSheet } from "react-native";
+import AppNavigator from "./navigation/AppNavigator";
+import { AppLoading } from "expo";
+import ReduxThunk from "redux-thunk";
+import * as Font from "expo-font";
 
-function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <TabViewExample />
+import authReducer from "./store/reducers/auth";
+const rootReducer = combineReducers({ auth: authReducer });
 
-      <View style={styles.ringPickerContainer}>
-        <ReactNativeRingPicker
-          icons={[{ id: "action_1", title: "농협몰" }, "올원뱅크", "NH멤버스"]}
-          girthAngle={120}
-          iconHideOnTheBackDuration={300}
-          styleIconText={{ fontWeight: "bold", color: "black" }}
-        />
-      </View>
-    </View>
-  );
-}
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
-function NotificationsScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Button onPress={() => navigation.goBack()} title="Go back home" />
-    </View>
-  );
-}
-
-const Drawer = createDrawerNavigator();
+const fetchFonts = () => {
+  return Font.loadAsync({
+    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+  });
+};
 
 export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
+      />
+    );
+  }
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={TabViewExample} />
-        <Drawer.Screen name="Notifications" component={NotificationsScreen} />
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
   );
 }
 

@@ -2,10 +2,10 @@ import React from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 
-const FlyerScreen = (props) => {
+const FavoritesScreen = (props) => {
   return (
     <View style={styles.screen}>
-      <Text>FlyerScreen</Text>
+      <Text>FavoritesScreen</Text>
     </View>
   );
 };
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlyerScreen;
+export default FavoritesScreen;
