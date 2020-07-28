@@ -4,9 +4,11 @@ import { SQUARE_DIMENSIONS } from "../util";
 
 export default StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.1,
     alignItems: "center",
     justifyContent: "center",
+    zIndex: 500,
+    elevation: 500,
   },
   icon: {
     position: "absolute",
@@ -23,6 +25,8 @@ export default StyleSheet.create({
     left: 0,
     width: SQUARE_DIMENSIONS.WIDTH * 0.09,
     height: SQUARE_DIMENSIONS.WIDTH * 0.09,
+    zIndex: 555,
+    elevation: 555,
   },
   iconText: {
     color: "#fff",

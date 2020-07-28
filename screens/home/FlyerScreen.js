@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -7,10 +7,12 @@ import {
   Button,
   Image,
   TouchableHighlight,
+  ScrollView,
 } from "react-native";
 import ImageSlider from "react-native-image-slider";
 import ViewPager from "@react-native-community/viewpager";
-import BottomButtons from "../../components/BottomButtons";
+
+import { Overlay } from "react-native-elements";
 
 const FlyerScreen = ({ navigation }) => {
   const images = [
@@ -19,49 +21,75 @@ const FlyerScreen = ({ navigation }) => {
     "https://placeimg.com/640/640/animals",
     "https://placeimg.com/640/640/beer",
   ];
-
+  const [isVisible, setIsVisible] = useState(true);
   return (
     <SafeAreaView style={styles.screen}>
-      <View style={styles.content1}>
-        <Button
-          title="전단 상세"
-          onPress={() => navigation.navigate("FlyerDetail")}
+      <ScrollView>
+        <Overlay isVisible={isVisible}>
+          <Text>Hello from Overlay!</Text>
+          <Button
+            title="close"
+            onPress={() => {
+              setIsVisible((isVisible) => !isVisible);
+            }}
+          />
+        </Overlay>
+
+        <View style={styles.content1}>
+          <Button
+            title="전단 상세"
+            onPress={() => navigation.navigate("FlyerDetail")}
+          />
+        </View>
+        <ImageSlider
+          loopBothSides
+          autoPlayWithInterval={3000}
+          images={images}
+          customSlide={({ index, item, style, width }) => (
+            // It's important to put style here because it's got offset inside
+            <View key={index} style={[style, styles.customSlide]}>
+              <Image source={{ uri: item }} style={styles.customImage} />
+            </View>
+          )}
+          customButtons={(position, move) => (
+            <View style={styles.buttons}>
+              {images.map((image, index) => {
+                return (
+                  <TouchableHighlight
+                    key={index}
+                    underlayColor="#ccc"
+                    onPress={() => move(index)}
+                    style={styles.button}
+                  >
+                    <Text style={position === index && styles.buttonSelected}>
+                      {index + 1}
+                    </Text>
+                  </TouchableHighlight>
+                );
+              })}
+            </View>
+          )}
         />
-      </View>
-      <ImageSlider
-        loopBothSides
-        autoPlayWithInterval={3000}
-        images={images}
-        customSlide={({ index, item, style, width }) => (
-          // It's important to put style here because it's got offset inside
-          <View key={index} style={[style, styles.customSlide]}>
-            <Image source={{ uri: item }} style={styles.customImage} />
-          </View>
-        )}
-        customButtons={(position, move) => (
-          <View style={styles.buttons}>
-            {images.map((image, index) => {
-              return (
-                <TouchableHighlight
-                  key={index}
-                  underlayColor="#ccc"
-                  onPress={() => move(index)}
-                  style={styles.button}
-                >
-                  <Text style={position === index && styles.buttonSelected}>
-                    {index + 1}
-                  </Text>
-                </TouchableHighlight>
-              );
-            })}
-          </View>
-        )}
-      />
-      <View style={styles.content2}>
-        <Text style={styles.contentText}>Content 2</Text>
-      </View>
-      <Text>FlyerScreen</Text>
-      <BottomButtons />
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <View style={styles.content2}>
+          <Text style={styles.contentText}>Content 2</Text>
+        </View>
+        <Text>FlyerScreen</Text>
+      </ScrollView>
     </SafeAreaView>
   );
 };

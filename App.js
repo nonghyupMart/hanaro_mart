@@ -4,8 +4,11 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { StyleSheet } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
+import { StatusBar } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+import { Icon } from "react-native-elements";
 
 import authReducer from "./store/reducers/auth";
 const rootReducer = combineReducers({ auth: authReducer });
@@ -34,6 +37,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
+      <StatusBar barStyle="light" backgroundColor="white" />
       <AppNavigator />
     </Provider>
   );

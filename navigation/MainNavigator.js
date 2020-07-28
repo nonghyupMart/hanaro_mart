@@ -1,15 +1,23 @@
 import React, { Fragment } from "react";
-import { Platform, Text, Button, Icon, View } from "react-native";
+import { Platform, Text, Button, Icon, View, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
+import {
+  NavigationContainer,
+  useNavigation,
+  DrawerActions,
+} from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createAppContainer } from "react-navigation";
+import {
+  createDrawerNavigator,
+} from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Input } from "react-native-elements";
 import HeaderButton from "../components/UI/HeaderButton";
-import HomeTabBar from "../components/UI/HomeTabBar";
+import BottomButtons from "../components/BottomButtons";
+import CustomDrawerContent from "../components/UI/CustomDrawerContent";
 
 import FlyerScreen from "../screens/home/FlyerScreen";
 import FlyerDetailScreen from "../screens/home/FlyerDetailScreen";
@@ -19,6 +27,7 @@ import NaroTubeScreen from "../screens/home/NaroTubeScreen";
 import CouponScreen from "../screens/home/CouponScreen";
 import Colors from "../constants/Colors";
 import FavoritesScreen from "../screens/FavoritesScreen";
+import BarCodeScannerScreen from "../screens/BarCodeScannerScreen";
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -48,7 +57,10 @@ export const HomeTabNavigator = () => {
           placeholder="원하시는 상품을 검색하세요!"
         />
       </View>
-      <HomeTopTabNavigator.Navigator initialRouteName="Flyer">
+      <HomeTopTabNavigator.Navigator
+        initialRouteName="Flyer"
+        swipeEnabled={false}
+      >
         <HomeTopTabNavigator.Screen
           name="Flyer"
           component={FlyerScreen}
@@ -75,7 +87,22 @@ export const HomeTabNavigator = () => {
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
+      <BottomButtons />
     </Fragment>
+  );
+};
+
+const HomeStackNavigator = createStackNavigator();
+export const HomeNavigator = () => {
+  return (
+    <HomeStackNavigator.Navigator>
+      <HomeStackNavigator.Screen
+        name="home"
+        component={HomeTabNavigator}
+        options={HomeScreenOptions}
+      />
+      <HomeStackNavigator.Screen name="FlyerDetail" component={FlyerDetailScreen}/>
+    </HomeStackNavigator.Navigator>
   );
 };
 
@@ -88,16 +115,16 @@ export const FavNavigator = () => {
   );
 };
 
-export const HomeScreenOptions = (navData) => {
+export const HomeScreenOptions = ({ navigation }) => {
   return {
     headerTitle: "하나로",
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
-          iconName={Platform.OS === "android" ? "md-menu" : "ios-menu"}
+          iconName="ios-menu"
           onPress={() => {
-            navData.navigation.toggleDrawer();
+            navigation.dispatch(DrawerActions.toggleDrawer());
           }}
         />
       </HeaderButtons>
@@ -110,7 +137,7 @@ export const HomeScreenOptions = (navData) => {
             Platform.OS === "android" ? "md-notifications" : "md-notifications"
           }
           onPress={() => {
-            navData.navigation.navigate("Cart");
+            navigation.navigate("Cart");
           }}
         />
         <Item
@@ -119,103 +146,43 @@ export const HomeScreenOptions = (navData) => {
             Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
           }
           onPress={() => {
-            navData.navigation.navigate("Cart");
+            navigation.navigate("BarCodeScanner");
           }}
         />
       </HeaderButtons>
     ),
   };
 };
-const HomeStackNavigator = createStackNavigator();
-export const HomeNavigator = () => {
-  return (
-    <HomeStackNavigator.Navigator>
-      <HomeStackNavigator.Screen
-        name="HomeTab"
-        component={HomeTabNavigator}
-        options={HomeScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="FlyerDetail"
-        component={FlyerDetailScreen}
-      />
-    </HomeStackNavigator.Navigator>
-  );
-};
 
-const MainBottomTabNavigator = createBottomTabNavigator();
-export const MainTabNavigator = () => {
-  return (
-    <MainBottomTabNavigator.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-
-          if (route.name === "Home") {
-            iconName = focused ? "ios-home" : "ios-home";
-          } else if (route.name === "MyCoupon") {
-            iconName = focused ? "md-filing" : "md-filing";
-          } else if (route.name === "RingPicker") {
-            iconName = focused ? "logo-chrome" : "logo-chrome";
-          } else if (route.name === "MyPage") {
-            iconName = focused ? "ios-person" : "ios-person";
-          } else if (route.name === "Call") {
-            iconName = focused ? "ios-call" : "ios-call";
-          }
-
-          // You can return any component that you like here!
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: "tomato",
-        inactiveTintColor: "gray",
-      }}
-    >
-      <MainBottomTabNavigator.Screen
-        name="Home"
-        component={HomeNavigator}
-        options={{
-          title: "홈",
-        }}
-      />
-      <MainBottomTabNavigator.Screen
-        name="MyCoupon"
-        component={FavNavigator}
-        options={{
-          title: "나의쿠폰",
-        }}
-      />
-      <MainBottomTabNavigator.Screen
-        name="RingPicker"
-        component={FavNavigator}
-      />
-
-      <MainBottomTabNavigator.Screen
-        name="MyPage"
-        component={FavNavigator}
-        options={{
-          title: "마이페이지",
-        }}
-      />
-      <MainBottomTabNavigator.Screen
-        name="Call"
-        component={FavNavigator}
-        options={{
-          title: "매장전화",
-        }}
-      />
-    </MainBottomTabNavigator.Navigator>
-  );
-};
-
+// https://reactnavigation.org/docs/drawer-navigator/
+// hide drawer item - https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
 const Drawer = createDrawerNavigator();
-
 export const MainNavigator = () => {
+  const dispatch = useDispatch();
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="HomeTab" component={MainTabNavigator} />
+    <Drawer.Navigator
+      drawerStyle={drawerStyle}
+      drawerContent={(props) => CustomDrawerContent(props, dispatch)}
+    >
+      <Drawer.Screen name="HomeTab" component={HomeNavigator} />
       <Drawer.Screen name="Review" component={FavNavigator} />
     </Drawer.Navigator>
   );
+};
+
+const drawerStyle = {
+  backgroundColor: "#c6cbef",
+  width: 240,
+  activeTintColor: "black",
+  inactiveTintColor: "black",
+  labelStyle: {
+    fontFamily: "montserrat",
+    marginVertical: 16,
+    marginHorizontal: 0,
+  },
+  iconContainerStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  itemStyle: {},
 };

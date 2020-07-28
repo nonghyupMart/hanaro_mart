@@ -30,13 +30,7 @@ export default class ReactNativeRingPicker extends React.Component {
     onPress: (iconId) => {},
     girthAngle: 120,
     iconHideOnTheBackDuration: 250,
-    icons: [
-      { id: "action_1", title: "action_1" },
-      "action_2",
-      "action_3",
-      "action_4",
-      "action_5",
-    ],
+    icons: [{ id: "action_1", title: "action_1" }, "action_2", "action_3"],
     showArrowHint: true,
     style: {},
     styleIconText: {},
@@ -769,11 +763,6 @@ export default class ReactNativeRingPicker extends React.Component {
           ref={(component) => (this._wheelNavigator = component)}
           onLayout={this.defineAxesCoordinatesOnLayoutDisplacement}
         >
-          {this.state.showArrowHint && (
-            <View style={STYLES.swipeArrowHint}>
-              <SwipeArrowHint />
-            </View>
-          )}
           <Animated.View
             style={this.rotateOnInputPixelDistanceMatchingRadianShift()}
             {...this._panResponder.panHandlers}

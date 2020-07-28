@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "5.9.2",
     "@react-native-community/picker": "1.6.0",
@@ -25,6 +26,7 @@
     "expo-camera": "~8.3.1",
     "expo-device": "~2.2.1",
     "expo-file-system": "~9.0.1",
+    "expo-font": "~8.2.1",
     "expo-location": "~8.2.1",
     "expo-media-library": "~8.2.1",
     "expo-network": "~2.2.1",
@@ -44,6 +46,7 @@
     "react-native-elements": "^2.0.4",
     "react-native-extended-stylesheet": "^0.12.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-image-gallery": "^2.1.5",
     "react-native-image-slider": "^2.0.3",
     "react-native-reanimated": "^1.9.0",
     "react-native-ring-picker": "^1.2.7",
@@ -63,9 +66,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
+    "@babel/plugin-syntax-class-properties": "^7.10.4",
     "@babel/runtime": "^7.10.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "babel-jest": "^26.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "~8.1.0",
     "jest": "^26.1.0",
     "metro-react-native-babel-preset": "^0.60.0"
