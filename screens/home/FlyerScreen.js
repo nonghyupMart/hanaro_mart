@@ -8,13 +8,18 @@ import {
   Image,
   TouchableHighlight,
   ScrollView,
+  Dimensions,
 } from "react-native";
 import ImageSlider from "react-native-image-slider";
-import ViewPager from "@react-native-community/viewpager";
-
+import Carousel from "react-native-looped-carousel";
 import { Overlay } from "react-native-elements";
 
+const { width, height } = Dimensions.get("window");
+
 const FlyerScreen = ({ navigation }) => {
+  const state = {
+    size: { width, height },
+  };
   const images = [
     "https://placeimg.com/640/640/nature",
     "https://placeimg.com/640/640/people",
@@ -24,7 +29,7 @@ const FlyerScreen = ({ navigation }) => {
   const [isVisible, setIsVisible] = useState(true);
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView>
+      <ScrollView style={{ flex: 1, width: "100%" }}>
         <Overlay isVisible={isVisible}>
           <Text>Hello from Overlay!</Text>
           <Button
@@ -41,37 +46,31 @@ const FlyerScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("FlyerDetail")}
           />
         </View>
-        <ImageSlider
-          loopBothSides
-          autoPlayWithInterval={3000}
-          images={images}
-          customSlide={({ index, item, style, width }) => (
-            // It's important to put style here because it's got offset inside
-            <View key={index} style={[style, styles.customSlide]}>
-              <Image source={{ uri: item }} style={styles.customImage} />
-            </View>
-          )}
-          customButtons={(position, move) => (
-            <View style={styles.buttons}>
-              {images.map((image, index) => {
-                return (
-                  <TouchableHighlight
-                    key={index}
-                    underlayColor="#ccc"
-                    onPress={() => move(index)}
-                    style={styles.button}
-                  >
-                    <Text style={position === index && styles.buttonSelected}>
-                      {index + 1}
-                    </Text>
-                  </TouchableHighlight>
-                );
-              })}
-            </View>
-          )}
-        />
+        <Carousel
+          delay={2000}
+          style={{ flex: 1, height: 100 }}
+          autoplay
+          pageInfo
+          onAnimateNextPage={(p) => console.log(p)}
+        >
+          <View style={[{ backgroundColor: "#BADA55" }, state.size]}>
+            <Text>1</Text>
+          </View>
+          <View style={[{ backgroundColor: "red" }, state.size]}>
+            <Text>2</Text>
+          </View>
+          <View style={[{ backgroundColor: "blue" }, state.size]}>
+            <Text>3</Text>
+          </View>
+        </Carousel>
+
         <View style={styles.content2}>
-          <Text style={styles.contentText}>Content 2</Text>
+          <Button
+            title="팝업"
+            onPress={() => {
+              setIsVisible((isVisible) => !isVisible);
+            }}
+          />
         </View>
         <View style={styles.content2}>
           <Text style={styles.contentText}>Content 2</Text>
@@ -99,6 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    width: "100%",
   },
   viewPager: {
     flex: 1,
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
   },
   slider: { backgroundColor: "#000", height: 350 },
   content1: {
+    flex: 1,
     width: "100%",
     height: 50,
     marginBottom: 10,

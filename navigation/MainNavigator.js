@@ -8,9 +8,7 @@ import {
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  createDrawerNavigator,
-} from "@react-navigation/drawer";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -101,7 +99,14 @@ export const HomeNavigator = () => {
         component={HomeTabNavigator}
         options={HomeScreenOptions}
       />
-      <HomeStackNavigator.Screen name="FlyerDetail" component={FlyerDetailScreen}/>
+      <HomeStackNavigator.Screen
+        name="FlyerDetail"
+        component={FlyerDetailScreen}
+      />
+      <HomeStackNavigator.Screen
+        name="BarCodeScanner"
+        component={BarCodeScannerScreen}
+      />
     </HomeStackNavigator.Navigator>
   );
 };
