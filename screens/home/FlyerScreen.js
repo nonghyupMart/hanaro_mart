@@ -51,7 +51,6 @@ const FlyerScreen = ({ navigation }) => {
           style={{ flex: 1, height: 100 }}
           autoplay
           pageInfo
-          onAnimateNextPage={(p) => console.log(p)}
         >
           <View style={[{ backgroundColor: "#BADA55" }, state.size]}>
             <Text>1</Text>

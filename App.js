@@ -9,8 +9,15 @@ import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
-
+import * as Notifications from "expo-notifications";
 import authReducer from "./store/reducers/auth";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return { shouldShowAlert: true };
+  },
+});
+
 const rootReducer = combineReducers({ auth: authReducer });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
