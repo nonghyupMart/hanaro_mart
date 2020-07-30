@@ -1,10 +1,11 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
-export const AUTHENTICATE = 'AUTHENTICATE';
-export const LOGOUT = 'LOGOUT';
-export const SET_DID_TRY_AL = 'SET_DID_TRY_AL';
+export const AUTHENTICATE = "AUTHENTICATE";
+export const LOGOUT = "LOGOUT";
+export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
+export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 
 let timer;
 
@@ -13,35 +14,35 @@ export const setDidTryAL = () => {
 };
 
 export const authenticate = (userId, token, expiryTime) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(setLogoutTimer(expiryTime));
     dispatch({ type: AUTHENTICATE, userId: userId, token: token });
   };
 };
 
 export const signup = (email, password) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI',
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
           password: password,
-          returnSecureToken: true
-        })
+          returnSecureToken: true,
+        }),
       }
     );
 
     if (!response.ok) {
       const errorResData = await response.json();
       const errorId = errorResData.error.message;
-      let message = 'Something went wrong!';
-      if (errorId === 'EMAIL_EXISTS') {
-        message = 'This email exists already!';
+      let message = "Something went wrong!";
+      if (errorId === "EMAIL_EXISTS") {
+        message = "This email exists already!";
       }
       throw new Error(message);
     }
@@ -63,30 +64,30 @@ export const signup = (email, password) => {
 };
 
 export const login = (email, password) => {
-  return async dispatch => {
+  return async (dispatch) => {
     const response = await fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI',
+      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
           password: password,
-          returnSecureToken: true
-        })
+          returnSecureToken: true,
+        }),
       }
     );
 
     if (!response.ok) {
       const errorResData = await response.json();
       const errorId = errorResData.error.message;
-      let message = 'Something went wrong!';
-      if (errorId === 'EMAIL_NOT_FOUND') {
-        message = 'This email could not be found!';
-      } else if (errorId === 'INVALID_PASSWORD') {
-        message = 'This password is not valid!';
+      let message = "Something went wrong!";
+      if (errorId === "EMAIL_NOT_FOUND") {
+        message = "This email could not be found!";
+      } else if (errorId === "INVALID_PASSWORD") {
+        message = "This password is not valid!";
       }
       throw new Error(message);
     }
@@ -109,7 +110,7 @@ export const login = (email, password) => {
 
 export const logout = () => {
   clearLogoutTimer();
-  AsyncStorage.removeItem('userData');
+  AsyncStorage.removeItem("userData");
   return { type: LOGOUT };
 };
 
@@ -119,8 +120,8 @@ const clearLogoutTimer = () => {
   }
 };
 
-const setLogoutTimer = expirationTime => {
-  return dispatch => {
+const setLogoutTimer = (expirationTime) => {
+  return (dispatch) => {
     timer = setTimeout(() => {
       dispatch(logout());
     }, expirationTime);
@@ -129,11 +130,15 @@ const setLogoutTimer = expirationTime => {
 
 const saveDataToStorage = (token, userId, expirationDate) => {
   AsyncStorage.setItem(
-    'userData',
+    "userData",
     JSON.stringify({
       token: token,
       userId: userId,
-      expiryDate: expirationDate.toISOString()
+      expiryDate: expirationDate.toISOString(),
     })
   );
+};
+
+export const setPushToken = (pushToken) => {
+  return { type: SET_PUSH_TOKEN, pushToken: pushToken };
 };

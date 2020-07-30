@@ -13,10 +13,16 @@ import {
 import ImageSlider from "react-native-image-slider";
 import Carousel from "react-native-looped-carousel";
 import { Overlay } from "react-native-elements";
+import { useSelector } from "react-redux";
+
+import * as Notifications from "expo-notifications";
+import * as Permissions from "expo-permissions";
 
 const { width, height } = Dimensions.get("window");
 
 const FlyerScreen = ({ navigation }) => {
+  const pushToken = useSelector((state) => state.auth.pushToken);
+
   const state = {
     size: { width, height },
   };
@@ -27,6 +33,35 @@ const FlyerScreen = ({ navigation }) => {
     "https://placeimg.com/640/640/beer",
   ];
   const [isVisible, setIsVisible] = useState(true);
+
+  const triggerNotificationHandler = () => {
+    // Notifications.scheduleNotificationAsync({
+    //   content: {
+    //     title: 'My first local notification',
+    //     body: 'This is the first local notification we are sending!',
+    //     data: { mySpecialData: 'Some text' },
+    //   },
+    //   trigger: {
+    //     seconds: 10,
+    //   },
+    // });
+    console.log("triggerNotificationHandler");
+    console.log("FlyerScreen PushToken ==>" + pushToken);
+    fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Accept-Encoding": "gzip, deflate",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        to: pushToken,
+        data: { extraData: "Some data" },
+        title: "Sent via the app",
+        body: "This push notification was sent via the app!",
+      }),
+    });
+  };
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView style={{ flex: 1, width: "100%" }}>
@@ -72,7 +107,10 @@ const FlyerScreen = ({ navigation }) => {
           />
         </View>
         <View style={styles.content2}>
-          <Text style={styles.contentText}>Content 2</Text>
+          <Button
+            title="Trigger Notification"
+            onPress={() => triggerNotificationHandler()}
+          />
         </View>
         <View style={styles.content2}>
           <Text style={styles.contentText}>Content 2</Text>
