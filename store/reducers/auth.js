@@ -3,6 +3,7 @@ import {
   LOGOUT,
   SET_DID_TRY_AL,
   SET_PUSH_TOKEN,
+  SET_LOCATION,
 } from "../actions/auth";
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
   userId: null,
   didTryAutoLogin: false,
   pushToken: null,
+  location: null,
 };
 
 export default (state = initialState, action) => {
@@ -19,6 +21,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         pushToken: action.pushToken,
+      };
+    case SET_LOCATION:
+      return {
+        ...state,
+        location: action.location,
       };
     default:
       return state;

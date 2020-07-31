@@ -66,13 +66,15 @@ const FlyerScreen = ({ navigation }) => {
     <SafeAreaView style={styles.screen}>
       <ScrollView style={{ flex: 1, width: "100%" }}>
         <Overlay isVisible={isVisible}>
-          <Text>Hello from Overlay!</Text>
-          <Button
-            title="close"
-            onPress={() => {
-              setIsVisible((isVisible) => !isVisible);
-            }}
-          />
+          <View>
+            <Text>Hello from Overlay!</Text>
+            <Button
+              title="close"
+              onPress={() => {
+                setIsVisible((isVisible) => !isVisible);
+              }}
+            />
+          </View>
         </Overlay>
 
         <View style={styles.content1}>

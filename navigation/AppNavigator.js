@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -6,8 +6,9 @@ import { MainNavigator } from "./MainNavigator";
 import AgreementScreen from "../screens/AgreementScreen";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
+import * as Location from "expo-location";
 
-import { setPushToken } from "../store/actions/auth";
+import { setPushToken, setLocation, setErrorMsg } from "../store/actions/auth";
 
 const AppNavigator = (props) => {
   const dispatch = useDispatch();
@@ -38,6 +39,16 @@ const AppNavigator = (props) => {
         console.log(err);
         return null;
       });
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("Permission to access location was denied");
+        // dispatch(setErrorMsg("Permission to access location was denied"));
+      }
+
+      // let location = await Location.getCurrentPositionAsync({});
+      // dispatch(setLocation(location));
+    })();
   }, []);
 
   const isAgreed = true;

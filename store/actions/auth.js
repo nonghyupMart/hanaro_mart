@@ -6,6 +6,7 @@ export const AUTHENTICATE = "AUTHENTICATE";
 export const LOGOUT = "LOGOUT";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
+export const SET_LOCATION = "SET_LOCATION";
 
 let timer;
 
@@ -141,4 +142,8 @@ const saveDataToStorage = (token, userId, expirationDate) => {
 
 export const setPushToken = (pushToken) => {
   return { type: SET_PUSH_TOKEN, pushToken: pushToken };
+};
+
+export const setLocation = (location) => {
+  return { type: SET_LOCATION, location: location };
 };
