@@ -7,6 +7,7 @@ export const LOGOUT = "LOGOUT";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
+export const SET_AGREEMENT = "SET_AGREEMENT";
 
 let timer;
 
@@ -146,4 +147,8 @@ export const setPushToken = (pushToken) => {
 
 export const setLocation = (location) => {
   return { type: SET_LOCATION, location: location };
+};
+
+export const setAgreePolicy = (isAgreed) => {
+  return { type: SET_AGREEMENT, isAgreed: isAgreed };
 };

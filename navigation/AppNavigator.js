@@ -3,12 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 
 import { MainNavigator } from "./MainNavigator";
-import AgreementScreen from "../screens/AgreementScreen";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import * as Location from "expo-location";
 
 import { setPushToken, setLocation, setErrorMsg } from "../store/actions/auth";
+import JoinNavigator from "./JoinNavigator";
 
 const AppNavigator = (props) => {
   const dispatch = useDispatch();
@@ -51,11 +51,12 @@ const AppNavigator = (props) => {
     })();
   }, []);
 
-  const isAgreed = true;
+  // const isAgreed = false;
+  const isAgreed = useSelector((state) => state.auth.isAgreed);
   return (
     <NavigationContainer>
       {isAgreed && <MainNavigator />}
-      {!isAgreed && <AgreementScreen />}
+      {!isAgreed && <JoinNavigator />}
     </NavigationContainer>
   );
 };

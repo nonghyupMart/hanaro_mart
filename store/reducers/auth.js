@@ -4,6 +4,7 @@ import {
   SET_DID_TRY_AL,
   SET_PUSH_TOKEN,
   SET_LOCATION,
+  SET_AGREEMENT,
 } from "../actions/auth";
 
 const initialState = {
@@ -26,6 +27,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         location: action.location,
+      };
+    case SET_AGREEMENT:
+      return {
+        ...state,
+        isAgreed: action.isAgreed,
       };
     default:
       return state;

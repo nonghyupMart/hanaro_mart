@@ -10,7 +10,6 @@ import {
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
 const CustomDrawerContent = (props, dispatch) => {
   return (
     <View style={{ flex: 1 }}>
@@ -31,7 +30,7 @@ const CustomDrawerContent = (props, dispatch) => {
               color={"black"}
             />
 
-            <Text style={styles.drawerText}>Shop</Text>
+            <Text style={styles.drawerText}>매장변경</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -47,7 +46,7 @@ const CustomDrawerContent = (props, dispatch) => {
               color={"black"}
             />
 
-            <Text style={styles.drawerText}>Contact Us</Text>
+            <Text style={styles.drawerText}>공지사항</Text>
           </TouchableOpacity>
 
           {/* Tried just disabling using DrawerItemList but wasn't working so made
@@ -63,7 +62,16 @@ const CustomDrawerContent = (props, dispatch) => {
             }}
           >
             <EvilIcons name={"question"} size={30} color={"black"} />
-            <Text style={styles.drawerText}>FAQ</Text>
+            <Text style={styles.drawerText}>1:1 문의</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.contactUsContainer}
+            onPress={() => {
+              console.log(props.navigation.navigate("FAQNav"));
+            }}
+          >
+            <EvilIcons name={"question"} size={30} color={"black"} />
+            <Text style={styles.drawerText}>나의 정보</Text>
           </TouchableOpacity>
         </DrawerContentScrollView>
       </View>
