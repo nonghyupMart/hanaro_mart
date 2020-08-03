@@ -20,7 +20,7 @@ module.exports = function (location) {
 <div id="container" class="view_map">
     <div id="mapWrapper" style="width:100%;height:300px;position:relative;">
         <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
-        <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+       <input type="button" id="btnRoadview" onclick="roadMap()" title="로드뷰 보기" value="로드뷰"> 
     </div>
     <div id="rvWrapper" style="width:100%;height:300px;position:absolute;top:0;left:0;">
         <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
@@ -41,7 +41,7 @@ var container = document.getElementById('container'), // 지도와 로드뷰를 
 
 // 지도와 로드뷰 위에 마커로 표시할 특정 장소의 좌표입니다
 
-
+// 농협정보시스템 37.464175, 127.036021
       //하나로 마트 양재 37.463030 127.043407
 
       var placePosition = new kakao.maps.LatLng(
@@ -52,7 +52,10 @@ var container = document.getElementById('container'), // 지도와 로드뷰를 
   }
       );
 
-      
+
+
+ 
+     
 
 var mapOption = { 
         center: placePosition, // 지도의 중심좌표
@@ -68,18 +71,7 @@ var roadview = new kakao.maps.Roadview(rvContainer);
 var rvClient = new kakao.maps.RoadviewClient(); 
 
 
-// 전달받은 좌표(position)에 가까운 로드뷰의 파노라마 ID를 추출하여
-// 로드뷰를 설정하는 함수입니다
-rvClient.getNearestPanoId(placePosition, 500, function(panoId) {
 
-        // 파노라마 ID가 null 이면 로드뷰를 숨깁니다
-        if (panoId === null) {
-            toggleMap(true);
-        } else {
-          // panoId로 로드뷰를 설정합니다
-            roadview.setPanoId(panoId, placePosition);
-        }
-    });
 
 
 // 특정 장소가 잘보이도록 로드뷰의 적절한 시점(ViewPoint)을 설정합니다 
@@ -115,14 +107,13 @@ var marker = new kakao.maps.Marker({
 marker.setMap(map);
 
 // 로드뷰 초기화가 완료되면 
-kakao.maps.event.addListener(roadview, 'init', function() {
-  alert('1');
-    // 로드뷰에 특정 장소를 표시할 마커를 생성하고 로드뷰 위에 표시합니다 
-    var rvMarker = new kakao.maps.Marker({
-        position: placePosition,
-        map: roadview
-    });
-});
+ kakao.maps.event.addListener(roadview, 'init', function() {
+     // 로드뷰에 특정 장소를 표시할 마커를 생성하고 로드뷰 위에 표시합니다 
+     var rvMarker = new kakao.maps.Marker({
+         position: placePosition,
+         map: roadview
+     });
+ });
 
 // 지도와 로드뷰를 감싸고 있는 div의 class를 변경하여 지도를 숨기거나 보이게 하는 함수입니다 
 function toggleMap(active) {
@@ -136,22 +127,50 @@ function toggleMap(active) {
         // 지도가 보이도록 지도와 로드뷰를 감싸고 있는 div의 class를 변경합니다
         container.className = "view_map"
          // 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
-        map.setCenter(position);
+        map.setCenter(placePosition);
     } else {
 
         // 지도가 숨겨지도록 지도와 로드뷰를 감싸고 있는 div의 class를 변경합니다
         container.className = "view_roadview"   
 
          // 지도의 크기가 변경되었기 때문에 relayout 함수를 호출합니다
-            map.relayout();
+        map.relayout();
 
-            // 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
-            map.setCenter(position);
+        // 지도의 너비가 변경될 때 지도중심을 입력받은 위치(position)로 설정합니다
+        map.setCenter(placePosition);
+
+        // 로드뷰의 위치를 지도 중심으로 설정합니다
+        toggleRoadview(map.getCenter());
+        // alert(4);
     }
 }
 
+// 전달받은 좌표(position)에 가까운 로드뷰의 파노라마 ID를 추출하여
+// 로드뷰를 설정하는 함수입니다
+function toggleRoadview(position){
 
+    rvClient.getNearestPanoId(placePosition, 500, function(panoId) {
 
+        // 파노라마 ID가 null 이면 로드뷰를 숨깁니다
+        if (panoId === null) {
+            toggleMap(true);
+        } else {
+          // panoId로 로드뷰를 설정합니다
+            roadview.setPanoId(panoId, placePosition);
+        }
+    });
+
+}
+
+function roadMap() {
+    rvClient.getNearestPanoId(placePosition, 500, function(panoId) {  
+        // 37.464175, 127.036021
+        var roadViewUrl = "http://map.kakao.com/?panoid="+panoId;
+        // window.open(roadViewUrl);
+        window.ReactNativeWebView.postMessage(roadViewUrl);
+    });
+}
+     
 </script>
 </body>
 </html>
