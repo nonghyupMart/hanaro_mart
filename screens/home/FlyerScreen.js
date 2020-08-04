@@ -18,6 +18,8 @@ import { useSelector } from "react-redux";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
+import StoreListPopup from "../../components/StoreListPopup";
+
 const { width, height } = Dimensions.get("window");
 
 const FlyerScreen = ({ navigation }) => {
@@ -65,17 +67,7 @@ const FlyerScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.screen}>
       <ScrollView style={{ flex: 1, width: "100%" }}>
-        <Overlay isVisible={isVisible}>
-          <View>
-            <Text>Hello from Overlay!</Text>
-            <Button
-              title="close"
-              onPress={() => {
-                setIsVisible((isVisible) => !isVisible);
-              }}
-            />
-          </View>
-        </Overlay>
+        <StoreListPopup isVisible={isVisible} />
 
         <View style={styles.content1}>
           <Button

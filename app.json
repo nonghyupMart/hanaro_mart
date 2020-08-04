@@ -1,9 +1,11 @@
 {
   "expo": {
     "name": "HanaroPlus",
-    "slug": "HanaroPlus",
+    "slug": "hanaro-plus",
     "version": "1.0.0",
     "orientation": "portrait",
+    "privacy": "public",
+    "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -13,14 +15,24 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
+      "buildNumber": "1.0.0",
+      "bundleIdentifier": "com.hanaroPlus.hanaroPlus",
       "supportsTablet": true
     },
     "android": {
-      "useNextNotificationsApi": true
+      "googleServicesFile": "./GoogleService-info.plist",
+      "versionCode": 1,
+      "package": "com.hanaroPlus.hanaroPlus",
+      "useNextNotificationsApi": true,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "READ_EXTERNAL_STORAGE",
+        "READ_INTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
