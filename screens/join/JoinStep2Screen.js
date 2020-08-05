@@ -112,7 +112,9 @@ const JoinStep2Screen = ({ navigation }) => {
           <Button
             title="확인"
             onPress={() => {
-              dispatch(setAgreePolicy(true));
+              setIsVisible(() => false);
+              navigation.replace("StoreSetup");
+              // dispatch(setAgreePolicy(true));
             }}
           />
         </View>

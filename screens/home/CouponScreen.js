@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-navigation";
 import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 
+
 const CouponScreen = (props) => {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -34,15 +35,6 @@ const CouponScreen = (props) => {
     })();
   });
 
-  const _onNavigationStateChange = (obj) => {
-    console.log(obj);
-    if (obj.url.includes("panoId")) {
-      webView.stopLoading(); //Some reference to your WebView to make it stop loading that URL
-      // webView.goBack();
-      Linking.openURL(obj.url);
-      return false;
-    }
-  };
   const onMessage = (obj) => {
     // console.log(obj.nativeEvent.data);
     Linking.openURL(obj.nativeEvent.data);

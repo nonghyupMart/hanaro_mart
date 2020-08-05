@@ -6,7 +6,10 @@ import {
   useNavigation,
   DrawerActions,
 } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -18,14 +21,21 @@ import BottomButtons from "../components/BottomButtons";
 import CustomDrawerContent from "../components/UI/CustomDrawerContent";
 
 import FlyerScreen from "../screens/home/FlyerScreen";
-import FlyerDetailScreen from "../screens/home/FlyerDetailScreen";
+import FlyerDetailScreen, {
+  screenOptions as FlyerDetailScreenOptions,
+} from "../screens/home/FlyerDetailScreen";
 import EventScreen from "../screens/home/EventScreen";
 import ExhibitionScreen from "../screens/home/ExhibitionScreen";
 import NaroTubeScreen from "../screens/home/NaroTubeScreen";
 import CouponScreen from "../screens/home/CouponScreen";
 import Colors from "../constants/Colors";
-import FavoritesScreen from "../screens/FavoritesScreen";
-import BarCodeScannerScreen from "../screens/BarCodeScannerScreen";
+import StoreChangeScreen, {
+  screenOptions as StoreChangeScreenOptions,
+} from "../screens/snb/StoreChangeScreen";
+import BarCodeScannerScreen, {
+  screenOptions as BarCodeScannerScreenOptions,
+} from "../screens/BarCodeScannerScreen";
+import { ScreenStackHeaderConfig } from "react-native-screens";
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -89,11 +99,25 @@ export const HomeTabNavigator = () => {
     </Fragment>
   );
 };
-
+const transitionConfig = {
+  animation: "spring",
+  config: {
+    stiffness: 1000,
+    damping: 500,
+    mass: 3,
+    overshootClamping: true,
+    restDisplacementThreshold: 0.01,
+    restSpeedThreshold: 0.01,
+  },
+};
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = () => {
   return (
-    <HomeStackNavigator.Navigator>
+    <HomeStackNavigator.Navigator
+      screenOptions={{
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
       <HomeStackNavigator.Screen
         name="home"
         component={HomeTabNavigator}
@@ -102,21 +126,19 @@ export const HomeNavigator = () => {
       <HomeStackNavigator.Screen
         name="FlyerDetail"
         component={FlyerDetailScreen}
+        options={FlyerDetailScreenOptions}
       />
       <HomeStackNavigator.Screen
         name="BarCodeScanner"
         component={BarCodeScannerScreen}
+        options={BarCodeScannerScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="StoreChange"
+        component={StoreChangeScreen}
+        options={StoreChangeScreenOptions}
       />
     </HomeStackNavigator.Navigator>
-  );
-};
-
-const FavStackNavigator = createStackNavigator();
-export const FavNavigator = () => {
-  return (
-    <FavStackNavigator.Navigator>
-      <FavStackNavigator.Screen name="Favorites" component={FavoritesScreen} />
-    </FavStackNavigator.Navigator>
   );
 };
 
@@ -166,11 +188,11 @@ export const MainNavigator = () => {
   const dispatch = useDispatch();
   return (
     <Drawer.Navigator
+      edgeWidth={0}
       drawerStyle={drawerStyle}
       drawerContent={(props) => CustomDrawerContent(props, dispatch)}
     >
       <Drawer.Screen name="HomeTab" component={HomeNavigator} />
-      <Drawer.Screen name="Review" component={FavNavigator} />
     </Drawer.Navigator>
   );
 };

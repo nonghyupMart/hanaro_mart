@@ -20,7 +20,7 @@ const CustomDrawerContent = (props, dispatch) => {
           <TouchableOpacity
             style={styles.contactUsContainer}
             onPress={() => {
-              Linking.openURL("...");
+              props.navigation.navigate("StoreChange");
             }}
           >
             <AntDesign

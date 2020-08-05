@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { StyleSheet } from "react-native";
+import { StyleSheet, BackHandler, Alert } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
 import { StatusBar } from "expo-status-bar";
@@ -33,6 +33,18 @@ export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
   // const [pushToken, setPushToken] = useState();
 
+  const backAction = () => {
+    Alert.alert("Hold on!", "Are you sure you want to go back?", [
+      {
+        text: "Cancel",
+        onPress: () => null,
+        style: "cancel",
+      },
+      { text: "YES", onPress: () => BackHandler.exitApp() },
+    ]);
+    return true;
+  };
+
   useEffect(() => {
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
@@ -46,9 +58,12 @@ export default function App() {
       }
     );
 
+    // BackHandler.addEventListener("hardwareBackPress", backAction);
+
     return () => {
       backgroundSubscription.remove();
       foregroundSubscription.remove();
+      // BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
   }, []);
   if (!fontLoaded) {

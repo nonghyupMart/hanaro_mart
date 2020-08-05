@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, SafeAreaView, StyleSheet, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+
 
 const BarCodeScannerScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -26,7 +27,7 @@ const BarCodeScannerScreen = () => {
   }
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         flexDirection: "column",
@@ -41,8 +42,17 @@ const BarCodeScannerScreen = () => {
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
-    </View>
+    </SafeAreaView>
   );
+};
+
+export const screenOptions = ({ navigation }) => {
+  return {
+    title: "바코드 촬영",
+    headerBackTitle: " ",
+    gestureEnabled: false,
+   
+  };
 };
 
 export default BarCodeScannerScreen;

@@ -34,7 +34,7 @@ const FlyerScreen = ({ navigation }) => {
     "https://placeimg.com/640/640/animals",
     "https://placeimg.com/640/640/beer",
   ];
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   const triggerNotificationHandler = () => {
     // Notifications.scheduleNotificationAsync({

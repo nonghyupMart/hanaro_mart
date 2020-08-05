@@ -67,10 +67,15 @@ const AgreementScreen = ({ navigation }) => {
       <Button
         title="확인"
         onPress={() => {
-          navigation.navigate('JoinStep1')
+          navigation.navigate("JoinStep1");
         }}
       />
-      <Button title="동의하지 않고 둘러보기" />
+      <Button
+        title="동의하지 않고 둘러보기"
+        onPress={() => {
+          dispatch(setAgreePolicy(true));
+        }}
+      />
     </View>
   );
 };

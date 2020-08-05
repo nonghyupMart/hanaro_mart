@@ -9,19 +9,21 @@ import {
   TextInput,
   Button,
 } from "react-native";
-import { Overlay } from "react-native-elements";
+import Modal from "react-native-modal";
 
 const StoreListPopup = (props) => {
+  const [isVisible, setIsVisible] = useState(props.isVisible);
   return (
-    <Overlay isVisible={props.isVisible}>
+    <Modal isVisible={isVisible}>
       <View>
         <Text>나의 점포를 설정해주세요.</Text>
         <View style={[styles.row]}>
           <TextInput autoFocus={true} />
           <Button title="검색" />
         </View>
+        <Button title="닫기" onPress={() => setIsVisible(() => false)} />
       </View>
-    </Overlay>
+    </Modal>
   );
 };
 
