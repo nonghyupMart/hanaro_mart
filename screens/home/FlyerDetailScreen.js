@@ -53,8 +53,6 @@ const FlyerDetailScreen = ({ navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "전단 상세",
-    headerBackTitle: " ",
-    gestureEnabled: false,
   };
 };
 

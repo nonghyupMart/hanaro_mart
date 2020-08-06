@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -11,18 +12,20 @@ import {
   FlatList,
   Platform,
   Alert,
+  Picker,
 } from "react-native";
 import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
 import * as Linking from "expo-linking";
+
+import { setAgreePolicy } from "../../store/actions/auth";
 import Colors from "../../constants/Colors";
 import StoreItem from "../../components/store/StoreItem";
-// import WheelPicker from "react-native-wheel-picker";
-// var PickerItem = WheelPicker.Item;
+
 import Modal from "react-native-modal";
 
-
 const StoreChangeScreen = (props) => {
+  const dispatch = useDispatch();
   const [location, setLocation] = useState(null);
   const [selectedItem, setSelectedItem] = useState(2);
   const [itemList, setItemList] = useState([
@@ -76,19 +79,36 @@ const StoreChangeScreen = (props) => {
 
   const confirmHandler = () => {
     Alert.alert(
-      "Alert Title",
-      "My Alert Msg",
+      "",
+      "기존 매장에서 사용하신 스탬프와 쿠폰은 변경매장에서 보이지 않으며 기존매장으로 재변경시 이용가능합니다. 변경하시겠습니까?",
       [
         {
-          text: "Ask me later",
-          onPress: () => console.log("Ask me later pressed"),
-        },
-        {
-          text: "Cancel",
+          text: "취소",
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
-        { text: "OK", onPress: () => console.log("OK Pressed") },
+        {
+          text: "확인",
+          onPress: () => {
+            alertConfirm();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+  const alertConfirm = () => {
+    Alert.alert(
+      "",
+      currentItem.title +
+        "을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서 변경 가능합니다.",
+      [
+        {
+          text: "확인",
+          onPress: () => {
+            dispatch(setAgreePolicy(true));
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -99,44 +119,26 @@ const StoreChangeScreen = (props) => {
         <TextInput placeholder="매장명을 입력하세요." />
         <Button title="검색" />
       </View>
-      <View style={[styles.row]}>
-        {/* <WheelPicker
-          style={{ width: 150, height: 180 }}
-          selectedValue={selectedItem}
-          itemStyle={{ color: "black", fontSize: 14 }}
-          onValueChange={(index) => onPickerSelect(index)}
-        >
-          {itemList.map((value, i) => (
-            <PickerItem label={value} value={i} key={"money" + value} />
-          ))}
-        </WheelPicker>
-        <WheelPicker
-          style={{ width: 150, height: 180 }}
-          selectedValue={selectedItem}
-          itemStyle={{ color: "black", fontSize: 14 }}
-          onValueChange={(index) => onPickerSelect(index)}
-        >
-          {itemList.map((value, i) => (
-            <PickerItem label={value} value={i} key={"money" + value} />
-          ))}
-        </WheelPicker>
-        <WheelPicker
-          style={{ width: 150, height: 180 }}
-          selectedValue={selectedItem}
-          itemStyle={{ color: "black", fontSize: 14 }}
-          onValueChange={(index) => onPickerSelect(index)}
-        >
-          {itemList.map((value, i) => (
-            <PickerItem label={value} value={i} key={"money" + value} />
-          ))}
-        </WheelPicker> */}
+      <View style={[styles.row, {}]}>
+        <Picker style={{ width: 100, flex: 1 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+        <Picker style={{ flex: 1, width: 100 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+        <Picker style={{ flex: 1, width: 100 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
       </View>
       <View style={[styles.row]}>
         <Button title="취소" />
         <Button title="확인" />
       </View>
       <FlatList
-        style={{ flat: 1, height: "100%" }}
+        style={{ height: "100%" }}
         data={[
           {
             id: 0,
@@ -214,8 +216,6 @@ const StoreChangeScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "매장변경",
-    headerBackTitle: " ",
-    gestureEnabled: false,
   };
 };
 const styles = StyleSheet.create({

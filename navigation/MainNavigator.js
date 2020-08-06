@@ -1,5 +1,13 @@
 import React, { Fragment } from "react";
-import { Platform, Text, Button, Icon, View, StyleSheet } from "react-native";
+import {
+  Platform,
+  Text,
+  Button,
+  Icon,
+  View,
+  StyleSheet,
+  StatusBar,
+} from "react-native";
 import { useDispatch } from "react-redux";
 import {
   NavigationContainer,
@@ -99,23 +107,18 @@ export const HomeTabNavigator = () => {
     </Fragment>
   );
 };
-const transitionConfig = {
-  animation: "spring",
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
+
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = () => {
   return (
     <HomeStackNavigator.Navigator
       screenOptions={{
+        headerBackTitle: " ",
+        gestureEnabled: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyle: {
+          paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+        },
       }}
     >
       <HomeStackNavigator.Screen

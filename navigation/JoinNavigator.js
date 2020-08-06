@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { StatusBar } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import AgreementScreen from "../screens/join/AgreementScreen";
@@ -14,6 +15,9 @@ export const JoinNavigator = () => {
       screenOptions={{
         headerShown: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        cardStyle: {
+          paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+        },
       }}
     >
       <JoinStackNavigator.Screen name="Agreement" component={AgreementScreen} />

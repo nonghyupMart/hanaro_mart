@@ -1572,6 +1572,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.0.tgz#ddb2b04ca251b79980e3052ece4e685b7abf0444"
   integrity sha512-ijB33rCW3m9vu8jbXAcEh+icCmK0pyvCXiGfAwPgGSaFLsmE27dsle3022EbE+dqqQgpxUNtOkrd5C3B+/dcuA==
 
+"@react-native-community/picker@^1.6.5":
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.6.5.tgz#9489fdb6d0b4b5877491101e0c3185ea9511d1aa"
+  integrity sha512-mwt0sBaFdURJWkq6wFf2BrYh7fzB1CKK4/gx20zmDYDmahvk3CVUQVlkINDDyXE9m0lYZ9V8rBZBBAJy9W3GkQ==
+
 "@react-native-community/viewpager@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/viewpager/-/viewpager-4.1.0.tgz#b6908329a39e27e5cd3236540aadd65133420563"
@@ -7380,11 +7385,6 @@ react-native-webview@9.4.0:
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
-
-react-native-wheel-picker@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-wheel-picker/-/react-native-wheel-picker-1.2.0.tgz#0503e37b3326856724501679bdf5697e0dd247a6"
-  integrity sha1-BQPjezMmhWckUBZ5vfVpfg3SR6Y=
 
 react-native-windows@^0.61.14:
   version "0.61.14"

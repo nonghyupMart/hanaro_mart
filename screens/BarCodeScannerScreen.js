@@ -49,9 +49,7 @@ const BarCodeScannerScreen = () => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "바코드 촬영",
-    headerBackTitle: " ",
-    gestureEnabled: false,
-   
+  
   };
 };
 
