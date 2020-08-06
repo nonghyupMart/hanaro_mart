@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -18,6 +18,7 @@ import { WebView } from "react-native-webview";
 import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 
+import * as RootNavigation from "../../navigation/RootNavigation";
 import { setAgreePolicy } from "../../store/actions/auth";
 import Colors from "../../constants/Colors";
 import StoreItem from "../../components/store/StoreItem";
@@ -25,6 +26,7 @@ import StoreItem from "../../components/store/StoreItem";
 import Modal from "react-native-modal";
 
 const StoreChangeScreen = (props) => {
+  const isAgreed = useSelector((state) => state.auth.isAgreed);
   const dispatch = useDispatch();
   const [location, setLocation] = useState(null);
   const [selectedItem, setSelectedItem] = useState(2);
@@ -106,7 +108,11 @@ const StoreChangeScreen = (props) => {
         {
           text: "확인",
           onPress: () => {
-            dispatch(setAgreePolicy(true));
+            if (!isAgreed) dispatch(setAgreePolicy(true));
+            else {
+              setIsVisible(() => false);
+              RootNavigation.popToTop();
+            }
           },
         },
       ],

@@ -116,9 +116,6 @@ export const HomeNavigator = () => {
         headerBackTitle: " ",
         gestureEnabled: false,
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-        cardStyle: {
-          paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
-        },
       }}
     >
       <HomeStackNavigator.Screen

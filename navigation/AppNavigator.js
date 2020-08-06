@@ -9,6 +9,7 @@ import * as Location from "expo-location";
 
 import { setPushToken, setLocation, setErrorMsg } from "../store/actions/auth";
 import JoinNavigator from "./JoinNavigator";
+import { navigationRef, isReadyRef } from "./RootNavigation";
 
 const AppNavigator = (props) => {
   const dispatch = useDispatch();
@@ -49,12 +50,18 @@ const AppNavigator = (props) => {
       // let location = await Location.getCurrentPositionAsync({});
       // dispatch(setLocation(location));
     })();
+    return () => (isReadyRef.current = false);
   }, []);
 
   // const isAgreed = false;
   const isAgreed = useSelector((state) => state.auth.isAgreed);
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        isReadyRef.current = true;
+      }}
+    >
       {isAgreed && <MainNavigator />}
       {!isAgreed && <JoinNavigator />}
     </NavigationContainer>
