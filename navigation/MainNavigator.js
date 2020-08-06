@@ -103,7 +103,6 @@ export const HomeTabNavigator = () => {
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
-      <BottomButtons />
     </Fragment>
   );
 };
@@ -111,34 +110,37 @@ export const HomeTabNavigator = () => {
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = () => {
   return (
-    <HomeStackNavigator.Navigator
-      screenOptions={{
-        headerBackTitle: " ",
-        gestureEnabled: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}
-    >
-      <HomeStackNavigator.Screen
-        name="home"
-        component={HomeTabNavigator}
-        options={HomeScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="FlyerDetail"
-        component={FlyerDetailScreen}
-        options={FlyerDetailScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="BarCodeScanner"
-        component={BarCodeScannerScreen}
-        options={BarCodeScannerScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="StoreChange"
-        component={StoreChangeScreen}
-        options={StoreChangeScreenOptions}
-      />
-    </HomeStackNavigator.Navigator>
+    <Fragment>
+      <HomeStackNavigator.Navigator
+        screenOptions={{
+          headerBackTitle: " ",
+          gestureEnabled: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      >
+        <HomeStackNavigator.Screen
+          name="home"
+          component={HomeTabNavigator}
+          options={HomeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="FlyerDetail"
+          component={FlyerDetailScreen}
+          options={FlyerDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="BarCodeScanner"
+          component={BarCodeScannerScreen}
+          options={BarCodeScannerScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="StoreChange"
+          component={StoreChangeScreen}
+          options={StoreChangeScreenOptions}
+        />
+      </HomeStackNavigator.Navigator>
+      <BottomButtons />
+    </Fragment>
   );
 };
 

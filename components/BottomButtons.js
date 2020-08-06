@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as Linking from "expo-linking";
 
+import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
 
@@ -17,11 +18,23 @@ const BottomButtons = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity activeOpacity={0.7} style={styles.icons}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.icons}
+        onPress={() => {
+          RootNavigation.navigate("Flyer");
+        }}
+      >
         <Icon type="ionicon" name="ios-home" />
         <Text style={styles.center}>홈</Text>
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.7} style={styles.icons}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.icons}
+        onPress={() => {
+          RootNavigation.navigate("Flyer");
+        }}
+      >
         <Icon type="material-community" name="ticket-account" />
         <Text style={styles.center}>나의 쿠폰</Text>
       </TouchableOpacity>
@@ -36,7 +49,13 @@ const BottomButtons = (props) => {
           }}
         />
       </TouchableWithoutFeedback>
-      <TouchableOpacity activeOpacity={0.7} style={styles.icons}>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={styles.icons}
+        onPress={() => {
+          RootNavigation.navigate("Flyer");
+        }}
+      >
         <Icon type="octicon" name="person" />
         <Text style={styles.center}>마이페이지</Text>
       </TouchableOpacity>
