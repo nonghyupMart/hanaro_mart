@@ -11,24 +11,19 @@ import {
   Button,
   FlatList,
   Platform,
-  Alert,
+
   Picker,
 } from "react-native";
-import { WebView } from "react-native-webview";
-import * as Location from "expo-location";
-import * as Linking from "expo-linking";
 
-import * as RootNavigation from "../../navigation/RootNavigation";
-import { setAgreePolicy } from "../../store/actions/auth";
 import Colors from "../../constants/Colors";
 import StoreItem from "../../components/store/StoreItem";
 
-import Modal from "react-native-modal";
+import StoreChangeDetail from "../../components/store/StoreChangeDetail";
 
 const StoreChangeScreen = (props) => {
-  const isAgreed = useSelector((state) => state.auth.isAgreed);
-  const dispatch = useDispatch();
-  const [location, setLocation] = useState(null);
+
+
+
   const [selectedItem, setSelectedItem] = useState(2);
   const [itemList, setItemList] = useState([
     "제주도",
@@ -42,7 +37,7 @@ const StoreChangeScreen = (props) => {
   ]);
   const [isVisible, setIsVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState({ id: null, title: "" });
-  let [webView, setWebview] = useState(null);
+
   const onPickerSelect = (index) => {
     setSelectedItem(() => index);
   };
@@ -52,73 +47,7 @@ const StoreChangeScreen = (props) => {
     setCurrentItem(() => item);
   };
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-      }
-
-      let provider = await Location.getProviderStatusAsync();
-      // console.log(provider);
-      if (location == null) {
-        let location = await Location.getCurrentPositionAsync({
-          maximumAge: 60000, // only for Android
-          accuracy: Platform.Android
-            ? Location.Accuracy.Low
-            : Location.Accuracy.Lowest,
-        });
-        setLocation(location);
-        // console.log(location);
-      }
-    })();
-  });
-
-  const onMessage = (obj) => {
-    // console.log(obj.nativeEvent.data);
-    Linking.openURL(obj.nativeEvent.data);
-  };
-
-  const confirmHandler = () => {
-    Alert.alert(
-      "",
-      "기존 매장에서 사용하신 스탬프와 쿠폰은 변경매장에서 보이지 않으며 기존매장으로 재변경시 이용가능합니다.변경하시겠습니까?",
-      [
-        {
-          text: "취소",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "확인",
-          onPress: () => {
-            alertConfirm();
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
-  const alertConfirm = () => {
-    Alert.alert(
-      "",
-      currentItem.title +
-        "을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서 변경 가능합니다.",
-      [
-        {
-          text: "확인",
-          onPress: () => {
-            if (!isAgreed) dispatch(setAgreePolicy(true));
-            else {
-              setIsVisible(() => false);
-              RootNavigation.popToTop();
-            }
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+  
   return (
     <SafeAreaView>
       <View style={[styles.row]}>
@@ -179,42 +108,11 @@ const StoreChangeScreen = (props) => {
           />
         )}
       />
-      <Modal isVisible={isVisible} s>
-        <View
-          style={{
-            flexDirection: "column",
-            backgroundColor: "white",
-            flex: 0.8,
-            width: "100%",
-          }}
-        >
-          <Text
-            style={{
-              width: "100%",
-            }}
-          >
-            {currentItem && currentItem.title}
-          </Text>
-          <View style={[styles.row]}></View>
-          <Button title="닫기" onPress={() => setIsVisible(() => false)} />
-          <WebView
-            ref={(wv) => (webView = wv)}
-            key={location}
-            originWhitelist={["*"]}
-            allowFileAccess={true}
-            domStorageEnabled={true}
-            javaScriptEnabled={true}
-            allowUniversalAccessFromFileURLs={true}
-            allowFileAccessFromFileURLs={true}
-            mixedContentMode="always"
-            source={{ html: require("../../map.js")(location) }}
-            // onNavigationStateChange={_onNavigationStateChange.bind(this)}
-            startInLoadingState={false}
-            onMessage={onMessage}
-          />
-          <Button title="설정" onPress={confirmHandler} />
-        </View>
-      </Modal>
+      <StoreChangeDetail
+        isVisible={isVisible}
+        currentItem={currentItem}
+        setIsVisible={setIsVisible}
+      />
     </SafeAreaView>
   );
 };

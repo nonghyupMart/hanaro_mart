@@ -18,11 +18,13 @@ import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 
-import StoreListPopup from "../../components/StoreListPopup";
+import StoreListPopup from "../../components/store/StoreListPopup";
 import FlyerItem from "../../components/FlyerItem";
+import FlyerDetail from "../../components/FlyerDetail";
 const { width, height } = Dimensions.get("window");
 
 const FlyerScreen = ({ navigation }) => {
+  const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(0);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const [flyerItems, setFlyerItems] = useState([
@@ -123,11 +125,16 @@ const FlyerScreen = ({ navigation }) => {
       }),
     });
   };
+
+  const popupHandler = (item) => {
+    setIsVisible((isVisible) => !isVisible);
+    setCurrentItem(() => item);
+  };
   return (
     <SafeAreaView style={styles.screen}>
-      <StoreListPopup isVisible={isVisible} />
+      {/* <StoreListPopup isVisible={isVisible} /> */}
       <FlatList
-        keyExtractor={(item) => item+""}
+        keyExtractor={(item) => item + ""}
         data={[0]}
         style={{ flex: 1, width: "100%" }}
         renderItem={({ item, index, separators }) => (
@@ -182,9 +189,10 @@ const FlyerScreen = ({ navigation }) => {
               numColumns={3}
               style={{ height: "100%" }}
               data={flyerItems}
-              keyExtractor={(item) => item.id +""}
+              keyExtractor={(item) => item.id + ""}
               renderItem={(itemData) => (
                 <FlyerItem
+                  onPress={popupHandler.bind(this, itemData.item)}
                   title={itemData.item.title}
                   keyExtractor={() => itemData.item.id}
                 />
@@ -193,6 +201,11 @@ const FlyerScreen = ({ navigation }) => {
           </View>
         )}
       ></FlatList>
+      <FlyerDetail
+        item={currentItem}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </SafeAreaView>
   );
 };

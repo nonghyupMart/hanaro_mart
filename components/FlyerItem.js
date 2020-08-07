@@ -4,11 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-      onPress={props.onPress}
-      style={{ flex: 1 }}
-    >
+    <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
       <View style={styles.cartItem}>
         <View style={styles.itemData}>
           <Image
