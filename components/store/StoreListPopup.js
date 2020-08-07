@@ -14,7 +14,11 @@ import Modal from "react-native-modal";
 const StoreListPopup = (props) => {
   const [isVisible, setIsVisible] = useState(props.isVisible);
   return (
-    <Modal isVisible={isVisible}>
+    <Modal
+      isVisible={isVisible}
+      useNativeDriver={true}
+      hideModalContentWhileAnimating={true}
+    >
       <View>
         <Text>나의 점포를 설정해주세요.</Text>
         <View style={[styles.row]}>

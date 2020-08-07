@@ -58,7 +58,26 @@ const defaultStackNavOptions = {
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
   headerTitle: "A Screen",
 };
-
+const CouponTopTabNavigator = createMaterialTopTabNavigator();
+export const CouponTabNavigator = () => {
+  return (
+    <CouponTopTabNavigator.Navigator
+      initialRouteName="Coupon1"
+      swipeEnabled={false}
+    >
+      <CouponTopTabNavigator.Screen
+        name="Coupon1"
+        component={CouponScreen}
+        options={{ title: "총액할인쿠폰" }}
+      />
+      <CouponTopTabNavigator.Screen
+        name="Coupon2"
+        component={CouponScreen}
+        options={{ title: "상품할인쿠폰" }}
+      />
+    </CouponTopTabNavigator.Navigator>
+  );
+};
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 export const HomeTabNavigator = () => {
   return (
@@ -89,7 +108,7 @@ export const HomeTabNavigator = () => {
         />
         <HomeTopTabNavigator.Screen
           name="Coupon"
-          component={CouponScreen}
+          component={CouponTabNavigator}
           options={{ title: "나로쿠폰" }}
         />
         <HomeTopTabNavigator.Screen

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { StatusBar } from "react-native";
+import { StatusBar, Platform } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import AgreementScreen from "../screens/join/AgreementScreen";

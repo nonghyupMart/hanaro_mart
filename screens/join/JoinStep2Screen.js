@@ -122,7 +122,11 @@ const JoinStep2Screen = ({ navigation }) => {
         </View>
       )}
 
-      <Modal isVisible={isVisible}>
+      <Modal
+        isVisible={isVisible}
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+      >
         <View style={{ backgroundColor: "white" }}>
           <Text>
             전화번호 인증이 완료되었습니다. (010-1111-2222) 개인정보 수집과

@@ -4,6 +4,17 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { CheckBox } from "react-native-elements";
 
 import { setAgreePolicy } from "../../store/actions/auth";
+import * as Permissions from "expo-permissions";
+import * as Notifications from "expo-notifications";
+import * as Location from "expo-location";
+import { getPermissionsAsync } from "expo-notifications";
+
+import {
+  setPushToken,
+  setLocation,
+  setErrorMsg,
+} from "../../store/actions/auth";
+
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const [checkBoxes, setCheckBoxes] = useState([
@@ -32,6 +43,43 @@ const AgreementScreen = ({ navigation }) => {
       let allTrue = cks.every((el) => el.isChecked);
       if (allTrue) setToggleAllCheckBox(true);
     }
+  };
+
+  const getPermissions = () => {
+    Permissions.getAsync(
+      Permissions.NOTIFICATIONS,
+      Permissions.LOCATION,
+      Permissions.CAMERA
+    )
+      .then((statusObj) => {
+        if (statusObj.status !== "granted") {
+          return Permissions.askAsync(
+            Permissions.NOTIFICATIONS,
+            Permissions.LOCATION,
+            Permissions.CAMERA
+          );
+        }
+        return statusObj;
+      })
+      .then((statusObj) => {
+        if (statusObj.status !== "granted") {
+          alert("Permission to notification was denied");
+        }
+      })
+      .then(() => {
+        console.log("getting token");
+        return Notifications.getExpoPushTokenAsync();
+      })
+      .then((response) => {
+        const token = response.data;
+        console.log("token==>" + token);
+        dispatch(setPushToken(token));
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err);
+        return false;
+      });
   };
   return (
     <View style={styles.screen}>
@@ -67,7 +115,7 @@ const AgreementScreen = ({ navigation }) => {
       <Button
         title="확인"
         onPress={() => {
-          navigation.navigate("JoinStep1");
+          if (getPermissions()) navigation.navigate("JoinStep1");
         }}
       />
       <Button

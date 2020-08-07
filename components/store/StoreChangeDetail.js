@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Button, StyleSheet, Alert } from "react-native";
+import { Text, View, Button, StyleSheet, Alert, Platform } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { WebView } from "react-native-webview";
 import Modal from "react-native-modal";
@@ -82,7 +82,11 @@ const StoreChangeDetail = (props) => {
     );
   };
   return (
-    <Modal isVisible={props.isVisible}>
+    <Modal
+      isVisible={props.isVisible}
+      useNativeDriver={true}
+      hideModalContentWhileAnimating={true}
+    >
       <View
         style={{
           flexDirection: "column",
@@ -99,10 +103,7 @@ const StoreChangeDetail = (props) => {
           {props.currentItem && props.currentItem.title}
         </Text>
         <View style={[styles.row]}></View>
-        <Button
-          title="닫기"
-          onPress={() => props.setIsVisible.bind(this, false)}
-        />
+        <Button title="닫기" onPress={() => props.setIsVisible(() => false)} />
         <WebView
           ref={(wv) => (webView = wv)}
           key={location}

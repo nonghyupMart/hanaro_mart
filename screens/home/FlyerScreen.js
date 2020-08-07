@@ -60,27 +60,27 @@ const FlyerScreen = ({ navigation }) => {
       ...flyerItems,
       {
         id: Math.random().toString(36).substring(7),
-        title: "양재점",
+        title: "양재점" + Math.floor(Math.random() * 100),
       },
       {
         id: Math.random().toString(36).substring(7),
-        title: "천안점",
+        title: "천안점" + Math.floor(Math.random() * 100),
       },
       {
         id: Math.random().toString(36).substring(7),
-        title: "마포점",
+        title: "마포점" + Math.floor(Math.random() * 100),
       },
       {
         id: Math.random().toString(36).substring(7),
-        title: "이태원점",
+        title: "이태원점" + Math.floor(Math.random() * 100),
       },
       {
         id: Math.random().toString(36).substring(7),
-        title: "홍대점",
+        title: "홍대점" + Math.floor(Math.random() * 100),
       },
       {
         id: Math.random().toString(36).substring(7),
-        title: "안산점",
+        title: "안산점" + Math.floor(Math.random() * 100),
       },
     ]);
     //   setPage(() => page + 1);

@@ -1,3 +1,4 @@
+import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
@@ -30,6 +31,7 @@ const fetchFonts = () => {
 };
 
 export default function App() {
+  usePreventScreenCapture();
   const [fontLoaded, setFontLoaded] = useState(false);
   // const [pushToken, setPushToken] = useState();
 

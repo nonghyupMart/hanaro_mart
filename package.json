@@ -24,6 +24,7 @@
     "expo-av": "~8.2.1",
     "expo-barcode-scanner": "~8.2.1",
     "expo-camera": "~8.3.1",
+    "expo-contacts": "~8.2.1",
     "expo-device": "~2.2.1",
     "expo-file-system": "~9.0.1",
     "expo-font": "~8.2.1",
@@ -32,6 +33,7 @@
     "expo-network": "~2.2.1",
     "expo-notifications": "~0.3.3",
     "expo-permissions": "~9.0.1",
+    "expo-screen-capture": "^1.0.1",
     "expo-sms": "~8.2.1",
     "expo-splash-screen": "^0.3.1",
     "expo-status-bar": "^1.0.0",
@@ -65,8 +67,7 @@
     "react-navigation-header-buttons": "^4.0.2",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0",
-    "expo-contacts": "~8.2.1"
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
