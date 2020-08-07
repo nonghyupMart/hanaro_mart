@@ -11,6 +11,7 @@ import {
   ActionSheetIOS,
 } from "react-native";
 
+import * as Contacts from "expo-contacts";
 import Modal from "react-native-modal";
 
 import { setAgreePolicy } from "../../store/actions/auth";
@@ -38,6 +39,25 @@ const JoinStep2Screen = ({ navigation }) => {
         }
       }
     );
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { status } = await Contacts.requestPermissionsAsync();
+  //     if (status === "granted") {
+  //       const { data } = await Contacts.getContactsAsync({
+  //         fields: [Contacts.Fields.phoneNumbers],
+  //         pageSize: 0,
+  //         pageOffset: 0,
+  //         sort: Contacts.SortTypes.LastName,
+  //       });
+
+  //       if (data.length > 0) {
+  //         const contact = data[0];
+  //         console.log(contact);
+  //       }
+  //     }
+  //   })();
+  // }, []);
 
   return (
     <View style={styles.screen}>

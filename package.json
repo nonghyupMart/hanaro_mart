@@ -65,7 +65,8 @@
     "react-navigation-header-buttons": "^4.0.2",
     "react-redux": "^7.2.0",
     "redux": "^4.0.5",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "expo-contacts": "~8.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",

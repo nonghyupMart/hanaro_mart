@@ -113,6 +113,10 @@ export const HomeNavigator = () => {
     <Fragment>
       <HomeStackNavigator.Navigator
         screenOptions={{
+          cardStyle: {
+            marginBottom: 60,
+          },
+
           headerBackTitle: " ",
           gestureEnabled: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,

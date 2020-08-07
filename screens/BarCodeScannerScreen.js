@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Text, SafeAreaView, StyleSheet, Button } from "react-native";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Button,
+  Image,
+  View,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-
 
 const BarCodeScannerScreen = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -37,7 +43,31 @@ const BarCodeScannerScreen = () => {
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
-      />
+      >
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 5555,
+            elevation: 5555,
+            top: 150,
+            marginTop: 100,
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Image
+            style={{
+              width: "100%",
+              height: 50,
+              resizeMode: "stretch",
+            }}
+            source={{
+              uri:
+                "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
+            }}
+          />
+        </View>
+      </BarCodeScanner>
 
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
@@ -49,7 +79,6 @@ const BarCodeScannerScreen = () => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "바코드 촬영",
-  
   };
 };
 
