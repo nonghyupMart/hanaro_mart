@@ -11,7 +11,6 @@ import * as Linking from "expo-linking";
 
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
-import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
 
 const BottomButtons = (props) => {
   const [showPicker, setShowPicker] = useState(false);
@@ -43,9 +42,15 @@ const BottomButtons = (props) => {
           type="font-awesome-5"
           name="chrome"
           size={55}
-          style={styles.hide}
           onPress={() => {
-            setShowPicker((prevState) => !prevState);
+            if (
+              RootNavigation.navigationRef.current.getCurrentRoute().name !==
+              "RingPicker"
+            ) {
+              RootNavigation.navigate("RingPicker");
+            } else {
+              RootNavigation.pop();
+            }
           }}
         />
       </TouchableWithoutFeedback>
@@ -102,11 +107,6 @@ const styles = StyleSheet.create({
   },
   center: {
     flex: 1,
-  },
-  ringPicker: {
-    backgroundColor: "green",
-    position: "absolute",
-    bottom: -200,
   },
 
   ringIcons: {

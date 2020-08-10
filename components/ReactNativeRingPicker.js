@@ -30,7 +30,7 @@ export default class ReactNativeRingPicker extends React.Component {
     onPress: (iconId) => {},
     girthAngle: 120,
     iconHideOnTheBackDuration: 250,
-    icons: [{ id: "action_1", title: "action_1" }, "action_2", "action_3"],
+    icons: [{ id: "농협몰", title: "농협몰" }, "올원뱅크", "HN멤버스"],
     showArrowHint: true,
     style: {},
     styleIconText: {},
@@ -437,7 +437,7 @@ export default class ReactNativeRingPicker extends React.Component {
         ...this.state,
         ICON_PATH_RADIUS:
           height / 2 +
-          STYLES.icon.height / 2 +
+          STYLES.icon.height +
           SQUARE_DIMENSIONS.ICON_PADDING_FROM_WHEEL,
         XY_AXES_COORDINATES: {
           X: pageX + width / 2,
@@ -755,7 +755,7 @@ export default class ReactNativeRingPicker extends React.Component {
       >
         <Icons
           icons={this.state.icons}
-          onPress={onPress}
+          onPress={() => alert(11)}
           styleIconText={styleIconText}
         />
         <View

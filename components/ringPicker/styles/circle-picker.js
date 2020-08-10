@@ -12,8 +12,8 @@ export default StyleSheet.create({
   },
   icon: {
     position: "absolute",
-    width: SQUARE_DIMENSIONS.WIDTH * 0.09,
-    height: SQUARE_DIMENSIONS.WIDTH * 0.09,
+    width: SQUARE_DIMENSIONS.WIDTH * 0.15,
+    height: SQUARE_DIMENSIONS.WIDTH * 0.15,
     flex: 1,
     // backgroundColor: 'blue',
     justifyContent: "center",
@@ -21,21 +21,21 @@ export default StyleSheet.create({
   },
   iconContainer: {
     position: "absolute",
-    top: -((SQUARE_DIMENSIONS.WIDTH * 0.09) / 2),
+    top: -(SQUARE_DIMENSIONS.WIDTH * 0.000001),
     left: 0,
-    width: SQUARE_DIMENSIONS.WIDTH * 0.09,
-    height: SQUARE_DIMENSIONS.WIDTH * 0.09,
-    zIndex: 555,
-    elevation: 555,
+    width: SQUARE_DIMENSIONS.WIDTH * 0.15,
+    height: SQUARE_DIMENSIONS.WIDTH * 0.15,
+    zIndex: 999,
+    elevation: 999,
   },
   iconText: {
-    color: "#fff",
-    fontSize: 20,
+    color: "#000",
+    fontSize: 12,
     flex: 0,
     width: SQUARE_DIMENSIONS.WIDTH * 0.4,
     left: -(
       SQUARE_DIMENSIONS.WIDTH * 0.2 -
-      (SQUARE_DIMENSIONS.WIDTH * 0.09) / 2
+      (SQUARE_DIMENSIONS.WIDTH * 0.15) / 2
     ),
     textAlign: "center",
     textTransform: "capitalize",
@@ -48,8 +48,9 @@ export default StyleSheet.create({
     height: SQUARE_DIMENSIONS.WIDTH * 0.3,
   },
   wheel: {
-    width: SQUARE_DIMENSIONS.WIDTH * 0.8,
-    height: SQUARE_DIMENSIONS.WIDTH * 0.8,
+  
+    width: SQUARE_DIMENSIONS.WIDTH * 0.5,
+    height: SQUARE_DIMENSIONS.WIDTH * 0.5,
   },
   wheelTouchableCenter: {
     position: "absolute",

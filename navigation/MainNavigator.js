@@ -17,6 +17,7 @@ import {
 import {
   createStackNavigator,
   CardStyleInterpolators,
+  HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -35,15 +36,19 @@ import FlyerDetailScreen, {
 import EventScreen from "../screens/home/EventScreen";
 import ExhibitionScreen from "../screens/home/ExhibitionScreen";
 import NaroTubeScreen from "../screens/home/NaroTubeScreen";
-import CouponScreen from "../screens/home/CouponScreen";
+import CouponForTotalScreen from "../screens/home/CouponForTotalScreen";
+import CouponForProductScreen from "../screens/home/CouponForProductScreen";
 import Colors from "../constants/Colors";
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
 } from "../screens/snb/StoreChangeScreen";
+import CouponDetailScreen, {
+  screenOptions as CouponDetailScreenOptions,
+} from "../screens/home/CouponDetailScreen";
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "../screens/BarCodeScannerScreen";
-import { ScreenStackHeaderConfig } from "react-native-screens";
+import RingPickerScreen from "../screens/RingPickerScreen";
 
 const defaultStackNavOptions = {
   headerStyle: {
@@ -62,17 +67,17 @@ const CouponTopTabNavigator = createMaterialTopTabNavigator();
 export const CouponTabNavigator = () => {
   return (
     <CouponTopTabNavigator.Navigator
-      initialRouteName="Coupon1"
+      initialRouteName="CouponForTotal"
       swipeEnabled={false}
     >
       <CouponTopTabNavigator.Screen
-        name="Coupon1"
-        component={CouponScreen}
+        name="CouponForTotal"
+        component={CouponForTotalScreen}
         options={{ title: "총액할인쿠폰" }}
       />
       <CouponTopTabNavigator.Screen
-        name="Coupon2"
-        component={CouponScreen}
+        name="CouponForProduct"
+        component={CouponForProductScreen}
         options={{ title: "상품할인쿠폰" }}
       />
     </CouponTopTabNavigator.Navigator>
@@ -160,6 +165,21 @@ export const HomeNavigator = () => {
           name="StoreChange"
           component={StoreChangeScreen}
           options={StoreChangeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="CouponDetail"
+          component={CouponDetailScreen}
+          options={CouponDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="RingPicker"
+          component={RingPickerScreen}
+          options={{
+            headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+            headerShown: false,
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
+          }}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

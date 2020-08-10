@@ -21,3 +21,9 @@ export const popToTop = () => {
     navigationRef.current?.dispatch(StackActions.popToTop());
   }
 };
+
+export const pop = () => {
+  if (isReadyRef.current && navigationRef.current) {
+    navigationRef.current?.dispatch(StackActions.pop());
+  }
+};

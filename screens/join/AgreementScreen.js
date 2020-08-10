@@ -63,7 +63,7 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((statusObj) => {
         if (statusObj.status !== "granted") {
-          alert("Permission to notification was denied");
+          alert("권한이 거부 되었습니다.");
         }
       })
       .then(() => {
@@ -80,6 +80,7 @@ const AgreementScreen = ({ navigation }) => {
         alert(err);
         return false;
       });
+    return true;
   };
   return (
     <View style={styles.screen}>

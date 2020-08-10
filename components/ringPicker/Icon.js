@@ -1,6 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Animated, Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Animated,
+  Text,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { STYLES } from "./styles";
 import { SQUARE_DIMENSIONS } from "./util";
 
@@ -21,7 +27,7 @@ export const Icon = ({ icon, onPress, styleIconText }) => {
   });
 
   return (
-    <TouchableWithoutFeedback onPress={() => onPress(icon.id)}>
+    <TouchableOpacity onPress={() => onPress(icon.id)}>
       <Animated.View
         style={[
           STYLES.icon,
@@ -37,7 +43,7 @@ export const Icon = ({ icon, onPress, styleIconText }) => {
           </View>
         )}
       </Animated.View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 };
 
