@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Text,
-  View,
   TouchableOpacity,
   StyleSheet,
-  TouchableWithoutFeedback,
   SafeAreaView,
 } from "react-native";
 import * as Linking from "expo-linking";
@@ -13,8 +11,6 @@ import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 
 const BottomButtons = (props) => {
-  const [showPicker, setShowPicker] = useState(false);
-
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -37,23 +33,15 @@ const BottomButtons = (props) => {
         <Icon type="material-community" name="ticket-account" />
         <Text style={styles.center}>나의 쿠폰</Text>
       </TouchableOpacity>
-      <TouchableWithoutFeedback style={styles.icons}>
-        <Icon
-          type="font-awesome-5"
-          name="chrome"
-          size={55}
-          onPress={() => {
-            if (
-              RootNavigation.navigationRef.current.getCurrentRoute().name !==
-              "RingPicker"
-            ) {
-              RootNavigation.navigate("RingPicker");
-            } else {
-              RootNavigation.pop();
-            }
-          }}
-        />
-      </TouchableWithoutFeedback>
+      <TouchableOpacity
+        style={styles.icons}
+        activeOpacity={0.7}
+        onPress={() => {
+          RootNavigation.navigate("RingPicker");
+        }}
+      >
+        <Icon type="font-awesome-5" name="chrome" size={55} />
+      </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.7}
         style={styles.icons}
@@ -74,14 +62,6 @@ const BottomButtons = (props) => {
         <Icon type="ionicon" name="ios-call" />
         <Text style={styles.center}>매장전화</Text>
       </TouchableOpacity>
-      {showPicker && (
-        <ReactNativeRingPicker
-          onPress={(iconId) => console.log(iconId)}
-          style={styles.ringPicker}
-          girthAngle={120}
-          iconHideOnTheBackDuration={300}
-        />
-      )}
     </SafeAreaView>
   );
 };

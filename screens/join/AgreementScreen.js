@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Text, StyleSheet, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+} from "react-native";
+
+
 import { CheckBox } from "react-native-elements";
 
 import { setAgreePolicy } from "../../store/actions/auth";
@@ -8,6 +15,8 @@ import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 import { getPermissionsAsync } from "expo-notifications";
+
+import Loading from "../../components/UI/Loading"
 
 import {
   setPushToken,
@@ -17,6 +26,7 @@ import {
 
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [checkBoxes, setCheckBoxes] = useState([
     { id: 0, isChecked: false },
     { id: 1, isChecked: false },
@@ -46,7 +56,7 @@ const AgreementScreen = ({ navigation }) => {
   };
 
   const getPermissions = () => {
-    Permissions.getAsync(
+    return Permissions.getAsync(
       Permissions.NOTIFICATIONS,
       Permissions.LOCATION,
       Permissions.CAMERA
@@ -63,7 +73,7 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((statusObj) => {
         if (statusObj.status !== "granted") {
-          alert("권한이 거부 되었습니다.");
+          return alert("권한이 거부 되었습니다.");
         }
       })
       .then(() => {
@@ -74,16 +84,17 @@ const AgreementScreen = ({ navigation }) => {
         const token = response.data;
         console.log("token==>" + token);
         dispatch(setPushToken(token));
+        return token;
       })
       .catch((err) => {
         console.log(err);
-        alert(err);
-        return false;
+        return alert(err);
       });
-    return true;
   };
   return (
     <View style={styles.screen}>
+      <Loading isLoading={isLoading}/>
+
       <View style={styles.allCheck}>
         <CheckBox
           checked={toggleAllheckBox}
@@ -116,7 +127,13 @@ const AgreementScreen = ({ navigation }) => {
       <Button
         title="확인"
         onPress={() => {
-          if (getPermissions()) navigation.navigate("JoinStep1");
+          setIsLoading(() => true);
+          getPermissions().then((token) => {
+            if (token) {
+              navigation.navigate("JoinStep1");
+            }
+            setIsLoading(() => false);
+          });
         }}
       />
       <Button

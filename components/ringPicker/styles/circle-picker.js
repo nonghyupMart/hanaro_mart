@@ -48,9 +48,8 @@ export default StyleSheet.create({
     height: SQUARE_DIMENSIONS.WIDTH * 0.3,
   },
   wheel: {
-  
-    width: SQUARE_DIMENSIONS.WIDTH * 0.5,
-    height: SQUARE_DIMENSIONS.WIDTH * 0.5,
+    width: SQUARE_DIMENSIONS.WIDTH * 0.7,
+    height: SQUARE_DIMENSIONS.WIDTH * 0.7,
   },
   wheelTouchableCenter: {
     position: "absolute",

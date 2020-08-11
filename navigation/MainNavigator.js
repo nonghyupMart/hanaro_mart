@@ -104,7 +104,9 @@ export const HomeTabNavigator = () => {
         <HomeTopTabNavigator.Screen
           name="Flyer"
           component={FlyerScreen}
-          options={{ title: "행사전단" }}
+          options={{
+            title: "행사전단",
+          }}
         />
         <HomeTopTabNavigator.Screen
           name="Event"
@@ -127,6 +129,7 @@ export const HomeTabNavigator = () => {
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
+      <BottomButtons />
     </Fragment>
   );
 };
@@ -134,56 +137,49 @@ export const HomeTabNavigator = () => {
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = () => {
   return (
-    <Fragment>
-      <HomeStackNavigator.Navigator
-        screenOptions={{
-          cardStyle: {
-            marginBottom: 60,
-          },
-
-          headerBackTitle: " ",
-          gestureEnabled: false,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+    <HomeStackNavigator.Navigator
+      screenOptions={{
+        headerBackTitle: " ",
+        gestureEnabled: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}
+    >
+      <HomeStackNavigator.Screen
+        name="home"
+        component={HomeTabNavigator}
+        options={HomeScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="FlyerDetail"
+        component={FlyerDetailScreen}
+        options={FlyerDetailScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="BarCodeScanner"
+        component={BarCodeScannerScreen}
+        options={BarCodeScannerScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="StoreChange"
+        component={StoreChangeScreen}
+        options={StoreChangeScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="CouponDetail"
+        component={CouponDetailScreen}
+        options={CouponDetailScreenOptions}
+      />
+      <HomeStackNavigator.Screen
+        name="RingPicker"
+        component={RingPickerScreen}
+        options={{
+          headerShown: false,
+          cardStyleInterpolator:
+            CardStyleInterpolators.forFadeFromBottomAndroid,
+          headerStyleInterpolator: HeaderStyleInterpolators.forFade,
         }}
-      >
-        <HomeStackNavigator.Screen
-          name="home"
-          component={HomeTabNavigator}
-          options={HomeScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="FlyerDetail"
-          component={FlyerDetailScreen}
-          options={FlyerDetailScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="BarCodeScanner"
-          component={BarCodeScannerScreen}
-          options={BarCodeScannerScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="StoreChange"
-          component={StoreChangeScreen}
-          options={StoreChangeScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="CouponDetail"
-          component={CouponDetailScreen}
-          options={CouponDetailScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="RingPicker"
-          component={RingPickerScreen}
-          options={{
-            headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-            headerShown: false,
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-          }}
-        />
-      </HomeStackNavigator.Navigator>
-      <BottomButtons />
-    </Fragment>
+      />
+    </HomeStackNavigator.Navigator>
   );
 };
 

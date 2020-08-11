@@ -30,7 +30,13 @@ export default class ReactNativeRingPicker extends React.Component {
     onPress: (iconId) => {},
     girthAngle: 120,
     iconHideOnTheBackDuration: 250,
-    icons: [{ id: "농협몰", title: "농협몰" }, "올원뱅크", "HN멤버스"],
+    icons: [
+      { id: "농협몰", title: "농협몰" },
+      "올원뱅크",
+      "HN멤버스",
+      // "농협서비스4",
+      // "농협서비스5",
+    ],
     showArrowHint: true,
     style: {},
     styleIconText: {},
@@ -386,11 +392,9 @@ export default class ReactNativeRingPicker extends React.Component {
     }
 
     let getEl = (propIcon) => {
-      return React.isValidElement(propIcon) ? (
-        propIcon
-      ) : (
-        <Circle color={this.props.defaultIconColor} />
-      );
+      return React.isValidElement(propIcon)
+        ? propIcon
+        : ReactNativeRingPicker.DEFAULT_ICON(this.props.defaultIconColor);
     };
 
     return this.props.icons.map((propIcon, index, array) => ({
@@ -437,7 +441,7 @@ export default class ReactNativeRingPicker extends React.Component {
         ...this.state,
         ICON_PATH_RADIUS:
           height / 2 +
-          STYLES.icon.height +
+          STYLES.icon.height / 2 +
           SQUARE_DIMENSIONS.ICON_PADDING_FROM_WHEEL,
         XY_AXES_COORDINATES: {
           X: pageX + width / 2,
@@ -697,8 +701,8 @@ export default class ReactNativeRingPicker extends React.Component {
         easing: Easing.linear,
         speed: 30,
         restSpeedThreshold: 10,
-        bounciness: 0,
         useNativeDriver: false,
+        bounciness: 0,
         restDisplacementThreshold: extractCorrectRestDisplacementThreshold(dx),
       }).start(
         (finish) =>
@@ -741,7 +745,6 @@ export default class ReactNativeRingPicker extends React.Component {
         showArrowHint: false,
       });
   }
-
   render() {
     let { onPress, style, styleIconText } = this.props;
 
@@ -755,7 +758,7 @@ export default class ReactNativeRingPicker extends React.Component {
       >
         <Icons
           icons={this.state.icons}
-          onPress={() => alert(11)}
+          onPress={onPress}
           styleIconText={styleIconText}
         />
         <View

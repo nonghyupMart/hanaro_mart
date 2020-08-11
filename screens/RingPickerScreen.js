@@ -6,8 +6,12 @@ import {
   Button,
   Image,
   View,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 
+import { Icon } from "react-native-elements";
+import * as RootNavigation from "../navigation/RootNavigation";
 import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
@@ -27,6 +31,15 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
         girthAngle={120}
         iconHideOnTheBackDuration={300}
       />
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          RootNavigation.pop();
+        }}
+        style={[styles.icons, { position: "absolute", bottom: 0 }]}
+      >
+        <Icon type="font-awesome-5" name="chrome" size={55} />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -49,13 +62,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+    elevation: 1000,
+    zIndex: 1000,
   },
   center: {
     flex: 1,
   },
   ringPicker: {
     position: "absolute",
-    bottom: -150,
+    bottom: -130,
   },
 
   ringIcons: {

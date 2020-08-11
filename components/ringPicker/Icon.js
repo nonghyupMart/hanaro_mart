@@ -11,29 +11,14 @@ import { STYLES } from "./styles";
 import { SQUARE_DIMENSIONS } from "./util";
 
 export const Icon = ({ icon, onPress, styleIconText }) => {
-  let getIconsTransformDynamicStyles = () => ({
-    opacity: icon.position.x.interpolate({
-      inputRange: [0, 0, 0],
-      outputRange: [1, 1, 1],
-    }),
-    transform: [
-      {
-        scale: icon.position.x.interpolate({
-          inputRange: [0, 0, 0],
-          outputRange: [1, 1, 1],
-        }),
-      },
-    ],
-  });
-
   return (
-    <TouchableOpacity onPress={() => onPress(icon.id)}>
+    <TouchableWithoutFeedback onPress={() => onPress(icon.id)}>
       <Animated.View
         style={[
           STYLES.icon,
           icon.styles,
           icon.position.getLayout(),
-          getIconsTransformDynamicStyles(),
+          // getIconsTransformDynamicStyles(),
         ]}
       >
         {icon.isShown && (
@@ -43,7 +28,7 @@ export const Icon = ({ icon, onPress, styleIconText }) => {
           </View>
         )}
       </Animated.View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 

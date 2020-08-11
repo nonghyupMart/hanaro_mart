@@ -216,6 +216,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    marginBottom: 60,
   },
   viewPager: {
     flex: 1,
