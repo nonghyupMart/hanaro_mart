@@ -67,24 +67,21 @@ const defaultStackNavOptions = {
 const MyCouponTopTabNavigator = createMaterialTopTabNavigator();
 export const MyCouponTabNavigator = () => {
   return (
-    <Fragment>
-      <MyCouponTopTabNavigator.Navigator
-        initialRouteName="CouponForTotal"
-        swipeEnabled={false}
-      >
-        <MyCouponTopTabNavigator.Screen
-          name="CouponForTotal"
-          component={CouponForTotalScreen}
-          options={{ title: "총액할인쿠폰" }}
-        />
-        <MyCouponTopTabNavigator.Screen
-          name="CouponForProduct"
-          component={CouponForProductScreen}
-          options={{ title: "상품할인쿠폰" }}
-        />
-      </MyCouponTopTabNavigator.Navigator>
-      {/* <BottomButtons /> */}
-    </Fragment>
+    <MyCouponTopTabNavigator.Navigator
+      initialRouteName="CouponForTotal"
+      swipeEnabled={false}
+    >
+      <MyCouponTopTabNavigator.Screen
+        name="CouponForTotal"
+        component={CouponForTotalScreen}
+        options={{ title: "총액할인쿠폰" }}
+      />
+      <MyCouponTopTabNavigator.Screen
+        name="CouponForProduct"
+        component={CouponForProductScreen}
+        options={{ title: "상품할인쿠폰" }}
+      />
+    </MyCouponTopTabNavigator.Navigator>
   );
 };
 const CouponTopTabNavigator = createMaterialTopTabNavigator();
@@ -153,7 +150,6 @@ export const HomeTabNavigator = () => {
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
-      {/* <BottomButtons /> */}
     </Fragment>
   );
 };

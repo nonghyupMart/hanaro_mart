@@ -20,7 +20,11 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setBottomNavigation(false));
+    return () => {
+      dispatch(setBottomNavigation(true));
+    }
   }, []);
+
 
   return (
     <SafeAreaView

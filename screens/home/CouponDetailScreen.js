@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { SafeAreaView } from "react-navigation";
-
+import { View, Text, StyleSheet, FlatList, BackHandler } from "react-native";
+import BaseDetailScreen from "../../components/BaseDetailScreen";
+import BackButton from "../../components/UI/BackButton";
 
 const CouponDetailScreen = (props) => {
+  const dispatch = useDispatch();
+
   const [flyerItems, setFlyerItems] = useState([
     {
       id: 0,
@@ -65,16 +68,19 @@ const CouponDetailScreen = (props) => {
     // }
   };
   return (
-    <SafeAreaView>
+    <BaseDetailScreen>
       <Text>쿠폰상세</Text>
-    </SafeAreaView>
+    </BaseDetailScreen>
   );
 };
-
 
 export const screenOptions = ({ navigation }) => {
   return {
     title: "쿠폰 상세",
+    cardStyle: {
+      marginBottom: 0,
+    },
+    headerLeft: () => <BackButton />,
   };
 };
 
