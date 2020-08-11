@@ -46,74 +46,95 @@ const StoreChangeScreen = (props) => {
   };
 
   return (
-    <Fragment>
-      <SafeAreaView>
-        <View style={[styles.row]}>
-          <TextInput placeholder="매장명을 입력하세요." />
-          <Button title="검색" />
-        </View>
-        <View style={[styles.row, {}]}>
-          <Picker style={{ width: 100, flex: 1 }}>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-          <Picker style={{ flex: 1, width: 100 }}>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-          <Picker style={{ flex: 1, width: 100 }}>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-        </View>
-        <View style={[styles.row]}>
-          <Button title="취소" />
-          <Button title="확인" />
-        </View>
-        <FlatList
-          style={{ height: "100%" }}
-          data={[
-            {
-              id: 0,
-              title: "하나로마트 양재점",
-            },
-            {
-              id: 1,
-              title: "하나로마트 천안점",
-            },
-            {
-              id: 2,
-              title: "하나로마트 마포점",
-            },
-            {
-              id: 3,
-              title: "하나로마트 이태원점",
-            },
-            {
-              id: 4,
-              title: "하나로마트 홍대점",
-            },
-            {
-              id: 5,
-              title: "하나로마트 안산점",
-            },
-          ]}
-          keyExtractor={(item) => item.id}
-          renderItem={(itemData) => (
-            <StoreItem
-              onPress={popupHandler.bind(this, itemData.item)}
-              title={itemData.item.title}
-            />
-          )}
-        />
-        <StoreChangeDetail
-          isVisible={isVisible}
-          currentItem={currentItem}
-          setIsVisible={setIsVisible}
-        />
-      </SafeAreaView>
-      {isAgreed && <BottomButtons />}
-    </Fragment>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={[styles.row]}>
+        <TextInput placeholder="매장명을 입력하세요." />
+        <Button title="검색" />
+      </View>
+      <View style={[styles.row, {}]}>
+        <Picker style={{ width: 100, flex: 1 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+        <Picker style={{ flex: 1, width: 100 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+        <Picker style={{ flex: 1, width: 100 }}>
+          <Picker.Item label="Java" value="java" />
+          <Picker.Item label="JavaScript" value="js" />
+        </Picker>
+      </View>
+      <View style={[styles.row]}>
+        <Button title="취소" />
+        <Button title="확인" />
+      </View>
+      <FlatList
+        style={{ width: "100%", flexGrow: 1 }}
+        data={[
+          {
+            id: 0,
+            title: "하나로마트 양재점",
+          },
+          {
+            id: 1,
+            title: "하나로마트 천안점",
+          },
+          {
+            id: 2,
+            title: "하나로마트 마포점",
+          },
+          {
+            id: 3,
+            title: "하나로마트 이태원점",
+          },
+          {
+            id: 4,
+            title: "하나로마트 홍대점",
+          },
+          {
+            id: 5,
+            title: "하나로마트 안산점",
+          },
+          {
+            id: 6,
+            title: "하나로마트 양재점2",
+          },
+          {
+            id: 7,
+            title: "하나로마트 천안점2",
+          },
+          {
+            id: 8,
+            title: "하나로마트 마포점2",
+          },
+          {
+            id: 9,
+            title: "하나로마트 이태원점2",
+          },
+          {
+            id: 10,
+            title: "하나로마트 홍대점2",
+          },
+          {
+            id: 11,
+            title: "하나로마트 안산점2",
+          },
+        ]}
+        keyExtractor={(item) => item.id}
+        renderItem={(itemData) => (
+          <StoreItem
+            onPress={popupHandler.bind(this, itemData.item)}
+            title={itemData.item.title}
+          />
+        )}
+      />
+      <StoreChangeDetail
+        isVisible={isVisible}
+        currentItem={currentItem}
+        setIsVisible={setIsVisible}
+      />
+    </SafeAreaView>
   );
 };
 
@@ -122,6 +143,7 @@ export const screenOptions = ({ navigation }) => {
     title: "매장변경",
   };
 };
+
 const styles = StyleSheet.create({
   row: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
   screen: {

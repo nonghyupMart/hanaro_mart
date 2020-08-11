@@ -187,7 +187,7 @@ const FlyerScreen = ({ navigation }) => {
                 justifyContent: "space-between",
               }}
               numColumns={3}
-              style={{ height: "100%" }}
+              style={{ flexGrow: 1 }}
               data={flyerItems}
               keyExtractor={(item) => item.id + ""}
               renderItem={(itemData) => (
@@ -216,7 +216,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    marginBottom: 60,
   },
   viewPager: {
     flex: 1,

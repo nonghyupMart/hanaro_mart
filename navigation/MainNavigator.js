@@ -63,6 +63,30 @@ const defaultStackNavOptions = {
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
   headerTitle: "A Screen",
 };
+
+const MyCouponTopTabNavigator = createMaterialTopTabNavigator();
+export const MyCouponTabNavigator = () => {
+  return (
+    <Fragment>
+      <MyCouponTopTabNavigator.Navigator
+        initialRouteName="CouponForTotal"
+        swipeEnabled={false}
+      >
+        <MyCouponTopTabNavigator.Screen
+          name="CouponForTotal"
+          component={CouponForTotalScreen}
+          options={{ title: "총액할인쿠폰" }}
+        />
+        <MyCouponTopTabNavigator.Screen
+          name="CouponForProduct"
+          component={CouponForProductScreen}
+          options={{ title: "상품할인쿠폰" }}
+        />
+      </MyCouponTopTabNavigator.Navigator>
+      {/* <BottomButtons /> */}
+    </Fragment>
+  );
+};
 const CouponTopTabNavigator = createMaterialTopTabNavigator();
 export const CouponTabNavigator = () => {
   return (
@@ -129,7 +153,7 @@ export const HomeTabNavigator = () => {
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
-      <BottomButtons />
+      {/* <BottomButtons /> */}
     </Fragment>
   );
 };
@@ -137,49 +161,62 @@ export const HomeTabNavigator = () => {
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = () => {
   return (
-    <HomeStackNavigator.Navigator
-      screenOptions={{
-        headerBackTitle: " ",
-        gestureEnabled: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}
-    >
-      <HomeStackNavigator.Screen
-        name="home"
-        component={HomeTabNavigator}
-        options={HomeScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="FlyerDetail"
-        component={FlyerDetailScreen}
-        options={FlyerDetailScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="BarCodeScanner"
-        component={BarCodeScannerScreen}
-        options={BarCodeScannerScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="StoreChange"
-        component={StoreChangeScreen}
-        options={StoreChangeScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="CouponDetail"
-        component={CouponDetailScreen}
-        options={CouponDetailScreenOptions}
-      />
-      <HomeStackNavigator.Screen
-        name="RingPicker"
-        component={RingPickerScreen}
-        options={{
-          headerShown: false,
-          cardStyleInterpolator:
-            CardStyleInterpolators.forFadeFromBottomAndroid,
-          headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+    <Fragment>
+      <HomeStackNavigator.Navigator
+        screenOptions={{
+          cardStyle: {
+            marginBottom: 60,
+          },
+          headerBackTitle: " ",
+          gestureEnabled: false,
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
-      />
-    </HomeStackNavigator.Navigator>
+      >
+        <HomeStackNavigator.Screen
+          name="home"
+          component={HomeTabNavigator}
+          options={HomeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="FlyerDetail"
+          component={FlyerDetailScreen}
+          options={FlyerDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="BarCodeScanner"
+          component={BarCodeScannerScreen}
+          options={BarCodeScannerScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="StoreChange"
+          component={StoreChangeScreen}
+          options={StoreChangeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="CouponDetail"
+          component={CouponDetailScreen}
+          options={CouponDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="RingPicker"
+          component={RingPickerScreen}
+          options={{
+            cardStyle: {
+              marginBottom: 0,
+            },
+            headerShown: false,
+            cardStyleInterpolator:
+              CardStyleInterpolators.forFadeFromBottomAndroid,
+            headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+          }}
+        />
+        <HomeStackNavigator.Screen
+          name="MyCoupon"
+          component={MyCouponTabNavigator}
+        />
+      </HomeStackNavigator.Navigator>
+      <BottomButtons />
+    </Fragment>
   );
 };
 

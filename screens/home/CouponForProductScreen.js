@@ -76,7 +76,7 @@ const CouponForProductScreen = ({ navigation }) => {
         justifyContent: "space-between",
       }}
       numColumns={2}
-      style={{ height: "100%" }}
+      style={{ flexGrow: 1 }}
       data={flyerItems}
       keyExtractor={(item) => item.id + ""}
       renderItem={(itemData) => (

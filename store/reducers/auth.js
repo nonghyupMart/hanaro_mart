@@ -5,6 +5,7 @@ import {
   SET_PUSH_TOKEN,
   SET_LOCATION,
   SET_AGREEMENT,
+  SET_BOTTOM_NAVIGATION,
 } from "../actions/auth";
 
 const initialState = {
@@ -14,6 +15,7 @@ const initialState = {
   didTryAutoLogin: false,
   pushToken: null,
   location: null,
+  isBottomNavigation: true,
 };
 
 export default (state = initialState, action) => {
@@ -32,6 +34,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isAgreed: action.isAgreed,
+      };
+    case SET_BOTTOM_NAVIGATION:
+      return {
+        ...state,
+        isBottomNavigation: action.isBottomNavigation,
       };
     default:
       return state;

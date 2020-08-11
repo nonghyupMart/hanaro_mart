@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Text,
   SafeAreaView,
@@ -13,8 +14,14 @@ import {
 import { Icon } from "react-native-elements";
 import * as RootNavigation from "../navigation/RootNavigation";
 import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
+import { setBottomNavigation } from "../store/actions/auth";
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setBottomNavigation(false));
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -34,6 +41,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
+          dispatch(setBottomNavigation(true));
           RootNavigation.pop();
         }}
         style={[styles.icons, { position: "absolute", bottom: 0 }]}
