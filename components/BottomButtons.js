@@ -17,7 +17,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            RootNavigation.navigate("Flyer");
+            RootNavigation.navigate("Home");
           }}
         >
           <Icon type="ionicon" name="ios-home" />

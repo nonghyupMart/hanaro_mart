@@ -29,6 +29,7 @@ import HeaderButton from "../components/UI/HeaderButton";
 import BottomButtons from "../components/BottomButtons";
 import CustomDrawerContent from "../components/UI/CustomDrawerContent";
 
+import HomeScreen from "../screens/home/HomeScreen";
 import FlyerScreen from "../screens/home/FlyerScreen";
 import FlyerDetailScreen, {
   screenOptions as FlyerDetailScreenOptions,
@@ -119,9 +120,22 @@ export const HomeTabNavigator = () => {
         />
       </View>
       <HomeTopTabNavigator.Navigator
-        initialRouteName="Flyer"
+        initialRouteName="Home"
         swipeEnabled={false}
+        tabBarOptions={{
+          scrollEnabled: true,
+          tabStyle: { width: 100 },
+          style: { marginLeft: -100 },
+        }}
       >
+        <HomeTopTabNavigator.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            title: "",
+            tabBarLabel: "",
+          }}
+        />
         <HomeTopTabNavigator.Screen
           name="Flyer"
           component={FlyerScreen}
