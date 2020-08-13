@@ -2,31 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import JsBarcode from "jsbarcode";
 import { DOMImplementation, XMLSerializer } from "xmldom";
-import * as Svg from "react-native-svg";
-const {
-  Circle,
-  Ellipse,
-  G,
-  Text,
-  TSpan,
-  TextPath,
-  Path,
-  Polygon,
-  Polyline,
-  Line,
-  Rect,
-  Use,
-  Image,
-  Symbol,
-  Defs,
-  LinearGradient,
-  RadialGradient,
-  Stop,
-  ClipPath,
-  Pattern,
-  Mask,
-  SvgXml,
-} = Svg;
 
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -40,6 +15,7 @@ import {
 
 import BaseDetailScreen from "../../components/BaseDetailScreen";
 import BackButton from "../../components/UI/BackButton";
+import Barcode from "../../components/Barcode";
 
 const CouponDetailScreen = (props) => {
   const [svgBarcode, setSvgBarcode] = useState();
@@ -57,7 +33,7 @@ const CouponDetailScreen = (props) => {
   });
 
   const svgText = xmlSerializer.serializeToString(svgNode);
-  console.log(svgText);
+  // console.log(svgText);
 
   const markerRendering = `<svg xmlns="http://www.w3.org/2000/svg"
      width="275" height="200" viewBox="0 0 100 30">
@@ -90,7 +66,14 @@ const CouponDetailScreen = (props) => {
       <BaseDetailScreen />
       <TextView>쿠폰상세 </TextView>
       {/* <SvgXml xml={svgText} /> */}
-      {/* <JSBarcode value="2921117012053" format="EAN13" /> */}
+      <Barcode
+        width={2}
+        height={80}
+        value="2921117012053"
+        format="EAN13"
+        flat
+        text="2921117012053"
+      />
     </SafeAreaView>
   );
 };
