@@ -1,76 +1,97 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import JsBarcode from "jsbarcode";
+import { DOMImplementation, XMLSerializer } from "xmldom";
+import * as Svg from "react-native-svg";
+const {
+  Circle,
+  Ellipse,
+  G,
+  Text,
+  TSpan,
+  TextPath,
+  Path,
+  Polygon,
+  Polyline,
+  Line,
+  Rect,
+  Use,
+  Image,
+  Symbol,
+  Defs,
+  LinearGradient,
+  RadialGradient,
+  Stop,
+  ClipPath,
+  Pattern,
+  Mask,
+  SvgXml,
+} = Svg;
 
-import { View, Text, StyleSheet, FlatList, BackHandler } from "react-native";
+// import Barcode from "react-native-jsbarcode";
+import {
+  SafeAreaView,
+  View,
+  Text as TextView,
+  StyleSheet,
+  FlatList,
+  BackHandler,
+} from "react-native";
+
 import BaseDetailScreen from "../../components/BaseDetailScreen";
 import BackButton from "../../components/UI/BackButton";
 
 const CouponDetailScreen = (props) => {
-  const dispatch = useDispatch();
+  const [svgBarcode, setSvgBarcode] = useState();
+  const xmlSerializer = new XMLSerializer();
+  const document = new DOMImplementation().createDocument(
+    "http://www.w3.org/1999/xhtml",
+    "html",
+    null
+  );
+  const svgNode = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 
-  const [flyerItems, setFlyerItems] = useState([
-    {
-      id: 0,
-      title: "양재점",
-    },
-    {
-      id: 1,
-      title: "천안점",
-    },
-    {
-      id: 2,
-      title: "마포점",
-    },
-    {
-      id: 3,
-      title: "이태원점",
-    },
-    {
-      id: 4,
-      title: "홍대점",
-    },
-    {
-      id: 5,
-      title: "안산점",
-    },
-  ]);
+  JsBarcode(svgNode, "2921117012053", {
+    xmlDocument: document,
+    format: "EAN13",
+  });
 
-  const loadMore = () => {
-    // if (page == 0) {
-    setFlyerItems(() => [
-      ...flyerItems,
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "양재점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "천안점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "마포점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "이태원점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "홍대점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "안산점" + Math.floor(Math.random() * 100),
-      },
-    ]);
-    //   setPage(() => page + 1);
-    // }
-  };
+  const svgText = xmlSerializer.serializeToString(svgNode);
+  console.log(svgText);
+
+  const markerRendering = `<svg xmlns="http://www.w3.org/2000/svg"
+     width="275" height="200" viewBox="0 0 100 30">
+  <defs>
+    <marker id="m1" viewBox="0 0 10 10" refX="5" refY="5"
+     markerWidth="8" markerHeight="8">
+      <circle cx="5" cy="5" r="5" fill="green"/>
+    </marker>
+    <marker id="m2" viewBox="0 0 10 10" refX="5" refY="5"
+     markerWidth="6.5" markerHeight="6.5">
+      <circle cx="5" cy="5" r="5" fill="skyblue" opacity="0.9"/>
+    </marker>
+    <marker id="m3" viewBox="0 0 10 10" refX="5" refY="5"
+     markerWidth="5" markerHeight="5">
+      <circle cx="5" cy="5" r="5" fill="maroon" opacity="0.85"/>
+    </marker>
+  </defs>
+
+  <path d="M10,10 h10 v10 z m20,0 h10 v10 z m20,0 h10 v10 z"
+  fill="none" stroke="black"
+  marker-start="url(#m1)"
+  marker-mid="url(#m2)"
+  marker-end="url(#m3)"
+  />
+</svg>`;
+  // setSvgBarcode(() => xmlSerializer.serializeToString(svgNode));
+
   return (
-    <BaseDetailScreen>
-      <Text>쿠폰상세</Text>
-    </BaseDetailScreen>
+    <SafeAreaView>
+      <BaseDetailScreen />
+      <TextView>쿠폰상세 </TextView>
+      {/* <SvgXml xml={svgText} /> */}
+      {/* <JSBarcode value="2921117012053" format="EAN13" /> */}
+    </SafeAreaView>
   );
 };
 

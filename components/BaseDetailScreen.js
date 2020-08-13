@@ -26,7 +26,7 @@ const BaseDetailScreen = (props) => {
       dispatch(setBottomNavigation(true));
     };
   }, []);
-  return <SafeAreaView style={{ flex: 1 }}></SafeAreaView>;
+  return <></>;
 };
 
 const styles = StyleSheet.create({
