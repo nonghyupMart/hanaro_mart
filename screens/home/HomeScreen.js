@@ -10,13 +10,12 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import URI from "urijs";
 
 import Carousel from "react-native-looped-carousel";
 import { useSelector } from "react-redux";
 
-import Constants from "expo-constants";
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
+import { WebView } from "react-native-webview";
 
 import StoreListPopup from "../../components/store/StoreListPopup";
 import FlyerItem from "../../components/FlyerItem";
@@ -130,6 +129,13 @@ const HomeScreen = ({ navigation }) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
+  const videoUrl =
+    "https://www.youtube.com/watch?v=53Vxx0R-EJM&feature=youtu.be";
+  const url = URI(videoUrl);
+  const videoId = url.query(true).v;
+  if (videoId == "") {
+  }
+  // const videoId = "";
   return (
     <SafeAreaView style={styles.screen}>
       {/* <StoreListPopup isVisible={isVisible} /> */}
@@ -161,6 +167,13 @@ const HomeScreen = ({ navigation }) => {
                 <Text>3</Text>
               </View>
             </Carousel>
+            <WebView
+              style={{ flex: 1, height: 300 }}
+              javaScriptEnabled={true}
+              source={{
+                html: require("../../youtubePlayer.js")(videoId),
+              }}
+            />
 
             <View style={styles.content2}>
               <Button

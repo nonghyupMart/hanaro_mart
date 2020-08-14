@@ -30,14 +30,29 @@ const FlyerDetailScreen = ({ navigation }) => {
     }
   };
 
+  const goFirst = () => {
+    gallery.getViewPagerInstance().scrollToPage(0);
+    setPage(() => 0);
+  };
+  const goLast = () => {
+    gallery.getViewPagerInstance().scrollToPage(images.length - 1);
+    setPage(() => images.length - 1);
+  };
+
   return (
     <SafeAreaView style={styles.screen}>
       <Text>전단 상세 페이지</Text>
       <View style={{ flexDirection: "row" }}>
+        <TouchableOpacity onPress={() => goFirst()}>
+          <AntDesign name="caretleft" size={24} color="black" />
+        </TouchableOpacity>
         <TouchableOpacity onPress={() => prev(page)}>
           <AntDesign name="caretleft" size={24} color="black" />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => next(page)}>
+          <AntDesign name="caretright" size={24} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => goLast()}>
           <AntDesign name="caretright" size={24} color="black" />
         </TouchableOpacity>
       </View>

@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   StatusBar,
+  Dimensions,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import {
@@ -105,6 +106,7 @@ export const CouponTabNavigator = () => {
     </CouponTopTabNavigator.Navigator>
   );
 };
+const { width, height } = Dimensions.get("window");
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 export const HomeTabNavigator = () => {
   return (
@@ -124,8 +126,8 @@ export const HomeTabNavigator = () => {
         swipeEnabled={false}
         tabBarOptions={{
           scrollEnabled: true,
-          tabStyle: { width: 100 },
-          style: { marginLeft: -100 },
+          tabStyle: { width: 85 },
+          style: { marginLeft: -85 },
         }}
       >
         <HomeTopTabNavigator.Screen
