@@ -109,6 +109,9 @@ const HomeScreen = ({ navigation }) => {
     // });
     console.log("triggerNotificationHandler");
     console.log("FlyerScreen PushToken ==>" + pushToken);
+    // if (!pushToken) alert("권한이 없거나 로그인되지 않았습니다.")
+    // pushToken is null 일때 서버에 알려야함.
+
     fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
       headers: {

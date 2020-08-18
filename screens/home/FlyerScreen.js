@@ -52,6 +52,30 @@ const FlyerScreen = ({ navigation }) => {
       id: 5,
       title: "안산점",
     },
+    {
+      id: 6,
+      title: "양재점",
+    },
+    {
+      id: 7,
+      title: "천안점",
+    },
+    {
+      id: 8,
+      title: "마포점",
+    },
+    {
+      id: 9,
+      title: "이태원점",
+    },
+    {
+      id: 10,
+      title: "홍대점",
+    },
+    {
+      id: 11,
+      title: "안산점",
+    },
   ]);
 
   const loadMore = () => {
@@ -110,6 +134,13 @@ const FlyerScreen = ({ navigation }) => {
     // });
     console.log("triggerNotificationHandler");
     console.log("FlyerScreen PushToken ==>" + pushToken);
+    alert(1);
+    if (pushToken == null) {
+      alert("권한이 없습니다. 권한을 승인해주세요.");
+      Permissions.askAsync(Permissions.NOTIFICATIONS);
+      return;
+    }
+
     fetch("https://exp.host/--/api/v2/push/send", {
       method: "POST",
       headers: {
@@ -162,20 +193,6 @@ const FlyerScreen = ({ navigation }) => {
               </View>
             </Carousel>
 
-            <View style={styles.content2}>
-              <Button
-                title="팝업"
-                onPress={() => {
-                  setIsVisible((isVisible) => !isVisible);
-                }}
-              />
-            </View>
-            <View style={styles.content2}>
-              <Button
-                title="Trigger Notification"
-                onPress={() => triggerNotificationHandler()}
-              />
-            </View>
             <FlatList
               initialNumToRender={6}
               onEndReachedThreshold={60}

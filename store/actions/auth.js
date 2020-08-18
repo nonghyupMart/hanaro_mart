@@ -131,17 +131,6 @@ const setLogoutTimer = (expirationTime) => {
   };
 };
 
-const saveDataToStorage = (token, userId, expirationDate) => {
-  AsyncStorage.setItem(
-    "userData",
-    JSON.stringify({
-      token: token,
-      userId: userId,
-      expiryDate: expirationDate.toISOString(),
-    })
-  );
-};
-
 export const setPushToken = (pushToken) => {
   return { type: SET_PUSH_TOKEN, pushToken: pushToken };
 };
@@ -155,6 +144,20 @@ export const setAgreePolicy = (isAgreed) => {
 };
 
 export const setBottomNavigation = (isBottomNavigation) => {
-  return { type: SET_BOTTOM_NAVIGATION, isBottomNavigation: isBottomNavigation };
+  return {
+    type: SET_BOTTOM_NAVIGATION,
+    isBottomNavigation: isBottomNavigation,
+  };
 };
 
+const saveDataToStorage = (token, userId, pushToken, expirationDate) => {
+  AsyncStorage.setItem(
+    "userData",
+    JSON.stringify({
+      token: token,
+      userId: userId,
+      pushToken: pushToken,
+      expiryDate: expirationDate.toISOString(),
+    })
+  );
+};

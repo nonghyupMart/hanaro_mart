@@ -65,6 +65,14 @@ const defaultStackNavOptions = {
   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
   headerTitle: "A Screen",
 };
+const screens = {
+  CouponForTotalScreen: CouponForTotalScreen,
+  CouponForProductScreen: CouponForProductScreen,
+};
+const couponArray = [
+  { component: "CouponForTotalScreen" },
+  { component: "CouponForProductScreen" },
+];
 
 const MyCouponTopTabNavigator = createMaterialTopTabNavigator();
 export const MyCouponTabNavigator = () => {
@@ -75,12 +83,12 @@ export const MyCouponTabNavigator = () => {
     >
       <MyCouponTopTabNavigator.Screen
         name="CouponForTotal"
-        component={CouponForTotalScreen}
+        component={screens[couponArray[0].component]}
         options={{ title: "총액할인쿠폰" }}
       />
       <MyCouponTopTabNavigator.Screen
         name="CouponForProduct"
-        component={CouponForProductScreen}
+        component={screens[couponArray[1].component]}
         options={{ title: "상품할인쿠폰" }}
       />
     </MyCouponTopTabNavigator.Navigator>
@@ -104,6 +112,46 @@ export const CouponTabNavigator = () => {
         options={{ title: "상품할인쿠폰" }}
       />
     </CouponTopTabNavigator.Navigator>
+  );
+};
+
+const NaroCategories = [
+  {
+    components: NaroTubeScreen,
+    title: "나로 영상",
+  },
+  {
+    components: NaroTubeScreen,
+    title: "나로 레시피",
+  },
+  {
+    components: NaroTubeScreen,
+    title: "나로 다방",
+  },
+  {
+    components: NaroTubeScreen,
+    title: "오케이쿡",
+  },
+];
+NaroCategories.map((key, value) => {
+  console.log(key, value);
+});
+
+const NaroTubeTopTabNavigator = createMaterialTopTabNavigator();
+export const NaroTubeTabNavigator = () => {
+  return (
+    <NaroTubeTopTabNavigator.Navigator
+      initialRouteName="CouponForTotal"
+      swipeEnabled={false}
+    >
+      {NaroCategories.map((cate) => (
+        <NaroTubeTopTabNavigator.Screen
+          name={cate.title}
+          component={cate.components}
+          options={{ title: cate.title }}
+        />
+      ))}
+    </NaroTubeTopTabNavigator.Navigator>
   );
 };
 const { width, height } = Dimensions.get("window");
@@ -162,7 +210,7 @@ export const HomeTabNavigator = () => {
         />
         <HomeTopTabNavigator.Screen
           name="NaroTube"
-          component={NaroTubeScreen}
+          component={NaroTubeTabNavigator}
           options={{ title: "나로튜브" }}
         />
       </HomeTopTabNavigator.Navigator>
