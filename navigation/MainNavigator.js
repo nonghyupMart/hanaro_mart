@@ -10,11 +10,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import {
-  NavigationContainer,
-  useNavigation,
-  DrawerActions,
-} from "@react-navigation/native";
+import { DrawerActions } from "@react-navigation/native";
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -29,6 +25,7 @@ import { Input } from "react-native-elements";
 import HeaderButton from "../components/UI/HeaderButton";
 import BottomButtons from "../components/BottomButtons";
 import CustomDrawerContent from "../components/UI/CustomDrawerContent";
+import MeterialTopTabBar from "../components/UI/MaterialTopTabBar";
 
 import HomeScreen from "../screens/home/HomeScreen";
 import FlyerScreen from "../screens/home/FlyerScreen";
@@ -143,6 +140,10 @@ export const NaroTubeTabNavigator = () => {
     <NaroTubeTopTabNavigator.Navigator
       initialRouteName="CouponForTotal"
       swipeEnabled={false}
+      tabBarOptions={{
+        scrollEnabled: true,
+        tabStyle: { width: 95 },
+      }}
     >
       {NaroCategories.map((cate) => (
         <NaroTubeTopTabNavigator.Screen
@@ -155,8 +156,17 @@ export const NaroTubeTabNavigator = () => {
   );
 };
 const { width, height } = Dimensions.get("window");
+const getTabBarVisible = (route) => {
+  const params = route.params;
+  if (params) {
+    if (params.tabBarVisible === false) {
+      return false;
+    }
+  }
+  return true;
+};
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
-export const HomeTabNavigator = () => {
+export const HomeTabNavigator = ({ navigation }) => {
   return (
     <Fragment>
       <View>
@@ -170,6 +180,7 @@ export const HomeTabNavigator = () => {
         />
       </View>
       <HomeTopTabNavigator.Navigator
+        tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
         swipeEnabled={false}
         tabBarOptions={{
@@ -181,10 +192,11 @@ export const HomeTabNavigator = () => {
         <HomeTopTabNavigator.Screen
           name="Home"
           component={HomeScreen}
-          options={{
+          options={({ route }) => ({
             title: "",
             tabBarLabel: "",
-          }}
+            tabBarVisible: getTabBarVisible(route),
+          })}
         />
         <HomeTopTabNavigator.Screen
           name="Flyer"

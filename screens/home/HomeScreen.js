@@ -10,12 +10,18 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+import { CommonActions } from "@react-navigation/native";
+import { Input } from "react-native-elements";
 import URI from "urijs";
+import ScrollableTabView, {
+  ScrollableTabBar,
+} from "react-native-scrollable-tab-view";
 
 import Carousel from "react-native-looped-carousel";
 import { useSelector } from "react-redux";
 
 import { WebView } from "react-native-webview";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 import StoreListPopup from "../../components/store/StoreListPopup";
 import FlyerItem from "../../components/FlyerItem";
@@ -139,15 +145,47 @@ const HomeScreen = ({ navigation }) => {
   if (videoId == "") {
   }
   // const videoId = "";
+  let offset = 0;
+  const onScrollHandler = (e) => {
+    console.log(navigation);
+    const currentOffset = e.nativeEvent.contentOffset.y;
+    var direction = currentOffset > offset ? "down" : "up";
+    offset = currentOffset;
+    if (direction === "down") {
+      navigation.dispatch(
+        CommonActions.setParams({
+          tabBarVisible: false,
+        })
+      );
+    } else {
+      navigation.dispatch(
+        CommonActions.setParams({
+          tabBarVisible: true,
+        })
+      );
+    }
+  };
   return (
     <SafeAreaView style={styles.screen}>
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <FlatList
+        onScroll={onScrollHandler.bind(this)}
         keyExtractor={(item) => item + ""}
         data={[0]}
         style={{ flex: 1, width: "100%" }}
         renderItem={({ item, index, separators }) => (
           <View>
+       
+            <ScrollableTabView
+              locked={false}
+              renderTabBar={() => <ScrollableTabBar />}
+            >
+              <Text tabLabel="Tab #1">My</Text>
+              <Text tabLabel="Tab #2 word word">favorite</Text>
+              <Text tabLabel="Tab #3 word word word">project</Text>
+              <Text tabLabel="Tab #4 word word word word">favorite</Text>
+              <Text tabLabel="Tab #5">project</Text>
+            </ScrollableTabView>
             <View style={styles.content1}>
               <Button
                 title="전단 상세"
@@ -217,6 +255,25 @@ const HomeScreen = ({ navigation }) => {
           </View>
         )}
       ></FlatList>
+      <AwesomeAlert
+        show={isVisible}
+        showProgress={false}
+        title="AwesomeAlert"
+        message="I have a message for you!"
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
+        showCancelButton={true}
+        showConfirmButton={true}
+        cancelText="No, cancel"
+        confirmText="Yes, delete it"
+        confirmButtonColor="#DD6B55"
+        onCancelPressed={() => {
+          setIsVisible(() => false);
+        }}
+        onConfirmPressed={() => {
+          setIsVisible(() => false);
+        }}
+      />
       <FlyerDetail
         item={currentItem}
         isVisible={isVisible}
