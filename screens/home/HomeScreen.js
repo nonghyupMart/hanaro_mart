@@ -23,6 +23,7 @@ import { useSelector } from "react-redux";
 import { WebView } from "react-native-webview";
 import AwesomeAlert from "react-native-awesome-alerts";
 
+import ScrollList from "../../components/UI/ScrollList";
 import StoreListPopup from "../../components/store/StoreListPopup";
 import FlyerItem from "../../components/FlyerItem";
 import FlyerDetail from "../../components/FlyerDetail";
@@ -168,14 +169,13 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.screen}>
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <FlatList
+      <ScrollList
         onScroll={onScrollHandler.bind(this)}
-        keyExtractor={(item) => item + ""}
-        data={[0]}
+     
+  
         style={{ flex: 1, width: "100%" }}
         renderItem={({ item, index, separators }) => (
           <View>
-       
             <ScrollableTabView
               locked={false}
               renderTabBar={() => <ScrollableTabBar />}
@@ -254,7 +254,7 @@ const HomeScreen = ({ navigation }) => {
             />
           </View>
         )}
-      ></FlatList>
+      />
       <AwesomeAlert
         show={isVisible}
         showProgress={false}

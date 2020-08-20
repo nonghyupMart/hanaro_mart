@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Platform,
   Text,
@@ -8,7 +8,11 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
+  Animated,
+  Easing,
+  Keyboard,
 } from "react-native";
+import * as Animatable from "react-native-animatable";
 import { useDispatch } from "react-redux";
 import { DrawerActions } from "@react-navigation/native";
 import {
@@ -130,9 +134,6 @@ const NaroCategories = [
     title: "오케이쿡",
   },
 ];
-NaroCategories.map((key, value) => {
-  console.log(key, value);
-});
 
 const NaroTubeTopTabNavigator = createMaterialTopTabNavigator();
 export const NaroTubeTabNavigator = () => {
@@ -165,20 +166,72 @@ const getTabBarVisible = (route) => {
   }
   return true;
 };
+const getSearchBarVisible = (route) => {
+  const params = route.params;
+  if (params) {
+    if (params.tabBarVisible === false) {
+      return false;
+    }
+  }
+  return true;
+};
+
+let isShowSearchBar = false;
+let opacity = new Animated.Value(1);
+opacity.setValue(0);
+const animate = () => {
+  Keyboard.dismiss();
+  if (!isShowSearchBar) {
+    opacity.setValue(0);
+  } else {
+    opacity.setValue(1);
+  }
+  Animated.timing(opacity, {
+    toValue: isShowSearchBar ? 0 : 1,
+    duration: isShowSearchBar ? 100 : 400,
+    easing: isShowSearchBar ? Easing.elastic(0) : Easing.elastic(0),
+    useNativeDriver: false,
+  }).start();
+  isShowSearchBar = !isShowSearchBar;
+};
+
+const size = opacity.interpolate({
+  inputRange: [0, 1],
+  outputRange: [0, 80],
+});
+const animatedStyles = [
+  {
+    width: "100%",
+    height: size,
+  },
+];
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 export const HomeTabNavigator = ({ navigation }) => {
   return (
     <Fragment>
-      <View>
-        <Input
-          id="title"
-          label="Title"
-          errorText="Please enter a valid title!"
-          keyboardType="default"
-          returnKeyType="next"
-          placeholder="원하시는 상품을 검색하세요!"
-        />
-      </View>
+      <Animated.View
+        key={1}
+        style={[
+          animatedStyles,
+          // {
+          //   transform: [
+          //     // scaleX, scaleY, scale, theres plenty more options you can find online for this.
+          //     { translateY: opacity }, // this would be the result of the animation code below and is just a number.
+          //   ],
+          // },
+        ]}
+      >
+        <View>
+          <Input
+            id="title"
+            label="Title"
+            errorText="Please enter a valid title!"
+            keyboardType="default"
+            returnKeyType="next"
+            placeholder="원하시는 상품을 검색하세요!"
+          />
+        </View>
+      </Animated.View>
       <HomeTopTabNavigator.Navigator
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
@@ -310,11 +363,9 @@ export const HomeScreenOptions = ({ navigation }) => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Notification"
-          iconName={
-            Platform.OS === "android" ? "md-notifications" : "md-notifications"
-          }
+          iconName={Platform.OS === "android" ? "md-search" : "md-search"}
           onPress={() => {
-            navigation.navigate("Cart");
+            animate();
           }}
         />
         <Item
@@ -363,3 +414,38 @@ const drawerStyle = {
   },
   itemStyle: {},
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#20232a",
+  },
+  title: {
+    marginTop: 10,
+    textAlign: "center",
+    color: "#61dafb",
+  },
+  boxContainer: {
+    height: 160,
+    alignItems: "center",
+  },
+  box: {
+    marginTop: 32,
+    borderRadius: 4,
+    backgroundColor: "#61dafb",
+  },
+  list: {
+    backgroundColor: "#fff",
+  },
+  listHeader: {
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: "#f4f4f4",
+    color: "#999",
+    fontSize: 12,
+    textTransform: "uppercase",
+  },
+  listRow: {
+    padding: 8,
+  },
+});

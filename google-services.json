@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "594838263470",
+    "firebase_url": "https://hanaroplus-857ec.firebaseio.com",
+    "project_id": "hanaroplus-857ec",
+    "storage_bucket": "hanaroplus-857ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:594838263470:android:b167f058898b7bf3cbbf3f",
+        "android_client_info": {
+          "package_name": "com.hanaroPlus.hanaroPlus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "594838263470-djdebd87dsthe6b1qtk2i5keqa3gn2dv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsxTiUls4xUu7lxXkwMya0TnrJvOzGn3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "594838263470-djdebd87dsthe6b1qtk2i5keqa3gn2dv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
