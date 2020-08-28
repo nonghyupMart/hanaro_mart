@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-} from "react-native";
+import { View, Text, StyleSheet, Button, Image } from "react-native";
 
+import Constants from "expo-constants";
 
 import { CheckBox } from "react-native-elements";
 
-import { setAgreePolicy } from "../../store/actions/auth";
+import { setAgreePolicy } from "@actions/auth";
 import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 import { getPermissionsAsync } from "expo-notifications";
 
-import Loading from "../../components/UI/Loading"
+import colors from "@constants/colors";
 
-import {
-  setPushToken,
-  setLocation,
-  setErrorMsg,
-} from "../../store/actions/auth";
+import BaseScreen from "@components/BaseScreen";
+import BaseTouchable from "@components/BaseTouchable";
+
+import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
 
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [alert, setAlert] = useState();
   const [checkBoxes, setCheckBoxes] = useState([
     { id: 0, isChecked: false },
     { id: 1, isChecked: false },
@@ -91,71 +88,211 @@ const AgreementScreen = ({ navigation }) => {
         return alert(err);
       });
   };
+  const checkAgreed = () => {
+    if (checkBoxes[0].isChecked && checkBoxes[1].isChecked) {
+      setIsLoading(() => true);
+      getPermissions().then((token) => {
+        if (token) {
+          navigation.navigate("JoinStep1");
+        }
+        setIsLoading(() => false);
+      });
+    } else {
+      // setAlertMessage("필수 항목을 동의해 주세요.");
+      setAlert({
+        message: "필수 항목을 동의해 주세요.",
+        onPressConfirm: () => {
+          setAlert({ message: null });
+        },
+      });
+    }
+  };
   return (
-    <View style={styles.screen}>
-      <Loading isLoading={isLoading}/>
-
-      <View style={styles.allCheck}>
+    <BaseScreen isLoading={isLoading} alert={alert}>
+      <CheckBox
+        activeOpacity={0.8}
+        onPress={() => handleAllChecked(!toggleAllheckBox)}
+        title="전체동의"
+        textStyle={styles.text}
+        containerStyle={[styles.btnBlack, { marginLeft: -1 }]}
+        checkedIcon={
+          <Image source={require("@images/check_circle-24on.png")} />
+        }
+        uncheckedIcon={
+          <Image source={require("@images/check_circle-24off.png")} />
+        }
+        checked={toggleAllheckBox}
+        style={{ margin: 0, padding: 0 }}
+      />
+      <TextBox style={[styles.allCheck]}>
         <CheckBox
-          checked={toggleAllheckBox}
-          onPress={() => handleAllChecked(!toggleAllheckBox)}
-        />
-        <Text>전체동의</Text>
-      </View>
-      <View style={styles.allCheck}>
-        <CheckBox
+          activeOpacity={0.8}
+          containerStyle={[styles.checkbox]}
           checked={checkBoxes[0].isChecked}
           onPress={() => handleChecked(checkBoxes[0])}
+          checkedIcon={<Image source={require("@images/check_box-2404.png")} />}
+          uncheckedIcon={
+            <Image source={require("@images/check_box-2403.png")} />
+          }
         />
-        <Text>개인정보 수집 및 이용동의</Text>
-      </View>
-      <View style={styles.allCheck}>
+
+        <TextView>
+          <TextView style={{ color: colors.cerulean }}>[필수] </TextView>{" "}
+          개인정보 수집 및 이용약관{"\n"}
+          수집.이용목적 : 회원가입 및 서비스 제공 수집항목 : 휴대폰 번호
+        </TextView>
+      </TextBox>
+      <TextBox style={styles.allCheck}>
         <CheckBox
+          activeOpacity={0.8}
+          containerStyle={[styles.checkbox]}
+          checkedIcon={<Image source={require("@images/check_box-2404.png")} />}
+          uncheckedIcon={
+            <Image source={require("@images/check_box-2403.png")} />
+          }
           checked={checkBoxes[1].isChecked}
           onPress={() => handleChecked(checkBoxes[1])}
         />
-        <Text>위치정보 수집동의</Text>
-      </View>
-      <View style={styles.allCheck}>
+
+        <TextView>
+          <TextView style={{ color: colors.cerulean }}>[필수] </TextView>
+          위치정보 수집동의{"\n"}수집.이용목적 : 가까운 위치에 있는 매장찾기
+          서비스제공. 위치정보는 서버에 전송.저장되지 않습니다. 수집항목 :
+          위치정보 (위도,경도)
+        </TextView>
+      </TextBox>
+      <TextBox style={styles.allCheck}>
         <CheckBox
+          activeOpacity={0.8}
+          containerStyle={[styles.checkbox]}
+          checkedIcon={<Image source={require("@images/check_box-2402.png")} />}
+          uncheckedIcon={
+            <Image source={require("@images/check_box-2401.png")} />
+          }
           checked={checkBoxes[2].isChecked}
           onPress={() => handleChecked(checkBoxes[2])}
         />
-        <Text>광고성 정보 혜택 수집동의</Text>
-      </View>
 
-      <Button
-        title="확인"
-        onPress={() => {
-          setIsLoading(() => true);
-          getPermissions().then((token) => {
-            if (token) {
-              navigation.navigate("JoinStep1");
-            }
-            setIsLoading(() => false);
-          });
-        }}
-      />
-      <Button
-        title="동의하지 않고 둘러보기"
-        onPress={() => {
-          dispatch(setAgreePolicy(true));
-        }}
-      />
-    </View>
+        <TextView>
+          <TextView style={{ color: colors.viridian }}>[선택] </TextView> 광고성
+          정보 수집동의{"\n"}수집.이용목적 : 혜택과 할인정보 안내 PUSH 알림
+        </TextView>
+      </TextBox>
+      <NoticeText>
+        필수 항목 외에는 동의하지 않으셔도 이용이 가능하며 마이페이지에서
+        언제든지 변경 가능합니다.
+      </NoticeText>
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+        <GreenButton
+          style={{ marginRight: 3 }}
+          onPress={() => {
+            checkAgreed();
+          }}
+        >
+          <ButtonText>확인</ButtonText>
+        </GreenButton>
+        <BlueButton
+          style={{ marginLeft: 3 }}
+          onPress={() => {
+            dispatch(setAgreePolicy(true));
+          }}
+        >
+          <ButtonText>동의 없이 보기</ButtonText>
+        </BlueButton>
+      </View>
+    </BaseScreen>
   );
 };
 
+const NoticeText = styled.Text({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.black,
+  marginRight: 30,
+  marginLeft: 30,
+  marginTop: 42,
+  marginBottom: 48,
+});
+const ButtonText = styled.Text({
+  fontSize: 16,
+  // flex: 1,
+  // flexDirection: "column",
+  color: colors.trueWhite,
+});
+const BaseButton = styled(BaseTouchable)({
+  width: 160,
+  height: 42,
+  borderRadius: 21,
+  justifyContent: "center",
+  alignItems: "center",
+});
+const GreenButton = styled(BaseButton)({
+  backgroundColor: colors.pine,
+});
+const BlueButton = styled(BaseButton)({
+  backgroundColor: colors.cerulean,
+});
+const TextBox = styled.View({
+  alignItems: "flex-start",
+  backgroundColor: colors.trueWhite,
+  justifyContent: "flex-start",
+  marginBottom: 11,
+  paddingBottom: 11,
+  paddingTop: 5,
+  paddingRight: 5,
+});
+const TextView = styled.Text({
+  flexShrink: 1,
+  lineHeight: 20,
+  fontSize: 14,
+  color: colors.greyishBrown,
+});
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
+  checkbox: {
+    justifyContent: "flex-start",
+    margin: 0,
+    alignItems: "flex-start",
+    padding: 0,
+  },
+  text2: {
+    margin: 5,
+  },
+  text: {
+    fontSize: 14,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 18,
+    letterSpacing: 0,
+
+    color: colors.trueWhite,
+  },
+  btnBlack: {
+    width: 158,
+    height: 36,
+    backgroundColor: colors.black,
+    borderRadius: 17,
+    padding: 0,
+    marginBottom: 25,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 8,
+  },
+
+  screen: {
+    paddingTop: 19,
+    paddingLeft: 16,
+    paddingRight: 16,
+    // paddingTop: Constants.statusBarHeight,
+    flex: 1,
+
+    backgroundColor: colors.white,
   },
   allCheck: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
   },
 });
 

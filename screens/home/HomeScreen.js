@@ -102,7 +102,7 @@ const HomeScreen = ({ navigation }) => {
     "https://placeimg.com/640/640/beer",
   ];
   const [isVisible, setIsVisible] = useState(false);
-
+  const [isAlertVisible, setIsAlertVisible] = useState(false);
   const triggerNotificationHandler = () => {
     // Notifications.scheduleNotificationAsync({
     //   content: {
@@ -116,6 +116,7 @@ const HomeScreen = ({ navigation }) => {
     // });
     console.log("triggerNotificationHandler");
     console.log("FlyerScreen PushToken ==>" + pushToken);
+    alert("PushToken ==>" + pushToken);
     // if (!pushToken) alert("권한이 없거나 로그인되지 않았습니다.")
     // pushToken is null 일때 서버에 알려야함.
 
@@ -168,24 +169,43 @@ const HomeScreen = ({ navigation }) => {
   };
   return (
     <SafeAreaView style={styles.screen}>
+      <ScrollableTabView
+        locked={false}
+        initialPage={1}
+        renderTabBar={() => <ScrollableTabBar />}
+      >
+        <ScrollView tabLabel="ios-paper" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>News</Text>
+          </View>
+        </ScrollView>
+        <ScrollView tabLabel="ios-people" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Friends</Text>
+          </View>
+        </ScrollView>
+        <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Messenger</Text>
+          </View>
+        </ScrollView>
+        <ScrollView tabLabel="ios-notifications" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Notifications</Text>
+          </View>
+        </ScrollView>
+        <ScrollView tabLabel="ios-list" style={styles.tabView}>
+          <View style={styles.card}>
+            <Text>Other nav</Text>
+          </View>
+        </ScrollView>
+      </ScrollableTabView>
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <ScrollList
         onScroll={onScrollHandler.bind(this)}
-     
-  
         style={{ flex: 1, width: "100%" }}
         renderItem={({ item, index, separators }) => (
           <View>
-            <ScrollableTabView
-              locked={false}
-              renderTabBar={() => <ScrollableTabBar />}
-            >
-              <Text tabLabel="Tab #1">My</Text>
-              <Text tabLabel="Tab #2 word word">favorite</Text>
-              <Text tabLabel="Tab #3 word word word">project</Text>
-              <Text tabLabel="Tab #4 word word word word">favorite</Text>
-              <Text tabLabel="Tab #5">project</Text>
-            </ScrollableTabView>
             <View style={styles.content1}>
               <Button
                 title="전단 상세"
@@ -220,7 +240,7 @@ const HomeScreen = ({ navigation }) => {
               <Button
                 title="팝업"
                 onPress={() => {
-                  setIsVisible((isVisible) => !isVisible);
+                  setIsAlertVisible((value) => !value);
                 }}
               />
             </View>
@@ -256,7 +276,7 @@ const HomeScreen = ({ navigation }) => {
         )}
       />
       <AwesomeAlert
-        show={isVisible}
+        show={isAlertVisible}
         showProgress={false}
         title="AwesomeAlert"
         message="I have a message for you!"
@@ -268,10 +288,10 @@ const HomeScreen = ({ navigation }) => {
         confirmText="Yes, delete it"
         confirmButtonColor="#DD6B55"
         onCancelPressed={() => {
-          setIsVisible(() => false);
+          setIsAlertVisible(() => false);
         }}
         onConfirmPressed={() => {
-          setIsVisible(() => false);
+          setIsAlertVisible(() => false);
         }}
       />
       <FlyerDetail

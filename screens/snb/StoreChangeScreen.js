@@ -14,7 +14,8 @@ import {
   Picker,
 } from "react-native";
 
-import Colors from "../../constants/Colors";
+import colors from "../../constants/colors";
+
 import StoreItem from "../../components/store/StoreItem";
 
 import StoreChangeDetail from "../../components/store/StoreChangeDetail";
@@ -161,7 +162,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    color: Colors.primary,
+    color: colors.primary,
   },
 });
 export default StoreChangeScreen;

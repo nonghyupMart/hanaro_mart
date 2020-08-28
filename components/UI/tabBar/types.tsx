@@ -1,4 +1,4 @@
-import type { StyleProp, ViewStyle, TextStyle } from "react-native";
+import type { StyleProp, ViewStyle, TextStyle, Animated } from "react-native";
 import type {
   TabBar,
   SceneRendererProps,
@@ -89,9 +89,37 @@ export type MaterialTopTabNavigationOptions = {
    * ID to locate this tab button in tests.
    */
   tabBarTestID?: string;
-
+  /**
+   * Boolean indicating whether the tab bar is visible when this screen is active.
+   */
   tabBarVisible?: boolean;
+
+  /**
+   * Animation config for showing and hiding the tab bar.
+   */
+  tabBarVisibilityAnimationConfig?: {
+    show?: TabBarVisibilityAnimationConfig;
+    hide?: TabBarVisibilityAnimationConfig;
+  };
 };
+export type TimingKeyboardAnimationConfig = {
+  animation: "timing";
+  config?: Omit<
+    Partial<Animated.TimingAnimationConfig>,
+    "toValue" | "useNativeDriver"
+  >;
+};
+
+export type SpringKeyboardAnimationConfig = {
+  animation: "spring";
+  config?: Omit<
+    Partial<Animated.SpringAnimationConfig>,
+    "toValue" | "useNativeDriver"
+  >;
+};
+export type TabBarVisibilityAnimationConfig =
+  | TimingKeyboardAnimationConfig
+  | SpringKeyboardAnimationConfig;
 
 export type MaterialTopTabDescriptor = Descriptor<
   ParamListBase,
@@ -190,6 +218,21 @@ export type MaterialTopTabBarOptions = Partial<
    * Whether label font should scale to respect Text Size accessibility settings.
    */
   allowFontScaling?: boolean;
+
+  /**
+   * Whether the tab bar gets hidden when the keyboard is shown. Defaults to `false`.
+   */
+  keyboardHidesTabBar?: boolean;
+  /**
+   * Safe area insets for the tab bar. This is used to avoid elements like the navigation bar on Android and bottom safe area on iOS.
+   * By default, the device's safe area insets are automatically detected. You can override the behavior with this option.
+   */
+  safeAreaInsets?: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  };
 };
 
 export type MaterialTopTabBarProps = MaterialTopTabBarOptions &

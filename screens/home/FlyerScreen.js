@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,221 +9,91 @@ import {
   FlatList,
   ScrollView,
   Dimensions,
+  Easing,
 } from "react-native";
+import {
+  TabView,
+  TabBar,
+  SceneMap,
+  NavigationState,
+  SceneRendererProps,
+} from "react-native-tab-view";
+
+import { useScrollToTop } from "@react-navigation/native";
+
+import FlyerContentsScreen from "./FlyerContentsScreen";
+import CouponForTotalScreen from "./CouponForTotalScreen";
 
 import Carousel from "react-native-looped-carousel";
 import { useSelector } from "react-redux";
 
-import Constants from "expo-constants";
-import * as Notifications from "expo-notifications";
-import * as Permissions from "expo-permissions";
-
-import StoreListPopup from "../../components/store/StoreListPopup";
 import FlyerItem from "../../components/FlyerItem";
 import FlyerDetail from "../../components/FlyerDetail";
 const { width, height } = Dimensions.get("window");
+const initialLayout = { width: Dimensions.get("window").width };
 
 const FlyerScreen = ({ navigation }) => {
-  const [currentItem, setCurrentItem] = useState(null);
-  const [page, setPage] = useState(0);
-  const pushToken = useSelector((state) => state.auth.pushToken);
-  const [flyerItems, setFlyerItems] = useState([
-    {
-      id: 0,
-      title: "양재점",
-    },
-    {
-      id: 1,
-      title: "천안점",
-    },
-    {
-      id: 2,
-      title: "마포점",
-    },
-    {
-      id: 3,
-      title: "이태원점",
-    },
-    {
-      id: 4,
-      title: "홍대점",
-    },
-    {
-      id: 5,
-      title: "안산점",
-    },
-    {
-      id: 6,
-      title: "양재점",
-    },
-    {
-      id: 7,
-      title: "천안점",
-    },
-    {
-      id: 8,
-      title: "마포점",
-    },
-    {
-      id: 9,
-      title: "이태원점",
-    },
-    {
-      id: 10,
-      title: "홍대점",
-    },
-    {
-      id: 11,
-      title: "안산점",
-    },
-  ]);
-
-  const loadMore = () => {
-    // if (page == 0) {
-    setFlyerItems(() => [
-      ...flyerItems,
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "양재점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "천안점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "마포점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "이태원점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "홍대점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "안산점" + Math.floor(Math.random() * 100),
-      },
-    ]);
-    //   setPage(() => page + 1);
-    // }
-  };
   const state = {
     size: { width, height },
   };
-  const images = [
-    "https://placeimg.com/640/640/nature",
-    "https://placeimg.com/640/640/people",
-    "https://placeimg.com/640/640/animals",
-    "https://placeimg.com/640/640/beer",
-  ];
+
   const [isVisible, setIsVisible] = useState(false);
-
-  const triggerNotificationHandler = () => {
-    // Notifications.scheduleNotificationAsync({
-    //   content: {
-    //     title: 'My first local notification',
-    //     body: 'This is the first local notification we are sending!',
-    //     data: { mySpecialData: 'Some text' },
-    //   },
-    //   trigger: {
-    //     seconds: 10,
-    //   },
-    // });
-    console.log("triggerNotificationHandler");
-    console.log("FlyerScreen PushToken ==>" + pushToken);
-    alert(1);
-    if (pushToken == null) {
-      alert("권한이 없습니다. 권한을 승인해주세요.");
-      Permissions.askAsync(Permissions.NOTIFICATIONS);
-      return;
-    }
-
-    fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Accept-Encoding": "gzip, deflate",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to: pushToken,
-        data: { extraData: "Some data" },
-        title: "Sent via the app",
-        body: "This push notification was sent via the app!",
-      }),
-    });
-  };
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
-  return (
-    <SafeAreaView style={styles.screen}>
-      {/* <StoreListPopup isVisible={isVisible} /> */}
-      <FlatList
-        keyExtractor={(item) => item + ""}
-        data={[0]}
-        style={{ flex: 1, width: "100%" }}
-        renderItem={({ item, index, separators }) => (
-          <View>
-            <View style={styles.content1}>
-              <Button
-                title="전단 상세"
-                onPress={() => navigation.navigate("FlyerDetail")}
-              />
-            </View>
-            <Carousel
-              delay={2000}
-              style={{ flex: 1, height: 100 }}
-              autoplay
-              pageInfo
-            >
-              <View style={[{ backgroundColor: "#BADA55" }, state.size]}>
-                <Text>1</Text>
-              </View>
-              <View style={[{ backgroundColor: "red" }, state.size]}>
-                <Text>2</Text>
-              </View>
-              <View style={[{ backgroundColor: "blue" }, state.size]}>
-                <Text>3</Text>
-              </View>
-            </Carousel>
 
-            <FlatList
-              initialNumToRender={6}
-              onEndReachedThreshold={60}
-              onEndReached={() => {
-                // alert("onEndReached");
-                loadMore();
-              }}
-              contentContainerStyle={{
-                justifyContent: "space-between",
-              }}
-              numColumns={3}
-              style={{ flexGrow: 1 }}
-              data={flyerItems}
-              keyExtractor={(item) => item.id + ""}
-              renderItem={(itemData) => (
-                <FlyerItem
-                  onPress={popupHandler.bind(this, itemData.item)}
-                  title={itemData.item.title}
-                  keyExtractor={() => itemData.item.id}
-                />
-              )}
-            />
-          </View>
-        )}
-      ></FlatList>
-      <FlyerDetail
-        item={currentItem}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
+  const [routes] = React.useState([
+    { key: 0, title: "Article" },
+    { key: 1, title: "Contacts" },
+    { key: 2, title: "Albums" },
+    { key: 3, title: "Chat" },
+  ]);
+
+  const [index, setIndex] = React.useState(0);
+  const handleIndexChange = (index) => {
+    setIndex(() => index);
+  };
+
+  const renderTabBar = (props) => (
+    <TabBar
+      {...props}
+      scrollEnabled
+      indicatorStyle={styles.indicator}
+      style={styles.tabbar}
+      tabStyle={styles.tab}
+      labelStyle={styles.label}
+    />
+  );
+
+  const goLeft = (index) => {
+    if (index > 0) {
+      setIndex(() => index - 1);
+    }
+  };
+  const goRight = (index) => {
+    if (index < routes.length - 1) {
+      setIndex(() => index + 1);
+    }
+  };
+  const renderScene = ({ route }) => {
+    return (
+      <FlyerContentsScreen
+        number={route.key}
+        goLeft={goLeft}
+        goRight={goRight}
       />
-    </SafeAreaView>
+    );
+  };
+  return (
+    <TabView
+      navigationState={{ index, routes }}
+      renderScene={renderScene}
+      renderTabBar={renderTabBar}
+      onIndexChange={handleIndexChange}
+      initialLayout={initialLayout}
+    />
   );
 };
 
@@ -289,6 +159,20 @@ const styles = StyleSheet.create({
   customImage: {
     width: 100,
     height: 100,
+  },
+  tabbar: {
+    height: 0,
+    width: 0,
+    backgroundColor: "#3f51b5",
+  },
+  tab: {
+    width: 0,
+  },
+  indicator: {
+    backgroundColor: "#ffeb3b",
+  },
+  label: {
+    fontWeight: "400",
   },
 });
 

@@ -2,12 +2,22 @@ import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect } from "react";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { StyleSheet, BackHandler, Alert } from "react-native";
+import {
+  View,
+  Image,
+  StyleSheet,
+  BackHandler,
+  Alert,
+  ActivityIndicator,
+  Dimensions,
+} from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
 import { StatusBar } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import { Asset } from "expo-asset";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
 import * as Notifications from "expo-notifications";
@@ -18,6 +28,7 @@ Notifications.setNotificationHandler({
     return { shouldShowAlert: true };
   },
 });
+const { width, height } = Dimensions.get("window");
 
 const rootReducer = combineReducers({ auth: authReducer });
 
@@ -32,6 +43,7 @@ const fetchFonts = () => {
 
 export default function App() {
   usePreventScreenCapture();
+  const [isReady, setIsReady] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
   // const [pushToken, setPushToken] = useState();
 
@@ -68,6 +80,42 @@ export default function App() {
       // BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
   }, []);
+  SplashScreen.preventAutoHideAsync();
+
+  const _cacheResourcesAsync = async () => {
+    SplashScreen.hideAsync();
+    const images = [
+      require("./assets/images/20200811_83175949013327_5_1280x480 (1).jpg"),
+      // require("./assets/images/slack-icon.png"),
+    ];
+
+    // const cacheImages = images.map((image) => {
+    //   return Asset.fromModule(image).downloadAsync();
+    // });
+    // const cacheImages = () => {
+    //   return new Promise((resolve) => setTimeout(resolve, 1000));
+    // };
+
+    // await Promise.all(cacheImages);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    setIsReady(() => true);
+  };
+  if (!isReady) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <Image
+          source={require("./assets/splash.png")}
+          onLoad={_cacheResourcesAsync}
+          style={{ resizeMode: "cover", width: "100%", height: "100%" }}
+        />
+        <ActivityIndicator
+          size="large"
+          color="#006dbb"
+          style={{ position: "absolute", top: height / 2 }}
+        />
+      </View>
+    );
+  }
   if (!fontLoaded) {
     return (
       <AppLoading

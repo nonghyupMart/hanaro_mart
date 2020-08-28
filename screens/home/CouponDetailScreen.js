@@ -62,8 +62,7 @@ const CouponDetailScreen = (props) => {
   // setSvgBarcode(() => xmlSerializer.serializeToString(svgNode));
 
   return (
-    <SafeAreaView>
-      <BaseDetailScreen />
+    <BaseDetailScreen>
       <TextView>쿠폰상세 </TextView>
       {/* <SvgXml xml={svgText} /> */}
       <Barcode
@@ -74,7 +73,7 @@ const CouponDetailScreen = (props) => {
         flat
         text="2921117012053"
       />
-    </SafeAreaView>
+    </BaseDetailScreen>
   );
 };
 

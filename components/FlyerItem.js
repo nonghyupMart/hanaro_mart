@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
@@ -17,6 +18,7 @@ const FlyerItem = (props) => {
               uri:
                 "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
             }}
+            defaultSource={require("../assets/icon.png")}
           />
           <Text style={styles.mainText}>{props.title}</Text>
         </View>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { View, Text, StyleSheet, FlatList, BackHandler } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { setBottomNavigation } from "../store/actions/auth";
+import BaseScreen from "../components/BaseScreen";
 
 const BaseDetailScreen = (props) => {
   const dispatch = useDispatch();
@@ -26,15 +27,7 @@ const BaseDetailScreen = (props) => {
       dispatch(setBottomNavigation(true));
     };
   }, []);
-  return <></>;
+  return <BaseScreen>{props.children}</BaseScreen>;
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default BaseDetailScreen;

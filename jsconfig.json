@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "module": "commonjs",
+    "paths": {
+      "@UI/*": ["./components/UI/*"],
+      "@components/*": ["./components/*"]
+    }
+  }
+}

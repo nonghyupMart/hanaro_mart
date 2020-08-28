@@ -29,7 +29,7 @@ import { Input } from "react-native-elements";
 import HeaderButton from "../components/UI/HeaderButton";
 import BottomButtons from "../components/BottomButtons";
 import CustomDrawerContent from "../components/UI/CustomDrawerContent";
-import MeterialTopTabBar from "../components/UI/MaterialTopTabBar";
+import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";
 
 import HomeScreen from "../screens/home/HomeScreen";
 import FlyerScreen from "../screens/home/FlyerScreen";
@@ -41,7 +41,7 @@ import ExhibitionScreen from "../screens/home/ExhibitionScreen";
 import NaroTubeScreen from "../screens/home/NaroTubeScreen";
 import CouponForTotalScreen from "../screens/home/CouponForTotalScreen";
 import CouponForProductScreen from "../screens/home/CouponForProductScreen";
-import Colors from "../constants/Colors";
+
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
 } from "../screens/snb/StoreChangeScreen";
@@ -53,19 +53,19 @@ import BarCodeScannerScreen, {
 } from "../screens/BarCodeScannerScreen";
 import RingPickerScreen from "../screens/RingPickerScreen";
 
-const defaultStackNavOptions = {
-  headerStyle: {
-    backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-  },
-  headerTitleStyle: {
-    fontFamily: "open-sans-bold",
-  },
-  headerBackTitleStyle: {
-    fontFamily: "open-sans",
-  },
-  headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
-  headerTitle: "A Screen",
-};
+// const defaultStackNavOptions = {
+//   headerStyle: {
+//     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
+//   },
+//   headerTitleStyle: {
+//     fontFamily: "open-sans-bold",
+//   },
+//   headerBackTitleStyle: {
+//     fontFamily: "open-sans",
+//   },
+//   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
+//   headerTitle: "A Screen",
+// };
 const screens = {
   CouponForTotalScreen: CouponForTotalScreen,
   CouponForProductScreen: CouponForProductScreen,
@@ -188,7 +188,7 @@ const animate = () => {
   }
   Animated.timing(opacity, {
     toValue: isShowSearchBar ? 0 : 1,
-    duration: isShowSearchBar ? 100 : 400,
+    duration: isShowSearchBar ? 200 : 400,
     easing: isShowSearchBar ? Easing.elastic(0) : Easing.elastic(0),
     useNativeDriver: false,
   }).start();

@@ -5,7 +5,7 @@ import { StyleSheet, ActivityIndicator, View } from "react-native";
 const Loading = (props) => {
   return (
     <Modal
-      backdropOpacity={0.3}
+      backdropOpacity={0.7}
       isVisible={props.isLoading}
       animationIn="fadeIn"
     >
@@ -18,7 +18,7 @@ const Loading = (props) => {
           width: "100%",
         }}
       >
-        <ActivityIndicator size="large" />
+        <ActivityIndicator size="large" color="#006dbb" />
       </View>
     </Modal>
   );

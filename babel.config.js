@@ -6,8 +6,18 @@ module.exports = function (api) {
       [
         "module-resolver",
         {
-          root: ["./app"],
+          root: ["./"],
           extensions: [".js", ".ios.js", ".android.js"],
+          alias: {
+            "@screens": "./screens",
+            "@assets": "./assets",
+            "@images": "./assets/images",
+            "@constants": "./constants",
+            "@components": "./components",
+            "@UI": "./components/UI",
+            "@actions": "./store/actions",
+            "@reducers": "./store/reducers",
+          },
         },
       ],
       ["@babel/plugin-syntax-class-properties"],
