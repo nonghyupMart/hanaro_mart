@@ -26,7 +26,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Ionicons } from "@expo/vector-icons";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Input } from "react-native-elements";
-import HeaderButton from "../components/UI/HeaderButton";
+import { HeaderButton } from "@UI/header";
 import BottomButtons from "../components/BottomButtons";
 import CustomDrawerContent from "../components/UI/CustomDrawerContent";
 import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";

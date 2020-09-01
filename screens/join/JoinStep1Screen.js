@@ -1,49 +1,54 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Button } from "react-native";
-import { CheckBox } from "react-native-elements";
+import styled from "styled-components/native";
+import { BaseButton, ButtonText } from "@UI/BaseUI";
+import BaseScreen from "@components/BaseScreen";
+import { BackButton, TextTitle } from "@UI/header";
 
-import { setAgreePolicy } from "../../store/actions/auth";
+const GreenButton = styled(BaseButton)({
+  backgroundColor: colors.appleGreen,
+  marginRight: 2.5,
+});
+const BlueButton = styled(BaseButton)({
+  backgroundColor: colors.cerulean,
+  marginLeft: 2.5,
+});
 const JoinStep1Screen = ({ navigation }) => {
-  const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
-  const [checkBoxes, setCheckBoxes] = useState([
-    { id: 0, isChecked: false },
-    { id: 1, isChecked: false },
-    { id: 2, isChecked: false },
-  ]);
-
-  const dispatch = useDispatch();
-
-  const handleAllChecked = (isCheckAll) => {
-    let cks = [...checkBoxes];
-    cks.map((el) => {
-      isCheckAll ? (el.isChecked = true) : (el.isChecked = false);
-    });
-    setCheckBoxes(cks);
-    setToggleAllCheckBox(isCheckAll);
-  };
-  const handleChecked = (checkBox) => {
-    let cks = [...checkBoxes];
-    cks[checkBox.id].isChecked = !cks[checkBox.id].isChecked;
-    setCheckBoxes(cks);
-    if (cks[checkBox.id].isChecked == false) {
-      setToggleAllCheckBox(false);
-    } else {
-      let allTrue = cks.every((el) => el.isChecked);
-      if (allTrue) setToggleAllCheckBox(true);
-    }
-  };
   return (
-    <View style={styles.screen}>
-      <Button
-        title="간편가입"
-        onPress={() => {
-          navigation.navigate("JoinStep2");
+    <BaseScreen isScroll={false} style={styles.screen}>
+      <View
+        style={{
+          flexDirection: "row",
         }}
-      />
-      <Button title="본인인증" />
-    </View>
+      >
+        <GreenButton
+          onPress={() => {
+            navigation.navigate("JoinStep2");
+          }}
+        >
+          <ButtonText>간편가입</ButtonText>
+        </GreenButton>
+        <BlueButton title="본인인증">
+          <ButtonText>본인인증</ButtonText>
+        </BlueButton>
+      </View>
+    </BaseScreen>
   );
+};
+export const screenOptions = ({ navigation }) => {
+  return {
+    title: "회원가입",
+    headerLeft: (props) => <BackButton {...props} />,
+    headerTitle: (props) => <TextTitle {...props} />,
+    // headerStyle: {
+    //   backgroundColor: "#f4511e",
+    // },
+    // headerTintColor: "#fff",
+    // headerTitleStyle: {
+    //   fontWeight: "bold",
+    // },
+  };
 };
 
 const styles = StyleSheet.create({
@@ -51,6 +56,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    // backgroundColor: "black",
+    height: "100%",
   },
   allCheck: {
     flexDirection: "row",

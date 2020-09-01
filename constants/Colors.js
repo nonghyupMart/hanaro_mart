@@ -11,4 +11,6 @@ export default colors = {
   trueWhite: "#ffffff",
   viridian: "#1c9a3a",
   appleGreen: "#79bd28",
+  pinkishGrey: "#cfcfcf",
+  black16: "rgba(0, 0, 0, 0.16)",
 };

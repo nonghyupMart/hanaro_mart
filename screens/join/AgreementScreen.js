@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { View, Text, StyleSheet, Button, Image } from "react-native";
+import { View, Text, StyleSheet, StatusBar, Image } from "react-native";
 
 import Constants from "expo-constants";
 
@@ -16,7 +16,7 @@ import { getPermissionsAsync } from "expo-notifications";
 import colors from "@constants/colors";
 
 import BaseScreen from "@components/BaseScreen";
-import BaseTouchable from "@components/BaseTouchable";
+import { BaseButton, ButtonText } from "@UI/BaseUI";
 
 import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
 
@@ -90,6 +90,10 @@ const AgreementScreen = ({ navigation }) => {
   };
   const checkAgreed = () => {
     if (checkBoxes[0].isChecked && checkBoxes[1].isChecked) {
+      if (!Constants.isDevice) {
+        navigation.navigate("JoinStep1");
+        return;
+      }
       setIsLoading(() => true);
       getPermissions().then((token) => {
         if (token) {
@@ -108,7 +112,7 @@ const AgreementScreen = ({ navigation }) => {
     }
   };
   return (
-    <BaseScreen isLoading={isLoading} alert={alert}>
+    <BaseScreen isLoading={isLoading} alert={alert} headerShown={false}>
       <CheckBox
         activeOpacity={0.8}
         onPress={() => handleAllChecked(!toggleAllheckBox)}
@@ -203,6 +207,15 @@ const AgreementScreen = ({ navigation }) => {
     </BaseScreen>
   );
 };
+export const screenOptions = ({ navigation }) => {
+  return {
+    title: "",
+    headerShown: false,
+    cardStyle: {
+      paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
+    },
+  };
+};
 
 const NoticeText = styled.Text({
   fontSize: 14,
@@ -217,19 +230,7 @@ const NoticeText = styled.Text({
   marginTop: 42,
   marginBottom: 48,
 });
-const ButtonText = styled.Text({
-  fontSize: 16,
-  // flex: 1,
-  // flexDirection: "column",
-  color: colors.trueWhite,
-});
-const BaseButton = styled(BaseTouchable)({
-  width: 160,
-  height: 42,
-  borderRadius: 21,
-  justifyContent: "center",
-  alignItems: "center",
-});
+
 const GreenButton = styled(BaseButton)({
   backgroundColor: colors.pine,
 });
@@ -244,6 +245,7 @@ const TextBox = styled.View({
   paddingBottom: 11,
   paddingTop: 5,
   paddingRight: 5,
+  width: "100%",
 });
 const TextView = styled.Text({
   flexShrink: 1,

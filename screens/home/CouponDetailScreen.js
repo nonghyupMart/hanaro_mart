@@ -13,9 +13,9 @@ import {
   BackHandler,
 } from "react-native";
 
-import BaseDetailScreen from "../../components/BaseDetailScreen";
-import BackButton from "../../components/UI/BackButton";
-import Barcode from "../../components/Barcode";
+import BaseDetailScreen from "@components/BaseDetailScreen";
+import { BackButton } from "@UI/header";
+import Barcode from "@components/Barcode";
 
 const CouponDetailScreen = (props) => {
   const [svgBarcode, setSvgBarcode] = useState();
