@@ -38,9 +38,10 @@ const BaseScreen = (props) => {
 
 const Screen = styled.View`
   flex: 1;
-  padding-top: ${(Platform.OS == "ios" ? Constants.statusBarHeight : 0) +
-  19 +
-  "px"};
+  padding-top: ${(props) => {
+   props.headerShown;
+    return ;
+  }};
   padding-left: 16px;
   padding-right: 16px;
   background-color: ${colors.white};
