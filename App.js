@@ -10,6 +10,7 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
+  YellowBox,
 } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
@@ -23,6 +24,9 @@ import { Icon } from "react-native-elements";
 import * as Notifications from "expo-notifications";
 import authReducer from "./store/reducers/auth";
 
+YellowBox.ignoreWarnings(["Expected"]);
+// console.disableYellowBox = true;
+// console.ignoredYellowBox = ["Warning:"];
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return { shouldShowAlert: true };
