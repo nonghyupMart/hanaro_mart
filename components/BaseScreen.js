@@ -19,15 +19,17 @@ import Loading from "@UI/Loading";
 import Alert from "@UI/Alert";
 
 const Contents = (props) => {
+  // if (props.alert) console.log(props.alert.content);
   return (
     <>
       <Loading isLoading={props.isLoading} />
       {props.alert && (
         <Alert
-          isVisible={props.alert.message ? true : false}
+          isVisible={props.alert.content || props.alert.message ? true : false}
           message={props.alert.message}
           onPressConfirm={props.alert.onPressConfirm}
           onPressCancel={props.alert.onPressCancel}
+          content={props.alert.content}
         />
       )}
       {props.children}

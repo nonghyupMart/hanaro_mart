@@ -9,6 +9,7 @@ export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
 export const SET_AGREEMENT = "SET_AGREEMENT";
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
+export const SET_TEST = "SET_TEST";
 
 let timer;
 
@@ -20,6 +21,31 @@ export const authenticate = (userId, token, expiryTime) => {
   return (dispatch) => {
     dispatch(setLogoutTimer(expiryTime));
     dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+  };
+};
+
+export const test = () => {
+  return async (dispatch) => {
+    const response = await fetch("http://dv-www.hanaromartapp.com/api/lname", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!response.ok) {
+      const errorResData = await response.json();
+      const errorId = errorResData.error.message;
+      let message = "Something went wrong!";
+      if (errorId === "EMAIL_EXISTS") {
+        message = "This email exists already!";
+      }
+      throw new Error(message);
+    }
+
+    const resData = await response.json();
+    console.log("resData.data ==> ", resData.data);
+
+    dispatch({ type: SET_TEST, testItem: resData.data });
   };
 };
 

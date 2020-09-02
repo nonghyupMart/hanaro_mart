@@ -24,7 +24,8 @@ const Alert = (props) => {
         <Icon>
           <Image source={require("@images/ic_error_outline_24px.png")} />
         </Icon>
-        <Message>{props.message}</Message>
+        {props.content}
+        {props.message && <Message>{props.message}</Message>}
         <ButtonContainer>
           <ConfirmButton onPress={props.onPressConfirm}>
             <ButtonText>확인</ButtonText>

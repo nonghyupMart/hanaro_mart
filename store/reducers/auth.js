@@ -6,6 +6,7 @@ import {
   SET_LOCATION,
   SET_AGREEMENT,
   SET_BOTTOM_NAVIGATION,
+  SET_TEST,
 } from "../actions/auth";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   pushToken: null,
   location: null,
   isBottomNavigation: true,
+  testItem: null,
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +41,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isBottomNavigation: action.isBottomNavigation,
+      };
+    case SET_TEST:
+      // console.log("action==> ", action.testItem);
+      return {
+        ...state,
+        testItem: action.testItem,
       };
     default:
       return state;

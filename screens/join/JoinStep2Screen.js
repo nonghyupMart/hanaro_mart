@@ -47,9 +47,9 @@ const JoinStep2Screen = ({ navigation }) => {
     );
   const onPressJoin = () => {
     setAlert({
-      message: "필수 항목을 동의해 주세요.",
+      content: popupConetnt,
       onPressConfirm: () => {
-        setAlert({ message: null });
+        setAlert({ content: null });
         navigation.replace("StoreSetup");
       },
     });
@@ -138,6 +138,20 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
+const popupConetnt = (
+  <View>
+    <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
+  </View>
+);
+const GreenText = styled.Text({
+  fontSize: 18,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 28,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.appleGreen,
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
