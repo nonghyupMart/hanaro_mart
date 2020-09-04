@@ -13,4 +13,8 @@ export default colors = {
   appleGreen: "#79bd28",
   pinkishGrey: "#cfcfcf",
   black16: "rgba(0, 0, 0, 0.16)",
+  greyish: "#b4b4b4",
+  blackTwo: "#262626",
+  mango: "#ffbb30",
+  rustRed: "#a72004",
 };

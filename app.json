@@ -18,7 +18,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "buildNumber": "1.0.0",
-      "bundleIdentifier": "com.hanaroPlus.hanaroPlus",
+      "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-info.plist"
     },

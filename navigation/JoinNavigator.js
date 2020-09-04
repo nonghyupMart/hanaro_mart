@@ -11,7 +11,12 @@ import JoinStep1Screen, {
 import JoinStep2Screen, {
   screenOptions as JoinStep2ScreenOptions,
 } from "../screens/join/JoinStep2Screen";
-import StoreChangeScreen from "../screens/snb/StoreChangeScreen";
+import StoreChangeScreen, {
+  screenOptions as StoreChangeScreenOptions,
+} from "../screens/snb/StoreChangeScreen";
+import StoreChangeDetailScreen, {
+  screenOptions as StoreChangeDetailScreenOptions,
+} from "../screens/snb/StoreChangeDetailScreen";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 
 const JoinStackNavigator = createStackNavigator();
@@ -20,7 +25,6 @@ export const JoinNavigator = () => {
     <JoinStackNavigator.Navigator
       screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-       
       }}
     >
       <JoinStackNavigator.Screen
@@ -41,6 +45,12 @@ export const JoinNavigator = () => {
       <JoinStackNavigator.Screen
         name="StoreSetup"
         component={StoreChangeScreen}
+        options={StoreChangeScreenOptions}
+      />
+      <JoinStackNavigator.Screen
+        name="StoreSetupDetail"
+        component={StoreChangeDetailScreen}
+        options={StoreChangeDetailScreenOptions}
       />
     </JoinStackNavigator.Navigator>
   );

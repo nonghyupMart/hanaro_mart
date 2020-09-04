@@ -17,6 +17,7 @@ import Constants from "expo-constants";
 
 import Loading from "@UI/Loading";
 import Alert from "@UI/Alert";
+import { StyleConstants } from "@UI/BaseUI";
 
 const Contents = (props) => {
   // if (props.alert) console.log(props.alert.content);
@@ -44,13 +45,23 @@ const BaseScreen = (props) => {
     props.isScroll == undefined ? true : props.isScroll
   );
   // console.log(isScroll);
+  if (props.isInitialized !== undefined && props.isInitialized === false) {
+    return (
+      <Screen headerHeight={useHeaderHeight()} style={props.style}>
+        <Loading isLoading={props.isLoading} />
+      </Screen>
+    );
+  }
+
   return (
     <Screen headerHeight={useHeaderHeight()} style={props.style}>
       {isScroll && (
         <ScrollList
+          windowSize={5}
+          style={props.scrollListStyle}
           headerHeight={useHeaderHeight()}
           {...props}
-          contentContainerStyle={[styles.scrollContainer, styles.safeAreaView]}
+          contentContainerStyle={[styles.safeAreaView]}
           data={[0]}
           keyExtractor={(item) => `${item + Math.random()}`}
           renderItem={() => (
@@ -64,13 +75,11 @@ const BaseScreen = (props) => {
     </Screen>
   );
 };
-const scrollContainer = styled.View({});
-// console.log(props);
+
 const ScrollList = styled.FlatList({
   flex: 1,
-  paddingRight: 16,
-
-  paddingLeft: 16,
+  paddingRight: StyleConstants.defaultPadding,
+  paddingLeft: StyleConstants.defaultPadding,
 });
 const ContentContainer = styled.View({
   flex: 1,
@@ -93,7 +102,6 @@ const Screen = styled.View({
   backgroundColor: colors.white,
 });
 const styles = StyleSheet.create({
-  scrollContainer: {},
   safeAreaView: {
     flexGrow: 1,
   },

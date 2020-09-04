@@ -82,46 +82,42 @@ const StoreChangeDetail = (props) => {
     );
   };
   return (
-    <Modal
-      isVisible={props.isVisible}
-      useNativeDriver={true}
-      hideModalContentWhileAnimating={true}
+    <View
+      style={{
+        flexDirection: "column",
+        backgroundColor: "white",
+        flex: 1,
+        width: "100%",
+        overflow: "hidden",
+      }}
     >
-      <View
+      {/* <Text
         style={{
-          flexDirection: "column",
-          backgroundColor: "white",
-          flex: 0.8,
           width: "100%",
         }}
       >
-        <Text
-          style={{
-            width: "100%",
-          }}
-        >
-          {props.currentItem && props.currentItem.title}
-        </Text>
-        <View style={[styles.row]}></View>
-        <Button title="닫기" onPress={() => props.setIsVisible(() => false)} />
-        <WebView
-          ref={(wv) => (webView = wv)}
-          key={location}
-          originWhitelist={["*"]}
-          allowFileAccess={true}
-          domStorageEnabled={true}
-          javaScriptEnabled={true}
-          allowUniversalAccessFromFileURLs={true}
-          allowFileAccessFromFileURLs={true}
-          mixedContentMode="always"
-          source={{ html: require("../../map.js")(location) }}
-          // onNavigationStateChange={_onNavigationStateChange.bind(this)}
-          startInLoadingState={false}
-          onMessage={onMessage}
-        />
-        <Button title="설정" onPress={confirmHandler} />
-      </View>
-    </Modal>
+        {props.currentItem && props.currentItem.title}
+      </Text>
+      <View style={[styles.row]}></View> */}
+
+      <WebView
+        ref={(wv) => (webView = wv)}
+        key={location}
+        scalesPageToFit={true}
+        originWhitelist={["*"]}
+        allowFileAccess={true}
+        domStorageEnabled={true}
+        javaScriptEnabled={true}
+        allowUniversalAccessFromFileURLs={true}
+        allowFileAccessFromFileURLs={true}
+        mixedContentMode="always"
+        source={{ html: require("../../map.js")(location) }}
+        // onNavigationStateChange={_onNavigationStateChange.bind(this)}
+        startInLoadingState={false}
+        onMessage={onMessage}
+      />
+      {/* <Button title="설정" onPress={confirmHandler} /> */}
+    </View>
   );
 };
 

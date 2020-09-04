@@ -27,31 +27,34 @@ import { Ionicons } from "@expo/vector-icons";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Input } from "react-native-elements";
 import { HeaderButton } from "@UI/header";
-import BottomButtons from "../components/BottomButtons";
-import CustomDrawerContent from "../components/UI/CustomDrawerContent";
-import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";
+import BottomButtons from "@components/BottomButtons";
+import CustomDrawerContent from "@UI/CustomDrawerContent";
+import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
 
-import HomeScreen from "../screens/home/HomeScreen";
-import FlyerScreen from "../screens/home/FlyerScreen";
+import HomeScreen from "@screens/home/HomeScreen";
+import FlyerScreen from "@screens/home/FlyerScreen";
 import FlyerDetailScreen, {
   screenOptions as FlyerDetailScreenOptions,
-} from "../screens/home/FlyerDetailScreen";
-import EventScreen from "../screens/home/EventScreen";
-import ExhibitionScreen from "../screens/home/ExhibitionScreen";
-import NaroTubeScreen from "../screens/home/NaroTubeScreen";
-import CouponForTotalScreen from "../screens/home/CouponForTotalScreen";
-import CouponForProductScreen from "../screens/home/CouponForProductScreen";
+} from "@screens/home/FlyerDetailScreen";
+import EventScreen from "@screens/home/EventScreen";
+import ExhibitionScreen from "@screens/home/ExhibitionScreen";
+import NaroTubeScreen from "@screens/home/NaroTubeScreen";
+import CouponForTotalScreen from "@screens/home/CouponForTotalScreen";
+import CouponForProductScreen from "@screens/home/CouponForProductScreen";
 
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
-} from "../screens/snb/StoreChangeScreen";
+} from "@screens/snb/StoreChangeScreen";
+import StoreChangeDetailScreen, {
+  screenOptions as StoreChangeDetailScreenOptions,
+} from "@screens/snb/StoreChangeDetailScreen";
 import CouponDetailScreen, {
   screenOptions as CouponDetailScreenOptions,
-} from "../screens/home/CouponDetailScreen";
+} from "@screens/home/CouponDetailScreen";
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
-} from "../screens/BarCodeScannerScreen";
-import RingPickerScreen from "../screens/RingPickerScreen";
+} from "@screens/BarCodeScannerScreen";
+import RingPickerScreen from "@screens/RingPickerScreen";
 
 // const defaultStackNavOptions = {
 //   headerStyle: {
@@ -316,6 +319,11 @@ export const HomeNavigator = () => {
           name="StoreChange"
           component={StoreChangeScreen}
           options={StoreChangeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="StoreChangeDetail"
+          component={StoreChangeDetailScreen}
+          options={StoreChangeDetailScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="CouponDetail"

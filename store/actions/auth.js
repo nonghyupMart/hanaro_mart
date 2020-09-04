@@ -43,7 +43,7 @@ export const test = () => {
     }
 
     const resData = await response.json();
-    console.log("resData.data ==> ", resData.data);
+    // console.log("resData.data ==> ", resData.data);
 
     dispatch({ type: SET_TEST, testItem: resData.data });
   };

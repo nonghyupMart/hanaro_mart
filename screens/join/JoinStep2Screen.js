@@ -16,7 +16,11 @@ import {
 import BaseScreen from "@components/BaseScreen";
 import Modal from "react-native-modal";
 import { BackButton, TextTitle } from "@UI/header";
-import { BaseSquareButton, ButtonText, BaseButton } from "@UI/BaseUI";
+import {
+  BaseSquareButtonContainer,
+  ButtonText,
+  BaseButtonContainer,
+} from "@UI/BaseUI";
 
 import { setAgreePolicy } from "../../store/actions/auth";
 const JoinStep2Screen = ({ navigation }) => {
@@ -28,29 +32,15 @@ const JoinStep2Screen = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  const onPress = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["취소", "010", "011"],
-        // destructiveButtonIndex: 2,
-        cancelButtonIndex: 0,
-      },
-      (buttonIndex) => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          setSelectedValue("010");
-        } else if (buttonIndex === 2) {
-          setSelectedValue("011");
-        }
-      }
-    );
   const onPressJoin = () => {
     setAlert({
-      content: popupConetnt,
+      content: popupConetnt(),
       onPressConfirm: () => {
         setAlert({ content: null });
-        navigation.replace("StoreSetup");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "StoreSetup" }],
+        });
       },
     });
   };
@@ -60,21 +50,6 @@ const JoinStep2Screen = ({ navigation }) => {
       <TextInputContainer style={{ marginBottom: 7 }}>
         <Image source={require("@images/ic_phone_iphone_24px.png")} />
         <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
-        {/* {Platform.OS === "android" && (
-          <Picker
-            selectedValue={selectedValue}
-            style={{ height: 30, width: 100 }}
-            onValueChange={(itemValue, itemIndex) =>
-              setSelectedValue(itemValue)
-            }
-          >
-            <Picker.Item label="010" value="010" />
-            <Picker.Item label="011" value="011" />
-          </Picker>
-        )}
-        {Platform.OS === "ios" && (
-          <Button onPress={onPress} title={selectedValue} />
-        )} */}
         <InputText
           required
           keyboardType="numeric"
@@ -118,6 +93,7 @@ const JoinStep2Screen = ({ navigation }) => {
               justifyContent: "center",
               alignCenter: "center",
               marginBottom: 26,
+              height: null,
             }}
           >
             <ConfrimText style={{}}>
@@ -138,25 +114,69 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-const popupConetnt = (
-  <View>
-    <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
-  </View>
-);
-const GreenText = styled.Text({
-  fontSize: 18,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 28,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.appleGreen,
-});
+const popupConetnt = () => {
+  const GreenText = styled.Text({
+    fontSize: 18,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 28,
+    letterSpacing: 0,
+    textAlign: "center",
+    color: colors.appleGreen,
+  });
+  const WhiteText = styled.Text({
+    fontSize: 24,
+    color: colors.trueWhite,
+    textAlign: "center",
+  });
+  const Container = styled.View({
+    marginTop: 60,
+  });
+  const Line = styled.View({
+    flexDirection: "row",
+
+    marginLeft: 29,
+    marginRight: 29,
+    flexShrink: 1,
+  });
+  const SmallText = styled.Text({
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 25,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: colors.trueWhite,
+    marginLeft: 10,
+    flexShrink: 1,
+  });
+  const Icon = styled.Image({ marginTop: 5 });
+  return (
+    <Container>
+      <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
+      <WhiteText>010-2643-2846</WhiteText>
+      <Line style={{ marginTop: 20 }}>
+        <Icon source={require("@images/checkmark.png")} />
+        <SmallText>개인정보 집과 이용약관에 동의하셨습니다.</SmallText>
+      </Line>
+      <Line>
+        <Icon source={require("@images/checkmark.png")} />
+        <SmallText>위치정보 수집에 동의하셨습니다.</SmallText>
+      </Line>
+      <Line style={{ marginBottom: 30 }}>
+        <Icon source={require("@images/checkmark.png")} />
+        <SmallText>광고성 정보(혜택)에 수신을 동의하셨습니다.</SmallText>
+      </Line>
+    </Container>
+  );
+};
+
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: (props) => <></>,
   };
 };
 
@@ -175,15 +195,15 @@ const ConfrimText = styled.Text({
 const InputText = styled.TextInput({
   flex: 1,
 });
-const BlackButton = styled(BaseSquareButton)({
+const BlackButton = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.greyishBrown,
   alignSelf: "center",
 });
-const BlueButton = styled(BaseSquareButton)({
+const BlueButton = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.cerulean,
 });
 
-const GreenButton = styled(BaseButton)({
+const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.pine,
 });
 const Label = styled.Text({
@@ -198,13 +218,14 @@ const Label = styled.Text({
 const TextInputContainer = styled.View({
   flex: 1,
   padding: 10,
-  // height: 42,
+  height: 42,
   backgroundColor: colors.trueWhite,
   shadowColor: "rgba(0, 0, 0, 0.16)",
   shadowOffset: {
     width: 1,
     height: 1,
   },
+  elevation: 3,
   shadowRadius: 2,
   shadowOpacity: 1,
   flexDirection: "row",

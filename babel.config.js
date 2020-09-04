@@ -17,6 +17,7 @@ module.exports = function (api) {
             "@UI": "./components/UI",
             "@actions": "./store/actions",
             "@reducers": "./store/reducers",
+            "@models": "./models",
           },
         },
       ],

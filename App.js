@@ -22,7 +22,8 @@ import { Asset } from "expo-asset";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
 import * as Notifications from "expo-notifications";
-import authReducer from "./store/reducers/auth";
+import authReducer from "@reducers/auth";
+import branchesReducer from "@reducers/branches";
 
 YellowBox.ignoreWarnings(["Expected"]);
 // console.disableYellowBox = true;
@@ -34,7 +35,10 @@ Notifications.setNotificationHandler({
 });
 const { width, height } = Dimensions.get("window");
 
-const rootReducer = combineReducers({ auth: authReducer });
+const rootReducer = combineReducers({
+  auth: authReducer,
+  branches: branchesReducer,
+});
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 

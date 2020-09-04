@@ -2,9 +2,18 @@ import React from "react";
 import styled from "styled-components/native";
 
 const TextTitle = (props) => {
-  return <Title>{props.children}</Title>;
+  return (
+    <Container>
+      <Title>{props.children}</Title>
+    </Container>
+  );
 };
-
+const Container = styled.View({
+  flex: 1,
+  alignSelf: "center",
+  alignItems: "center",
+  justifyContent: "center",
+});
 const Title = styled.Text({
   fontSize: 20,
   fontWeight: "500",
@@ -13,5 +22,7 @@ const Title = styled.Text({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.black,
+
+  flexShrink: 1,
 });
 export default TextTitle;

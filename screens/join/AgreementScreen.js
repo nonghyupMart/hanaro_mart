@@ -16,7 +16,7 @@ import { getPermissionsAsync } from "expo-notifications";
 import colors from "@constants/colors";
 
 import BaseScreen from "@components/BaseScreen";
-import { BaseButton, ButtonText } from "@UI/BaseUI";
+import { BaseButtonContainer, ButtonText } from "@UI/BaseUI";
 
 import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
 
@@ -231,10 +231,10 @@ const NoticeText = styled.Text({
   marginBottom: 48,
 });
 
-const GreenButton = styled(BaseButton)({
+const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.pine,
 });
-const BlueButton = styled(BaseButton)({
+const BlueButton = styled(BaseButtonContainer)({
   backgroundColor: colors.cerulean,
 });
 const TextBox = styled.View({

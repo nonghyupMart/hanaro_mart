@@ -192,7 +192,7 @@ const HomeScreen = ({ navigation }) => {
     setIsLoading(true);
     authHandler().then(() => {
       setIsLoading(false);
-      console.log("authHandler().then(() => ", testItem);
+      // console.log("authHandler().then(() => ", testItem);
     });
 
     // setTestItem();

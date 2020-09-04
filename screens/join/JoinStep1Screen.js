@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { View, Text, StyleSheet, Button } from "react-native";
 import styled from "styled-components/native";
-import { BaseButton, ButtonText } from "@UI/BaseUI";
+import { BaseButtonContainer, ButtonText } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 
-const GreenButton = styled(BaseButton)({
+const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.appleGreen,
   marginRight: 2.5,
 });
-const BlueButton = styled(BaseButton)({
+const BlueButton = styled(BaseButtonContainer)({
   backgroundColor: colors.cerulean,
   marginLeft: 2.5,
 });
@@ -39,8 +39,10 @@ const JoinStep1Screen = ({ navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
+
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: (props) => <></>,
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },

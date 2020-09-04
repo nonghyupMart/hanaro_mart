@@ -7,22 +7,66 @@ module.exports = function (location) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마커 생성하기</title>
        <style>
-#container {overflow:hidden;height:300px;position:relative;}
+      html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+#container {overflow:hidden;height:380px;position:relative; background:black}
 #btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
 #btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
 #container.view_map #mapWrapper {z-index: 10;}
 #container.view_map #btnMap {display: none;}
 #container.view_roadview #mapWrapper {z-index: 0;}
 #container.view_roadview #btnRoadview {display: none;}
+window, document, body {background:#e8e8e8 !important}
 </style>
 </head>
-<body>
-<div id="container" class="view_map">
-    <div id="mapWrapper" style="width:100%;height:300px;position:relative;">
+<body >
+<div id="container" class="view_map" > 
+    <div id="mapWrapper" style="width:100%;height:380px;position:relative;">
         <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
        <input type="button" id="btnRoadview" onclick="roadMap()" title="로드뷰 보기" value="로드뷰"> 
     </div>
-    <div id="rvWrapper" style="width:100%;height:300px;position:absolute;top:0;left:0;">
+     <div id="rvWrapper" style="width:100%;height:300px;position:absolute;top:0;left:0;">
         <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
         <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
     </div>
@@ -38,6 +82,10 @@ var container = document.getElementById('container'), // 지도와 로드뷰를 
     rvContainer = document.getElementById('roadview'), // 로드뷰를 표시할 div 입니다
     mapContainer = document.getElementById('map'); // 지도를 표시할 div 입니다
 
+container.height = window.outerWidth;
+mapWrapper.height = window.outerWidth;
+mapContainer.height = window.outerWidth;
+
 
 // 지도와 로드뷰 위에 마커로 표시할 특정 장소의 좌표입니다
 
@@ -51,11 +99,9 @@ var container = document.getElementById('container'), // 지도와 로드뷰를 
     location && location.coords ? location.coords.longitude : "127.043407"
   }
       );
-
-
-
  
      
+
 
 var mapOption = { 
         center: placePosition, // 지도의 중심좌표

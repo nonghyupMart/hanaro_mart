@@ -1,9 +1,19 @@
+import React from "react";
 import styled from "styled-components/native";
-import BaseTouchable from "@components/BaseTouchable";
-import { Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
-export const BaseButton = styled(BaseTouchable)({
-  width: width * 0.44,
+import { Dimensions, TouchableOpacity } from "react-native";
+export const { width: screenWidth, height: screenHeight } = Dimensions.get(
+  "window"
+);
+export const StyleConstants = { defaultPadding: 16 };
+export const BaseTouchable = (props) => {
+  return (
+    <TouchableOpacity activeOpacity={0.8} {...props}>
+      {props.children}
+    </TouchableOpacity>
+  );
+};
+export const BaseButtonContainer = styled(BaseTouchable)({
+  width: screenWidth * 0.44,
   height: 42,
   borderRadius: 21,
   justifyContent: "center",
@@ -16,6 +26,6 @@ export const ButtonText = styled.Text({
   color: colors.trueWhite,
 });
 
-export const BaseSquareButton = styled(BaseButton)({
+export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
   borderRadius: 8,
 });
