@@ -1,4 +1,5 @@
 import { AsyncStorage } from "react-native";
+import { SERVER_URL } from "@constants/settings";
 
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
@@ -26,7 +27,7 @@ export const authenticate = (userId, token, expiryTime) => {
 
 export const test = () => {
   return async (dispatch) => {
-    const response = await fetch("http://dv-www.hanaromartapp.com/api/lname", {
+    const response = await fetch(`${SERVER_URL}lname`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,22 +50,19 @@ export const test = () => {
   };
 };
 
-export const signup = (email, password) => {
+export const signup = (user_id) => {
   return async (dispatch) => {
-    const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    );
+    const response = await fetch(`${SERVER_URL}users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: email,
+        password: password,
+        returnSecureToken: true,
+      }),
+    });
 
     if (!response.ok) {
       const errorResData = await response.json();

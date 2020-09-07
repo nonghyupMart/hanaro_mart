@@ -78,6 +78,8 @@ const Message = styled.Text({
   marginTop: 36,
   alignItems: "center",
   textAlign: "center",
+  marginLeft: 18,
+  marginRight: 18,
 });
 const Icon = styled.View({ position: "absolute", left: 12, top: 12 });
 const Container = styled.View({

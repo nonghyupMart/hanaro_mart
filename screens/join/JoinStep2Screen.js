@@ -36,7 +36,7 @@ const JoinStep2Screen = ({ navigation }) => {
     setAlert({
       content: popupConetnt(),
       onPressConfirm: () => {
-        setAlert({ content: null });
+        setAlert(null);
         navigation.reset({
           index: 0,
           routes: [{ name: "StoreSetup" }],
@@ -45,20 +45,33 @@ const JoinStep2Screen = ({ navigation }) => {
     });
   };
 
+  const requestOTP = () => {
+    if (phoneNumber) {
+      window.alert("인증번호는 0000 입니다.");
+      setJoinStep([true, false]);
+    }
+  };
+
   return (
-    <BaseScreen alert={alert}>
+    <BaseScreen
+      alert={alert}
+      removeClippedSubviews={false}
+      keyboardDismissMode="none"
+      keyboardShouldPersistTaps="handled"
+    >
       <TextInputContainer style={{ marginBottom: 7 }}>
         <Image source={require("@images/ic_phone_iphone_24px.png")} />
         <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
         <InputText
-          required
+          autoFocus={true}
           keyboardType="numeric"
           maxLength={11}
           value={phoneNumber}
+          onChangeText={(text) => setPhoneNumber(text)}
           placeholder="- 없이 입력하세요."
         />
       </TextInputContainer>
-      <BlackButton onPress={() => setJoinStep([true, false])}>
+      <BlackButton onPress={() => requestOTP()}>
         <ButtonText>인증번호 신청</ButtonText>
       </BlackButton>
       {joinStep[0] && (

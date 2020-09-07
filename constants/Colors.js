@@ -17,4 +17,8 @@ export default colors = {
   blackTwo: "#262626",
   mango: "#ffbb30",
   rustRed: "#a72004",
+  greyishTwo: "#b2b2b2",
+  pineGreen: "#145e30",
+  whiteTwo: "#d9d9d9",
+  greyishThree: "#b5b5b5",
 };

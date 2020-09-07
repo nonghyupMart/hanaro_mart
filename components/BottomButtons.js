@@ -1,7 +1,16 @@
 import React from "react";
-import { Text, TouchableOpacity, StyleSheet, SafeAreaView } from "react-native";
+import styled from "styled-components/native";
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  View,
+} from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
@@ -12,7 +21,7 @@ const BottomButtons = (props) => {
   );
   if (isBottomNavigation)
     return (
-      <SafeAreaView style={styles.container}>
+      <Container>
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.icons}
@@ -20,8 +29,10 @@ const BottomButtons = (props) => {
             RootNavigation.navigate("Home");
           }}
         >
-          <Icon type="ionicon" name="ios-home" />
-          <Text style={styles.center}>홈</Text>
+          <IconContainer>
+            <MaterialIcons name="home" size={26} color={colors.greyishTwo} />
+            <IconText style={styles.center}>홈</IconText>
+          </IconContainer>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -30,17 +41,24 @@ const BottomButtons = (props) => {
             RootNavigation.navigate("MyCoupon");
           }}
         >
-          <Icon type="material-community" name="ticket-account" />
-          <Text style={styles.center}>나의 쿠폰</Text>
+          <IconContainer>
+            <Entypo
+              name="ticket"
+              size={26}
+              color="black"
+              color={colors.greyishTwo}
+            />
+            <IconText style={styles.center}>나의 쿠폰</IconText>
+          </IconContainer>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.icons}
-          activeOpacity={0.7}
+          style={[styles.icons, { marginTop: 0, marginBottom: 5 }]}
+          activeOpacity={1}
           onPress={() => {
             RootNavigation.navigate("RingPicker");
           }}
         >
-          <Icon type="font-awesome-5" name="chrome" size={55} />
+          <Image source={require("@images/hana_logo.png")} />
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -49,8 +67,10 @@ const BottomButtons = (props) => {
             RootNavigation.navigate("Flyer");
           }}
         >
-          <Icon type="octicon" name="person" />
-          <Text style={styles.center}>마이페이지</Text>
+          <IconContainer>
+            <MaterialIcons name="person" size={26} color={colors.greyishTwo} />
+            <IconText style={styles.center}>마이페이지</IconText>
+          </IconContainer>
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -59,14 +79,50 @@ const BottomButtons = (props) => {
             Linking.openURL("tel:+123456789");
           }}
         >
-          <Icon type="ionicon" name="ios-call" />
-          <Text style={styles.center}>매장전화</Text>
+          <IconContainer>
+            <MaterialIcons name="call" size={26} color={colors.greyishTwo} />
+            <IconText style={styles.center}>매장전화</IconText>
+          </IconContainer>
         </TouchableOpacity>
-      </SafeAreaView>
+      </Container>
     );
   else return <></>;
 };
 
+const IconContainer = styled.View({
+  flex: 1,
+  alignItems: "center",
+  justifyContent: "center",
+});
+const IconText = styled.Text({
+  fontSize: 12,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 17,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+});
+const Container = styled.View({
+  flex: 1,
+  height: 66,
+  backgroundColor: colors.trueWhite,
+  shadowColor: colors.black16,
+  shadowOffset: {
+    width: 3,
+    height: 0,
+  },
+  shadowRadius: 6,
+  shadowOpacity: 1,
+  flexDirection: "row",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+  // justifyContent: "center",
+  alignItems: "center",
+  elevation: 10,
+});
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
@@ -85,6 +141,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
+    marginTop: 9,
+    flexDirection: "column",
   },
   center: {
     flex: 1,

@@ -23,7 +23,6 @@ import {
   StyleConstants,
 } from "@UI/BaseUI";
 
-import * as Location from "expo-location";
 import * as Linking from "expo-linking";
 import colors from "@constants/colors";
 
@@ -32,7 +31,7 @@ import BaseScreen from "@components/BaseScreen";
 import StoreChangeDetail from "@components/store/StoreChangeDetail";
 
 import * as branchesActions from "@actions/branches";
-
+import { setAgreePolicy } from "@actions/auth";
 const StoreChangeDetailScreen = (props) => {
   const dispatch = useDispatch();
   const isAgreed = useSelector((state) => state.auth.isAgreed);
@@ -50,7 +49,7 @@ const StoreChangeDetailScreen = (props) => {
         title: "매장변경",
         headerLeft: (props) => <BackButton {...props} />,
       });
-  }, [isAgreed]);
+  }, [dispatch]);
   const address1 = useSelector((state) => state.branches.address1);
 
   const onPickerSelect = (index) => {
@@ -63,35 +62,57 @@ const StoreChangeDetailScreen = (props) => {
   };
   let [webView, setWebview] = useState(null);
   const [location, setLocation] = useState(null);
+  const [oldLocation, setOldLocation] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-      }
-
-      let provider = await Location.getProviderStatusAsync();
-      // console.log(provider);
-      if (location == null) {
-        let location = await Location.getCurrentPositionAsync({
-          maximumAge: 60000, // only for Android
-          accuracy: Platform.Android
-            ? Location.Accuracy.Low
-            : Location.Accuracy.Lowest,
-        });
-        setLocation(location);
-        // console.log(location);
-      }
-    })();
-  });
   const onMessage = (obj) => {
     // console.log(obj.nativeEvent.data);
     Linking.openURL(obj.nativeEvent.data);
   };
+  const [alert, setAlert] = useState();
+  const storeChangeHandler = () => {
+    const msg = `기존 매장에서 사용하신 스탬프와\n쿠폰은 변경매장에서 보이지 않으며\n기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
+    setAlert({
+      message: msg,
+      onPressConfirm: () => {
+        setAlert(null);
+        setStore();
+      },
+      onPressCancel: () => {
+        setAlert(null);
+      },
+    });
+  };
+  const setStore = () => {
+    const msg = `을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
+    setAlert({
+      message: msg,
+      onPressConfirm: () => {
+        setAlert(null);
+        if (!isAgreed) dispatch(setAgreePolicy(true));
+        else {
+          props.navigation.popToTop();
+        }
+      },
+    });
+  };
+  useEffect(() => {
+    setLocation("something");
+  }, []);
+  const _onNavigationStateChange = (newNavState) => {
+    // console.warn(location);
+    // if (location !== null) setOldLocation(location);
+    // if (location !== null && location === oldLocation) {
+    //   webView.stopLoading();
+    //   return;
+    // }
+    // const { url } = newNavState;
+    // console.warn(newNavState);
+    // if (!url) return;
+  };
 
   return (
     <BaseScreen
+      alert={alert}
       isInitialized={location === undefined ? false : location}
       style={{
         backgroundColor: colors.trueWhite,
@@ -104,8 +125,16 @@ const StoreChangeDetailScreen = (props) => {
       }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
-      <StoreBox style={{ height: screenWidth, flexDirection: "row" }}>
+      <StoreBox
+        style={{
+          height: screenWidth,
+          flexDirection: "row",
+          overflow: "hidden",
+          flex: 1,
+        }}
+      >
         <WebView
+          style={{ opacity: 0.99 }}
           ref={(wv) => (webView = wv)}
           key={location}
           scalesPageToFit={true}
@@ -116,8 +145,20 @@ const StoreChangeDetailScreen = (props) => {
           allowUniversalAccessFromFileURLs={true}
           allowFileAccessFromFileURLs={true}
           mixedContentMode="always"
-          source={{ html: require("../../map.js")(location) }}
-          // onNavigationStateChange={_onNavigationStateChange.bind(this)}
+          sharedCookiesEnabled={true}
+          source={{
+            // uri: "https://github.com/facebook/react-native",
+            html: require("../../map.js")(location),
+          }}
+          onShouldStartLoadWithRequest={(request) => {
+            console.warn(request.url);
+            // If we're loading the current URI, allow it to load
+            if (request.url === currentURI) return true;
+            // We're loading a new URL -- change state first
+            setURI(request.url);
+            return false;
+          }}
+          onNavigationStateChange={_onNavigationStateChange.bind(this)}
           startInLoadingState={false}
           onMessage={onMessage}
         />
@@ -196,7 +237,9 @@ const StoreChangeDetailScreen = (props) => {
                 Tel. 0234981100
               </Text>
             </View>
-            <BaseTouchable>
+            <BaseTouchable
+              onPress={() => (isAgreed ? storeChangeHandler() : setStore())}
+            >
               <View
                 style={{
                   width: 53,

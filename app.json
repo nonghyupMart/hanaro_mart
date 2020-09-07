@@ -7,11 +7,6 @@
     "privacy": "public",
     "platforms": ["ios", "android"],
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -20,9 +15,24 @@
       "buildNumber": "1.0.0",
       "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": true,
-      "googleServicesFile": "./GoogleService-info.plist"
+      "googleServicesFile": "./GoogleService-info.plist",
+      "splash": {
+        "backgroundColor": "#ffffff",
+        "resizeMode": "cover",
+        "image": "./assets/splash/ios/img1242x2436.png",
+        "hideExponentText": true
+      }
     },
     "android": {
+      "splash": {
+        "mdpi": "./assets/splash/and/img320x480.png",
+        "hdpi": "./assets/splash/and/img480x800.png",
+        "xhdpi": "./assets/splash/and/img720x1280.png",
+        "xxhdpi": "./assets/splash/and/img960x1600.png",
+        "xxxhdpi": "./assets/splash/and/img1080x1920.png",
+        "hideExponentText": true,
+        "backgroundColor": "#ffffff"
+      },
       "googleServicesFile": "./google-services.json",
       "versionCode": 1,
       "package": "com.hanaroPlus.hanaroPlus",

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components/native";
 import {
   SafeAreaView,
   View,
@@ -9,6 +10,7 @@ import {
   FlatList,
   ScrollView,
   Dimensions,
+  TouchableNativeFeedback,
 } from "react-native";
 import { CommonActions } from "@react-navigation/native";
 import { Input } from "react-native-elements";
@@ -16,7 +18,7 @@ import URI from "urijs";
 import ScrollableTabView, {
   ScrollableTabBar,
 } from "react-native-scrollable-tab-view";
-
+import BaseScreen from "@components/BaseScreen";
 import Carousel from "react-native-looped-carousel";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -29,71 +31,13 @@ import FlyerItem from "../../components/FlyerItem";
 import FlyerDetail from "../../components/FlyerDetail";
 const { width, height } = Dimensions.get("window");
 import * as authActions from "@actions/auth";
+import { StyleConstants } from "@UI/BaseUI";
 
 const HomeScreen = ({ navigation }) => {
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(0);
   const pushToken = useSelector((state) => state.auth.pushToken);
 
-  const [flyerItems, setFlyerItems] = useState([
-    {
-      id: 0,
-      title: "양재점",
-    },
-    {
-      id: 1,
-      title: "천안점",
-    },
-    {
-      id: 2,
-      title: "마포점",
-    },
-    {
-      id: 3,
-      title: "이태원점",
-    },
-    {
-      id: 4,
-      title: "홍대점",
-    },
-    {
-      id: 5,
-      title: "안산점",
-    },
-  ]);
-
-  const loadMore = () => {
-    // if (page == 0) {
-    setFlyerItems(() => [
-      ...flyerItems,
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "양재점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "천안점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "마포점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "이태원점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "홍대점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "안산점" + Math.floor(Math.random() * 100),
-      },
-    ]);
-    //   setPage(() => page + 1);
-    // }
-  };
   const state = {
     size: { width, height },
   };
@@ -207,63 +151,15 @@ const HomeScreen = ({ navigation }) => {
     return <></>;
   if (!isLoading)
     return (
-      <SafeAreaView style={styles.screen}>
-        {testItem && (
-          <FlatList
-            data={testItem.lnameList}
-            keyExtractor={(item) => item.lname}
-            renderItem={(itemData) => {
-              // console.log(itemData);
-              return <Text>{itemData.item.lname}</Text>;
-            }}
-          />
-        )}
-        <ScrollableTabView
-          locked={false}
-          initialPage={1}
-          renderTabBar={() => <ScrollableTabBar />}
-        >
-          <ScrollView tabLabel="ios-paper" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>News</Text>
-            </View>
-          </ScrollView>
-          <ScrollView tabLabel="ios-people" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>Friends</Text>
-            </View>
-          </ScrollView>
-          <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>Messenger</Text>
-            </View>
-          </ScrollView>
-          <ScrollView tabLabel="ios-notifications" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>Notifications</Text>
-            </View>
-          </ScrollView>
-          <ScrollView tabLabel="ios-list" style={styles.tabView}>
-            <View style={styles.card}>
-              <Text>Other nav</Text>
-            </View>
-          </ScrollView>
-        </ScrollableTabView>
-        {/* <StoreListPopup isVisible={isVisible} /> */}
+      <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
         <ScrollList
           onScroll={onScrollHandler.bind(this)}
           style={{ flex: 1, width: "100%" }}
           renderItem={({ item, index, separators }) => (
             <View>
-              <View style={styles.content1}>
-                <Button
-                  title="전단 상세"
-                  onPress={() => navigation.navigate("FlyerDetail")}
-                />
-              </View>
               <Carousel
                 delay={2000}
-                style={{ flex: 1, height: 100 }}
+                style={{ flex: 1, height: width * 0.608 }}
                 autoplay
                 pageInfo
               >
@@ -278,86 +174,74 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </Carousel>
               <WebView
-                style={{ flex: 1, height: 300 }}
+                style={{ flex: 1, height: width * 0.555, opacity: 0.99 }}
                 javaScriptEnabled={true}
                 source={{
                   html: require("../../youtubePlayer.js")(videoId),
                 }}
               />
 
-              <View style={styles.content2}>
-                <Button
-                  title="팝업"
-                  onPress={() => {
-                    setIsAlertVisible((value) => !value);
-                  }}
-                />
-              </View>
-              <View style={styles.content2}>
-                <Button
-                  title="Trigger Notification"
-                  onPress={() => triggerNotificationHandler()}
-                />
-              </View>
               <FlatList
                 initialNumToRender={6}
                 onEndReachedThreshold={60}
                 onEndReached={() => {
                   // alert("onEndReached");
-                  loadMore();
+                  // loadMore();
                 }}
                 contentContainerStyle={{
                   justifyContent: "space-between",
                 }}
-                numColumns={3}
-                style={{ flexGrow: 1 }}
-                data={flyerItems}
+                numColumns={1}
+                style={{
+                  flexGrow: 1,
+                  marginLeft: StyleConstants.defaultPadding,
+                  marginRight: StyleConstants.defaultPadding,
+                  marginTop: 8,
+                }}
+                data={[1, 2, 3, 4, 5, 6]}
                 keyExtractor={(item) => item.id + ""}
                 renderItem={(itemData) => (
-                  <FlyerItem
-                    onPress={popupHandler.bind(this, itemData.item)}
-                    title={itemData.item.title}
-                    keyExtractor={() => itemData.item.id}
-                  />
+                  <TouchableNativeFeedback onPress={() => {}}>
+                    <NoticeItemContainer>
+                      <View>
+                        <View></View>
+                        <NoticeTitle>
+                          2020년 고객 감사 영수증 이벤트
+                        </NoticeTitle>
+                      </View>
+                      <NoticeTitle>2020.07.20</NoticeTitle>
+                    </NoticeItemContainer>
+                  </TouchableNativeFeedback>
                 )}
               />
             </View>
           )}
         />
-        <AwesomeAlert
-          show={isAlertVisible}
-          showProgress={false}
-          title="AwesomeAlert"
-          message="I have a message for you!"
-          closeOnTouchOutside={false}
-          closeOnHardwareBackPress={false}
-          showCancelButton={true}
-          showConfirmButton={true}
-          cancelText="No, cancel"
-          confirmText="Yes, delete it"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            setIsAlertVisible(() => false);
-          }}
-          onConfirmPressed={() => {
-            setIsAlertVisible(() => false);
-          }}
-        />
-        <FlyerDetail
-          item={currentItem}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      </SafeAreaView>
+      </BaseScreen>
     );
 };
+const NoticeTitle = styled.Text({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+});
+const NoticeItemContainer = styled.View({
+  flexDirection: "row",
+  flex: 1,
+  marginTop: 3,
+  marginBottom: 3,
 
+  justifyContent: "space-between",
+});
 const styles = StyleSheet.create({
   screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    paddingLeft: 0,
+    paddingRight: 0,
+    backgroundColor: colors.trueWhite,
   },
   viewPager: {
     flex: 1,

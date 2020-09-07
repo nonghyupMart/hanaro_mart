@@ -23,18 +23,19 @@ import {
   StyleConstants,
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
-
+import * as Location from "expo-location";
 import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
 import StoreChangeDetail from "@components/store/StoreChangeDetail";
 
 import * as branchesActions from "@actions/branches";
+import blueplus from "@images/plusblue.png";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const isAgreed = useSelector((state) => state.auth.isAgreed);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
   const [selectedItem, setSelectedItem] = useState(2);
@@ -68,16 +69,46 @@ const StoreChangeScreen = (props) => {
     else props.navigation.navigate("StoreSetupDetail");
   };
 
+  const [location, setLocation] = useState(null);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+      }
+
+      let provider = await Location.getProviderStatusAsync();
+      // console.log(provider);
+      if (location == null) {
+        let location = await Location.getCurrentPositionAsync({
+          maximumAge: 60000, // only for Android
+          accuracy: Platform.Android
+            ? Location.Accuracy.Low
+            : Location.Accuracy.Lowest,
+        });
+        setLocation(location);
+        // console.log(location);
+      }
+    })();
+  }, [dispatch]);
+
   return (
     <BaseScreen
       isLoading={isLoading}
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
-      <StoreBox style={{ height: 130 }}>
+      <StoreBox style={{}}>
         <Plus />
         <BlueText>나의 매장을 설정해 주세요</BlueText>
-        <BottomCover />
+        <BottomCover
+          onLoadStart={() => {
+            // setIsLoading(true);
+          }}
+          onLoad={(e) => {
+            setIsLoading(false);
+          }}
+        />
       </StoreBox>
       <WhiteContainer>
         <View
@@ -296,13 +327,16 @@ const WhiteContainer = styled.View({
   backgroundColor: colors.trueWhite,
   flex: 1,
 });
-const BottomCover = styled.ImageBackground({
+const BottomCover = styled.Image({
   width: "100%",
   height: 22,
   position: "absolute",
   bottom: 0,
   left: 0,
   right: 0,
+  overflow: "visible",
+  backfaceVisibility: "visible",
+  flex: 1,
 });
 BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
@@ -321,12 +355,13 @@ const BlueText = styled.Text({
 const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
 Plus.defaultProps = {
-  source: require("@images/plusblue.png"),
+  source: blueplus,
+  defaultSource: blueplus,
 };
 const StoreBox = styled.View({
   flex: 1,
   width: "100%",
-  height: 130,
+
   backgroundColor: colors.white,
 
   alignItems: "center",

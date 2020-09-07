@@ -57,13 +57,15 @@ const BaseScreen = (props) => {
     <Screen headerHeight={useHeaderHeight()} style={props.style}>
       {isScroll && (
         <ScrollList
-          windowSize={5}
+          // keyboardDismissMode="none"
+          // keyboardShouldPersistTaps="always"
+          windowSize={props.windowSize ? props.windowSize : 5}
           style={props.scrollListStyle}
           headerHeight={useHeaderHeight()}
           {...props}
           contentContainerStyle={[styles.safeAreaView]}
           data={[0]}
-          keyExtractor={(item) => `${item + Math.random()}`}
+          keyExtractor={(item) => `${item}`}
           renderItem={() => (
             <ContentContainer style={[props.contentStyle]}>
               <Contents {...props} />

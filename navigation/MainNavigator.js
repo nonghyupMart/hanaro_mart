@@ -26,7 +26,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Ionicons } from "@expo/vector-icons";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Input } from "react-native-elements";
-import { HeaderButton } from "@UI/header";
+import { HeaderButton, LogoTitle } from "@UI/header";
 import BottomButtons from "@components/BottomButtons";
 import CustomDrawerContent from "@UI/CustomDrawerContent";
 import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
@@ -353,30 +353,62 @@ export const HomeNavigator = () => {
   );
 };
 
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import colors from "constants/colors";
+
 export const HomeScreenOptions = ({ navigation }) => {
   return {
-    headerTitle: "하나로",
+    headerStyle: { elevation: 0, shadowOpacity: 0 },
+    headerTitle: (props) => <LogoTitle {...props} />,
     headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
-          title="Menu"
-          iconName="ios-menu"
+          iconSize={30}
+          IconComponent={MaterialIcons}
+          title="메뉴"
+          iconName="menu"
           onPress={() => {
             navigation.dispatch(DrawerActions.toggleDrawer());
           }}
+          color={colors.pine}
         />
       </HeaderButtons>
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
-          title="Notification"
-          iconName={Platform.OS === "android" ? "md-search" : "md-search"}
+          IconComponent={MaterialIcons}
+          iconSize={24}
+          title="검색"
+          iconName="search"
           onPress={() => {
             animate();
           }}
+          color={colors.pine}
+          style={{ marginRight: 0, marginLeft: 0 }}
         />
         <Item
+          IconComponent={MaterialIcons}
+          iconSize={24}
+          title="알림"
+          iconName="notifications-none"
+          onPress={() => {
+            animate();
+          }}
+          color={colors.pine}
+        />
+        <Item
+          iconSize={24}
+          IconComponent={MaterialCommunityIcons}
+          title="장바구니"
+          iconName="cart-outline"
+          onPress={() => {
+            animate();
+          }}
+          color={colors.pine}
+        />
+        {/* <Item
           title="Scanner"
           iconName={
             Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
@@ -384,7 +416,7 @@ export const HomeScreenOptions = ({ navigation }) => {
           onPress={() => {
             navigation.navigate("BarCodeScanner");
           }}
-        />
+        /> */}
       </HeaderButtons>
     ),
   };
@@ -407,8 +439,9 @@ export const MainNavigator = () => {
 };
 
 const drawerStyle = {
-  backgroundColor: "#c6cbef",
-  width: 240,
+  backgroundColor: colors.trueWhite,
+  width: width * 0.791,
+  maxWidth: 285,
   activeTintColor: "black",
   inactiveTintColor: "black",
   labelStyle: {

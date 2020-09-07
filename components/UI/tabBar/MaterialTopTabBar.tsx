@@ -21,10 +21,11 @@ import { useSafeArea } from "react-native-safe-area-context";
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
+import ConstantsColors from "@constants/colors";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";
-const DEFAULT_TABBAR_HEIGHT = 49;
+const DEFAULT_TABBAR_HEIGHT = 34;
 const DEFAULT_MAX_TAB_ITEM_WIDTH = 125;
 
 export default function TabBarTop(props: MaterialTopTabBarProps) {
@@ -34,13 +35,13 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
     state,
     navigation,
     descriptors,
-    activeTintColor = colors.text,
-    inactiveTintColor = Color(activeTintColor).alpha(0.5).rgb().string(),
+    activeTintColor = ConstantsColors.black,
+    inactiveTintColor = ConstantsColors.black,
     allowFontScaling = true,
     keyboardHidesTabBar = false,
     showIcon = false,
     showLabel = true,
-    pressColor = Color(activeTintColor).alpha(0.08).rgb().string(),
+    pressColor = ConstantsColors.black,
     iconStyle,
     labelStyle,
     indicatorStyle,
@@ -157,9 +158,12 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
       navigationState={state}
       activeColor={activeTintColor}
       inactiveColor={inactiveTintColor}
-      indicatorStyle={[{ backgroundColor: colors.primary }, indicatorStyle]}
+      indicatorStyle={[
+        { backgroundColor: ConstantsColors.pineGreen, height: 4 },
+        indicatorStyle,
+      ]}
       style={[{ backgroundColor: colors.card }, style]}
-      pressColor={pressColor}
+      pressColor={ConstantsColors.trueWhite}
       getAccessibilityLabel={({ route }) =>
         descriptors[route.key].options.tabBarAccessibilityLabel
       }
@@ -243,10 +247,15 @@ const styles = StyleSheet.create({
     width: 24,
   },
   label: {
-    textAlign: "center",
     textTransform: "uppercase",
-    fontSize: 13,
-    margin: 4,
+
     backgroundColor: "transparent",
+    fontSize: 16,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 24,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: ConstantsColors.black,
   },
 });
