@@ -21,6 +21,7 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
+  BaseText,
 } from "@UI/BaseUI";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import * as Linking from "expo-linking";
@@ -245,7 +246,7 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -299,7 +300,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "cover",
 };
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "500",
   fontStyle: "normal",

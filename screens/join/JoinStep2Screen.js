@@ -20,6 +20,7 @@ import {
   BaseSquareButtonContainer,
   ButtonText,
   BaseButtonContainer,
+  BaseText
 } from "@UI/BaseUI";
 
 import { setAgreePolicy } from "../../store/actions/auth";
@@ -128,7 +129,7 @@ const JoinStep2Screen = ({ navigation }) => {
 };
 
 const popupConetnt = () => {
-  const GreenText = styled.Text({
+  const GreenText = styled(BaseText)({
     fontSize: 18,
     fontWeight: "normal",
     fontStyle: "normal",
@@ -137,7 +138,7 @@ const popupConetnt = () => {
     textAlign: "center",
     color: colors.appleGreen,
   });
-  const WhiteText = styled.Text({
+  const WhiteText = styled(BaseText)({
     fontSize: 24,
     color: colors.trueWhite,
     textAlign: "center",
@@ -152,7 +153,7 @@ const popupConetnt = () => {
     marginRight: 29,
     flexShrink: 1,
   });
-  const SmallText = styled.Text({
+  const SmallText = styled(BaseText)({
     fontSize: 14,
     fontWeight: "normal",
     fontStyle: "normal",
@@ -193,7 +194,7 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const ConfrimText = styled.Text({
+const ConfrimText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -219,7 +220,7 @@ const BlueButton = styled(BaseSquareButtonContainer)({
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.pine,
 });
-const Label = styled.Text({
+const Label = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",

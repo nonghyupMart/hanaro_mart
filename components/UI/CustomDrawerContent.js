@@ -12,7 +12,7 @@ import {
 } from "@react-navigation/drawer";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import { BaseTouchable, screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 import { setAgreePolicy } from "@actions/auth";
 
 const MemberInfo = (props) => (
@@ -147,7 +147,7 @@ const CustomDrawerContent = (props, dispatch) => {
   );
 };
 
-const BlackText = styled.Text({
+const BlackText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -198,7 +198,7 @@ const BlueButton = styled(BaseButtonContainer)({
   marginRight: 16,
   backgroundColor: colors.cerulean,
 });
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -207,7 +207,7 @@ const ButtonText = styled.Text({
   textAlign: "left",
   color: colors.trueWhite,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -216,7 +216,7 @@ const Text1 = styled.Text({
   textAlign: "left",
   color: "#b5b5b5",
 });
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   fontSize: 24,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -227,7 +227,7 @@ const Text2 = styled.Text({
   marginLeft: 6,
   marginRight: 9,
 });
-const Text3 = styled.Text({
+const Text3 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -236,7 +236,7 @@ const Text3 = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Text4 = styled.Text({
+const Text4 = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -287,7 +287,7 @@ const WhiteButtonContainer = styled(BaseTouchable)({
   marginTop: 3,
   marginBottom: 3,
 });
-const WButtonText = styled.Text({
+const WButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",
@@ -312,7 +312,7 @@ const MenuButtonContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const MenuText = styled.Text({
+const MenuText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",

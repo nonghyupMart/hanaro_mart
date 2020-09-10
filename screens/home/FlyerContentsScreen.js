@@ -1,42 +1,22 @@
-import React, { useState } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  Image,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  Easing,
-} from "react-native";
-import {
-  TabView,
-  TabBar,
-  SceneMap,
-  NavigationState,
-  SceneRendererProps,
-} from "react-native-tab-view";
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, Image, FlatList, Dimensions } from "react-native";
 import BaseScreen from "@components/BaseScreen";
-import { BaseTouchable, StyleConstants } from "@UI/BaseUI";
-import CouponForProductScreen from "./CouponForProductScreen";
-import CouponForTotalScreen from "./CouponForTotalScreen";
+import { BaseTouchable } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
-import Carousel from "react-native-looped-carousel";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import * as flyerActions from "@actions/flyer";
 import FlyerItem from "../../components/FlyerItem";
 import FlyerDetail from "../../components/FlyerDetail";
-const { width, height } = Dimensions.get("window");
-const initialLayout = { width: Dimensions.get("window").width };
+import { useFocusEffect } from "@react-navigation/native";
+
+const { width } = Dimensions.get("window");
 
 const FlyerContentsScreen = (props) => {
-  const { navigation } = props;
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const [currentItem, setCurrentItem] = useState(null);
-  const [page, setPage] = useState(0);
-  const pushToken = useSelector((state) => state.auth.pushToken);
+
   const [flyerItems, setFlyerItems] = useState([
     {
       id: 0,
@@ -87,48 +67,30 @@ const FlyerContentsScreen = (props) => {
       title: "안산점",
     },
   ]);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const leaflet = useSelector((state) => state.flyer.leaflet);
+  const product = useSelector((state) => state.flyer.product);
+  useEffect(() => {
+    console.log("props **** ", props);
+    setIsLoading(true);
+    if (userStore && leaflet) {
+      const leaf_cd = leaflet.leafletList[props.number].leaf_cd;
 
-  const loadMore = () => {
-    // if (page == 0) {
-    setFlyerItems(() => [
-      ...flyerItems,
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "양재점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "천안점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "마포점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "이태원점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "홍대점" + Math.floor(Math.random() * 100),
-      },
-      {
-        id: Math.random().toString(36).substring(7),
-        title: "안산점" + Math.floor(Math.random() * 100),
-      },
-    ]);
-    //   setPage(() => page + 1);
-    // }
-  };
-  const state = {
-    size: { width, height },
-  };
-  const images = [
-    "https://placeimg.com/640/640/nature",
-    "https://placeimg.com/640/640/people",
-    "https://placeimg.com/640/640/animals",
-    "https://placeimg.com/640/640/beer",
-  ];
+      const requestProduct = dispatch(
+        flyerActions.fetchProduct({
+          store_cd: userStore.store_cd,
+          leaf_cd: leaf_cd,
+        })
+      );
+
+      Promise.all([requestProduct]).then(() => {
+        setIsLoading(false);
+        // console.log(homeBanner);
+      });
+    }
+  }, [props.number]);
+
+  const loadMore = () => {};
   const [isVisible, setIsVisible] = useState(false);
 
   const popupHandler = (item) => {
@@ -136,60 +98,54 @@ const FlyerContentsScreen = (props) => {
     setCurrentItem(() => item);
   };
 
-  const onPressLeft = () => {};
   return (
-    <BaseScreen style={{ backgroundColor: colors.trueWhite }}>
+    <BaseScreen
+      style={{ backgroundColor: colors.trueWhite }}
+      isLoading={isLoading}
+    >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <FlatList
-        keyExtractor={(item) => item + ""}
-        data={[0]}
-        style={{ flex: 1, width: "100%" }}
-        renderItem={({ item, index, separators }) => (
-          <View>
-            <BaseTouchable
-              onPress={() => RootNavigation.navigate("FlyerDetail")}
-            >
-              <Image
-                style={{
-                  flex: 1,
-                  height: width * 0.283,
-                  resizeMode: "cover",
-                }}
-                source={{
-                  uri:
-                    "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-                }}
-              />
-            </BaseTouchable>
-            <Text>{props.number}</Text>
-            <View style={{ flexDirection: "row" }}>
-              <Button title="<" onPress={() => props.goLeft(props.number)} />
-              <Button title=">" onPress={() => props.goRight(props.number)} />
-            </View>
-            <FlatList
-              onEndReachedThreshold={60}
-              onEndReached={() => {
-                // alert("onEndReached");
-                loadMore();
-              }}
-              contentContainerStyle={{
-                justifyContent: "space-between",
-              }}
-              numColumns={3}
-              style={{ flexGrow: 1 }}
-              data={flyerItems}
-              keyExtractor={(item) => item.id + ""}
-              renderItem={(itemData) => (
-                <FlyerItem
-                  onPress={popupHandler.bind(this, itemData.item)}
-                  title={itemData.item.title}
-                  keyExtractor={() => itemData.item.id}
-                />
-              )}
+
+      <BaseTouchable
+        onPress={() => RootNavigation.navigate("FlyerDetail")}
+        style={{ height: width * 0.283, flex: 1, width: width }}
+      >
+        <Image
+          style={{
+            flex: 1,
+            resizeMode: "cover",
+          }}
+          source={{
+            uri:
+              "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
+          }}
+        />
+      </BaseTouchable>
+      <Text>{props.number}</Text>
+      <View style={{ flexDirection: "row" }}>
+        <Button title="<" onPress={() => props.goLeft(props.number)} />
+        <Button title=">" onPress={() => props.goRight(props.number)} />
+      </View>
+      {product && (
+        <FlatList
+          onEndReachedThreshold={60}
+          // onEndReached={() => {
+          //   // alert("onEndReached");
+          //   // loadMore();
+          // }}
+          columnWrapperStyle={{ justifyContent: "flex-start" }}
+          numColumns={3}
+          style={{ flexGrow: 1, flex: 1, width: "100%" }}
+          data={product.productList}
+          keyExtractor={(item) => item.id + ""}
+          renderItem={(itemData) => (
+            <FlyerItem
+              onPress={popupHandler.bind(this, itemData.item)}
+              item={itemData.item}
             />
-          </View>
-        )}
-      />
+          )}
+        />
+      )}
+
       <FlyerDetail
         item={currentItem}
         isVisible={isVisible}
@@ -199,83 +155,4 @@ const FlyerContentsScreen = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-  },
-  viewPager: {
-    flex: 1,
-  },
-  page: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  slider: { backgroundColor: "#000", height: 350 },
-  content1: {
-    flex: 1,
-    width: "100%",
-    height: 50,
-    marginBottom: 10,
-    backgroundColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  content2: {
-    width: "100%",
-    height: 100,
-    marginTop: 10,
-    backgroundColor: "#000",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  contentText: { color: "#fff" },
-  buttons: {
-    zIndex: 1,
-    height: 15,
-    marginTop: -25,
-    marginBottom: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  button: {
-    margin: 3,
-    width: 15,
-    height: 15,
-    opacity: 0.9,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonSelected: {
-    opacity: 1,
-    color: "red",
-  },
-  customSlide: {
-    backgroundColor: "green",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  customImage: {
-    width: 100,
-    height: 100,
-  },
-  tabbar: {
-    height: 0,
-    width: 0,
-    backgroundColor: "#3f51b5",
-  },
-  tab: {
-    width: 0,
-  },
-  indicator: {
-    backgroundColor: "#ffeb3b",
-  },
-  label: {
-    fontWeight: "400",
-  },
-});
-
-export default FlyerContentsScreen;
+export default React.memo(FlyerContentsScreen);

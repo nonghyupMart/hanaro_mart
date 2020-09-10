@@ -30,7 +30,7 @@ import Carousel from "react-native-looped-carousel";
 import { useSelector, useDispatch } from "react-redux";
 
 import { ExtendedWebView } from "@UI/ExtendedWebView";
-import AwesomeAlert from "react-native-awesome-alerts";
+import { setUserStore } from "@actions/auth";
 
 import ScrollList from "../../components/UI/ScrollList";
 import StoreListPopup from "../../components/store/StoreListPopup";
@@ -38,11 +38,12 @@ import FlyerItem from "../../components/FlyerItem";
 
 const { width, height } = Dimensions.get("window");
 import * as authActions from "@actions/auth";
-import { StyleConstants } from "@UI/BaseUI";
+import { StyleConstants, BaseText } from "@UI/BaseUI";
 import * as homeActions from "@actions/home";
 import { IMAGE_URL } from "@constants/settings";
 
 const HomeScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(0);
@@ -60,13 +61,6 @@ const HomeScreen = ({ navigation }) => {
     });
   }, [dispatch]);
 
-  const state = {
-    size: { width, height },
-  };
-
-  const [isVisible, setIsVisible] = useState(false);
-  const [isAlertVisible, setIsAlertVisible] = useState(false);
-
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
@@ -77,38 +71,14 @@ const HomeScreen = ({ navigation }) => {
   const videoId = url.query(true).v;
   if (videoId == "") {
   }
-  // const videoId = "";
-  let offset = 0;
-
-  const dispatch = useDispatch();
-  const authHandler = async () => {
-    // let action;
-    // action = authActions.test();
-    // // setError(null);
-    // // setIsLoading(true);
-    // try {
-    //   return await dispatch(action);
-    //   return new Promise((resolve) => setTimeout(resolve, 20000));
-    //   // props.navigation.navigate('Shop');
-    // } catch (err) {
-    //   alert(err.message);
-    //   // setIsLoading(false);
-    // }
-  };
-  // const [testItem, setTestItem] = useState();
 
   useEffect(() => {
-    setIsLoading(true);
-    authHandler().then(() => {
-      setIsLoading(false);
-      // console.log("authHandler().then(() => ", testItem);
-    });
-
-    // setTestItem();
-    // const dispatch = useDispatch();
+    (async () => {
+      const userStoreData = await AsyncStorage.getItem("userStoreData");
+      const data = JSON.parse(userStoreData);
+      dispatch(setUserStore(data));
+    })();
   }, [dispatch]);
-
-  // console.log(testItem);
 
   return (
     <BaseScreen
@@ -132,7 +102,7 @@ const HomeScreen = ({ navigation }) => {
                     let imageSource = {
                       uri: IMAGE_URL + item.display_img,
                     };
-                    console.log("imageSource!", imageSource);
+                    // console.log("imageSource!", imageSource);
                     const onError = () => {
                       // console.log("error =====>");
                       imageSource = require("@images/m_img499.png");
@@ -156,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
                   })
                 ) : (
                   <Image
-                    style={{ flex: 1, height: width * 0.608 }}
+                    style={{ flex: 1, height: width * 0.608, width: width }}
                     source={require("@images/m_img499.png")}
                     resizeMode="cover"
                   />
@@ -164,7 +134,7 @@ const HomeScreen = ({ navigation }) => {
               </Carousel>
             ) : (
               <Image
-                style={{ flex: 1, height: width * 0.608 }}
+                style={{ flex: 1, height: width * 0.608, width: width }}
                 source={require("@images/m_img499.png")}
                 resizeMode="cover"
               />
@@ -288,7 +258,7 @@ export const screenOptions = ({ navigation }) => {
     ),
   };
 };
-const NoticeTitle = styled.Text({
+const NoticeTitle = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",

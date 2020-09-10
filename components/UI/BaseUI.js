@@ -19,7 +19,13 @@ export const BaseButtonContainer = styled(BaseTouchable)({
   justifyContent: "center",
   alignItems: "center",
 });
-export const ButtonText = styled.Text({
+
+export const BaseText = styled.Text({});
+BaseText.defaultProps = {
+  numberOfLines: 1,
+};
+
+export const ButtonText = styled(BaseText)({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",

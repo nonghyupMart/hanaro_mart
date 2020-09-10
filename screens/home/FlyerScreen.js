@@ -1,55 +1,42 @@
 import React, { useState, useEffect } from "react";
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  Image,
-  FlatList,
-  ScrollView,
-  Dimensions,
-  Easing,
-} from "react-native";
-import {
-  TabView,
-  TabBar,
-  SceneMap,
-  NavigationState,
-  SceneRendererProps,
-} from "react-native-tab-view";
-
-import { useScrollToTop } from "@react-navigation/native";
-
+import { StyleSheet, Dimensions } from "react-native";
+import { TabView, TabBar, SceneMap } from "react-native-tab-view";
+import { useSelector, useDispatch } from "react-redux";
 import FlyerContentsScreen from "./FlyerContentsScreen";
-import CouponForTotalScreen from "./CouponForTotalScreen";
+import * as flyerActions from "@actions/flyer";
+import Loading from "@UI/Loading";
 
-import Carousel from "react-native-looped-carousel";
-import { useSelector } from "react-redux";
-
-import FlyerItem from "../../components/FlyerItem";
-import FlyerDetail from "../../components/FlyerDetail";
-const { width, height } = Dimensions.get("window");
 const initialLayout = { width: Dimensions.get("window").width };
 
 const FlyerScreen = ({ navigation }) => {
-  const state = {
-    size: { width, height },
-  };
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const leaflet = useSelector((state) => state.flyer.leaflet);
+  const routes = useSelector((state) =>
+    state.flyer.leaflet ? state.flyer.leaflet.leafletList : []
+  );
+  // const [routes, setRoutes] = useState([]);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setIsLoading(true);
+      if (userStore) {
+        // console.warn("start FlyerScreen");
+        const requestLeaflet = dispatch(
+          flyerActions.fetchLeaflet({ store_cd: userStore.store_cd })
+        );
 
-  const [isVisible, setIsVisible] = useState(false);
+        Promise.all([requestLeaflet]).then(() => {
+          setIsLoading(false);
 
-  const popupHandler = (item) => {
-    setIsVisible((isVisible) => !isVisible);
-    setCurrentItem(() => item);
-  };
+          // console.log(homeBanner);
+        });
+      }
+    });
 
-  const [routes] = React.useState([
-    { key: 0, title: "Article" },
-    { key: 1, title: "Contacts" },
-    { key: 2, title: "Albums" },
-    { key: 3, title: "Chat" },
-  ]);
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation, dispatch]);
 
   const [index, setIndex] = React.useState(0);
   const handleIndexChange = (index) => {
@@ -77,17 +64,20 @@ const FlyerScreen = ({ navigation }) => {
       setIndex(() => index + 1);
     }
   };
-  const renderScene = ({ route }) => {
+  const renderScene = ({ route, jumpTo }) => {
     return (
       <FlyerContentsScreen
-        number={route.key}
+        number={routes.indexOf(route)}
         goLeft={goLeft}
         goRight={goRight}
       />
     );
   };
+
   return (
     <TabView
+      lazy
+      removeClippedSubviews={true}
       navigationState={{ index, routes }}
       renderScene={renderScene}
       renderTabBar={renderTabBar}

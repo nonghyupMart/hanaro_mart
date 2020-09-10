@@ -5,11 +5,10 @@ import { View, Text, StyleSheet } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import { SERVER_URL, API_URL } from "@constants/settings";
-import { WebView } from "react-native-webview";
-import AsyncStorage from "@react-native-community/async-storage";
+import { useSelector, useDispatch } from "react-redux";
+
 const NoticeScreen = (props) => {
-  // console.log("NoticeScreen == ", props.route.params);
-  const [userStore, setUserStore] = useState();
+  const userStore = useSelector((state) => state.auth.userStore);
   const [url, setUrl] = useState();
   let query = props.route.params;
 
@@ -17,12 +16,9 @@ const NoticeScreen = (props) => {
     (async () => {
       let stringifyUrl;
       if (!query) {
-        const userStoreData = await AsyncStorage.getItem("userStoreData");
-        const data = JSON.parse(userStoreData);
-        setUserStore(data);
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
-          query: { type: "C", store_cd: data.store_cd },
+          query: { type: "C", store_cd: userStore.store_cd },
         });
         setUrl(stringifyUrl);
       } else {

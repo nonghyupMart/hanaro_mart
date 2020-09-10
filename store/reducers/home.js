@@ -1,8 +1,8 @@
 import { SET_HOME_BANNER, SET_HOME_NOTICE } from "@actions/home";
 
 const initialState = {
-  homeBanner: {},
-  homeNotice: {},
+  homeBanner: null,
+  homeNotice: null,
 };
 
 export default (state = initialState, action) => {

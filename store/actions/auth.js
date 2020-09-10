@@ -10,7 +10,8 @@ export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
 export const SET_AGREEMENT = "SET_AGREEMENT";
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
-export const SET_TEST = "SET_TEST";
+
+export const SET_USER_STORE = "SET_USER_STORE";
 
 let timer;
 
@@ -140,6 +141,10 @@ export const setLocation = (location) => {
 
 export const setAgreePolicy = (isAgreed) => {
   return { type: SET_AGREEMENT, isAgreed: isAgreed };
+};
+
+export const setUserStore = (userStore) => {
+  return { type: SET_USER_STORE, userStore: userStore };
 };
 
 export const setBottomNavigation = (isBottomNavigation) => {

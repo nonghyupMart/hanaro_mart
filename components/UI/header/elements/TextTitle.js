@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import { BaseText } from "@UI/BaseUI";
 
 const TextTitle = (props) => {
   return (
@@ -14,7 +15,7 @@ const Container = styled.View({
   alignItems: "center",
   justifyContent: "center",
 });
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 20,
   fontWeight: "500",
   fontStyle: "normal",

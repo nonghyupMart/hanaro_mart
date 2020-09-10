@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { BaseText } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
@@ -15,10 +16,10 @@ const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
-      <View style={styles.cartItem}>
+      <Container>
         <Image
           style={{
-            width: "100%",
+            width: width * 0.219,
             height: width * 0.227,
             resizeMode: "cover",
           }}
@@ -28,12 +29,54 @@ const FlyerItem = (props) => {
           }}
           defaultSource={require("@images/p_img503.png")}
         />
-        <Text style={styles.mainText}>{props.title}</Text>
-      </View>
+        <Title>{props.item.title}</Title>
+        <OriginalPrice>{props.item.price}원</OriginalPrice>
+        <SalePrice>{props.item.sale_price}원</SalePrice>
+      </Container>
     </TouchableOpacity>
   );
 };
 
+const Container = styled.View({
+  // backgroundColor: colors.black,
+  flexBasis: 0,
+  flex: 1,
+  padding: 10,
+
+  // backgroundColor: "white",
+
+  marginHorizontal: 5,
+  justifyContent: "center",
+  alignItems: "center",
+});
+const SalePrice = styled(BaseText)({
+  fontSize: 16,
+  fontWeight: "bold",
+  fontStyle: "normal",
+  lineHeight: 24,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.cerulean,
+});
+const OriginalPrice = styled(BaseText)({
+  fontSize: 12,
+  fontWeight: "bold",
+  fontStyle: "normal",
+  lineHeight: 17,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.black,
+});
+const Title = styled(BaseText)({
+  marginTop: 20,
+  fontSize: 12,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 17,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.greyishBrown,
+});
 const styles = StyleSheet.create({
   cartItem: {
     flexBasis: 0,

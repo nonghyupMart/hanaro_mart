@@ -11,7 +11,8 @@ import {
 import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 const { width, height } = Dimensions.get("window");
-import { BaseTouchable } from "@UI/BaseUI";
+import { BaseTouchable, BaseText } from "@UI/BaseUI";
+
 
 const Alert = (props) => {
   return (
@@ -61,7 +62,7 @@ const CancelButton = styled(BaseButton)({
 const ConfirmButton = styled(BaseButton)({
   backgroundColor: colors.appleGreen,
 });
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -70,7 +71,7 @@ const ButtonText = styled.Text({
   textAlign: "left",
   color: colors.trueWhite,
 });
-const Message = styled.Text({
+const Message = styled(BaseText)({
   fontSize: 16,
   color: colors.trueWhite,
   lineHeight: 20,

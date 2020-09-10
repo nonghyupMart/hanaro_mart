@@ -23,7 +23,7 @@ import * as Animatable from "react-native-animatable";
 import colors from "@constants/colors";
 
 import BaseScreen from "@components/BaseScreen";
-import { BaseButtonContainer, ButtonText } from "@UI/BaseUI";
+import { BaseButtonContainer, ButtonText, BaseText } from "@UI/BaseUI";
 
 import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
 
@@ -37,6 +37,7 @@ const AgreementScreen = ({ navigation }) => {
       isChecked: false,
       isOpen: false,
       isRequired: true,
+
       title: "농협 하나로마트앱 이용약관",
       content: () => (
         <ExtraBox>
@@ -48,6 +49,11 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
           <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
+          <WarnText>
+            ※ 고객님께서는 필수항목 수집·이용에 대한 동의를 거부할 권리가
+            있습니다. 단, 필수항목 동의 거부 시에는 회원가입이 불가하며, 상기
+            이용목적에 명시된 서비스는 받으실 수 없습니다.
+          </WarnText>
         </ExtraBox>
       ),
     },
@@ -60,12 +66,12 @@ const AgreementScreen = ({ navigation }) => {
       desc: () => (
         <Desc>
           <DescTextLine>
-            <Image source={require("@images/add.png")} />
-            <DescText1>개인정보의 필수적 수집</DescText1>
+            <BulletIcon />
+            <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
-            <Image source={require("@images/add.png")} />
-            <DescText1>이용 동의 개인정보의 필수적 제공동의</DescText1>
+            <BulletIcon />
+            <DescText1>개인정보의 필수적 제공동의</DescText1>
           </DescTextLine>
         </Desc>
       ),
@@ -88,6 +94,15 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
           <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
+          <WarnText>
+            ※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장
+            관리에서 확인이 가능합니다.
+          </WarnText>
+          <WarnText style={{ marginTop: 20 }}>
+            ※ 고객님께서는 필수항목 제공에 대한 동의를 거부할 권리가 있습니다.
+            단, 필수항목 동의 거부 시에는 회원가입이 불가하며, 상기이용목적에
+            명시된 서비스는 받으실 수 없습니다.
+          </WarnText>
         </ExtraBox>
       ),
     },
@@ -96,16 +111,36 @@ const AgreementScreen = ({ navigation }) => {
       isChecked: false,
       isOpen: false,
       isRequired: true,
+      isNormalTitle: true,
+      title: "본인은 만 14세 이상입니다",
+      content: () => (
+        <ExtraBox>
+          <SmallTextBold>이용목적</SmallTextBold>
+          <SmallText>회원가입의 성립. 하나로마트앱 서비스 이용</SmallText>
+          <SmallTextBold>수집항목</SmallTextBold>
+          <SmallText>
+            휴대폰번호, 본인인증 시 성명, 생년월일, 성별, 내외국인여부, CI
+          </SmallText>
+          <SmallTextBold>보유 및 이용기간</SmallTextBold>
+          <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
+        </ExtraBox>
+      ),
+    },
+    {
+      id: 3,
+      isChecked: false,
+      isOpen: false,
+      isRequired: false,
       title: "행사안내 및 이벤트 수신 동의",
       desc: () => (
         <Desc>
           <DescTextLine>
-            <Image source={require("@images/add.png")} />
-            <DescText1>개인정보의 필수적 수집</DescText1>
+            <BulletIcon />
+            <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
-            <Image source={require("@images/add.png")} />
-            <DescText1>이용 동의 개인정보의 필수적 제공동의</DescText1>
+            <BulletIcon />
+            <DescText1>개인정보의 필수적 제공동의</DescText1>
           </DescTextLine>
           <GrayDesc>
             이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
@@ -135,10 +170,11 @@ const AgreementScreen = ({ navigation }) => {
       ),
     },
     {
-      id: 3,
+      id: 4,
       isChecked: false,
       isOpen: false,
       isRequired: false,
+      isNormalTitle: true,
       title: "위치정보서비스 제공 동의",
       content: () => (
         <ExtraBox>
@@ -265,7 +301,7 @@ const AgreementScreen = ({ navigation }) => {
         style={{ margin: 0, padding: 0 }}
       />
       {checkBoxes.map((item, index) => (
-        <TextBox>
+        <TextBox key={index}>
           <TitleArea isOpen={item.isOpen} desc={item.desc}>
             <TitleContainer>
               <CheckButton
@@ -278,6 +314,7 @@ const AgreementScreen = ({ navigation }) => {
                 <TextView
                   style={{
                     color: item.isRequired ? colors.cerulean : colors.viridian,
+                    fontWeight: item.isNormalTitle ? "" : "bold",
                   }}
                 >
                   {item.isRequired ? "[필수] " : "[선택] "}
@@ -290,12 +327,8 @@ const AgreementScreen = ({ navigation }) => {
               containerStyle={[styles.checkbox]}
               checked={item.isOpen}
               onPress={() => handleOpen(item)}
-              checkedIcon={
-                <Image source={require("@images/circle-with-minus.png")} />
-              }
-              uncheckedIcon={
-                <Image source={require("@images/circle-with-plus.png")} />
-              }
+              checkedIcon={<Image source={require("@images/close_m.png")} />}
+              uncheckedIcon={<Image source={require("@images/close_p.png")} />}
             />
           </TitleArea>
           {item.desc && <item.desc />}
@@ -303,11 +336,13 @@ const AgreementScreen = ({ navigation }) => {
         </TextBox>
       ))}
 
-      <NoticeText>
-        필수 항목 외에는 동의하지 않으셔도 이용이 가능하며 마이페이지에서
-        언제든지 변경 가능합니다.
-      </NoticeText>
-      <View style={{ flexDirection: "row", justifyContent: "center" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          marginTop: 30,
+        }}
+      >
         <GreenButton
           style={{ marginRight: 3 }}
           onPress={() => {
@@ -356,8 +391,21 @@ export const screenOptions = ({ navigation }) => {
     },
   };
 };
-
-const GrayDesc = styled.Text({
+const BulletIcon = styled(Image)({ marginTop: 3 });
+BulletIcon.defaultProps = {
+  source: require("@images/checkmark2.png"),
+};
+const WarnText = styled.Text({
+  marginTop: 25,
+  fontSize: 9,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 14,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+});
+const GrayDesc = styled(Text)({
   fontSize: 12,
   fontWeight: "500",
   fontStyle: "normal",
@@ -366,10 +414,11 @@ const GrayDesc = styled.Text({
   textAlign: "left",
   color: colors.greyishThree,
   marginTop: 5,
-  marginLeft: 22,
+  marginLeft: 16,
   marginRight: 23,
 });
-const DescText1 = styled.Text({
+const DescText1 = styled(Text)({
+  marginLeft: 7.5,
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -384,9 +433,13 @@ const DescTextLine = styled.View({
 });
 const TitleContainer = styled.View({
   flexDirection: "row",
+  flex: 1,
 });
-const SmallText = styled.Text({ fontSize: 11, color: colors.greyishBrown });
-const SmallTextBold = styled.Text({
+const SmallText = styled(Text)({
+  fontSize: 11,
+  color: colors.greyishBrown,
+});
+const SmallTextBold = styled(Text)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
@@ -412,7 +465,7 @@ const ExtraBox = styled.View({
   flex: 1,
   width: "100%",
 });
-const NoticeText = styled.Text({
+const NoticeText = styled(Text)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -448,7 +501,7 @@ const TextBox = styled.View({
   borderColor: colors.pinkishGrey,
   flex: 1,
 });
-const TextView = styled.Text({
+const TextView = styled(Text)({
   flexShrink: 1,
   lineHeight: 20,
   fontSize: 12,

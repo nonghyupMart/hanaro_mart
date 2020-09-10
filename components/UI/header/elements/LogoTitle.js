@@ -3,16 +3,10 @@ import styled from "styled-components/native";
 import { Image, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import * as RootNavigation from "@navigation/RootNavigation";
-import { BaseTouchable } from "@UI/BaseUI";
-import AsyncStorage from "@react-native-community/async-storage";
+import { BaseTouchable , BaseText} from "@UI/BaseUI";
+
 const LogoTitle = (props, { navigation }) => {
-  // const [userStore, setUserStore] = useState();
-  // useEffect(() => {
-  //   (async () => {
-  //     const userStoreData = await AsyncStorage.getItem("userStoreData");
-  //     setUserStore(JSON.parse(userStoreData));
-  //   })();
-  // });
+  // const userStore = useSelector((state) => state.auth.userStore);
 
   return (
     <BaseTouchable onPress={() => RootNavigation.navigate("Home")}>
@@ -31,7 +25,7 @@ const Container = styled.View({
   justifyContent: "center",
   flexDirection: "row",
 });
-const BranchName = styled.Text({
+const BranchName = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",

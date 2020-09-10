@@ -22,6 +22,7 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
+  BaseText,
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
 import * as Location from "expo-location";
@@ -68,7 +69,11 @@ const StoreChangeScreen = (props) => {
   const onLnameChange = (lname) => {
     setIsLoading(true);
     setLname(() => lname);
-    dispatch(branchesActions.fetchAddress2(lname)).then(() => {
+    const query = { lname, mname, store_nm };
+    const fetchBranches = dispatch(branchesActions.fetchBranches(query));
+    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
+
+    Promise.all([fetchBranches, fetchAddress2]).then(() => {
       setIsLoading(false);
     });
   };
@@ -233,7 +238,7 @@ const StoreChangeScreen = (props) => {
             selectedValue={lname}
             onValueChange={(itemValue, itemIndex) => onLnameChange(itemValue)}
           >
-            <Picker.Item label="시/도 선택" value="" key={-1} />
+            <Picker.Item label="시/도 선택" value={null} key={-1} />
             {address1 &&
               address1.lnameList &&
               address1.lnameList.map((item, index) => {
@@ -247,7 +252,7 @@ const StoreChangeScreen = (props) => {
               })}
           </Picker>
 
-          {lname != "0" && address2 && address2.mnameList && (
+          {lname != null && address2 && address2.mnameList && (
             <Picker
               style={styles.picker}
               itemStyle={styles.pickerItem}
@@ -308,7 +313,7 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -360,7 +365,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "stretch",
 };
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "500",
   fontStyle: "normal",

@@ -6,10 +6,10 @@ import {
 } from "@actions/branches";
 
 const initialState = {
-  address1: {},
-  address2: {},
-  branches: {},
-  branch: {},
+  address1: null,
+  address2: null,
+  branches: null,
+  branch: null,
 };
 
 export default (state = initialState, action) => {

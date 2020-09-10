@@ -25,6 +25,7 @@ import * as Notifications from "expo-notifications";
 import authReducer from "@reducers/auth";
 import branchesReducer from "@reducers/branches";
 import homeReducer from "@reducers/home";
+import flyerReducer from "@reducers/flyer";
 
 YellowBox.ignoreWarnings(["Expected"]);
 // console.disableYellowBox = true;
@@ -39,7 +40,8 @@ const { width, height } = Dimensions.get("window");
 const rootReducer = combineReducers({
   auth: authReducer,
   branches: branchesReducer,
-  home: homeReducer
+  home: homeReducer,
+  flyer: flyerReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

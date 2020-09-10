@@ -8,6 +8,7 @@ import {
   Platform,
   Image,
 } from "react-native";
+import { BaseText } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 
 const StoreItem = (props) => {
@@ -27,7 +28,7 @@ const StoreItem = (props) => {
     </TouchableOpacity>
   );
 };
-const Tel = styled.Text({
+const Tel = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -36,7 +37,7 @@ const Tel = styled.Text({
   textAlign: "left",
   color: colors.appleGreen,
 });
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -64,7 +65,7 @@ const Container = styled.View({
   paddingBottom: 10,
 });
 const TitleContainer = styled.View({});
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
