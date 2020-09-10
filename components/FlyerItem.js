@@ -1,27 +1,34 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import styled from "styled-components/native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+const { width, height } = Dimensions.get("window");
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
       <View style={styles.cartItem}>
-        <View style={styles.itemData}>
-          <Image
-            style={{
-              width: "100%",
-              height: 50,
-              resizeMode: "stretch",
-            }}
-            source={{
-              uri:
-                "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-            }}
-            defaultSource={require("../assets/icon.png")}
-          />
-          <Text style={styles.mainText}>{props.title}</Text>
-        </View>
+        <Image
+          style={{
+            width: "100%",
+            height: width * 0.227,
+            resizeMode: "cover",
+          }}
+          source={{
+            uri:
+              "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
+          }}
+          defaultSource={require("@images/p_img503.png")}
+        />
+        <Text style={styles.mainText}>{props.title}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -30,7 +37,7 @@ const FlyerItem = (props) => {
 const styles = StyleSheet.create({
   cartItem: {
     flexBasis: 0,
-    flex: 0.3,
+    flex: 0.333,
     padding: 10,
 
     // backgroundColor: "white",

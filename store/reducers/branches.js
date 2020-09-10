@@ -1,15 +1,38 @@
-import { ADD_ADDRESS1 } from "@actions/branches";
+import {
+  SET_ADDRESS1,
+  SET_ADDRESS2,
+  SET_BRANCHES,
+  SET_BRANCH,
+} from "@actions/branches";
 
 const initialState = {
   address1: {},
-  totalAmount: 0,
+  address2: {},
+  branches: {},
+  branch: {},
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case ADD_ADDRESS1:
+    case SET_ADDRESS1:
       return {
+        ...state,
         address1: action.address1,
+      };
+    case SET_ADDRESS2:
+      return {
+        ...state,
+        address2: action.address2,
+      };
+    case SET_BRANCHES:
+      return {
+        ...state,
+        branches: action.branches,
+      };
+    case SET_BRANCH:
+      return {
+        ...state,
+        branch: action.branch,
       };
   }
 

@@ -14,7 +14,7 @@ import {
   Platform,
   Image,
 } from "react-native";
-import { WebView } from "react-native-webview";
+
 import { BackButton, TextTitle } from "@UI/header";
 import {
   BaseButtonContainer,
@@ -22,27 +22,36 @@ import {
   screenWidth,
   StyleConstants,
 } from "@UI/BaseUI";
-
+import { ExtendedWebView } from "@UI/ExtendedWebView";
 import * as Linking from "expo-linking";
 import colors from "@constants/colors";
 
 import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
-import StoreChangeDetail from "@components/store/StoreChangeDetail";
 
 import * as branchesActions from "@actions/branches";
-import { setAgreePolicy } from "@actions/auth";
+import { setAgreePolicy, saveStoreDataToStorage } from "@actions/auth";
 const StoreChangeDetailScreen = (props) => {
+  const storeItem = props.route.params.item;
   const dispatch = useDispatch();
   const isAgreed = useSelector((state) => state.auth.isAgreed);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [isInitialized, setIsInitialized] = useState(false);
+  const branch = useSelector((state) => state.branches.branch);
 
-  const [selectedItem, setSelectedItem] = useState(2);
-
-  const [isBranchSelected, setIsBranchSelected] = useState(false);
-  const [currentItem, setCurrentItem] = useState({ id: null, title: "" });
-
+  const [location, setLocation] = useState(null);
+  useEffect(() => {
+    setIsLoading(true);
+    const fetchBranch = dispatch(
+      branchesActions.fetchBranch(storeItem.store_cd)
+    );
+    Promise.all([fetchBranch]).then(() => {
+      setLocation(
+        `${branch.lname}  ${branch.mname} ${branch.addr1} ${branch.addr2}`
+      );
+      setIsLoading(false);
+    });
+  }, [dispatch]);
   useEffect(() => {
     if (isAgreed)
       props.navigation.setOptions({
@@ -50,19 +59,6 @@ const StoreChangeDetailScreen = (props) => {
         headerLeft: (props) => <BackButton {...props} />,
       });
   }, [dispatch]);
-  const address1 = useSelector((state) => state.branches.address1);
-
-  const onPickerSelect = (index) => {
-    setSelectedItem(() => index);
-  };
-
-  const popupHandler = (item) => {
-    setIsBranchSelected((isVisible) => !isVisible);
-    setCurrentItem(() => item);
-  };
-  let [webView, setWebview] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [oldLocation, setOldLocation] = useState(null);
 
   const onMessage = (obj) => {
     // console.log(obj.nativeEvent.data);
@@ -83,11 +79,12 @@ const StoreChangeDetailScreen = (props) => {
     });
   };
   const setStore = () => {
-    const msg = `을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
+    const msg = `${branch.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
     setAlert({
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
+        saveStoreDataToStorage(branch);
         if (!isAgreed) dispatch(setAgreePolicy(true));
         else {
           props.navigation.popToTop();
@@ -95,25 +92,11 @@ const StoreChangeDetailScreen = (props) => {
       },
     });
   };
-  useEffect(() => {
-    setLocation("something");
-  }, []);
-  const _onNavigationStateChange = (newNavState) => {
-    // console.warn(location);
-    // if (location !== null) setOldLocation(location);
-    // if (location !== null && location === oldLocation) {
-    //   webView.stopLoading();
-    //   return;
-    // }
-    // const { url } = newNavState;
-    // console.warn(newNavState);
-    // if (!url) return;
-  };
 
   return (
     <BaseScreen
       alert={alert}
-      isInitialized={location === undefined ? false : location}
+      isLoading={isLoading}
       style={{
         backgroundColor: colors.trueWhite,
         paddingRight: 0,
@@ -133,33 +116,11 @@ const StoreChangeDetailScreen = (props) => {
           flex: 1,
         }}
       >
-        <WebView
-          style={{ opacity: 0.99 }}
+        <ExtendedWebView
           ref={(wv) => (webView = wv)}
           key={location}
-          scalesPageToFit={true}
-          originWhitelist={["*"]}
-          allowFileAccess={true}
-          domStorageEnabled={true}
-          javaScriptEnabled={true}
-          allowUniversalAccessFromFileURLs={true}
-          allowFileAccessFromFileURLs={true}
-          mixedContentMode="always"
-          sharedCookiesEnabled={true}
-          source={{
-            // uri: "https://github.com/facebook/react-native",
-            html: require("../../map.js")(location),
-          }}
-          onShouldStartLoadWithRequest={(request) => {
-            console.warn(request.url);
-            // If we're loading the current URI, allow it to load
-            if (request.url === currentURI) return true;
-            // We're loading a new URL -- change state first
-            setURI(request.url);
-            return false;
-          }}
-          onNavigationStateChange={_onNavigationStateChange.bind(this)}
-          startInLoadingState={false}
+          // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=4
+          source={{ html: require("../../map.js")(location) }}
           onMessage={onMessage}
         />
         <BottomCover />
@@ -221,7 +182,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.greyishBrown,
                 }}
               >
-                하나로마트 신촌점
+                {branch.store_nm}
               </Text>
               <Text
                 style={{
@@ -234,7 +195,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.appleGreen,
                 }}
               >
-                Tel. 0234981100
+                Tel. {branch.tel}
               </Text>
             </View>
             <BaseTouchable

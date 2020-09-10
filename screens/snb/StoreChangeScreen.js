@@ -14,6 +14,7 @@ import {
   Platform,
   Picker,
   Image,
+  KeyboardAvoidingView,
 } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import {
@@ -26,7 +27,6 @@ import colors from "@constants/colors";
 import * as Location from "expo-location";
 import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
-import StoreChangeDetail from "@components/store/StoreChangeDetail";
 
 import * as branchesActions from "@actions/branches";
 import blueplus from "@images/plusblue.png";
@@ -42,6 +42,9 @@ const StoreChangeScreen = (props) => {
 
   const [isBranchSelected, setIsBranchSelected] = useState(false);
   const [currentItem, setCurrentItem] = useState({ id: null, title: "" });
+  const [lname, setLname] = useState();
+  const [mname, setMname] = useState();
+  const [store_nm, setStore_nm] = useState("");
 
   useEffect(() => {
     if (isAgreed)
@@ -51,21 +54,45 @@ const StoreChangeScreen = (props) => {
       });
   }, [isAgreed]);
   const address1 = useSelector((state) => state.branches.address1);
+  const address2 = useSelector((state) => state.branches.address2);
+  const branches = useSelector((state) => state.branches.branches);
   useEffect(() => {
     setIsLoading(true);
-    dispatch(branchesActions.fetchAddress1()).then(() => {
+    const fetchBranches = dispatch(branchesActions.fetchBranches());
+    const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
+    Promise.all([fetchBranches, fetchAddress1]).then(() => {
       setIsLoading(false);
     });
   }, [dispatch]);
 
-  const onPickerSelect = (index) => {
-    setSelectedItem(() => index);
+  const onLnameChange = (lname) => {
+    setIsLoading(true);
+    setLname(() => lname);
+    dispatch(branchesActions.fetchAddress2(lname)).then(() => {
+      setIsLoading(false);
+    });
+  };
+  const onMnameChange = (mname) => {
+    setIsLoading(true);
+    setMname(() => mname);
+    const query = { lname, mname, store_nm };
+    dispatch(branchesActions.fetchBranches(query)).then(() => {
+      setIsLoading(false);
+    });
+  };
+  const onPressSearch = () => {
+    setIsLoading(true);
+    const query = { lname, mname, store_nm };
+    dispatch(branchesActions.fetchBranches(query)).then(() => {
+      setIsLoading(false);
+    });
   };
 
   const popupHandler = (item) => {
     // setIsBranchSelected((isVisible) => !isVisible);
     setCurrentItem(() => item);
-    if (isAgreed) props.navigation.navigate("StoreChangeDetail");
+    if (isAgreed)
+      props.navigation.navigate("StoreChangeDetail", { item: item });
     else props.navigation.navigate("StoreSetupDetail");
   };
 
@@ -94,6 +121,12 @@ const StoreChangeScreen = (props) => {
 
   return (
     <BaseScreen
+      style={{
+        backgroundColor: colors.trueWhite,
+
+        paddingLeft: 0,
+        paddingRight: 0,
+      }}
       isLoading={isLoading}
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
@@ -170,8 +203,12 @@ const StoreChangeScreen = (props) => {
                 marginRight: 10,
                 flex: 1,
               }}
+              onChangeText={(name) => setStore_nm(name)}
+              value={store_nm}
+              onSubmitEditing={onPressSearch}
             />
             <BaseTouchable
+              onPress={onPressSearch}
               style={{ justifyContent: "center", paddingRight: 10 }}
             >
               <Image source={require("@images/search-24px.png")} />
@@ -190,91 +227,72 @@ const StoreChangeScreen = (props) => {
             marginRight: 35.5,
           }}
         >
-          <Picker style={styles.picker} itemStyle={styles.pickerItem}>
-            {address1.length > 0 &&
-              address1.map((item, index) => {
+          <Picker
+            style={styles.picker}
+            itemStyle={styles.pickerItem}
+            selectedValue={lname}
+            onValueChange={(itemValue, itemIndex) => onLnameChange(itemValue)}
+          >
+            <Picker.Item label="시/도 선택" value="" key={-1} />
+            {address1 &&
+              address1.lnameList &&
+              address1.lnameList.map((item, index) => {
                 return (
-                  <Picker.Item label={item.lname} value={index} key={index} />
+                  <Picker.Item
+                    label={item.lname}
+                    value={item.lname}
+                    key={index}
+                  />
                 );
               })}
           </Picker>
-          <Picker style={styles.picker} itemStyle={styles.pickerItem}>
+
+          {lname != "0" && address2 && address2.mnameList && (
+            <Picker
+              style={styles.picker}
+              itemStyle={styles.pickerItem}
+              selectedValue={mname}
+              onValueChange={(itemValue, itemIndex) => onMnameChange(itemValue)}
+            >
+              <Picker.Item label="선택" value="" key={-1} />
+              {address2.mnameList.map((item, index) => {
+                return (
+                  <Picker.Item
+                    label={item.mname}
+                    value={item.mname}
+                    key={index}
+                  />
+                );
+              })}
+            </Picker>
+          )}
+
+          {/* <Picker style={styles.picker} itemStyle={styles.pickerItem}>
             <Picker.Item label="Java" value="java" />
             <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-          <Picker style={styles.picker} itemStyle={styles.pickerItem}>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
+          </Picker> */}
         </View>
-        <View style={[styles.row, { marginBottom: 10 }]}>
+        {/* <View style={[styles.row, { marginBottom: 10 }]}>
           <GrayButton>
             <ButtonText>취소</ButtonText>
           </GrayButton>
           <BlueButton style={{ marginLeft: 4 }}>
             <ButtonText style={{ color: colors.trueWhite }}>확인</ButtonText>
           </BlueButton>
-        </View>
-        <FlatList
-          style={{ width: "100%", flexGrow: 1 }}
-          data={[
-            {
-              id: 0,
-              title: "하나로마트 양재점",
-            },
-            {
-              id: 1,
-              title: "하나로마트 천안점",
-            },
-            {
-              id: 2,
-              title: "하나로마트 마포점",
-            },
-            {
-              id: 3,
-              title: "하나로마트 이태원점",
-            },
-            {
-              id: 4,
-              title: "하나로마트 홍대점",
-            },
-            {
-              id: 5,
-              title: "하나로마트 안산점",
-            },
-            {
-              id: 6,
-              title: "하나로마트 양재점2",
-            },
-            {
-              id: 7,
-              title: "하나로마트 천안점2",
-            },
-            {
-              id: 8,
-              title: "하나로마트 마포점2",
-            },
-            {
-              id: 9,
-              title: "하나로마트 이태원점2",
-            },
-            {
-              id: 10,
-              title: "하나로마트 홍대점2",
-            },
-            {
-              id: 11,
-              title: "하나로마트 안산점2",
-            },
-          ]}
-          keyExtractor={(item) => item.id}
-          renderItem={(itemData) => (
-            <StoreItem
-              onPress={popupHandler.bind(this, itemData.item)}
-              title={itemData.item.title}
-            />
-          )}
-        />
+        </View> */}
+        {branches && (
+          <FlatList
+            style={{ width: "100%", flexGrow: 1 }}
+            data={branches.storeList}
+            keyExtractor={(item) => item.store_cd}
+            renderItem={(itemData) => (
+              <StoreItem
+                onPress={popupHandler.bind(this, itemData.item)}
+                item={itemData.item}
+              />
+            )}
+          />
+        )}
       </WhiteContainer>
     </BaseScreen>
   );
@@ -372,8 +390,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   picker: {
-    flexGrow: 1,
-
+    flexGrow: 0.5,
     color: colors.greyishBrown,
   },
   row: { flexDirection: "row", justifyContent: "center", alignItems: "center" },

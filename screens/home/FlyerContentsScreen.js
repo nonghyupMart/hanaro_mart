@@ -18,10 +18,11 @@ import {
   NavigationState,
   SceneRendererProps,
 } from "react-native-tab-view";
-
+import BaseScreen from "@components/BaseScreen";
+import { BaseTouchable, StyleConstants } from "@UI/BaseUI";
 import CouponForProductScreen from "./CouponForProductScreen";
 import CouponForTotalScreen from "./CouponForTotalScreen";
-
+import * as RootNavigation from "@navigation/RootNavigation";
 import Carousel from "react-native-looped-carousel";
 import { useSelector } from "react-redux";
 
@@ -137,7 +138,7 @@ const FlyerContentsScreen = (props) => {
 
   const onPressLeft = () => {};
   return (
-    <SafeAreaView style={styles.screen}>
+    <BaseScreen style={{ backgroundColor: colors.trueWhite }}>
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <FlatList
         keyExtractor={(item) => item + ""}
@@ -145,23 +146,21 @@ const FlyerContentsScreen = (props) => {
         style={{ flex: 1, width: "100%" }}
         renderItem={({ item, index, separators }) => (
           <View>
-            <View style={styles.content1}>
-              <Button
-                title="전단 상세"
-                onPress={() => navigation.navigate("FlyerDetail")}
+            <BaseTouchable
+              onPress={() => RootNavigation.navigate("FlyerDetail")}
+            >
+              <Image
+                style={{
+                  flex: 1,
+                  height: width * 0.283,
+                  resizeMode: "cover",
+                }}
+                source={{
+                  uri:
+                    "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
+                }}
               />
-            </View>
-            <Image
-              style={{
-                width: "100%",
-                height: 100,
-                resizeMode: "stretch",
-              }}
-              source={{
-                uri:
-                  "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-              }}
-            />
+            </BaseTouchable>
             <Text>{props.number}</Text>
             <View style={{ flexDirection: "row" }}>
               <Button title="<" onPress={() => props.goLeft(props.number)} />
@@ -196,7 +195,7 @@ const FlyerContentsScreen = (props) => {
         isVisible={isVisible}
         setIsVisible={setIsVisible}
       />
-    </SafeAreaView>
+    </BaseScreen>
   );
 };
 

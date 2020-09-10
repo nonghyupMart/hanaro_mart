@@ -15,8 +15,8 @@ const StoreItem = (props) => {
     <TouchableOpacity onPress={props.onPress}>
       <Container>
         <TitleContainer>
-          <Title>{props.title}</Title>
-          <Tel>Tel. 02-3498-1100</Tel>
+          <Title>{props.item.store_nm}</Title>
+          <Tel>Tel. {props.item.tel}</Tel>
         </TitleContainer>
         <IconContainer>
           <Image source={require("@images/location-pin.png")} />

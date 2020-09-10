@@ -18,6 +18,7 @@ module.exports = function (api) {
             "@actions": "./store/actions",
             "@reducers": "./store/reducers",
             "@models": "./models",
+            "@navigation": "./navigation"
           },
         },
       ],

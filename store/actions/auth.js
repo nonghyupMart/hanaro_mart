@@ -1,5 +1,5 @@
 import { AsyncStorage } from "react-native";
-import { SERVER_URL } from "@constants/settings";
+import { API_URL } from "@constants/settings";
 
 // export const SIGNUP = 'SIGNUP';
 // export const LOGIN = 'LOGIN';
@@ -25,34 +25,9 @@ export const authenticate = (userId, token, expiryTime) => {
   };
 };
 
-export const test = () => {
-  return async (dispatch) => {
-    const response = await fetch(`${SERVER_URL}lname`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!response.ok) {
-      const errorResData = await response.json();
-      const errorId = errorResData.error.message;
-      let message = "Something went wrong!";
-      if (errorId === "EMAIL_EXISTS") {
-        message = "This email exists already!";
-      }
-      throw new Error(message);
-    }
-
-    const resData = await response.json();
-    // console.log("resData.data ==> ", resData.data);
-
-    dispatch({ type: SET_TEST, testItem: resData.data });
-  };
-};
-
 export const signup = (user_id) => {
   return async (dispatch) => {
-    const response = await fetch(`${SERVER_URL}users`, {
+    const response = await fetch(`${API_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +95,7 @@ export const login = (email, password) => {
     }
 
     const resData = await response.json();
-    console.log(resData);
+    // console.log(resData);
     dispatch(
       authenticate(
         resData.localId,
@@ -184,4 +159,7 @@ const saveDataToStorage = (token, userId, pushToken, expirationDate) => {
       expiryDate: expirationDate.toISOString(),
     })
   );
+};
+export const saveStoreDataToStorage = (store) => {
+  AsyncStorage.setItem("userStoreData", JSON.stringify(store));
 };

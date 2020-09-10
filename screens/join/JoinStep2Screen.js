@@ -14,7 +14,7 @@ import {
 } from "react-native";
 
 import BaseScreen from "@components/BaseScreen";
-import Modal from "react-native-modal";
+
 import { BackButton, TextTitle } from "@UI/header";
 import {
   BaseSquareButtonContainer,

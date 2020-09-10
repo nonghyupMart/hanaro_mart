@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useDispatch } from "react-redux";
-import { DrawerActions } from "@react-navigation/native";
+
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -24,14 +24,19 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+
 import { Input } from "react-native-elements";
-import { HeaderButton, LogoTitle } from "@UI/header";
+
+
+import colors from "@constants/colors";
+
 import BottomButtons from "@components/BottomButtons";
 import CustomDrawerContent from "@UI/CustomDrawerContent";
 import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
 
-import HomeScreen from "@screens/home/HomeScreen";
+import HomeScreen, {
+  screenOptions as HomeScreenOptions,
+} from "@screens/home/HomeScreen";
 import FlyerScreen from "@screens/home/FlyerScreen";
 import FlyerDetailScreen, {
   screenOptions as FlyerDetailScreenOptions,
@@ -56,6 +61,12 @@ import BarCodeScannerScreen, {
 } from "@screens/BarCodeScannerScreen";
 import RingPickerScreen from "@screens/RingPickerScreen";
 
+import NoticeScreen, {
+  screenOptions as NoticeScreenOptions,
+} from "@screens/snb/NoticeScreen";
+import InquiryScreen, {
+  screenOptions as InquiryScreenOptions,
+} from "@screens/snb/NoticeScreen";
 // const defaultStackNavOptions = {
 //   headerStyle: {
 //     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
@@ -347,79 +358,20 @@ export const HomeNavigator = () => {
           name="MyCoupon"
           component={MyCouponTabNavigator}
         />
+        <HomeStackNavigator.Screen
+          name="Notice"
+          component={NoticeScreen}
+          options={NoticeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Inquiry"
+          component={InquiryScreen}
+          options={InquiryScreenOptions}
+        />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
     </Fragment>
   );
-};
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import colors from "constants/colors";
-
-export const HomeScreenOptions = ({ navigation }) => {
-  return {
-    headerStyle: { elevation: 0, shadowOpacity: 0 },
-    headerTitle: (props) => <LogoTitle {...props} />,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          iconSize={30}
-          IconComponent={MaterialIcons}
-          title="메뉴"
-          iconName="menu"
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-          color={colors.pine}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="검색"
-          iconName="search"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: 0, marginLeft: 0 }}
-        />
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="알림"
-          iconName="notifications-none"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        />
-        <Item
-          iconSize={24}
-          IconComponent={MaterialCommunityIcons}
-          title="장바구니"
-          iconName="cart-outline"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        />
-        {/* <Item
-          title="Scanner"
-          iconName={
-            Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
-          }
-          onPress={() => {
-            navigation.navigate("BarCodeScanner");
-          }}
-        /> */}
-      </HeaderButtons>
-    ),
-  };
 };
 
 // https://reactnavigation.org/docs/drawer-navigator/

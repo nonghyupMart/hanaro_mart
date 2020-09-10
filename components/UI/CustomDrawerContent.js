@@ -13,6 +13,7 @@ import {
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import { setAgreePolicy } from "@actions/auth";
 
 const MemberInfo = (props) => (
   <>
@@ -39,23 +40,25 @@ const GrayButtons = (props) => (
       <Image source={require("@images/shop1.png")} />
       <WButtonText>매장전용</WButtonText>
     </WhiteButtonContainer>
-    <WhiteButtonContainer>
+    <WhiteButtonContainer onPress={() => props.navigation.navigate("Event")}>
       <Image source={require("@images/pig.png")} />
       <WButtonText>이벤트</WButtonText>
     </WhiteButtonContainer>
-    <WhiteButtonContainer>
+    <WhiteButtonContainer onPress={() => props.navigation.navigate("Coupon")}>
       <Image source={require("@images/ticket2.png")} />
       <WButtonText>나로쿠폰</WButtonText>
     </WhiteButtonContainer>
-    <WhiteButtonContainer>
+    <WhiteButtonContainer onPress={() => props.navigation.navigate("Flyer")}>
       <Image source={require("@images/news.png")} />
       <WButtonText>행사전단</WButtonText>
     </WhiteButtonContainer>
-    <WhiteButtonContainer>
+    <WhiteButtonContainer onPress={() => props.navigation.navigate("NaroTube")}>
       <Image source={require("@images/pictures.png")} />
       <WButtonText>나로튜브</WButtonText>
     </WhiteButtonContainer>
-    <WhiteButtonContainer>
+    <WhiteButtonContainer
+      onPress={() => props.navigation.navigate("Exhibition")}
+    >
       <Image source={require("@images/medal2.png")} />
       <WButtonText>기획전</WButtonText>
     </WhiteButtonContainer>
@@ -76,7 +79,7 @@ const MenuList = (props) => (
       </MenuButton>
     </MenuButtonContainer>
     <MenuButtonContainer>
-      <MenuButton>
+      <MenuButton onPress={() => props.navigation.navigate("Notice")}>
         <Icon>
           <Image source={require("@images/loudspeaker-announce.png")} />
         </Icon>
@@ -84,7 +87,7 @@ const MenuList = (props) => (
       </MenuButton>
     </MenuButtonContainer>
     <MenuButtonContainer>
-      <MenuButton>
+      <MenuButton onPress={() => props.navigation.navigate("Inquiry")}>
         <Icon>
           <Image source={require("@images/dialogue-balloon.png")} />
         </Icon>
@@ -92,7 +95,7 @@ const MenuList = (props) => (
       </MenuButton>
     </MenuButtonContainer>
     <MenuButtonContainer style={{ border: 0 }}>
-      <MenuButton>
+      <MenuButton onPress={() => props.navigation.navigate("Notice")}>
         <Icon>
           <Image source={require("@images/messenger-user-avatar.png")} />
         </Icon>
@@ -103,13 +106,17 @@ const MenuList = (props) => (
 );
 
 const LoginButtons = (props) => {
+  const dispatch = useDispatch();
+  const onPressJoin = () => {
+    dispatch(setAgreePolicy(false));
+  };
   return (
     <>
       <ButtonContainer>
-        <GreenButton>
+        {/* <GreenButton>
           <ButtonText>로그인</ButtonText>
-        </GreenButton>
-        <BlueButton>
+        </GreenButton> */}
+        <BlueButton onPress={() => onPressJoin()}>
           <ButtonText>회원가입</ButtonText>
         </BlueButton>
       </ButtonContainer>
@@ -133,7 +140,7 @@ const CustomDrawerContent = (props, dispatch) => {
           <MemberInfo {...props} />
           <GrayButtons {...props} />
           <MenuList {...props} />
-          <LoginButtons {...props} />
+          <LoginButtons {...props} {...dispatch} />
         </DrawerContentScrollView>
       </View>
     </View>
@@ -183,7 +190,12 @@ const BaseButton = styled(BaseButtonContainer)({
 const GreenButton = styled(BaseButton)({
   backgroundColor: colors.pine,
 });
-const BlueButton = styled(BaseButton)({
+const BlueButton = styled(BaseButtonContainer)({
+  width: null,
+  maxWidth: null,
+  flex: 1,
+  marginLeft: 16,
+  marginRight: 16,
   backgroundColor: colors.cerulean,
 });
 const ButtonText = styled.Text({
@@ -315,6 +327,7 @@ const MenuButton = styled(BaseTouchable)({
   alignItems: "center",
   marginTop: 14,
   marginBottom: 14,
+  flex: 1,
 });
 const Icon = styled.View({
   width: 20,

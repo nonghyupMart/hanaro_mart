@@ -1,4 +1,5 @@
 module.exports = function (location) {
+  //   alert(location);
   return `
 
 <html>
@@ -72,7 +73,10 @@ window, document, body {background:#e8e8e8 !important}
     </div>
 </div>
 
-<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e9f25a131ec84e5eb4a6de05086a28b8"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e9f25a131ec84e5eb4a6de05086a28b8&libraries=services"></script>
+<script>
+
+</script>
 <script>
 
 var container = document.getElementById('container'), // 지도와 로드뷰를 감싸고 있는 div 입니다
@@ -91,17 +95,7 @@ mapContainer.height = window.outerWidth;
 
 // 농협정보시스템 37.464175, 127.036021
       //하나로 마트 양재 37.463030 127.043407
-
-      var placePosition = new kakao.maps.LatLng(
-        ${
-          location && location.coords ? location.coords.latitude : "37.463030"
-        }, ${
-    location && location.coords ? location.coords.longitude : "127.043407"
-  }
-      );
- 
-     
-
+var placePosition =new kakao.maps.LatLng(37.463030, 127.043407);
 
 var mapOption = { 
         center: placePosition, // 지도의 중심좌표
@@ -109,25 +103,6 @@ var mapOption = {
     };
 
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-// 로드뷰 객체를 생성합니다 
-var roadview = new kakao.maps.Roadview(rvContainer);
-
-// 좌표로부터 로드뷰 파노라마 ID를 가져올 로드뷰 클라이언트 객체를 생성합니다 
-var rvClient = new kakao.maps.RoadviewClient(); 
-
-
-
-
-
-// 특정 장소가 잘보이도록 로드뷰의 적절한 시점(ViewPoint)을 설정합니다 
-// Wizard를 사용하면 적절한 로드뷰 시점(ViewPoint)값을 쉽게 확인할 수 있습니다
-roadview.setViewpoint({
-    pan: 321,
-    tilt: 0,
-    zoom: 0
-});
-
 
 // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
 var mapTypeControl = new kakao.maps.MapTypeControl();
@@ -140,8 +115,36 @@ map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 var zoomControl = new kakao.maps.ZoomControl();
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
+// 로드뷰 객체를 생성합니다 
+var roadview = new kakao.maps.Roadview(rvContainer);
+
+// 좌표로부터 로드뷰 파노라마 ID를 가져올 로드뷰 클라이언트 객체를 생성합니다 
+var rvClient = new kakao.maps.RoadviewClient(); 
+
+
+// 특정 장소가 잘보이도록 로드뷰의 적절한 시점(ViewPoint)을 설정합니다 
+// Wizard를 사용하면 적절한 로드뷰 시점(ViewPoint)값을 쉽게 확인할 수 있습니다
+roadview.setViewpoint({
+    pan: 321,
+    tilt: 0,
+    zoom: 0
+});
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new kakao.maps.services.Geocoder();
+
+
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch('${location}', function(result, status) {
+// alert(status);
+    // 정상적으로 검색이 완료됐으면 
+     if (status === kakao.maps.services.Status.OK) {
+
+          placePosition = new kakao.maps.LatLng(result[0].y, result[0].x)
+    alert(placePosition);
 // 마커가 표시될 위치입니다 
-var markerPosition  = placePosition; 
+var markerPosition  =  placePosition; 
 
 // 마커를 생성합니다
 var marker = new kakao.maps.Marker({
@@ -151,6 +154,14 @@ var marker = new kakao.maps.Marker({
 
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
+
+// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(placePosition);
+
+}
+
+});
+
 
 // 로드뷰 초기화가 완료되면 
  kakao.maps.event.addListener(roadview, 'init', function() {
