@@ -17,22 +17,28 @@ const BlueButton = styled(BaseButtonContainer)({
 const JoinStep1Screen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} style={styles.screen}>
-      <View
-        style={{
-          flexDirection: "row",
-        }}
-      >
-        <GreenButton
+      <Box style={{ marginBottom: 2.5 }}>
+        <Symbol source={require("@images/mem_img624.png")} />
+        <Info>
+          농협하나로마트 APP에서는 할인쿠폰 제공 등 회원만을 위한 다양한
+          서비스와 행사내용을 받을 수 있습니다.
+        </Info>
+        <GreenButton>
+          <ButtonText>본인인증</ButtonText>
+        </GreenButton>
+      </Box>
+      <Box style={{ marginTop: 2.5 }}>
+        <Symbol source={require("@images/mob_img623.png")} />
+        <Info>휴대폰 번호만으로도 이용이 가능합니다.</Info>
+        <BlueButton
+          title="본인인증"
           onPress={() => {
             navigation.navigate("JoinStep2");
           }}
         >
           <ButtonText>간편가입</ButtonText>
-        </GreenButton>
-        <BlueButton title="본인인증">
-          <ButtonText>본인인증</ButtonText>
         </BlueButton>
-      </View>
+      </Box>
     </BaseScreen>
   );
 };
@@ -52,6 +58,33 @@ export const screenOptions = ({ navigation }) => {
     // },
   };
 };
+const Info = styled.Text({
+  marginTop: 28,
+  marginBottom: 22,
+  marginLeft: "12%",
+  marginRight: "12%",
+  fontSize: 13,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.greyishBrown,
+});
+const Symbol = styled.Image({});
+ 
+const Box = styled.View({
+  justifyContent: "center",
+  alignItems: "center",
+  height: "50%",
+  width: "100%",
+  flex: 1,
+  borderRadius: 8,
+  backgroundColor: colors.trueWhite,
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: colors.pinkishGrey,
+});
 
 const styles = StyleSheet.create({
   screen: {
@@ -60,6 +93,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // backgroundColor: "black",
     height: "100%",
+    padding: 18,
   },
   allCheck: {
     flexDirection: "row",
