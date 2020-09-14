@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Button, Text, StyleSheet, View, Image } from "react-native";
 import Modal from "react-native-modal";
-
+import { useSelector, useDispatch } from "react-redux";
 const FlyerDetail = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
   const [width, setWidth] = useState();
   const [height, setHeight] = useState();
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   if (userStore) {
+  //     const requestEvent = dispatch(
+  //       eventActions.fetchEvent({ store_cd: userStore.store_cd })
+  //     );
+
+  //     Promise.all([requestEvent]).then(() => {
+  //       setIsLoading(false);
+  //     });
+  //   }
+  // }, [userStore]);
 
   const uri =
     "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg";

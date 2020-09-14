@@ -1,4 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
+import { SERVER_URL } from "@constants/settings";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -23,8 +24,9 @@ import {
   StyleConstants,
   BaseText,
 } from "@UI/BaseUI";
+import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
-import * as Linking from "expo-linking";
+
 import colors from "@constants/colors";
 
 import StoreItem from "@components/store/StoreItem";
@@ -32,6 +34,7 @@ import BaseScreen from "@components/BaseScreen";
 
 import * as branchesActions from "@actions/branches";
 import { setAgreePolicy, saveStoreDataToStorage } from "@actions/auth";
+import { setUserStore } from "@actions/auth";
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
   const dispatch = useDispatch();
@@ -47,10 +50,11 @@ const StoreChangeDetailScreen = (props) => {
       branchesActions.fetchBranch(storeItem.store_cd)
     );
     Promise.all([fetchBranch]).then(() => {
-      setLocation(
-        `${branch.lname}  ${branch.mname} ${branch.addr1} ${branch.addr2}`
-      );
       setIsLoading(false);
+      if (branch)
+        setLocation(
+          `${branch.lname}  ${branch.mname} ${branch.addr1} ${branch.addr2}`
+        );
     });
   }, [dispatch]);
   useEffect(() => {
@@ -61,10 +65,6 @@ const StoreChangeDetailScreen = (props) => {
       });
   }, [dispatch]);
 
-  const onMessage = (obj) => {
-    // console.log(obj.nativeEvent.data);
-    Linking.openURL(obj.nativeEvent.data);
-  };
   const [alert, setAlert] = useState();
   const storeChangeHandler = () => {
     const msg = `기존 매장에서 사용하신 스탬프와\n쿠폰은 변경매장에서 보이지 않으며\n기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
@@ -72,20 +72,22 @@ const StoreChangeDetailScreen = (props) => {
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
-        setStore();
+        saveStore();
       },
       onPressCancel: () => {
         setAlert(null);
       },
     });
   };
-  const setStore = () => {
+  const saveStore = () => {
     const msg = `${branch.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
     setAlert({
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
         saveStoreDataToStorage(branch);
+        dispatch(setUserStore(branch));
+
         if (!isAgreed) dispatch(setAgreePolicy(true));
         else {
           props.navigation.popToTop();
@@ -93,6 +95,7 @@ const StoreChangeDetailScreen = (props) => {
       },
     });
   };
+  if (!branch) return <Loading isLoading={isLoading} />;
 
   return (
     <BaseScreen
@@ -120,9 +123,11 @@ const StoreChangeDetailScreen = (props) => {
         <ExtendedWebView
           ref={(wv) => (webView = wv)}
           key={location}
-          // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=4
-          source={{ html: require("../../map.js")(location) }}
-          onMessage={onMessage}
+          // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
+          // source={{ html: require("../../map.js")(location) }}
+          source={{
+            uri: `${SERVER_URL}/web/about/map.do?store_cd=${branch.store_cd}`,
+          }}
         />
         <BottomCover />
       </StoreBox>
@@ -200,7 +205,7 @@ const StoreChangeDetailScreen = (props) => {
               </Text>
             </View>
             <BaseTouchable
-              onPress={() => (isAgreed ? storeChangeHandler() : setStore())}
+              onPress={() => (isAgreed ? storeChangeHandler() : saveStore())}
             >
               <View
                 style={{
@@ -246,7 +251,7 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const ButtonText = styled(BaseText)({
+const ButtonText = styled(Text)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -300,7 +305,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "cover",
 };
-const BlueText = styled(BaseText)({
+const BlueText = styled(Text)({
   fontSize: 18,
   fontWeight: "500",
   fontStyle: "normal",

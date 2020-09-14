@@ -27,7 +27,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Input } from "react-native-elements";
 
-
 import colors from "@constants/colors";
 
 import BottomButtons from "@components/BottomButtons";
@@ -53,6 +52,9 @@ import StoreChangeScreen, {
 import StoreChangeDetailScreen, {
   screenOptions as StoreChangeDetailScreenOptions,
 } from "@screens/snb/StoreChangeDetailScreen";
+import CouponScreen, {
+  screenOptions as CouponScreenOptions,
+} from "@screens/home/CouponScreen";
 import CouponDetailScreen, {
   screenOptions as CouponDetailScreenOptions,
 } from "@screens/home/CouponDetailScreen";
@@ -67,6 +69,12 @@ import NoticeScreen, {
 import InquiryScreen, {
   screenOptions as InquiryScreenOptions,
 } from "@screens/snb/NoticeScreen";
+import PrivacyScreen, {
+  screenOptions as PrivacyScreenOptions,
+} from "@screens/snb/PrivacyScreen";
+import TermsScreen, {
+  screenOptions as TermsScreenOptions,
+} from "@screens/snb/TermsScreen";
 // const defaultStackNavOptions = {
 //   headerStyle: {
 //     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
@@ -107,26 +115,6 @@ export const MyCouponTabNavigator = () => {
         options={{ title: "상품할인쿠폰" }}
       />
     </MyCouponTopTabNavigator.Navigator>
-  );
-};
-const CouponTopTabNavigator = createMaterialTopTabNavigator();
-export const CouponTabNavigator = () => {
-  return (
-    <CouponTopTabNavigator.Navigator
-      initialRouteName="CouponForTotal"
-      swipeEnabled={false}
-    >
-      <CouponTopTabNavigator.Screen
-        name="CouponForTotal"
-        component={CouponForTotalScreen}
-        options={{ title: "총액할인쿠폰" }}
-      />
-      <CouponTopTabNavigator.Screen
-        name="CouponForProduct"
-        component={CouponForProductScreen}
-        options={{ title: "상품할인쿠폰" }}
-      />
-    </CouponTopTabNavigator.Navigator>
   );
 };
 
@@ -247,6 +235,7 @@ export const HomeTabNavigator = ({ navigation }) => {
         </View>
       </Animated.View>
       <HomeTopTabNavigator.Navigator
+        lazy={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
         swipeEnabled={false}
@@ -279,7 +268,7 @@ export const HomeTabNavigator = ({ navigation }) => {
         />
         <HomeTopTabNavigator.Screen
           name="Coupon"
-          component={CouponTabNavigator}
+          component={CouponScreen}
           options={{ title: "나로쿠폰" }}
         />
         <HomeTopTabNavigator.Screen
@@ -367,6 +356,16 @@ export const HomeNavigator = () => {
           name="Inquiry"
           component={InquiryScreen}
           options={InquiryScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Privacy"
+          component={PrivacyScreen}
+          options={PrivacyScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Terms"
+          component={TermsScreen}
+          options={TermsScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

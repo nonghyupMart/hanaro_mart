@@ -1,13 +1,35 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import BaseScreen from "@components/BaseScreen";
 import Gallery from "react-native-image-gallery";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-
+import { BackButton, TextTitle } from "@UI/header";
+import { useSelector, useDispatch } from "react-redux";
+import * as flyerActions from "@actions/flyer";
 const FlyerDetailScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const leafletDetail = useSelector((state) => state.flyer.leafletDetail);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const [isLoading, setIsLoading] = useState(true);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
+  useEffect(() => {
+    setIsLoading(true);
+    if (userStore) {
+      const requestLeafletDetail = dispatch(
+        flyerActions.fetchLeafletDetail({ leaf_cd: props.leaf_cd })
+      );
+
+      Promise.all([requestLeafletDetail]).then(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [userStore]);
+  if (leafletDetail) {
+    //
+  }
   const images = [
     { source: { uri: "http://i.imgur.com/XP2BE7q.jpg" } },
     { source: { uri: "http://i.imgur.com/5nltiUd.jpg" } },
@@ -40,7 +62,7 @@ const FlyerDetailScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <BaseScreen isLoading={isLoading} isScroll={false}>
       <Text>전단 상세 페이지</Text>
       <View style={{ flexDirection: "row" }}>
         <TouchableOpacity onPress={() => goFirst()}>
@@ -61,13 +83,16 @@ const FlyerDetailScreen = ({ navigation }) => {
         style={{ flex: 1, backgroundColor: "black" }}
         images={images}
       />
-    </SafeAreaView>
+    </BaseScreen>
   );
 };
 
 export const screenOptions = ({ navigation }) => {
   return {
-    title: "전단 상세",
+    title: "전단지",
+    headerLeft: () => <BackButton />,
+    headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: (props) => <></>,
   };
 };
 

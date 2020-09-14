@@ -224,10 +224,26 @@ function roadMap() {
         // 37.464175, 127.036021
         var roadViewUrl = "http://map.kakao.com/?panoid="+panoId;
         // window.open(roadViewUrl);
-        window.ReactNativeWebView.postMessage(roadViewUrl);
+
+        var a = {
+      message: "111",
+      onPressConfirm: function a(){
+        alert("1");
+      },
+      onPressCancel: function b(){
+      
+      },
+    };
+       
+    var b = {method:"openURL", url:roadViewUrl};
+        var event =  JSON.stringify(a);
+        alert(event);
+
+        window.ReactNativeWebView.postMessage(event);
+        
     });
 }
-     
+
 </script>
 </body>
 </html>

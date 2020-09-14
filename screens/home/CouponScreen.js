@@ -5,7 +5,7 @@ import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
 import EventItem from "@components/EventItem";
-const EventScreen = ({ navigation }) => {
+const CouponScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
   screen: { backgroundColor: colors.trueWhite },
 });
 
-export default EventScreen;
+export default CouponScreen;

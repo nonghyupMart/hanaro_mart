@@ -314,7 +314,7 @@ const AgreementScreen = ({ navigation }) => {
                 <TextView
                   style={{
                     color: item.isRequired ? colors.cerulean : colors.viridian,
-                    fontWeight: item.isNormalTitle ? "" : "bold",
+                    fontWeight: item.isNormalTitle ? "normal" : "bold",
                   }}
                 >
                   {item.isRequired ? "[필수] " : "[선택] "}

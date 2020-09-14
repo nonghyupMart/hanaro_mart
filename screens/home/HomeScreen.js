@@ -32,13 +32,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import { setUserStore } from "@actions/auth";
 
-import ScrollList from "../../components/UI/ScrollList";
-import StoreListPopup from "../../components/store/StoreListPopup";
-import FlyerItem from "../../components/FlyerItem";
-
 const { width, height } = Dimensions.get("window");
 import * as authActions from "@actions/auth";
-import { StyleConstants, BaseText } from "@UI/BaseUI";
+import { StyleConstants, BaseText, BaseImage } from "@UI/BaseUI";
 import * as homeActions from "@actions/home";
 import { IMAGE_URL } from "@constants/settings";
 
@@ -86,110 +82,103 @@ const HomeScreen = ({ navigation }) => {
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}
     >
-      <ScrollList
-        style={{ flex: 1, width: "100%" }}
-        renderItem={({ item, index, separators }) => (
-          <View>
-            {homeBanner ? (
-              <Carousel
-                delay={2000}
-                style={{ flex: 1, height: width * 0.608 }}
-                autoplay
-                pageInfo
-              >
-                {homeBanner.bannerList ? (
-                  homeBanner.bannerList.map((item, index) => {
-                    let imageSource = {
-                      uri: IMAGE_URL + item.display_img,
-                    };
-                    // console.log("imageSource!", imageSource);
-                    const onError = () => {
-                      // console.log("error =====>");
-                      imageSource = require("@images/m_img499.png");
-                    };
-                    return (
-                      <View style={{ flex: 1 }}>
-                        <Image
-                          style={{
-                            flex: 1,
-                            height: width * 0.608,
-                            width: width,
-                          }}
-                          defaultSource={require("@images/m_img499.png")}
-                          resizeMode="cover"
-                          // loadingIndicatorSource={require("@images/m_img499.png")}
-                          source={imageSource}
-                          onError={onError.bind(this)}
-                        />
-                      </View>
-                    );
-                  })
-                ) : (
-                  <Image
-                    style={{ flex: 1, height: width * 0.608, width: width }}
-                    source={require("@images/m_img499.png")}
+      {homeBanner ? (
+        <Carousel
+          delay={2000}
+          style={{ flex: 1, height: width * 0.608, width: "100%" }}
+          autoplay
+          pageInfo
+        >
+          {homeBanner.bannerList ? (
+            homeBanner.bannerList.map((item, index) => {
+              let imageSource = {
+                uri: IMAGE_URL + item.display_img,
+              };
+              // console.log("imageSource!", imageSource);
+              const onError = () => {
+                // console.log("error =====>");
+                imageSource = require("@images/m_img499.png");
+              };
+              return (
+                <View style={{ flex: 1 }}>
+                  <BaseImage
+                    style={{
+                      flex: 1,
+                      height: width * 0.608,
+                      width: width,
+                    }}
+                    defaultSource={require("@images/m_img499.png")}
                     resizeMode="cover"
+                    // loadingIndicatorSource={require("@images/m_img499.png")}
+                    source={imageSource}
+                    onError={onError.bind(this)}
                   />
-                )}
-              </Carousel>
-            ) : (
-              <Image
-                style={{ flex: 1, height: width * 0.608, width: width }}
-                source={require("@images/m_img499.png")}
-                resizeMode="cover"
-              />
-            )}
-            <ExtendedWebView
-              style={{ flex: 1, height: width * 0.555, opacity: 0.99 }}
-              source={{
-                html: require("../../youtubePlayer.js")(videoId),
-              }}
+                </View>
+              );
+            })
+          ) : (
+            <BaseImage
+              style={{ flex: 1, height: width * 0.608, width: width }}
+              source={require("@images/m_img499.png")}
+              resizeMode="cover"
             />
-            {homeNotice && (
-              <FlatList
-                initialNumToRender={6}
-                onEndReachedThreshold={60}
-                onEndReached={() => {
-                  // alert("onEndReached");
-                  // loadMore();
-                }}
-                contentContainerStyle={{
-                  justifyContent: "space-between",
-                }}
-                numColumns={1}
-                style={{
-                  flexGrow: 1,
-                  marginLeft: StyleConstants.defaultPadding,
-                  marginRight: StyleConstants.defaultPadding,
-                  marginTop: 8,
-                }}
-                data={homeNotice.noticeList}
-                keyExtractor={(item) => item.id + ""}
-                renderItem={(itemData) => {
-                  return (
-                    <TouchableNativeFeedback
-                      onPress={() => {
-                        navigation.navigate("Notice", {
-                          type: "H",
-                          notice_cd: itemData.item.notice_cd,
-                        });
-                      }}
-                    >
-                      <NoticeItemContainer>
-                        <View>
-                          <View></View>
-                          <NoticeTitle>{itemData.item.title}</NoticeTitle>
-                        </View>
-                        <NoticeTitle>{itemData.item.reg_date}</NoticeTitle>
-                      </NoticeItemContainer>
-                    </TouchableNativeFeedback>
-                  );
-                }}
-              />
-            )}
-          </View>
-        )}
+          )}
+        </Carousel>
+      ) : (
+        <BaseImage
+          style={{ flex: 1, height: width * 0.608, width: width }}
+          source={require("@images/m_img499.png")}
+          resizeMode="cover"
+        />
+      )}
+      <ExtendedWebView
+        style={{ flex: 1, height: width * 0.555, opacity: 0.99, width: width }}
+        source={{
+          html: require("../../youtubePlayer.js")(videoId),
+        }}
       />
+      {homeNotice && (
+        <FlatList
+          initialNumToRender={6}
+          onEndReachedThreshold={60}
+          onEndReached={() => {
+            // alert("onEndReached");
+            // loadMore();
+          }}
+          contentContainerStyle={{
+            justifyContent: "space-between",
+          }}
+          numColumns={1}
+          style={{
+            width: width,
+            flexGrow: 1,
+
+            marginTop: 8,
+          }}
+          data={homeNotice.noticeList}
+          keyExtractor={(item) => item.id + ""}
+          renderItem={(itemData) => {
+            return (
+              <TouchableNativeFeedback
+                onPress={() => {
+                  navigation.navigate("Notice", {
+                    type: "H",
+                    notice_cd: itemData.item.notice_cd,
+                  });
+                }}
+              >
+                <NoticeItemContainer>
+                  <View>
+                    <View></View>
+                    <NoticeTitle>{itemData.item.title}</NoticeTitle>
+                  </View>
+                  <NoticeTitle>{itemData.item.reg_date}</NoticeTitle>
+                </NoticeItemContainer>
+              </TouchableNativeFeedback>
+            );
+          }}
+        />
+      )}
     </BaseScreen>
   );
 };
@@ -274,6 +263,8 @@ const NoticeItemContainer = styled.View({
   marginBottom: 3,
 
   justifyContent: "space-between",
+  marginLeft: StyleConstants.defaultPadding,
+  marginRight: StyleConstants.defaultPadding,
 });
 const styles = StyleSheet.create({
   screen: {

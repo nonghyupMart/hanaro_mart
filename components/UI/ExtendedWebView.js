@@ -1,11 +1,23 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
+import * as Linking from "expo-linking";
 
 export const ExtendedWebView = (props) => {
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
+  const onMessage = (event) => {
+    // console.log(obj.nativeEvent.data);
+    const message = JSON.parse(event.nativeEvent.data);
+    console.log(message);
+    switch (message.method) {
+      case "openURL":
+        return Linking.openURL(message.url);
+      case "alert":
+        return;
+    }
+  };
   return (
     <WebView
       {...restProps}
@@ -20,6 +32,7 @@ export const ExtendedWebView = (props) => {
       allowFileAccessFromFileURLs={true}
       mixedContentMode="always"
       sharedCookiesEnabled={true}
+      onMessage={(event) => onMessage(event)}
       // onShouldStartLoadWithRequest={(request) => {
       //   // console.warn(request.url);
       //   // If we're loading the current URI, allow it to load

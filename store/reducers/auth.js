@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
     case SET_USER_STORE:
       return {
         ...state,
-        userStore: action.userStore,
+        userStore: { ...action.userStore },
       };
     default:
       return state;

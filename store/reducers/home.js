@@ -10,12 +10,12 @@ export default (state = initialState, action) => {
     case SET_HOME_BANNER:
       return {
         ...state,
-        homeBanner: action.homeBanner,
+        homeBanner: { ...action.homeBanner },
       };
     case SET_HOME_NOTICE:
       return {
         ...state,
-        homeNotice: action.homeNotice,
+        homeNotice: { ...action.homeNotice },
       };
   }
 

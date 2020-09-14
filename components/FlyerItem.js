@@ -8,25 +8,22 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText, BaseImage } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
+import { IMAGE_URL } from "@constants/settings";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
       <Container>
-        <Image
+        <BaseImage
           style={{
             width: width * 0.219,
             height: width * 0.227,
-            resizeMode: "cover",
           }}
-          source={{
-            uri:
-              "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-          }}
+          source={props.item.title_img}
           defaultSource={require("@images/p_img503.png")}
         />
         <Title>{props.item.title}</Title>

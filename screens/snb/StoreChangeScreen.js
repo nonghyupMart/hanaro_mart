@@ -37,12 +37,7 @@ const StoreChangeScreen = (props) => {
   const isAgreed = useSelector((state) => state.auth.isAgreed);
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
 
-  const [selectedItem, setSelectedItem] = useState(2);
-
-  const [isBranchSelected, setIsBranchSelected] = useState(false);
-  const [currentItem, setCurrentItem] = useState({ id: null, title: "" });
   const [lname, setLname] = useState();
   const [mname, setMname] = useState();
   const [store_nm, setStore_nm] = useState("");
@@ -66,39 +61,10 @@ const StoreChangeScreen = (props) => {
     });
   }, [dispatch]);
 
-  const onLnameChange = (lname) => {
-    setIsLoading(true);
-    setLname(() => lname);
-    const query = { lname, mname, store_nm };
-    const fetchBranches = dispatch(branchesActions.fetchBranches(query));
-    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
-
-    Promise.all([fetchBranches, fetchAddress2]).then(() => {
-      setIsLoading(false);
-    });
-  };
-  const onMnameChange = (mname) => {
-    setIsLoading(true);
-    setMname(() => mname);
-    const query = { lname, mname, store_nm };
-    dispatch(branchesActions.fetchBranches(query)).then(() => {
-      setIsLoading(false);
-    });
-  };
-  const onPressSearch = () => {
-    setIsLoading(true);
-    const query = { lname, mname, store_nm };
-    dispatch(branchesActions.fetchBranches(query)).then(() => {
-      setIsLoading(false);
-    });
-  };
-
   const popupHandler = (item) => {
-    // setIsBranchSelected((isVisible) => !isVisible);
-    setCurrentItem(() => item);
     if (isAgreed)
       props.navigation.navigate("StoreChangeDetail", { item: item });
-    else props.navigation.navigate("StoreSetupDetail");
+    else props.navigation.navigate("StoreSetupDetail", { item: item });
   };
 
   const [location, setLocation] = useState(null);
@@ -128,7 +94,6 @@ const StoreChangeScreen = (props) => {
     <BaseScreen
       style={{
         backgroundColor: colors.trueWhite,
-
         paddingLeft: 0,
         paddingRight: 0,
       }}
@@ -136,155 +101,29 @@ const StoreChangeScreen = (props) => {
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
-      <StoreBox style={{}}>
-        <Plus />
-        <BlueText>나의 매장을 설정해 주세요</BlueText>
-        <BottomCover
-          onLoadStart={() => {
-            // setIsLoading(true);
-          }}
-          onLoad={(e) => {
-            setIsLoading(false);
-          }}
-        />
-      </StoreBox>
+      <InfoBox />
       <WhiteContainer>
-        <View
-          style={
-            ([styles.row],
-            {
-              flexDirection: "row",
-              flex: 1,
-              marginLeft: StyleConstants.defaultPadding,
-              marginRight: StyleConstants.defaultPadding,
-            })
-          }
-        >
-          <BlueRoundView
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingLeft: 22.5,
-              paddingRight: 10,
-            }}
-          >
-            <Image
-              source={require("@images/ic_store_mall_directory_24px.png")}
-            />
-            <Text
-              style={{
-                marginLeft: 5,
-                fontSize: 14,
-                fontWeight: "normal",
-                fontStyle: "normal",
-                lineHeight: 20,
-                letterSpacing: 0,
-                textAlign: "center",
-                color: colors.trueWhite,
-              }}
-            >
-              매장명
-            </Text>
-          </BlueRoundView>
-          <View
-            style={{
-              paddingRight: 8,
-              paddingLeft: 12,
-              flexDirection: "row",
-              height: 40,
-              borderStyle: "solid",
-              borderWidth: 1,
-              borderColor: colors.cerulean,
-              borderTopRightRadius: 20,
-              borderBottomRightRadius: 20,
-              flex: 1,
-            }}
-          >
-            <TextInput
-              placeholder="매장명을 입력하세요."
-              style={{
-                marginLeft: 10,
-                marginRight: 10,
-                flex: 1,
-              }}
-              onChangeText={(name) => setStore_nm(name)}
-              value={store_nm}
-              onSubmitEditing={onPressSearch}
-            />
-            <BaseTouchable
-              onPress={onPressSearch}
-              style={{ justifyContent: "center", paddingRight: 10 }}
-            >
-              <Image source={require("@images/search-24px.png")} />
-            </BaseTouchable>
-          </View>
-        </View>
+        <SearchBar
+          {...props}
+          store_nm={store_nm}
+          lname={lname}
+          mname={mname}
+          setStore_nm={setStore_nm}
+          setIsLoading={setIsLoading}
+        />
 
-        <View
-          style={{
-            flexDirection: "row",
-            flex: 1,
-            justifyContent: "center",
-            paddingTop: Platform.OS === "android" ? 10 : 0,
-            paddingBottom: Platform.OS === "android" ? 10 : 0,
-            marginLeft: 35.5,
-            marginRight: 35.5,
-          }}
-        >
-          <Picker
-            style={styles.picker}
-            itemStyle={styles.pickerItem}
-            selectedValue={lname}
-            onValueChange={(itemValue, itemIndex) => onLnameChange(itemValue)}
-          >
-            <Picker.Item label="시/도 선택" value={null} key={-1} />
-            {address1 &&
-              address1.lnameList &&
-              address1.lnameList.map((item, index) => {
-                return (
-                  <Picker.Item
-                    label={item.lname}
-                    value={item.lname}
-                    key={index}
-                  />
-                );
-              })}
-          </Picker>
+        <PickerViews
+          {...props}
+          store_nm={store_nm}
+          lname={lname}
+          mname={mname}
+          address1={address1}
+          address2={address2}
+          setIsLoading={setIsLoading}
+          setLname={setLname}
+          setMname={setMname}
+        />
 
-          {lname != null && address2 && address2.mnameList && (
-            <Picker
-              style={styles.picker}
-              itemStyle={styles.pickerItem}
-              selectedValue={mname}
-              onValueChange={(itemValue, itemIndex) => onMnameChange(itemValue)}
-            >
-              <Picker.Item label="선택" value="" key={-1} />
-              {address2.mnameList.map((item, index) => {
-                return (
-                  <Picker.Item
-                    label={item.mname}
-                    value={item.mname}
-                    key={index}
-                  />
-                );
-              })}
-            </Picker>
-          )}
-
-          {/* <Picker style={styles.picker} itemStyle={styles.pickerItem}>
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker> */}
-        </View>
-        {/* <View style={[styles.row, { marginBottom: 10 }]}>
-          <GrayButton>
-            <ButtonText>취소</ButtonText>
-          </GrayButton>
-          <BlueButton style={{ marginLeft: 4 }}>
-            <ButtonText style={{ color: colors.trueWhite }}>확인</ButtonText>
-          </BlueButton>
-        </View> */}
         {branches && (
           <FlatList
             style={{ width: "100%", flexGrow: 1 }}
@@ -302,7 +141,156 @@ const StoreChangeScreen = (props) => {
     </BaseScreen>
   );
 };
+const PickerViews = (props) => {
+  const dispatch = useDispatch();
+  const onLnameChange = (lname) => {
+    props.setIsLoading(true);
+    props.setLname(() => lname);
+    const query = { lname, mname: props.mname, store_nm: props.store_nm };
+    const fetchBranches = dispatch(branchesActions.fetchBranches(query));
+    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 
+    Promise.all([fetchBranches, fetchAddress2]).then(() => {
+      props.setIsLoading(false);
+    });
+  };
+  const onMnameChange = (mname) => {
+    props.setIsLoading(true);
+    props.setMname(() => mname);
+    const query = { lname: props.lname, mname, store_nm: props.store_nm };
+    dispatch(branchesActions.fetchBranches(query)).then(() => {
+      props.setIsLoading(false);
+    });
+  };
+
+  return (
+    <PickerContainer>
+      <Picker
+        style={styles.picker}
+        itemStyle={styles.pickerItem}
+        selectedValue={props.lname}
+        onValueChange={(itemValue, itemIndex) => onLnameChange(itemValue)}
+      >
+        <Picker.Item label="시/도 선택" value={null} key={-1} />
+        {props.address1 &&
+          props.address1.lnameList &&
+          props.address1.lnameList.map((item, index) => {
+            return (
+              <Picker.Item label={item.lname} value={item.lname} key={index} />
+            );
+          })}
+      </Picker>
+
+      {props.lname != null && props.address2 && props.address2.mnameList && (
+        <Picker
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
+          selectedValue={props.mname}
+          onValueChange={(itemValue, itemIndex) => onMnameChange(itemValue)}
+        >
+          <Picker.Item label="선택" value="" key={-1} />
+          {props.address2.mnameList.map((item, index) => {
+            return (
+              <Picker.Item label={item.mname} value={item.mname} key={index} />
+            );
+          })}
+        </Picker>
+      )}
+    </PickerContainer>
+  );
+};
+const PickerContainer = styled.View({
+  flexDirection: "row",
+  flex: 1,
+  justifyContent: "center",
+  paddingTop: Platform.OS === "android" ? 10 : 0,
+  paddingBottom: Platform.OS === "android" ? 10 : 0,
+  marginLeft: 35.5,
+  marginRight: 35.5,
+});
+
+const InfoBox = (props) => {
+  return (
+    <StoreBox style={{}}>
+      <Plus />
+      <BlueText>나의 매장을 설정해 주세요</BlueText>
+      <BottomCover
+        onLoadStart={() => {
+          // setIsLoading(true);
+        }}
+      />
+    </StoreBox>
+  );
+};
+const SearchBar = (props) => {
+  const dispatch = useDispatch();
+  const onPressSearch = () => {
+    props.setIsLoading(true);
+    const query = {
+      lname: props.lname,
+      mname: props.mname,
+      store_nm: props.store_nm,
+    };
+    dispatch(branchesActions.fetchBranches(query)).then(() => {
+      props.setIsLoading(false);
+    });
+  };
+  return (
+    <SearchBarContainer>
+      <BlueRoundView>
+        <Image source={require("@images/ic_store_mall_directory_24px.png")} />
+        <StoreName>매장명</StoreName>
+      </BlueRoundView>
+      <TextInputContainer>
+        <SearchTextInput
+          placeholder="매장명을 입력하세요."
+          onChangeText={(name) => props.setStore_nm(name)}
+          value={props.store_nm}
+          onSubmitEditing={onPressSearch}
+        />
+        <BaseTouchable
+          onPress={onPressSearch}
+          style={{ justifyContent: "center", paddingRight: 10 }}
+        >
+          <Image source={require("@images/search-24px.png")} />
+        </BaseTouchable>
+      </TextInputContainer>
+    </SearchBarContainer>
+  );
+};
+const SearchTextInput = styled.TextInput({
+  marginLeft: 10,
+  marginRight: 10,
+  flex: 1,
+});
+const TextInputContainer = styled.View({
+  paddingRight: 8,
+  paddingLeft: 12,
+  flexDirection: "row",
+  height: 40,
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: colors.cerulean,
+  borderTopRightRadius: 20,
+  borderBottomRightRadius: 20,
+  flex: 1,
+});
+const StoreName = styled(Text)({
+  marginLeft: 5,
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+});
+const SearchBarContainer = styled.View({
+  flexDirection: "row",
+  flex: 1,
+  marginLeft: StyleConstants.defaultPadding,
+  marginRight: StyleConstants.defaultPadding,
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "매장설정",
@@ -342,6 +330,11 @@ const BlueRoundView = styled.View({
   borderBottomLeftRadius: 20,
   backgroundColor: colors.cerulean,
   height: 40,
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  paddingLeft: 22.5,
+  paddingRight: 10,
 });
 
 const WhiteContainer = styled.View({
@@ -349,6 +342,7 @@ const WhiteContainer = styled.View({
   width: "100%",
   backgroundColor: colors.trueWhite,
   flex: 1,
+  height: "100%",
 });
 const BottomCover = styled.Image({
   width: "100%",

@@ -26,6 +26,8 @@ import authReducer from "@reducers/auth";
 import branchesReducer from "@reducers/branches";
 import homeReducer from "@reducers/home";
 import flyerReducer from "@reducers/flyer";
+import eventReducer from "@reducers/event";
+import couponReducer from "@reducers/coupon";
 
 YellowBox.ignoreWarnings(["Expected"]);
 // console.disableYellowBox = true;
@@ -42,6 +44,8 @@ const rootReducer = combineReducers({
   branches: branchesReducer,
   home: homeReducer,
   flyer: flyerReducer,
+  event: eventReducer,
+  coupon: couponReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

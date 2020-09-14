@@ -12,6 +12,7 @@ const FlyerScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const userStore = useSelector((state) => state.auth.userStore);
+  // console.warn("==> start FlyerScreen", userStore.store_cd);
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const routes = useSelector((state) =>
     state.flyer.leaflet ? state.flyer.leaflet.leafletList : []
@@ -21,7 +22,7 @@ const FlyerScreen = ({ navigation }) => {
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoading(true);
       if (userStore) {
-        // console.warn("start FlyerScreen");
+        // console.warn("start FlyerScreen", userStore.store_cd);
         const requestLeaflet = dispatch(
           flyerActions.fetchLeaflet({ store_cd: userStore.store_cd })
         );
@@ -36,7 +37,7 @@ const FlyerScreen = ({ navigation }) => {
 
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
-  }, [navigation, dispatch]);
+  }, [userStore]);
 
   const [index, setIndex] = React.useState(0);
   const handleIndexChange = (index) => {
@@ -67,6 +68,7 @@ const FlyerScreen = ({ navigation }) => {
   const renderScene = ({ route, jumpTo }) => {
     return (
       <FlyerContentsScreen
+        title_img={routes[routes.indexOf(route)].title_img}
         number={routes.indexOf(route)}
         goLeft={goLeft}
         goRight={goRight}

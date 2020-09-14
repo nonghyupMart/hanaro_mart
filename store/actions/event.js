@@ -1,12 +1,13 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
-export const SET_LEAFLET = "SET_LEAFLET";
-export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
+export const SET_EVENT = "SET_EVENT";
+export const SET_MORE_EVENT = "SET_MORE_EVENT";
 export const SET_PRODUCT = "SET_PRODUCT";
 
-export const fetchLeaflet = (query) => {
+export const fetchEvent = (query) => {
+  //dv-www.hanaromartapp.com/api/event?store_cd=4&status=O
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/leaflet`,
+    url: `${API_URL}/event`,
     query: query,
   });
 
@@ -15,37 +16,16 @@ export const fetchLeaflet = (query) => {
       const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error("fetchLeaflet Something went wrong!");
+        throw new Error("fetchEvent Something went wrong!");
       }
 
       const resData = await response.json();
-      // console.warn("fetchLeaflet");
-      dispatch({ type: SET_LEAFLET, leaflet: resData.data });
-    } catch (err) {
-      throw err;
-    }
-  };
-};
-
-export const fetchLeafletDetail = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/leaflet/${query.leaf_cd}`,
-  });
-
-  return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-
-      if (!response.ok) {
-        throw new Error("fetchLeafletDetail Something went wrong!");
+      // console.warn("fetchEvent", resData.data)
+      if (query.offset == undefined || query.offset == 0) {
+        dispatch({ type: SET_EVENT, event: resData.data });
+      } else if (query.offset > 0 && resData.data.eventList.length > 0) {
+        dispatch({ type: SET_MORE_EVENT, event: resData.data });
       }
-
-      const resData = await response.json();
-      // console.warn("fetchLeaflet");
-      dispatch({
-        type: SET_LEAFLET_DETAIL,
-        leafletDetail: resData.data.leafletInfo,
-      });
     } catch (err) {
       throw err;
     }

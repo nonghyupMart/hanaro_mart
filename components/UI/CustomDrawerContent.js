@@ -121,11 +121,11 @@ const LoginButtons = (props) => {
         </BlueButton>
       </ButtonContainer>
       <BlackContainer>
-        <BlackButton>
+        <BlackButton onPress={() => props.navigation.navigate("Terms")}>
           <BlackText>이용약관</BlackText>
         </BlackButton>
         <BlackBar> | </BlackBar>
-        <BlackButton>
+        <BlackButton onPress={() => props.navigation.navigate("Privacy")}>
           <BlackText>개인정보처리방침</BlackText>
         </BlackButton>
       </BlackContainer>

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, Image, FlatList, Dimensions } from "react-native";
 import BaseScreen from "@components/BaseScreen";
-import { BaseTouchable } from "@UI/BaseUI";
+import { BaseTouchable, BaseImage } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "@actions/flyer";
 import FlyerItem from "../../components/FlyerItem";
 import FlyerDetail from "../../components/FlyerDetail";
 import { useFocusEffect } from "@react-navigation/native";
+import { IMAGE_URL } from "@constants/settings";
 
 const { width } = Dimensions.get("window");
 
@@ -17,65 +18,14 @@ const FlyerContentsScreen = (props) => {
 
   const [currentItem, setCurrentItem] = useState(null);
 
-  const [flyerItems, setFlyerItems] = useState([
-    {
-      id: 0,
-      title: "양재점",
-    },
-    {
-      id: 1,
-      title: "천안점",
-    },
-    {
-      id: 2,
-      title: "마포점",
-    },
-    {
-      id: 3,
-      title: "이태원점",
-    },
-    {
-      id: 4,
-      title: "홍대점",
-    },
-    {
-      id: 5,
-      title: "안산점",
-    },
-    {
-      id: 6,
-      title: "양재점",
-    },
-    {
-      id: 7,
-      title: "천안점",
-    },
-    {
-      id: 8,
-      title: "마포점",
-    },
-    {
-      id: 9,
-      title: "이태원점",
-    },
-    {
-      id: 10,
-      title: "홍대점",
-    },
-    {
-      id: 11,
-      title: "안산점",
-    },
-  ]);
   const userStore = useSelector((state) => state.auth.userStore);
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
   useEffect(() => {
-    console.log("props **** ", props);
     setIsLoading(true);
     if (userStore && leaflet) {
       const leaf_cd = leaflet.leafletList[props.number].leaf_cd;
-
+      console.warn(userStore.store_cd);
       const requestProduct = dispatch(
         flyerActions.fetchProduct({
           store_cd: userStore.store_cd,
@@ -106,18 +56,19 @@ const FlyerContentsScreen = (props) => {
       {/* <StoreListPopup isVisible={isVisible} /> */}
 
       <BaseTouchable
-        onPress={() => RootNavigation.navigate("FlyerDetail")}
+        onPress={() =>
+          RootNavigation.navigate("FlyerDetail", {
+            leaf_cd: leaflet.leafletList[props.number].leaf_cd,
+          })
+        }
         style={{ height: width * 0.283, flex: 1, width: width }}
       >
-        <Image
+        <BaseImage
           style={{
             flex: 1,
             resizeMode: "cover",
           }}
-          source={{
-            uri:
-              "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-          }}
+          source={props.title_img}
         />
       </BaseTouchable>
       <Text>{props.number}</Text>
