@@ -36,7 +36,7 @@ const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const isAgreed = useSelector((state) => state.auth.isAgreed);
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [lname, setLname] = useState();
   const [mname, setMname] = useState();

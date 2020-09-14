@@ -3,24 +3,24 @@ import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "@actions/event";
-import EventItem from "@components/EventItem";
+import * as couponActions from "@actions/coupon";
+import CouponItem from "@components/CouponItem";
 const CouponScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const userStore = useSelector((state) => state.auth.userStore);
-  const event = useSelector((state) => state.event.event);
+  const coupon = useSelector((state) => state.coupon.coupon);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setIsLoading(true);
       if (userStore) {
-        const requestEvent = dispatch(
-          eventActions.fetchEvent({ store_cd: userStore.store_cd })
+        const requestCoupon = dispatch(
+          couponActions.fetchCoupon({ store_cd: userStore.store_cd })
         );
 
-        Promise.all([requestEvent]).then(() => {
+        Promise.all([requestCoupon]).then(() => {
           setIsLoading(false);
         });
       }
@@ -29,25 +29,27 @@ const CouponScreen = ({ navigation }) => {
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [userStore]);
-
-  const loadMore = () => {
-    if (!isLoading) {
-      const currentPage = page + 1;
-      setPage(() => currentPage);
-      setIsLoading(true);
-
-      const requestEvent = dispatch(
-        eventActions.fetchEvent({
-          store_cd: userStore.store_cd,
-          offset: currentPage,
-        })
-      );
-
-      Promise.all([requestEvent]).then(() => {
-        setIsLoading(false);
-      });
-    }
+  const onCouponItemPressed = (item) => {
+    navigation.navigate("CouponDetail", { cou_cd: item.cou_cd, user_cd: 0 });
   };
+  // const loadMore = () => {
+  //   if (!isLoading) {
+  //     const currentPage = page + 1;
+  //     setPage(() => currentPage);
+  //     setIsLoading(true);
+
+  //     const requestEvent = dispatch(
+  //       eventActions.fetchEvent({
+  //         store_cd: userStore.store_cd,
+  //         offset: currentPage,
+  //       })
+  //     );
+
+  //     Promise.all([requestEvent]).then(() => {
+  //       setIsLoading(false);
+  //     });
+  //   }
+  // };
 
   return (
     <BaseScreen
@@ -55,15 +57,22 @@ const CouponScreen = ({ navigation }) => {
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}
     >
-      {event && (
+      {coupon && (
         <ScrollList
-          data={event.eventList}
-          keyExtractor={(item) => item.event_cd}
-          onEndReached={() => {
-            loadMore();
-          }}
-          renderItem={(itemData) => {
-            return <EventItem item={itemData.item} />;
+          numColumns={2}
+          data={coupon.couponList}
+          keyExtractor={(item) => item.cou_cd}
+          // onEndReached={() => {
+          //   loadMore();
+          // }}
+          renderItem={({ item, index, separators }) => {
+            return (
+              <CouponItem
+                item={item}
+                index={index}
+                onPress={() => onCouponItemPressed(item)}
+              />
+            );
           }}
         />
       )}

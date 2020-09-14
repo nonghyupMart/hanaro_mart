@@ -12,7 +12,7 @@ const FlyerDetailScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const leafletDetail = useSelector((state) => state.flyer.leafletDetail);
   const userStore = useSelector((state) => state.auth.userStore);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
   useEffect(() => {

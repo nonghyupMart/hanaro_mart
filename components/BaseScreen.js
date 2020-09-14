@@ -38,6 +38,27 @@ const Contents = (props) => {
   );
 };
 const BaseScreen = (props) => {
+  const isBottomNavigation =
+    props.isBottomNavigation == undefined ? true : props.isBottomNavigation;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setBottomNavigation(isBottomNavigation));
+    }, 0);
+
+    const backAction = () => {
+      dispatch(setBottomNavigation(isBottomNavigation));
+      return false;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
   //   console.log(props.alert);
   // console.log(props.style);

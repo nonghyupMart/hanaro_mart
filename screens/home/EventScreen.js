@@ -7,7 +7,7 @@ import * as eventActions from "@actions/event";
 import EventItem from "@components/EventItem";
 const EventScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const userStore = useSelector((state) => state.auth.userStore);
   const event = useSelector((state) => state.event.event);
@@ -31,6 +31,7 @@ const EventScreen = ({ navigation }) => {
   }, [userStore]);
 
   const loadMore = () => {
+    // console.warn("loadMore");
     if (!isLoading) {
       const currentPage = page + 1;
       setPage(() => currentPage);

@@ -58,6 +58,9 @@ import CouponScreen, {
 import CouponDetailScreen, {
   screenOptions as CouponDetailScreenOptions,
 } from "@screens/home/CouponDetailScreen";
+import BarcodeScreen, {
+  screenOptions as BarcodeScreenOptions,
+} from "@screens/home/BarcodeScreen";
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "@screens/BarCodeScannerScreen";
@@ -96,27 +99,6 @@ const couponArray = [
   { component: "CouponForTotalScreen" },
   { component: "CouponForProductScreen" },
 ];
-
-const MyCouponTopTabNavigator = createMaterialTopTabNavigator();
-export const MyCouponTabNavigator = () => {
-  return (
-    <MyCouponTopTabNavigator.Navigator
-      initialRouteName="CouponForTotal"
-      swipeEnabled={false}
-    >
-      <MyCouponTopTabNavigator.Screen
-        name="CouponForTotal"
-        component={screens[couponArray[0].component]}
-        options={{ title: "총액할인쿠폰" }}
-      />
-      <MyCouponTopTabNavigator.Screen
-        name="CouponForProduct"
-        component={screens[couponArray[1].component]}
-        options={{ title: "상품할인쿠폰" }}
-      />
-    </MyCouponTopTabNavigator.Navigator>
-  );
-};
 
 const NaroCategories = [
   {
@@ -236,13 +218,14 @@ export const HomeTabNavigator = ({ navigation }) => {
       </Animated.View>
       <HomeTopTabNavigator.Navigator
         lazy={true}
+        optimizationsEnabled={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
         swipeEnabled={false}
         tabBarOptions={{
           scrollEnabled: true,
-          tabStyle: { width: 85 },
-          style: { marginLeft: -85 },
+          tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
+          style: { marginLeft: -83 },
         }}
       >
         <HomeTopTabNavigator.Screen
@@ -331,6 +314,11 @@ export const HomeNavigator = () => {
           options={CouponDetailScreenOptions}
         />
         <HomeStackNavigator.Screen
+          name="Barcode"
+          component={BarcodeScreen}
+          options={BarcodeScreenOptions}
+        />
+        <HomeStackNavigator.Screen
           name="RingPicker"
           component={RingPickerScreen}
           options={{
@@ -345,7 +333,8 @@ export const HomeNavigator = () => {
         />
         <HomeStackNavigator.Screen
           name="MyCoupon"
-          component={MyCouponTabNavigator}
+          component={NoticeScreen}
+          options={NoticeScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="Notice"

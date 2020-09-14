@@ -24,7 +24,7 @@ export const BaseImage = styled.Image.attrs((props) => {
   };
 })`
   flex: 1;
-  background-color: ${colors.pinkishGrey};
+  background-color: ${colors.white};
 `;
 
 BaseImage.defaultProps = {
@@ -40,7 +40,8 @@ export const BaseTouchable = (props) => {
 };
 export const BaseButtonContainer = styled(BaseTouchable)({
   width: screenWidth * 0.44,
-  height: 42,
+  minHeight: 42,
+  height: undefined,
   borderRadius: 21,
   justifyContent: "center",
   alignItems: "center",

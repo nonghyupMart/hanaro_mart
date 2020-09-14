@@ -3,7 +3,7 @@ import { Button, Text, StyleSheet, View, Image } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
 const FlyerDetail = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const [width, setWidth] = useState();

@@ -13,7 +13,7 @@ import { IMAGE_URL } from "@constants/settings";
 const { width } = Dimensions.get("window");
 
 const FlyerContentsScreen = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const [currentItem, setCurrentItem] = useState(null);
@@ -25,7 +25,7 @@ const FlyerContentsScreen = (props) => {
     setIsLoading(true);
     if (userStore && leaflet) {
       const leaf_cd = leaflet.leafletList[props.number].leaf_cd;
-      console.warn(userStore.store_cd);
+      // console.warn(userStore.store_cd);
       const requestProduct = dispatch(
         flyerActions.fetchProduct({
           store_cd: userStore.store_cd,

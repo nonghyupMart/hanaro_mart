@@ -48,7 +48,8 @@ const ButtonContainer = styled.View({
 });
 const BaseButton = styled(BaseTouchable)({
   width: width * 0.405,
-  height: 36,
+  aspectRatio: 100 / 24.65,
+  // height: 36,
   borderRadius: 20,
   justifyContent: "center",
   alignItems: "center",
@@ -73,7 +74,7 @@ const ButtonText = styled(Text)({
 const Message = styled(Text)({
   fontSize: 16,
   color: colors.trueWhite,
-  lineHeight: 20,
+  lineHeight: 22,
   marginBottom: 22,
   marginTop: 36,
   alignItems: "center",
@@ -86,7 +87,7 @@ const Container = styled.View({
   width: width - 16 * 2,
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   borderRadius: 10,
-  paddingBottom: 20,
+  paddingBottom: 25,
   justifyContent: "center",
 });
 export default Alert;

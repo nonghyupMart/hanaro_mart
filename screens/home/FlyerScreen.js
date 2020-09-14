@@ -10,7 +10,7 @@ const initialLayout = { width: Dimensions.get("window").width };
 
 const FlyerScreen = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore);
   // console.warn("==> start FlyerScreen", userStore.store_cd);
   const leaflet = useSelector((state) => state.flyer.leaflet);

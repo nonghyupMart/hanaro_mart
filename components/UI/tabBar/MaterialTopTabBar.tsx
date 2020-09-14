@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     fontStyle: "normal",
-    lineHeight: 24,
+    lineHeight: 16,
     letterSpacing: 0,
     textAlign: "left",
     color: ConstantsColors.black,

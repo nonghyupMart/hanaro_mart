@@ -39,7 +39,7 @@ const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
   const dispatch = useDispatch();
   const isAgreed = useSelector((state) => state.auth.isAgreed);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const branch = useSelector((state) => state.branches.branch);
 
