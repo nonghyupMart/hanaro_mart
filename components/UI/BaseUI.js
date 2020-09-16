@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components/native";
 import { IMAGE_URL } from "@constants/settings";
-import { Dimensions, TouchableOpacity } from "react-native";
+import { Dimensions, TouchableOpacity, Image } from "react-native";
+// import ScaledImage from "@UI/ScaledImage";
+export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
   "window"
 );
@@ -12,7 +14,8 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
   //  defaultImage: require("@images/b_img500.png"),
 };
-export const BaseImage = styled.Image.attrs((props) => {
+
+export const BaseImage = styled(Image).attrs((props) => {
   let source;
   if (typeof props.source == "string")
     source = {
@@ -22,10 +25,13 @@ export const BaseImage = styled.Image.attrs((props) => {
   return {
     source: source,
   };
-})`
-  flex: 1;
-  background-color: ${colors.white};
-`;
+})((props) => {
+  // console.warn(JSON.stringify(props, null, "\t"));
+
+  return {
+    backgroundColor: colors.white,
+  };
+});
 
 BaseImage.defaultProps = {
   defaultSource: require("@images/b_img500.png"),
@@ -47,12 +53,8 @@ export const BaseButtonContainer = styled(BaseTouchable)({
   alignItems: "center",
 });
 
-export const BaseText = styled.Text({});
-BaseText.defaultProps = {
-  numberOfLines: 1,
-};
 
-export const ButtonText = styled(BaseText)({
+export const ButtonText = styled.Text({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",
@@ -61,4 +63,40 @@ export const ButtonText = styled(BaseText)({
 
 export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
   borderRadius: 8,
+});
+
+export const DetailContainer = styled.View({
+  alignItems: "center",
+  width: "100%",
+  flex: 1,
+  backgroundColor: colors.trueWhite,
+  marginTop: 7,
+  paddingLeft: 18,
+  paddingRight: 18,
+  paddingBottom: 45,
+});
+
+export const BlueButtonText = styled.Text({
+  fontSize: 16,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 24,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.trueWhite,
+  marginLeft: 9,
+});
+export const BlueButton = styled(BaseButtonContainer)({
+  marginTop: 5,
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "row",
+  backgroundColor: colors.cerulean,
+  paddingTop: 8,
+  paddingBottom: 8,
+  flex: 1,
+  width: screenWidth - 18 * 2,
+  alignSelf: "center",
+  aspectRatio: 100 / 12.804,
+  borderRadius: 25,
 });

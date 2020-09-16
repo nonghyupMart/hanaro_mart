@@ -8,7 +8,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { BaseText, BaseImage } from "@UI/BaseUI";
+import { BaseImage } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { IMAGE_URL } from "@constants/settings";
@@ -46,7 +46,7 @@ const Container = styled.View({
   justifyContent: "center",
   alignItems: "center",
 });
-const SalePrice = styled(BaseText)({
+const SalePrice = styled.Text({
   fontSize: 16,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -55,7 +55,7 @@ const SalePrice = styled(BaseText)({
   textAlign: "center",
   color: colors.cerulean,
 });
-const OriginalPrice = styled(BaseText)({
+const OriginalPrice = styled.Text({
   fontSize: 12,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -64,7 +64,7 @@ const OriginalPrice = styled(BaseText)({
   textAlign: "center",
   color: colors.black,
 });
-const Title = styled(BaseText)({
+const Title = styled.Text({
   marginTop: 20,
   fontSize: 12,
   fontWeight: "normal",
@@ -74,6 +74,9 @@ const Title = styled(BaseText)({
   textAlign: "center",
   color: colors.greyishBrown,
 });
+Title.defaultProps = {
+  numberOfLines: 1,
+};
 const styles = StyleSheet.create({
   cartItem: {
     flexBasis: 0,

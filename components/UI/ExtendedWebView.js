@@ -18,6 +18,9 @@ export const ExtendedWebView = (props) => {
         return;
     }
   };
+  const onNavigationStateChange = (newNavState) => {
+    // console.warn(newNavState);
+  };
   return (
     <WebView
       {...restProps}
@@ -41,7 +44,9 @@ export const ExtendedWebView = (props) => {
       //   setURI(request.url);
       //   return false;
       // }}
-      startInLoadingState={false}
+      onNavigationStateChange={onNavigationStateChange}
+      startInLoadingState={true}
+      scalesPageToFit={true}
     />
   );
 };

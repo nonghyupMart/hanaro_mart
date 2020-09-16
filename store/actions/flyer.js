@@ -3,6 +3,7 @@ import { API_URL } from "@constants/settings";
 export const SET_LEAFLET = "SET_LEAFLET";
 export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
 export const SET_PRODUCT = "SET_PRODUCT";
+export const SET_PRODUCT_DETAIL = "SET_PRODUCT_DETAIL";
 
 export const fetchLeaflet = (query) => {
   const url = queryString.stringifyUrl({
@@ -19,7 +20,7 @@ export const fetchLeaflet = (query) => {
       }
 
       const resData = await response.json();
-      // console.warn("fetchLeaflet");
+      console.warn("fetchLeaflet");
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
     } catch (err) {
       throw err;
@@ -67,9 +68,39 @@ export const fetchProduct = (query) => {
       }
 
       const resData = await response.json();
-      //   console.warn("fetchProduct=> ", resData.data);
+      console.warn("fetchProduct=> ", resData.data);
 
       dispatch({ type: SET_PRODUCT, product: resData.data });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const fetchProductDetail = (query) => {
+  const cd = query.product_cd;
+  delete query.product_cd;
+
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/product/${cd}`,
+    query: query,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error("fetchProductDetail Something went wrong!");
+      }
+
+      const resData = await response.json();
+      //   console.warn("fetchProduct=> ", resData.data);
+
+      dispatch({
+        type: SET_PRODUCT_DETAIL,
+        productDetail: resData.data.productInfo,
+      });
     } catch (err) {
       throw err;
     }

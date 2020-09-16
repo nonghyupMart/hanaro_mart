@@ -6,7 +6,7 @@ import * as RootNavigation from "@navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "@actions/flyer";
 import FlyerItem from "../../components/FlyerItem";
-import FlyerDetail from "../../components/FlyerDetail";
+import ProductPopup from "../../components/ProductPopup";
 import { useFocusEffect } from "@react-navigation/native";
 import { IMAGE_URL } from "@constants/settings";
 
@@ -97,10 +97,11 @@ const FlyerContentsScreen = (props) => {
         />
       )}
 
-      <FlyerDetail
+      <ProductPopup
         item={currentItem}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
+        setIsLoading={setIsLoading}
       />
     </BaseScreen>
   );

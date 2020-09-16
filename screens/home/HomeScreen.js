@@ -16,7 +16,7 @@ import { HeaderButton, LogoTitle } from "@UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import URI from "urijs";
+
 import ScrollableTabView, {
   ScrollableTabBar,
 } from "react-native-scrollable-tab-view";
@@ -29,7 +29,6 @@ import { setUserStore } from "@actions/auth";
 import * as authActions from "@actions/auth";
 import {
   StyleConstants,
-  BaseText,
   BaseImage,
   BaseTouchable,
   screenWidth,
@@ -44,28 +43,26 @@ import NaroTube from "@components/home/NaroTube";
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const homeBanner = useSelector((state) => state.home.homeBanner);
   const homeNotice = useSelector((state) => state.home.homeNotice);
+  const homeNaro = useSelector((state) => state.home.homeNaro);
 
   useEffect(() => {
     setIsLoading(true);
-    const requestHomeBanner = dispatch(homeActions.fetchHomeBanner());
-    const requestHomeNotice = dispatch(homeActions.fetchHomeNotice());
-    Promise.all([requestHomeBanner, requestHomeNotice]).then((result) => {
-      setIsLoading(false);
-      // console.log(homeBanner);
-    });
+    const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
+    const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
+    const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
+    Promise.all([fetchHomeBanner, fetchHomeNotice, fetchHomeNaro]).then(
+      (result) => {
+        setIsLoading(false);
+        // console.log(homeBanner);
+      }
+    );
   }, [dispatch]);
-
-  const videoUrl =
-    "https://www.youtube.com/watch?v=53Vxx0R-EJM&feature=youtu.be";
-  const url = URI(videoUrl);
-  const videoId = url.query(true).v;
-  if (videoId == "") {
-  }
 
   useEffect(() => {
     (async () => {
@@ -75,6 +72,18 @@ const HomeScreen = ({ navigation }) => {
     })();
   }, [dispatch]);
 
+  const loadMore = () => {
+    if (!isLoading && isScrolled) {
+      if (page + 1 <= homeNotice.finalPage) {
+        console.warn("loadMore");
+        dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
+        setPage(page + 1);
+      }
+    }
+  };
+  const onScroll = () => {
+    if (!isScrolled) setIsScrolled(true);
+  };
   return (
     <BaseScreen
       isLoading={isLoading}
@@ -83,13 +92,17 @@ const HomeScreen = ({ navigation }) => {
     >
       <HomeBanner homeBanner={homeBanner} />
       <Space />
-      <NaroTube videoId={videoId} />
-      <HomeNotice homeNotice={homeNotice} />
+      <NaroTube homeNaro={homeNaro} />
+      <HomeNotice
+        homeNotice={homeNotice}
+        loadMore={loadMore}
+        onScroll={onScroll}
+      />
     </BaseScreen>
   );
 };
 const Space = styled.View({
-  flex: 1,
+  width: "100%",
   height: 10,
   width: screenWidth,
   backgroundColor: colors.white,

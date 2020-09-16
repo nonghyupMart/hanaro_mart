@@ -23,7 +23,7 @@ import * as Animatable from "react-native-animatable";
 import colors from "@constants/colors";
 
 import BaseScreen from "@components/BaseScreen";
-import { BaseButtonContainer, ButtonText, BaseText } from "@UI/BaseUI";
+import { BaseButtonContainer, ButtonText } from "@UI/BaseUI";
 
 import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
 
@@ -364,11 +364,11 @@ const AgreementScreen = ({ navigation }) => {
   );
 };
 
-const CheckButton = (props) => {
-  const checkedIcon = props.isRequired
+export const CheckButton = (props) => {
+  const checkedIcon = props.value.isRequired
     ? require("@images/check_box-2404.png")
     : require("@images/check_box-2402.png");
-  const uncheckedIcon = props.isRequired
+  const uncheckedIcon = props.value.isRequired
     ? require("@images/check_box-2403.png")
     : require("@images/check_box-2401.png");
   return (
@@ -431,7 +431,7 @@ const Desc = styled.View({ marginLeft: 58, marginBottom: 5 });
 const DescTextLine = styled.View({
   flexDirection: "row",
 });
-const TitleContainer = styled.View({
+export const TitleContainer = styled.View({
   flexDirection: "row",
   flex: 1,
 });
@@ -501,7 +501,7 @@ const TextBox = styled.View({
   borderColor: colors.pinkishGrey,
   flex: 1,
 });
-const TextView = styled(Text)({
+export const TextView = styled(Text)({
   flexShrink: 1,
   lineHeight: 20,
   fontSize: 12,

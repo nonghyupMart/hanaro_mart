@@ -45,7 +45,9 @@ import ExhibitionScreen from "@screens/home/ExhibitionScreen";
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
 import CouponForTotalScreen from "@screens/home/CouponForTotalScreen";
 import CouponForProductScreen from "@screens/home/CouponForProductScreen";
-
+import EventDetailScreen, {
+  screenOptions as EventDetailScreenOptions,
+} from "@screens/home/EventDetailScreen";
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
 } from "@screens/snb/StoreChangeScreen";
@@ -284,7 +286,7 @@ export const HomeNavigator = () => {
         }}
       >
         <HomeStackNavigator.Screen
-          name="home"
+          name="Home"
           component={HomeTabNavigator}
           options={HomeScreenOptions}
         />
@@ -355,6 +357,11 @@ export const HomeNavigator = () => {
           name="Terms"
           component={TermsScreen}
           options={TermsScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="EventDetail"
+          component={EventDetailScreen}
+          options={EventDetailScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

@@ -8,7 +8,7 @@ import {
   Platform,
   Image,
 } from "react-native";
-import { BaseText } from "@UI/BaseUI";
+import {} from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 
 const StoreItem = (props) => {
@@ -28,7 +28,7 @@ const StoreItem = (props) => {
     </TouchableOpacity>
   );
 };
-const Tel = styled(BaseText)({
+const Tel = styled.Text({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -37,7 +37,7 @@ const Tel = styled(BaseText)({
   textAlign: "left",
   color: colors.appleGreen,
 });
-const BlueText = styled(BaseText)({
+const BlueText = styled.Text({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -65,7 +65,7 @@ const Container = styled.View({
   paddingBottom: 10,
 });
 const TitleContainer = styled.View({});
-const Title = styled(BaseText)({
+const Title = styled.Text({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -74,6 +74,9 @@ const Title = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
+Title.defaultProps = {
+  numberOfLines: 1,
+};
 
 const styles = StyleSheet.create({
   cartItem: {

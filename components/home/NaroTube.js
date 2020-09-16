@@ -1,38 +1,75 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import Carousel from "react-native-looped-carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
   StyleConstants,
-  BaseText,
   BaseImage,
   BaseTouchable,
   screenWidth,
 } from "@UI/BaseUI";
+import URI from "urijs";
 const NaroTube = (props) => {
+  if (!props.homeNaro) return <></>;
   return (
     <>
       <NaroTubeContainer>
-        <NaroTitContainer>
-          <NaroTubeTitle>모든것을 나로와 함께</NaroTubeTitle>
-          <NaroMore>
-            <MoreText>전체보기</MoreText>
-            <Image source={require("@images/next2222.png")} />
-          </NaroMore>
-        </NaroTitContainer>
-        <ExtendedWebView
-          style={{
-            flex: 1,
-            height: screenWidth * 0.555,
-            opacity: 0.99,
-            width: screenWidth - 10,
-            marginLeft: 5,
-            marginRight: 5,
+        <Carousel
+          delay={3000}
+          style={{ height: screenWidth * 0.555, width: "100%" }}
+          autoplay={false}
+          pageInfo={true}
+          bullets={false}
+          pageInfoBottomContainerStyle={{
+            left: null,
+            right: 18,
+            bottom: 13,
+            width: 50,
+            backgroundColor: "rgba(0, 0, 0, 0.25)",
+            borderRadius: 20,
+            paddingTop: 2,
+            paddingBottom: 2,
           }}
-          source={{
-            html: require("../../youtubePlayer.js")(props.videoId),
-          }}
-        />
+          pageInfoBackgroundColor={"transparent"}
+          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+          pageInfoTextSeparator="/"
+        >
+          {props.homeNaro.naroList ? (
+            props.homeNaro.naroList.map((item, index) => {
+              const url = URI(item.video_dir);
+              let videoId = url.query(true).v;
+              if (videoId == undefined || videoId == "") {
+                videoId = url.filename();
+              }
+
+              return (
+                <ExtendedWebView
+                  style={{
+                    height: screenWidth * 0.555,
+                    opacity: 0.99,
+                    width: screenWidth - 10,
+                    marginLeft: 5,
+                    marginRight: 5,
+                    marginTop: 5,
+                  }}
+                  source={{
+                    html: require("../../youtubePlayer.js")(videoId),
+                  }}
+                />
+              );
+            })
+          ) : (
+            <BaseImage
+              style={{
+                height: screenWidth * 0.555,
+                width: screenWidth - 10,
+              }}
+              source={require("@images/m_img499.png")}
+              resizeMode="cover"
+            />
+          )}
+        </Carousel>
       </NaroTubeContainer>
     </>
   );
@@ -73,6 +110,7 @@ const NaroTubeTitle = styled.Text({
 const NaroTubeContainer = styled.View({
   // marginTop: 10,
   backgroundColor: colors.trueWhite,
-  flex: 1,
+  width: "100%",
+  height: screenWidth * 0.555,
 });
 export default NaroTube;

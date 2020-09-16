@@ -12,7 +12,12 @@ import {
 } from "@react-navigation/drawer";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { BaseTouchable, screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
+import {
+  BaseTouchable,
+  screenWidth,
+  BaseButtonContainer,
+  
+} from "@UI/BaseUI";
 import { setAgreePolicy } from "@actions/auth";
 
 const MemberInfo = (props) => (
@@ -147,7 +152,7 @@ const CustomDrawerContent = (props, dispatch) => {
   );
 };
 
-const BlackText = styled(BaseText)({
+const BlackText = styled.Text({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -198,7 +203,7 @@ const BlueButton = styled(BaseButtonContainer)({
   marginRight: 16,
   backgroundColor: colors.cerulean,
 });
-const ButtonText = styled(BaseText)({
+const ButtonText = styled.Text({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -207,7 +212,7 @@ const ButtonText = styled(BaseText)({
   textAlign: "left",
   color: colors.trueWhite,
 });
-const Text1 = styled(BaseText)({
+const Text1 = styled.Text({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -216,7 +221,7 @@ const Text1 = styled(BaseText)({
   textAlign: "left",
   color: "#b5b5b5",
 });
-const Text2 = styled(BaseText)({
+const Text2 = styled.Text({
   fontSize: 24,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -227,7 +232,7 @@ const Text2 = styled(BaseText)({
   marginLeft: 6,
   marginRight: 9,
 });
-const Text3 = styled(BaseText)({
+const Text3 = styled.Text({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -236,7 +241,7 @@ const Text3 = styled(BaseText)({
   textAlign: "left",
   color: colors.black,
 });
-const Text4 = styled(BaseText)({
+const Text4 = styled.Text({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -287,7 +292,7 @@ const WhiteButtonContainer = styled(BaseTouchable)({
   marginTop: 3,
   marginBottom: 3,
 });
-const WButtonText = styled(BaseText)({
+const WButtonText = styled.Text({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",
@@ -312,7 +317,7 @@ const MenuButtonContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const MenuText = styled(BaseText)({
+const MenuText = styled.Text({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",

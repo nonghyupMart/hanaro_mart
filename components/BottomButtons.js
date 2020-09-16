@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
-import {BaseText} from "@UI/BaseUI"
+
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 
@@ -95,7 +95,7 @@ const IconContainer = styled.View({
   alignItems: "center",
   justifyContent: "center",
 });
-const IconText = styled(BaseText)({
+const IconText = styled.Text({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",

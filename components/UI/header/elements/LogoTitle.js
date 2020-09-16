@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "@navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import { BaseTouchable } from "@UI/BaseUI";
 
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -24,7 +24,7 @@ const Container = styled.View({
   alignItems: "center",
   justifyContent: "center",
 });
-const BranchName = styled(BaseText)({
+const BranchName = styled.Text({
   fontSize: 15,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -32,4 +32,7 @@ const BranchName = styled(BaseText)({
   textAlign: "left",
   color: colors.appleGreen,
 });
+BranchName.defaultProps = {
+  numberOfLines: 1,
+};
 export default LogoTitle;

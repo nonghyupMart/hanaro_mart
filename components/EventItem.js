@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth } from "@UI/BaseUI";
+import { BaseImage, screenWidth, BaseTouchable } from "@UI/BaseUI";
 
 const EventItem = (props) => {
   return (
-    <Container>
+    <Container onPress={props.onPress}>
       <BaseImage
         source={props.item.title_img}
         style={{
@@ -17,8 +17,24 @@ const EventItem = (props) => {
       />
       <TitleContainer>
         <StatusContainer>
-          <Image source={require("@images/stopwatch.png")} />
-          <Status>진행중</Status>
+          {props.item.status == "O" && (
+            <>
+              <Image
+                source={require("@images/stopwatch.png")}
+                resizeMode="contain"
+              />
+              <Status>진행중</Status>
+            </>
+          )}
+          {props.item.status == "C" && (
+            <>
+              <Image
+                source={require("@images/stopwatchgray.png")}
+                resizeMode="contain"
+              />
+              <Status style={{ color: colors.greyishThree }}>종료</Status>
+            </>
+          )}
         </StatusContainer>
         <Date>
           {props.item.start_date} ~ {props.item.end_date}
@@ -56,7 +72,7 @@ const Date = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Container = styled.View({
+const Container = styled(BaseTouchable)({
   marginTop: 20,
   flex: 1,
 });

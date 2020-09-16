@@ -11,7 +11,14 @@ import {
   FlatList,
   BackHandler,
 } from "react-native";
-import { BaseImage, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import {
+  DetailContainer,
+  BaseImage,
+  screenWidth,
+  BaseButtonContainer,
+  BlueButton,
+  BlueButtonText,
+} from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import * as couponActions from "@actions/coupon";
@@ -58,7 +65,7 @@ const CouponDetailScreen = (props) => {
       contentStyle={{ paddingTop: 0 }}
     >
       {couponDetail && (
-        <Container>
+        <DetailContainer>
           <Discount>
             {couponDetail.price}
             {couponDetail.price_gbn == "A" ? "원 " : "% "}
@@ -80,7 +87,7 @@ const CouponDetailScreen = (props) => {
             <Image source={require("@images/resize3.png")} />
             <BlueButtonText>계산원 전용</BlueButtonText>
           </BlueButton>
-        </Container>
+        </DetailContainer>
       )}
       <DescContainer>
         <Image source={require("@images/qrcode.png")} />
@@ -128,29 +135,7 @@ const DescContainer = styled.View({
   width: "100%",
   marginTop: 8,
 });
-const BlueButtonText = styled.Text({
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.trueWhite,
-  marginLeft: 9,
-});
-const BlueButton = styled(BaseButtonContainer)({
-  marginTop: 5,
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  backgroundColor: colors.cerulean,
-  paddingTop: 8,
-  paddingBottom: 8,
-  flex: 1,
-  width: screenWidth - 18 * 2,
-  alignSelf: "center",
-  aspectRatio: 100 / 12.804,
-});
+
 const Warn = styled.Text({
   marginTop: 24,
   fontSize: 16,
@@ -191,16 +176,6 @@ const Discount = styled.Text({
   marginTop: 20,
 });
 
-const Container = styled.View({
-  alignItems: "center",
-  width: "100%",
-  flex: 1,
-  backgroundColor: colors.trueWhite,
-  marginTop: 7,
-  paddingLeft: 18,
-  paddingRight: 18,
-  paddingBottom: 45,
-});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "쿠폰",

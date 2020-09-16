@@ -1,9 +1,15 @@
-import { SET_LEAFLET, SET_PRODUCT, SET_LEAFLET_DETAIL } from "@actions/flyer";
+import {
+  SET_LEAFLET,
+  SET_PRODUCT,
+  SET_LEAFLET_DETAIL,
+  SET_PRODUCT_DETAIL,
+} from "@actions/flyer";
 
 const initialState = {
   leaflet: null,
   leafletDetail: null,
   product: null,
+  productDetail: null,
 };
 
 export default (state = initialState, action) => {
@@ -22,6 +28,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         product: { ...action.product },
+      };
+    case SET_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: { ...action.productDetail },
       };
   }
 

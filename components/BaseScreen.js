@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   View,
@@ -9,6 +10,7 @@ import {
   FlatList,
   BackHandler,
   Platform,
+  KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
@@ -78,20 +80,22 @@ const BaseScreen = (props) => {
     <Screen headerHeight={useHeaderHeight()} style={props.style}>
       {isScroll && (
         <ScrollList
+          nestedScrollEnabled={true}
           // keyboardDismissMode="none"
           // keyboardShouldPersistTaps="always"
+          removeClippedSubviews={false}
+          keyboardDismissMode="none"
+          keyboardShouldPersistTaps="handled"
           windowSize={props.windowSize ? props.windowSize : 5}
           style={props.scrollListStyle}
           headerHeight={useHeaderHeight()}
           {...props}
           contentContainerStyle={[styles.safeAreaView]}
-          data={[0]}
-          keyExtractor={(item) => `${item}`}
-          renderItem={() => (
+          ListHeaderComponent={
             <ContentContainer style={[props.contentStyle]}>
               <Contents {...props} />
             </ContentContainer>
-          )}
+          }
         />
       )}
       {!isScroll && <Contents {...props} />}
@@ -99,7 +103,9 @@ const BaseScreen = (props) => {
   );
 };
 
-const ScrollList = styled.FlatList({
+const ScrollList = styled.FlatList.attrs({
+  removeClippedSubviews: false,
+})({
   flex: 1,
   paddingRight: StyleConstants.defaultPadding,
   paddingLeft: StyleConstants.defaultPadding,
@@ -120,7 +126,10 @@ const ContentContainer = styled.View({
   paddingBottom: 19,
   alignItems: "flex-start",
 });
-const Screen = styled.View({
+const Screen = styled(View).attrs({
+  behavior: "padding",
+  enabled: true,
+})({
   flex: 1,
   backgroundColor: colors.white,
 });

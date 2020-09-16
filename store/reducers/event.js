@@ -1,7 +1,8 @@
-import { SET_EVENT, SET_MORE_EVENT } from "@actions/event";
+import { SET_EVENT, SET_MORE_EVENT, SET_EVENT_DETAIL } from "@actions/event";
 
 const initialState = {
   event: null,
+  eventDetail: null,
 };
 
 export default (state = initialState, action) => {
@@ -23,6 +24,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         event: event,
+      };
+
+    case SET_EVENT_DETAIL:
+      // console.warn(action.eventDetail);
+      return {
+        ...state,
+        eventDetail: { ...action.eventDetail },
       };
   }
 

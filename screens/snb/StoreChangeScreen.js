@@ -22,7 +22,7 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
-  BaseText,
+  
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
 import * as Location from "expo-location";
@@ -301,7 +301,7 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const ButtonText = styled(BaseText)({
+const ButtonText = styled.Text({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -359,7 +359,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "stretch",
 };
-const BlueText = styled(BaseText)({
+const BlueText = styled.Text({
   fontSize: 18,
   fontWeight: "500",
   fontStyle: "normal",

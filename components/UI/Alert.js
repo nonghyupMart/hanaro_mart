@@ -11,7 +11,7 @@ import {
 import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 const { width, height } = Dimensions.get("window");
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import { BaseTouchable } from "@UI/BaseUI";
 
 const Alert = (props) => {
   return (

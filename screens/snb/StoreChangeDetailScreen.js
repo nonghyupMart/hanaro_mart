@@ -22,7 +22,7 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
-  BaseText,
+  
 } from "@UI/BaseUI";
 import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";

@@ -8,7 +8,7 @@ import EventItem from "@components/EventItem";
 const EventScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const userStore = useSelector((state) => state.auth.userStore);
   const event = useSelector((state) => state.event.event);
 
@@ -32,7 +32,7 @@ const EventScreen = ({ navigation }) => {
 
   const loadMore = () => {
     // console.warn("loadMore");
-    if (!isLoading) {
+    if (!isLoading && page < event.finalPage) {
       const currentPage = page + 1;
       setPage(() => currentPage);
       setIsLoading(true);
@@ -40,7 +40,7 @@ const EventScreen = ({ navigation }) => {
       const requestEvent = dispatch(
         eventActions.fetchEvent({
           store_cd: userStore.store_cd,
-          offset: currentPage,
+          page: currentPage,
         })
       );
 
@@ -50,6 +50,9 @@ const EventScreen = ({ navigation }) => {
     }
   };
 
+  const onPress = (item) => {
+    navigation.navigate("EventDetail", { event_cd: item.event_cd });
+  };
   return (
     <BaseScreen
       isLoading={isLoading}
@@ -64,7 +67,12 @@ const EventScreen = ({ navigation }) => {
             loadMore();
           }}
           renderItem={(itemData) => {
-            return <EventItem item={itemData.item} />;
+            return (
+              <EventItem
+                item={itemData.item}
+                onPress={() => onPress(itemData.item)}
+              />
+            );
           }}
         />
       )}
