@@ -89,18 +89,28 @@ const CouponDetailScreen = (props) => {
           </BlueButton>
         </DetailContainer>
       )}
+      <Image
+        source={require("@images/pannel_n3.png")}
+        style={{ width: "110%", marginLeft: "-5%", marginTop: -2 }}
+        resizeMode="cover"
+      />
       <DescContainer>
         <Image source={require("@images/qrcode.png")} />
         <DescText>쿠폰사용시 유의사항</DescText>
       </DescContainer>
       <Desc>
-        1. 쿠폰은 주문금액에 제한 없이 사용가능합니다.{"\n\n"}2. 쿠폰은 한
-        주문에 한해서 쿠폰 1개만 사용이 가능합니다.{"\n\n"}3. 각 쿠폰마다
-        사용기한이 정해져 있습니다.{"\n\n"}4. 주문 후 반품/환불/취소의 경우 한번
-        사용하신 할인 쿠폰을 다시 사용하실 수 없습니다.{"\n\n"}5. 쿠폰
-        적용품목이 한정된 쿠폰은 해당 품목에서만 사용가능 합니다.{"\n\n"}6.
-        할인/적립(%) 쿠폰은 적립금할인 등을 제외한 실제 결제금액에 적용됩니다.
-        {"\n\n"}7. 해당 상품에 대한 쿠폰은 해당 상품만 구매시 적용이 가능합니다.
+        {`- 앱쿠폰은 하나로마트 회원만 사용 가능합니다.
+- 쿠폰은 다운받으신 매장에서만 사용 가능합니다.
+- 매장 계산대에서 본 쿠폰을 제시해 주세요.
+- 할인 조건은 최종결제금액 기준으로 적용됩니다.
+- 일부 쿠폰과 중복사용이 불가합니다.
+- 쿠폰의 상품 및 사용조건은 변동될 수 있습니다.
+- 현금과 교환되지 않으며 양도가 불가합니다.
+- 사용하신 쿠폰은 즉시 소멸됩니다.
+- 재결제 시에는 쿠폰적용이 불가합니다.
+- 일부품목은 적용이 제외됩니다.
+- 쿠폰 적용 시, 타 영수증과 합산불가하며 한개의 영수증을 분할하여 사용할 수 없습니다.
+- 식자재매장, 임대매장, 일부코너 상품은 사용이 불가합니다.`}
       </Desc>
     </BaseScreen>
   );
@@ -114,8 +124,8 @@ const Desc = styled.Text({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
-  paddingLeft: 18,
-  paddingRight: 18,
+  paddingLeft: 25,
+  paddingRight: 25,
 });
 const DescText = styled.Text({
   marginLeft: 7,

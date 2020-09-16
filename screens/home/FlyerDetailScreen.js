@@ -1,41 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
-
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import styled from "styled-components/native";
+import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import Gallery from "react-native-image-gallery";
-import { AntDesign } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 import { BackButton, TextTitle } from "@UI/header";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "@actions/flyer";
-const FlyerDetailScreen = ({ navigation }) => {
+import { IMAGE_URL } from "@constants/settings";
+const FlyerDetailScreen = (props, { navigation }) => {
+  const params = props.route.params;
   const dispatch = useDispatch();
   const leafletDetail = useSelector((state) => state.flyer.leafletDetail);
-  const userStore = useSelector((state) => state.auth.userStore);
   const [isLoading, setIsLoading] = useState(false);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
   useEffect(() => {
     setIsLoading(true);
-    if (userStore) {
-      const requestLeafletDetail = dispatch(
-        flyerActions.fetchLeafletDetail({ leaf_cd: props.leaf_cd })
-      );
 
-      Promise.all([requestLeafletDetail]).then(() => {
-        setIsLoading(false);
-      });
-    }
-  }, [userStore]);
+    const fetchLeafletDetail = dispatch(
+      flyerActions.fetchLeafletDetail({ leaf_cd: params.leaf_cd })
+    );
+
+    Promise.all([fetchLeafletDetail]).then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch]);
+  let images = [];
   if (leafletDetail) {
     //
+    leafletDetail.detail_img.map((item, index) => {
+      // console.warn(item);
+      images.push({ source: { uri: IMAGE_URL + item } });
+    });
   }
-  const images = [
-    { source: { uri: "http://i.imgur.com/XP2BE7q.jpg" } },
-    { source: { uri: "http://i.imgur.com/5nltiUd.jpg" } },
-    { source: { uri: "http://i.imgur.com/6vOahbP.jpg" } },
-    { source: { uri: "http://i.imgur.com/kj5VXtG.jpg" } },
-  ];
 
   const next = (page) => {
     if (page < images.length - 1) {
@@ -61,24 +59,41 @@ const FlyerDetailScreen = ({ navigation }) => {
     setPage(() => images.length - 1);
   };
 
+  const onPageSelected = (val) => {
+    if (gallery) setPage(gallery.getViewPagerInstance().currentPage);
+  };
+
   return (
-    <BaseScreen isLoading={isLoading} isScroll={false}>
-      <Text>전단 상세 페이지</Text>
-      <View style={{ flexDirection: "row" }}>
-        <TouchableOpacity onPress={() => goFirst()}>
-          <AntDesign name="caretleft" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => prev(page)}>
-          <AntDesign name="caretleft" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => next(page)}>
-          <AntDesign name="caretright" size={24} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => goLast()}>
-          <AntDesign name="caretright" size={24} color="black" />
-        </TouchableOpacity>
+    <BaseScreen
+      isBottomNavigation={false}
+      isLoading={isLoading}
+      isScroll={false}
+    >
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Btn onPress={() => goFirst()}>
+          <Image source={require("@images/bef11.png")} />
+        </Btn>
+        <Btn onPress={() => prev(page)}>
+          <Image source={require("@images/bef1.png")} />
+        </Btn>
+        <Text style={{ width: 100, textAlign: "center" }}>
+          {page + 1}/{images.length}
+        </Text>
+        <Btn onPress={() => next(page)}>
+          <Image source={require("@images/next1.png")} />
+        </Btn>
+        <Btn onPress={() => goLast()}>
+          <Image source={require("@images/next11.png")} />
+        </Btn>
       </View>
       <Gallery
+        onPageSelected={onPageSelected}
         ref={(gal) => setGallery(gal)}
         style={{ flex: 1, backgroundColor: "black" }}
         images={images}
@@ -87,9 +102,16 @@ const FlyerDetailScreen = ({ navigation }) => {
   );
 };
 
+const Btn = styled.TouchableOpacity({
+  marginLeft: 5,
+  marginRight: 5,
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "전단지",
+    cardStyle: {
+      marginBottom: 0,
+    },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,

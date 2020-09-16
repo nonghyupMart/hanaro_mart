@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
+import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 const EventScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const EventScreen = ({ navigation }) => {
   const [page, setPage] = useState(1);
   const userStore = useSelector((state) => state.auth.userStore);
   const event = useSelector((state) => state.event.event);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -32,24 +34,20 @@ const EventScreen = ({ navigation }) => {
 
   const loadMore = () => {
     // console.warn("loadMore");
-    if (!isLoading && page < event.finalPage) {
-      const currentPage = page + 1;
-      setPage(() => currentPage);
-      setIsLoading(true);
-
+    if (!isLoading && isScrolled && page + 1 <= event.finalPage) {
+      console.warn("loadMore");
       const requestEvent = dispatch(
         eventActions.fetchEvent({
           store_cd: userStore.store_cd,
-          page: currentPage,
+          page: page + 1,
         })
       );
-
-      Promise.all([requestEvent]).then(() => {
-        setIsLoading(false);
-      });
+      setPage(page + 1);
     }
   };
-
+  const onScroll = () => {
+    if (!isScrolled) setIsScrolled(true);
+  };
   const onPress = (item) => {
     navigation.navigate("EventDetail", { event_cd: item.event_cd });
   };
@@ -61,11 +59,11 @@ const EventScreen = ({ navigation }) => {
     >
       {event && (
         <ScrollList
+          numColumns={1}
           data={event.eventList}
           keyExtractor={(item) => item.event_cd}
-          onEndReached={() => {
-            loadMore();
-          }}
+          onEndReached={loadMore}
+          onScroll={onScroll}
           renderItem={(itemData) => {
             return (
               <EventItem
@@ -80,9 +78,10 @@ const EventScreen = ({ navigation }) => {
   );
 };
 const ScrollList = styled.FlatList({
-  flex: 1,
+  flexGrow: 1,
 
   width: "100%",
+  // backgroundColor: colors.black,
 });
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.trueWhite },

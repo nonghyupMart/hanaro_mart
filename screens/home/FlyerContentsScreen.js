@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components/native";
 import { View, Text, Button, Image, FlatList, Dimensions } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { BaseTouchable, BaseImage } from "@UI/BaseUI";
@@ -61,7 +62,7 @@ const FlyerContentsScreen = (props) => {
             leaf_cd: leaflet.leafletList[props.number].leaf_cd,
           })
         }
-        style={{ height: width * 0.283, flex: 1, width: width }}
+        style={{ height: width * 0.283, flex: 1, width: "100%" }}
       >
         <BaseImage
           style={{
@@ -70,12 +71,18 @@ const FlyerContentsScreen = (props) => {
           }}
           source={props.title_img}
         />
+        <ArrowBtn onPress={() => props.goLeft(props.number)}>
+          <Image source={require("@images/l_off.png")} />
+        </ArrowBtn>
+        <ArrowBtn
+          style={{ right: 0 }}
+          onPress={() => props.goRight(props.number)}
+        >
+          <Image source={require("@images/r_off.png")} />
+        </ArrowBtn>
       </BaseTouchable>
       <Text>{props.number}</Text>
-      <View style={{ flexDirection: "row" }}>
-        <Button title="<" onPress={() => props.goLeft(props.number)} />
-        <Button title=">" onPress={() => props.goRight(props.number)} />
-      </View>
+
       {product && (
         <FlatList
           onEndReachedThreshold={60}
@@ -96,15 +103,22 @@ const FlyerContentsScreen = (props) => {
           )}
         />
       )}
-
-      <ProductPopup
-        item={currentItem}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-        setIsLoading={setIsLoading}
-      />
+      {currentItem && (
+        <ProductPopup
+          item={currentItem}
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          setIsLoading={setIsLoading}
+        />
+      )}
     </BaseScreen>
   );
 };
+
+const ArrowBtn = styled.TouchableOpacity({
+  position: "absolute",
+  top: "50%",
+  marginTop: -16,
+});
 
 export default React.memo(FlyerContentsScreen);

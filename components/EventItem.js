@@ -74,7 +74,7 @@ const Date = styled.Text({
 });
 const Container = styled(BaseTouchable)({
   marginTop: 20,
-  flex: 1,
+  width: "100%",
 });
 
 export default EventItem;

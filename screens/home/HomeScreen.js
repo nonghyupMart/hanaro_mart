@@ -73,12 +73,10 @@ const HomeScreen = ({ navigation }) => {
   }, [dispatch]);
 
   const loadMore = () => {
-    if (!isLoading && isScrolled) {
-      if (page + 1 <= homeNotice.finalPage) {
-        console.warn("loadMore");
-        dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
-        setPage(page + 1);
-      }
+    if (!isLoading && isScrolled && page + 1 <= homeNotice.finalPage) {
+      console.warn("loadMore");
+      dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
+      setPage(page + 1);
     }
   };
   const onScroll = () => {
