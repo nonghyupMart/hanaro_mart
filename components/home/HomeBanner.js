@@ -17,6 +17,12 @@ import {
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
 const HomeBanner = (props) => {
+  if (
+    !props.homeBanner ||
+    !props.homeBanner.bannerList ||
+    props.homeBanner.bannerCnt == 0
+  )
+    return <></>;
   return (
     <>
       {props.homeBanner ? (

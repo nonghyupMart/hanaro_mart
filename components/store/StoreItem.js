@@ -52,6 +52,7 @@ const BlueText = styled.Text({
 const IconContainer = styled.View({
   flexDirection: "row",
   justifyContent: "center",
+  flexShrink: 0,
 });
 const Container = styled.View({
   flexDirection: "row",
@@ -63,8 +64,13 @@ const Container = styled.View({
   borderBottomWidth: 1,
   paddingTop: 10,
   paddingBottom: 10,
+  overflow: "hidden",
+  flexGrow: 0,
 });
-const TitleContainer = styled.View({});
+const TitleContainer = styled.View({
+  flexShrink: 1,
+  flexGrow: 1,
+});
 const Title = styled.Text({
   fontSize: 16,
   fontWeight: "normal",

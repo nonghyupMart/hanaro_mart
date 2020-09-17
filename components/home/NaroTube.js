@@ -11,7 +11,12 @@ import {
 } from "@UI/BaseUI";
 import URI from "urijs";
 const NaroTube = (props) => {
-  if (!props.homeNaro) return <></>;
+  if (
+    !props.homeNaro ||
+    !props.homeNaro.naroList ||
+    props.homeNaro.naroCnt == 0
+  )
+    return <></>;
   return (
     <>
       <NaroTubeContainer>
@@ -35,40 +40,29 @@ const NaroTube = (props) => {
           pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
           pageInfoTextSeparator="/"
         >
-          {props.homeNaro.naroList ? (
-            props.homeNaro.naroList.map((item, index) => {
-              const url = URI(item.video_dir);
-              let videoId = url.query(true).v;
-              if (videoId == undefined || videoId == "") {
-                videoId = url.filename();
-              }
+          {props.homeNaro.naroList.map((item, index) => {
+            const url = URI(item.video_dir);
+            let videoId = url.query(true).v;
+            if (videoId == undefined || videoId == "") {
+              videoId = url.filename();
+            }
 
-              return (
-                <ExtendedWebView
-                  style={{
-                    height: screenWidth * 0.555,
-                    opacity: 0.99,
-                    width: screenWidth - 10,
-                    marginLeft: 5,
-                    marginRight: 5,
-                    marginTop: 5,
-                  }}
-                  source={{
-                    html: require("../../youtubePlayer.js")(videoId),
-                  }}
-                />
-              );
-            })
-          ) : (
-            <BaseImage
-              style={{
-                height: screenWidth * 0.555,
-                width: screenWidth - 10,
-              }}
-              source={require("@images/m_img499.png")}
-              resizeMode="cover"
-            />
-          )}
+            return (
+              <ExtendedWebView
+                style={{
+                  height: screenWidth * 0.555,
+                  opacity: 0.99,
+                  width: screenWidth - 10,
+                  marginLeft: 5,
+                  marginRight: 5,
+                  marginTop: 5,
+                }}
+                source={{
+                  html: require("../../youtubePlayer.js")(videoId),
+                }}
+              />
+            );
+          })}
         </Carousel>
       </NaroTubeContainer>
     </>
