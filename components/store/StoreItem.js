@@ -21,7 +21,7 @@ const StoreItem = (props) => {
         </TitleContainer>
         <IconContainer>
           <Image source={require("@images/location-pin.png")} />
-          <BlueText>0km</BlueText>
+          <BlueText>{props.item.dist}km</BlueText>
           <Image source={require("@images/circle-right.png")} />
         </IconContainer>
       </Container>

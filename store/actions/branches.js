@@ -52,7 +52,7 @@ export const fetchBranches = (query) => {
     url: `${API_URL}/store`,
     query: query,
   });
-  // console.warn(url);
+  console.warn("fetchBranches ", url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -62,7 +62,7 @@ export const fetchBranches = (query) => {
       }
 
       const resData = await response.json();
-
+      // console.warn("fetchBranches data", resData.data);
       dispatch({ type: SET_BRANCHES, branches: resData.data });
     } catch (err) {
       throw err;
