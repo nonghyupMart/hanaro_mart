@@ -29,12 +29,13 @@ const CouponDetailScreen = (props) => {
   const couponDetail = useSelector((state) => state.coupon.couponDetail);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [isUsed, setIsUsed] = useState(false);
   useEffect(() => {
     setIsLoading(true);
     const fetchCouponDetail = dispatch(
       couponActions.fetchCouponDetail({
         cou_cd: params.cou_cd,
-        user_cd: params.user_cd ? params.user_cd : 0,
+        user_cd: 49,
       })
     );
 
@@ -48,7 +49,20 @@ const CouponDetailScreen = (props) => {
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
-        props.navigation.navigate("Barcode", { barcode: couponDetail.barcode });
+         dispatch(
+          couponActions.useCoupon({
+            store_cd: params.store_cd,
+            user_cd: 49,
+            cou_cd: params.cou_cd,
+            ucou_cd:couponDetail.ucou_cd
+          })
+        ).then((data) => {
+          if (data.result == "success") {
+            setIsUsed(true);
+               props.navigation.navigate("Barcode", { barcode: couponDetail.barcode });
+          }
+        });
+     
         // saveStore();
       },
       onPressCancel: () => {
@@ -82,11 +96,25 @@ const CouponDetailScreen = (props) => {
           />
           <Price>할인가 : {couponDetail.price}원</Price>
           <Price>최소구매금액 : {couponDetail.m_price}원</Price>
-          <Warn>계산원이 확인 시에 사용하는 전용기능입니다.</Warn>
-          <BlueButton onPress={onPress}>
-            <Image source={require("@images/resize3.png")} />
-            <BlueButtonText>계산원 전용</BlueButtonText>
-          </BlueButton>
+          
+          {!isUsed &&
+          <>
+            <Warn>계산원이 확인 시에 사용하는 전용기능입니다.</Warn>
+            <BlueButton onPress={onPress}>
+              <Image source={require("@images/resize3.png")} />
+              <BlueButtonText>계산원 전용</BlueButtonText>
+            </BlueButton>
+          </>
+          }
+          {isUsed && 
+          <>
+            <Warn style={{color: colors.greyishBrown}}>본 쿠폰은 사용완료 되었습니다.</Warn>
+            <BlueButton style={{backgroundColor: colors.greyishThree}} >
+              <Image source={require("@images/resize3.png")} />
+              <BlueButtonText>사용완료</BlueButtonText>
+            </BlueButton>
+          </>
+          }
         </DetailContainer>
       )}
       <Image

@@ -22,18 +22,28 @@ const CouponItem = (props) => {
       <Date>
         {props.item.start_date}~{props.item.end_date}
       </Date>
-      <Button onPress={props.onPress}>
-        <ButtonText>쿠폰 다운로드</ButtonText>
-        <Icon />
-      </Button>
+      {props.item.status == "00" && (
+        <Button onPress={props.onPress}>
+          <ButtonText>쿠폰 다운로드</ButtonText>
+          <Icon source={require("@images/ic_file_download_24px.png")}/>
+        </Button>
+      )}
+      {props.item.status == "10" && (
+        <Button onPress={props.onPress}>
+          <ButtonText>사용하기</ButtonText>
+          <Icon source={require("@images/ic_rotate_right_24px.png")} />
+        </Button>
+      )}
+      {props.item.status == "20" && (
+        <Button>
+          <ButtonText style={{color: colors.greyishThree}}>사용완료</ButtonText>
+          <Icon source={require("@images/ic_timer_24px.png")}/>
+        </Button>
+      )}
     </Container>
   );
 };
-const Icon = styled.Image.attrs((props) => {
-  return {
-    source: require("@images/ic_file_download_24px.png"),
-  };
-})``;
+const Icon = styled.Image({});
 const ButtonText = styled.Text({
   fontSize: 12,
   fontWeight: "normal",
@@ -95,14 +105,17 @@ const Date = styled.Text({
   marginBottom: 10,
 });
 const Container = styled.View({
-  flex: 1,
+  maxWidth: "50%",
+  flex: 0.483,
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: colors.white,
   padding: 18,
-  marginLeft: (props) => (props.index % 2 != 0 ? 5 : 0),
-  marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) => (props.index > 1 ? 10 : 18),
+
+  // marginLeft: (props) => console.log(props),
+  // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
+  marginTop: (props) =>
+    props.index > 1 ? (screenWidth - 4 - 18 - 18) * 0.034 : 18,
 });
 
 export default CouponItem;

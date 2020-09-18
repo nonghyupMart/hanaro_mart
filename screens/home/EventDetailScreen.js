@@ -34,7 +34,7 @@ const EventDetailScreen = (props, { navigation }) => {
     const requestEvent = dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
-        user_cd: 0,
+        user_cd: 49,
       })
     );
 

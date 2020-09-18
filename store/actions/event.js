@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
 export const SET_EVENT = "SET_EVENT";
-export const SET_MORE_EVENT = "SET_MORE_EVENT";
+export const SET_EVENT_MORE = "SET_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
 
 export const fetchEvent = (query) => {
@@ -22,15 +22,13 @@ export const fetchEvent = (query) => {
         throw new Error("fetchEvent Something went wrong!");
       }
 
-      // const resData = await response.json();
-      // console.warn("fetchEvent", resData.data)
-      if (query.page == undefined || query.page == 1) {
-        dispatch({ type: SET_EVENT, event: resData.data });
-        console.warn("SET_EVENT");
-      } else if (query.page > 1 && resData.data.eventList.length > 0) {
-        dispatch({ type: SET_MORE_EVENT, event: resData.data });
-        console.warn("SET_MORE_EVENT");
+      let type = SET_EVENT;
+      if (query.page > 1) {
+        type = SET_EVENT_MORE;
+      } else {
+        type = SET_EVENT;
       }
+      dispatch({ type: type, event: resData.data });
     } catch (err) {
       throw err;
     }

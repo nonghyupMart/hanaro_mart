@@ -43,8 +43,7 @@ import FlyerDetailScreen, {
 import EventScreen from "@screens/home/EventScreen";
 import ExhibitionScreen from "@screens/home/ExhibitionScreen";
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
-import CouponForTotalScreen from "@screens/home/CouponForTotalScreen";
-import CouponForProductScreen from "@screens/home/CouponForProductScreen";
+
 import EventDetailScreen, {
   screenOptions as EventDetailScreenOptions,
 } from "@screens/home/EventDetailScreen";
@@ -93,10 +92,7 @@ import TermsScreen, {
 //   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
 //   headerTitle: "A Screen",
 // };
-const screens = {
-  CouponForTotalScreen: CouponForTotalScreen,
-  CouponForProductScreen: CouponForProductScreen,
-};
+
 const couponArray = [
   { component: "CouponForTotalScreen" },
   { component: "CouponForProductScreen" },
@@ -220,7 +216,7 @@ export const HomeTabNavigator = ({ navigation }) => {
       </Animated.View>
       <HomeTopTabNavigator.Navigator
         lazy={true}
-        optimizationsEnabled={true}
+        // optimizationsEnabled={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
         swipeEnabled={false}
@@ -311,6 +307,11 @@ export const HomeNavigator = () => {
           options={StoreChangeDetailScreenOptions}
         />
         <HomeStackNavigator.Screen
+          name="MyCoupon"
+          component={CouponScreen}
+          options={CouponScreenOptions}
+        />
+        <HomeStackNavigator.Screen
           name="CouponDetail"
           component={CouponDetailScreen}
           options={CouponDetailScreenOptions}
@@ -333,11 +334,7 @@ export const HomeNavigator = () => {
             headerStyleInterpolator: HeaderStyleInterpolators.forFade,
           }}
         />
-        <HomeStackNavigator.Screen
-          name="MyCoupon"
-          component={NoticeScreen}
-          options={NoticeScreenOptions}
-        />
+
         <HomeStackNavigator.Screen
           name="Notice"
           component={NoticeScreen}

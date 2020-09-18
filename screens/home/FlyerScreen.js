@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Dimensions } from "react-native";
-import { TabView, TabBar, SceneMap } from "react-native-tab-view";
-import { useSelector, useDispatch } from "react-redux";
+import { TabView, TabBar, SceneMap, ScrollPager } from "react-native-tab-view";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import FlyerContentsScreen from "./FlyerContentsScreen";
 import * as flyerActions from "@actions/flyer";
 import Loading from "@UI/Loading";
-
+import { useFocusEffect } from "@react-navigation/native";
 const initialLayout = { width: Dimensions.get("window").width };
-
+import { useIsFocused } from "@react-navigation/native";
 const FlyerScreen = ({ navigation }) => {
+  const isFocused = useIsFocused();
+
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useSelector((state) => state.auth.userStore, shallowEqual);
   // console.warn("==> start FlyerScreen", userStore.store_cd);
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const routes = useSelector((state) =>
@@ -19,24 +21,24 @@ const FlyerScreen = ({ navigation }) => {
   );
   // const [routes, setRoutes] = useState([]);
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
+    // const unsubscribe = navigation.addListener("focus", () => {
+    if (userStore) {
       setIsLoading(true);
-      if (userStore) {
-        // console.warn("start FlyerScreen", userStore.store_cd);
-        const requestLeaflet = dispatch(
-          flyerActions.fetchLeaflet({ store_cd: userStore.store_cd })
-        );
 
-        Promise.all([requestLeaflet]).then(() => {
-          setIsLoading(false);
+      // console.warn("start FlyerScreen", userStore.store_cd);
+      const fetchLeaflet = dispatch(
+        flyerActions.fetchLeaflet({ store_cd: userStore.store_cd })
+      );
 
-          // console.log(homeBanner);
-        });
-      }
-    });
+      Promise.all([fetchLeaflet]).then(() => {
+        setIsLoading(false);
 
+        // console.log(homeBanner);
+      });
+    }
+    // });
     // Return the function to unsubscribe from the event so it gets removed on unmount
-    return unsubscribe;
+    // return unsubscribe;
   }, [userStore]);
 
   const [index, setIndex] = React.useState(0);
@@ -66,18 +68,25 @@ const FlyerScreen = ({ navigation }) => {
     }
   };
   const renderScene = ({ route, jumpTo }) => {
+    console.warn("renderScene -> ", route);
+
     return (
       <FlyerContentsScreen
-        title_img={routes[routes.indexOf(route)].title_img}
+        // route={route}
+        jumpTo={jumpTo}
+        title_img={route.title_img}
         number={routes.indexOf(route)}
         goLeft={goLeft}
         goRight={goRight}
+        leaf_cd={route.leaf_cd}
+        store_cd={userStore.store_cd}
       />
     );
   };
 
   return (
     <TabView
+      // renderPager={(props) => <ScrollPager {...props} />}
       lazy
       removeClippedSubviews={true}
       navigationState={{ index, routes }}

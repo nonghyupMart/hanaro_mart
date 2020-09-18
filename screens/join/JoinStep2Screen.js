@@ -23,47 +23,56 @@ import {
 } from "@UI/BaseUI";
 
 import { setAgreePolicy } from "../../store/actions/auth";
+import * as authActions from "@actions/auth";
+
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
   const [isVisible, setIsVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [phoneNumberRef, setPhoneNumberRef] = useState();
   const [alert, setAlert] = useState();
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    // if (phoneNumberRef) phoneNumberRef.focus();
+  }, []);
 
   const onPressJoin = () => {
-    setAlert({
-      content: popupConetnt(),
-      onPressConfirm: () => {
-        setAlert(null);
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "StoreSetup" }],
-        });
-      },
+    let query = {
+      user_id: "01012341234",
+      store_cd: "5",
+    };
+    dispatch(authActions.signup(query)).then(() => {
+      setAlert({
+        content: popupConetnt(),
+        onPressConfirm: () => {
+          setAlert(null);
+          // navigation.reset({
+          //   index: 0,
+          //   routes: [{ name: "StoreSetup" }],
+          // });
+          dispatch(setAgreePolicy(true));
+        },
+      });
     });
   };
 
   const requestOTP = () => {
     if (phoneNumber) {
-      window.alert("인증번호는 0000 입니다.");
+      authActions.sendSMS(phoneNumber);
       setJoinStep([true, false]);
     }
   };
 
   return (
-    <BaseScreen
-      alert={alert}
-      removeClippedSubviews={false}
-      keyboardDismissMode="none"
-      keyboardShouldPersistTaps="handled"
-    >
+    <BaseScreen alert={alert}>
       <TextInputContainer style={{ marginBottom: 7 }}>
         <Image source={require("@images/ic_phone_iphone_24px.png")} />
         <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
         <InputText
-          autoFocus={true}
+          // ref={(ref) => setPhoneNumberRef(ref)}
+          // autoFocus={true}
           keyboardType="numeric"
           maxLength={11}
           value={phoneNumber}

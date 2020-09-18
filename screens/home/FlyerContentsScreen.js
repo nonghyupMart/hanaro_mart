@@ -19,27 +19,31 @@ const FlyerContentsScreen = (props) => {
 
   const [currentItem, setCurrentItem] = useState(null);
 
-  const userStore = useSelector((state) => state.auth.userStore);
-  const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
+  console.warn("FlyerContentsScreen =->", props);
   useEffect(() => {
-    setIsLoading(true);
-    if (userStore && leaflet) {
-      const leaf_cd = leaflet.leafletList[props.number].leaf_cd;
-      // console.warn(userStore.store_cd);
-      const requestProduct = dispatch(
-        flyerActions.fetchProduct({
-          store_cd: userStore.store_cd,
-          leaf_cd: leaf_cd,
-        })
-      );
+    // const unsubscribe = navigation.addListener("focus", () => {
+    //   console.warn("focus1111");
+    // });
+    // return unsubscribe;
 
-      Promise.all([requestProduct]).then(() => {
-        setIsLoading(false);
-        // console.log(homeBanner);
-      });
-    }
-  }, [props.number]);
+    console.warn("FlyerContentsScreen useEffect = > ", props);
+    setIsLoading(true);
+
+    // console.warn(userStore.store_cd);
+    const fetchProduct = dispatch(
+      flyerActions.fetchProduct({
+        store_cd: props.store_cd,
+        leaf_cd: props.leaf_cd,
+      })
+    );
+
+    Promise.all([fetchProduct]).then(() => {
+      setIsLoading(false);
+      // console.log(homeBanner);
+    });
+    // alert(1);
+  }, [props]);
 
   const loadMore = () => {};
   const [isVisible, setIsVisible] = useState(false);
@@ -59,7 +63,7 @@ const FlyerContentsScreen = (props) => {
       <BaseTouchable
         onPress={() =>
           RootNavigation.navigate("FlyerDetail", {
-            leaf_cd: leaflet.leafletList[props.number].leaf_cd,
+            leaf_cd: props.leaf_cd,
           })
         }
         style={{ height: width * 0.283, flex: 1, width: "100%" }}

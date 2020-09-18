@@ -1,4 +1,4 @@
-import { SET_EVENT, SET_MORE_EVENT, SET_EVENT_DETAIL } from "@actions/event";
+import { SET_EVENT, SET_EVENT_MORE, SET_EVENT_DETAIL } from "@actions/event";
 
 const initialState = {
   event: null,
@@ -13,14 +13,14 @@ export default (state = initialState, action) => {
         ...state,
         event: { ...action.event },
       };
-    case SET_MORE_EVENT:
+    case SET_EVENT_MORE:
       let event = { ...state.event };
       let newEvent = { ...action.event };
       let updatedEventList = event.eventList.concat(newEvent.eventList);
       // console.warn(event);
 
       event.eventList = updatedEventList;
-      console.log("- - ->", event);
+      // console.log("- - ->", event);
       return {
         ...state,
         event: event,

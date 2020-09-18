@@ -25,62 +25,43 @@ const HomeBanner = (props) => {
     return <></>;
   return (
     <>
-      {props.homeBanner ? (
-        <Carousel
-          delay={3000}
-          style={{ height: screenWidth * 0.608, width: "100%" }}
-          autoplay
-          pageInfo={true}
-          // bullets={true}
-          pageInfoBottomContainerStyle={{
-            left: null,
-            right: 18,
-            bottom: 13,
-            width: 50,
-            backgroundColor: "rgba(0, 0, 0, 0.25)",
-            borderRadius: 20,
-            paddingTop: 2,
-            paddingBottom: 2,
-          }}
-          pageInfoBackgroundColor={"transparent"}
-          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
-          pageInfoTextSeparator="/"
-        >
-          {props.homeBanner.bannerList ? (
-            props.homeBanner.bannerList.map((item, index) => {
-              return (
-                <View style={{ flex: 1 }}>
-                  <BaseImage
-                    style={{
-                      height: screenWidth * 0.608,
-                      width: screenWidth,
-                    }}
-                    defaultSource={require("@images/m_img499.png")}
-                    resizeMode="cover"
-                    // loadingIndicatorSource={require("@images/m_img499.png")}
-                    source={item.display_img}
-                  />
-                </View>
-              );
-            })
-          ) : (
-            <BaseImage
-              style={{
-                height: screenWidth * 0.608,
-                width: screenWidth,
-              }}
-              source={require("@images/m_img499.png")}
-              resizeMode="cover"
-            />
-          )}
-        </Carousel>
-      ) : (
-        <BaseImage
-          style={{ height: screenWidth * 0.608, width: screenWidth }}
-          source={require("@images/m_img499.png")}
-          resizeMode="cover"
-        />
-      )}
+      <Carousel
+        delay={3000}
+        style={{ height: screenWidth * 0.608, width: "100%" }}
+        autoplay
+        pageInfo={true}
+        // bullets={true}
+        pageInfoBottomContainerStyle={{
+          left: null,
+          right: 18,
+          bottom: 13,
+          width: 50,
+          backgroundColor: "rgba(0, 0, 0, 0.25)",
+          borderRadius: 20,
+          paddingTop: 2,
+          paddingBottom: 2,
+        }}
+        pageInfoBackgroundColor={"transparent"}
+        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+        pageInfoTextSeparator="/"
+      >
+        {props.homeBanner.bannerList.map((item, index) => {
+          return (
+            <View style={{ flex: 1 }}>
+              <BaseImage
+                style={{
+                  height: screenWidth * 0.608,
+                  width: screenWidth,
+                }}
+                defaultSource={require("@images/m_img499.png")}
+                resizeMode="cover"
+                // loadingIndicatorSource={require("@images/m_img499.png")}
+                source={item.display_img}
+              />
+            </View>
+          );
+        })}
+      </Carousel>
     </>
   );
 };

@@ -4,16 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as branchesActions from "@actions/branches";
 import {
   Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  SafeAreaView,
-  TextInput,
-  Button,
-  FlatList,
-  Platform,
-  Picker,
   Image,
   KeyboardAvoidingView,
 } from "react-native";

@@ -247,13 +247,19 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((response) => {
         const token = response.data;
-        console.log("token==>" + token);
+        console.warn("token==>" + token);
         dispatch(setPushToken(token));
         return token;
       })
       .catch((err) => {
         console.log(err);
-        return alert(err);
+        setAlert({
+          message: err,
+          onPressConfirm: () => {
+            setAlert({ message: null });
+          },
+        });
+        return;
       });
   };
   const checkAgreed = () => {

@@ -25,33 +25,57 @@ export const authenticate = (userId, token, expiryTime) => {
     dispatch({ type: AUTHENTICATE, userId: userId, token: token });
   };
 };
-
-export const signup = (user_id) => {
+export const sendSMS = (user_id) => {
   return async (dispatch) => {
-    const response = await fetch(`${API_URL}/users`, {
+    const response = await fetch(`${API_URL}/sms`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        user_id: email,
-        password: password,
-        returnSecureToken: true,
+        user_id: user_id,
       }),
     });
 
+    const resData = await response.json();
     if (!response.ok) {
       const errorResData = await response.json();
+      throw new Error(message);
+    }
+
+    console.warn(resData);
+    // dispatch(
+    //   authenticate(
+    //     resData.localId,
+    //     resData.idToken,
+    //     parseInt(resData.expiresIn) * 1000
+    //   )
+    // );
+  };
+};
+export const signup = (query) => {
+  const url = `${API_URL}/users`;
+  return async (dispatch) => {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
+    const resData = await response.json();
+    if (!response.ok) {
+      console.warn(url, resData.error.errorMsg);
+      const errorResData = await response.json();
       const errorId = errorResData.error.message;
-      let message = "Something went wrong!";
+      let message = "signup went wrong!";
       if (errorId === "EMAIL_EXISTS") {
         message = "This email exists already!";
       }
       throw new Error(message);
     }
 
-    const resData = await response.json();
-    console.log(resData);
+    console.warn(resData);
     dispatch(
       authenticate(
         resData.localId,
@@ -59,10 +83,10 @@ export const signup = (user_id) => {
         parseInt(resData.expiresIn) * 1000
       )
     );
-    const expirationDate = new Date(
-      new Date().getTime() + parseInt(resData.expiresIn) * 1000
-    );
-    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+    // const expirationDate = new Date(
+    //   new Date().getTime() + parseInt(resData.expiresIn) * 1000
+    // );
+    // saveDataToStorage(resData.idToken, resData.localId, expirationDate);
   };
 };
 

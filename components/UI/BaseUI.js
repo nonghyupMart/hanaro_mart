@@ -46,7 +46,7 @@ export const BaseTouchable = (props) => {
 };
 export const BaseButtonContainer = styled(BaseTouchable)({
   width: screenWidth * 0.44,
-  minHeight: 42,
+  minHeight: screenHeight * 0.058,
   height: undefined,
   borderRadius: 21,
   justifyContent: "center",
