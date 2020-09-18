@@ -10,14 +10,14 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
+import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 const HomeNotice = (props) => {
   return (
     <>
       {props.homeNotice && (
-        <FlatList
+        <ExtendedFlatList
           {...props}
-          initialNumToRender={6}
           onEndReachedThreshold={0.5}
           onEndReached={props.loadMore}
           contentContainerStyle={{
@@ -30,7 +30,10 @@ const HomeNotice = (props) => {
             flexGrow: 1,
           }}
           data={props.homeNotice.noticeList}
-          keyExtractor={(item) => item.id + ""}
+          keyExtractor={(item) => {
+            // console.warn(item.id);
+            return item.notice_cd;
+          }}
           renderItem={(itemData) => {
             return (
               <TouchableOpacity

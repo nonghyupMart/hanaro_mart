@@ -47,7 +47,7 @@ const HomeBanner = (props) => {
       >
         {props.homeBanner.bannerList.map((item, index) => {
           return (
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 1 }} key={item.display_cd}>
               <BaseImage
                 style={{
                   height: screenWidth * 0.608,

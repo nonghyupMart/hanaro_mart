@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import queryString from "query-string";
 
 import { View, Text, StyleSheet } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL } from "@constants/settings";
+import { SERVER_URL, API_URL } from "@constants/settings";
+import { useSelector, useDispatch } from "react-redux";
+import BaseScreen from "@components/BaseScreen";
 
-export default InquiryScreen = (props) => {
+const InquiryScreen = (props) => {
+  const userStore = useSelector((state) => state.auth.userStore);
+  const [url, setUrl] = useState();
+
+  useEffect(() => {
+    if (!userStore) return;
+    let stringifyUrl;
+    stringifyUrl = queryString.stringifyUrl({
+      url: `${SERVER_URL}/web/community/cstvoice.do`,
+      query: { store_cd: userStore.store_cd },
+    });
+    setUrl(stringifyUrl);
+  }, []);
   return (
-    <View style={styles.screen}>
+    <BaseScreen
+      style={styles.screen}
+      isScroll={false}
+      // isBottomNavigation={false}
+    >
       <ExtendedWebView
         source={{
           // uri: `https://www.naver.com`,
-          uri: `${SERVER_URL}/web/community/notice.do?store_cd=4`,
+          uri: url,
         }}
+        style={{ flex: 1, height: "100%", width: "100%" }}
       />
-    </View>
+    </BaseScreen>
   );
 };
 
 export const screenOptions = ({ navigation }) => {
   return {
+    // cardStyle: {
+    //   marginBottom: 0,
+    // },
     title: "1:1 문의",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
@@ -29,8 +52,8 @@ export const screenOptions = ({ navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
+    width: "100%",
+    height: "100%",
   },
 });
+export default InquiryScreen;

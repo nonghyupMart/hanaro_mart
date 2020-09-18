@@ -23,9 +23,10 @@ import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
 import PickerViews from "@components/store/PickerViews";
 import SearchBar from "@components/store/SearchBar";
+import InfoBox from "@components/store/InfoBox";
 
 import * as branchesActions from "@actions/branches";
-import blueplus from "@images/plusblue.png";
+
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
@@ -163,19 +164,6 @@ const StoreChangeScreen = (props) => {
   );
 };
 
-const InfoBox = (props) => {
-  return (
-    <StoreBox style={{}}>
-      <Plus />
-      <BlueText>나의 매장을 설정해 주세요</BlueText>
-      <BottomCover
-        onLoadStart={() => {
-          // setIsLoading(true);
-        }}
-      />
-    </StoreBox>
-  );
-};
 
 export const screenOptions = ({ navigation }) => {
   return {
@@ -187,51 +175,12 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const WhiteContainer = styled.View({
+export const WhiteContainer = styled.View({
   paddingTop: 6,
   width: "100%",
   backgroundColor: colors.trueWhite,
   flex: 1,
   height: "100%",
-});
-const BottomCover = styled.Image({
-  width: "100%",
-  height: 22,
-  position: "absolute",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  overflow: "visible",
-  backfaceVisibility: "visible",
-  flex: 1,
-});
-BottomCover.defaultProps = {
-  source: require("@images/num_m.png"),
-  resizeMode: "stretch",
-};
-const BlueText = styled.Text({
-  fontSize: 18,
-  fontWeight: "500",
-  fontStyle: "normal",
-  lineHeight: 26,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.cerulean,
-  marginBottom: 50,
-});
-const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
-
-Plus.defaultProps = {
-  source: blueplus,
-  defaultSource: blueplus,
-};
-const StoreBox = styled.View({
-  flex: 1,
-  width: "100%",
-
-  backgroundColor: colors.white,
-
-  alignItems: "center",
 });
 
 const styles = StyleSheet.create({

@@ -15,6 +15,7 @@ const NoticeScreen = (props) => {
 
   useEffect(() => {
     (async () => {
+      if (!userStore) return;
       let stringifyUrl;
       if (!query) {
         stringifyUrl = queryString.stringifyUrl({
@@ -37,7 +38,7 @@ const NoticeScreen = (props) => {
     <BaseScreen
       style={styles.screen}
       isScroll={false}
-      isBottomNavigation={false}
+      // isBottomNavigation={false}
     >
       <ExtendedWebView
         source={{
@@ -52,9 +53,9 @@ const NoticeScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: {
-      marginBottom: 0,
-    },
+    // cardStyle: {
+    //   marginBottom: 0,
+    // },
     title: "공지사항",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

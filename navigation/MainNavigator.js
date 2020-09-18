@@ -72,13 +72,20 @@ import NoticeScreen, {
 } from "@screens/snb/NoticeScreen";
 import InquiryScreen, {
   screenOptions as InquiryScreenOptions,
-} from "@screens/snb/NoticeScreen";
+} from "@screens/snb/InquiryScreen";
 import PrivacyScreen, {
   screenOptions as PrivacyScreenOptions,
 } from "@screens/snb/PrivacyScreen";
 import TermsScreen, {
   screenOptions as TermsScreenOptions,
 } from "@screens/snb/TermsScreen";
+
+import MyPageScreen, {
+  screenOptions as MyPageScreenOptions,
+} from "@screens/MyPageScreen";
+import MyReviewsScreen, {
+  screenOptions as MyReviewsScreenOptions,
+} from "@screens/mypage/MyReviewsScreen";
 // const defaultStackNavOptions = {
 //   headerStyle: {
 //     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
@@ -334,7 +341,6 @@ export const HomeNavigator = () => {
             headerStyleInterpolator: HeaderStyleInterpolators.forFade,
           }}
         />
-
         <HomeStackNavigator.Screen
           name="Notice"
           component={NoticeScreen}
@@ -359,6 +365,16 @@ export const HomeNavigator = () => {
           name="EventDetail"
           component={EventDetailScreen}
           options={EventDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyPage"
+          component={MyPageScreen}
+          options={MyPageScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyReviews"
+          component={MyReviewsScreen}
+          options={MyReviewsScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

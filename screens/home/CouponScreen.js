@@ -96,7 +96,7 @@ const CouponScreen = (props) => {
 
   return (
     <BaseScreen
-      isBottomNavigation={routeName == "MyCoupon" ? false : true}
+      // isBottomNavigation={routeName == "MyCoupon" ? false : true}
       alert={alert}
       isLoading={isLoading}
       style={styles.screen}

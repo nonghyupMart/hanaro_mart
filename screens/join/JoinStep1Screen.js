@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import styled from "styled-components/native";
-import { BaseButtonContainer, ButtonText, screenHeight } from "@UI/BaseUI";
+import {
+  BaseButtonContainer,
+  ButtonText,
+  screenHeight,
+  BaseTouchable,
+} from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 
@@ -10,36 +15,15 @@ const JoinStep1Screen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} style={styles.screen}>
       <Box style={{ marginBottom: 2.5 }}>
-        <UpperContainer>
-          <Symbol source={require("@images/ads636.png")} />
-        </UpperContainer>
-        <Info>
-          농협하나로마트 APP에서는 할인쿠폰 제공 등 회원만을 위한 다양한
-          서비스와 행사내용을 받을 수 있습니다.
-        </Info>
-
-        <LowerContainer>
-          <GreenButton>
-            <ButtonText>본인인증</ButtonText>
-          </GreenButton>
-        </LowerContainer>
+        <Image source={require("@images/top_img646.png")} />
       </Box>
-      <Box style={{ marginTop: 2.5 }}>
-        <UpperContainer>
-          <Symbol source={require("@images/simple646.png")} />
-        </UpperContainer>
-        <Info>휴대폰 번호만으로도 이용이 가능합니다.</Info>
-
-        <LowerContainer>
-          <BlueButton
-            title="본인인증"
-            onPress={() => {
-              navigation.navigate("JoinStep2");
-            }}
-          >
-            <ButtonText>간편가입</ButtonText>
-          </BlueButton>
-        </LowerContainer>
+      <Box
+        style={{ marginTop: 2.5 }}
+        onPress={() => {
+          navigation.navigate("JoinStep2");
+        }}
+      >
+        <Image source={require("@images/bottom_img646.png")} />
       </Box>
     </BaseScreen>
   );
@@ -73,7 +57,7 @@ const BlueButton = styled(GreenButton)({
 });
 const UpperContainer = styled.View({
   flex: 0.5,
-  justifyContent: "center",
+  justifyContent: "flex-end",
   alignItems: "center",
   alignSelf: "center",
 });
@@ -103,11 +87,11 @@ const Symbol = styled.Image.attrs({ resizeMode: "contain" })({
   alignSelf: "center",
 });
 
-const Box = styled.View({
+const Box = styled(BaseTouchable)({
   flexDirection: "column",
-  justifyContent: "space-between",
+  justifyContent: "center",
   alignItems: "center",
-  alignContent: "space-between",
+  alignContent: "center",
   height: "50%",
   width: "100%",
   flex: 1,

@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
-
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 
@@ -65,7 +64,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            RootNavigation.navigate("Flyer");
+            RootNavigation.navigate("MyPage");
           }}
         >
           <IconContainer>

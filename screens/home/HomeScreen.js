@@ -43,7 +43,6 @@ import NaroTube from "@components/home/NaroTube";
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(1);
   const pushToken = useSelector((state) => state.auth.pushToken);
@@ -73,15 +72,13 @@ const HomeScreen = ({ navigation }) => {
   }, [dispatch]);
 
   const loadMore = () => {
-    if (!isLoading && isScrolled && page + 1 <= homeNotice.finalPage) {
+    if (!isLoading  && page + 1 <= homeNotice.finalPage) {
       console.warn("loadMore");
       dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
       setPage(page + 1);
     }
   };
-  const onScroll = () => {
-    if (!isScrolled) setIsScrolled(true);
-  };
+ 
   return (
     <BaseScreen
       isLoading={isLoading}
@@ -94,7 +91,7 @@ const HomeScreen = ({ navigation }) => {
       <HomeNotice
         homeNotice={homeNotice}
         loadMore={loadMore}
-        onScroll={onScroll}
+  
       />
     </BaseScreen>
   );

@@ -12,12 +12,7 @@ import {
 } from "@react-navigation/drawer";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import {
-  BaseTouchable,
-  screenWidth,
-  BaseButtonContainer,
-  
-} from "@UI/BaseUI";
+import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
 import { setAgreePolicy } from "@actions/auth";
 
 const MemberInfo = (props) => (
@@ -100,7 +95,7 @@ const MenuList = (props) => (
       </MenuButton>
     </MenuButtonContainer>
     <MenuButtonContainer style={{ border: 0 }}>
-      <MenuButton onPress={() => props.navigation.navigate("Notice")}>
+      <MenuButton onPress={() => props.navigation.navigate("MyPage")}>
         <Icon>
           <Image source={require("@images/messenger-user-avatar.png")} />
         </Icon>
