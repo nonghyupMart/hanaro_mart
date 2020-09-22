@@ -1,6 +1,6 @@
 import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect } from "react";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import {
   View,
@@ -61,6 +61,7 @@ export default function App() {
   usePreventScreenCapture();
   const [isReady, setIsReady] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
+
   // const [pushToken, setPushToken] = useState();
 
   const backAction = () => {

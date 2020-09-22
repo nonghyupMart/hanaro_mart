@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import colors from "@constants/colors";
 import { IMAGE_URL } from "@constants/settings";
 import { Dimensions, TouchableOpacity, Image } from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
@@ -52,7 +53,6 @@ export const BaseButtonContainer = styled(BaseTouchable)({
   justifyContent: "center",
   alignItems: "center",
 });
-
 
 export const ButtonText = styled.Text({
   fontSize: 16,

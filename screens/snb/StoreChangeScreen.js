@@ -46,7 +46,7 @@ const StoreChangeScreen = (props) => {
       });
   }, [isAgreed]);
 
-  const address1 = useSelector((state) => state.branches.address1);
+const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
 

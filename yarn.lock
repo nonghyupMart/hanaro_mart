@@ -4938,6 +4938,11 @@ fbjs@^0.8.4, fbjs@^0.8.9:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.18"
 
+fiction-expo-restart@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/fiction-expo-restart/-/fiction-expo-restart-1.0.4.tgz#8533525c846d60436d1495154215e4a42c662192"
+  integrity sha512-xcNtlDjcfpPZC+AhtmVY3LeaKvVuGbLJZeiWSvvhMRIsbq2l+HjH323plSI6pn8ePFXhbPpjSWJT8Lmi2qUC9w==
+
 figures@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/figures/-/figures-2.0.0.tgz#3ab1a2d2a62c8bfb431a0c94cb797a2fce27c962"

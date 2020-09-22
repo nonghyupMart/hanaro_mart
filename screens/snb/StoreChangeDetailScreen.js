@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { SERVER_URL } from "@constants/settings";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
+import { Restart } from "fiction-expo-restart";
 import {
   Text,
   View,
@@ -22,7 +23,6 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
-  
 } from "@UI/BaseUI";
 import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
@@ -53,7 +53,7 @@ const StoreChangeDetailScreen = (props) => {
       setIsLoading(false);
       if (branch)
         setLocation(
-          `${branch.lname}  ${branch.mname} ${branch.addr1} ${branch.addr2}`
+          `${branch.storeInfo.lname}  ${branch.storeInfo.mname} ${branch.storeInfo.addr1} ${branch.storeInfo.addr2}`
         );
     });
   }, [dispatch]);
@@ -80,7 +80,7 @@ const StoreChangeDetailScreen = (props) => {
     });
   };
   const saveStore = () => {
-    const msg = `${branch.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
+    const msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
     setAlert({
       message: msg,
       onPressConfirm: () => {
@@ -91,6 +91,7 @@ const StoreChangeDetailScreen = (props) => {
         if (!isAgreed) dispatch(setAgreePolicy(true));
         else {
           props.navigation.popToTop();
+          // Restart();
         }
       },
     });
@@ -126,7 +127,7 @@ const StoreChangeDetailScreen = (props) => {
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
           // source={{ html: require("../../map.js")(location) }}
           source={{
-            uri: `${SERVER_URL}/web/about/map.do?store_cd=${branch.store_cd}`,
+            uri: `${SERVER_URL}/web/about/map.do?store_cd=${branch.storeInfo.store_cd}`,
           }}
         />
         <BottomCover />
@@ -188,7 +189,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.greyishBrown,
                 }}
               >
-                {branch.store_nm}
+                {branch.storeInfo.store_nm}
               </Text>
               <Text
                 style={{
@@ -201,7 +202,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.appleGreen,
                 }}
               >
-                Tel. {branch.tel}
+                Tel. {branch.storeInfo.tel}
               </Text>
             </View>
             <BaseTouchable

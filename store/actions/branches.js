@@ -80,7 +80,7 @@ export const fetchBranch = (store_cd) => {
 
       const resData = await response.json();
 
-      dispatch({ type: SET_BRANCH, branch: resData.data.storeInfo });
+      dispatch({ type: SET_BRANCH, branch: resData.data });
     } catch (err) {
       throw err;
     }

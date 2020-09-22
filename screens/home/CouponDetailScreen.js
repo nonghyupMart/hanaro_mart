@@ -22,6 +22,7 @@ import {
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import * as couponActions from "@actions/coupon";
+import { setBottomNavigation } from "@actions/auth";
 
 const CouponDetailScreen = (props) => {
   const [alert, setAlert] = useState();
@@ -49,20 +50,22 @@ const CouponDetailScreen = (props) => {
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
-         dispatch(
+        dispatch(
           couponActions.useCoupon({
             store_cd: params.store_cd,
             user_cd: 49,
             cou_cd: params.cou_cd,
-            ucou_cd:couponDetail.ucou_cd
+            ucou_cd: couponDetail.ucou_cd,
           })
         ).then((data) => {
           if (data.result == "success") {
             setIsUsed(true);
-               props.navigation.navigate("Barcode", { barcode: couponDetail.barcode });
+            props.navigation.navigate("Barcode", {
+              barcode: couponDetail.barcode,
+            });
           }
         });
-     
+
         // saveStore();
       },
       onPressCancel: () => {
@@ -70,6 +73,17 @@ const CouponDetailScreen = (props) => {
       },
     });
   };
+  useEffect(() => {
+    props.navigation.setOptions({
+      title: "쿠폰",
+      cardStyle: {
+        marginBottom: 0,
+      },
+      headerLeft: () => <BackButton />,
+      headerTitle: (props) => <TextTitle {...props} />,
+      headerRight: (props) => <UseButton onPress={onPress} />,
+    });
+  }, []);
   return (
     <BaseScreen
       isBottomNavigation={false}
@@ -96,25 +110,32 @@ const CouponDetailScreen = (props) => {
           />
           <Price>할인가 : {couponDetail.price}원</Price>
           <Price>최소구매금액 : {couponDetail.m_price}원</Price>
-          
-          {!isUsed &&
-          <>
-            <Warn>계산원이 확인 시에 사용하는 전용기능입니다.</Warn>
-            <BlueButton onPress={onPress}>
-              <Image source={require("@images/resize3.png")} />
-              <BlueButtonText>계산원 전용</BlueButtonText>
-            </BlueButton>
-          </>
-          }
-          {isUsed && 
-          <>
-            <Warn style={{color: colors.greyishBrown}}>본 쿠폰은 사용완료 되었습니다.</Warn>
-            <BlueButton style={{backgroundColor: colors.greyishThree}} >
-              <Image source={require("@images/resize3.png")} />
-              <BlueButtonText>사용완료</BlueButtonText>
-            </BlueButton>
-          </>
-          }
+
+          {!isUsed && (
+            <>
+              <Warn>쿠폰 발급이 완료 되었습니다.</Warn>
+              <BlueButton
+                onPress={() => {
+                  dispatch(setBottomNavigation(true));
+                  props.navigation.pop();
+                }}
+              >
+                {/* <Image source={require("@images/resize3.png")} /> */}
+                <BlueButtonText>확인</BlueButtonText>
+              </BlueButton>
+            </>
+          )}
+          {isUsed && (
+            <>
+              <Warn style={{ color: colors.greyishBrown }}>
+                본 쿠폰은 사용완료 되었습니다.
+              </Warn>
+              <BlueButton style={{ backgroundColor: colors.greyishThree }}>
+                <Image source={require("@images/resize3.png")} />
+                <BlueButtonText>사용완료</BlueButtonText>
+              </BlueButton>
+            </>
+          )}
         </DetailContainer>
       )}
       <Image
@@ -222,8 +243,26 @@ export const screenOptions = ({ navigation }) => {
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: () => <></>,
+    headerRight: (props) => <UseButton {...props} />,
   };
+};
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { HeaderButton } from "@UI/header/elements/HeaderButton";
+const UseButton = (props) => {
+  return (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        IconComponent={FontAwesome5}
+        iconSize={24}
+        title="back"
+        iconName="users-cog"
+        onPress={() => {
+          props.onPress();
+        }}
+      />
+    </HeaderButtons>
+  );
 };
 
 const styles = StyleSheet.create({

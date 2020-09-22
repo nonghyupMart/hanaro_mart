@@ -10,6 +10,7 @@ import {
   Picker,
   TextInput,
   ActionSheetIOS,
+  ScrollView,
   Image,
 } from "react-native";
 
@@ -20,6 +21,7 @@ import {
   BaseSquareButtonContainer,
   ButtonText,
   BaseButtonContainer,
+  StyleConstants,
 } from "@UI/BaseUI";
 
 import { setAgreePolicy } from "../../store/actions/auth";
@@ -66,76 +68,85 @@ const JoinStep2Screen = ({ navigation }) => {
   };
 
   return (
-    <BaseScreen alert={alert}>
-      <TextInputContainer style={{ marginBottom: 7 }}>
-        <Image source={require("@images/ic_phone_iphone_24px.png")} />
-        <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
-        <InputText
-          // ref={(ref) => setPhoneNumberRef(ref)}
-          // autoFocus={true}
-          keyboardType="numeric"
-          maxLength={11}
-          value={phoneNumber}
-          onChangeText={(text) => setPhoneNumber(text)}
-          placeholder="- 없이 입력하세요."
-        />
-      </TextInputContainer>
-      <BlackButton onPress={() => requestOTP()}>
-        <ButtonText>인증번호 신청</ButtonText>
-      </BlackButton>
-      {joinStep[0] && (
-        <View style={{ flexDirection: "row", marginTop: 57 }}>
-          <TextInputContainer style={{ marginRight: 8 }}>
-            <Image source={require("@images/help.png")} />
-            <Label style={{ marginLeft: 10, marginRight: 10 }}>인증번호</Label>
-            <View
+    <BaseScreen alert={alert} isScroll={false}>
+      <ScrollContainer>
+        <TextInputContainer style={{ marginBottom: 7 }}>
+          <Image source={require("@images/ic_phone_iphone_24px.png")} />
+          <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
+          <InputText
+            // ref={(ref) => setPhoneNumberRef(ref)}
+            autoFocus={true}
+            keyboardType="numeric"
+            maxLength={11}
+            value={phoneNumber}
+            onChangeText={(text) => setPhoneNumber(text)}
+            placeholder="- 없이 입력하세요."
+          />
+        </TextInputContainer>
+        <BlackButton onPress={() => requestOTP()}>
+          <ButtonText>인증번호 신청</ButtonText>
+        </BlackButton>
+        {joinStep[0] && (
+          <View style={{ flexDirection: "row", marginTop: 57 }}>
+            <TextInputContainer style={{ marginRight: 8 }}>
+              <Image source={require("@images/help.png")} />
+              <Label style={{ marginLeft: 10, marginRight: 10 }}>
+                인증번호
+              </Label>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <TextInput
+                  required
+                  keyboardType="numeric"
+                  maxLength={4}
+                  placeholder="4자리"
+                />
+              </View>
+            </TextInputContainer>
+            <BlueButton onPress={() => setJoinStep([true, true])}>
+              <ButtonText>인증번호 확인</ButtonText>
+            </BlueButton>
+          </View>
+        )}
+        {joinStep[1] && (
+          <View style={{ marginTop: 57, flex: 1, width: "100%" }}>
+            <TextInputContainer
               style={{
-                flexDirection: "row",
-                alignItems: "center",
                 justifyContent: "center",
+                alignCenter: "center",
+                marginBottom: 26,
+                height: null,
               }}
             >
-              <TextInput
-                required
-                keyboardType="numeric"
-                maxLength={4}
-                placeholder="4자리"
-              />
-            </View>
-          </TextInputContainer>
-          <BlueButton onPress={() => setJoinStep([true, true])}>
-            <ButtonText>인증번호 확인</ButtonText>
-          </BlueButton>
-        </View>
-      )}
-      {joinStep[1] && (
-        <View style={{ marginTop: 57, flex: 1, width: "100%" }}>
-          <TextInputContainer
-            style={{
-              justifyContent: "center",
-              alignCenter: "center",
-              marginBottom: 26,
-              height: null,
-            }}
-          >
-            <ConfrimText style={{}}>
-              인증이 완료되었습니다.{"\n"}하나로플러스앱에 가입하시겠습니까?
-            </ConfrimText>
-          </TextInputContainer>
-          <GreenButton
-            style={{ width: "100%" }}
-            onPress={() => {
-              onPressJoin();
-            }}
-          >
-            <ButtonText>회원가입</ButtonText>
-          </GreenButton>
-        </View>
-      )}
+              <ConfrimText style={{}}>
+                인증이 완료되었습니다.{"\n"}하나로플러스앱에 가입하시겠습니까?
+              </ConfrimText>
+            </TextInputContainer>
+            <GreenButton
+              style={{ width: "100%" }}
+              onPress={() => {
+                onPressJoin();
+              }}
+            >
+              <ButtonText>회원가입</ButtonText>
+            </GreenButton>
+          </View>
+        )}
+      </ScrollContainer>
     </BaseScreen>
   );
 };
-
+const ScrollContainer = styled.ScrollView({
+  flex: 1,
+  paddingRight: StyleConstants.defaultPadding,
+  paddingLeft: StyleConstants.defaultPadding,
+  marginTop: 20,
+});
 const popupConetnt = () => {
   const GreenText = styled(Text)({
     fontSize: 18,

@@ -1,9 +1,10 @@
 import React, { Fragment, useState } from "react";
+import styled from "styled-components/native";
 import {
   Platform,
   Text,
   Button,
-  Icon,
+  Image,
   View,
   StyleSheet,
   StatusBar,
@@ -11,10 +12,11 @@ import {
   Animated,
   Easing,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector, shallowEqual } from "react-redux";
+import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -26,8 +28,9 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import { Ionicons } from "@expo/vector-icons";
 
 import { Input } from "react-native-elements";
-
+import * as RootNavigation from "../navigation/RootNavigation";
 import colors from "@constants/colors";
+import { TabMenus } from "@constants/menu";
 
 import BottomButtons from "@components/BottomButtons";
 import CustomDrawerContent from "@UI/CustomDrawerContent";
@@ -36,12 +39,11 @@ import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
 import HomeScreen, {
   screenOptions as HomeScreenOptions,
 } from "@screens/home/HomeScreen";
-import FlyerScreen from "@screens/home/FlyerScreen";
+
 import FlyerDetailScreen, {
   screenOptions as FlyerDetailScreenOptions,
 } from "@screens/home/FlyerDetailScreen";
-import EventScreen from "@screens/home/EventScreen";
-import ExhibitionScreen from "@screens/home/ExhibitionScreen";
+
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
 
 import EventDetailScreen, {
@@ -99,6 +101,31 @@ import MyReviewsScreen, {
 //   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
 //   headerTitle: "A Screen",
 // };
+const WhiteButtonContainer = styled(BaseTouchable)({
+  height: 64,
+
+  alignItems: "center",
+  paddingLeft: 15,
+  borderRadius: 8,
+  borderWidth: 1,
+  borderColor: colors.whiteTwo,
+  maxWidth: 133,
+  width: screenWidth * 0.369,
+  backgroundColor: colors.trueWhite,
+  flexDirection: "row",
+  marginTop: 3,
+  marginBottom: 3,
+});
+const WButtonText = styled.Text({
+  fontSize: 16,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 24,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+  marginLeft: 11,
+});
 
 const couponArray = [
   { component: "CouponForTotalScreen" },
@@ -195,7 +222,11 @@ const animatedStyles = [
   },
 ];
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
-export const HomeTabNavigator = ({ navigation }) => {
+export const HomeTabNavigator = ({ navigation, route }) => {
+  // console.warn("***HomeTabNavigator! =>", route.params.menuList);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const menuList = userStore ? userStore.menuList : [];
+  // const menuList = route.params ? route.params.menuList : [];
   return (
     <Fragment>
       <Animated.View
@@ -222,6 +253,9 @@ export const HomeTabNavigator = ({ navigation }) => {
         </View>
       </Animated.View>
       <HomeTopTabNavigator.Navigator
+        onStateChange={() => {
+          console.warn("state changed");
+        }}
         lazy={true}
         // optimizationsEnabled={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
@@ -242,40 +276,29 @@ export const HomeTabNavigator = ({ navigation }) => {
             tabBarVisible: getTabBarVisible(route),
           })}
         />
-        <HomeTopTabNavigator.Screen
-          name="Flyer"
-          component={FlyerScreen}
-          options={{
-            title: "행사전단",
-          }}
-        />
-        <HomeTopTabNavigator.Screen
-          name="Event"
-          component={EventScreen}
-          options={{ title: "이벤트" }}
-        />
-        <HomeTopTabNavigator.Screen
-          name="Coupon"
-          component={CouponScreen}
-          options={{ title: "나로쿠폰" }}
-        />
-        <HomeTopTabNavigator.Screen
-          name="Exhibition"
-          component={ExhibitionScreen}
-          options={{ title: "기획전" }}
-        />
-        <HomeTopTabNavigator.Screen
-          name="NaroTube"
-          component={NaroTubeTabNavigator}
-          options={{ title: "나로튜브" }}
-        />
+        {menuList.map((menu) => {
+          {
+            let Tab = TabMenus.filter((tab) => {
+              return tab.title == menu.r_menu_nm;
+            });
+
+            return (
+              <HomeTopTabNavigator.Screen
+                name={Tab[0].name}
+                component={Tab[0].components}
+                options={{ title: Tab[0].title }}
+              />
+            );
+          }
+        })}
       </HomeTopTabNavigator.Navigator>
     </Fragment>
   );
 };
 
 const HomeStackNavigator = createStackNavigator();
-export const HomeNavigator = () => {
+export const HomeNavigator = ({ navigation, route }) => {
+  // console.warn("HomeNavigator! =>", route.params.menuList);
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
@@ -292,6 +315,10 @@ export const HomeNavigator = () => {
           name="Home"
           component={HomeTabNavigator}
           options={HomeScreenOptions}
+          // initialParams={{
+          //   menuList: route.params ? route.params.menuList : [],
+          // }}
+          // menuList={props.menuList}
         />
         <HomeStackNavigator.Screen
           name="FlyerDetail"
@@ -385,13 +412,23 @@ export const HomeNavigator = () => {
 // https://reactnavigation.org/docs/drawer-navigator/
 // hide drawer item - https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
 const Drawer = createDrawerNavigator();
-export const MainNavigator = () => {
+export const MainNavigator = (props) => {
   const dispatch = useDispatch();
+  const userStore = props.userStore;
+  // console.warn(userStore);
+  // return <></>;
   return (
     <Drawer.Navigator
       edgeWidth={0}
       drawerStyle={drawerStyle}
-      drawerContent={(props) => CustomDrawerContent(props, dispatch)}
+      drawerContent={(props) =>
+        CustomDrawerContent(
+          props,
+          dispatch,
+          userStore ? userStore.menuList : [],
+          TabMenus
+        )
+      }
     >
       <Drawer.Screen name="HomeTab" component={HomeNavigator} />
     </Drawer.Navigator>

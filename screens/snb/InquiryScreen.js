@@ -17,7 +17,7 @@ const InquiryScreen = (props) => {
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
       url: `${SERVER_URL}/web/community/cstvoice.do`,
-      query: { store_cd: userStore.store_cd },
+      query: { store_cd: userStore.storeInfo.store_cd },
     });
     setUrl(stringifyUrl);
   }, []);

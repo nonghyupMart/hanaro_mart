@@ -1,7 +1,11 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+export const SET_COUPON_A = "SET_COUPON_A";
 export const SET_COUPON = "SET_COUPON";
+export const SET_MY_COUPON_A = "SET_MY_COUPON_A";
+export const SET_MY_COUPON = "SET_MY_COUPON";
 export const SET_COUPON_MORE = "SET_COUPON_MORE";
+export const SET_MY_COUPON_MORE = "SET_MY_COUPON_MORE";
 export const SET_COUPON_DETAIL = "SET_COUPON_DETAIL";
 
 export const fetchCoupon = (query) => {
@@ -23,11 +27,33 @@ export const fetchCoupon = (query) => {
       }
       console.warn(url);
       let type = SET_COUPON;
+
       if (query.page > 1) {
-        type = SET_COUPON_MORE;
+        // 다음 페이지 로딩
+        if (query.user_yn == "Y") {
+          //마이쿠폰일 경우..
+          type = SET_MY_COUPON_MORE;
+        } else {
+          type = SET_COUPON_MORE;
+        }
       } else {
-        type = SET_COUPON;
+        // 첫페이지 로딩
+        if (query.user_yn == "Y") {
+          //마이쿠폰일 경우..
+          if (query.gbn == "A") {
+            type = SET_MY_COUPON_A;
+          } else {
+            type = SET_MY_COUPON;
+          }
+        } else {
+          if (query.gbn == "A") {
+            type = SET_COUPON_A;
+          } else {
+            type = SET_COUPON;
+          }
+        }
       }
+
       dispatch({ type: type, coupon: resData.data });
     } catch (err) {
       throw err;
@@ -38,8 +64,10 @@ export const fetchCoupon = (query) => {
 export const downloadCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
+  const type = query.type;
   delete query.coupon;
   delete query.index;
+  delete query.type;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/coupon`,
   });
@@ -60,6 +88,7 @@ export const downloadCoupon = (query) => {
       }
       console.warn("downloadCoupon", resData.data);
       coupon.couponList[index].status = "10";
+
       dispatch({ type: SET_COUPON, coupon: coupon });
       return resData.data;
     } catch (err) {
@@ -76,14 +105,13 @@ export const useCoupon = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url, {
-       
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(query),
       });
-      console.warn(url, query)
+      console.warn(url, query);
       const resData = await response.json();
       if (!response.ok) {
         console.warn(url, resData.error.errorMsg);
@@ -96,7 +124,6 @@ export const useCoupon = (query) => {
     }
   };
 };
-
 
 export const fetchCouponDetail = (query) => {
   // store_cd , user_cd

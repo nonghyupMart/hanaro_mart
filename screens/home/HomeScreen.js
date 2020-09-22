@@ -22,7 +22,7 @@ import ScrollableTabView, {
 } from "react-native-scrollable-tab-view";
 import BaseScreen from "@components/BaseScreen";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 import { setUserStore } from "@actions/auth";
 
@@ -63,22 +63,16 @@ const HomeScreen = ({ navigation }) => {
     );
   }, [dispatch]);
 
-  useEffect(() => {
-    (async () => {
-      const userStoreData = await AsyncStorage.getItem("userStoreData");
-      const data = JSON.parse(userStoreData);
-      dispatch(setUserStore(data));
-    })();
-  }, [dispatch]);
+
 
   const loadMore = () => {
-    if (!isLoading  && page + 1 <= homeNotice.finalPage) {
+    if (!isLoading && page + 1 <= homeNotice.finalPage) {
       console.warn("loadMore");
       dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
       setPage(page + 1);
     }
   };
- 
+
   return (
     <BaseScreen
       isLoading={isLoading}
@@ -88,11 +82,7 @@ const HomeScreen = ({ navigation }) => {
       <HomeBanner homeBanner={homeBanner} />
       <Space />
       <NaroTube homeNaro={homeNaro} />
-      <HomeNotice
-        homeNotice={homeNotice}
-        loadMore={loadMore}
-  
-      />
+      <HomeNotice homeNotice={homeNotice} loadMore={loadMore} />
     </BaseScreen>
   );
 };

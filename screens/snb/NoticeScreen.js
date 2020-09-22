@@ -20,7 +20,7 @@ const NoticeScreen = (props) => {
       if (!query) {
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
-          query: { type: "C", store_cd: userStore.store_cd },
+          query: { type: "C", store_cd: userStore.storeInfo.store_cd },
         });
         setUrl(stringifyUrl);
       } else {

@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { Platform, Text, View, StyleSheet, Image } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -14,6 +14,8 @@ import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
 import { setAgreePolicy } from "@actions/auth";
+import colors from "@constants/colors";
+import { TabMenus } from "@constants/menu";
 
 const MemberInfo = (props) => (
   <>
@@ -34,76 +36,99 @@ const MemberInfo = (props) => (
     <GradientBar></GradientBar>
   </>
 );
-const GrayButtons = (props) => (
-  <GrayContainer>
-    <WhiteButtonContainer>
-      <Image source={require("@images/shop1.png")} />
-      <WButtonText>매장전용</WButtonText>
-    </WhiteButtonContainer>
-    <WhiteButtonContainer onPress={() => props.navigation.navigate("Event")}>
-      <Image source={require("@images/pig.png")} />
-      <WButtonText>이벤트</WButtonText>
-    </WhiteButtonContainer>
-    <WhiteButtonContainer onPress={() => props.navigation.navigate("Coupon")}>
-      <Image source={require("@images/ticket2.png")} />
-      <WButtonText>나로쿠폰</WButtonText>
-    </WhiteButtonContainer>
-    <WhiteButtonContainer onPress={() => props.navigation.navigate("Flyer")}>
-      <Image source={require("@images/news.png")} />
-      <WButtonText>행사전단</WButtonText>
-    </WhiteButtonContainer>
-    <WhiteButtonContainer onPress={() => props.navigation.navigate("NaroTube")}>
-      <Image source={require("@images/pictures.png")} />
-      <WButtonText>나로튜브</WButtonText>
-    </WhiteButtonContainer>
-    <WhiteButtonContainer
-      onPress={() => props.navigation.navigate("Exhibition")}
-    >
-      <Image source={require("@images/medal2.png")} />
-      <WButtonText>기획전</WButtonText>
-    </WhiteButtonContainer>
-  </GrayContainer>
-);
-const MenuList = (props) => (
-  <MenuContainer>
-    <MenuButtonContainer>
-      <MenuButton
-        onPress={() => {
-          props.navigation.navigate("StoreChange");
-        }}
+const GrayButtons = (props) => {
+  // console.warn(props.menuList);
+  return (
+    <GrayContainer>
+      {props.menuList.map((menu) => {
+        let Tab = TabMenus.filter((tab) => {
+          // console.warn("1113322", menu.r_menu_nm);
+          return tab.title == menu.r_menu_nm;
+        });
+        {
+          /* console.warn("1", Tab[0].icon); */
+        }
+
+        return (
+          <WhiteButtonContainer>
+            <Image source={Tab[0].icon} />
+            <WButtonText>{Tab[0].title}</WButtonText>
+          </WhiteButtonContainer>
+        );
+      })}
+      {/* <WhiteButtonContainer>
+        <Image source={require("@images/shop1.png")} />
+        <WButtonText>매장전용</WButtonText>
+      </WhiteButtonContainer>
+      <WhiteButtonContainer onPress={() => props.navigation.navigate("Event")}>
+        <Image source={require("@images/pig.png")} />
+        <WButtonText>이벤트</WButtonText>
+      </WhiteButtonContainer>
+      <WhiteButtonContainer onPress={() => props.navigation.navigate("Coupon")}>
+        <Image source={require("@images/ticket2.png")} />
+        <WButtonText>나로쿠폰</WButtonText>
+      </WhiteButtonContainer>
+      <WhiteButtonContainer onPress={() => props.navigation.navigate("Flyer")}>
+        <Image source={require("@images/news.png")} />
+        <WButtonText>행사전단</WButtonText>
+      </WhiteButtonContainer>
+      <WhiteButtonContainer
+        onPress={() => props.navigation.navigate("NaroTube")}
       >
-        <Icon>
-          <Image source={require("@images/position.png")} />
-        </Icon>
-        <MenuText>매장변경</MenuText>
-      </MenuButton>
-    </MenuButtonContainer>
-    <MenuButtonContainer>
-      <MenuButton onPress={() => props.navigation.navigate("Notice")}>
-        <Icon>
-          <Image source={require("@images/loudspeaker-announce.png")} />
-        </Icon>
-        <MenuText>공지사항</MenuText>
-      </MenuButton>
-    </MenuButtonContainer>
-    <MenuButtonContainer>
-      <MenuButton onPress={() => props.navigation.navigate("Inquiry")}>
-        <Icon>
-          <Image source={require("@images/dialogue-balloon.png")} />
-        </Icon>
-        <MenuText>1:1 문의</MenuText>
-      </MenuButton>
-    </MenuButtonContainer>
-    <MenuButtonContainer style={{ border: 0 }}>
-      <MenuButton onPress={() => props.navigation.navigate("MyPage")}>
-        <Icon>
-          <Image source={require("@images/messenger-user-avatar.png")} />
-        </Icon>
-        <MenuText>마이페이지</MenuText>
-      </MenuButton>
-    </MenuButtonContainer>
-  </MenuContainer>
-);
+        <Image source={require("@images/pictures.png")} />
+        <WButtonText>나로튜브</WButtonText>
+      </WhiteButtonContainer>
+      <WhiteButtonContainer
+        onPress={() => props.navigation.navigate("Exhibition")}
+      >
+        <Image source={require("@images/medal2.png")} />
+        <WButtonText>기획전</WButtonText>
+      </WhiteButtonContainer> */}
+    </GrayContainer>
+  );
+};
+const MenuList = (props) => {
+  return (
+    <MenuContainer>
+      <MenuButtonContainer>
+        <MenuButton
+          onPress={() => {
+            props.navigation.navigate("StoreChange");
+          }}
+        >
+          <Icon>
+            <Image source={require("@images/position.png")} />
+          </Icon>
+          <MenuText>매장변경</MenuText>
+        </MenuButton>
+      </MenuButtonContainer>
+      <MenuButtonContainer>
+        <MenuButton onPress={() => props.navigation.navigate("Notice")}>
+          <Icon>
+            <Image source={require("@images/loudspeaker-announce.png")} />
+          </Icon>
+          <MenuText>공지사항</MenuText>
+        </MenuButton>
+      </MenuButtonContainer>
+      <MenuButtonContainer>
+        <MenuButton onPress={() => props.navigation.navigate("Inquiry")}>
+          <Icon>
+            <Image source={require("@images/dialogue-balloon.png")} />
+          </Icon>
+          <MenuText>1:1 문의</MenuText>
+        </MenuButton>
+      </MenuButtonContainer>
+      <MenuButtonContainer style={{ border: 0 }}>
+        <MenuButton onPress={() => props.navigation.navigate("MyPage")}>
+          <Icon>
+            <Image source={require("@images/messenger-user-avatar.png")} />
+          </Icon>
+          <MenuText>마이페이지</MenuText>
+        </MenuButton>
+      </MenuButtonContainer>
+    </MenuContainer>
+  );
+};
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
@@ -132,13 +157,15 @@ const LoginButtons = (props) => {
     </>
   );
 };
-const CustomDrawerContent = (props, dispatch) => {
+const CustomDrawerContent = (props, dispatch, menuList) => {
+  // console.warn("CustomDrawerContent==>");
+  // const userStore = useSelector((state) => state.auth.userStore);
   return (
     <View style={{ flex: 1 }}>
       <View style={{ height: "100%" }}>
         <DrawerContentScrollView {...props}>
           <MemberInfo {...props} />
-          <GrayButtons {...props} />
+          <GrayButtons {...props} menuList={menuList} />
           <MenuList {...props} />
           <LoginButtons {...props} {...dispatch} />
         </DrawerContentScrollView>

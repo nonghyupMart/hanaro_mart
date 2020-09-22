@@ -25,7 +25,7 @@ const EventScreen = ({ navigation }) => {
 
       const requestEvent = dispatch(
         eventActions.fetchEvent({
-          store_cd: userStore.store_cd,
+          store_cd: userStore.storeInfo.store_cd,
         })
       );
 
@@ -43,7 +43,7 @@ const EventScreen = ({ navigation }) => {
       console.warn("loadMore");
       const requestEvent = dispatch(
         eventActions.fetchEvent({
-          store_cd: userStore.store_cd,
+          store_cd: userStore.storeInfo.store_cd,
           page: page + 1,
         })
       );

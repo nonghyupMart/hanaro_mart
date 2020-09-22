@@ -25,7 +25,7 @@ const CouponItem = (props) => {
       {props.item.status == "00" && (
         <Button onPress={props.onPress}>
           <ButtonText>쿠폰 다운로드</ButtonText>
-          <Icon source={require("@images/ic_file_download_24px.png")}/>
+          <Icon source={require("@images/ic_file_download_24px.png")} />
         </Button>
       )}
       {props.item.status == "10" && (
@@ -36,8 +36,10 @@ const CouponItem = (props) => {
       )}
       {props.item.status == "20" && (
         <Button>
-          <ButtonText style={{color: colors.greyishThree}}>사용완료</ButtonText>
-          <Icon source={require("@images/ic_timer_24px.png")}/>
+          <ButtonText style={{ color: colors.greyishThree }}>
+            사용완료
+          </ButtonText>
+          <Icon source={require("@images/ic_timer_24px.png")} />
         </Button>
       )}
     </Container>
@@ -107,6 +109,7 @@ const Date = styled.Text({
 const Container = styled.View({
   maxWidth: "50%",
   flex: 0.483,
+  width: "100%",
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: colors.white,
@@ -114,8 +117,7 @@ const Container = styled.View({
 
   // marginLeft: (props) => console.log(props),
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) =>
-    props.index > 1 ? (screenWidth - 4 - 18 - 18) * 0.034 : 18,
+  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
 });
 
 export default CouponItem;

@@ -18,7 +18,7 @@ const Loading = (props) => {
           width: "100%",
         }}
       >
-        <ActivityIndicator size="large" color="#006dbb" />
+        <ActivityIndicator size="large" color={colors.cerulean} />
       </View>
     </Modal>
   );

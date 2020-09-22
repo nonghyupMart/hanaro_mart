@@ -12,7 +12,7 @@ const LogoTitle = (props, { navigation }) => {
     <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
       <Container>
         <Image source={require("@images/hanalogo_off.png")} />
-        {userStore && <BranchName>{userStore.store_nm}</BranchName>}
+        {userStore && <BranchName>{userStore.storeInfo.store_nm}</BranchName>}
       </Container>
     </TouchableOpacity>
   );

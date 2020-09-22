@@ -30,7 +30,6 @@ const FlyerContentsScreen = (props) => {
     console.warn("FlyerContentsScreen useEffect = > ", props);
     setIsLoading(true);
 
-    // console.warn(userStore.store_cd);
     const fetchProduct = dispatch(
       flyerActions.fetchProduct({
         store_cd: props.store_cd,
@@ -85,7 +84,7 @@ const FlyerContentsScreen = (props) => {
           <Image source={require("@images/r_off.png")} />
         </ArrowBtn>
       </BaseTouchable>
-      <Text>{props.number}</Text>
+      {/* <Text>{props.number}</Text> */}
 
       {product && (
         <FlatList
