@@ -71,10 +71,10 @@ const HomeScreen = ({ navigation }) => {
       setAlert({
         message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
         onPressConfirm: () => {
-          setAlert({ message: null });
+          setAlert(null);
         },
         onPressCancel: () => {
-          setAlert({ message: null });
+          setAlert(null);
         },
         confirmText: "매장선택",
         cancelText: "취소",

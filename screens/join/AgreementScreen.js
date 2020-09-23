@@ -250,7 +250,7 @@ const AgreementScreen = ({ navigation }) => {
           setAlert({
             message: "권한이 거부되었습니다.",
             onPressConfirm: () => {
-              setAlert({ message: null });
+              setAlert(null);
             },
           });
           return statusObj;

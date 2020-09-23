@@ -84,7 +84,7 @@ const CouponScreen = (props) => {
             setAlert({
               message: "쿠폰 발급이 완료 되었습니다.",
               onPressConfirm: () => {
-                setAlert({ message: null });
+                setAlert(null);
                 navigation.navigate("CouponDetail", {
                   store_cd: userStore.storeInfo.store_cd,
                   cou_cd: item.cou_cd,
