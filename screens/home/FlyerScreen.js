@@ -10,7 +10,7 @@ const initialLayout = { width: Dimensions.get("window").width };
 import { useIsFocused } from "@react-navigation/native";
 const FlyerScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
-
+  const [alert, setAlert] = useState();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore, shallowEqual);
@@ -22,12 +22,12 @@ const FlyerScreen = ({ navigation }) => {
   // const [routes, setRoutes] = useState([]);
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
+    if (Object.keys(userStore).length !== 0) {
       setIsLoading(true);
 
       // console.warn("start FlyerScreen", userStore.store_cd);
       const fetchLeaflet = dispatch(
-        flyerActions.fetchLeaflet({ store_cd: userStore.store_cd })
+        flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
       );
 
       Promise.all([fetchLeaflet]).then(() => {
@@ -79,7 +79,7 @@ const FlyerScreen = ({ navigation }) => {
         goLeft={goLeft}
         goRight={goRight}
         leaf_cd={route.leaf_cd}
-        store_cd={userStore.store_cd}
+        store_cd={userStore.storeInfo.store_cd}
       />
     );
   };

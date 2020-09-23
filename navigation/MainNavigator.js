@@ -14,6 +14,8 @@ import {
   Keyboard,
   ActivityIndicator,
 } from "react-native";
+import { TabRouter } from "@react-navigation/native";
+
 import * as Animatable from "react-native-animatable";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
@@ -88,6 +90,9 @@ import MyPageScreen, {
 import MyReviewsScreen, {
   screenOptions as MyReviewsScreenOptions,
 } from "@screens/mypage/MyReviewsScreen";
+import EmptyScreen, {
+  screenOptions as EmptyScreenOptions,
+} from "@screens/EmptyScreen";
 // const defaultStackNavOptions = {
 //   headerStyle: {
 //     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
@@ -222,10 +227,12 @@ const animatedStyles = [
   },
 ];
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
+
 export const HomeTabNavigator = ({ navigation, route }) => {
   // console.warn("***HomeTabNavigator! =>", route.params.menuList);
   const userStore = useSelector((state) => state.auth.userStore);
-  const menuList = userStore ? userStore.menuList : [];
+  const menuList =
+    Object.keys(userStore).length !== 0 ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
   return (
     <Fragment>
@@ -278,10 +285,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         />
         {menuList.map((menu) => {
           {
-            let Tab = TabMenus.filter((tab) => {
-              return tab.title == menu.r_menu_nm;
-            });
-
+            let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
             return (
               <HomeTopTabNavigator.Screen
                 name={Tab[0].name}
@@ -291,6 +295,14 @@ export const HomeTabNavigator = ({ navigation, route }) => {
             );
           }
         })}
+        {menuList.length === 0 &&
+          TabMenus.map((tab) => (
+            <HomeTopTabNavigator.Screen
+              name={tab.name}
+              component={tab.subComponents}
+              options={{ title: tab.title }}
+            />
+          ))}
       </HomeTopTabNavigator.Navigator>
     </Fragment>
   );
@@ -403,6 +415,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           component={MyReviewsScreen}
           options={MyReviewsScreenOptions}
         />
+        <HomeStackNavigator.Screen
+          name="Empty"
+          component={EmptyScreen}
+          options={EmptyScreenOptions}
+        />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
     </Fragment>
@@ -425,7 +442,7 @@ export const MainNavigator = (props) => {
         CustomDrawerContent(
           props,
           dispatch,
-          userStore ? userStore.menuList : [],
+          Object.keys(userStore).length !== 0 ? userStore.menuList : [],
           TabMenus
         )
       }

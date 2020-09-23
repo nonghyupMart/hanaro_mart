@@ -14,7 +14,7 @@ import Constants from "expo-constants";
 
 import { CheckBox } from "react-native-elements";
 
-import { setAgreePolicy } from "@actions/auth";
+import { setPreview } from "@actions/auth";
 import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
@@ -23,9 +23,18 @@ import * as Animatable from "react-native-animatable";
 import colors from "@constants/colors";
 
 import BaseScreen from "@components/BaseScreen";
-import { BaseButtonContainer, ButtonText } from "@UI/BaseUI";
+import {
+  BaseButtonContainer,
+  ButtonText,
+  screenHeight,
+  screenWidth,
+} from "@UI/BaseUI";
 
-import { setPushToken, setLocation, setErrorMsg } from "@actions/auth";
+import {
+  setPushToken,
+  setAgreedStatus,
+  saveAgreedStatusToStorage,
+} from "@actions/auth";
 
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
@@ -238,7 +247,13 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((statusObj) => {
         if (statusObj.status !== "granted") {
-          return alert("권한이 거부 되었습니다.");
+          setAlert({
+            message: "권한이 거부되었습니다.",
+            onPressConfirm: () => {
+              setAlert({ message: null });
+            },
+          });
+          return statusObj;
         }
       })
       .then(() => {
@@ -252,14 +267,8 @@ const AgreementScreen = ({ navigation }) => {
         return token;
       })
       .catch((err) => {
-        console.log(err);
-        setAlert({
-          message: err,
-          onPressConfirm: () => {
-            setAlert({ message: null });
-          },
-        });
-        return;
+        console.warn(err);
+        return err;
       });
   };
   const checkAgreed = () => {
@@ -275,6 +284,8 @@ const AgreementScreen = ({ navigation }) => {
       setIsLoading(() => true);
       getPermissions().then((token) => {
         if (token) {
+          dispatch(setAgreedStatus(checkBoxes));
+          saveAgreedStatusToStorage(checkBoxes);
           navigation.navigate("JoinStep1");
         }
         setIsLoading(() => false);
@@ -284,13 +295,20 @@ const AgreementScreen = ({ navigation }) => {
       setAlert({
         message: "필수 항목을 동의해 주세요.",
         onPressConfirm: () => {
-          setAlert({ message: null });
+          setAlert(null);
         },
       });
     }
   };
   return (
-    <BaseScreen isLoading={isLoading} alert={alert} headerShown={false}>
+    <BaseScreen
+      isLoading={isLoading}
+      alert={alert}
+      headerShown={false}
+      // style={{ width: "100%", height: "100%" }}
+      // contentStyle={{ width: "100%", height: screenHeight }}
+      // scrollListStyle={{ width: "100%", height: screenHeight }}
+    >
       <CheckBox
         activeOpacity={0.8}
         onPress={() => handleAllChecked(!toggleAllheckBox)}
@@ -360,7 +378,7 @@ const AgreementScreen = ({ navigation }) => {
         <BlueButton
           style={{ marginLeft: 3 }}
           onPress={() => {
-            dispatch(setAgreePolicy(true));
+            dispatch(setPreview(true));
           }}
         >
           <ButtonText>동의 없이 보기</ButtonText>

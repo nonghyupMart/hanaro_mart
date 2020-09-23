@@ -6,20 +6,35 @@ import { MainNavigator } from "./MainNavigator";
 
 import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
-import { setUserStore } from "@actions/auth";
+import {
+  setUserStore,
+  setUserInfo,
+  setAgreedStatus,
+  setPreview,
+} from "@actions/auth";
+import Loading from "../components/UI/Loading";
+import StartupScreen from "@screens/StartupScreen";
 
 const AppNavigator = (props) => {
   const dispatch = useDispatch();
-  // const isAgreed = false;
-  const isAgreed = useSelector((state) => state.auth.isAgreed);
+  const isPreview = useSelector((state) => state.auth.isPreview);
+  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userStore = useSelector((state) => state.auth.userStore);
+  let logic = false;
+  let AgreedStatusData;
   useEffect(() => {
     (async () => {
+      if (agreedStatus) console.warn("agreedStatus", agreedStatus);
       const userStoreData = await AsyncStorage.getItem("userStoreData");
-      const data = JSON.parse(userStoreData);
-      dispatch(setUserStore(data));
-    })();
+      dispatch(setUserStore(JSON.parse(userStoreData)));
+      const userInfoData = await AsyncStorage.getItem("userInfoData");
+      dispatch(setUserInfo(JSON.parse(userInfoData)));
+      AgreedStatusData = await AsyncStorage.getItem("AgreedStatusData");
+      console.warn(JSON.parse(AgreedStatusData));
+      dispatch(setAgreedStatus(JSON.parse(AgreedStatusData)));
+  })();
   }, []);
+
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -27,8 +42,16 @@ const AppNavigator = (props) => {
         isReadyRef.current = true;
       }}
     >
-      {isAgreed && <MainNavigator userStore={userStore} />}
-      {!isAgreed && <JoinNavigator />}
+      {!isPreview && !agreedStatus && <StartupScreen />}
+      {!isPreview &&
+        (!agreedStatus ||
+          (agreedStatus && Object.keys(agreedStatus).length === 0)) && (
+          <JoinNavigator />
+        )}
+      {(isPreview ||
+        (agreedStatus && Object.keys(agreedStatus).length !== 0)) && (
+        <MainNavigator userStore={userStore} />
+      )}
     </NavigationContainer>
   );
 };

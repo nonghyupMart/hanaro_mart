@@ -30,7 +30,7 @@ import * as branchesActions from "@actions/branches";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
-  const isAgreed = useSelector((state) => state.auth.isAgreed);
+  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -39,19 +39,19 @@ const StoreChangeScreen = (props) => {
   const [store_nm, setStore_nm] = useState("");
 
   useEffect(() => {
-    if (isAgreed)
+    if (agreedStatus)
       props.navigation.setOptions({
         title: "매장변경",
         headerLeft: (props) => <BackButton {...props} />,
       });
-  }, [isAgreed]);
+  }, [agreedStatus]);
 
 const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
 
   const popupHandler = (item) => {
-    if (isAgreed)
+    if (agreedStatus)
       props.navigation.navigate("StoreChangeDetail", { item: item });
     else props.navigation.navigate("StoreSetupDetail", { item: item });
   };

@@ -23,8 +23,9 @@ import {
   BaseButtonContainer,
   StyleConstants,
 } from "@UI/BaseUI";
+import { formatPhoneNumber } from "@util";
 
-import { setAgreePolicy } from "../../store/actions/auth";
+import { setPreview } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 
 const JoinStep2Screen = ({ navigation }) => {
@@ -32,38 +33,104 @@ const JoinStep2Screen = ({ navigation }) => {
   const [selectedValue, setSelectedValue] = useState("010");
   const [isVisible, setIsVisible] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [accessCode, setAccessCode] = useState();
+  const [acCode, setAcCode] = useState();
   const [phoneNumberRef, setPhoneNumberRef] = useState();
   const [alert, setAlert] = useState();
-
+  const [otpRef, setOtpRef] = useState();
+  const pushToken = useSelector((state) => state.auth.pushToken);
+  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
   useEffect(() => {
     // if (phoneNumberRef) phoneNumberRef.focus();
+    // console.warn(agreedStatus["0"]);
   }, []);
 
   const onPressJoin = () => {
     let query = {
-      user_id: "01012341234",
-      store_cd: "5",
+      user_id: phoneNumber,
+      token: pushToken,
+      os: Platform.OS === "ios" ? "I" : "A",
     };
     dispatch(authActions.signup(query)).then(() => {
       setAlert({
-        content: popupConetnt(),
+        content: popupConetnt(agreedStatus, userInfo),
         onPressConfirm: () => {
           setAlert(null);
           // navigation.reset({
           //   index: 0,
           //   routes: [{ name: "StoreSetup" }],
           // });
-          dispatch(setAgreePolicy(true));
+          dispatch(setPreview(true));
         },
       });
     });
   };
 
   const requestOTP = () => {
+    if (!phoneNumber) {
+      setAlert({
+        message: "휴대폰번호를 입력해주세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+      return;
+    }
+    if (phoneNumber.length < 11) {
+      setAlert({
+        message: "휴대폰번호를 정확히 입력해주세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+      return;
+    }
+    const reg = /^\d+$/;
+    if (!reg.test(phoneNumber)) {
+      setAlert({
+        message: "휴대폰번호를 정확히 입력해주세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+      return;
+    }
     if (phoneNumber) {
-      authActions.sendSMS(phoneNumber);
-      setJoinStep([true, false]);
+      dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
+        console.warn(data);
+        setAcCode(data.accessCode);
+        if (Constants.isDevice) {
+          fetch("https://exp.host/--/api/v2/push/send", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Accept-Encoding": "gzip, deflate",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              to: pushToken,
+              title: "인증번호 " + data.accessCode,
+              body: "테스트를 위해서 임시로 인증번호가 푸시로 발송 됩니다.",
+            }),
+          });
+        }
+        setJoinStep([true, false]);
+      });
+    }
+  };
+  const validateOTP = () => {
+    console.warn(accessCode, acCode);
+    if (accessCode == acCode) {
+      setJoinStep([true, true]);
+    } else {
+      setAlert({
+        message: "인증번호를 확인해 주세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
     }
   };
 
@@ -90,7 +157,12 @@ const JoinStep2Screen = ({ navigation }) => {
           <View style={{ flexDirection: "row", marginTop: 57 }}>
             <TextInputContainer style={{ marginRight: 8 }}>
               <Image source={require("@images/help.png")} />
-              <Label style={{ marginLeft: 10, marginRight: 10 }}>
+              <Label
+                style={{ marginLeft: 10, marginRight: 10 }}
+                onPress={() => {
+                  otpRef.focus();
+                }}
+              >
                 인증번호
               </Label>
               <View
@@ -101,14 +173,18 @@ const JoinStep2Screen = ({ navigation }) => {
                 }}
               >
                 <TextInput
+                  ref={(input) => setOtpRef(input)}
                   required
                   keyboardType="numeric"
                   maxLength={4}
                   placeholder="4자리"
+                  autoFocus={true}
+                  value={accessCode}
+                  onChangeText={(text) => setAccessCode(text)}
                 />
               </View>
             </TextInputContainer>
-            <BlueButton onPress={() => setJoinStep([true, true])}>
+            <BlueButton onPress={() => validateOTP()}>
               <ButtonText>인증번호 확인</ButtonText>
             </BlueButton>
           </View>
@@ -147,7 +223,8 @@ const ScrollContainer = styled.ScrollView({
   paddingLeft: StyleConstants.defaultPadding,
   marginTop: 20,
 });
-const popupConetnt = () => {
+const popupConetnt = (agreedStatus, userInfo) => {
+  // console.warn(agreedStatus);
   const GreenText = styled(Text)({
     fontSize: 18,
     fontWeight: "normal",
@@ -164,6 +241,7 @@ const popupConetnt = () => {
   });
   const Container = styled.View({
     marginTop: 60,
+    paddingBottom: 30,
   });
   const Line = styled.View({
     flexDirection: "row",
@@ -184,22 +262,29 @@ const popupConetnt = () => {
     flexShrink: 1,
   });
   const Icon = styled.Image({ marginTop: 5 });
+  console.warn(userInfo.user_id);
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
-      <WhiteText>010-2643-2846</WhiteText>
-      <Line style={{ marginTop: 20 }}>
-        <Icon source={require("@images/checkmark.png")} />
-        <SmallText>개인정보 집과 이용약관에 동의하셨습니다.</SmallText>
-      </Line>
-      <Line>
-        <Icon source={require("@images/checkmark.png")} />
-        <SmallText>위치정보 수집에 동의하셨습니다.</SmallText>
-      </Line>
-      <Line style={{ marginBottom: 30 }}>
-        <Icon source={require("@images/checkmark.png")} />
-        <SmallText>광고성 정보(혜택)에 수신을 동의하셨습니다.</SmallText>
-      </Line>
+      <WhiteText>{formatPhoneNumber(userInfo.user_id)}</WhiteText>
+      {Object.keys(agreedStatus).map((keyName, index) => {
+        // console.warn(Object.keys(agreedStatus).length);.
+        if (agreedStatus[keyName].isChecked)
+          return (
+            <Line
+              style={{
+                marginTop: index == 0 ? 20 : 0,
+                // marginBottom:
+                //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
+              }}
+            >
+              <Icon source={require("@images/checkmark.png")} />
+              <SmallText>
+                {agreedStatus[keyName].title}에 동의하셨습니다.
+              </SmallText>
+            </Line>
+          );
+      })}
     </Container>
   );
 };
@@ -239,7 +324,10 @@ const BlueButton = styled(BaseSquareButtonContainer)({
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.pine,
 });
-const Label = styled(Text)({
+const LabelContainer = styled.TouchableOpacity.attrs({
+  activeOpacity: 1,
+})({});
+const LabelText = styled.Text({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -248,6 +336,11 @@ const Label = styled(Text)({
   textAlign: "center",
   color: colors.pinkishGrey,
 });
+const Label = (props) => (
+  <LabelContainer {...props}>
+    <LabelText>{props.children}</LabelText>
+  </LabelContainer>
+);
 const TextInputContainer = styled.View({
   flex: 1,
   padding: 10,

@@ -14,11 +14,23 @@ const { width, height } = Dimensions.get("window");
 import { BaseTouchable } from "@UI/BaseUI";
 
 const Alert = (props) => {
+  const [show, setShow] = useState(true);
+  const [isVisible, setIsVisible] = useState(props.isVisible);
+  // console.warn(props.isVisible);
+  // useEffect(() => {
+  //   setIsVisible(() => props.isVisible);
+  //   // action on update of movies
+  // }, [props.isVisible, isVisible]);
+  const onPressConfirm = () => {
+    if (props.onPressConfirm) props.onPressConfirm();
+    // else setIsVisible(() => false);
+  };
   return (
     <Modal
-      isVisible={props.isVisible}
+      isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={true}
+      onModalHide={() => {}}
     >
       <Container>
         <Icon>
@@ -27,12 +39,12 @@ const Alert = (props) => {
         {props.content}
         {props.message && <Message>{props.message}</Message>}
         <ButtonContainer>
-          <ConfirmButton onPress={props.onPressConfirm}>
-            <ButtonText>확인</ButtonText>
+          <ConfirmButton onPress={onPressConfirm}>
+            <ButtonText>{props.confirmText}</ButtonText>
           </ConfirmButton>
           {props.onPressCancel && (
             <CancelButton onPress={props.onPressCancel}>
-              <ButtonText>취소</ButtonText>
+              <ButtonText>{props.cancelText}</ButtonText>
             </CancelButton>
           )}
         </ButtonContainer>
@@ -93,15 +105,14 @@ const Container = styled.View({
 export default Alert;
 
 Alert.defaultProps = {
-  show: false,
   useNativeDriver: false,
   showProgress: false,
   closeOnTouchOutside: true,
   closeOnHardwareBackPress: true,
   showCancelButton: false,
   showConfirmButton: false,
-  cancelText: "Cancel",
-  confirmText: "Confirm",
+  cancelText: "취소",
+  confirmText: "확인",
   cancelButtonColor: "#D0D0D0",
   confirmButtonColor: "#AEDEF4",
   customView: null,

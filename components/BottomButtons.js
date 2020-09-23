@@ -16,6 +16,7 @@ import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 
 const BottomButtons = (props) => {
+  const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
     (state) => state.auth.isBottomNavigation
   );
@@ -38,6 +39,8 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
+            if (Object.keys(userStore).length === 0)
+              return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyCoupon");
           }}
         >
@@ -64,6 +67,8 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
+            if (Object.keys(userStore).length === 0)
+              return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyPage");
           }}
         >
@@ -76,7 +81,9 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            Linking.openURL("tel:+123456789");
+            if (Object.keys(userStore).length === 0)
+              return RootNavigation.navigate("Empty");
+            Linking.openURL("tel:" + userStore.storeInfo.tel);
           }}
         >
           <IconContainer>

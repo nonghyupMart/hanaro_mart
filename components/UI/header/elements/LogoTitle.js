@@ -7,19 +7,20 @@ import { BaseTouchable } from "@UI/BaseUI";
 
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
-
+  // console.warn(Object.keys(userStore).length !== 0);
   return (
     <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
       <Container>
         <Image source={require("@images/hanalogo_off.png")} />
-        {userStore && <BranchName>{userStore.storeInfo.store_nm}</BranchName>}
+        {Object.keys(userStore).length !== 0 && (
+          <BranchName>{userStore.storeInfo.store_nm}</BranchName>
+        )}
       </Container>
     </TouchableOpacity>
   );
 };
 
 const Container = styled.View({
-  flex: 1,
   alignSelf: "center",
   alignItems: "center",
   justifyContent: "center",

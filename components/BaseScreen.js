@@ -32,6 +32,8 @@ const Contents = (props) => {
           message={props.alert.message}
           onPressConfirm={props.alert.onPressConfirm}
           onPressCancel={props.alert.onPressCancel}
+          cancelText={props.alert.cancelText}
+          confirmText={props.alert.confirmText}
           content={props.alert.content}
         />
       )}
@@ -111,7 +113,7 @@ const ScrollList = styled.FlatList.attrs({
   paddingLeft: StyleConstants.defaultPadding,
 });
 const ContentContainer = styled.View({
-  flex: 1,
+  // flex: 1,
   // flexGrow: 1,
   paddingTop: (props) => {
     // console.log(props.headerHeight);
@@ -131,6 +133,7 @@ const Screen = styled(View).attrs({
   enabled: true,
 })({
   flex: 1,
+
   backgroundColor: colors.white,
 });
 const styles = StyleSheet.create({

@@ -10,7 +10,7 @@ import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
 const EventScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
-
+  const [alert, setAlert] = useState();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -19,7 +19,7 @@ const EventScreen = ({ navigation }) => {
 
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
+    if (Object.keys(userStore).length !== 0) {
       setIsLoading(true);
       setPage(1);
 
@@ -34,7 +34,6 @@ const EventScreen = ({ navigation }) => {
       });
     }
     // });
-    // return unsubscribe;
   }, [userStore]);
 
   const loadMore = () => {
@@ -56,6 +55,7 @@ const EventScreen = ({ navigation }) => {
   };
   return (
     <BaseScreen
+      alert={alert}
       isLoading={isLoading}
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}

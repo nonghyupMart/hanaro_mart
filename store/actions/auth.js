@@ -1,49 +1,40 @@
+import queryString from "query-string";
 import { AsyncStorage } from "react-native";
 import { API_URL } from "@constants/settings";
 
-// export const SIGNUP = 'SIGNUP';
-// export const LOGIN = 'LOGIN';
-export const AUTHENTICATE = "AUTHENTICATE";
-export const LOGOUT = "LOGOUT";
-export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
-export const SET_AGREEMENT = "SET_AGREEMENT";
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
+export const SET_PREVIEW = "SET_PREVIEW";
 
 export const SET_USER_STORE = "SET_USER_STORE";
+export const SET_USER_INFO = "SET_USER_INFO";
+export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
 
 let timer;
 
-export const setDidTryAL = () => {
-  return { type: SET_DID_TRY_AL };
-};
-
-export const authenticate = (userId, token, expiryTime) => {
+export const authenticate = (userInfo) => {
   return (dispatch) => {
-    dispatch(setLogoutTimer(expiryTime));
-    dispatch({ type: AUTHENTICATE, userId: userId, token: token });
+    dispatch({ type: AUTHENTICATE, userInfo: userInfo });
   };
 };
-export const sendSMS = (user_id) => {
+export const sendSMS = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/sms`,
+    query: query,
+  });
   return async (dispatch) => {
-    const response = await fetch(`${API_URL}/sms`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: user_id,
-      }),
-    });
+    const response = await fetch(url);
 
     const resData = await response.json();
     if (!response.ok) {
+      console.warn(url, resData.error.errorMsg);
       const errorResData = await response.json();
       throw new Error(message);
     }
 
-    console.warn(resData);
+    // console.warn(resData);
+    return resData.data;
     // dispatch(
     //   authenticate(
     //     resData.localId,
@@ -75,18 +66,9 @@ export const signup = (query) => {
       throw new Error(message);
     }
 
-    console.warn(resData);
-    dispatch(
-      authenticate(
-        resData.localId,
-        resData.idToken,
-        parseInt(resData.expiresIn) * 1000
-      )
-    );
-    // const expirationDate = new Date(
-    //   new Date().getTime() + parseInt(resData.expiresIn) * 1000
-    // );
-    // saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+    console.warn(resData.data.userInfo);
+    dispatch(setUserInfo(resData.data.userInfo));
+    saveUserInfoToStorage(resData.data.userInfo);
   };
 };
 
@@ -121,17 +103,9 @@ export const login = (email, password) => {
 
     const resData = await response.json();
     // console.log(resData);
-    dispatch(
-      authenticate(
-        resData.localId,
-        resData.idToken,
-        parseInt(resData.expiresIn) * 1000
-      )
-    );
-    const expirationDate = new Date(
-      new Date().getTime() + parseInt(resData.expiresIn) * 1000
-    );
-    saveDataToStorage(resData.idToken, resData.localId, expirationDate);
+    dispatch(authenticate(resData.localId, resData.idToken));
+
+    saveUserInfoToStorage(resData.idToken);
   };
 };
 
@@ -163,12 +137,18 @@ export const setLocation = (location) => {
   return { type: SET_LOCATION, location: location };
 };
 
-export const setAgreePolicy = (isAgreed) => {
-  return { type: SET_AGREEMENT, isAgreed: isAgreed };
+export const setPreview = (status) => {
+  return { type: SET_PREVIEW, isPreview: status };
 };
-
+export const setUserInfo = (userInfo) => {
+  return { type: SET_USER_INFO, userInfo: userInfo };
+};
 export const setUserStore = (userStore) => {
   return { type: SET_USER_STORE, userStore: userStore };
+};
+
+export const setAgreedStatus = (status) => {
+  return { type: SET_AGREED_STATUS, agreedStatus: status };
 };
 
 export const setBottomNavigation = (isBottomNavigation) => {
@@ -178,17 +158,13 @@ export const setBottomNavigation = (isBottomNavigation) => {
   };
 };
 
-const saveDataToStorage = (token, userId, pushToken, expirationDate) => {
-  AsyncStorage.setItem(
-    "userData",
-    JSON.stringify({
-      token: token,
-      userId: userId,
-      pushToken: pushToken,
-      expiryDate: expirationDate.toISOString(),
-    })
-  );
+const saveUserInfoToStorage = (userInfo) => {
+  AsyncStorage.setItem("userInfoData", JSON.stringify(userInfo));
 };
-export const saveStoreDataToStorage = (store) => {
+export const saveUserStoreToStorage = (store) => {
   AsyncStorage.setItem("userStoreData", JSON.stringify(store));
+};
+
+export const saveAgreedStatusToStorage = (status) => {
+  AsyncStorage.setItem("AgreedStatusData", JSON.stringify(status));
 };

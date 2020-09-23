@@ -49,7 +49,9 @@ const HomeScreen = ({ navigation }) => {
   const homeBanner = useSelector((state) => state.home.homeBanner);
   const homeNotice = useSelector((state) => state.home.homeNotice);
   const homeNaro = useSelector((state) => state.home.homeNaro);
-
+  const userStore = useSelector((state) => state.auth.userStore);
+  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
+  const [alert, setAlert] = useState();
   useEffect(() => {
     setIsLoading(true);
     const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
@@ -61,9 +63,24 @@ const HomeScreen = ({ navigation }) => {
         // console.log(homeBanner);
       }
     );
+
+    if (
+      Object.keys(userStore).length === 0 &&
+      Object.keys(agreedStatus).length === 0
+    ) {
+      setAlert({
+        message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
+        onPressConfirm: () => {
+          setAlert({ message: null });
+        },
+        onPressCancel: () => {
+          setAlert({ message: null });
+        },
+        confirmText: "매장선택",
+        cancelText: "취소",
+      });
+    }
   }, [dispatch]);
-
-
 
   const loadMore = () => {
     if (!isLoading && page + 1 <= homeNotice.finalPage) {
@@ -75,6 +92,7 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <BaseScreen
+      alert={alert}
       isLoading={isLoading}
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}

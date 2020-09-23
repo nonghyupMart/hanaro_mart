@@ -1,28 +1,45 @@
 import {
-  AUTHENTICATE,
-  LOGOUT,
-  SET_DID_TRY_AL,
+  SET_USER_INFO,
   SET_PUSH_TOKEN,
   SET_LOCATION,
-  SET_AGREEMENT,
   SET_BOTTOM_NAVIGATION,
   SET_USER_STORE,
+  SET_AGREED_STATUS,
+  SET_PREVIEW,
 } from "../actions/auth";
 
 const initialState = {
-  isAgreed: false,
   token: null,
   userId: null,
-  didTryAutoLogin: false,
+  isPreview: false,
   pushToken: null,
   location: null,
   isBottomNavigation: true,
-  testItem: null,
   userStore: null,
+  userInfo: null,
+  agreedStatus: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PREVIEW: {
+      return {
+        ...state,
+        isPreview: action.isPreview,
+      };
+    }
+    case SET_AGREED_STATUS: {
+      return {
+        ...state,
+        agreedStatus: { ...action.agreedStatus },
+      };
+    }
+    case SET_USER_INFO: {
+      return {
+        ...state,
+        userInfo: { ...action.userInfo },
+      };
+    }
     case SET_PUSH_TOKEN:
       return {
         ...state,
@@ -33,11 +50,7 @@ export default (state = initialState, action) => {
         ...state,
         location: action.location,
       };
-    case SET_AGREEMENT:
-      return {
-        ...state,
-        isAgreed: action.isAgreed,
-      };
+
     case SET_BOTTOM_NAVIGATION:
       return {
         ...state,
