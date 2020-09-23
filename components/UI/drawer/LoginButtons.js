@@ -11,14 +11,14 @@ import { setPreview } from "@actions/auth";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
-  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const onPressJoin = () => {
     props.navigation.closeDrawer();
     dispatch(setPreview(false));
   };
   return (
     <BottomContainer>
-      {(!agreedStatus || Object.keys(agreedStatus).length === 0) && (
+      {!isJoin && (
         <ButtonContainer>
           {/* <GreenButton>
           <ButtonText>로그인</ButtonText>

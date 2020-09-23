@@ -10,6 +10,7 @@ export const SET_PREVIEW = "SET_PREVIEW";
 export const SET_USER_STORE = "SET_USER_STORE";
 export const SET_USER_INFO = "SET_USER_INFO";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
+export const SET_IS_JOIN = "SET_IS_JOIN";
 
 let timer;
 
@@ -140,6 +141,9 @@ export const setLocation = (location) => {
 export const setPreview = (status) => {
   return { type: SET_PREVIEW, isPreview: status };
 };
+export const setIsJoin = (status) => {
+  return { type: SET_IS_JOIN, isJoin: status };
+};
 export const setUserInfo = (userInfo) => {
   return { type: SET_USER_INFO, userInfo: userInfo };
 };
@@ -166,5 +170,9 @@ export const saveUserStoreToStorage = (store) => {
 };
 
 export const saveAgreedStatusToStorage = (status) => {
-  AsyncStorage.setItem("AgreedStatusData", JSON.stringify(status));
+  AsyncStorage.setItem("agreedStatusData", JSON.stringify(status));
+};
+
+export const saveIsJoinToStorage = (status) => {
+  AsyncStorage.setItem("isJoinData", true);
 };

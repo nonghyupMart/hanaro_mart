@@ -35,7 +35,7 @@ import {
 } from "@UI/BaseUI";
 import * as homeActions from "@actions/home";
 import { IMAGE_URL } from "@constants/settings";
-
+import _ from "lodash";
 import HomeNotice from "@components/home/HomeNotice";
 import HomeBanner from "@components/home/HomeBanner";
 import NaroTube from "@components/home/NaroTube";
@@ -50,7 +50,7 @@ const HomeScreen = ({ navigation }) => {
   const homeNotice = useSelector((state) => state.home.homeNotice);
   const homeNaro = useSelector((state) => state.home.homeNaro);
   const userStore = useSelector((state) => state.auth.userStore);
-  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const [alert, setAlert] = useState();
   useEffect(() => {
     setIsLoading(true);
@@ -64,14 +64,12 @@ const HomeScreen = ({ navigation }) => {
       }
     );
 
-    if (
-      Object.keys(userStore).length === 0 &&
-      Object.keys(agreedStatus).length === 0
-    ) {
+    if (_.isEmpty(userStore) && isJoin) {
       setAlert({
         message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
         onPressConfirm: () => {
           setAlert(null);
+          navigation.navigate("StoreChange");
         },
         onPressCancel: () => {
           setAlert(null);

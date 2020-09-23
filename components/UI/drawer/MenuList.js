@@ -9,11 +9,13 @@ import {
   screenHeight,
 } from "@UI/BaseUI";
 const MenuList = (props) => {
+  const isPreview = useSelector((state) => state.auth.isPreview);
   return (
     <MenuContainer>
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
+            if (isPreview) return props.navigation.navigate("Empty");
             props.navigation.navigate("StoreChange");
           }}
         >

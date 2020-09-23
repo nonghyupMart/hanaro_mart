@@ -8,6 +8,7 @@ import {
   BaseButtonContainer,
   screenHeight,
 } from "@UI/BaseUI";
+import _ from "lodash";
 import { formatPhoneNumber } from "@util";
 import { LinearGradient } from "expo-linear-gradient";
 const MemberInfo = (props) => {
@@ -20,11 +21,13 @@ const MemberInfo = (props) => {
           <Text1>회원번호</Text1>
           <MemberID style={{ flexDirection: "row" }}>
             <Image source={require("@images/user.png")} />
-            <Text2>{userInfo.name ? userInfo.name : "고객"}</Text2>
+            <Text2>
+              {!_.isEmpty(userInfo) && userInfo.name ? userInfo.name : "고객"}
+            </Text2>
             <Text3>님</Text3>
           </MemberID>
           <Text4>
-            {userInfo.user_id
+            {!_.isEmpty(userInfo) && userInfo.user_id
               ? formatPhoneNumber(userInfo.user_id)
               : "010-0000-0000"}
           </Text4>

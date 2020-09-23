@@ -4,15 +4,16 @@ import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { BaseTouchable } from "@UI/BaseUI";
+import _ from "lodash";
 
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
-  // console.warn(Object.keys(userStore).length !== 0);
+  // console.warn("!!!", userStore);
   return (
     <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
       <Container>
         <Image source={require("@images/hanalogo_off.png")} />
-        {Object.keys(userStore).length !== 0 && (
+        {!_.isEmpty(userStore) && (
           <BranchName>{userStore.storeInfo.store_nm}</BranchName>
         )}
       </Container>

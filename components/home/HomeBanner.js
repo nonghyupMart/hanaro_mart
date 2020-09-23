@@ -7,7 +7,8 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  TouchableNativeFeedback,
+  Text,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {
   StyleConstants,
@@ -16,6 +17,8 @@ import {
   screenWidth,
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
+import * as Linking from "expo-linking";
+
 const HomeBanner = (props) => {
   if (
     !props.homeBanner ||
@@ -47,22 +50,36 @@ const HomeBanner = (props) => {
       >
         {props.homeBanner.bannerList.map((item, index) => {
           return (
-            <View style={{ flex: 1 }} key={item.display_cd}>
-              <BaseImage
-                style={{
-                  height: screenWidth * 0.608,
-                  width: screenWidth,
-                }}
-                defaultSource={require("@images/m_img499.png")}
-                resizeMode="cover"
-                // loadingIndicatorSource={require("@images/m_img499.png")}
-                source={item.display_img}
-              />
-            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              key={item.display_cd}
+              onPress={() => {
+                // console.warn(item.link_url);
+                if (item.link_url != "") Linking.openURL(item.link_url);
+              }}
+            >
+              <BannerItem item={item} />
+            </TouchableOpacity>
           );
         })}
       </Carousel>
     </>
+  );
+};
+const BannerItem = (props) => {
+  return (
+    <View style={{ flex: 1 }}>
+      <BaseImage
+        style={{
+          height: screenWidth * 0.608,
+          width: screenWidth,
+        }}
+        defaultSource={require("@images/m_img499.png")}
+        resizeMode="cover"
+        // loadingIndicatorSource={require("@images/m_img499.png")}
+        source={props.item.display_img}
+      />
+    </View>
   );
 };
 

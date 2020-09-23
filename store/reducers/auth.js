@@ -6,11 +6,11 @@ import {
   SET_USER_STORE,
   SET_AGREED_STATUS,
   SET_PREVIEW,
+  SET_IS_JOIN,
 } from "../actions/auth";
 
 const initialState = {
-  token: null,
-  userId: null,
+  isJoin: false,
   isPreview: false,
   pushToken: null,
   location: null,
@@ -26,6 +26,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isPreview: action.isPreview,
+      };
+    }
+    case SET_IS_JOIN: {
+      return {
+        ...state,
+        isJoin: action.isJoin,
       };
     }
     case SET_AGREED_STATUS: {

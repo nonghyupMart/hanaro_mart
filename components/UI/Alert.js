@@ -27,7 +27,7 @@ const Alert = (props) => {
   };
   return (
     <Modal
-      isVisible={isVisible}
+      isVisible={props.isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={true}
       onModalHide={() => {}}

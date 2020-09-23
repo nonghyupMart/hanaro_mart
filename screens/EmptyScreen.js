@@ -22,17 +22,42 @@ import { HeaderButton, LogoTitle } from "@UI/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { setPreview } from "@actions/auth";
+import _ from "lodash";
 const EmptyScreen = (props) => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
   const [message, setMessage] = useState();
   const [confirmText, setConfirmText] = useState();
+  const [onPressConfirm, setOnPressConfirm] = useState();
+  const userStore = useSelector((state) => state.auth.userStore);
+  const isJoin = useSelector((state) => state.auth.isJoin);
+
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
+      // global.alert(1);
       setIsVisible(true);
-      setMessage("나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.");
+      if (_.isEmpty(userStore) && isJoin) {
+        setMessage("나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.");
+        setConfirmText("매장설정");
+        setOnPressConfirm({
+          confirm: () => {
+            setIsVisible(false);
+            props.navigation.navigate("Home");
+            props.navigation.navigate("StoreChange");
+          },
+        });
+      } else {
+        setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
+        setConfirmText("회원가입");
+        setOnPressConfirm({
+          confirm: () => {
+            setIsVisible(false);
+            dispatch(setPreview(false));
+          },
+        });
+      }
       //   setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
-      setConfirmText("회원가입"); // or 매장 설정
+      // or 매장 설정
     });
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
@@ -41,13 +66,9 @@ const EmptyScreen = (props) => {
   return (
     <Alert
       confirmText={confirmText}
-      cancelText="취소"
       isVisible={isVisible}
       message={message}
-      onPressConfirm={() => {
-        setIsVisible(false);
-        dispatch(setPreview(false));
-      }}
+      onPressConfirm={onPressConfirm && onPressConfirm.confirm}
       onPressCancel={() => {
         setIsVisible(false);
         props.navigation.navigate("Home");

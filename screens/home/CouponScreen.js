@@ -35,7 +35,7 @@ const CouponScreen = (props) => {
   // global.alert(1);
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
-    if (Object.keys(userStore).length !== 0) {
+    if (userStore) {
       // console.warn("coupon", coupon);
       setIsLoading(true);
       setPage(1);

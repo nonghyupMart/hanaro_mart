@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity, Text } from "react-native";
 
 import {
   SafeAreaView,
@@ -23,6 +23,7 @@ import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import * as couponActions from "@actions/coupon";
 import { setBottomNavigation } from "@actions/auth";
+import _ from "lodash";
 
 const CouponDetailScreen = (props) => {
   const [alert, setAlert] = useState();
@@ -93,24 +94,73 @@ const CouponDetailScreen = (props) => {
       contentStyle={{ paddingTop: 0 }}
     >
       {couponDetail && (
-        <DetailContainer>
-          <Discount>
-            {couponDetail.price}
-            {couponDetail.price_gbn == "A" ? "원 " : "% "}
-            할인
-          </Discount>
-          <Title>{couponDetail.title}</Title>
+        <DetailContainer style={{ paddingBottom: 30 }}>
+          <TopBox>
+            {!isUsed && (
+              <>
+                <TopText>쿠폰이 발급 되었습니다.</TopText>
+                <Image
+                  source={require("@images/nums_128.png")}
+                  resizeMode="cover"
+                  style={{
+                    width: screenWidth + screenWidth * 0.1,
+                    marginLeft: "-5%",
+                    marginTop: -2,
+                  }}
+                />
+              </>
+            )}
+            {isUsed && (
+              <>
+                <TopText style={{ backgroundColor: colors.greyishBrown }}>
+                  쿠폰을 사용하셨습니다.
+                </TopText>
+                <Image
+                  source={require("@images/nums99.png")}
+                  resizeMode="cover"
+                  style={{
+                    width: screenWidth + screenWidth * 0.1,
+                    marginLeft: "-5%",
+                    marginTop: -2,
+                  }}
+                />
+              </>
+            )}
+          </TopBox>
+
           <BaseImage
             source={couponDetail.title_img}
+            // resizeMode="stretch"
             style={{
               width: screenWidth * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
             }}
           />
-          <Price>할인가 : {couponDetail.price}원</Price>
-          <Price>최소구매금액 : {couponDetail.m_price}원</Price>
-
+          {/* <Discount>
+            {couponDetail.price}
+            {couponDetail.price_gbn == "A" ? "원 " : "% "}
+            할인
+          </Discount>
+          <Title>{couponDetail.title}</Title> */}
+          <TextContainer>
+            <Price>쿠폰명 : {couponDetail.title}</Price>
+            <Price>할인가 : {couponDetail.price}원</Price>
+            <Price>최소구매금액 : {couponDetail.m_price}원</Price>
+            <Price>사용기간 : ~ {couponDetail.end_date}까지</Price>
+            <View
+              style={{
+                width: "100%",
+                height: 1,
+                backgroundColor: colors.white,
+                borderBottomWidth: 1,
+                borderColor: colors.white,
+                marginTop: 12.5,
+                marginBottom: 12.5,
+              }}
+            ></View>
+            {!_.isEmpty(couponDetail.memo) && <Memo>{couponDetail.memo}</Memo>}
+          </TextContainer>
           {!isUsed && (
             <>
               <Warn>쿠폰 발급이 완료 되었습니다.</Warn>
@@ -120,7 +170,7 @@ const CouponDetailScreen = (props) => {
                   props.navigation.pop();
                 }}
               >
-                {/* <Image source={require("@images/resize3.png")} /> */}
+                <Image source={require("@images/resize3.png")} />
                 <BlueButtonText>확인</BlueButtonText>
               </BlueButton>
             </>
@@ -164,6 +214,36 @@ const CouponDetailScreen = (props) => {
     </BaseScreen>
   );
 };
+const Memo = styled.Text({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 18,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishThree,
+  paddingLeft: 12,
+  paddingRight: 12,
+});
+const TextContainer = styled.View({
+  paddingLeft: "11%",
+  paddingRight: "11%",
+  width: "100%",
+});
+const TopText = styled.Text({
+  color: colors.trueWhite,
+  fontSize: 24,
+  backgroundColor: colors.appleGreen,
+  textAlign: "center",
+  width: "100%",
+  paddingTop: 7,
+  paddingBottom: 7,
+});
+const TopBox = styled.View({
+  width: "110%",
+
+  marginBottom: 15,
+});
 const Desc = styled.Text({
   marginTop: 20,
   fontSize: 12,
@@ -196,7 +276,7 @@ const DescContainer = styled.View({
 });
 
 const Warn = styled.Text({
-  marginTop: 24,
+  marginTop: 20,
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -205,15 +285,28 @@ const Warn = styled.Text({
   textAlign: "left",
   color: colors.cerulean,
 });
-const Price = styled.Text({
-  fontSize: 18,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 26,
-  letterSpacing: 0,
-  textAlign: "left",
+const PriceText = styled.Text({
+  fontSize: 16,
+  lineHeight: 24,
   color: colors.greyishBrown,
+  marginLeft: 7,
 });
+const PriceContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "center",
+  marginLeft: 12,
+  marginRight: 12,
+});
+const Price = (props) => {
+  return (
+    <>
+      <PriceContainer>
+        <Image source={require("@images/greendot3.png")} />
+        <PriceText>{props.children}</PriceText>
+      </PriceContainer>
+    </>
+  );
+};
 const Title = styled.Text({
   fontSize: 16,
   fontWeight: "normal",
@@ -252,6 +345,19 @@ import { HeaderButton } from "@UI/header/elements/HeaderButton";
 const UseButton = (props) => {
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Text
+        style={{
+          alignItems: "center",
+          color: colors.greyishThree,
+          fontSize: 12,
+          justifyContent: "center",
+
+          textAlignVertical: "center",
+          textAlign: "center",
+        }}
+      >
+        계산원 전용
+      </Text>
       <Item
         IconComponent={FontAwesome5}
         iconSize={24}

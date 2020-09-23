@@ -16,7 +16,7 @@ const NoticeScreen = (props) => {
   useEffect(() => {
     (async () => {
       let stringifyUrl;
-      if (!query && Object.keys(userStore).length !== 0) {
+      if (!query && userStore) {
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
           query: { type: "C", store_cd: userStore.storeInfo.store_cd },

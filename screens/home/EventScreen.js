@@ -19,7 +19,7 @@ const EventScreen = ({ navigation }) => {
 
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
-    if (Object.keys(userStore).length !== 0) {
+    if (userStore) {
       setIsLoading(true);
       setPage(1);
 

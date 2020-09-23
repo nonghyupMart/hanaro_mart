@@ -13,7 +13,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
-
+import Constants from "expo-constants";
 import BaseScreen from "@components/BaseScreen";
 
 import { BackButton, TextTitle } from "@UI/header";
@@ -25,7 +25,7 @@ import {
 } from "@UI/BaseUI";
 import { formatPhoneNumber } from "@util";
 
-import { setPreview } from "../../store/actions/auth";
+import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 
 const JoinStep2Screen = ({ navigation }) => {
@@ -62,7 +62,7 @@ const JoinStep2Screen = ({ navigation }) => {
           //   index: 0,
           //   routes: [{ name: "StoreSetup" }],
           // });
-          dispatch(setPreview(true));
+          dispatch(setIsJoin(true));
         },
       });
     });

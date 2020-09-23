@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { TabRouter } from "@react-navigation/native";
+import _ from "lodash";
 
 import * as Animatable from "react-native-animatable";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -232,7 +233,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
   // console.warn("***HomeTabNavigator! =>", route.params.menuList);
   const userStore = useSelector((state) => state.auth.userStore);
   const menuList =
-    Object.keys(userStore).length !== 0 ? userStore.menuList : [];
+    !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
   return (
     <Fragment>
@@ -431,7 +432,7 @@ export const HomeNavigator = ({ navigation, route }) => {
 const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
-  const userStore = props.userStore;
+  const userStore = useSelector((state) => state.auth.userStore);
   // console.warn(userStore);
   // return <></>;
   return (
@@ -442,7 +443,7 @@ export const MainNavigator = (props) => {
         CustomDrawerContent(
           props,
           dispatch,
-          Object.keys(userStore).length !== 0 ? userStore.menuList : [],
+          !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [],
           TabMenus
         )
       }

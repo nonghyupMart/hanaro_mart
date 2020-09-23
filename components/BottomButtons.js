@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
-
+import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 
@@ -39,8 +39,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            if (Object.keys(userStore).length === 0)
-              return RootNavigation.navigate("Empty");
+            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyCoupon");
           }}
         >
@@ -67,8 +66,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            if (Object.keys(userStore).length === 0)
-              return RootNavigation.navigate("Empty");
+            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyPage");
           }}
         >
@@ -81,8 +79,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            if (Object.keys(userStore).length === 0)
-              return RootNavigation.navigate("Empty");
+            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
             Linking.openURL("tel:" + userStore.storeInfo.tel);
           }}
         >

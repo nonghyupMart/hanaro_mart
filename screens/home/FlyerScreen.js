@@ -22,7 +22,7 @@ const FlyerScreen = ({ navigation }) => {
   // const [routes, setRoutes] = useState([]);
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
-    if (Object.keys(userStore).length !== 0) {
+    if (userStore) {
       setIsLoading(true);
 
       // console.warn("start FlyerScreen", userStore.store_cd);

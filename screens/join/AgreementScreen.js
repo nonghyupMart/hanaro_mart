@@ -9,7 +9,11 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  HeaderStyleInterpolators,
+} from "@react-navigation/stack";
 import Constants from "expo-constants";
 
 import { CheckBox } from "react-native-elements";
@@ -226,7 +230,7 @@ const AgreementScreen = ({ navigation }) => {
     let cks = [...checkBoxes];
     cks[checkBox.id].isOpen = !cks[checkBox.id].isOpen;
     setCheckBoxes(() => cks);
-    console.log("cks====>", cks);
+    // console.log("cks====>", cks);
   };
 
   const getPermissions = () => {
@@ -413,6 +417,7 @@ export const screenOptions = ({ navigation }) => {
     cardStyle: {
       paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
     },
+    animationEnabled: false,
   };
 };
 const BulletIcon = styled(Image)({ marginTop: 3 });

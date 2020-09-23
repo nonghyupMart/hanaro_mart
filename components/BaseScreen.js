@@ -20,6 +20,7 @@ import Constants from "expo-constants";
 import Loading from "@UI/Loading";
 import Alert from "@UI/Alert";
 import { StyleConstants } from "@UI/BaseUI";
+import _ from "lodash";
 
 const Contents = (props) => {
   // if (props.alert) console.log(props.alert.content);

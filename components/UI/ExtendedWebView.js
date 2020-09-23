@@ -14,14 +14,17 @@ export const ExtendedWebView = (props) => {
     console.log(message);
     switch (message.method) {
       case "openURL":
-        return Linking.openURL(message.url);
+        return Linking.openURL(message.value);
       case "alert":
         setAlert({
-          message: message.message,
+          message: message.value,
           onPressConfirm: () => {
             setAlert(null);
           },
         });
+        return;
+      case "auth":
+        // message.value
         return;
     }
   };

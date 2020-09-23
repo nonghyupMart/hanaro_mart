@@ -7,13 +7,13 @@ import { ExtendedWebView } from "@UI/ExtendedWebView";
 import { SERVER_URL, API_URL } from "@constants/settings";
 import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "@components/BaseScreen";
-
+import _ from "lodash";
 const MyReviewScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const [url, setUrl] = useState();
 
   useEffect(() => {
-    if (Object.keys(userStore).length === 0) return;
+    if (_.isEmpty(userStore)) return;
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
       url: `${SERVER_URL}/web/community/review.do`,

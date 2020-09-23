@@ -33,7 +33,7 @@ import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
 
 import * as branchesActions from "@actions/branches";
-import { setPreview, saveStoreDataToStorage } from "@actions/auth";
+import { setPreview, saveUserStoreToStorage } from "@actions/auth";
 import { setUserStore } from "@actions/auth";
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
@@ -58,7 +58,7 @@ const StoreChangeDetailScreen = (props) => {
     });
   }, [dispatch]);
   useEffect(() => {
-    if (Object.keys(userStore).length !== 0)
+    if (userStore)
       props.navigation.setOptions({
         title: "매장변경",
         headerLeft: (props) => <BackButton {...props} />,
@@ -85,7 +85,7 @@ const StoreChangeDetailScreen = (props) => {
       message: msg,
       onPressConfirm: () => {
         setAlert(null);
-        saveStoreDataToStorage(branch);
+        saveUserStoreToStorage(branch);
         dispatch(setUserStore(branch));
 
         props.navigation.popToTop();
@@ -203,9 +203,7 @@ const StoreChangeDetailScreen = (props) => {
               </Text>
             </View>
             <BaseTouchable
-              onPress={() =>
-                agreedStatus ? storeChangeHandler() : saveStore()
-              }
+              onPress={() => (userStore ? storeChangeHandler() : saveStore())}
             >
               <View
                 style={{
