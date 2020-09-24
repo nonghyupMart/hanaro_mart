@@ -19,11 +19,15 @@ import {
   BaseButtonContainer,
   screenHeight,
 } from "@UI/BaseUI";
+import { setBottomNavigation } from "@actions/auth";
+import { useSelector, useDispatch } from "react-redux";
 
 const BarCodeScannerScreen = (props) => {
+  const dispatch = useDispatch();
   const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
 
   useEffect(() => {
     (async () => {
@@ -37,7 +41,9 @@ const BarCodeScannerScreen = (props) => {
     console.warn(
       `Bar code with type ${type} and data ${data} has been scanned!`
     );
-    // props.params.setRcp_qr(data);
+
+    params.setRcp_qr(data);
+    dispatch(setBottomNavigation(true));
     props.navigation.goBack();
     // props.navigation.navigate("BarCodeScanner", { rcp_qr: data });
   };

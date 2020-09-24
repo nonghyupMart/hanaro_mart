@@ -83,6 +83,7 @@ const BaseScreen = (props) => {
     <Screen headerHeight={useHeaderHeight()} style={props.style}>
       {isScroll && (
         <ScrollList
+          ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
           nestedScrollEnabled={true}
           // keyboardDismissMode="none"
           // keyboardShouldPersistTaps="always"
@@ -91,14 +92,16 @@ const BaseScreen = (props) => {
           keyboardShouldPersistTaps="handled"
           windowSize={props.windowSize ? props.windowSize : 5}
           style={props.scrollListStyle}
+          data={[0]}
+          keyExtractor={(item, index) => index}
           headerHeight={useHeaderHeight()}
           {...props}
           contentContainerStyle={[styles.safeAreaView]}
-          ListHeaderComponent={
+          renderItem={({ item, index, separators }) => (
             <ContentContainer style={[props.contentStyle]}>
               <Contents {...props} />
             </ContentContainer>
-          }
+          )}
         />
       )}
       {!isScroll && <Contents {...props} />}

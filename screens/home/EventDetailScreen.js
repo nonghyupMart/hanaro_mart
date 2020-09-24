@@ -19,14 +19,17 @@ import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
 import C from "@screens/home/EventDetail/C";
 const EventDetailScreen = (props, { navigation }) => {
-  console.log(props);
   const dispatch = useDispatch();
+  const [alert, setAlert] = useState();
+  const [scrollRef, setScrollRef] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(0);
+
   const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
+  const [rcp_qr, setRcp_qr] = useState();
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,21 +44,24 @@ const EventDetailScreen = (props, { navigation }) => {
     Promise.all([requestEvent]).then(() => {
       setIsLoading(false);
     });
-
-    // Image.getSize(IMAGE_URL + eventDetail.title_img, (width, height) => {
-    //   // calculate image width and height
-    //   const screenWidth = Dimensions.get("window").width;
-    //   const scaleFactor = width / screenWidth;
-    //   const imageHeight = height / scaleFactor;
-    //   setImageHeight(imageHeight);
-    //   console.warn("imageHeight", imageHeight);
-    // });
-  }, []);
-  // let imageSize;
-  // await
-  // console.warn(imageSize);
+  }, [dispatch]);
+  const onApply = (reg_num) => {
+    dispatch(
+      eventActions.applyEvent({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        reg_num,
+        rcp_qr,
+      })
+    ).then((data) => {
+      console.warn(data);
+    });
+  };
   return (
     <BaseScreen
+      alert={alert}
+      setScrollRef={setScrollRef}
       isLoading={isLoading}
       style={styles.screen}
       contentStyle={{
@@ -76,9 +82,31 @@ const EventDetailScreen = (props, { navigation }) => {
             style={{}}
             width={screenWidth}
           />
-          {eventDetail.gbn == "A" && <A {...props} />}
-          {eventDetail.gbn == "B" && <B {...props} />}
-          {eventDetail.gbn == "C" && <C {...props} />}
+          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "A" && (
+            <A {...props} onApply={onApply} setAlert={setAlert} />
+          )}
+          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "B" && (
+            <B
+              {...props}
+              scrollRef={scrollRef}
+              key={scrollRef}
+              setAlert={setAlert}
+              onApply={onApply}
+              setRcp_qr={setRcp_qr}
+              rcp_qr={rcp_qr}
+            />
+          )}
+          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "C" && (
+            <C
+              {...props}
+              scrollRef={scrollRef}
+              key={scrollRef}
+              setAlert={setAlert}
+              onApply={onApply}
+              setRcp_qr={setRcp_qr}
+              rcp_qr={rcp_qr}
+            />
+          )}
         </DetailContainer>
       )}
     </BaseScreen>

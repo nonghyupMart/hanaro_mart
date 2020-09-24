@@ -2,12 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, View, ActivityIndicator } from "react-native";
-import {
-  BaseTouchable,
-  screenWidth,
-  BaseButtonContainer,
-  screenHeight,
-} from "@UI/BaseUI";
 
 import * as authActions from "@actions/auth";
 import AsyncStorage from "@react-native-community/async-storage";

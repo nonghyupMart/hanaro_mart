@@ -10,12 +10,55 @@ import {
 
 import { BlueButton, BlueButtonText } from "@UI/BaseUI";
 const ApplyBox = (props) => {
+  const [checkItem, setCheckItem] = useState({
+    isRequired: true,
+    isChecked: false,
+  });
+  const [reg_num, setReg_num] = useState();
+
+  const onPress = () => {
+    if (!checkItem.isChecked) {
+      props.setAlert({
+        message: "개인정보 수집에 동의해주세요.",
+        onPressConfirm: () => {
+          props.setAlert(null);
+        },
+      });
+      return;
+    }
+    if (!reg_num) {
+      props.setAlert({
+        message: "주민등록번호를 입력해주세요.",
+        onPressConfirm: () => {
+          props.setAlert(null);
+        },
+      });
+      return;
+    }
+    if (reg_num.length < 7) {
+      props.setAlert({
+        message: "주민등록번호를 정확히 입력해주세요.",
+        onPressConfirm: () => {
+          props.setAlert(null);
+        },
+      });
+      return;
+    }
+
+    props.onApply(reg_num);
+  };
   return (
     <>
       <Container>
         <Title>개인정보 수집동의</Title>
         <TitleContainer style={{ marginTop: 13, marginBottom: 31 }}>
-          <CheckButton value={props.item} />
+          <CheckButton
+            value={checkItem}
+            onPress={() =>
+              setCheckItem({ ...checkItem, isChecked: !checkItem.isChecked })
+            }
+            isRequired={true}
+          />
           <TextView
             style={{
               fontWeight: "normal",
@@ -35,9 +78,11 @@ const ApplyBox = (props) => {
           placeholder="주민등록번호 입력 바랍니다.(앞7자리)"
           keyboardType="numeric"
           maxLength={7}
+          value={reg_num}
+          onChangeText={(text) => setReg_num(text)}
         />
       </Container>
-      <BlueButton onPress={props.onPress} style={{ marginTop: 40 }}>
+      <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
         <Image source={require("@images/forward.png")} />
         <BlueButtonText>응모하기</BlueButtonText>
       </BlueButton>
