@@ -5,7 +5,7 @@ export const SET_EVENT_MORE = "SET_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
 
 export const fetchEvent = (query) => {
-  //dv-www.hanaromartapp.com/api/event?store_cd=4&status=O
+
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({
     url: `${API_URL}/event`,
@@ -36,7 +36,7 @@ export const fetchEvent = (query) => {
 };
 
 export const fetchEventDetail = (query) => {
-  //dv-www.hanaromartapp.com/api/event?store_cd=4&status=O
+
   const event_cd = query.event_cd;
   delete query.event_cd;
   const url = queryString.stringifyUrl({

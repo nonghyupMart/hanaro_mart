@@ -27,7 +27,6 @@ import InfoBox from "@components/store/InfoBox";
 
 import * as branchesActions from "@actions/branches";
 
-
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -46,13 +45,12 @@ const StoreChangeScreen = (props) => {
       });
   }, [isJoin]);
 
-const address1 = useSelector((state) => state.branches.address1);
+  const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
 
   const popupHandler = (item) => {
-    if (isJoin) props.navigation.navigate("StoreChangeDetail", { item: item });
-    else props.navigation.navigate("StoreSetupDetail", { item: item });
+    props.navigation.navigate("StoreChangeDetail", { item: item });
   };
 
   const [location, setLocation] = useState(null);
@@ -162,7 +160,6 @@ const address1 = useSelector((state) => state.branches.address1);
     </BaseScreen>
   );
 };
-
 
 export const screenOptions = ({ navigation }) => {
   return {

@@ -32,12 +32,13 @@ const CouponDetailScreen = (props) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [isUsed, setIsUsed] = useState(false);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
     setIsLoading(true);
     const fetchCouponDetail = dispatch(
       couponActions.fetchCouponDetail({
         cou_cd: params.cou_cd,
-        user_cd: 49,
+        user_cd: userInfo.user_cd,
       })
     );
 
@@ -54,7 +55,7 @@ const CouponDetailScreen = (props) => {
         dispatch(
           couponActions.useCoupon({
             store_cd: params.store_cd,
-            user_cd: 49,
+            user_cd: userInfo.user_cd,
             cou_cd: params.cou_cd,
             ucou_cd: couponDetail.ucou_cd,
           })

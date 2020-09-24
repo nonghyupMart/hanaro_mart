@@ -11,8 +11,13 @@ export const SET_USER_STORE = "SET_USER_STORE";
 export const SET_USER_INFO = "SET_USER_INFO";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
 export const SET_IS_JOIN = "SET_IS_JOIN";
+export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 
 let timer;
+
+export const setDidTryAL = () => {
+  return { type: SET_DID_TRY_AL };
+};
 
 export const authenticate = (userInfo) => {
   return (dispatch) => {

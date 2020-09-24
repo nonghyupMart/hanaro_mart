@@ -33,12 +33,11 @@ export const fetchAddress2 = (lname) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(`${API_URL}/${lname}/mname`);
-
+      const resData = await response.json();
       if (!response.ok) {
+        console.warn(url, resData.error.errorMsg);
         throw new Error("fetchAddress2 Something went wrong!");
       }
-
-      const resData = await response.json();
 
       dispatch({ type: SET_ADDRESS2, address2: resData.data });
     } catch (err) {
@@ -56,12 +55,13 @@ export const fetchBranches = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
+      const resData = await response.json();
 
       if (!response.ok) {
+        console.warn(url, resData.error.errorMsg);
         throw new Error("fetchBranches Something went wrong!");
       }
 
-      const resData = await response.json();
       // console.warn("fetchBranches data", resData.data);
       dispatch({ type: SET_BRANCHES, branches: resData.data });
     } catch (err) {
@@ -70,15 +70,17 @@ export const fetchBranches = (query) => {
   };
 };
 export const fetchBranch = (store_cd) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/store/${store_cd}`,
+  });
   return async (dispatch, getState) => {
     try {
-      const response = await fetch(`${API_URL}/store/${store_cd}`);
-
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
+      const response = await fetch(url);
       const resData = await response.json();
+      if (!response.ok) {
+        console.warn(url, resData.error.errorMsg);
+        throw new Error("fetchBranch went wrong!");
+      }
 
       dispatch({ type: SET_BRANCH, branch: resData.data });
     } catch (err) {

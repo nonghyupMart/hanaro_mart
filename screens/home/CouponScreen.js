@@ -19,7 +19,8 @@ const CouponScreen = (props) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const userStore = useSelector((state) => state.auth.userStore, shallowEqual);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   let couponA, coupon;
   if (routeName == "MyCoupon") {
     //나의쿠폰 일 경우..
@@ -43,7 +44,7 @@ const CouponScreen = (props) => {
       const fetchCouponA = dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
-          user_cd: 49,
+          user_cd: userInfo.user_cd,
           user_yn: routeName == "MyCoupon" ? "Y" : "N",
           gbn: "A",
         })
@@ -51,7 +52,7 @@ const CouponScreen = (props) => {
       const fetchCouponB = dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
-          user_cd: 49,
+          user_cd: userInfo.user_cd,
           user_yn: routeName == "MyCoupon" ? "Y" : "N",
           gbn: "B",
         })
@@ -73,7 +74,7 @@ const CouponScreen = (props) => {
         dispatch(
           couponActions.downloadCoupon({
             store_cd: userStore.storeInfo.store_cd,
-            user_cd: 49,
+            user_cd: userInfo.user_cd,
             cou_cd: item.cou_cd,
             coupon: coupon,
             index: index,
@@ -88,7 +89,7 @@ const CouponScreen = (props) => {
                 navigation.navigate("CouponDetail", {
                   store_cd: userStore.storeInfo.store_cd,
                   cou_cd: item.cou_cd,
-                  user_cd: 49,
+                  user_cd: userInfo.user_cd,
                 });
               },
             });
@@ -100,7 +101,7 @@ const CouponScreen = (props) => {
         navigation.navigate("CouponDetail", {
           store_cd: userStore.storeInfo.store_cd,
           cou_cd: item.cou_cd,
-          user_cd: 49,
+          user_cd: userInfo.user_cd,
         });
         return;
       case "20": // 사용완료
@@ -113,7 +114,7 @@ const CouponScreen = (props) => {
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
-          user_cd: 49,
+          user_cd: userInfo.user_cd,
           page: page + 1,
           gbn: "B",
         })

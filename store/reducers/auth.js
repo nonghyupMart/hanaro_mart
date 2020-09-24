@@ -7,9 +7,11 @@ import {
   SET_AGREED_STATUS,
   SET_PREVIEW,
   SET_IS_JOIN,
+  SET_DID_TRY_AL,
 } from "../actions/auth";
 
 const initialState = {
+  didTryAutoLogin: false,
   isJoin: false,
   isPreview: false,
   pushToken: null,
@@ -26,12 +28,20 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isPreview: action.isPreview,
+        didTryAutoLogin: true,
+      };
+    }
+    case SET_DID_TRY_AL: {
+      return {
+        ...state,
+        didTryAutoLogin: true,
       };
     }
     case SET_IS_JOIN: {
       return {
         ...state,
         isJoin: action.isJoin,
+        didTryAutoLogin: true,
       };
     }
     case SET_AGREED_STATUS: {
@@ -44,6 +54,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         userInfo: { ...action.userInfo },
+        didTryAutoLogin: true,
       };
     }
     case SET_PUSH_TOKEN:

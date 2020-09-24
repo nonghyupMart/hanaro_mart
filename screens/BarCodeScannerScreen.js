@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components/native";
 import {
   Text,
   SafeAreaView,
@@ -6,10 +7,21 @@ import {
   Button,
   Image,
   View,
+  ImageBackground,
 } from "react-native";
+import BaseScreen from "@components/BaseScreen";
+import { BackButton, TextTitle } from "@UI/header";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { Camera } from "expo-camera";
+import {
+  BaseTouchable,
+  screenWidth,
+  BaseButtonContainer,
+  screenHeight,
+} from "@UI/BaseUI";
 
-const BarCodeScannerScreen = () => {
+const BarCodeScannerScreen = (props) => {
+  const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
@@ -22,7 +34,12 @@ const BarCodeScannerScreen = () => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    console.warn(
+      `Bar code with type ${type} and data ${data} has been scanned!`
+    );
+    // props.params.setRcp_qr(data);
+    props.navigation.goBack();
+    // props.navigation.navigate("BarCodeScanner", { rcp_qr: data });
   };
 
   if (hasPermission === null) {
@@ -33,52 +50,114 @@ const BarCodeScannerScreen = () => {
   }
 
   return (
-    <SafeAreaView
+    <BaseScreen
+      isBottomNavigation={false}
+      isScroll={false}
       style={{
-        flex: 1,
+        paddingBottom: 0,
+        width: "100%",
+        height: "100%",
         flexDirection: "column",
         justifyContent: "flex-end",
       }}
     >
-      <BarCodeScanner
+      <Camera
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        style={StyleSheet.absoluteFillObject}
+        // barCodeScannerSettings={{
+        //   barCodeTypes: [BarCodeScanner.Constants.BarCodeType.ean13],
+        // }}
+        style={[StyleSheet.absoluteFill]}
+      />
+      {/* <BarCodeScanner
+        onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+        style={[
+          StyleSheet.absoluteFillObject,
+          { width: "100%", height: "100%" },
+        ]}
+      > */}
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          elevation: 1,
+          top: 0,
+          left: 0,
+        }}
       >
-        <View
+        <ImageBackground
+          source={require("@images/scannerBg.png")}
           style={{
-            position: "absolute",
-            zIndex: 5555,
-            elevation: 5555,
-            top: 150,
-            marginTop: 100,
-            width: "100%",
-            height: "100%",
+            width: 300,
+            height: 50,
+            resizeMode: "contain",
+            flexDirection: "row",
+            padding: 14,
+            paddingLeft: 23,
+            alignItems: "center",
           }}
         >
-          <Image
-            style={{
-              width: "100%",
-              height: 50,
-              resizeMode: "stretch",
-            }}
-            source={{
-              uri:
-                "http://img-m.nonghyupmall.com//prdimg/02/003/005/001/009//4002685492_0_320_20200428155054.jpg",
-            }}
-          />
-        </View>
-      </BarCodeScanner>
+          <Image source={require("@images/barcodeWhite.png")} />
+          <Text1>영수증바코드</Text1>
+        </ImageBackground>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          zIndex: 1,
+          elevation: 1,
+          bottom: 0,
+          left: 0,
+          width: "100%",
 
-      {scanned && (
+          backgroundColor: "rgba(0, 0, 0, 0.56)",
+          flexDirection: "row",
+          alignItems: "center",
+          paddingLeft: 35,
+          padding: 18,
+          paddingRight: 35,
+        }}
+      >
+        <Image source={require("@images/logo1pic478.png")} />
+        <Text2>
+          {`하나로마트에서 구매하신 영수증의\n바코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
+        </Text2>
+      </View>
+      {/* </BarCodeScanner> */}
+      {/* {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
-      )}
-    </SafeAreaView>
+      )} */}
+    </BaseScreen>
   );
 };
-
+const Text2 = styled.Text({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 18,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.trueWhite,
+  marginLeft: 25.5,
+});
+const Text1 = styled.Text({
+  marginLeft: 10.8,
+  fontSize: 16,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 24,
+  letterSpacing: 0,
+  textAlign: "right",
+  color: colors.trueWhite,
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "바코드 촬영",
+    cardStyle: {
+      marginBottom: 0,
+    },
+    headerLeft: () => <BackButton />,
+    headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: () => <></>,
   };
 };
 

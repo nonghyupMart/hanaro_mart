@@ -24,7 +24,7 @@ const EventDetailScreen = (props, { navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [imageHeight, setImageHeight] = useState(0);
-
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
 
@@ -34,7 +34,7 @@ const EventDetailScreen = (props, { navigation }) => {
     const requestEvent = dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
-        user_cd: 49,
+        user_cd: userInfo.user_cd,
       })
     );
 
@@ -60,18 +60,25 @@ const EventDetailScreen = (props, { navigation }) => {
       style={styles.screen}
       contentStyle={{
         paddingTop: 0,
+        paddingBottom: 0,
       }}
     >
       {eventDetail && (
-        <DetailContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <DetailContainer
+          style={{
+            paddingLeft: 0,
+            paddingRight: 0,
+            marginBottom: 0,
+          }}
+        >
           <ScaledImage
             source={eventDetail.detail_img}
             style={{}}
             width={screenWidth}
           />
-          {eventDetail.gbn == "A" && <A />}
-          {eventDetail.gbn == "B" && <B />}
-          {eventDetail.gbn == "C" && <C />}
+          {eventDetail.gbn == "A" && <A {...props} />}
+          {eventDetail.gbn == "B" && <B {...props} />}
+          {eventDetail.gbn == "C" && <C {...props} />}
         </DetailContainer>
       )}
     </BaseScreen>
@@ -81,9 +88,7 @@ const EventDetailScreen = (props, { navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "이벤트",
-    cardStyle: {
-      marginBottom: 0,
-    },
+
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
