@@ -69,6 +69,7 @@ export default class ScaledImage extends Component {
     // console.warn(this.state.height);
     return (
       <Image
+        {...this.props}
         source={this.state.source}
         style={{
           height: this.state.height,

@@ -2,12 +2,14 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
+import { ActivityIndicator } from "react-native";
 import Alert from "@UI/Alert";
 export const ExtendedWebView = (props) => {
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
   const [alert, setAlert] = useState();
+  const [isLoaded, setIsLoaded] = useState(false);
   const onMessage = (event) => {
     // console.log(obj.nativeEvent.data);
     const message = JSON.parse(event.nativeEvent.data);
@@ -31,6 +33,9 @@ export const ExtendedWebView = (props) => {
   const onNavigationStateChange = (newNavState) => {
     // console.warn(newNavState);
   };
+  const hideSpinner = () => {
+    setIsLoaded(true);
+  };
   return (
     <>
       {alert && (
@@ -44,7 +49,9 @@ export const ExtendedWebView = (props) => {
           content={alert.content}
         />
       )}
+
       <WebView
+        onLoad={() => hideSpinner()}
         {...restProps}
         // source={newSource}
         style={[{ opacity: 0.99 }, props.style]}
@@ -66,6 +73,23 @@ export const ExtendedWebView = (props) => {
         //   setURI(request.url);
         //   return false;
         // }}
+        renderLoading={() => {
+          return (
+            <ActivityIndicator
+              size="large"
+              color={colors.cerulean}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            />
+          );
+        }}
         onNavigationStateChange={onNavigationStateChange}
         startInLoadingState={true}
         scalesPageToFit={true}

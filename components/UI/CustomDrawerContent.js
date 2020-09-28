@@ -1,6 +1,13 @@
 import React from "react";
 import styled from "styled-components/native";
-import { Platform, Text, View, StyleSheet, Image } from "react-native";
+import {
+  Platform,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+} from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,8 +31,9 @@ import MemberInfo from "@UI/drawer/MemberInfo";
 import GrayButtons from "@UI/drawer/GrayButtons";
 import MenuList from "@UI/drawer/MenuList";
 import LoginButtons from "@UI/drawer/LoginButtons";
+const { width, height } = Dimensions.get("window");
 
-const CustomDrawerContent = (props, dispatch, menuList) => {
+export const CustomDrawerContent = (props, dispatch, menuList) => {
   // console.warn("CustomDrawerContent==>");
   // const userStore = useSelector((state) => state.auth.userStore);
   return (
@@ -40,6 +48,23 @@ const CustomDrawerContent = (props, dispatch, menuList) => {
       <LoginButtons {...props} {...dispatch} />
     </View>
   );
+};
+export const drawerStyle = {
+  backgroundColor: colors.trueWhite,
+  width: width * 0.791,
+  maxWidth: 285,
+  activeTintColor: "black",
+  inactiveTintColor: "black",
+  labelStyle: {
+    fontFamily: "montserrat",
+    marginVertical: 16,
+    marginHorizontal: 0,
+  },
+  iconContainerStyle: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  itemStyle: {},
 };
 
 const styles = StyleSheet.create({
@@ -85,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomDrawerContent;
+// export default CustomDrawerContent;

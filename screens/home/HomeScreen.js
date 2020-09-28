@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  TouchableNativeFeedback,
+  AsyncStorage,
 } from "react-native";
 import {
   createStackNavigator,
@@ -30,12 +30,12 @@ import {
   BaseTouchable,
   screenWidth,
 } from "@UI/BaseUI";
-import * as homeActions from "@actions/home";
-import { IMAGE_URL } from "@constants/settings";
 import _ from "lodash";
 import HomeNotice from "@components/home/HomeNotice";
 import HomeBanner from "@components/home/HomeBanner";
 import NaroTube from "@components/home/NaroTube";
+import StorePopup from "@components/home/StorePopup";
+import AppPopup from "@components/home/AppPopup";
 
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -43,14 +43,23 @@ const HomeScreen = ({ navigation }) => {
   const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
   const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
   const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
+  const [storePopupKey, setStorePopupKey] = useState();
+  const [appPopupKey, setAppPopupKey] = useState();
+  const [isReadyAppPopup, setIsReadyAppPopup] = useState(false);
 
-  const pushToken = useSelector((state) => state.auth.pushToken);
-
-  const homeNaro = useSelector((state) => state.home.homeNaro);
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const [alert, setAlert] = useState();
   useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setAppPopupKey(Math.random());
+      setStorePopupKey(Math.random());
+    });
+    return unsubscribe;
+  }, [navigation]);
+  useEffect(() => {
+    AsyncStorage.removeItem("storePopupData");
+    AsyncStorage.removeItem("appPopupData");
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro) {
       setIsLoading(false);
@@ -80,6 +89,8 @@ const HomeScreen = ({ navigation }) => {
         style={styles.screen}
         contentStyle={{ paddingTop: 0 }}
       >
+        <AppPopup key={appPopupKey} setIsReadyAppPopup={setIsReadyAppPopup} />
+        {isReadyAppPopup && <StorePopup key={storePopupKey} />}
         <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
         <Space />
         <NaroTube setFetchHomeNaro={setFetchHomeNaro} />

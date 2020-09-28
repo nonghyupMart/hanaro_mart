@@ -8,10 +8,10 @@ import {
   StyleSheet,
   BackHandler,
   Alert,
-  ActivityIndicator,
   Dimensions,
   LogBox,
 } from "react-native";
+import Splash from "@UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
 import { StatusBar } from "expo-status-bar";
@@ -30,7 +30,7 @@ import eventReducer from "@reducers/event";
 import couponReducer from "@reducers/coupon";
 import commonReducer from "@reducers/common";
 
-LogBox.ignoreLogs(["Expected"]);
+LogBox.ignoreLogs(["Expected", "No native"]);
 // console.disableLogBox = true;
 // console.ignoredLogBox = ["Warning:"];
 Notifications.setNotificationHandler({
@@ -99,10 +99,10 @@ export default function App() {
       // BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
   }, []);
-  SplashScreen.preventAutoHideAsync();
+  // SplashScreen.preventAutoHideAsync();
 
   const _cacheResourcesAsync = async () => {
-    SplashScreen.hideAsync();
+    // SplashScreen.hideAsync();
     const images = [
       require("./assets/images/20200811_83175949013327_5_1280x480 (1).jpg"),
       // require("./assets/images/slack-icon.png"),
@@ -120,20 +120,7 @@ export default function App() {
     setIsReady(() => true);
   };
   if (!isReady) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Image
-          source={require("@images/img1242x2436.png")}
-          onLoad={_cacheResourcesAsync}
-          style={{ resizeMode: "cover", width: "100%", height: "100%" }}
-        />
-        <ActivityIndicator
-          size="large"
-          color={colors.cerulean}
-          style={{ position: "absolute", width: "100%", height: "100%" }}
-        />
-      </View>
-    );
+    return <Splash onLoad={_cacheResourcesAsync} />;
   }
   if (!fontLoaded) {
     return (

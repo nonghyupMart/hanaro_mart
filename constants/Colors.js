@@ -22,4 +22,5 @@ export default colors = {
   whiteTwo: "#d9d9d9",
   greyishThree: "#b5b5b5",
   lipstick: "#bf2338",
+  blackThree: "#000000",
 };

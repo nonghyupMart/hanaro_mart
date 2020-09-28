@@ -3,16 +3,13 @@ import styled from "styled-components/native";
 import {
   Platform,
   Text,
-  Button,
   Image,
   View,
-  StyleSheet,
   StatusBar,
   Dimensions,
   Animated,
   Easing,
   Keyboard,
-  ActivityIndicator,
 } from "react-native";
 import { TabRouter } from "@react-navigation/native";
 import _ from "lodash";
@@ -36,7 +33,7 @@ import colors from "@constants/colors";
 import { TabMenus } from "@constants/menu";
 
 import BottomButtons from "@components/BottomButtons";
-import CustomDrawerContent from "@UI/CustomDrawerContent";
+import { CustomDrawerContent, drawerStyle } from "@UI/CustomDrawerContent";
 import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
 
 import HomeScreen, {
@@ -71,10 +68,6 @@ import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "@screens/BarCodeScannerScreen";
 import RingPickerScreen from "@screens/RingPickerScreen";
-import StorePopupScreen, {
-  screenOptions as StorePopupScreenOptions,
-} from "@screens/home/StorePopupScreen";
-
 import NoticeScreen, {
   screenOptions as NoticeScreenOptions,
 } from "@screens/snb/NoticeScreen";
@@ -97,91 +90,7 @@ import MyReviewsScreen, {
 import EmptyScreen, {
   screenOptions as EmptyScreenOptions,
 } from "@screens/EmptyScreen";
-// const defaultStackNavOptions = {
-//   headerStyle: {
-//     backgroundColor: Platform.OS === "android" ? Colors.primaryColor : "",
-//   },
-//   headerTitleStyle: {
-//     fontFamily: "open-sans-bold",
-//   },
-//   headerBackTitleStyle: {
-//     fontFamily: "open-sans",
-//   },
-//   headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor,
-//   headerTitle: "A Screen",
-// };
-const WhiteButtonContainer = styled(BaseTouchable)({
-  height: 64,
 
-  alignItems: "center",
-  paddingLeft: 15,
-  borderRadius: 8,
-  borderWidth: 1,
-  borderColor: colors.whiteTwo,
-  maxWidth: 133,
-  width: screenWidth * 0.369,
-  backgroundColor: colors.trueWhite,
-  flexDirection: "row",
-  marginTop: 3,
-  marginBottom: 3,
-});
-const WButtonText = styled.Text({
-  fontSize: 16,
-  fontWeight: "500",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.greyishBrown,
-  marginLeft: 11,
-});
-
-const couponArray = [
-  { component: "CouponForTotalScreen" },
-  { component: "CouponForProductScreen" },
-];
-
-const NaroCategories = [
-  {
-    components: NaroTubeScreen,
-    title: "나로 영상",
-  },
-  {
-    components: NaroTubeScreen,
-    title: "나로 레시피",
-  },
-  {
-    components: NaroTubeScreen,
-    title: "나로 다방",
-  },
-  {
-    components: NaroTubeScreen,
-    title: "오케이쿡",
-  },
-];
-
-const NaroTubeTopTabNavigator = createMaterialTopTabNavigator();
-export const NaroTubeTabNavigator = () => {
-  return (
-    <NaroTubeTopTabNavigator.Navigator
-      initialRouteName="CouponForTotal"
-      swipeEnabled={false}
-      tabBarOptions={{
-        scrollEnabled: true,
-        tabStyle: { width: 95 },
-      }}
-    >
-      {NaroCategories.map((cate) => (
-        <NaroTubeTopTabNavigator.Screen
-          name={cate.title}
-          component={cate.components}
-          options={{ title: cate.title }}
-        />
-      ))}
-    </NaroTubeTopTabNavigator.Navigator>
-  );
-};
-const { width, height } = Dimensions.get("window");
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -303,6 +212,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         {menuList.length === 0 &&
           TabMenus.map((tab) => (
             <HomeTopTabNavigator.Screen
+              key={tab.name}
               name={tab.name}
               component={tab.subComponents}
               options={{ title: tab.title }}
@@ -315,10 +225,10 @@ export const HomeTabNavigator = ({ navigation, route }) => {
 
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = ({ navigation, route }) => {
-  // console.warn("HomeNavigator! =>", route.params.menuList);
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
+        // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
           cardStyle: {
             marginBottom: 60,
@@ -328,11 +238,6 @@ export const HomeNavigator = ({ navigation, route }) => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        <HomeStackNavigator.Screen
-          name="StorePopup"
-          component={StorePopupScreen}
-          options={StorePopupScreenOptions}
-        />
         <HomeStackNavigator.Screen
           name="Home"
           component={HomeTabNavigator}
@@ -461,56 +366,3 @@ export const MainNavigator = (props) => {
     </Drawer.Navigator>
   );
 };
-
-const drawerStyle = {
-  backgroundColor: colors.trueWhite,
-  width: width * 0.791,
-  maxWidth: 285,
-  activeTintColor: "black",
-  inactiveTintColor: "black",
-  labelStyle: {
-    fontFamily: "montserrat",
-    marginVertical: 16,
-    marginHorizontal: 0,
-  },
-  iconContainerStyle: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  itemStyle: {},
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#20232a",
-  },
-  title: {
-    marginTop: 10,
-    textAlign: "center",
-    color: "#61dafb",
-  },
-  boxContainer: {
-    height: 160,
-    alignItems: "center",
-  },
-  box: {
-    marginTop: 32,
-    borderRadius: 4,
-    backgroundColor: "#61dafb",
-  },
-  list: {
-    backgroundColor: "#fff",
-  },
-  listHeader: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: "#f4f4f4",
-    color: "#999",
-    fontSize: 12,
-    textTransform: "uppercase",
-  },
-  listRow: {
-    padding: 8,
-  },
-});
