@@ -2,7 +2,6 @@ import {
   SET_USER_INFO,
   SET_PUSH_TOKEN,
   SET_LOCATION,
-  SET_BOTTOM_NAVIGATION,
   SET_USER_STORE,
   SET_AGREED_STATUS,
   SET_PREVIEW,
@@ -16,7 +15,6 @@ const initialState = {
   isPreview: false,
   pushToken: null,
   location: null,
-  isBottomNavigation: true,
   userStore: null,
   userInfo: null,
   agreedStatus: null,
@@ -68,11 +66,6 @@ export default (state = initialState, action) => {
         location: action.location,
       };
 
-    case SET_BOTTOM_NAVIGATION:
-      return {
-        ...state,
-        isBottomNavigation: action.isBottomNavigation,
-      };
     case SET_USER_STORE:
       return {
         ...state,

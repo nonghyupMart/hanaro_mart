@@ -10,11 +10,23 @@ import {
   screenWidth,
 } from "@UI/BaseUI";
 import URI from "urijs";
+import * as homeActions from "@actions/home";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+
 const NaroTube = (props) => {
+   const dispatch = useDispatch();
+   const homeNaro = useSelector((state) => state.home.homeNaro);
+   useEffect(() => {
+     props.setFetchHomeNaro(false);
+     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
+     Promise.all([fetchHomeNaro]).then((result) => {
+       props.setFetchHomeNaro(true);
+     });
+   }, [dispatch]);
   if (
-    !props.homeNaro ||
-    !props.homeNaro.naroList ||
-    props.homeNaro.naroCnt == 0
+    !homeNaro ||
+    !homeNaro.naroList ||
+    homeNaro.naroCnt == 0
   )
     return <></>;
   return (
@@ -40,7 +52,7 @@ const NaroTube = (props) => {
           pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
           pageInfoTextSeparator="/"
         >
-          {props.homeNaro.naroList.map((item, index) => {
+          {homeNaro.naroList.map((item, index) => {
             const url = URI(item.video_dir);
             let videoId = url.query(true).v;
             if (videoId == undefined || videoId == "") {

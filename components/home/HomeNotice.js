@@ -12,14 +12,36 @@ import {
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
+import * as homeActions from "@actions/home";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+
 const HomeNotice = (props) => {
+    const [page, setPage] = useState(1);
+   const dispatch = useDispatch();
+   const homeNotice = useSelector((state) => state.home.homeNotice);
+   useEffect(() => {
+     props.setFetchHomeNotice(false);
+     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
+     Promise.all([fetchHomeNotice]).then((result) => {
+       props.setFetchHomeNotice(true);
+     });
+   }, [dispatch]);
+  
+    const loadMore = () => {
+      if (!isLoading && page + 1 <= homeNotice.finalPage) {
+        console.warn("loadMore");
+        dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
+        setPage(page + 1);
+      }
+    };
+
   return (
     <>
-      {props.homeNotice && (
+      {homeNotice && (
         <ExtendedFlatList
           {...props}
           onEndReachedThreshold={0.5}
-          onEndReached={props.loadMore}
+          onEndReached={loadMore}
           contentContainerStyle={{
             justifyContent: "space-between",
           }}
@@ -29,7 +51,7 @@ const HomeNotice = (props) => {
             width: screenWidth,
             flexGrow: 1,
           }}
-          data={props.homeNotice.noticeList}
+          data={homeNotice.noticeList}
           keyExtractor={(item) => {
             // console.warn(item.id);
             return item.notice_cd;

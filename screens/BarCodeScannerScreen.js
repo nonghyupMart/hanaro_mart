@@ -19,7 +19,7 @@ import {
   BaseButtonContainer,
   screenHeight,
 } from "@UI/BaseUI";
-import { setBottomNavigation } from "@actions/auth";
+import * as CommonActions from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
 const BarCodeScannerScreen = (props) => {
@@ -43,7 +43,7 @@ const BarCodeScannerScreen = (props) => {
     );
 
     params.setRcp_qr(data);
-    dispatch(setBottomNavigation(true));
+    dispatch(CommonActions.setBottomNavigation(true));
     props.navigation.goBack();
     // props.navigation.navigate("BarCodeScanner", { rcp_qr: data });
   };

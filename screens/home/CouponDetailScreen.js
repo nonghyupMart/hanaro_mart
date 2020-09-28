@@ -22,7 +22,7 @@ import {
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import * as couponActions from "@actions/coupon";
-import { setBottomNavigation } from "@actions/auth";
+import * as CommonActions from "@actions/common";
 import _ from "lodash";
 
 const CouponDetailScreen = (props) => {
@@ -167,7 +167,7 @@ const CouponDetailScreen = (props) => {
               <Warn>쿠폰 발급이 완료 되었습니다.</Warn>
               <BlueButton
                 onPress={() => {
-                  dispatch(setBottomNavigation(true));
+                  dispatch(CommonActions.setBottomNavigation(true));
                   props.navigation.pop();
                 }}
               >

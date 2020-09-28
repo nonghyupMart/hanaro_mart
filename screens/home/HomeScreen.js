@@ -8,7 +8,11 @@ import {
   Dimensions,
   TouchableNativeFeedback,
 } from "react-native";
-import AsyncStorage from "@react-native-community/async-storage";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  HeaderStyleInterpolators,
+} from "@react-navigation/stack";
 import { DrawerActions } from "@react-navigation/native";
 import colors from "@constants/colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
@@ -17,16 +21,9 @@ import { HeaderButton, LogoTitle } from "@UI/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import ScrollableTabView, {
-  ScrollableTabBar,
-} from "react-native-scrollable-tab-view";
 import BaseScreen from "@components/BaseScreen";
-
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
-import { setUserStore } from "@actions/auth";
-
-import * as authActions from "@actions/auth";
 import {
   StyleConstants,
   BaseImage,
@@ -43,26 +40,21 @@ import NaroTube from "@components/home/NaroTube";
 const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
-  const [page, setPage] = useState(1);
+  const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
+  const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
+  const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
+
   const pushToken = useSelector((state) => state.auth.pushToken);
-  const homeBanner = useSelector((state) => state.home.homeBanner);
-  const homeNotice = useSelector((state) => state.home.homeNotice);
+
   const homeNaro = useSelector((state) => state.home.homeNaro);
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const [alert, setAlert] = useState();
   useEffect(() => {
     setIsLoading(true);
-    const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
-    const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
-    const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
-    Promise.all([fetchHomeBanner, fetchHomeNotice, fetchHomeNaro]).then(
-      (result) => {
-        setIsLoading(false);
-        // console.log(homeBanner);
-      }
-    );
+    if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro) {
+      setIsLoading(false);
+    }
 
     if (_.isEmpty(userStore) && isJoin) {
       setAlert({
@@ -78,28 +70,22 @@ const HomeScreen = ({ navigation }) => {
         cancelText: "취소",
       });
     }
-  }, [dispatch]);
-
-  const loadMore = () => {
-    if (!isLoading && page + 1 <= homeNotice.finalPage) {
-      console.warn("loadMore");
-      dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
-      setPage(page + 1);
-    }
-  };
+  }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro]);
 
   return (
-    <BaseScreen
-      alert={alert}
-      isLoading={isLoading}
-      style={styles.screen}
-      contentStyle={{ paddingTop: 0 }}
-    >
-      <HomeBanner homeBanner={homeBanner} />
-      <Space />
-      <NaroTube homeNaro={homeNaro} />
-      <HomeNotice homeNotice={homeNotice} loadMore={loadMore} />
-    </BaseScreen>
+    <>
+      <BaseScreen
+        alert={alert}
+        isLoading={isLoading}
+        style={styles.screen}
+        contentStyle={{ paddingTop: 0 }}
+      >
+        <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
+        <Space />
+        <NaroTube setFetchHomeNaro={setFetchHomeNaro} />
+        <HomeNotice setFetchHomeNotice={setFetchHomeNotice} />
+      </BaseScreen>
+    </>
   );
 };
 const Space = styled.View({
@@ -113,6 +99,8 @@ const Space = styled.View({
 
 export const screenOptions = ({ navigation }) => {
   return {
+    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
     headerTitle: (props) => <LogoTitle {...props} />,
     headerLeft: () => (

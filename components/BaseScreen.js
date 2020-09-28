@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
-import { setBottomNavigation } from "@actions/auth";
+import * as CommonActions from "@actions/common";
 import Constants from "expo-constants";
 
 import Loading from "@UI/Loading";
@@ -43,16 +43,20 @@ const Contents = (props) => {
   );
 };
 const BaseScreen = (props) => {
+  const [isPadding, setIsPadding] = useState(
+    props.isPadding == undefined ? true : props.isPadding
+  );
+
   const isBottomNavigation =
     props.isBottomNavigation == undefined ? true : props.isBottomNavigation;
   const dispatch = useDispatch();
   useEffect(() => {
     setTimeout(() => {
-      dispatch(setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
     }, 0);
 
     const backAction = () => {
-      dispatch(setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
       return false;
     };
     const backHandler = BackHandler.addEventListener(
@@ -80,9 +84,14 @@ const BaseScreen = (props) => {
   }
 
   return (
-    <Screen headerHeight={useHeaderHeight()} style={props.style}>
+    <Screen
+      headerHeight={useHeaderHeight()}
+      style={props.style}
+      isPadding={isPadding}
+    >
       {isScroll && (
         <ScrollList
+          isPadding={isPadding}
           ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
           nestedScrollEnabled={true}
           // keyboardDismissMode="none"
@@ -93,12 +102,15 @@ const BaseScreen = (props) => {
           windowSize={props.windowSize ? props.windowSize : 5}
           style={props.scrollListStyle}
           data={[0]}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => `${index}`}
           headerHeight={useHeaderHeight()}
           {...props}
           contentContainerStyle={[styles.safeAreaView]}
           renderItem={({ item, index, separators }) => (
-            <ContentContainer style={[props.contentStyle]}>
+            <ContentContainer
+              style={[props.contentStyle]}
+              isPadding={isPadding}
+            >
               <Contents {...props} />
             </ContentContainer>
           )}
@@ -113,8 +125,9 @@ const ScrollList = styled.FlatList.attrs({
   removeClippedSubviews: false,
 })({
   flex: 1,
-  paddingRight: StyleConstants.defaultPadding,
-  paddingLeft: StyleConstants.defaultPadding,
+  paddingRight: (props) =>
+    props.isPadding ? StyleConstants.defaultPadding : 0,
+  paddingLeft: (props) => (props.isPadding ? StyleConstants.defaultPadding : 0),
 });
 const ContentContainer = styled.View({
   // flex: 1,
@@ -126,10 +139,11 @@ const ContentContainer = styled.View({
     if (!props.headerHeight || props.headerHeight == 0)
       v = Platform.OS == "ios" ? Constants.statusBarHeight : 0;
     v += 19;
+    if (!props.isPadding) v = 0;
     // console.log(v);
     return v;
   },
-  paddingBottom: 19,
+  paddingBottom: (props) => (props.isPadding ? 19 : 0),
   alignItems: "flex-start",
 });
 const Screen = styled(View).attrs({

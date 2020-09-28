@@ -71,6 +71,9 @@ import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "@screens/BarCodeScannerScreen";
 import RingPickerScreen from "@screens/RingPickerScreen";
+import StorePopupScreen, {
+  screenOptions as StorePopupScreenOptions,
+} from "@screens/home/StorePopupScreen";
 
 import NoticeScreen, {
   screenOptions as NoticeScreenOptions,
@@ -289,6 +292,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
             let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
             return (
               <HomeTopTabNavigator.Screen
+                key={Tab[0].name}
                 name={Tab[0].name}
                 component={Tab[0].components}
                 options={{ title: Tab[0].title }}
@@ -324,6 +328,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
+        <HomeStackNavigator.Screen
+          name="StorePopup"
+          component={StorePopupScreen}
+          options={StorePopupScreenOptions}
+        />
         <HomeStackNavigator.Screen
           name="Home"
           component={HomeTabNavigator}

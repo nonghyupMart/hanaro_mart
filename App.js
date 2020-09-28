@@ -10,7 +10,7 @@ import {
   Alert,
   ActivityIndicator,
   Dimensions,
-  YellowBox,
+  LogBox,
 } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
@@ -28,10 +28,11 @@ import homeReducer from "@reducers/home";
 import flyerReducer from "@reducers/flyer";
 import eventReducer from "@reducers/event";
 import couponReducer from "@reducers/coupon";
+import commonReducer from "@reducers/common";
 
-YellowBox.ignoreWarnings(["Expected"]);
-// console.disableYellowBox = true;
-// console.ignoredYellowBox = ["Warning:"];
+LogBox.ignoreLogs(["Expected"]);
+// console.disableLogBox = true;
+// console.ignoredLogBox = ["Warning:"];
 Notifications.setNotificationHandler({
   handleNotification: async () => {
     return { shouldShowAlert: true };
@@ -46,6 +47,7 @@ const rootReducer = combineReducers({
   flyer: flyerReducer,
   event: eventReducer,
   coupon: couponReducer,
+  common: commonReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
@@ -121,14 +123,14 @@ export default function App() {
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Image
-          source={require("./assets/splash.png")}
+          source={require("@images/img1242x2436.png")}
           onLoad={_cacheResourcesAsync}
           style={{ resizeMode: "cover", width: "100%", height: "100%" }}
         />
         <ActivityIndicator
           size="large"
-          color="#006dbb"
-          style={{ position: "absolute", top: height / 2 }}
+          color={colors.cerulean}
+          style={{ position: "absolute", width: "100%", height: "100%" }}
         />
       </View>
     );

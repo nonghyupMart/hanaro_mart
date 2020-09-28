@@ -17,6 +17,7 @@ const GrayButtons = (props) => {
         let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
         return (
           <WhiteButtonContainer
+            key={Tab[0].name}
             onPress={() => props.navigation.navigate(Tab[0].name)}
           >
             <Image source={Tab[0].icon} />
@@ -28,6 +29,7 @@ const GrayButtons = (props) => {
         TabMenus.map((tab) => {
           return (
             <WhiteButtonContainer
+              key={tab.name}
               onPress={() => props.navigation.navigate(tab.name)}
             >
               <Image source={tab.icon} />

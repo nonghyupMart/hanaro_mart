@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 // import { HeaderButton } from "react-navigation-header-buttons";
 import { HeaderButton } from "@UI/header/elements/HeaderButton";
-import { setBottomNavigation } from "@actions/auth";
+import * as CommonActions from "@actions/common";
 import colors from "@constants/colors";
 import { Entypo } from "@expo/vector-icons";
 
@@ -19,7 +19,7 @@ const BackButton = (props) => {
         title="back"
         iconName="chevron-thin-left"
         onPress={() => {
-          dispatch(setBottomNavigation(true));
+          dispatch(CommonActions.setBottomNavigation(true));
           navigation.goBack();
         }}
       />

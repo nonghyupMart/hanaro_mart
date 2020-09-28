@@ -14,14 +14,14 @@ import {
 import { Icon } from "react-native-elements";
 import * as RootNavigation from "../navigation/RootNavigation";
 import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
-import { setBottomNavigation } from "../store/actions/auth";
+import * as CommonActions from "@actions/common";
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setBottomNavigation(false));
+    dispatch(CommonActions.setBottomNavigation(false));
     return () => {
-      dispatch(setBottomNavigation(true));
+      dispatch(CommonActions.setBottomNavigation(true));
     }
   }, []);
 
@@ -45,7 +45,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
-          dispatch(setBottomNavigation(true));
+          dispatch(CommonActions.setBottomNavigation(true));
           RootNavigation.pop();
         }}
         style={[styles.icons, { position: "absolute", bottom: 0 }]}

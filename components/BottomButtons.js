@@ -18,7 +18,7 @@ import { Icon } from "react-native-elements";
 const BottomButtons = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
-    (state) => state.auth.isBottomNavigation
+    (state) => state.common.isBottomNavigation
   );
   if (isBottomNavigation)
     return (

@@ -4,7 +4,7 @@ import { API_URL } from "@constants/settings";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
-export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
+
 export const SET_PREVIEW = "SET_PREVIEW";
 
 export const SET_USER_STORE = "SET_USER_STORE";
@@ -160,12 +160,6 @@ export const setAgreedStatus = (status) => {
   return { type: SET_AGREED_STATUS, agreedStatus: status };
 };
 
-export const setBottomNavigation = (isBottomNavigation) => {
-  return {
-    type: SET_BOTTOM_NAVIGATION,
-    isBottomNavigation: isBottomNavigation,
-  };
-};
 
 const saveUserInfoToStorage = (userInfo) => {
   AsyncStorage.setItem("userInfoData", JSON.stringify(userInfo));

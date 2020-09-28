@@ -18,12 +18,27 @@ import {
 } from "@UI/BaseUI";
 import colors from "@constants/colors";
 import * as Linking from "expo-linking";
+import * as homeActions from "@actions/home";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeBanner = (props) => {
+   const dispatch = useDispatch();
+  const homeBanner = useSelector((state) => state.home.homeBanner);
+  useEffect(() => {
+    
+    props.setFetchHomeBanner(false);
+    const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
+    Promise.all([fetchHomeBanner]).then(
+      (result) => {
+        props.setFetchHomeBanner(true);
+      }
+    );
+
+  }, [dispatch]);
   if (
-    !props.homeBanner ||
-    !props.homeBanner.bannerList ||
-    props.homeBanner.bannerCnt == 0
+    !homeBanner ||
+    !homeBanner.bannerList ||
+    homeBanner.bannerCnt == 0
   )
     return <></>;
   return (
@@ -48,7 +63,7 @@ const HomeBanner = (props) => {
         pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
         pageInfoTextSeparator="/"
       >
-        {props.homeBanner.bannerList.map((item, index) => {
+        {homeBanner.bannerList.map((item, index) => {
           return (
             <TouchableOpacity
               activeOpacity={0.8}
