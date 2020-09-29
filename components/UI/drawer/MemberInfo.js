@@ -8,9 +8,12 @@ import {
   BaseButtonContainer,
   screenHeight,
 } from "@UI/BaseUI";
+import Constants from "expo-constants";
 import _ from "lodash";
-import { formatPhoneNumber } from "@util";
+
 import { LinearGradient } from "expo-linear-gradient";
+import UserName from "@UI/UserName";
+import UserPhoneNumber from "@UI/UserPhoneNumber";
 const MemberInfo = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   //   console.warn(userInfo);
@@ -22,14 +25,12 @@ const MemberInfo = (props) => {
           <MemberID style={{ flexDirection: "row" }}>
             <Image source={require("@images/user.png")} />
             <Text2>
-              {!_.isEmpty(userInfo) && userInfo.name ? userInfo.name : "고객"}
+              <UserName />
             </Text2>
             <Text3>님</Text3>
           </MemberID>
           <Text4>
-            {!_.isEmpty(userInfo) && userInfo.user_id
-              ? formatPhoneNumber(userInfo.user_id)
-              : "010-0000-0000"}
+            <UserPhoneNumber />
           </Text4>
         </MemberContainer>
         <BaseTouchable onPress={() => props.navigation.closeDrawer()}>
@@ -60,10 +61,12 @@ const Text3 = styled.Text({
 });
 const Text4 = styled.Text({
   fontSize: 16,
+  lineHeight: 16,
   color: colors.pine,
 });
 
 const MemberInfoContainer = styled.View({
+  // marginTop: Constants.statusBarHeight,
   backgroundColor: colors.trueWhite,
   paddingRight: 16,
   paddingLeft: 21,
