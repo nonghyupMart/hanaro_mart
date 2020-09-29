@@ -32,6 +32,8 @@ const StorePopup = (props) => {
   if (_.isEmpty(userStore) || !isJoin || !isStorePopup) return <></>;
   return (
     <Modal
+      backdropTransitionInTiming={0}
+      backdropTransitionOutTiming={0}
       animationInTiming={0}
       animationIn="fadeIn"
       animationOut="fadeOut"

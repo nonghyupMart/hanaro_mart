@@ -17,10 +17,11 @@ const AppPopup = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
+  const [appPopup, setAppPopup] = useState(true);
 
   useEffect(() => {
     if (isAppPopup) setIsVisible(true);
-    props.setIsReadyAppPopup(true);
+    if (!appPopup) props.setIsReadyAppPopup(true);
   }, [isAppPopup]);
 
   const setDisablePopup = () => {
@@ -32,6 +33,8 @@ const AppPopup = (props) => {
   if (!isAppPopup) return <></>;
   return (
     <Modal
+      backdropTransitionInTiming={0}
+      backdropTransitionOutTiming={0}
       animationInTiming={0}
       animationIn="fadeIn"
       animationOut="fadeOut"
@@ -41,7 +44,7 @@ const AppPopup = (props) => {
     >
       <Container>
         <ScaledImage
-          // onLoad={() => props.setIsReadyAppPopup(true)}
+          onLoad={() => props.setIsReadyAppPopup(true)}
           source={require("@images/test1.png")}
           width={screenWidth - 19 - 19 - 2}
         />
