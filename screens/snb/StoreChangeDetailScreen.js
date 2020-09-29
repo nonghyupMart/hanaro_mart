@@ -16,7 +16,7 @@ import {
   Platform,
   Image,
 } from "react-native";
-
+import _ from "lodash";
 import { BackButton, TextTitle } from "@UI/header";
 import {
   BaseButtonContainer,
@@ -203,7 +203,7 @@ const StoreChangeDetailScreen = (props) => {
               </Text>
             </View>
             <BaseTouchable
-              onPress={() => (userStore ? storeChangeHandler() : saveStore())}
+              onPress={() => (!_.isEmpty(userStore) ? storeChangeHandler() : saveStore())}
             >
               <View
                 style={{
