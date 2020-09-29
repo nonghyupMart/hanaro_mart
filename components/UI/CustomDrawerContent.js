@@ -38,14 +38,23 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
   // const userStore = useSelector((state) => state.auth.userStore);
   return (
     <View style={{ width: "100%", height: "100%" }}>
-      <View style={{ flex: 1, flexShrink: 0, flexGrow: 1, width: "100%" }}>
+      <View
+        style={{
+          flex: 1,
+          flexShrink: 0,
+          flexGrow: 1,
+          width: "100%",
+        }}
+      >
         <DrawerContentScrollView {...props}>
-          <MemberInfo {...props} />
-          <GrayButtons {...props} menuList={menuList} />
-          <MenuList {...props} menuList={menuList} />
+          <View style={{ height: screenHeight - screenHeight * 0.3 }}>
+            <MemberInfo {...props} />
+            <GrayButtons {...props} menuList={menuList} />
+            <MenuList {...props} menuList={menuList} />
+          </View>
+          <LoginButtons {...props} {...dispatch} />
         </DrawerContentScrollView>
       </View>
-      <LoginButtons {...props} {...dispatch} />
     </View>
   );
 };
@@ -66,48 +75,5 @@ export const drawerStyle = {
   },
   itemStyle: {},
 };
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? 25 : 0,
-  },
-  container: {
-    flex: 1,
-  },
-  logoContainer: {
-    width: "100%",
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 5,
-    padding: 5,
-  },
-  image: {
-    resizeMode: "contain",
-    width: "80%",
-    height: "100%",
-  },
-  contactUsContainer: {
-    flexDirection: "row",
-    width: "100%",
-    height: 50,
-    alignItems: "center",
-    paddingLeft: 15,
-  },
-  logoutContainer: {
-    flexDirection: "row",
-    width: "100%",
-    height: 50,
-    alignItems: "flex-end",
-    justifyContent: "center",
-  },
-  drawerText: {
-    marginLeft: 16,
-  },
-  logoutText: {
-    color: "#b23b3b",
-  },
-});
 
 // export default CustomDrawerContent;

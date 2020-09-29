@@ -53,7 +53,7 @@ const MenuList = (props) => {
           <MenuText>1:1 문의</MenuText>
         </MenuButton>
       </MenuButtonContainer>
-      <MenuButtonContainer style={{ border: 0 }}>
+      <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={() => {
             if (props.menuList.length === 0)
@@ -71,7 +71,7 @@ const MenuList = (props) => {
   );
 };
 const MenuContainer = styled.View({
-  paddingTop: 36,
+  paddingTop: 5,
   paddingLeft: 35.5,
   paddingRight: 35.5,
   backgroundColor: colors.trueWhite,
@@ -95,8 +95,8 @@ const MenuText = styled.Text({
 const MenuButton = styled(BaseTouchable)({
   flexDirection: "row",
   alignItems: "center",
-  marginTop: 14,
-  marginBottom: 14,
+  marginTop: 10,
+  marginBottom: 10,
   flex: 1,
 });
 const Icon = styled.View({

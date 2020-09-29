@@ -12,36 +12,39 @@ import { TabMenus } from "@constants/menu";
 const GrayButtons = (props) => {
   // console.warn(props.menuList);
   return (
-    <GrayContainer>
-      {props.menuList.map((menu) => {
-        let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
-        return (
-          <WhiteButtonContainer
-            key={Tab[0].name}
-            onPress={() => props.navigation.navigate(Tab[0].name)}
-          >
-            <Image source={Tab[0].icon} />
-            <WButtonText>{Tab[0].title}</WButtonText>
-          </WhiteButtonContainer>
-        );
-      })}
-      {props.menuList.length === 0 &&
-        TabMenus.map((tab) => {
+    <>
+      <GrayContainer>
+        {props.menuList.map((menu) => {
+          let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
           return (
             <WhiteButtonContainer
-              key={tab.name}
-              onPress={() => props.navigation.navigate(tab.name)}
+              key={Tab[0].name}
+              onPress={() => props.navigation.navigate(Tab[0].name)}
             >
-              <Image source={tab.icon} />
-              <WButtonText>{tab.title}</WButtonText>
+              <Image source={Tab[0].icon} />
+              <WButtonText>{Tab[0].title}</WButtonText>
             </WhiteButtonContainer>
           );
         })}
-    </GrayContainer>
+        {props.menuList.length === 0 &&
+          TabMenus.map((tab) => {
+            return (
+              <WhiteButtonContainer
+                key={tab.name}
+                onPress={() => props.navigation.navigate(tab.name)}
+              >
+                <Image source={tab.icon} />
+                <WButtonText>{tab.title}</WButtonText>
+              </WhiteButtonContainer>
+            );
+          })}
+      </GrayContainer>
+      <Image source={require("@images/menubar.png")} />
+    </>
   );
 };
 const WhiteButtonContainer = styled(BaseTouchable)({
-  height: 64,
+  height: 50,
 
   alignItems: "center",
   paddingLeft: 15,
@@ -69,6 +72,7 @@ const GrayContainer = styled.View({
   flexDirection: "row",
   flexWrap: "wrap",
   padding: 7,
+  paddingBottom: 0,
 });
 
 export default GrayButtons;
