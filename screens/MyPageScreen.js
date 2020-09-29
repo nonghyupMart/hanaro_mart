@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
+import { useDispatch, useSelector } from "react-redux";
 import {
   View,
   Text,
@@ -13,37 +14,20 @@ import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { StoreBox, BottomCover } from "@components/store/InfoBox";
 import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
+import MemberInfo from "@components/myPage/MemberInfo";
 
 const MyPageScreen = ({ navigation }) => {
   return (
     <BaseScreen
-      style={styles.screen}
+      isPadding={false}
       style={{
         backgroundColor: colors.trueWhite,
-        paddingLeft: 0,
-        paddingRight: 0,
       }}
       contentStyle={{
-        paddingTop: 0,
-        paddingBottom: 0,
         backgroundColor: colors.trueWhite,
       }}
     >
-      <StoreBox style={{}}>
-        <MemberInfoContainer>
-          <Image source={require("@images/unlocked.png")} />
-          <View style={{ marginLeft: 18 }}>
-            <View style={{ flexDirection: "row" }}>
-              <Image source={require("@images/user2.png")} />
-              <Name>
-                고객 <Title>님</Title>
-              </Name>
-            </View>
-            <BlueText>010 2582 3552</BlueText>
-          </View>
-        </MemberInfoContainer>
-        <BottomCover />
-      </StoreBox>
+      <MemberInfo />
       <WhiteContainer>
         <BtnContainer>
           <Icon source={require("@images/tools.png")} />
@@ -65,7 +49,10 @@ const MyPageScreen = ({ navigation }) => {
           <Icon source={require("@images/clipboard.png")} />
           <BtnText>나의 문의내역</BtnText>
         </BtnContainer>
-        <BtnContainer style={{ borderBottomWidth: 0 }}>
+        <BtnContainer
+          style={{ borderBottomWidth: 0 }}
+          onPress={() => navigation.navigate("Withdrawal")}
+        >
           <Icon source={require("@images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
         </BtnContainer>
@@ -186,8 +173,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-const styles = StyleSheet.create({
-  screen: {},
-});
 
 export default MyPageScreen;

@@ -86,10 +86,13 @@ import MyPageScreen, {
 } from "@screens/MyPageScreen";
 import MyReviewsScreen, {
   screenOptions as MyReviewsScreenOptions,
-} from "@screens/mypage/MyReviewsScreen";
+} from "@screens/myPage/MyReviewsScreen";
 import EmptyScreen, {
   screenOptions as EmptyScreenOptions,
 } from "@screens/EmptyScreen";
+import WithdrawalMembershipScreen, {
+  screenOptions as WithdrawalMembershipScreenOptions,
+} from "@screens/myPage/WithdrawalMembershipScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -334,6 +337,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="Empty"
           component={EmptyScreen}
           options={EmptyScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Withdrawal"
+          component={WithdrawalMembershipScreen}
+          options={WithdrawalMembershipScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

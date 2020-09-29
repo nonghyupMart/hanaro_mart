@@ -7,6 +7,7 @@ import {
   SET_PREVIEW,
   SET_IS_JOIN,
   SET_DID_TRY_AL,
+  WITHDRAWAL,
 } from "../actions/auth";
 
 const initialState = {
@@ -70,6 +71,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         userStore: { ...action.userStore },
+      };
+
+    case WITHDRAWAL:
+      return {
+        ...initialState,
+        didTryAutoLogin: true,
       };
     default:
       return state;

@@ -58,8 +58,8 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
   useEffect(() => {
-    AsyncStorage.removeItem("storePopupData");
-    AsyncStorage.removeItem("appPopupData");
+    // AsyncStorage.removeItem("storePopupData");
+    // AsyncStorage.removeItem("appPopupData");
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro) {
       setIsLoading(false);

@@ -12,6 +12,7 @@ export const SET_USER_INFO = "SET_USER_INFO";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
 export const SET_IS_JOIN = "SET_IS_JOIN";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
+export const WITHDRAWAL = "WITHDRAWAL";
 
 let timer;
 
@@ -24,6 +25,7 @@ export const authenticate = (userInfo) => {
     dispatch({ type: AUTHENTICATE, userInfo: userInfo });
   };
 };
+
 export const sendSMS = (query) => {
   const url = queryString.stringifyUrl({
     url: `${API_URL}/sms`,
@@ -41,13 +43,6 @@ export const sendSMS = (query) => {
 
     // console.warn(resData);
     return resData.data;
-    // dispatch(
-    //   authenticate(
-    //     resData.localId,
-    //     resData.idToken,
-    //     parseInt(resData.expiresIn) * 1000
-    //   )
-    // );
   };
 };
 export const signup = (query) => {
@@ -78,63 +73,6 @@ export const signup = (query) => {
   };
 };
 
-export const login = (email, password) => {
-  return async (dispatch) => {
-    const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCC-hJMG7auRFVmeksQ9oS2LjaDRIV3MqI",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-          returnSecureToken: true,
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      const errorResData = await response.json();
-      const errorId = errorResData.error.message;
-      let message = "Something went wrong!";
-      if (errorId === "EMAIL_NOT_FOUND") {
-        message = "This email could not be found!";
-      } else if (errorId === "INVALID_PASSWORD") {
-        message = "This password is not valid!";
-      }
-      throw new Error(message);
-    }
-
-    const resData = await response.json();
-    // console.log(resData);
-    dispatch(authenticate(resData.localId, resData.idToken));
-
-    saveUserInfoToStorage(resData.idToken);
-  };
-};
-
-export const logout = () => {
-  clearLogoutTimer();
-  AsyncStorage.removeItem("userData");
-  return { type: LOGOUT };
-};
-
-const clearLogoutTimer = () => {
-  if (timer) {
-    clearTimeout(timer);
-  }
-};
-
-const setLogoutTimer = (expirationTime) => {
-  return (dispatch) => {
-    timer = setTimeout(() => {
-      dispatch(logout());
-    }, expirationTime);
-  };
-};
-
 export const setPushToken = (pushToken) => {
   return { type: SET_PUSH_TOKEN, pushToken: pushToken };
 };
@@ -160,7 +98,29 @@ export const setAgreedStatus = (status) => {
   return { type: SET_AGREED_STATUS, agreedStatus: status };
 };
 
+export const withdrawal = (user_cd) => {
+  const url = `${API_URL}/users/${user_cd}`;
+  return async (dispatch) => {
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const resData = await response.json();
+    if (!response.ok) {
+      console.warn(url, resData.error.errorMsg);
+      const errorResData = await response.json();
 
+      throw new Error(message);
+    }
+
+    console.warn(resData.data);
+    clearAllData();
+    dispatch({ type: WITHDRAWAL });
+    return resData.data;
+  };
+};
 const saveUserInfoToStorage = (userInfo) => {
   AsyncStorage.setItem("userInfoData", JSON.stringify(userInfo));
 };
@@ -174,4 +134,9 @@ export const saveAgreedStatusToStorage = (status) => {
 
 export const saveIsJoinToStorage = (status) => {
   AsyncStorage.setItem("isJoinData", true);
+};
+
+const clearAllData = () => {
+  AsyncStorage.getAllKeys().then((keys) => AsyncStorage.multiRemove(keys));
+  // .then(() => alert('success'));
 };
