@@ -30,6 +30,7 @@ export const ExtendedWebView = (props) => {
         return;
     }
   };
+
   const onNavigationStateChange = (newNavState) => {
     // console.warn(newNavState);
   };
@@ -60,11 +61,24 @@ export const ExtendedWebView = (props) => {
         allowFileAccess={true}
         domStorageEnabled={true}
         javaScriptEnabled={true}
+        javaScriptCanOpenWindowsAutomatically={true}
         allowUniversalAccessFromFileURLs={true}
         allowFileAccessFromFileURLs={true}
         mixedContentMode="always"
         sharedCookiesEnabled={true}
         onMessage={(event) => onMessage(event)}
+        renderError={(error) => console.warn("Webview error:" + error)}
+        onError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn("WebView error: ", nativeEvent);
+        }}
+        onHttpError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.warn(
+            "WebView received error status code: ",
+            nativeEvent.statusCode
+          );
+        }}
         // onShouldStartLoadWithRequest={(request) => {
         //   // console.warn(request.url);
         //   // If we're loading the current URI, allow it to load

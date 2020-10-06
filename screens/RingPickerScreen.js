@@ -15,44 +15,39 @@ import { Icon } from "react-native-elements";
 import * as RootNavigation from "../navigation/RootNavigation";
 import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
 import * as CommonActions from "@actions/common";
-
+import { ExtendedWebView } from "@UI/ExtendedWebView";
+import {
+  StyleConstants,
+  BaseImage,
+  BaseTouchable,
+  screenWidth,
+  screenHeight,
+} from "@UI/BaseUI";
+import BaseScreen from "../components/BaseScreen";
 const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
-    }
+    };
   }, []);
 
-
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>모든 것을 하나로!</Text>
-      <ReactNativeRingPicker
-        onPress={(iconId) => alert(iconId)}
-        style={styles.ringPicker}
-        girthAngle={120}
-        iconHideOnTheBackDuration={300}
-      />
-      <TouchableOpacity
-        activeOpacity={0.7}
-        onPress={() => {
-          dispatch(CommonActions.setBottomNavigation(true));
-          RootNavigation.pop();
+    <BaseScreen isPadding={false} isScroll={false} isBottomNavigation={false}>
+      <ExtendedWebView
+        style={{
+          height: screenHeight,
+          opacity: 0.99,
+          width: screenWidth,
         }}
-        style={[styles.icons, { position: "absolute", bottom: 0 }]}
-      >
-        <Icon type="font-awesome-5" name="chrome" size={55} />
-      </TouchableOpacity>
-    </SafeAreaView>
+        cacheMode="LOAD_CACHE_ELSE_NETWORK"
+        source={{
+          uri: "http://test.ontwinsoft.co.kr:9222/hanaro_jogdial/",
+          // html: require("../ringPicker/index.js")(),
+        }}
+      />
+    </BaseScreen>
   );
 };
 
