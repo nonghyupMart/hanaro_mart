@@ -39,7 +39,10 @@ const GrayButtons = (props) => {
             );
           })}
       </GrayContainer>
-      <Image source={require("@images/menubar.png")} />
+      <Image
+        source={require("@images/menubar.png")}
+        style={{ marginTop: -1 }}
+      />
     </>
   );
 };

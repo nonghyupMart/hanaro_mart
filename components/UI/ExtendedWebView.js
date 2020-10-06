@@ -4,12 +4,22 @@ import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
 import { ActivityIndicator } from "react-native";
 import Alert from "@UI/Alert";
+import { useSelector, useDispatch } from "react-redux";
+import * as authActions from "@actions/auth";
+import { Platform } from "react-native";
+import { popupConetnt } from "@screens/join/JoinStep2Screen";
+
 export const ExtendedWebView = (props) => {
+  const dispatch = useDispatch();
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
   const [alert, setAlert] = useState();
   const [isLoaded, setIsLoaded] = useState(false);
+  const pushToken = useSelector((state) => state.auth.pushToken);
+  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+
   const onMessage = (event) => {
     // console.log(obj.nativeEvent.data);
     const message = JSON.parse(event.nativeEvent.data);
@@ -26,6 +36,25 @@ export const ExtendedWebView = (props) => {
         });
         return;
       case "auth":
+        console.warn(message.value);
+
+        let query = {
+          user_sex: message.value.sex,
+          user_id: message.value.tel,
+          user_name: message.value.name,
+          token: pushToken,
+          os: Platform.OS === "ios" ? "I" : "A",
+        };
+        dispatch(authActions.signup(query)).then(() => {
+          setAlert({
+            content: popupConetnt(agreedStatus, userInfo),
+            onPressConfirm: () => {
+              setAlert(null);
+              dispatch(authActions.setIsJoin(true));
+            },
+          });
+        });
+
         // message.value
         return;
     }

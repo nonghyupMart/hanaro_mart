@@ -223,7 +223,7 @@ const ScrollContainer = styled.ScrollView({
   paddingLeft: StyleConstants.defaultPadding,
   marginTop: 20,
 });
-const popupConetnt = (agreedStatus, userInfo) => {
+export const popupConetnt = (agreedStatus, userInfo) => {
   // console.warn(agreedStatus);
   const GreenText = styled(Text)({
     fontSize: 18,
@@ -262,11 +262,15 @@ const popupConetnt = (agreedStatus, userInfo) => {
     flexShrink: 1,
   });
   const Icon = styled.Image({ marginTop: 5 });
-  console.warn(userInfo.user_id);
+  // console.warn(userInfo.user_id);
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
-      <WhiteText>{formatPhoneNumber(userInfo.user_id)}</WhiteText>
+      <WhiteText>
+        {userInfo && userInfo.user_id
+          ? formatPhoneNumber(userInfo.user_id)
+          : ""}
+      </WhiteText>
       {Object.keys(agreedStatus).map((keyName, index) => {
         // console.warn(Object.keys(agreedStatus).length);.
         if (agreedStatus[keyName].isChecked)

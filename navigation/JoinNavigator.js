@@ -8,6 +8,9 @@ import AgreementScreen, {
 import JoinStep1Screen, {
   screenOptions as JoinStep1ScreenOptions,
 } from "../screens/join/JoinStep1Screen";
+import CIScreen, {
+  screenOptions as CIScreenOptions,
+} from "../screens/join/CIScreen";
 import JoinStep2Screen, {
   screenOptions as JoinStep2ScreenOptions,
 } from "../screens/join/JoinStep2Screen";
@@ -36,6 +39,11 @@ export const JoinNavigator = () => {
         name="JoinStep1"
         component={JoinStep1Screen}
         options={JoinStep1ScreenOptions}
+      />
+      <JoinStackNavigator.Screen
+        name="CI"
+        component={CIScreen}
+        options={CIScreenOptions}
       />
       <JoinStackNavigator.Screen
         name="JoinStep2"

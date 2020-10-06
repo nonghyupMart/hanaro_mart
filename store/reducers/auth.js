@@ -8,6 +8,7 @@ import {
   SET_IS_JOIN,
   SET_DID_TRY_AL,
   WITHDRAWAL,
+  SET_CI,
 } from "../actions/auth";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   userStore: null,
   userInfo: null,
   agreedStatus: null,
+  ci: null,
 };
 
 export default (state = initialState, action) => {
@@ -56,6 +58,11 @@ export default (state = initialState, action) => {
         didTryAutoLogin: true,
       };
     }
+    case SET_CI:
+      return {
+        ...state,
+        ci: action.ci,
+      };
     case SET_PUSH_TOKEN:
       return {
         ...state,

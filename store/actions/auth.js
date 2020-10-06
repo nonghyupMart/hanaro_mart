@@ -13,6 +13,7 @@ export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
 export const SET_IS_JOIN = "SET_IS_JOIN";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const WITHDRAWAL = "WITHDRAWAL";
+export const SET_CI = "SET_CI";
 
 let timer;
 
@@ -89,6 +90,9 @@ export const setIsJoin = (status) => {
 };
 export const setUserInfo = (userInfo) => {
   return { type: SET_USER_INFO, userInfo: userInfo };
+};
+export const setCI = (ci) => {
+  return { type: SET_CI, ci: ci };
 };
 export const setUserStore = (userStore) => {
   return { type: SET_USER_STORE, userStore: userStore };

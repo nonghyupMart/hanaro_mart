@@ -11,3 +11,6 @@ export const formatPhoneNumber = (phoneNumberString) => {
   return null;
 };
 
+export const emptyPrint = (val) => {
+  return val ? val : "";
+};

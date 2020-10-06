@@ -5,31 +5,33 @@ import styled from "styled-components/native";
 import {
   BaseButtonContainer,
   ButtonText,
+  screenWidth,
   screenHeight,
   BaseTouchable,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
+import { ExtendedWebView } from "@UI/ExtendedWebView";
 
-const JoinStep1Screen = ({ navigation }) => {
+const CIScreen = ({ navigation }) => {
   return (
-    <BaseScreen isScroll={false} style={styles.screen}>
-      <Box
-        style={{ marginBottom: 2.5 }}
-        onPress={() => {
-          navigation.navigate("CI");
+    <BaseScreen isScroll={false} isPadding={false}>
+      <ExtendedWebView
+        key={Math.random()}
+        cacheMode="LOAD_NO_CACHE"
+        style={{
+          height: screenHeight,
+          opacity: 0.99,
+          width: screenWidth,
         }}
-      >
-        <Image source={require("@images/top_img646.png")} />
-      </Box>
-      <Box
-        style={{ marginTop: 2.5 }}
-        onPress={() => {
-          navigation.navigate("JoinStep2");
+        cacheMode="LOAD_NO_CACHE"
+        source={{
+          uri:
+            "https://www.hanaromartapp.com/web/access/auth.do?key=" +
+            new Date().getTime(),
+          // html: require("../ringPicker/index.js")(),
         }}
-      >
-        <Image source={require("@images/bottom_img646.png")} />
-      </Box>
+      />
     </BaseScreen>
   );
 };
@@ -128,4 +130,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default JoinStep1Screen;
+export default CIScreen;

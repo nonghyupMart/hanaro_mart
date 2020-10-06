@@ -9,10 +9,13 @@ import {
   screenHeight,
 } from "@UI/BaseUI";
 import { setPreview } from "@actions/auth";
+import * as Util from "@util";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
-  const storeInfo = useSelector((state) => state.auth.userStore.storeInfo);
+  const storeInfo = useSelector((state) =>
+    state.auth.userStore ? state.auth.userStore.storeInfo : {}
+  );
   const isJoin = useSelector((state) => state.auth.isJoin);
 
   const onPressJoin = () => {
@@ -33,9 +36,17 @@ const LoginButtons = (props) => {
       </ButtonContainer>
 
       <GrayContainer>
-        <Text1>사업자명 : {storeInfo.store_nm}</Text1>
+        <Text1>사업자명 : {Util.emptyPrint(storeInfo.store_nm)}</Text1>
         <Text2>
-          {`대표이사 : ${storeInfo.ceo} / 사업자 등록 번호 ${storeInfo.biz_no} ${storeInfo.addr} 고객만족센터 : ${storeInfo.support_tel} / 개인정보관리책임자 : ${storeInfo.prv_manager}`}
+          {`대표이사 : ${Util.emptyPrint(
+            storeInfo.ceo
+          )} / 사업자 등록 번호 ${Util.emptyPrint(
+            storeInfo.biz_no
+          )} ${Util.emptyPrint(
+            storeInfo.addr
+          )} 고객만족센터 : ${Util.emptyPrint(
+            storeInfo.support_tel
+          )} / 개인정보관리책임자 : ${Util.emptyPrint(storeInfo.prv_manager)}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>
