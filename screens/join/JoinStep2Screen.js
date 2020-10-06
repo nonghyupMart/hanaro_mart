@@ -27,6 +27,8 @@ import { formatPhoneNumber } from "@util";
 
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
+import * as branchesActions from "@actions/branches";
+import _ from "lodash";
 
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
@@ -53,19 +55,7 @@ const JoinStep2Screen = ({ navigation }) => {
       token: pushToken,
       os: Platform.OS === "ios" ? "I" : "A",
     };
-    dispatch(authActions.signup(query)).then(() => {
-      setAlert({
-        content: popupConetnt(agreedStatus, userInfo),
-        onPressConfirm: () => {
-          setAlert(null);
-          // navigation.reset({
-          //   index: 0,
-          //   routes: [{ name: "StoreSetup" }],
-          // });
-          dispatch(setIsJoin(true));
-        },
-      });
-    });
+    signup(query, dispatch, setAlert, agreedStatus);
   };
 
   const requestOTP = () => {
@@ -176,8 +166,8 @@ const JoinStep2Screen = ({ navigation }) => {
                   ref={(input) => setOtpRef(input)}
                   required
                   keyboardType="numeric"
-                  maxLength={4}
-                  placeholder="4자리"
+                  maxLength={6}
+                  placeholder="6자리"
                   autoFocus={true}
                   value={accessCode}
                   onChangeText={(text) => setAccessCode(text)}
@@ -217,6 +207,44 @@ const JoinStep2Screen = ({ navigation }) => {
     </BaseScreen>
   );
 };
+
+export const signup = (query, dispatch, setAlert, agreedStatus) => {
+  dispatch(authActions.signup(query)).then((userInfo) => {
+    if (!_.isEmpty(userInfo)) {
+      if (userInfo.store_cd) {
+        dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
+          (storeData) => {
+            authActions.saveUserStoreToStorage(storeData);
+            dispatch(authActions.saveUserStore(storeData));
+            setAlert({
+              content: popupConetnt(agreedStatus, userInfo),
+              onPressConfirm: () => {
+                setAlert(null);
+                dispatch(setIsJoin(true));
+              },
+            });
+          }
+        );
+      } else {
+        setAlert({
+          content: popupConetnt(agreedStatus, userInfo),
+          onPressConfirm: () => {
+            setAlert(null);
+            dispatch(setIsJoin(true));
+          },
+        });
+      }
+    } else {
+      setAlert({
+        message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+  });
+};
+
 const ScrollContainer = styled.ScrollView({
   flex: 1,
   paddingRight: StyleConstants.defaultPadding,

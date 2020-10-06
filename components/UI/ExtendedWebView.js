@@ -8,6 +8,9 @@ import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "@actions/auth";
 import { Platform } from "react-native";
 import { popupConetnt } from "@screens/join/JoinStep2Screen";
+import _ from "lodash";
+import * as branchesActions from "@actions/branches";
+import { signup } from "@screens/join/JoinStep2Screen";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -45,15 +48,7 @@ export const ExtendedWebView = (props) => {
           token: pushToken,
           os: Platform.OS === "ios" ? "I" : "A",
         };
-        dispatch(authActions.signup(query)).then(() => {
-          setAlert({
-            content: popupConetnt(agreedStatus, userInfo),
-            onPressConfirm: () => {
-              setAlert(null);
-              dispatch(authActions.setIsJoin(true));
-            },
-          });
-        });
+        signup(query, dispatch, setAlert, agreedStatus);
 
         // message.value
         return;
