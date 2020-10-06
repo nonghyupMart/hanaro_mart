@@ -75,10 +75,9 @@ const CouponScreen = (props) => {
         couponList = coupon.couponList;
         break;
     }
-
+    const index = couponList.indexOf(item);
     switch (item.status) {
       case "00": // 미발급
-        const index = couponList.indexOf(item);
         dispatch(
           couponActions.downloadCoupon({
             store_cd: userStore.storeInfo.store_cd,
@@ -98,6 +97,9 @@ const CouponScreen = (props) => {
                   store_cd: userStore.storeInfo.store_cd,
                   cou_cd: item.cou_cd,
                   user_cd: userInfo.user_cd,
+                  coupon: type == "A" ? couponA : coupon,
+                  index: index,
+                  type,
                 });
               },
             });
@@ -117,6 +119,9 @@ const CouponScreen = (props) => {
           store_cd: userStore.storeInfo.store_cd,
           cou_cd: item.cou_cd,
           user_cd: userInfo.user_cd,
+          coupon: type == "A" ? couponA : coupon,
+          index: index,
+          type,
         });
         return;
       case "20": // 사용완료

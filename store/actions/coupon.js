@@ -105,10 +105,15 @@ export const downloadCoupon = (query) => {
 };
 
 export const useCoupon = (query) => {
+  const coupon = { ...query.coupon };
+  const index = query.index;
+  const type = query.type;
+  delete query.coupon;
+  delete query.index;
+  delete query.type;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/coupon`,
   });
-
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url, {
@@ -125,6 +130,15 @@ export const useCoupon = (query) => {
         throw new Error("useCoupon Something went wrong!");
       }
       console.warn("useCoupon", resData.data);
+      coupon.couponList[index].status = "20";
+      switch (type) {
+        case "A":
+          dispatch({ type: SET_COUPON_A, coupon: coupon });
+          break;
+        case "B":
+          dispatch({ type: SET_COUPON, coupon: coupon });
+          break;
+      }
       return resData.data;
     } catch (err) {
       throw err;
@@ -147,7 +161,7 @@ export const fetchCouponDetail = (query) => {
       }
 
       const resData = await response.json();
-      console.log(resData.data);
+      // console.warn("fetchCouponDetail", resData.data.couponInfo);
       dispatch({
         type: SET_COUPON_DETAIL,
         couponDetail: resData.data.couponInfo,

@@ -47,35 +47,50 @@ const CouponDetailScreen = (props) => {
     });
   }, [dispatch]);
   const onPress = () => {
-    const msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로  처리됩니다.`;
-    setAlert({
-      message: msg,
-      onPressConfirm: () => {
-        setAlert(null);
-        dispatch(
-          couponActions.useCoupon({
-            store_cd: params.store_cd,
-            user_cd: userInfo.user_cd,
-            cou_cd: params.cou_cd,
-            ucou_cd: couponDetail.ucou_cd,
-          })
-        ).then((data) => {
-          if (data.result == "success") {
-            setIsUsed(true);
-            props.navigation.navigate("Barcode", {
-              barcode: couponDetail.barcode,
-            });
-          }
-        });
+    let msg;
+    if (!isUsed) {
+      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로  처리됩니다.`;
 
-        // saveStore();
-      },
-      onPressCancel: () => {
-        setAlert(null);
-      },
-    });
+      setAlert({
+        message: msg,
+        onPressConfirm: () => {
+          setAlert(null);
+          dispatch(
+            couponActions.useCoupon({
+              index: params.index,
+              type: params.type,
+              coupon: params.coupon,
+              store_cd: params.store_cd,
+              user_cd: userInfo.user_cd,
+              cou_cd: params.cou_cd,
+              ucou_cd: couponDetail.ucou_cd,
+            })
+          ).then((data) => {
+            if (data.result == "success") {
+              setIsUsed(true);
+              props.navigation.navigate("Barcode", {
+                barcode: couponDetail.barcode,
+              });
+            }
+          });
+
+          // saveStore();
+        },
+        onPressCancel: () => {
+          setAlert(null);
+        },
+      });
+    } else {
+      msg = `이미 사용된 쿠폰입니다.`;
+      setAlert({
+        message: msg,
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
   };
-  useEffect(() => {
+  if (couponDetail) {
     props.navigation.setOptions({
       title: "쿠폰",
       cardStyle: {
@@ -85,7 +100,7 @@ const CouponDetailScreen = (props) => {
       headerTitle: (props) => <TextTitle {...props} />,
       headerRight: (props) => <UseButton onPress={onPress} />,
     });
-  }, []);
+  }
   return (
     <BaseScreen
       isBottomNavigation={false}
@@ -365,7 +380,7 @@ const UseButton = (props) => {
         title="back"
         iconName="users-cog"
         onPress={() => {
-          props.onPress();
+          if (props.onPress) props.onPress();
         }}
       />
     </HeaderButtons>
