@@ -12,7 +12,9 @@ import { setPreview } from "@actions/auth";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
+  const storeInfo = useSelector((state) => state.auth.userStore.storeInfo);
   const isJoin = useSelector((state) => state.auth.isJoin);
+
   const onPressJoin = () => {
     props.navigation.closeDrawer();
     dispatch(setPreview(false));
@@ -31,9 +33,9 @@ const LoginButtons = (props) => {
       </ButtonContainer>
 
       <GrayContainer>
-        <Text1>사업자명 : 하나로마트 양재점</Text1>
+        <Text1>사업자명 : {storeInfo.store_nm}</Text1>
         <Text2>
-          {`대표이사 : 김병수 / 사업자 등록 번호 104-86-00934 서울특별시 마포구 신촌로 66, 8층 고객만족센타 : 1588-0028 / 개인정보관리책임자 : 김승철`}
+          {`대표이사 : ${storeInfo.ceo} / 사업자 등록 번호 ${storeInfo.biz_no} ${storeInfo.addr} 고객만족센터 : ${storeInfo.support_tel} / 개인정보관리책임자 : ${storeInfo.prv_manager}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>
