@@ -10,11 +10,11 @@ import {
 } from "@UI/BaseUI";
 import { setPreview } from "@actions/auth";
 import * as Util from "@util";
-
+import _ from "lodash";
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
   const storeInfo = useSelector((state) =>
-    state.auth.userStore ? state.auth.userStore.storeInfo : {}
+    !_.isEmpty(state.auth.userStore) ? state.auth.userStore.storeInfo : {}
   );
   const isJoin = useSelector((state) => state.auth.isJoin);
 
