@@ -207,7 +207,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
                 key={Tab[0].name}
                 name={Tab[0].name}
                 component={Tab[0].components}
-                options={{ title: Tab[0].title }}
+                options={{ title: menu.menu_nm }}
               />
             );
           }

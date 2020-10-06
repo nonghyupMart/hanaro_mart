@@ -22,7 +22,7 @@ const GrayButtons = (props) => {
               onPress={() => props.navigation.navigate(Tab[0].name)}
             >
               <Image source={Tab[0].icon} />
-              <WButtonText>{Tab[0].title}</WButtonText>
+              <WButtonText>{menu.menu_nm}</WButtonText>
             </WhiteButtonContainer>
           );
         })}
