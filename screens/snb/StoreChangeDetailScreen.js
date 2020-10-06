@@ -33,12 +33,12 @@ import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
 
 import * as branchesActions from "@actions/branches";
-import { setPreview, saveUserStoreToStorage } from "@actions/auth";
 import { setUserStore } from "@actions/auth";
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [isLoading, setIsLoading] = useState(false);
 
   const branch = useSelector((state) => state.branches.branch);
@@ -57,13 +57,6 @@ const StoreChangeDetailScreen = (props) => {
         );
     });
   }, [dispatch]);
-  useEffect(() => {
-    if (userStore)
-      props.navigation.setOptions({
-        title: "매장변경",
-        headerLeft: (props) => <BackButton {...props} />,
-      });
-  }, [dispatch]);
 
   const [alert, setAlert] = useState();
   const storeChangeHandler = () => {
@@ -80,17 +73,33 @@ const StoreChangeDetailScreen = (props) => {
     });
   };
   const saveStore = () => {
-    const msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
-    setAlert({
-      message: msg,
-      onPressConfirm: () => {
-        setAlert(null);
-        saveUserStoreToStorage(branch);
-        dispatch(setUserStore(branch));
-
-        props.navigation.popToTop();
-        // Restart();
-      },
+    let msg;
+    dispatch(
+      setUserStore(
+        { user_cd: userInfo.user_cd, store_cd: branch.storeInfo.store_cd },
+        branch
+      )
+    ).then((data) => {
+      if (data.result == "success") {
+        msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
+        setAlert({
+          message: msg,
+          onPressConfirm: () => {
+            setAlert(null);
+            props.navigation.popToTop();
+            // Restart();
+          },
+        });
+      } else {
+        msg = "매장변경에 실패하였습니다.";
+        setAlert({
+          message: msg,
+          onPressConfirm: () => {
+            setAlert(null);
+            // Restart();
+          },
+        });
+      }
     });
   };
   if (!branch) return <Loading isLoading={isLoading} />;
@@ -112,10 +121,10 @@ const StoreChangeDetailScreen = (props) => {
     >
       <StoreBox
         style={{
-          height: screenWidth,
+          height: screenWidth - 30,
           flexDirection: "row",
           overflow: "hidden",
-          flex: 1,
+          width: screenWidth,
         }}
       >
         <ExtendedWebView
@@ -203,7 +212,9 @@ const StoreChangeDetailScreen = (props) => {
               </Text>
             </View>
             <BaseTouchable
-              onPress={() => (!_.isEmpty(userStore) ? storeChangeHandler() : saveStore())}
+              onPress={() =>
+                !_.isEmpty(userStore) ? storeChangeHandler() : saveStore()
+              }
             >
               <View
                 style={{
@@ -242,7 +253,7 @@ const StoreChangeDetailScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "매장설정",
-    headerLeft: () => <></>,
+    headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
   };
@@ -290,7 +301,7 @@ const BottomCover = styled.ImageBackground({
   width: "100%",
   height: 22,
   position: "absolute",
-  bottom: 0,
+  bottom: -1,
   left: 0,
   right: 0,
   zIndex: 3, // works on ios

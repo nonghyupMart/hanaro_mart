@@ -13,7 +13,7 @@ const StartupScreen = (props) => {
   useEffect(() => {
     (async () => {
       const userStoreData = await AsyncStorage.getItem("userStoreData");
-      dispatch(authActions.setUserStore(JSON.parse(userStoreData)));
+      dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 
       const userInfoData = await AsyncStorage.getItem("userInfoData");
       const parsedUserData = JSON.parse(userInfoData);
