@@ -21,7 +21,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState();
   const onPress = () => {
-    dispatch(authActions.withdrawal(userInfo.user_id)).then(() => {
+    dispatch(authActions.withdrawal(userInfo.user_cd)).then(() => {
       setAlert({
         message: "탈퇴 되었습니다.",
         onPressConfirm: () => {
