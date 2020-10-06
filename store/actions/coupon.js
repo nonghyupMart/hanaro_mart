@@ -84,12 +84,19 @@ export const downloadCoupon = (query) => {
       const resData = await response.json();
       if (!response.ok) {
         console.warn(url, resData.error.errorMsg);
+        return resData.error;
         throw new Error("downloadCoupon Something went wrong!");
       }
       console.warn("downloadCoupon", resData.data);
       coupon.couponList[index].status = "10";
-
-      dispatch({ type: SET_COUPON, coupon: coupon });
+      switch (type) {
+        case "A":
+          dispatch({ type: SET_COUPON_A, coupon: coupon });
+          break;
+        case "B":
+          dispatch({ type: SET_COUPON, coupon: coupon });
+          break;
+      }
       return resData.data;
     } catch (err) {
       throw err;

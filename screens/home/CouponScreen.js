@@ -66,7 +66,15 @@ const CouponScreen = (props) => {
     // return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
-    let couponList = coupon.couponList;
+    let couponList;
+    switch (type) {
+      case "A":
+        couponList = couponA.couponList;
+        break;
+      case "B":
+        couponList = coupon.couponList;
+        break;
+    }
 
     switch (item.status) {
       case "00": // 미발급
@@ -76,7 +84,7 @@ const CouponScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
             user_cd: userInfo.user_cd,
             cou_cd: item.cou_cd,
-            coupon: coupon,
+            coupon: type == "A" ? couponA : coupon,
             index: index,
             type,
           })
@@ -91,6 +99,13 @@ const CouponScreen = (props) => {
                   cou_cd: item.cou_cd,
                   user_cd: userInfo.user_cd,
                 });
+              },
+            });
+          } else {
+            setAlert({
+              message: data.errorMsg,
+              onPressConfirm: () => {
+                setAlert(null);
               },
             });
           }
@@ -154,7 +169,7 @@ const CouponScreen = (props) => {
                 <CouponItemA
                   item={item}
                   index={index}
-                  onPress={() => onCouponItemPressed(item)}
+                  onPress={() => onCouponItemPressed(item, "A")}
                 />
               );
             }}
