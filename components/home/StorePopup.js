@@ -37,7 +37,7 @@ const StorePopup = (props) => {
 
   const setDisablePopup = () => {
     CommonActions.saveDateForStorePopupToStorage();
-    dispatch(CommonActions.setStorePopup(false));
+    dispatch(CommonActions.setIsStorePopup(false));
     setIsVisible(false);
   };
 
