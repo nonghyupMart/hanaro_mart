@@ -12,6 +12,7 @@ import _ from "lodash";
 import * as branchesActions from "@actions/branches";
 import { signup } from "@screens/join/JoinStep2Screen";
 import * as RootNavigation from "@navigation/RootNavigation";
+import * as CommonActions from "@actions/common";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ export const ExtendedWebView = (props) => {
         // message.value
         return;
       case "close":
+        dispatch(CommonActions.setBottomNavigation(true));
         RootNavigation.pop();
         return;
     }
