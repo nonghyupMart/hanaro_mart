@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
   useEffect(() => {
-    // AsyncStorage.removeItem("storePopupData"); //
+    // AsyncStorage.removeItem("storePopupData");
     // AsyncStorage.removeItem("appPopupData");
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
