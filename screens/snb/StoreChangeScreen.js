@@ -117,7 +117,7 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      <HistoryList location={location} {...props} setIsLoading={setIsLoading} />
+      {/* <HistoryList location={location} {...props} setIsLoading={setIsLoading} /> */}
       <WhiteContainer>
         <SearchBar
           location={location}
