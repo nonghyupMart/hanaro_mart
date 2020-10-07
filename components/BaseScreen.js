@@ -153,9 +153,11 @@ const Screen = styled(View).attrs({
 })({
   flex: 1,
   width: "100%",
+  height: (props) => (props.isCenter ? "100%" : "auto"),
   backgroundColor: colors.white,
   justifyContent: (props) => (props.isCenter ? "center" : "flex-start"),
   alignItems: (props) => (props.isCenter ? "center" : "stretch"),
+  alignSelf: (props) => (props.isCenter ? "center" : "auto"),
 });
 const styles = StyleSheet.create({
   safeAreaView: {

@@ -10,6 +10,7 @@ import BaseScreen from "@components/BaseScreen";
 import { useFocusEffect } from "@react-navigation/native";
 const initialLayout = { width: Dimensions.get("window").width };
 import { useIsFocused } from "@react-navigation/native";
+import { EmptyText } from "@UI/BaseUI";
 const FlyerScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [alert, setAlert] = useState();
@@ -88,7 +89,7 @@ const FlyerScreen = ({ navigation }) => {
   if (routes.length === 0)
     return (
       <BaseScreen isScroll={false} isCenter={true}>
-        <Text1>{`현재 진행중인 서비스가\n없습니다.`}</Text1>
+        <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
       </BaseScreen>
     );
   return (
@@ -104,20 +105,6 @@ const FlyerScreen = ({ navigation }) => {
     />
   );
 };
-const EmptyContainer = styled.View({
-  width: "100%",
-  height: "100%",
-  justifyContent: "center",
-});
-const Text1 = styled.Text({
-  fontSize: 18,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 22,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.greyishThree,
-});
 
 const styles = StyleSheet.create({
   screen: {

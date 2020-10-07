@@ -8,7 +8,7 @@ import CouponItem from "@components/CouponItem";
 import CouponItemA from "@components/CouponItemA";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
-import { BaseImage, screenWidth, BaseTouchable } from "@UI/BaseUI";
+import { BaseImage, screenWidth, BaseTouchable, EmptyText } from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -143,7 +143,30 @@ const CouponScreen = (props) => {
       setPage(page + 1);
     }
   };
-
+  if (
+    routeName == "MyCoupon" &&
+    couponA &&
+    couponA.couponList.length === 0 &&
+    coupon &&
+    coupon.couponList.length === 0
+  )
+    return (
+      <BaseScreen isScroll={false} isCenter={true}>
+        <EmptyText>나의 쿠폰이 없습니다.</EmptyText>
+      </BaseScreen>
+    );
+  if (
+    routeName == "Coupon" &&
+    couponA &&
+    couponA.couponList.length === 0 &&
+    coupon &&
+    coupon.couponList.length === 0
+  )
+    return (
+      <BaseScreen isScroll={false} isCenter={true}>
+        <EmptyText>현재 진행중인 쿠폰이 없습니다.</EmptyText>
+      </BaseScreen>
+    );
   return (
     <BaseScreen
       // isBottomNavigation={routeName == "MyCoupon" ? false : true}

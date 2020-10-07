@@ -100,3 +100,13 @@ export const BlueButton = styled(BaseButtonContainer)({
   aspectRatio: 100 / 12.804,
   borderRadius: 25,
 });
+
+export const EmptyText = styled.Text({
+  fontSize: 18,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 22,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.greyishThree,
+});
