@@ -32,6 +32,9 @@ export default (state = initialState, action) => {
         ...state,
         eventDetail: { ...action.eventDetail },
       };
+
+    default:
+      return state;
   }
 
   return state;

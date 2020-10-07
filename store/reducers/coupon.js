@@ -77,6 +77,9 @@ export default (state = initialState, action) => {
         ...state,
         couponDetail: { ...action.couponDetail },
       };
+
+    default:
+      return state;
   }
 
   return state;

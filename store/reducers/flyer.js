@@ -34,6 +34,9 @@ export default (state = initialState, action) => {
         ...state,
         productDetail: { ...action.productDetail },
       };
+
+    default:
+      return state;
   }
 
   return state;
