@@ -28,6 +28,7 @@ const StorePopup = (props) => {
   }, [isStorePopup]);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
+      // console.warn("ignored!");
       props.setFetchStorePopup(true);
       return;
     }
@@ -39,7 +40,7 @@ const StorePopup = (props) => {
         props.setFetchStorePopup(true);
       });
     }
-  }, []);
+  }, [userStore, storePopup]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForStorePopupToStorage();
