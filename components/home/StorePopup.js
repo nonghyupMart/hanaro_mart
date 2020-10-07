@@ -27,13 +27,19 @@ const StorePopup = (props) => {
     if (isStorePopup) setIsVisible(true);
   }, [isStorePopup]);
   useEffect(() => {
-    props.setFetchStorePopup(false);
-    dispatch(
-      homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
-    ).then(() => {
+    if (!_.isEmpty(storePopup)) {
       props.setFetchStorePopup(true);
-    });
-  }, [dispatch]);
+      return;
+    }
+    if (!_.isEmpty(userStore)) {
+      props.setFetchStorePopup(false);
+      dispatch(
+        homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
+      ).then(() => {
+        props.setFetchStorePopup(true);
+      });
+    }
+  }, []);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForStorePopupToStorage();

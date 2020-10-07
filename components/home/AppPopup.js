@@ -27,6 +27,11 @@ const AppPopup = (props) => {
     if (isAppPopup) setIsVisible(true);
   }, [isAppPopup]);
   useEffect(() => {
+    if (!_.isEmpty(appPopup)) {
+      props.setIsReadyAppPopup(true);
+      props.setFetchAppPopup(true);
+      return;
+    }
     props.setFetchAppPopup(false);
     dispatch(homeActions.fetchPopup()).then(() => {
       props.setFetchAppPopup(true);
@@ -34,7 +39,7 @@ const AppPopup = (props) => {
         props.setIsReadyAppPopup(true);
       }
     });
-  }, [dispatch]);
+  }, []);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForAppPopupToStorage();
