@@ -24,7 +24,6 @@ export default (state = initialState, action) => {
         isStorePopup: action.isStorePopup,
       };
     case SET_IS_APP_POPUP:
-      console.warn("!!!!!", action.isAppPopup);
       return {
         ...state,
         isAppPopup: action.isAppPopup,
