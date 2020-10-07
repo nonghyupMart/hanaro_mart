@@ -1,13 +1,13 @@
 import {
   SET_BOTTOM_NAVIGATION,
-  SET_STORE_POPUP,
-  SET_APP_POPUP,
+  SET_IS_STORE_POPUP,
+  SET_IS_APP_POPUP,
 } from "@actions/common";
 
 const initialState = {
   isBottomNavigation: true,
-  isStorePopup: false,
-  isAppPopup: false,
+  isStorePopup: true,
+  isAppPopup: true,
 };
 
 export default (state = initialState, action) => {
@@ -18,12 +18,13 @@ export default (state = initialState, action) => {
         isBottomNavigation: action.isBottomNavigation,
       };
 
-    case SET_STORE_POPUP:
+    case SET_IS_STORE_POPUP:
       return {
         ...state,
         isStorePopup: action.isStorePopup,
       };
-    case SET_APP_POPUP:
+    case SET_IS_APP_POPUP:
+      console.warn("!!!!!", action.isAppPopup);
       return {
         ...state,
         isAppPopup: action.isAppPopup,
@@ -31,4 +32,5 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
+  return state;
 };

@@ -3,12 +3,16 @@ import {
   SET_HOME_NOTICE,
   SET_HOME_NOTICE_MORE,
   SET_HOME_NARO,
+  SET_APP_POPUP,
+  SET_STORE_POPUP,
 } from "@actions/home";
 
 const initialState = {
   homeBanner: null,
   homeNotice: null,
   homeNaro: null,
+  storePopup: null,
+  appPopup: null,
 };
 
 export default (state = initialState, action) => {
@@ -42,6 +46,19 @@ export default (state = initialState, action) => {
         ...state,
         homeNaro: { ...action.homeNaro },
       };
+    case SET_APP_POPUP:
+      return {
+        ...state,
+        appPopup: { ...action.appPopup },
+      };
+    case SET_STORE_POPUP:
+      return {
+        ...state,
+        storePopup: { ...action.storePopup },
+      };
+
+    default:
+      return state;
   }
 
   return state;
