@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import styled from "styled-components/native";
+import { StyleSheet, Dimensions, Text } from "react-native";
 import { TabView, TabBar, SceneMap, ScrollPager } from "react-native-tab-view";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import FlyerContentsScreen from "./FlyerContentsScreen";
 import * as flyerActions from "@actions/flyer";
 import Loading from "@UI/Loading";
+import BaseScreen from "@components/BaseScreen";
 import { useFocusEffect } from "@react-navigation/native";
 const initialLayout = { width: Dimensions.get("window").width };
 import { useIsFocused } from "@react-navigation/native";
@@ -83,7 +85,12 @@ const FlyerScreen = ({ navigation }) => {
       />
     );
   };
-
+  if (routes.length === 0)
+    return (
+      <BaseScreen isScroll={false} isCenter={true}>
+        <Text1>{`현재 진행중인 서비스가\n없습니다.`}</Text1>
+      </BaseScreen>
+    );
   return (
     <TabView
       // renderPager={(props) => <ScrollPager {...props} />}
@@ -97,6 +104,20 @@ const FlyerScreen = ({ navigation }) => {
     />
   );
 };
+const EmptyContainer = styled.View({
+  width: "100%",
+  height: "100%",
+  justifyContent: "center",
+});
+const Text1 = styled.Text({
+  fontSize: 18,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 22,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.greyishThree,
+});
 
 const styles = StyleSheet.create({
   screen: {

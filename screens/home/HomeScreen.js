@@ -140,48 +140,49 @@ export const screenOptions = ({ navigation }) => {
       </HeaderButtons>
     ),
     headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="검색"
-          iconName="search"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: 0, marginLeft: 0 }}
-        />
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="알림"
-          iconName="notifications-none"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        />
-        <Item
-          iconSize={24}
-          IconComponent={MaterialCommunityIcons}
-          title="장바구니"
-          iconName="cart-outline"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        />
-        {/* <Item
-          title="Scanner"
-          iconName={
-            Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
-          }
-          onPress={() => {
-            navigation.navigate("BarCodeScanner");
-          }}
-        /> */}
-      </HeaderButtons>
+      <></>
+      // <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      //   <Item
+      //     IconComponent={MaterialIcons}
+      //     iconSize={24}
+      //     title="검색"
+      //     iconName="search"
+      //     onPress={() => {
+      //       animate();
+      //     }}
+      //     color={colors.pine}
+      //     style={{ marginRight: 0, marginLeft: 0 }}
+      //   />
+      //   <Item
+      //     IconComponent={MaterialIcons}
+      //     iconSize={24}
+      //     title="알림"
+      //     iconName="notifications-none"
+      //     onPress={() => {
+      //       animate();
+      //     }}
+      //     color={colors.pine}
+      //   />
+      //   <Item
+      //     iconSize={24}
+      //     IconComponent={MaterialCommunityIcons}
+      //     title="장바구니"
+      //     iconName="cart-outline"
+      //     onPress={() => {
+      //       animate();
+      //     }}
+      //     color={colors.pine}
+      //   />
+      //   {/* <Item
+      //     title="Scanner"
+      //     iconName={
+      //       Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
+      //     }
+      //     onPress={() => {
+      //       navigation.navigate("BarCodeScanner");
+      //     }}
+      //   /> */}
+      // </HeaderButtons>
     ),
   };
 };

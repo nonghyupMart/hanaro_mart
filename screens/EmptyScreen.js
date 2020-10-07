@@ -4,7 +4,7 @@ import queryString from "query-string";
 import { View, Text, StyleSheet } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
+
 import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "@components/BaseScreen";
 import Alert from "@UI/Alert";

@@ -1,6 +1,7 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
+import { clearStorePopup } from "@actions/home";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
@@ -23,7 +24,7 @@ export const setDidTryAL = () => {
 
 export const sendSMS = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${PRODUCT_SERVER_URL}/sms`,
+    url: `${PRODUCT_SERVER_URL}/api/sms`,
     query: query,
   });
   return async (dispatch) => {
@@ -105,7 +106,26 @@ export const setUserStore = (query, userStore) => {
 
     dispatch(saveUserStore(userStore));
     saveUserStoreToStorage(userStore);
+   
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     return resData.data;
   };
 };

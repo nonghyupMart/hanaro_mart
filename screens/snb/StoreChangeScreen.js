@@ -24,6 +24,7 @@ import BaseScreen from "@components/BaseScreen";
 import PickerViews from "@components/store/PickerViews";
 import SearchBar from "@components/store/SearchBar";
 import InfoBox from "@components/store/InfoBox";
+import HistoryList from "@components/store/HistoryList";
 
 import * as branchesActions from "@actions/branches";
 
@@ -116,7 +117,7 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-
+      <HistoryList location={location} {...props} setIsLoading={setIsLoading} />
       <WhiteContainer>
         <SearchBar
           location={location}

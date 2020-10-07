@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
+import AutoHeightImage from "react-native-auto-height-image";
 
 import {
   DetailContainer,
@@ -56,6 +57,10 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       console.warn(data);
+      if (data.result == "success") {
+        eventDetail.entry.entry_status = "20";
+        dispatch(eventActions.updateEventDetail(eventDetail));
+      }
     });
   };
   return (
@@ -82,31 +87,44 @@ const EventDetailScreen = (props, { navigation }) => {
             style={{}}
             width={screenWidth}
           />
-          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "A" && (
-            <A {...props} onApply={onApply} setAlert={setAlert} />
-          )}
-          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "B" && (
-            <B
-              {...props}
-              scrollRef={scrollRef}
-              key={scrollRef}
-              setAlert={setAlert}
-              onApply={onApply}
-              setRcp_qr={setRcp_qr}
-              rcp_qr={rcp_qr}
-            />
-          )}
-          {eventDetail.entry_yn == "Y" && eventDetail.gbn == "C" && (
-            <C
-              {...props}
-              scrollRef={scrollRef}
-              key={scrollRef}
-              setAlert={setAlert}
-              onApply={onApply}
-              setRcp_qr={setRcp_qr}
-              rcp_qr={rcp_qr}
-            />
-          )}
+          {eventDetail.entry &&
+            eventDetail.entry_yn == "Y" &&
+            eventDetail.gbn == "A" && (
+              <A
+                {...props}
+                onApply={onApply}
+                setAlert={setAlert}
+                eventDetail={eventDetail}
+              />
+            )}
+          {eventDetail.entry &&
+            eventDetail.entry_yn == "Y" &&
+            eventDetail.gbn == "B" && (
+              <B
+                {...props}
+                scrollRef={scrollRef}
+                key={scrollRef}
+                setAlert={setAlert}
+                onApply={onApply}
+                setRcp_qr={setRcp_qr}
+                rcp_qr={rcp_qr}
+                eventDetail={eventDetail}
+              />
+            )}
+          {eventDetail.entry &&
+            eventDetail.entry_yn == "Y" &&
+            eventDetail.gbn == "C" && (
+              <C
+                {...props}
+                scrollRef={scrollRef}
+                key={scrollRef}
+                setAlert={setAlert}
+                onApply={onApply}
+                setRcp_qr={setRcp_qr}
+                rcp_qr={rcp_qr}
+                eventDetail={eventDetail}
+              />
+            )}
         </DetailContainer>
       )}
     </BaseScreen>

@@ -2,11 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as branchesActions from "@actions/branches";
-import {
-  Text,
-  Image,
-  KeyboardAvoidingView,
-} from "react-native";
+import { Text, Image, KeyboardAvoidingView } from "react-native";
 import {
   BaseButtonContainer,
   BaseTouchable,
@@ -31,7 +27,7 @@ const SearchBar = (props) => {
     <SearchBarContainer>
       <BlueRoundView>
         <Image source={require("@images/ic_store_mall_directory_24px.png")} />
-        <StoreName>매장명</StoreName>
+        <StoreName>매장명검색</StoreName>
       </BlueRoundView>
       <TextInputContainer>
         <SearchTextInput
@@ -51,13 +47,13 @@ const SearchBar = (props) => {
   );
 };
 const SearchTextInput = styled.TextInput({
-  marginLeft: 10,
-  marginRight: 10,
+  marginLeft: 0,
+  marginRight: 5,
   flex: 1,
 });
 const TextInputContainer = styled.View({
   paddingRight: 8,
-  paddingLeft: 12,
+  paddingLeft: 11,
   flexDirection: "row",
   height: 40,
   borderStyle: "solid",
@@ -82,6 +78,7 @@ const SearchBarContainer = styled.View({
   flex: 1,
   marginLeft: StyleConstants.defaultPadding,
   marginRight: StyleConstants.defaultPadding,
+  height: 40,
 });
 const ButtonText = styled.Text({
   fontSize: 12,
@@ -115,7 +112,7 @@ const BlueRoundView = styled.View({
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  paddingLeft: 22.5,
+  paddingLeft: 15.6,
   paddingRight: 10,
 });
 export default SearchBar;

@@ -5,6 +5,7 @@ import {
   SET_HOME_NARO,
   SET_APP_POPUP,
   SET_STORE_POPUP,
+  CLEAR_STORE_POPUP,
 } from "@actions/home";
 
 const initialState = {
@@ -56,7 +57,12 @@ export default (state = initialState, action) => {
         ...state,
         storePopup: { ...action.storePopup },
       };
-
+    case CLEAR_STORE_POPUP:
+      console.warn("clear! ", initialState.storePopup);
+      return {
+        ...state,
+        storePopup: initialState.storePopup,
+      };
     default:
       return state;
   }

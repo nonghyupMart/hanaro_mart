@@ -29,7 +29,7 @@ import flyerReducer from "@reducers/flyer";
 import eventReducer from "@reducers/event";
 import couponReducer from "@reducers/coupon";
 import commonReducer from "@reducers/common";
-
+import { WITHDRAWAL } from "@actions/auth";
 LogBox.ignoreLogs(["Expected", "No native"]);
 // console.disableLogBox = true;
 // console.ignoredLogBox = ["Warning:"];
@@ -40,7 +40,7 @@ Notifications.setNotificationHandler({
 });
 const { width, height } = Dimensions.get("window");
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   branches: branchesReducer,
   home: homeReducer,
@@ -49,6 +49,16 @@ const rootReducer = combineReducers({
   coupon: couponReducer,
   common: commonReducer,
 });
+const rootReducer = (state, action) => {
+  if (action.type === WITHDRAWAL) {
+    // for all keys defined in your persistConfig(s)
+    storage.removeItem("persist:root");
+    // storage.removeItem('persist:otherKey')
+
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 

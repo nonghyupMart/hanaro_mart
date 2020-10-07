@@ -4,6 +4,7 @@ export const SET_ADDRESS1 = "SET_ADDRESS1";
 export const SET_ADDRESS2 = "SET_ADDRESS2";
 export const SET_BRANCHES = "SET_BRANCHES";
 export const SET_BRANCH = "SET_BRANCH";
+export const SET_STORE_MARK = "SET_STORE_MARK";
 
 export const fetchAddress1 = () => {
   return async (dispatch, getState) => {
@@ -83,6 +84,31 @@ export const fetchBranch = (store_cd) => {
       }
 
       dispatch({ type: SET_BRANCH, branch: resData.data });
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const fetchStoreMark = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/store-mark`,
+    query: query,
+  });
+  console.warn("fetchStoreMark ", url);
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url);
+      const resData = await response.json();
+
+      if (!response.ok) {
+        console.warn(url, resData.error.errorMsg);
+        throw new Error("fetchStoreMark Something went wrong!");
+      }
+
+      // console.warn("fetchBranches data", resData.data);
+      dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
     } catch (err) {
       throw err;
     }

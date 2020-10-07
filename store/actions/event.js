@@ -60,6 +60,12 @@ export const fetchEventDetail = (query) => {
     }
   };
 };
+export const updateEventDetail = (eventDetail) => {
+  return {
+    type: SET_EVENT_DETAIL,
+    eventDetail: eventDetail,
+  };
+};
 
 export const applyEvent = (query) => {
   const url = queryString.stringifyUrl({

@@ -30,6 +30,7 @@ import colors from "@constants/colors";
 
 import StoreItem from "@components/store/StoreItem";
 import BaseScreen from "@components/BaseScreen";
+import * as homeActions from "@actions/home";
 
 import * as branchesActions from "@actions/branches";
 import { setUserStore } from "@actions/auth";
@@ -86,6 +87,7 @@ const StoreChangeDetailScreen = (props) => {
           onPressConfirm: () => {
             setAlert(null);
             props.navigation.popToTop();
+            dispatch(homeActions.clearStorePopup());
             // Restart();
           },
         });

@@ -29,22 +29,22 @@ const MyPageScreen = ({ navigation }) => {
     >
       <MemberInfo />
       <WhiteContainer>
-        <BtnContainer>
+        {/* <BtnContainer>
           <Icon source={require("@images/tools.png")} />
           <BtnText>내정보관리</BtnText>
-        </BtnContainer>
+        </BtnContainer> */}
         <BtnContainer onPress={() => navigation.navigate("MyReviews")}>
           <Icon source={require("@images/chat3.png")} />
           <BtnText>나의리뷰</BtnText>
         </BtnContainer>
-        <BtnContainer>
+        {/* <BtnContainer>
           <Icon source={require("@images/calculator.png")} />
           <BtnText>상품주문내역</BtnText>
         </BtnContainer>
         <BtnContainer>
           <Icon source={require("@images/barcode.png")} />
           <BtnText>이벤트 응모내역</BtnText>
-        </BtnContainer>
+        </BtnContainer> */}
         <BtnContainer onPress={() => navigation.navigate("Inquiry")}>
           <Icon source={require("@images/clipboard.png")} />
           <BtnText>나의 문의내역</BtnText>
@@ -56,7 +56,6 @@ const MyPageScreen = ({ navigation }) => {
           <Icon source={require("@images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
         </BtnContainer>
-
         <BlackBox>
           <Image source={require("@images/cogs.png")} />
           <Buttons>

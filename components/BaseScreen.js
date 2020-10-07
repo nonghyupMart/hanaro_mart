@@ -88,6 +88,7 @@ const BaseScreen = (props) => {
       headerHeight={useHeaderHeight()}
       style={props.style}
       isPadding={isPadding}
+      isCenter={props.isCenter}
     >
       {isScroll && (
         <ScrollList
@@ -151,8 +152,10 @@ const Screen = styled(View).attrs({
   enabled: true,
 })({
   flex: 1,
-
+  width: "100%",
   backgroundColor: colors.white,
+  justifyContent: (props) => (props.isCenter ? "center" : "flex-start"),
+  alignItems: (props) => (props.isCenter ? "center" : "stretch"),
 });
 const styles = StyleSheet.create({
   safeAreaView: {

@@ -7,13 +7,10 @@ import {
   Button,
   Image,
   View,
-  TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
+import { SERVER_URL } from "@constants/settings";
 
-import { Icon } from "react-native-elements";
-import * as RootNavigation from "../navigation/RootNavigation";
-import ReactNativeRingPicker from "../components/ReactNativeRingPicker";
 import * as CommonActions from "@actions/common";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
@@ -43,7 +40,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
         }}
         cacheMode="LOAD_CACHE_ELSE_NETWORK"
         source={{
-          uri: "http://test.ontwinsoft.co.kr:9222/hanaro_jogdial/",
+          uri: `${SERVER_URL}/web/about/jogdial.do`,
           // html: require("../ringPicker/index.js")(),
         }}
       />
