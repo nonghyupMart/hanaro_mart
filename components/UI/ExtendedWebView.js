@@ -11,6 +11,7 @@ import { popupConetnt } from "@screens/join/JoinStep2Screen";
 import _ from "lodash";
 import * as branchesActions from "@actions/branches";
 import { signup } from "@screens/join/JoinStep2Screen";
+import * as RootNavigation from "@navigation/RootNavigation";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -51,6 +52,9 @@ export const ExtendedWebView = (props) => {
         signup(query, dispatch, setAlert, agreedStatus);
 
         // message.value
+        return;
+      case "close":
+        RootNavigation.pop();
         return;
     }
   };
