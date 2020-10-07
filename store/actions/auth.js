@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
-import { API_URL } from "@constants/settings";
+import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
@@ -21,15 +21,9 @@ export const setDidTryAL = () => {
   return { type: SET_DID_TRY_AL };
 };
 
-export const authenticate = (userInfo) => {
-  return (dispatch) => {
-    dispatch({ type: AUTHENTICATE, userInfo: userInfo });
-  };
-};
-
 export const sendSMS = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/sms`,
+    url: `${PRODUCT_SERVER_URL}/sms`,
     query: query,
   });
   return async (dispatch) => {
@@ -38,8 +32,7 @@ export const sendSMS = (query) => {
     const resData = await response.json();
     if (!response.ok) {
       console.warn(url, resData.error.errorMsg);
-      const errorResData = await response.json();
-      throw new Error(message);
+      throw new Error("sendSMS went wrong!");
     }
 
     // console.warn(resData);
@@ -48,6 +41,7 @@ export const sendSMS = (query) => {
 };
 export const signup = (query) => {
   const url = `${API_URL}/users`;
+  console.warn(url, query);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "POST",
@@ -59,18 +53,13 @@ export const signup = (query) => {
     const resData = await response.json();
     if (!response.ok) {
       console.warn(url, resData.error.errorMsg);
-      const errorResData = await response.json();
-      const errorId = errorResData.error.message;
-      let message = "signup went wrong!";
-      if (errorId === "EMAIL_EXISTS") {
-        message = "This email exists already!";
-      }
-      throw new Error(message);
+      throw new Error("signup went wrong!");
     }
 
-    console.warn(resData.data.userInfo);
+    console.warn("signup userInfo==>", resData.data.userInfo);
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
+    return resData.data.userInfo;
   };
 };
 
@@ -94,8 +83,31 @@ export const setUserInfo = (userInfo) => {
 export const setCI = (ci) => {
   return { type: SET_CI, ci: ci };
 };
-export const setUserStore = (userStore) => {
+export const saveUserStore = (userStore) => {
   return { type: SET_USER_STORE, userStore: userStore };
+};
+export const setUserStore = (query, userStore) => {
+  const url = `${API_URL}/users`;
+  console.warn(url, query);
+  return async (dispatch) => {
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
+    const resData = await response.json();
+    if (!response.ok) {
+      console.warn(url, resData.error.errorMsg);
+      throw new Error("setUserStore went wrong!");
+    }
+
+    dispatch(saveUserStore(userStore));
+    saveUserStoreToStorage(userStore);
+
+    return resData.data;
+  };
 };
 
 export const setAgreedStatus = (status) => {
@@ -104,6 +116,7 @@ export const setAgreedStatus = (status) => {
 
 export const withdrawal = (user_cd) => {
   const url = `${API_URL}/users/${user_cd}`;
+  console.warn(url);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "DELETE",
@@ -114,9 +127,7 @@ export const withdrawal = (user_cd) => {
     const resData = await response.json();
     if (!response.ok) {
       console.warn(url, resData.error.errorMsg);
-      const errorResData = await response.json();
-
-      throw new Error(message);
+      throw new Error("withdrawal went wrong!");
     }
 
     console.warn(resData.data);

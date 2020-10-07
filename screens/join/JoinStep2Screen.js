@@ -91,21 +91,6 @@ const JoinStep2Screen = ({ navigation }) => {
       dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
         console.warn(data);
         setAcCode(data.accessCode);
-        if (Constants.isDevice) {
-          fetch("https://exp.host/--/api/v2/push/send", {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Accept-Encoding": "gzip, deflate",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              to: pushToken,
-              title: "인증번호 " + data.accessCode,
-              body: "테스트를 위해서 임시로 인증번호가 푸시로 발송 됩니다.",
-            }),
-          });
-        }
         setJoinStep([true, false]);
       });
     }
