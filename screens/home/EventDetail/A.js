@@ -4,7 +4,12 @@ import ApplyBox from "@components/event/ApplyBox";
 const A = (props) => {
   return (
     <Container>
-      <ApplyBox onApply={props.onApply} setAlert={props.setAlert} {...props} />
+      <ApplyBox
+        onApply={props.onApply}
+        setAlert={props.setAlert}
+        {...props}
+        eventDetail={props.eventDetail}
+      />
     </Container>
   );
 };

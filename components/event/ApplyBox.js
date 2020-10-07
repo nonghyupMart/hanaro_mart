@@ -82,14 +82,24 @@ const ApplyBox = (props) => {
           onChangeText={(text) => setReg_num(text)}
         />
       </Container>
-      <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
-        <Image source={require("@images/forward.png")} />
-        <BlueButtonText>응모하기</BlueButtonText>
-      </BlueButton>
+      {props.eventDetail.entry.entry_status === "10" && (
+        <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
+          <Image source={require("@images/forward.png")} />
+          <BlueButtonText>응모하기</BlueButtonText>
+        </BlueButton>
+      )}
+      {props.eventDetail.entry.entry_status === "20" && (
+        <GrayButton style={{ marginTop: 40 }}>
+          <Image source={require("@images/forward.png")} />
+          <BlueButtonText>응모완료</BlueButtonText>
+        </GrayButton>
+      )}
     </>
   );
 };
-
+const GrayButton = styled(BlueButton).attrs({ activeOpacity: 0 })({
+  backgroundColor: colors.greyishThree,
+});
 ApplyBox.defaultProps = {
   item: {
     id: 0,

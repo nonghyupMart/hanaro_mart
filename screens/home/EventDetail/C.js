@@ -9,12 +9,14 @@ const C = (props) => {
       <ScanBox
         setRcp_qr={props.setRcp_qr}
         scrollRef={props.scrollRef}
+        eventDetail={props.eventDetail}
         {...props}
       />
       {props.rcp_qr && (
         <ApplyBox
           onApply={props.onApply}
           setAlert={props.setAlert}
+          eventDetail={props.eventDetail}
           {...props}
         />
       )}
