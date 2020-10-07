@@ -8,7 +8,6 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  TouchableWithoutFeedback,
   SafeAreaView,
   TextInput,
   Button,
