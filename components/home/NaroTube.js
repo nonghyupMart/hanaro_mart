@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import Carousel from "react-native-looped-carousel";
+import Carousel from "@UI/Carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
   StyleConstants,
@@ -14,21 +14,16 @@ import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const NaroTube = (props) => {
-   const dispatch = useDispatch();
-   const homeNaro = useSelector((state) => state.home.homeNaro);
-   useEffect(() => {
-     props.setFetchHomeNaro(false);
-     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
-     Promise.all([fetchHomeNaro]).then((result) => {
-       props.setFetchHomeNaro(true);
-     });
-   }, [dispatch]);
-  if (
-    !homeNaro ||
-    !homeNaro.naroList ||
-    homeNaro.naroCnt == 0
-  )
-    return <></>;
+  const dispatch = useDispatch();
+  const homeNaro = useSelector((state) => state.home.homeNaro);
+  useEffect(() => {
+    props.setFetchHomeNaro(false);
+    const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
+    Promise.all([fetchHomeNaro]).then((result) => {
+      props.setFetchHomeNaro(true);
+    });
+  }, [dispatch]);
+  if (!homeNaro || !homeNaro.naroList || homeNaro.naroCnt == 0) return <></>;
   return (
     <>
       <NaroTubeContainer>

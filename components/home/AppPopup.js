@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "react-native-looped-carousel";
+import Carousel from "@UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
@@ -47,7 +47,8 @@ const AppPopup = (props) => {
     setIsVisible(false);
   };
 
-  if (!isAppPopup || _.isEmpty(appPopup)) return <></>;
+  if (!isAppPopup || _.isEmpty(appPopup) || _.isEmpty(appPopup.popupList))
+    return <></>;
   return (
     <Modal
       backdropTransitionInTiming={0}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "react-native-looped-carousel";
+import Carousel from "@UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
@@ -48,7 +48,13 @@ const StorePopup = (props) => {
   };
 
   //매장이 있는 경우만 매장 팝업
-  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || !isJoin || !isStorePopup)
+  if (
+    _.isEmpty(storePopup) ||
+    _.isEmpty(userStore) ||
+    !isJoin ||
+    !isStorePopup ||
+    _.isEmpty(storePopup.popupList)
+  )
     return <></>;
   return (
     <Modal

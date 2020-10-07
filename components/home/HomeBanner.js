@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import Carousel from "react-native-looped-carousel";
+import Carousel from "@UI/Carousel";
 import {
   View,
   StyleSheet,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Dimensions,
   Text,
-  TouchableWithoutFeedback,
 } from "react-native";
 import {
   StyleConstants,
@@ -22,24 +21,16 @@ import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeBanner = (props) => {
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const homeBanner = useSelector((state) => state.home.homeBanner);
   useEffect(() => {
-    
     props.setFetchHomeBanner(false);
     const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
-    Promise.all([fetchHomeBanner]).then(
-      (result) => {
-        props.setFetchHomeBanner(true);
-      }
-    );
-
+    Promise.all([fetchHomeBanner]).then((result) => {
+      props.setFetchHomeBanner(true);
+    });
   }, [dispatch]);
-  if (
-    !homeBanner ||
-    !homeBanner.bannerList ||
-    homeBanner.bannerCnt == 0
-  )
+  if (!homeBanner || !homeBanner.bannerList || homeBanner.bannerCnt == 0)
     return <></>;
   return (
     <>
