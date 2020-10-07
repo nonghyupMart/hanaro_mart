@@ -47,7 +47,7 @@ const AppPopup = (props) => {
     setIsVisible(false);
   };
 
-  if (!isAppPopup || _.isEmpty(appPopup) || _.isEmpty(appPopup.popupList))
+  if (!isAppPopup || _.isEmpty(appPopup) || appPopup.popupCnt == 0)
     return <></>;
   return (
     <Modal

@@ -53,7 +53,7 @@ const StorePopup = (props) => {
     _.isEmpty(userStore) ||
     !isJoin ||
     !isStorePopup ||
-    _.isEmpty(storePopup.popupList)
+    storePopup.popupCnt == 0
   )
     return <></>;
   return (
