@@ -43,6 +43,8 @@ const HomeScreen = ({ navigation }) => {
   const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
   const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
   const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
+  const [fetchStorePopup, setFetchStorePopup] = useState(false);
+  const [fetchAppPopup, setFetchAppPopup] = useState(false);
   const [storePopupKey, setStorePopupKey] = useState();
   const [appPopupKey, setAppPopupKey] = useState();
   const [isReadyAppPopup, setIsReadyAppPopup] = useState(false);
@@ -61,7 +63,7 @@ const HomeScreen = ({ navigation }) => {
     // AsyncStorage.removeItem("storePopupData");
     // AsyncStorage.removeItem("appPopupData");
     setIsLoading(true);
-    if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro) {
+    if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
       setIsLoading(false);
     }
 
@@ -79,7 +81,7 @@ const HomeScreen = ({ navigation }) => {
         cancelText: "취소",
       });
     }
-  }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro]);
+  }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
 
   return (
     <>
@@ -89,8 +91,17 @@ const HomeScreen = ({ navigation }) => {
         style={styles.screen}
         contentStyle={{ paddingTop: 0 }}
       >
-        <AppPopup key={appPopupKey} setIsReadyAppPopup={setIsReadyAppPopup} />
-        {isReadyAppPopup && <StorePopup key={storePopupKey} />}
+        <AppPopup
+          key={appPopupKey}
+          setIsReadyAppPopup={setIsReadyAppPopup}
+          setFetchAppPopup={setFetchAppPopup}
+        />
+        {isReadyAppPopup && (
+          <StorePopup
+            key={storePopupKey}
+            setFetchStorePopup={setFetchStorePopup}
+          />
+        )}
         <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
         <Space />
         <NaroTube setFetchHomeNaro={setFetchHomeNaro} />
