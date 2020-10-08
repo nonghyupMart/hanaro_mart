@@ -7,6 +7,7 @@ import {
   ButtonText,
   screenHeight,
   BaseTouchable,
+  BaseText,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -67,7 +68,7 @@ const UpperContainer = styled.View({
   alignSelf: "center",
 });
 
-const Info = styled.Text({
+const Info = styled(BaseText)({
   // marginTop: screenHeight *  0.029,
   // marginBottom: screenHeight * 0.030,
   // marginLeft: "12%",

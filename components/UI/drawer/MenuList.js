@@ -7,6 +7,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 const MenuList = (props) => {
   const isPreview = useSelector((state) => state.auth.isPreview);
@@ -82,7 +83,7 @@ const MenuButtonContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const MenuText = styled.Text({
+const MenuText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",

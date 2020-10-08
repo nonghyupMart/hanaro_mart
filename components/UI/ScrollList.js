@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   SafeAreaView,
   View,
-  Text,
   StyleSheet,
   Button,
   Image,

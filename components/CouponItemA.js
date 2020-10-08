@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable } from "@UI/BaseUI";
+import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
 
 const CouponItemA = (props) => {
   return (
@@ -41,7 +41,7 @@ const CouponItemA = (props) => {
     </CouponContainer>
   );
 };
-const Date = styled.Text({
+const Date = styled(BaseText)({
   fontSize: 10,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -51,7 +51,7 @@ const Date = styled.Text({
   color: colors.greyishThree,
   marginTop: 6,
 });
-const IconText = styled.Text({
+const IconText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -69,7 +69,7 @@ const IconContainer = styled.TouchableOpacity({
   justifyContent: "center",
   alignItems: "center",
 });
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 13,
   fontWeight: "normal",
   fontStyle: "normal",

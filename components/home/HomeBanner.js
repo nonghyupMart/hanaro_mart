@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  Text,
+
 } from "react-native";
 import {
   StyleConstants,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
+import { BaseText } from "@UI/BaseUI";
 
 const InfoBox = (props) => {
   return (
@@ -37,7 +38,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "cover",
 };
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   marginTop: 10,
   fontSize: 18,
   fontWeight: "500",

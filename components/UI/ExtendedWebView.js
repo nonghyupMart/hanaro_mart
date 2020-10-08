@@ -27,14 +27,23 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const onMessage = (event) => {};
+  const onMessage = (event) => {
+    // iOS용
+    const message = JSON.parse(event.nativeEvent.data);
+    parseMethod(message);
+  };
 
   const onShouldStartLoadWithRequest = (e) => {
-
+    // android용
     // allow normal the natvigation
     if (!e.url.startsWith("native://")) return true;
     const message = JSON.parse(e.url.replace("native://", ""));
+    parseMethod(message);
 
+    // return false to prevent webview navitate to the location of e.url
+    return false;
+  };
+  const parseMethod = (message) => {
     switch (message.method) {
       case "openURL":
         Linking.openURL(message.value);
@@ -48,8 +57,6 @@ export const ExtendedWebView = (props) => {
         });
         break;
       case "auth":
-
-
         let query = {
           user_sex: message.value.sex,
           user_id: message.value.tel,
@@ -69,8 +76,6 @@ export const ExtendedWebView = (props) => {
         else RootNavigation.navigate("Home");
         break;
     }
-    // return false to prevent webview navitate to the location of e.url
-    return false;
   };
   const hideSpinner = () => {
     setIsLoaded(true);
@@ -118,7 +123,6 @@ export const ExtendedWebView = (props) => {
           //   nativeEvent.statusCode
           // );
         }}
-
         renderLoading={() => {
           return (
             <ActivityIndicator

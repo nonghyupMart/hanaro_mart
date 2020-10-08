@@ -7,6 +7,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import { setPreview } from "@actions/auth";
 import * as Util from "@util";
@@ -70,7 +71,7 @@ const LoginButtons = (props) => {
     </BottomContainer>
   );
 };
-const Info = styled.Text({
+const Info = styled(BaseText)({
   margin: 9,
   fontSize: 10,
   fontWeight: "500",
@@ -83,7 +84,7 @@ const Info = styled.Text({
 const TextArea = styled.View({
   flexDirection: "row",
 });
-const Text3 = styled.Text({
+const Text3 = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -92,7 +93,7 @@ const Text3 = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   marginTop: 2,
   marginBottom: 4,
   fontSize: 10,
@@ -103,7 +104,7 @@ const Text2 = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",
@@ -137,7 +138,7 @@ const BlueButton = styled(BaseButtonContainer)({
   marginRight: 16,
   backgroundColor: colors.cerulean,
 });
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -153,7 +154,7 @@ const BottomContainer = styled.View({
   alignItems: "flex-end",
   justifyContent: "flex-end",
 });
-const BlackText = styled.Text({
+const BlackText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",

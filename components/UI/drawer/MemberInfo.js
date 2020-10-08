@@ -7,6 +7,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import Constants from "expo-constants";
 import _ from "lodash";
@@ -43,22 +44,22 @@ const MemberInfo = (props) => {
 const MemberID = styled.View({
   alignItems: "center",
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 12,
 
   color: "#b5b5b5",
 });
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   fontSize: 24,
   color: colors.black,
   marginLeft: 6,
   marginRight: 9,
 });
-const Text3 = styled.Text({
+const Text3 = styled(BaseText)({
   fontSize: 14,
   color: colors.black,
 });
-const Text4 = styled.Text({
+const Text4 = styled(BaseText)({
   fontSize: 16,
   lineHeight: 16,
   color: colors.pine,

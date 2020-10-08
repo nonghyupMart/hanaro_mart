@@ -8,6 +8,7 @@ import {
   BaseImage,
   BaseTouchable,
   screenWidth,
+  BaseText,
 } from "@UI/BaseUI";
 import URI from "urijs";
 import * as homeActions from "@actions/home";
@@ -77,7 +78,7 @@ const NaroTube = (props) => {
   );
 };
 
-const MoreText = styled.Text({
+const MoreText = styled(BaseText)({
   fontSize: 10,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -100,7 +101,7 @@ const NaroTitContainer = styled.View({
   justifyContent: "space-between",
   alignItems: "center",
 });
-const NaroTubeTitle = styled.Text({
+const NaroTubeTitle = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",

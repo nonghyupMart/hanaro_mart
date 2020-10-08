@@ -8,7 +8,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { BaseImage } from "@UI/BaseUI";
+import { BaseImage, BaseText } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { IMAGE_URL } from "@constants/settings";
@@ -46,7 +46,7 @@ const Container = styled.View({
   justifyContent: "center",
   alignItems: "center",
 });
-const SalePrice = styled.Text({
+const SalePrice = styled(BaseText)({
   fontSize: 16,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -55,7 +55,7 @@ const SalePrice = styled.Text({
   textAlign: "center",
   color: colors.cerulean,
 });
-const OriginalPrice = styled.Text({
+const OriginalPrice = styled(BaseText)({
   fontSize: 12,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -64,7 +64,7 @@ const OriginalPrice = styled.Text({
   textAlign: "center",
   color: colors.black,
 });
-const Title = styled.Text({
+const Title = styled(BaseText)({
   marginTop: 20,
   fontSize: 12,
   fontWeight: "normal",

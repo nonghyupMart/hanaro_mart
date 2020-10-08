@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   FlatList,
   TouchableOpacity,
   TouchableNativeFeedback,
 } from "react-native";
-import { StyleConstants, screenWidth } from "@UI/BaseUI";
+import { StyleConstants, screenWidth, BaseText } from "@UI/BaseUI";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as homeActions from "@actions/home";
@@ -107,7 +106,7 @@ const TitleContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const Date = styled.Text({
+const Date = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -116,7 +115,7 @@ const Date = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const NoticeTitle = styled.Text({
+const NoticeTitle = styled(BaseText)({
   fontSize: 15,
   fontWeight: "normal",
   fontStyle: "normal",

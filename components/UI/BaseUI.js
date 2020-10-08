@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
 import { IMAGE_URL } from "@constants/settings";
-import { Dimensions, TouchableOpacity, Image } from "react-native";
+import { Dimensions, TouchableOpacity, Image, Platform } from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -16,6 +16,22 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
 };
 
+export const BaseText = styled.Text({
+  fontFamily: () =>
+    Platform.OS === "android"
+      ? "Roboto"
+      : Platform.OS === "ios"
+      ? "Arial"
+      : "sans-serif",
+});
+export const BaseTextInput = styled.TextInput({
+  fontFamily: () =>
+    Platform.OS === "android"
+      ? "Roboto"
+      : Platform.OS === "ios"
+      ? "Arial"
+      : "sans-serif",
+});
 export const BaseImage = styled(Image).attrs((props) => {
   let source;
   if (typeof props.source == "string")
@@ -27,7 +43,6 @@ export const BaseImage = styled(Image).attrs((props) => {
     source: source,
   };
 })((props) => {
-
   return {
     backgroundColor: colors.white,
   };
@@ -53,7 +68,7 @@ export const BaseButtonContainer = styled(BaseTouchable)({
   alignItems: "center",
 });
 
-export const ButtonText = styled.Text({
+export const ButtonText = styled(BaseText)({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",
@@ -75,7 +90,7 @@ export const DetailContainer = styled.View({
   paddingBottom: 45,
 });
 
-export const BlueButtonText = styled.Text({
+export const BlueButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -100,7 +115,7 @@ export const BlueButton = styled(BaseButtonContainer)({
   borderRadius: 25,
 });
 
-export const EmptyText = styled.Text({
+export const EmptyText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "normal",
   fontStyle: "normal",

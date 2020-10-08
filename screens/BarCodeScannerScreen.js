@@ -18,6 +18,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import * as CommonActions from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
@@ -131,7 +132,7 @@ const BarCodeScannerScreen = (props) => {
     </BaseScreen>
   );
 };
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -141,7 +142,7 @@ const Text2 = styled.Text({
   color: colors.trueWhite,
   marginLeft: 25.5,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   marginLeft: 10.8,
   fontSize: 16,
   fontWeight: "normal",

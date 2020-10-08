@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import {
@@ -8,7 +8,12 @@ import {
   TextView,
 } from "@screens/join/AgreementScreen";
 
-import { BlueButton, BlueButtonText } from "@UI/BaseUI";
+import {
+  BlueButton,
+  BlueButtonText,
+  BaseText,
+  BaseTextInput,
+} from "@UI/BaseUI";
 const ApplyBox = (props) => {
   const [checkItem, setCheckItem] = useState({
     isRequired: true,
@@ -108,7 +113,7 @@ ApplyBox.defaultProps = {
   },
 };
 
-const InputText = styled.TextInput({
+const InputText = styled(BaseTextInput)({
   borderRadius: 16,
   backgroundColor: colors.trueWhite,
   borderStyle: "solid",
@@ -135,7 +140,7 @@ const TextView2 = styled(TextView)({
   color: colors.greyishBrown,
 });
 
-const Title = styled.Text({
+const Title = styled(BaseText)({
   flex: 1,
   fontSize: 15,
   fontWeight: "300",

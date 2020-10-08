@@ -7,6 +7,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import { TabMenus } from "@constants/menu";
 const GrayButtons = (props) => {
@@ -60,7 +61,7 @@ const WhiteButtonContainer = styled(BaseTouchable)({
   marginTop: 3,
   marginBottom: 3,
 });
-const WButtonText = styled.Text({
+const WButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
 

@@ -9,6 +9,7 @@ import {
   BaseTouchable,
   screenWidth,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
@@ -133,7 +134,7 @@ const StorePopup = (props) => {
 };
 
 const BtnContainer = styled.View({ flexDirection: "row" });
-const BtnText = styled.Text({
+const BtnText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",

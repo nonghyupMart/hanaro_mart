@@ -32,6 +32,7 @@ import {
   ButtonText,
   screenHeight,
   screenWidth,
+  BaseText,
 } from "@UI/BaseUI";
 
 import {
@@ -419,7 +420,7 @@ const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
   source: require("@images/checkmark2.png"),
 };
-const WarnText = styled.Text({
+const WarnText = styled(BaseText)({
   marginTop: 25,
   fontSize: 9,
   fontWeight: "normal",
@@ -429,7 +430,7 @@ const WarnText = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const GrayDesc = styled(Text)({
+const GrayDesc = styled(BaseText)({
   fontSize: 12,
   fontWeight: "500",
   fontStyle: "normal",
@@ -441,7 +442,7 @@ const GrayDesc = styled(Text)({
   marginLeft: 16,
   marginRight: 23,
 });
-const DescText1 = styled(Text)({
+const DescText1 = styled(BaseText)({
   marginLeft: 7.5,
   fontSize: 12,
   fontWeight: "normal",
@@ -459,11 +460,11 @@ export const TitleContainer = styled.View({
   flexDirection: "row",
   flex: 1,
 });
-const SmallText = styled(Text)({
+const SmallText = styled(BaseText)({
   fontSize: 11,
   color: colors.greyishBrown,
 });
-const SmallTextBold = styled(Text)({
+const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
@@ -489,7 +490,7 @@ const ExtraBox = styled.View({
   flex: 1,
   width: "100%",
 });
-const NoticeText = styled(Text)({
+const NoticeText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -525,7 +526,7 @@ const TextBox = styled.View({
   borderColor: colors.pinkishGrey,
   flex: 1,
 });
-export const TextView = styled(Text)({
+export const TextView = styled(BaseText)({
   flexShrink: 1,
   lineHeight: 20,
   fontSize: 12,

@@ -8,6 +8,8 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
+  BaseText,
+  BaseTextInput,
 } from "@UI/BaseUI";
 
 const SearchBar = (props) => {
@@ -46,7 +48,7 @@ const SearchBar = (props) => {
     </SearchBarContainer>
   );
 };
-const SearchTextInput = styled.TextInput({
+const SearchTextInput = styled(BaseTextInput)({
   marginLeft: 0,
   marginRight: 5,
   flex: 1,
@@ -63,7 +65,7 @@ const TextInputContainer = styled.View({
   borderBottomRightRadius: 20,
   flex: 1,
 });
-const StoreName = styled(Text)({
+const StoreName = styled(BaseText)({
   marginLeft: 5,
   fontSize: 14,
   fontWeight: "normal",
@@ -80,7 +82,7 @@ const SearchBarContainer = styled.View({
   marginRight: StyleConstants.defaultPadding,
   height: 40,
 });
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",

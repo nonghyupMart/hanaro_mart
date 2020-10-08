@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import barcodes from "jsbarcode/src/barcodes";
 
 import Svg, { Path } from "react-native-svg";
+import { BaseText } from "@UI/BaseUI";
 
 export default class Barcode extends PureComponent {
   static propTypes = {
@@ -182,7 +183,7 @@ export default class Barcode extends PureComponent {
           <Path d={this.state.bars.join(" ")} />
         </Svg>
         {typeof this.props.text !== "undefined" && (
-          <Text
+          <BaseText
             style={{
               color: this.props.textColor,
               width: this.state.barCodeWidth,
@@ -190,7 +191,7 @@ export default class Barcode extends PureComponent {
             }}
           >
             {this.props.text}
-          </Text>
+          </BaseText>
         )}
       </View>
     );

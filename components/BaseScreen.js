@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   BackHandler,

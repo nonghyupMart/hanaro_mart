@@ -9,7 +9,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { BaseTouchable, BlueButton, BlueButtonText } from "@UI/BaseUI";
+import {
+  BaseTouchable,
+  BlueButton,
+  BlueButtonText,
+  BaseText,
+} from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { StoreBox, BottomCover } from "@components/store/InfoBox";
@@ -57,7 +62,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
 const GreenButton = styled(BlueButton)({
   backgroundColor: colors.pine,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",

@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Button,
   Picker,
-  TextInput,
   ActionSheetIOS,
   ScrollView,
   Image,
@@ -22,6 +21,8 @@ import {
   ButtonText,
   BaseButtonContainer,
   StyleConstants,
+  BaseText,
+  BaseTextInput,
 } from "@UI/BaseUI";
 import { formatPhoneNumber } from "@util";
 
@@ -146,7 +147,7 @@ const JoinStep2Screen = ({ navigation }) => {
                   justifyContent: "center",
                 }}
               >
-                <TextInput
+                <BaseTextInput
                   ref={(input) => setOtpRef(input)}
                   required
                   keyboardType="numeric"
@@ -174,7 +175,7 @@ const JoinStep2Screen = ({ navigation }) => {
               }}
             >
               <ConfrimText style={{}}>
-                인증이 완료되었습니다.{"\n"}하나로플러스앱에 가입하시겠습니까?
+                인증이 완료되었습니다.{"\n"}하나로마트앱에 가입하시겠습니까?
               </ConfrimText>
             </TextInputContainer>
             <GreenButton
@@ -237,7 +238,7 @@ const ScrollContainer = styled.ScrollView({
 });
 export const popupConetnt = (agreedStatus, userInfo) => {
   // Util.log(agreedStatus);
-  const GreenText = styled(Text)({
+  const GreenText = styled(BaseText)({
     fontSize: 18,
     fontWeight: "normal",
     fontStyle: "normal",
@@ -246,7 +247,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
     textAlign: "center",
     color: colors.appleGreen,
   });
-  const WhiteText = styled(Text)({
+  const WhiteText = styled(BaseText)({
     fontSize: 24,
     color: colors.trueWhite,
     textAlign: "center",
@@ -262,7 +263,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
     marginRight: 29,
     flexShrink: 1,
   });
-  const SmallText = styled(Text)({
+  const SmallText = styled(BaseText)({
     fontSize: 14,
     fontWeight: "normal",
     fontStyle: "normal",
@@ -314,7 +315,7 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const ConfrimText = styled(Text)({
+const ConfrimText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -343,7 +344,7 @@ const GreenButton = styled(BaseButtonContainer)({
 const LabelContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 1,
 })({});
-const LabelText = styled.Text({
+const LabelText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",

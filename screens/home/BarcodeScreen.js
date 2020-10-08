@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import JsBarcode from "jsbarcode";
 
 import { DOMImplementation, XMLSerializer } from "xmldom";
-import { screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -108,7 +108,7 @@ const BarcodeScreen = (props) => {
     </BaseScreen>
   );
 };
-const BlueButtonText = styled.Text({
+const BlueButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -131,7 +131,7 @@ const BlueButton = styled(BaseButtonContainer)({
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
-const Warn = styled.Text({
+const Warn = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -151,10 +151,10 @@ const WarnContainer = styled.View({
   marginBottom: 22,
   flex: 1,
 });
-const Now = styled.Text({
+const Now = styled(BaseText)({
   color: colors.appleGreen,
 });
-const TimerText = styled.Text({
+const TimerText = styled(BaseText)({
   marginTop: 45,
   justifyContent: "flex-end",
   alignItems: "flex-end",

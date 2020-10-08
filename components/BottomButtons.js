@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
 import {
-  Text,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
@@ -14,6 +13,7 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
+import { BaseText } from "@UI/BaseUI";
 
 const BottomButtons = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -98,7 +98,7 @@ const IconContainer = styled.View({
   alignItems: "center",
   justifyContent: "center",
 });
-const IconText = styled.Text({
+const IconText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",

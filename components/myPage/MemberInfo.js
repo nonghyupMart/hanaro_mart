@@ -4,6 +4,7 @@ import { StoreBox, BottomCover } from "@components/store/InfoBox";
 import UserName from "@UI/UserName";
 import UserPhoneNumber from "@UI/UserPhoneNumber";
 import { Image, View } from "react-native";
+import { BaseText } from "@UI/BaseUI";
 const MemberInfo = (props) => {
   return (
     <StoreBox style={{}}>
@@ -26,7 +27,7 @@ const MemberInfo = (props) => {
     </StoreBox>
   );
 };
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 20,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -35,7 +36,7 @@ const Title = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Name = styled.Text({
+const Name = styled(BaseText)({
   marginLeft: 8,
   fontSize: 30,
   fontWeight: "normal",
@@ -45,7 +46,7 @@ const Name = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   fontSize: 22,
   fontWeight: "normal",
   fontStyle: "normal",

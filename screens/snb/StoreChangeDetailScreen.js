@@ -3,18 +3,7 @@ import { SERVER_URL } from "@constants/settings";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import { Restart } from "fiction-expo-restart";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  TextInput,
-  Button,
-  FlatList,
-  Platform,
-  Image,
-} from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 import _ from "lodash";
 import { BackButton, TextTitle } from "@UI/header";
 import {
@@ -22,6 +11,7 @@ import {
   BaseTouchable,
   screenWidth,
   StyleConstants,
+  BaseText,
 } from "@UI/BaseUI";
 import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
@@ -86,7 +76,9 @@ const StoreChangeDetailScreen = (props) => {
           onPressConfirm: () => {
             setAlert(null);
             props.navigation.popToTop();
-            dispatch(homeActions.clearStorePopup());
+            setTimeout(() => {
+              dispatch(homeActions.clearStorePopup());
+            }, 0);
             // Restart();
           },
         });
@@ -147,7 +139,7 @@ const StoreChangeDetailScreen = (props) => {
           paddingRight: StyleConstants.defaultPadding,
         }}
       >
-        <Text
+        <BaseText
           style={{
             fontSize: 12,
             fontWeight: "normal",
@@ -159,7 +151,7 @@ const StoreChangeDetailScreen = (props) => {
           }}
         >
           매장위치 확인 후 + 설정을 눌러 주세요
-        </Text>
+        </BaseText>
         <View
           style={{
             marginTop: 13,
@@ -186,7 +178,7 @@ const StoreChangeDetailScreen = (props) => {
           >
             <Image source={require("@images/num407.png")} />
             <View style={{ flex: 1 }}>
-              <Text
+              <BaseText
                 style={{
                   fontSize: 16,
                   fontWeight: "500",
@@ -197,9 +189,9 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.greyishBrown,
                 }}
               >
-                {branch.storeInfo  && branch.storeInfo.store_nm}
-              </Text>
-              <Text
+                {branch.storeInfo && branch.storeInfo.store_nm}
+              </BaseText>
+              <BaseText
                 style={{
                   fontSize: 14,
                   fontWeight: "normal",
@@ -210,8 +202,8 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.appleGreen,
                 }}
               >
-                Tel. {branch.storeInfo  && branch.storeInfo.tel}
-              </Text>
+                Tel. {branch.storeInfo && branch.storeInfo.tel}
+              </BaseText>
             </View>
             <BaseTouchable
               onPress={() =>
@@ -229,7 +221,7 @@ const StoreChangeDetailScreen = (props) => {
                 }}
               >
                 <Image source={require("@images/locationwhite.png")} />
-                <Text
+                <BaseText
                   style={{
                     marginTop: 2,
                     fontSize: 14,
@@ -242,7 +234,7 @@ const StoreChangeDetailScreen = (props) => {
                   }}
                 >
                   설정
-                </Text>
+                </BaseText>
               </View>
             </BaseTouchable>
           </View>
@@ -262,7 +254,7 @@ export const screenOptions = ({ navigation }) => {
 };
 // const SearchButton = styled(BaseButtonContainer)({});
 
-const ButtonText = styled(Text)({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -316,7 +308,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "cover",
 };
-const BlueText = styled(Text)({
+const BlueBaseText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "500",
   fontStyle: "normal",
@@ -359,7 +351,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
   },
-  summaryText: {
+  summaryBaseText: {
     fontFamily: "open-sans-bold",
     fontSize: 18,
   },
