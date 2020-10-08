@@ -37,7 +37,6 @@ const CouponScreen = (props) => {
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
     if (userStore) {
-      // console.warn("coupon", coupon);
       setIsLoading(true);
       setPage(1);
 
@@ -111,7 +110,6 @@ const CouponScreen = (props) => {
               },
             });
           }
-          // console.warn("downloaded =>", data);
         });
         return;
       case "10": // 쿠폰이 있는 경우
@@ -130,7 +128,6 @@ const CouponScreen = (props) => {
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
-      console.warn("loadMore");
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
@@ -164,7 +161,7 @@ const CouponScreen = (props) => {
   )
     return (
       <BaseScreen isScroll={false} isCenter={true}>
-        <EmptyText>현재 진행중인 쿠폰이 없습니다.</EmptyText>
+        <EmptyText>현재 진행중인 나로쿠폰이 없습니다.</EmptyText>
       </BaseScreen>
     );
   return (

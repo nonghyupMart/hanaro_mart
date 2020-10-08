@@ -197,7 +197,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.greyishBrown,
                 }}
               >
-                {branch.storeInfo.store_nm}
+                {branch.storeInfo  && branch.storeInfo.store_nm}
               </Text>
               <Text
                 style={{
@@ -210,7 +210,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.appleGreen,
                 }}
               >
-                Tel. {branch.storeInfo.tel}
+                Tel. {branch.storeInfo  && branch.storeInfo.tel}
               </Text>
             </View>
             <BaseTouchable

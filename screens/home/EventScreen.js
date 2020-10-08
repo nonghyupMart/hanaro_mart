@@ -8,6 +8,7 @@ import * as eventActions from "@actions/event";
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
+import { EmptyText } from "@UI/BaseUI";
 const EventScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [alert, setAlert] = useState();
@@ -37,9 +38,7 @@ const EventScreen = ({ navigation }) => {
   }, [userStore]);
 
   const loadMore = () => {
-    // console.warn("loadMore");
     if (!isLoading && page + 1 <= event.finalPage) {
-      console.warn("loadMore");
       const requestEvent = dispatch(
         eventActions.fetchEvent({
           store_cd: userStore.storeInfo.store_cd,
@@ -53,6 +52,12 @@ const EventScreen = ({ navigation }) => {
   const onPress = (item) => {
     navigation.navigate("EventDetail", { event_cd: item.event_cd });
   };
+  if (event && event.eventList.length === 0)
+    return (
+      <BaseScreen isScroll={false} isCenter={true}>
+        <EmptyText>현재 진행중인 이벤트가 없습니다.</EmptyText>
+      </BaseScreen>
+    );
   return (
     <BaseScreen
       alert={alert}

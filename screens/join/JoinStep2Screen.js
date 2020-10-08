@@ -29,6 +29,7 @@ import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 import * as branchesActions from "@actions/branches";
 import _ from "lodash";
+import * as Util from "@util";
 
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
@@ -46,7 +47,6 @@ const JoinStep2Screen = ({ navigation }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     // if (phoneNumberRef) phoneNumberRef.focus();
-    // console.warn(agreedStatus["0"]);
   }, []);
 
   const onPressJoin = () => {
@@ -89,14 +89,13 @@ const JoinStep2Screen = ({ navigation }) => {
     }
     if (phoneNumber) {
       dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
-        console.warn(data);
+        Util.log(data);
         setAcCode(data.accessCode);
         setJoinStep([true, false]);
       });
     }
   };
   const validateOTP = () => {
-    console.warn(accessCode, acCode);
     if (accessCode == acCode) {
       setJoinStep([true, true]);
     } else {
@@ -237,7 +236,7 @@ const ScrollContainer = styled.ScrollView({
   marginTop: 20,
 });
 export const popupConetnt = (agreedStatus, userInfo) => {
-  // console.warn(agreedStatus);
+  // Util.log(agreedStatus);
   const GreenText = styled(Text)({
     fontSize: 18,
     fontWeight: "normal",
@@ -275,7 +274,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
     flexShrink: 1,
   });
   const Icon = styled.Image({ marginTop: 5 });
-  // console.warn(userInfo.user_id);
+  // Util.log(userInfo.user_id);
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
@@ -285,7 +284,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
           : ""}
       </WhiteText>
       {Object.keys(agreedStatus).map((keyName, index) => {
-        // console.warn(Object.keys(agreedStatus).length);.
+        // Util.log(Object.keys(agreedStatus).length);.
         if (agreedStatus[keyName].isChecked)
           return (
             <Line

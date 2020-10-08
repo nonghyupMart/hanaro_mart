@@ -14,3 +14,9 @@ export const formatPhoneNumber = (phoneNumberString) => {
 export const emptyPrint = (val) => {
   return val ? val : "";
 };
+
+export const log = (...val) => {
+  if (__DEV__) {
+    console.warn(...val);
+  }
+};

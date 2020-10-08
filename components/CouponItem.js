@@ -115,7 +115,6 @@ const Container = styled.View({
   borderColor: colors.white,
   padding: 18,
 
-  // marginLeft: (props) => console.log(props),
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
   marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
 });

@@ -60,7 +60,6 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
   const isKeyboardShown = useIsKeyboardShown();
 
   // const focusedOptions = descriptors[state.routes[state.index].key].options;
-  // console.log(focusedOptions);
   // if (focusedOptions.tabBarVisible === false) {
   //   return null;
   // }

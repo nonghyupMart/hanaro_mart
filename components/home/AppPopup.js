@@ -17,13 +17,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
 const AppPopup = (props) => {
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
   useEffect(() => {
-    // console.warn("isAppPopup", isAppPopup);
     if (isAppPopup) setIsVisible(true);
   }, [isAppPopup]);
   useEffect(() => {
@@ -47,7 +44,12 @@ const AppPopup = (props) => {
     setIsVisible(false);
   };
 
-  if (!isAppPopup || _.isEmpty(appPopup) || appPopup.popupCnt == 0)
+  if (
+    !isAppPopup ||
+    _.isEmpty(appPopup) ||
+    appPopup.popupCnt == 0 ||
+    !isVisible
+  )
     return <></>;
   return (
     <Modal
@@ -89,7 +91,6 @@ const AppPopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  // console.warn(item.link_url);
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >

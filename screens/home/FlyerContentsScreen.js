@@ -20,14 +20,9 @@ const FlyerContentsScreen = (props) => {
   const [currentItem, setCurrentItem] = useState(null);
 
   const product = useSelector((state) => state.flyer.product);
-  console.warn("FlyerContentsScreen =->", props);
-  useEffect(() => {
-    // const unsubscribe = navigation.addListener("focus", () => {
-    //   console.warn("focus1111");
-    // });
-    // return unsubscribe;
 
-    console.warn("FlyerContentsScreen useEffect = > ", props);
+  useEffect(() => {
+
     setIsLoading(true);
 
     const fetchProduct = dispatch(
@@ -39,7 +34,6 @@ const FlyerContentsScreen = (props) => {
 
     Promise.all([fetchProduct]).then(() => {
       setIsLoading(false);
-      // console.log(homeBanner);
     });
     // alert(1);
   }, [props]);

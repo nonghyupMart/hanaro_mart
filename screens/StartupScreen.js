@@ -25,16 +25,12 @@ const StartupScreen = (props) => {
       const agreedStatusData = await AsyncStorage.getItem("agreedStatusData");
       dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
 
-      const dateForStorePopup = await AsyncStorage.getItem("dateForStorePopupData");
-      // console.warn("null ? ", storePopup);
+      const dateForStorePopup = await AsyncStorage.getItem(
+        "dateForStorePopupData"
+      );
       let setDate = moment().subtract(1, "days");
       if (dateForStorePopup) setDate = moment(dateForStorePopup);
 
-      // console.warn(
-      //   "storePopup",
-      //   setDate,
-      //   moment(setDate).isBefore(moment(), "day")
-      // );
       //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
       dispatch(
         CommonActions.setIsStorePopup(moment(setDate).isBefore(moment(), "day"))

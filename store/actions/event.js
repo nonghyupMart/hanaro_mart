@@ -1,5 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+import * as Util from "@util";
+
 export const SET_EVENT = "SET_EVENT";
 export const SET_EVENT_MORE = "SET_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
@@ -10,14 +12,14 @@ export const fetchEvent = (query) => {
     url: `${API_URL}/event`,
     query: query,
   });
-  console.warn(url);
+  Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchEvent Something went wrong!");
       }
 
@@ -41,18 +43,18 @@ export const fetchEventDetail = (query) => {
     url: `${API_URL}/event/${event_cd}`,
     query: query,
   });
-  console.warn(url);
+  Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchEventDetail Something went wrong!");
       }
 
-      // console.warn("fetchEvent", resData.data.eventInfo);
+      // Util.log("fetchEvent", resData.data.eventInfo);
 
       dispatch({ type: SET_EVENT_DETAIL, eventDetail: resData.data.eventInfo });
     } catch (err) {
@@ -81,13 +83,13 @@ export const applyEvent = (query) => {
         },
         body: JSON.stringify(query),
       });
-      console.warn(url, query);
+      Util.log(url, query);
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("applyEvent Something went wrong!");
       }
-      console.warn("applyEvent", resData.data);
+      Util.log("applyEvent", resData.data);
       return resData.data;
     } catch (err) {
       throw err;

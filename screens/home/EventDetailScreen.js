@@ -56,7 +56,6 @@ const EventDetailScreen = (props, { navigation }) => {
         rcp_qr,
       })
     ).then((data) => {
-      console.warn(data);
       if (data.result == "success") {
         eventDetail.entry.entry_status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));

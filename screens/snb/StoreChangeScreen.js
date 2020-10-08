@@ -63,7 +63,6 @@ const StoreChangeScreen = (props) => {
       }
 
       let provider = await Location.getProviderStatusAsync();
-      // console.log(provider);
       if (location == null) {
         let location = await Location.getCurrentPositionAsync({
           maximumAge: 60000, // only for Android
@@ -72,11 +71,6 @@ const StoreChangeScreen = (props) => {
             : Location.Accuracy.Lowest,
         });
         setLocation(location);
-        console.warn(
-          "location ",
-          location.coords.longitude,
-          location.coords.latitude
-        );
       }
     })();
   }, [location]);
@@ -101,7 +95,6 @@ const StoreChangeScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    // console.warn("query", query);
     return dispatch(branchesActions.fetchBranches(query));
   };
 

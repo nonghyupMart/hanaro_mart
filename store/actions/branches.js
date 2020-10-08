@@ -1,5 +1,6 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+import * as Util from "@util";
 export const SET_ADDRESS1 = "SET_ADDRESS1";
 export const SET_ADDRESS2 = "SET_ADDRESS2";
 export const SET_BRANCHES = "SET_BRANCHES";
@@ -36,7 +37,7 @@ export const fetchAddress2 = (lname) => {
       const response = await fetch(`${API_URL}/${lname}/mname`);
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchAddress2 Something went wrong!");
       }
 
@@ -52,18 +53,18 @@ export const fetchBranches = (query) => {
     url: `${API_URL}/store`,
     query: query,
   });
-  console.warn("fetchBranches ", url);
+  Util.log("fetchBranches ", url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchBranches Something went wrong!");
       }
 
-      // console.warn("fetchBranches data", resData.data);
+      // Util.log("fetchBranches data", resData.data);
       dispatch({ type: SET_BRANCHES, branches: resData.data });
     } catch (err) {
       throw err;
@@ -79,7 +80,7 @@ export const fetchBranch = (store_cd) => {
       const response = await fetch(url);
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchBranch went wrong!");
       }
 
@@ -96,18 +97,18 @@ export const fetchStoreMark = (query) => {
     url: `${API_URL}/store-mark`,
     query: query,
   });
-  console.warn("fetchStoreMark ", url);
+  Util.log("fetchStoreMark ", url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchStoreMark Something went wrong!");
       }
 
-      // console.warn("fetchBranches data", resData.data);
+      // Util.log("fetchBranches data", resData.data);
       dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
     } catch (err) {
       throw err;

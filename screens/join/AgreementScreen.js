@@ -203,7 +203,6 @@ const AgreementScreen = ({ navigation }) => {
       ),
     },
   ]);
-  // console.log("====>", checkBoxes);
   const dispatch = useDispatch();
 
   const handleAllChecked = (isCheckAll) => {
@@ -230,7 +229,6 @@ const AgreementScreen = ({ navigation }) => {
     let cks = [...checkBoxes];
     cks[checkBox.id].isOpen = !cks[checkBox.id].isOpen;
     setCheckBoxes(() => cks);
-    // console.log("cks====>", cks);
   };
 
   const getPermissions = () => {
@@ -261,17 +259,14 @@ const AgreementScreen = ({ navigation }) => {
         }
       })
       .then(() => {
-        console.log("getting token");
         return Notifications.getExpoPushTokenAsync();
       })
       .then((response) => {
         const token = response.data;
-        console.warn("token==>" + token);
         dispatch(setPushToken(token));
         return token;
       })
       .catch((err) => {
-        console.warn(err);
         return err;
       });
   };

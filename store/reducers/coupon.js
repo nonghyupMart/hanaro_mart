@@ -38,7 +38,6 @@ export default (state = initialState, action) => {
 
       coupon.couponList = updatedCouponList;
 
-      // console.log("- - ->", event);
       return {
         ...state,
         coupon: coupon,
@@ -62,11 +61,8 @@ export default (state = initialState, action) => {
         newMyCoupon.couponList
       );
 
-      // console.warn(event);
-
       myCoupon.couponList = updatedMyCouponList;
 
-      // console.log("- - ->", event);
       return {
         ...state,
         myCoupon: myCoupon,

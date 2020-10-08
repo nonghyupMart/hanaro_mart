@@ -21,14 +21,13 @@ const StorePopup = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
   useEffect(() => {
     if (isStorePopup) setIsVisible(true);
   }, [isStorePopup]);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
-      // console.warn("ignored!");
       props.setFetchStorePopup(true);
       return;
     }
@@ -54,7 +53,8 @@ const StorePopup = (props) => {
     _.isEmpty(userStore) ||
     !isJoin ||
     !isStorePopup ||
-    storePopup.popupCnt == 0
+    storePopup.popupCnt == 0 ||
+    !isVisible
   )
     return <></>;
   return (
@@ -102,7 +102,6 @@ const StorePopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  // console.warn(item.link_url);
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >

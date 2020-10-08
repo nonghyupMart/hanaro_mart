@@ -10,7 +10,6 @@ import {
 } from "@UI/BaseUI";
 import { TabMenus } from "@constants/menu";
 const GrayButtons = (props) => {
-  // console.warn(props.menuList);
   return (
     <>
       <GrayContainer>

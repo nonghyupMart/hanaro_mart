@@ -5,13 +5,11 @@ import styled from "styled-components/native";
 const ExtendedFlatList = (props) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const onScroll = () => {
-    // console.warn("onScroll", isScrolled);
     if (!isScrolled) setIsScrolled(true);
     // if (props.onScroll) props.onScroll();
   };
   const onEndReached = () => {
     if (isScrolled) {
-      console.warn("onEndReached");
       if (props.onEndReached) props.onEndReached();
     }
   };

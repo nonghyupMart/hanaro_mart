@@ -60,7 +60,6 @@ const HomeBanner = (props) => {
               activeOpacity={0.8}
               key={item.display_cd}
               onPress={() => {
-                // console.warn(item.link_url);
                 if (item.link_url != "") Linking.openURL(item.link_url);
               }}
             >

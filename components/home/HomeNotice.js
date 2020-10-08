@@ -16,24 +16,23 @@ import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeNotice = (props) => {
-    const [page, setPage] = useState(1);
-   const dispatch = useDispatch();
-   const homeNotice = useSelector((state) => state.home.homeNotice);
-   useEffect(() => {
-     props.setFetchHomeNotice(false);
-     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
-     Promise.all([fetchHomeNotice]).then((result) => {
-       props.setFetchHomeNotice(true);
-     });
-   }, [dispatch]);
-  
-    const loadMore = () => {
-      if (!isLoading && page + 1 <= homeNotice.finalPage) {
-        console.warn("loadMore");
-        dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
-        setPage(page + 1);
-      }
-    };
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const homeNotice = useSelector((state) => state.home.homeNotice);
+  useEffect(() => {
+    props.setFetchHomeNotice(false);
+    const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
+    Promise.all([fetchHomeNotice]).then((result) => {
+      props.setFetchHomeNotice(true);
+    });
+  }, [dispatch]);
+
+  const loadMore = () => {
+    if (!isLoading && page + 1 <= homeNotice.finalPage) {
+      dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
+      setPage(page + 1);
+    }
+  };
 
   return (
     <>
@@ -53,7 +52,6 @@ const HomeNotice = (props) => {
           }}
           data={homeNotice.noticeList}
           keyExtractor={(item) => {
-            // console.warn(item.id);
             return item.notice_cd;
           }}
           renderItem={(itemData) => {

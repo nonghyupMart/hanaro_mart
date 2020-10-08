@@ -28,7 +28,6 @@ const BarCodeScannerScreen = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
-
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -38,9 +37,6 @@ const BarCodeScannerScreen = (props) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    console.warn(
-      `Bar code with type ${type} and data ${data} has been scanned!`
-    );
 
     params.setRcp_qr(data);
     dispatch(CommonActions.setBottomNavigation(true));

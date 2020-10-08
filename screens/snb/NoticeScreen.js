@@ -28,7 +28,6 @@ const NoticeScreen = (props) => {
           query: props.route.params,
         });
       }
-      // console.warn(stringifyUrl);
       setUrl(stringifyUrl);
     })();
   }, []);

@@ -16,11 +16,6 @@ import { BaseTouchable } from "@UI/BaseUI";
 const Alert = (props) => {
   const [show, setShow] = useState(true);
   const [isVisible, setIsVisible] = useState(props.isVisible);
-  // console.warn(props.isVisible);
-  // useEffect(() => {
-  //   setIsVisible(() => props.isVisible);
-  //   // action on update of movies
-  // }, [props.isVisible, isVisible]);
   const onPressConfirm = () => {
     if (props.onPressConfirm) props.onPressConfirm();
     // else setIsVisible(() => false);

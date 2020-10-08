@@ -13,6 +13,8 @@ import * as branchesActions from "@actions/branches";
 import { signup } from "@screens/join/JoinStep2Screen";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as CommonActions from "@actions/common";
+import queryString from "query-string";
+import * as Util from "@util";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -25,12 +27,18 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const onMessage = (event) => {
-    // console.log(obj.nativeEvent.data);
-    const message = JSON.parse(event.nativeEvent.data);
+  const onMessage = (event) => {};
+
+  const onShouldStartLoadWithRequest = (e) => {
+
+    // allow normal the natvigation
+    if (!e.url.startsWith("native://")) return true;
+    const message = JSON.parse(e.url.replace("native://", ""));
+
     switch (message.method) {
       case "openURL":
-        return Linking.openURL(message.value);
+        Linking.openURL(message.value);
+        break;
       case "alert":
         setAlert({
           message: message.value,
@@ -38,9 +46,9 @@ export const ExtendedWebView = (props) => {
             setAlert(null);
           },
         });
-        return;
+        break;
       case "auth":
-        console.warn(message.value);
+
 
         let query = {
           user_sex: message.value.sex,
@@ -52,19 +60,17 @@ export const ExtendedWebView = (props) => {
         signup(query, dispatch, setAlert, agreedStatus);
 
         // message.value
-        return;
+        break;
       case "close":
         dispatch(CommonActions.setBottomNavigation(true));
         const canGoBack =
           props.commandType === "Push" || props.commandType === "ShowModal";
         if (canGoBack) RootNavigation.pop();
         else RootNavigation.navigate("Home");
-        return;
+        break;
     }
-  };
-
-  const onNavigationStateChange = (newNavState) => {
-    // console.warn(newNavState);
+    // return false to prevent webview navitate to the location of e.url
+    return false;
   };
   const hideSpinner = () => {
     setIsLoaded(true);
@@ -98,27 +104,21 @@ export const ExtendedWebView = (props) => {
         allowFileAccessFromFileURLs={true}
         mixedContentMode="always"
         sharedCookiesEnabled={true}
+        thirdPartyCookiesEnabled={true}
         onMessage={(event) => onMessage(event)}
-        renderError={(error) => console.warn("Webview error:" + error)}
+        // renderError={(error) => Util.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
-          const { nativeEvent } = syntheticEvent;
-          console.warn("WebView error: ", nativeEvent);
+          // const { nativeEvent } = syntheticEvent;
+          // Util.log("WebView error: ", nativeEvent);
         }}
         onHttpError={(syntheticEvent) => {
-          const { nativeEvent } = syntheticEvent;
-          console.warn(
-            "WebView received error status code: ",
-            nativeEvent.statusCode
-          );
+          // const { nativeEvent } = syntheticEvent;
+          // Util.log(
+          //   "WebView received error status code: ",
+          //   nativeEvent.statusCode
+          // );
         }}
-        // onShouldStartLoadWithRequest={(request) => {
-        //   // console.warn(request.url);
-        //   // If we're loading the current URI, allow it to load
-        //   if (request.url === currentURI) return true;
-        //   // We're loading a new URL -- change state first
-        //   setURI(request.url);
-        //   return false;
-        // }}
+
         renderLoading={() => {
           return (
             <ActivityIndicator
@@ -136,7 +136,7 @@ export const ExtendedWebView = (props) => {
             />
           );
         }}
-        onNavigationStateChange={onNavigationStateChange}
+        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         startInLoadingState={true}
         scalesPageToFit={true}
       />

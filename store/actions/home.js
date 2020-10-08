@@ -1,5 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+import * as Util from "@util";
+
 export const SET_HOME_BANNER = "SET_HOME_BANNER";
 export const SET_HOME_NOTICE = "SET_HOME_NOTICE";
 export const SET_HOME_NOTICE_MORE = "SET_HOME_NOTICE_MORE";
@@ -15,11 +17,9 @@ export const fetchHomeBanner = () => {
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchHomeBanner went wrong!");
       }
-
-      // console.log("===> ", resData.data);
 
       dispatch({ type: SET_HOME_BANNER, homeBanner: resData.data });
     } catch (err) {
@@ -40,11 +40,10 @@ export const fetchHomeNotice = (query = {}) => {
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchHomeNotice went wrong!");
       }
 
-      //   console.log("===> ", resData.data);
       let type = SET_HOME_NOTICE;
       if (query.page > 1) {
         type = SET_HOME_NOTICE_MORE;
@@ -63,14 +62,14 @@ export const fetchHomeNaro = (query) => {
     url: `${API_URL}/home-naro`,
     query: query,
   });
-  // console.warn(url);
+  // Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchHomeNaro went wrong!");
       }
 
@@ -90,14 +89,14 @@ export const fetchPopup = (query) => {
     url: `${API_URL}/popup`,
     query: query,
   });
-  // console.warn(url);
+  // Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
       const resData = await response.json();
 
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchPopup went wrong!");
       }
 
@@ -106,10 +105,10 @@ export const fetchPopup = (query) => {
           type: SET_STORE_POPUP,
           storePopup: resData.data,
         });
-        console.warn("fetchStorePopup", resData.data);
+        Util.log("fetchStorePopup", resData.data);
       } else {
         dispatch({ type: SET_APP_POPUP, appPopup: resData.data });
-        console.warn("fetchAppPopup", resData.data);
+        Util.log("fetchAppPopup", resData.data);
       }
     } catch (err) {
       throw err;

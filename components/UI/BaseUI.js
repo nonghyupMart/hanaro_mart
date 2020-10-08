@@ -27,7 +27,6 @@ export const BaseImage = styled(Image).attrs((props) => {
     source: source,
   };
 })((props) => {
-  // console.warn(JSON.stringify(props, null, "\t"));
 
   return {
     backgroundColor: colors.white,

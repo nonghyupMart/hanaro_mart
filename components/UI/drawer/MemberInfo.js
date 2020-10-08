@@ -16,7 +16,6 @@ import UserName from "@UI/UserName";
 import UserPhoneNumber from "@UI/UserPhoneNumber";
 const MemberInfo = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
-  //   console.warn(userInfo);
   return (
     <>
       <MemberInfoContainer>

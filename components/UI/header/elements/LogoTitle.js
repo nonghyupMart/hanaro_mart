@@ -8,16 +8,13 @@ import _ from "lodash";
 
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
-  // console.warn("!!!", userStore);
   return (
     <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
       <Container>
         <Image source={require("@images/hanalogo_off.png")} />
-        {userStore &&
-          userStore.storeInfo &&
-          !_.isEmpty(userStore)(
-            <BranchName>{userStore.storeInfo.store_nm}</BranchName>
-          )}
+        {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
+          <BranchName>{userStore.storeInfo.store_nm}</BranchName>
+        )}
       </Container>
     </TouchableOpacity>
   );

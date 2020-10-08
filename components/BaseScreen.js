@@ -21,9 +21,7 @@ import Loading from "@UI/Loading";
 import Alert from "@UI/Alert";
 import { StyleConstants } from "@UI/BaseUI";
 import _ from "lodash";
-
 const Contents = (props) => {
-  // if (props.alert) console.log(props.alert.content);
   return (
     <>
       <Loading isLoading={props.isLoading} />
@@ -69,12 +67,9 @@ const BaseScreen = (props) => {
     };
   }, []);
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
-  //   console.log(props.alert);
-  // console.log(props.style);
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );
-  // console.log(isScroll);
   if (props.isInitialized !== undefined && props.isInitialized === false) {
     return (
       <Screen headerHeight={useHeaderHeight()} style={props.style}>
@@ -134,14 +129,12 @@ const ContentContainer = styled.View({
   // flex: 1,
   // flexGrow: 1,
   paddingTop: (props) => {
-    // console.log(props.headerHeight);
 
     let v = 0;
     if (!props.headerHeight || props.headerHeight == 0)
       v = Platform.OS == "ios" ? Constants.statusBarHeight : 0;
     v += 19;
     if (!props.isPadding) v = 0;
-    // console.log(v);
     return v;
   },
   paddingBottom: (props) => (props.isPadding ? 19 : 0),

@@ -17,7 +17,6 @@ const FlyerScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore, shallowEqual);
-  // console.warn("==> start FlyerScreen", userStore.store_cd);
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const routes = useSelector((state) =>
     state.flyer.leaflet ? state.flyer.leaflet.leafletList : []
@@ -28,15 +27,12 @@ const FlyerScreen = ({ navigation }) => {
     if (userStore) {
       setIsLoading(true);
 
-      // console.warn("start FlyerScreen", userStore.store_cd);
       const fetchLeaflet = dispatch(
         flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
       );
 
       Promise.all([fetchLeaflet]).then(() => {
         setIsLoading(false);
-
-        // console.log(homeBanner);
       });
     }
     // });
@@ -71,7 +67,6 @@ const FlyerScreen = ({ navigation }) => {
     }
   };
   const renderScene = ({ route, jumpTo }) => {
-    console.warn("renderScene -> ", route);
 
     return (
       <FlyerContentsScreen
