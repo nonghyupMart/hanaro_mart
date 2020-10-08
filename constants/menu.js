@@ -50,7 +50,7 @@ export const TabMenus = [
     icon: require("@images/pictures.png"),
   },
   {
-    components: NaroTubeScreen,
+    components: ExhibitionScreen,
     subComponents: EmptyScreen,
     name: "ForStore",
     title: "매장전용",

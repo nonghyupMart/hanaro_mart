@@ -13,11 +13,9 @@ const NaroTubeScreen = (props) => {
   const [url, setUrl] = useState();
 
   useEffect(() => {
-    if (_.isEmpty(userStore)) return;
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
       url: `${SERVER_URL}/web/community/narotube.do`,
-      query: { store_cd: userStore.storeInfo.store_cd },
     });
     setUrl(stringifyUrl);
   }, []);

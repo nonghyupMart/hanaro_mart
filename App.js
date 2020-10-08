@@ -52,7 +52,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {
     // for all keys defined in your persistConfig(s)
-    storage.removeItem("persist:root");
+    // AsyncStorage.removeItem("persist:root");
     // storage.removeItem('persist:otherKey')
 
     state = undefined;

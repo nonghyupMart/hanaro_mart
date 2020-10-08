@@ -13,7 +13,7 @@ const MyReviewScreen = (props) => {
   const [url, setUrl] = useState();
 
   useEffect(() => {
-    if (_.isEmpty(userStore)) return;
+    if (_.isEmpty(userStore) || !userStore.storeInfo) return;
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
       url: `${SERVER_URL}/web/community/review.do`,

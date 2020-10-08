@@ -36,17 +36,21 @@ const LoginButtons = (props) => {
       </ButtonContainer>
 
       <GrayContainer>
-        <Text1>사업자명 : {Util.emptyPrint(storeInfo.store_nm)}</Text1>
+        <Text1>
+          사업자명 : {Util.emptyPrint(storeInfo && storeInfo.store_nm)}
+        </Text1>
         <Text2>
           {`대표이사 : ${Util.emptyPrint(
-            storeInfo.ceo
+            storeInfo && storeInfo.ceo
           )} / 사업자 등록 번호 ${Util.emptyPrint(
-            storeInfo.biz_no
+            storeInfo && storeInfo.biz_no
           )} ${Util.emptyPrint(
-            storeInfo.addr
+            storeInfo && storeInfo.addr
           )} 고객만족센터 : ${Util.emptyPrint(
-            storeInfo.support_tel
-          )} / 개인정보관리책임자 : ${Util.emptyPrint(storeInfo.prv_manager)}`}
+            storeInfo && storeInfo.support_tel
+          )} / 개인정보관리책임자 : ${Util.emptyPrint(
+            storeInfo && storeInfo.prv_manager
+          )}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>

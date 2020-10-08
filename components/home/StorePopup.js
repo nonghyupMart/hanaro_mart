@@ -32,7 +32,7 @@ const StorePopup = (props) => {
       props.setFetchStorePopup(true);
       return;
     }
-    if (!_.isEmpty(userStore)) {
+    if (!_.isEmpty(userStore) && userStore.storeInfo) {
       props.setFetchStorePopup(false);
       dispatch(
         homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })

@@ -106,26 +106,7 @@ export const setUserStore = (query, userStore) => {
 
     dispatch(saveUserStore(userStore));
     saveUserStoreToStorage(userStore);
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
+  
     return resData.data;
   };
 };

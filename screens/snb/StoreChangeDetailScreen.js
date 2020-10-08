@@ -42,7 +42,6 @@ const StoreChangeDetailScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const branch = useSelector((state) => state.branches.branch);
-
   const [location, setLocation] = useState(null);
   useEffect(() => {
     setIsLoading(true);
@@ -51,7 +50,7 @@ const StoreChangeDetailScreen = (props) => {
     );
     Promise.all([fetchBranch]).then(() => {
       setIsLoading(false);
-      if (branch)
+      if (branch && branch.storeInfo)
         setLocation(
           `${branch.storeInfo.lname}  ${branch.storeInfo.mname} ${branch.storeInfo.addr1} ${branch.storeInfo.addr2}`
         );
@@ -134,7 +133,9 @@ const StoreChangeDetailScreen = (props) => {
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
           // source={{ html: require("../../map.js")(location) }}
           source={{
-            uri: `${SERVER_URL}/web/about/map.do?store_cd=${branch.storeInfo.store_cd}`,
+            uri: `${SERVER_URL}/web/about/map.do?store_cd=${
+              branch.storeInfo && branch.storeInfo.store_cd
+            }`,
           }}
         />
         <BottomCover />

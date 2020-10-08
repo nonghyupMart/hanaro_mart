@@ -28,7 +28,6 @@ export const ExtendedWebView = (props) => {
   const onMessage = (event) => {
     // console.log(obj.nativeEvent.data);
     const message = JSON.parse(event.nativeEvent.data);
-    console.log(message);
     switch (message.method) {
       case "openURL":
         return Linking.openURL(message.value);
@@ -56,7 +55,10 @@ export const ExtendedWebView = (props) => {
         return;
       case "close":
         dispatch(CommonActions.setBottomNavigation(true));
-        RootNavigation.pop();
+        const canGoBack =
+          props.commandType === "Push" || props.commandType === "ShowModal";
+        if (canGoBack) RootNavigation.pop();
+        else RootNavigation.navigate("Home");
         return;
     }
   };

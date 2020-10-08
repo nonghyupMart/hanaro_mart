@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import blueplus from "@images/num4291.png";
+
 const InfoBox = (props) => {
   return (
     <StoreBox style={{}}>
