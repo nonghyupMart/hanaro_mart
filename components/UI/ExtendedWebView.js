@@ -35,12 +35,10 @@ export const ExtendedWebView = (props) => {
 
   const onShouldStartLoadWithRequest = (e) => {
     // android용
-    if (Platform.OS === "android") interceptStateChange(e);
-    return true;
+    if (Platform.OS === "android") return interceptStateChange(e);
   };
   const onNavigationStateChange = (e) => {
-    if (Platform.OS === "ios") interceptStateChange(e);
-    return true;
+    if (Platform.OS === "ios") return interceptStateChange(e);
   };
   const interceptStateChange = (e) => {
     // allow normal the navigation
