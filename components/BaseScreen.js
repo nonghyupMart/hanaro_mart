@@ -128,7 +128,6 @@ const ContentContainer = styled.View({
   // flex: 1,
   // flexGrow: 1,
   paddingTop: (props) => {
-
     let v = 0;
     if (!props.headerHeight || props.headerHeight == 0)
       v = Platform.OS == "ios" ? Constants.statusBarHeight : 0;

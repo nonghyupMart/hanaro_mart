@@ -15,6 +15,7 @@ import * as RootNavigation from "@navigation/RootNavigation";
 import * as CommonActions from "@actions/common";
 import queryString from "query-string";
 import * as Util from "@util";
+import Constants from "expo-constants";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -35,10 +36,12 @@ export const ExtendedWebView = (props) => {
 
   const onShouldStartLoadWithRequest = (e) => {
     // android용
-    if (Platform.OS === "android") return interceptStateChange(e);
+    if (Platform.OS === "android" || !Constants.isDevice)
+      return interceptStateChange(e);
   };
   const onNavigationStateChange = (e) => {
-    if (Platform.OS === "ios") return interceptStateChange(e);
+    if (Platform.OS === "ios" && Constants.isDevice)
+      return interceptStateChange(e);
   };
   const interceptStateChange = (e) => {
     // allow normal the navigation
