@@ -27,6 +27,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
   const [alert, setAlert] = useState();
   const onPress = () => {
     dispatch(authActions.withdrawal(userInfo.user_cd)).then(() => {
+      navigation.navigate("Home");
       setAlert({
         message: "탈퇴 되었습니다.",
         onPressConfirm: () => {
@@ -44,6 +45,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       }}
       contentStyle={{
         backgroundColor: colors.trueWhite,
+        marginBottom: 40,
       }}
     >
       <MemberInfo />
