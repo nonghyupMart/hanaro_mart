@@ -48,12 +48,15 @@ const Text1 = styled(BaseText)({
   fontSize: 12,
 
   color: "#b5b5b5",
+  lineHeight: 14,
 });
 const Text2 = styled(BaseText)({
   fontSize: 24,
   color: colors.black,
   marginLeft: 6,
   marginRight: 9,
+  height: 28,
+  lineHeight: 28,
 });
 const Text3 = styled(BaseText)({
   fontSize: 14,
@@ -61,8 +64,8 @@ const Text3 = styled(BaseText)({
 });
 const Text4 = styled(BaseText)({
   fontSize: 16,
-  lineHeight: 16,
   color: colors.pine,
+  lineHeight: 18,
 });
 
 const MemberInfoContainer = styled.View({

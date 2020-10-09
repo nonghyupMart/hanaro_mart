@@ -312,17 +312,32 @@ const AgreementScreen = ({ navigation }) => {
       <CheckBox
         activeOpacity={0.8}
         onPress={() => handleAllChecked(!toggleAllheckBox)}
-        title="전체동의"
+        title={
+          <BaseText style={{ color: colors.trueWhite, marginLeft: 10 }}>
+            전체동의
+          </BaseText>
+        }
+        // title="전체동의"
+        // fontFamily="SourceHanSansKR"
         textStyle={styles.text}
         containerStyle={[styles.btnBlack, { marginLeft: -1 }]}
         checkedIcon={
-          <Image source={require("@images/check_circle-24on.png")} />
+          <Image
+            source={require("@images/check_circle-24on.png")}
+            style={{ marginLeft: -10 }}
+          />
         }
         uncheckedIcon={
-          <Image source={require("@images/check_circle-24off.png")} />
+          <Image
+            source={require("@images/check_circle-24off.png")}
+            style={{ marginLeft: -10 }}
+          />
         }
         checked={toggleAllheckBox}
-        style={{ margin: 0, padding: 0 }}
+        style={{
+          margin: 0,
+          padding: 0,
+        }}
       />
       {checkBoxes.map((item, index) => (
         <TextBox key={index}>
@@ -338,7 +353,9 @@ const AgreementScreen = ({ navigation }) => {
                 <TextView
                   style={{
                     color: item.isRequired ? colors.cerulean : colors.viridian,
-                    fontWeight: item.isNormalTitle ? "normal" : "bold",
+                    fontFamily: item.isNormalTitle
+                      ? "SourceHanSansKR"
+                      : "SourceHanSansKR-Bold",
                   }}
                 >
                   {item.isRequired ? "[필수] " : "[선택] "}
@@ -468,7 +485,7 @@ const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
-  fontWeight: "bold",
+  fontFamily: "SourceHanSansKR-Bold",
 });
 const TitleArea = styled.View({
   paddingBottom: (props) => (!props.desc && props.isOpen ? 5 : 0),
@@ -531,9 +548,10 @@ export const TextView = styled(BaseText)({
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
+  fontFamily: "SourceHanSansKR",
 });
-const BoldText = styled(TextView)({
-  fontWeight: "bold",
+const BoldText = styled(BaseText)({
+  fontFamily: "SourceHanSansKR-Bold",
 });
 const styles = StyleSheet.create({
   justUnderline: {
@@ -546,6 +564,7 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
   },
   checkbox: {
+    fontFamily: "SourceHanSansKR",
     justifyContent: "flex-start",
     margin: 0,
     alignItems: "flex-start",
@@ -556,7 +575,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    fontWeight: "500",
+
     fontStyle: "normal",
     lineHeight: 18,
     letterSpacing: 0,

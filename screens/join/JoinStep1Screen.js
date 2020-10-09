@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
@@ -50,7 +50,11 @@ export const screenOptions = ({ navigation }) => {
     // },
   };
 };
-
+const Image = styled.Image({
+  width: "100%",
+  height: "100%",
+  resizeMode: "contain",
+});
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.appleGreen,
 

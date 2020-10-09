@@ -9,7 +9,7 @@ import {
   Button,
   Picker,
   ActionSheetIOS,
-  ScrollView,
+  Keyboard,
   Image,
 } from "react-native";
 import Constants from "expo-constants";
@@ -35,13 +35,14 @@ import * as Util from "@util";
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
   const [accessCode, setAccessCode] = useState();
   const [acCode, setAcCode] = useState();
   const [phoneNumberRef, setPhoneNumberRef] = useState();
   const [alert, setAlert] = useState();
   const [otpRef, setOtpRef] = useState();
+  const [isRequestedJoin, setIsRequestedJoin] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -51,15 +52,20 @@ const JoinStep2Screen = ({ navigation }) => {
   }, []);
 
   const onPressJoin = () => {
+    Keyboard.dismiss();
+    setIsLoading(true);
+    if (isRequestedJoin) return;
     let query = {
       user_id: Util.encrypt(phoneNumber),
       token: Util.encrypt(pushToken),
       os: Platform.OS === "ios" ? "I" : "A",
     };
     signup(query, dispatch, setAlert, agreedStatus);
+    setIsRequestedJoin(true);
   };
 
   const requestOTP = () => {
+    Keyboard.dismiss();
     if (!phoneNumber) {
       setAlert({
         message: "휴대폰번호를 입력해주세요.",
@@ -96,6 +102,7 @@ const JoinStep2Screen = ({ navigation }) => {
     }
   };
   const validateOTP = () => {
+    Keyboard.dismiss();
     if (accessCode == acCode) {
       setJoinStep([true, true]);
     } else {
@@ -109,8 +116,8 @@ const JoinStep2Screen = ({ navigation }) => {
   };
 
   return (
-    <BaseScreen alert={alert} isScroll={false}>
-      <ScrollContainer>
+    <BaseScreen alert={alert} isScroll={false} isLoading={isLoading}>
+      <ScrollContainer keyboardShouldPersistTaps="handled">
         <TextInputContainer style={{ marginBottom: 7 }}>
           <Image source={require("@images/ic_phone_iphone_24px.png")} />
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
@@ -121,6 +128,7 @@ const JoinStep2Screen = ({ navigation }) => {
             maxLength={11}
             value={phoneNumber}
             onChangeText={(text) => setPhoneNumber(text)}
+            onSubmitEditing={Keyboard.dismiss}
             placeholder="- 없이 입력하세요."
           />
         </TextInputContainer>
@@ -154,6 +162,8 @@ const JoinStep2Screen = ({ navigation }) => {
                   placeholder="6자리"
                   autoFocus={true}
                   value={accessCode}
+                  style={{ lineHeight: 18 }}
+                  onSubmitEditing={Keyboard.dismiss}
                   onChangeText={(text) => setAccessCode(text)}
                 />
               </View>
@@ -326,8 +336,9 @@ const ConfrimText = styled(BaseText)({
   marginTop: 5,
   marginBottom: 5,
 });
-const InputText = styled.TextInput({
+const InputText = styled(BaseTextInput)({
   flex: 1,
+  lineHeight: 20,
 });
 const BlackButton = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.greyishBrown,

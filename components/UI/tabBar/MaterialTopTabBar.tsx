@@ -17,6 +17,7 @@ import {
   useLinkBuilder,
 } from "@react-navigation/native";
 import { useSafeArea } from "react-native-safe-area-context";
+import { BaseText } from "@UI/BaseUI";
 
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
@@ -214,12 +215,12 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
 
         if (typeof label === "string") {
           return (
-            <Text
+            <BaseText
               style={[styles.label, { color }, labelStyle]}
               allowFontScaling={allowFontScaling}
             >
               {label}
-            </Text>
+            </BaseText>
           );
         }
 
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     fontStyle: "normal",
-    lineHeight: 16,
+
     letterSpacing: 0,
     textAlign: "left",
     color: ConstantsColors.black,

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
 import { IMAGE_URL } from "@constants/settings";
+import * as Util from "@util";
 import { Dimensions, TouchableOpacity, Image, Platform } from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
@@ -17,20 +18,10 @@ export const StyleConstants = {
 };
 
 export const BaseText = styled.Text({
-  fontFamily: () =>
-    Platform.OS === "android"
-      ? "Roboto"
-      : Platform.OS === "ios"
-      ? "Arial"
-      : "sans-serif",
+  fontFamily: "SourceHanSansKR",
 });
 export const BaseTextInput = styled.TextInput({
-  fontFamily: () =>
-    Platform.OS === "android"
-      ? "Roboto"
-      : Platform.OS === "ios"
-      ? "Arial"
-      : "sans-serif",
+  // fontFamily: "SourceHanSansKR",
 });
 export const BaseImage = styled(Image).attrs((props) => {
   let source;
@@ -53,10 +44,11 @@ BaseImage.defaultProps = {
   resizeMode: "cover",
 };
 export const BaseTouchable = (props) => {
+  const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
   return (
-    <TouchableOpacity activeOpacity={0.8} {...props}>
+    <Touchbale activeOpacity={1} {...props}>
       {props.children}
-    </TouchableOpacity>
+    </Touchbale>
   );
 };
 export const BaseButtonContainer = styled(BaseTouchable)({
