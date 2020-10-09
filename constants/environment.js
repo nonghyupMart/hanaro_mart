@@ -3,8 +3,8 @@ import Constants from "expo-constants";
 
 const ENV = {
   dev: {
-    SERVER_URL: "http://dv-www.hanaromartapp.com",
-    // SERVER_URL: "http://www.hanaromartapp.com",
+    // SERVER_URL: "http://dv-www.hanaromartapp.com",
+    SERVER_URL: "https://www.hanaromartapp.com",
   },
   develop: {
     SERVER_URL: "http://dv-www.hanaromartapp.com",
@@ -13,7 +13,7 @@ const ENV = {
     SERVER_URL: "[your.staging.api.here]",
   },
   prod: {
-    SERVER_URL: "http://www.hanaromartapp.com",
+    SERVER_URL: "https://www.hanaromartapp.com",
     // Add other keys you want here
   },
 };
