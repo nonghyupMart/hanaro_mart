@@ -76,8 +76,6 @@ export const ExtendedWebView = (props) => {
           di: message.value.di,
           ci: message.value.ci,
         };
-        console.warn(query);
-        return;
         signup(query, dispatch, setAlert, agreedStatus);
 
         // message.value
