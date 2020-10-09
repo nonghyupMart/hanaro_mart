@@ -45,6 +45,7 @@ const Name = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.black,
+  paddingTop: 2,
 });
 const BlueText = styled(BaseText)({
   fontSize: 22,
