@@ -25,7 +25,6 @@ const CIScreen = ({ navigation }) => {
           opacity: 0.99,
           width: screenWidth,
         }}
-        cacheMode="LOAD_NO_CACHE"
         source={{
           uri:
             "https://www.hanaromartapp.com/web/access/auth.do?key=" +

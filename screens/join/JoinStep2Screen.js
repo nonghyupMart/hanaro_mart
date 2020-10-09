@@ -52,8 +52,8 @@ const JoinStep2Screen = ({ navigation }) => {
 
   const onPressJoin = () => {
     let query = {
-      user_id: phoneNumber,
-      token: pushToken,
+      user_id: Util.encrypt(phoneNumber),
+      token: Util.encrypt(pushToken),
       os: Platform.OS === "ios" ? "I" : "A",
     };
     signup(query, dispatch, setAlert, agreedStatus);
@@ -90,7 +90,6 @@ const JoinStep2Screen = ({ navigation }) => {
     }
     if (phoneNumber) {
       dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
-        Util.log(data);
         setAcCode(data.accessCode);
         setJoinStep([true, false]);
       });

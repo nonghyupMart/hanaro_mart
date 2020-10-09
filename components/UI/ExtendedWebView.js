@@ -27,17 +27,27 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const onMessage = (event) => {
-    // iOS용
-    const message = JSON.parse(event.nativeEvent.data);
-    parseMethod(message);
-  };
+  // const onMessage = (event) => {
+  //   // iOS용
+  //   const message = JSON.parse(event.nativeEvent.data);
+  //   parseMethod(message);
+  // };
 
   const onShouldStartLoadWithRequest = (e) => {
     // android용
-    // allow normal the natvigation
+    if (Platform.OS === "android") interceptStateChange(e);
+    return true;
+  };
+  const onNavigationStateChange = (e) => {
+    if (Platform.OS === "ios") interceptStateChange(e);
+    return true;
+  };
+  const interceptStateChange = (e) => {
+    // allow normal the navigation
     if (!e.url.startsWith("native://")) return true;
-    const message = JSON.parse(e.url.replace("native://", ""));
+    const message = JSON.parse(
+      decodeURIComponent(e.url.replace("native://", ""))
+    );
     parseMethod(message);
 
     // return false to prevent webview navitate to the location of e.url
@@ -63,7 +73,11 @@ export const ExtendedWebView = (props) => {
           user_name: message.value.name,
           token: pushToken,
           os: Platform.OS === "ios" ? "I" : "A",
+          di: message.value.di,
+          ci: message.value.ci,
         };
+        console.warn(query);
+        return;
         signup(query, dispatch, setAlert, agreedStatus);
 
         // message.value
@@ -110,7 +124,7 @@ export const ExtendedWebView = (props) => {
         mixedContentMode="always"
         sharedCookiesEnabled={true}
         thirdPartyCookiesEnabled={true}
-        onMessage={(event) => onMessage(event)}
+        // onMessage={(event) => onMessage(event)}
         // renderError={(error) => Util.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
           // const { nativeEvent } = syntheticEvent;
@@ -141,6 +155,7 @@ export const ExtendedWebView = (props) => {
           );
         }}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
+        onNavigationStateChange={onNavigationStateChange}
         startInLoadingState={true}
         scalesPageToFit={true}
       />
