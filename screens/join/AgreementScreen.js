@@ -348,20 +348,17 @@ const AgreementScreen = ({ navigation }) => {
                 onPress={() => handleChecked(item)}
                 isRequired={item.isRequired}
               />
-
-              <BoldText>
-                <TextView
-                  style={{
-                    color: item.isRequired ? colors.cerulean : colors.viridian,
-                    fontFamily: item.isNormalTitle
-                      ? "SourceHanSansKR"
-                      : "SourceHanSansKR-Bold",
-                  }}
-                >
-                  {item.isRequired ? "[필수] " : "[선택] "}
-                </TextView>
-                {item.title}
-              </BoldText>
+              <TextView
+                style={{
+                  color: item.isRequired ? colors.cerulean : colors.viridian,
+                  fontFamily: item.isNormalTitle
+                    ? "SourceHanSansKR"
+                    : "SourceHanSansKR-Bold",
+                }}
+              >
+                {item.isRequired ? "[필수] " : "[선택] "}
+              </TextView>
+              <BoldText>{item.title}</BoldText>
             </TitleContainer>
 
             <CheckBox
@@ -475,7 +472,7 @@ const DescTextLine = styled.View({
 });
 export const TitleContainer = styled.View({
   flexDirection: "row",
-  flex: 1,
+  flex: 0.75,
 });
 const SmallText = styled(BaseText)({
   fontSize: 11,
@@ -549,9 +546,11 @@ export const TextView = styled(BaseText)({
   fontSize: 12,
   color: colors.greyishBrown,
   fontFamily: "SourceHanSansKR",
+  flexShrink: 0,
 });
-const BoldText = styled(BaseText)({
+const BoldText = styled(BaseText).attrs({})({
   fontFamily: "SourceHanSansKR-Bold",
+  lineHeight: 20,
 });
 const styles = StyleSheet.create({
   justUnderline: {
