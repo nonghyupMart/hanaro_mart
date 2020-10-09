@@ -52,7 +52,6 @@ const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
 Plus.defaultProps = {
   source: require("@images/num4291.png"),
-  defaultSource: require("@images/num4291.png"),
 };
 export const StoreBox = styled.View({
   flex: 1,

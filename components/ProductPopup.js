@@ -73,7 +73,7 @@ const ProductPopup = (props) => {
                 판매가 : {Util.formatNumber(props.item.sale_price)}원
               </SalePrice>
             </PriceContainer>
-            <QuantityContainer>
+            {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
@@ -87,18 +87,18 @@ const ProductPopup = (props) => {
                   <Image source={require("@images/sp108.png")} />
                 </TouchableOpacity>
               </QButtonContainer>
-            </QuantityContainer>
+            </QuantityContainer> */}
             <TotalContainer>
               <TotalUnit>합계 : </TotalUnit>
               <Total>{Util.formatNumber(props.item.price)}원</Total>
             </TotalContainer>
             <BtnContainer style={{}}>
-              <BlueBtn>
+              {/* <BlueBtn>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn>
+              </BlueBtn> */}
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
