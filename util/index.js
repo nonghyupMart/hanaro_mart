@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+import { debounce } from "lodash"; // 4.0.8
 import AesUtil from "@util/aes_util";
 var g_keySize = 128;
 var g_iterationCount = 10000;
@@ -34,4 +36,26 @@ export const log = (...val) => {
   if (__DEV__) {
     console.warn(...val);
   }
+};
+
+export const withPreventDoubleClick = (WrappedComponent) => {
+  class PreventDoubleClick extends React.PureComponent {
+    debouncedOnPress = () => {
+      this.props.onPress && this.props.onPress();
+    };
+
+    onPress = debounce(this.debouncedOnPress, 1000, {
+      leading: true,
+      trailing: false,
+    });
+
+    render() {
+      return <WrappedComponent {...this.props} onPress={this.onPress} />;
+    }
+  }
+
+  PreventDoubleClick.displayName = `withPreventDoubleClick(${
+    WrappedComponent.displayName || WrappedComponent.name
+  })`;
+  return PreventDoubleClick;
 };
