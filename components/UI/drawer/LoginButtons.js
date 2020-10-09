@@ -119,6 +119,7 @@ const GrayContainer = styled.View({
   paddingRight: 21,
   paddingTop: 10,
   paddingBottom: 10,
+  width: "100%",
 });
 const BaseButton = styled(BaseButtonContainer)({
   width: screenWidth * 0.333,
