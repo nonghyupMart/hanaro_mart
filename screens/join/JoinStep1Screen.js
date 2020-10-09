@@ -51,9 +51,9 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 const Image = styled.Image({
-  width: "100%",
-  height: "100%",
-  resizeMode: "contain",
+  flex: 1,
+
+  resizeMode: "center",
 });
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.appleGreen,
@@ -98,11 +98,11 @@ const Symbol = styled.Image.attrs({ resizeMode: "contain" })({
 });
 
 const Box = styled(BaseTouchable)({
-  flexDirection: "column",
+  // flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  alignContent: "center",
-  height: "50%",
+  // alignContent: "center",
+  // height: "50%",
   width: "100%",
   flex: 1,
   borderRadius: 8,
@@ -112,9 +112,9 @@ const Box = styled(BaseTouchable)({
   borderColor: colors.pinkishGrey,
   paddingLeft: screenHeight * 0.083,
   paddingRight: screenHeight * 0.083,
-  // paddingBottom:screenHeight *0.027,
-  // paddingTop:screenHeight *0.027,
-  // overflow:"hidden"
+  paddingBottom: screenHeight * 0.027,
+  paddingTop: screenHeight * 0.027,
+  overflow: "hidden",
 });
 
 const styles = StyleSheet.create({
