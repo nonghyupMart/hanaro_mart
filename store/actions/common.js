@@ -1,5 +1,6 @@
 import { AsyncStorage } from "react-native";
 import moment from "moment";
+import * as Util from "@util";
 
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
 export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
@@ -21,7 +22,7 @@ export const setIsStorePopup = (isStorePopup) => {
 
 export const saveDateForStorePopupToStorage = () => {
   const expirationDate = new Date(new Date().getTime());
-  AsyncStorage.setItem("dateForStorePopupData", expirationDate.toISOString());
+  Util.setStorageItem("dateForStorePopupData", expirationDate.toISOString());
 };
 
 export const setIsAppPopup = (isAppPopup) => {
@@ -33,5 +34,5 @@ export const setIsAppPopup = (isAppPopup) => {
 
 export const saveDateForAppPopupToStorage = () => {
   const expirationDate = new Date(new Date().getTime());
-  AsyncStorage.setItem("dateForAppPopupData", expirationDate.toISOString());
+  Util.setStorageItem("dateForAppPopupData", expirationDate.toISOString());
 };
