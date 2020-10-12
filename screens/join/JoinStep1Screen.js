@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
@@ -53,7 +53,7 @@ export const screenOptions = ({ navigation }) => {
 const Image = styled.Image({
   flex: 1,
 
-  resizeMode: "center",
+  resizeMode: () => (Platform.OS == "android" ? "center" : "contain"),
 });
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.appleGreen,
