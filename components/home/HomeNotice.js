@@ -15,6 +15,7 @@ import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeNotice = (props) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const homeNotice = useSelector((state) => state.home.homeNotice);
