@@ -98,10 +98,9 @@ const AppPopup = (props) => {
                 <BaseImage
                   onLoad={() => props.setIsReadyAppPopup(true)}
                   source={item.display_img}
-                  width={screenWidth - 19 - 19 - 2}
                   style={{
                     resizeMode: "cover",
-                    width: screenWidth - 19 - 19 - 2,
+                    width: "100%",
                     height: screenWidth - 19 - 19 - 2,
                   }}
                 />
