@@ -15,7 +15,7 @@ import {
 } from "@UI/BaseUI";
 import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
-
+import * as Util from "@util";
 import colors from "@constants/colors";
 
 import StoreItem from "@components/store/StoreItem";
@@ -76,9 +76,9 @@ const StoreChangeDetailScreen = (props) => {
           onPressConfirm: () => {
             setAlert(null);
             props.navigation.popToTop();
-            setTimeout(() => {
-              dispatch(homeActions.clearStorePopup());
-            }, 0);
+
+            // dispatch(homeActions.clearStorePopup());
+
             // Restart();
           },
         });
