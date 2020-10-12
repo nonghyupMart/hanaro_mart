@@ -27,7 +27,7 @@ const Container = styled.View({
 });
 const BranchName = styled(BaseText)({
   fontSize: 15,
-  fontFamily: "SourceHanSansKR-Bold",
+  fontWeight: "bold",
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
