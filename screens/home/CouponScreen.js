@@ -140,6 +140,7 @@ const CouponScreen = (props) => {
       setPage(page + 1);
     }
   };
+  if (!couponA || !coupon) return <></>;
   if (
     routeName == "MyCoupon" &&
     couponA &&
@@ -149,7 +150,7 @@ const CouponScreen = (props) => {
   )
     return (
       <BaseScreen isScroll={false} isCenter={true}>
-        <EmptyText>나의 쿠폰이 없습니다.</EmptyText>
+        <EmptyText>{`나의 쿠폰이 없습니다.`}</EmptyText>
       </BaseScreen>
     );
   if (

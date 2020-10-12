@@ -52,10 +52,11 @@ const EventScreen = ({ navigation }) => {
   const onPress = (item) => {
     navigation.navigate("EventDetail", { event_cd: item.event_cd });
   };
+  if (!event) return <></>;
   if (event && event.eventList.length === 0)
     return (
       <BaseScreen isScroll={false} isCenter={true}>
-        <EmptyText>현재 진행중인 이벤트가 없습니다.</EmptyText>
+        <EmptyText>{`현재 진행중인 이벤트가\n없습니다.`}</EmptyText>
       </BaseScreen>
     );
   return (
