@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import Constants from "expo-constants";
+import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import AesUtil from "@util/aes_util";
 var g_keySize = 128;
@@ -59,3 +61,14 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   })`;
   return PreventDoubleClick;
 };
+
+export const setStorageItem = (name, data) => {
+  return AsyncStorage.setItem(
+    Constants.manifest.releaseChannel + "::" + name,
+    data
+  );
+};
+export const getStorageItem = (name) => {
+  return AsyncStorage.getItem(Constants.manifest.releaseChannel + "::" + name);
+};
+
