@@ -7,25 +7,29 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Splash from "@UI/Splash";
 import * as CommonActions from "@actions/common";
 import moment from "moment";
+import * as Util from "@util";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const userStoreData = await AsyncStorage.getItem("userStoreData");
+      const userStoreData = await Util.getStorageItem("userStoreData");
       dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 
-      const userInfoData = await AsyncStorage.getItem("userInfoData");
+      const userInfoData = await Util.getStorageItem("userInfoData");
       const parsedUserData = JSON.parse(userInfoData);
       dispatch(authActions.setUserInfo(parsedUserData));
-      if (parsedUserData && parsedUserData.user_id)
+      if (parsedUserData && parsedUserData.user_id) {
         dispatch(authActions.setIsJoin(true));
-      else dispatch(authActions.setIsJoin(false));
+        dispatch(
+          authActions.updateLoginLog({ user_cd: parsedUserData.user_cd })
+        );
+      } else dispatch(authActions.setIsJoin(false));
 
-      const agreedStatusData = await AsyncStorage.getItem("agreedStatusData");
+      const agreedStatusData = await Util.getStorageItem("agreedStatusData");
       dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
 
-      const dateForStorePopup = await AsyncStorage.getItem(
+      const dateForStorePopup = await Util.getStorageItem(
         "dateForStorePopupData"
       );
       let setDate = moment().subtract(1, "days");
@@ -36,7 +40,7 @@ const StartupScreen = (props) => {
         CommonActions.setIsStorePopup(moment(setDate).isBefore(moment(), "day"))
       );
 
-      const dateForAppPopup = await AsyncStorage.getItem("dateForAppPopupData");
+      const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
       setDate = moment().subtract(1, "days");
       if (dateForAppPopup) setDate = moment(dateForAppPopup);
 
