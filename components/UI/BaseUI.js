@@ -18,7 +18,7 @@ export const StyleConstants = {
 };
 
 export const BaseText = styled.Text({
-  fontFamily: "SourceHanSansKR",
+  // fontFamily: "SourceHanSansKR",
 });
 export const BaseTextInput = styled.TextInput({
   // fontFamily: "SourceHanSansKR",
