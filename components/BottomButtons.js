@@ -16,6 +16,7 @@ import { Icon } from "react-native-elements";
 import { BaseText } from "@UI/BaseUI";
 
 const BottomButtons = (props) => {
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
@@ -66,7 +67,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
+            if (isJoin) return RootNavigation.navigate("MyPage");
             RootNavigation.navigate("MyPage");
           }}
         >
