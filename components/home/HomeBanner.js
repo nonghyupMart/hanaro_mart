@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-
 } from "react-native";
 import {
   StyleConstants,
@@ -62,6 +61,10 @@ const HomeBanner = (props) => {
               onPress={() => {
                 if (item.link_url != "") Linking.openURL(item.link_url);
               }}
+              style={{
+                height: screenWidth * 0.608,
+                width: screenWidth,
+              }}
             >
               <BannerItem item={item} />
             </TouchableOpacity>
@@ -73,18 +76,16 @@ const HomeBanner = (props) => {
 };
 const BannerItem = (props) => {
   return (
-    <View style={{ flex: 1 }}>
-      <BaseImage
-        style={{
-          height: screenWidth * 0.608,
-          width: screenWidth,
-        }}
-        defaultSource={require("@images/m_img499.png")}
-        resizeMode="cover"
-        // loadingIndicatorSource={require("@images/m_img499.png")}
-        source={props.item.display_img}
-      />
-    </View>
+    <BaseImage
+      style={{
+        height: screenWidth * 0.608,
+        width: screenWidth,
+      }}
+      defaultSource={require("@images/m_img499.png")}
+      resizeMode="cover"
+      // loadingIndicatorSource={require("@images/m_img499.png")}
+      source={props.item.display_img}
+    />
   );
 };
 
