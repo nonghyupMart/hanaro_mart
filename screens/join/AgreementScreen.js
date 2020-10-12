@@ -278,6 +278,8 @@ const AgreementScreen = ({ navigation }) => {
       checkBoxes[2].isChecked
     ) {
       if (!Constants.isDevice) {
+        dispatch(setAgreedStatus(checkBoxes));
+        saveAgreedStatusToStorage(checkBoxes);
         navigation.navigate("JoinStep1");
         return;
       }
@@ -318,7 +320,7 @@ const AgreementScreen = ({ navigation }) => {
           </BaseText>
         }
         // title="전체동의"
-        // fontFamily="SourceHanSansKR"
+
         textStyle={styles.text}
         containerStyle={[styles.btnBlack, { marginLeft: -1 }]}
         checkedIcon={
@@ -351,9 +353,7 @@ const AgreementScreen = ({ navigation }) => {
               <TextView
                 style={{
                   color: item.isRequired ? colors.cerulean : colors.viridian,
-                  fontFamily: item.isNormalTitle
-                    ? "SourceHanSansKR"
-                    : "SourceHanSansKR-Bold",
+                  fontWeight: item.isNormalTitle ? "normal" : "bold",
                 }}
               >
                 {item.isRequired ? "[필수] " : "[선택] "}
@@ -482,7 +482,7 @@ const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
-  fontFamily: "SourceHanSansKR-Bold",
+  fontWeight: "bold",
 });
 const TitleArea = styled.View({
   paddingBottom: (props) => (!props.desc && props.isOpen ? 5 : 0),
@@ -545,11 +545,11 @@ export const TextView = styled(BaseText)({
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
-  fontFamily: "SourceHanSansKR",
+
   flexShrink: 0,
 });
 const BoldText = styled(BaseText).attrs({})({
-  fontFamily: "SourceHanSansKR-Bold",
+  fontWeight: "bold",
   lineHeight: 20,
 });
 const styles = StyleSheet.create({
@@ -563,7 +563,6 @@ const styles = StyleSheet.create({
     textDecorationStyle: "solid",
   },
   checkbox: {
-    fontFamily: "SourceHanSansKR",
     justifyContent: "flex-start",
     margin: 0,
     alignItems: "flex-start",
