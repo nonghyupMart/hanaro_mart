@@ -21,7 +21,7 @@ const MemberInfo = (props) => {
     <>
       <MemberInfoContainer>
         <MemberContainer>
-          <Text1>회원번호</Text1>
+          {/* <Text1>회원번호</Text1> */}
           <MemberID style={{ flexDirection: "row" }}>
             <Image source={require("@images/user.png")} />
             <Text2>
