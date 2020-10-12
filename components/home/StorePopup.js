@@ -16,7 +16,7 @@ import * as Linking from "expo-linking";
 import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform } from "react-native";
 const StorePopup = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
@@ -106,15 +106,7 @@ const StorePopup = (props) => {
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >
-                <BaseImage
-                  source={item.display_img}
-                  width={screenWidth}
-                  style={{
-                    resizeMode: "cover",
-                    width: screenWidth,
-                    height: screenHeight - 40,
-                  }}
-                />
+                <Image source={item.display_img} width={screenWidth} />
               </TouchableOpacity>
             );
           })}
@@ -132,7 +124,11 @@ const StorePopup = (props) => {
     </Modal>
   );
 };
-
+const Image = styled(BaseImage)({
+  resizeMode: "cover",
+  width: screenWidth,
+  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+});
 const BtnContainer = styled.View({ flexDirection: "row" });
 const BtnText = styled(BaseText)({
   fontSize: 16,
