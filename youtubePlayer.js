@@ -56,7 +56,7 @@ border:0;
     }
     </style>
 </head>
-<body><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" ></iframe></body>
+<body><iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1" frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" ></iframe></body>
 </html>
 `;
 };
