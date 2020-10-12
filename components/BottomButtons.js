@@ -67,7 +67,7 @@ const BottomButtons = (props) => {
           activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
-            if (isJoin) return RootNavigation.navigate("MyPage");
+            if (!isJoin) return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyPage");
           }}
         >
