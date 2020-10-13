@@ -31,12 +31,12 @@ const ScanBox = (props) => {
           <BlueButtonText>영수증 확인</BlueButtonText>
         </GreenBtn>
       )}
-      {props.eventDetail.entry.entry_status === "20" && (
+      {/* {props.eventDetail.entry.entry_status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
-      )}
+      )} */}
     </TextContainer1>
   );
 };

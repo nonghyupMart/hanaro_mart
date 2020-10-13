@@ -59,6 +59,19 @@ const EventDetailScreen = (props, { navigation }) => {
       if (data.result == "success") {
         eventDetail.entry.entry_status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
+        setAlert({
+          message: "응모 되었습니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      } else {
+        setAlert({
+          message: data,
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
       }
     });
   };

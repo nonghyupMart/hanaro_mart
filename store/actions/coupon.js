@@ -89,7 +89,6 @@ export const downloadCoupon = (query) => {
         return resData.error;
         throw new Error("downloadCoupon Something went wrong!");
       }
-      Util.log("downloadCoupon", resData.data);
       coupon.couponList[index].status = "10";
       switch (type) {
         case "A":
@@ -110,9 +109,11 @@ export const useCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
   const type = query.type;
+  const routeName = query.routeName;
   delete query.coupon;
   delete query.index;
   delete query.type;
+  delete query.routeName;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/coupon`,
   });
@@ -131,14 +132,19 @@ export const useCoupon = (query) => {
         Util.log(url, resData.error.errorMsg);
         throw new Error("useCoupon Something went wrong!");
       }
-      Util.log("useCoupon", resData.data);
+      Util.log("routeName", routeName);
+      // return;
       coupon.couponList[index].status = "20";
       switch (type) {
         case "A":
-          dispatch({ type: SET_COUPON_A, coupon: coupon });
+          if (routeName === "MyCoupon")
+            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
+          else dispatch({ type: SET_COUPON_A, coupon: coupon });
           break;
         case "B":
-          dispatch({ type: SET_COUPON, coupon: coupon });
+          if (routeName === "MyCoupon")
+            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
+          else dispatch({ type: SET_COUPON, coupon: coupon });
           break;
       }
       return resData.data;

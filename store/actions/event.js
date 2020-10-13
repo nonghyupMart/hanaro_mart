@@ -54,8 +54,6 @@ export const fetchEventDetail = (query) => {
         throw new Error("fetchEventDetail Something went wrong!");
       }
 
-      // Util.log("fetchEvent", resData.data.eventInfo);
-
       dispatch({ type: SET_EVENT_DETAIL, eventDetail: resData.data.eventInfo });
     } catch (err) {
       throw err;
@@ -83,13 +81,12 @@ export const applyEvent = (query) => {
         },
         body: JSON.stringify(query),
       });
-      Util.log(url, query);
       const resData = await response.json();
       if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("applyEvent Something went wrong!");
+        Util.log(url, query, resData.error.errorMsg);
+        return resData.error.errorMsg;
+        throw new Error(`applyEvent Something went wrong! ${response}`);
       }
-      Util.log("applyEvent", resData.data);
       return resData.data;
     } catch (err) {
       throw err;

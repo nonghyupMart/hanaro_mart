@@ -25,9 +25,17 @@ const StorePopup = (props) => {
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
+  console.warn(storePopup);
   useEffect(() => {
-    if (isStorePopup && !_.isEmpty(userStore) && userStore.storeInfo)
+    if (
+      isStorePopup &&
+      !_.isEmpty(userStore) &&
+      userStore.storeInfo &&
+      storePopup &&
+      storePopup.popupCnt > 0
+    )
       setIsVisible(true);
+    else setIsVisible(false);
   }, []);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
@@ -50,7 +58,6 @@ const StorePopup = (props) => {
     setIsVisible(false);
   };
 
-  //매장이 있는 경우만 매장 팝업
   if (
     _.isEmpty(storePopup) ||
     _.isEmpty(userStore) ||
@@ -60,6 +67,7 @@ const StorePopup = (props) => {
     !isVisible ||
     routeName !== "Home"
   )
+    //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
     <Modal

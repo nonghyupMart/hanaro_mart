@@ -66,9 +66,9 @@ const BarCodeScannerScreen = (props) => {
     >
       <Camera
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        // barCodeScannerSettings={{
-        //   barCodeTypes: [BarCodeScanner.Constants.BarCodeType.ean13],
-        // }}
+        barCodeScannerSettings={{
+          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        }}
         style={[StyleSheet.absoluteFill]}
       />
       {/* <BarCodeScanner
@@ -100,7 +100,7 @@ const BarCodeScannerScreen = (props) => {
           }}
         >
           <Image source={require("@images/barcodeWhite.png")} />
-          <Text1>영수증바코드</Text1>
+          <Text1>영수증QR코드</Text1>
         </ImageBackground>
       </View>
       <View
@@ -122,7 +122,7 @@ const BarCodeScannerScreen = (props) => {
       >
         <Image source={require("@images/logo1pic478.png")} />
         <Text2>
-          {`하나로마트에서 구매하신 영수증의\n바코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
+          {`하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
         </Text2>
       </View>
       {/* </BarCodeScanner> */}
@@ -154,7 +154,7 @@ const Text1 = styled(BaseText)({
 });
 export const screenOptions = ({ navigation }) => {
   return {
-    title: "바코드 촬영",
+    title: "QR코드 촬영",
     cardStyle: {
       marginBottom: 0,
     },

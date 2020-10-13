@@ -62,7 +62,6 @@ export const fetchHomeNaro = (query) => {
     url: `${API_URL}/home-naro`,
     query: query,
   });
-  // Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -89,7 +88,6 @@ export const fetchPopup = (query) => {
     url: `${API_URL}/popup`,
     query: query,
   });
-  // Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);

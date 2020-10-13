@@ -79,6 +79,7 @@ const CouponDetailScreen = (props) => {
               user_cd: userInfo.user_cd,
               cou_cd: params.cou_cd,
               ucou_cd: couponDetail.ucou_cd,
+              routeName: params.routeName,
             })
           ).then((data) => {
             if (data.result == "success") {

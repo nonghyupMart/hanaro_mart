@@ -22,7 +22,6 @@ export const fetchLeaflet = (query) => {
       }
 
       const resData = await response.json();
-      Util.log("fetchLeaflet");
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
     } catch (err) {
       throw err;
@@ -44,7 +43,6 @@ export const fetchLeafletDetail = (query) => {
       }
 
       const resData = await response.json();
-      // Util.log("fetchLeaflet");
       dispatch({
         type: SET_LEAFLET_DETAIL,
         leafletDetail: resData.data.leafletInfo,
@@ -97,7 +95,6 @@ export const fetchProductDetail = (query) => {
       }
 
       const resData = await response.json();
-      //   Util.log("fetchProduct=> ", resData.data);
 
       dispatch({
         type: SET_PRODUCT_DETAIL,

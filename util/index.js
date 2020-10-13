@@ -55,7 +55,7 @@ export const withPreventDoubleClick = (WrappedComponent) => {
       this.props.onPress && this.props.onPress();
     };
 
-    onPress = debounce(this.debouncedOnPress, 3000, {
+    onPress = debounce(this.debouncedOnPress, 0, {
       leading: true,
       trailing: false,
     });

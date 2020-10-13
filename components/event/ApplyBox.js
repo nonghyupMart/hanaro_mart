@@ -33,7 +33,7 @@ const ApplyBox = (props) => {
     }
     if (!reg_num) {
       props.setAlert({
-        message: "주민등록번호를 입력해주세요.",
+        message: "주민등록번호(7자리-8501011)를 입력해주세요.",
         onPressConfirm: () => {
           props.setAlert(null);
         },
@@ -42,7 +42,7 @@ const ApplyBox = (props) => {
     }
     if (reg_num.length < 7) {
       props.setAlert({
-        message: "주민등록번호를 정확히 입력해주세요.",
+        message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
         onPressConfirm: () => {
           props.setAlert(null);
         },
@@ -80,11 +80,12 @@ const ApplyBox = (props) => {
           </TextView2>
         </TitleContainer>
         <InputText
-          placeholder="주민등록번호 입력 바랍니다.(앞7자리)"
+          placeholder="주민등록번호(7자리-8501011)"
           keyboardType="numeric"
           maxLength={7}
           value={reg_num}
           onChangeText={(text) => setReg_num(text)}
+          editable={props.eventDetail.entry.entry_status === "10"}
         />
       </Container>
       {props.eventDetail.entry.entry_status === "10" && (

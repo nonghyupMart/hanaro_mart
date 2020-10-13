@@ -100,6 +100,7 @@ const CouponScreen = (props) => {
                   coupon: type == "A" ? couponA : coupon,
                   index: index,
                   type,
+                  routeName,
                 });
               },
             });
@@ -114,7 +115,6 @@ const CouponScreen = (props) => {
         });
         break;
       case "10": // 쿠폰이 있는 경우
-      case "20": // 사용완료
         navigation.navigate("CouponDetail", {
           store_cd: userStore.storeInfo.store_cd,
           cou_cd: item.cou_cd,
@@ -122,8 +122,9 @@ const CouponScreen = (props) => {
           coupon: type == "A" ? couponA : coupon,
           index: index,
           type,
+          routeName,
         });
-
+      case "20": // 사용완료
         break;
     }
     setIsLoading(false);

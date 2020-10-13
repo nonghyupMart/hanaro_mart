@@ -366,9 +366,6 @@ const SmallText = styled(BaseText)({
 });
 const Icon = styled.Image({ marginTop: 5 });
 export const popupConetnt = (agreedStatus, userInfo) => {
-  // Util.log(agreedStatus);
-
-  // Util.log(userInfo.user_id);
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
