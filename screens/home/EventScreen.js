@@ -8,7 +8,7 @@ import * as eventActions from "@actions/event";
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { EmptyText } from "@UI/BaseUI";
+import { EmptyText, EmptyScreen } from "@UI/BaseUI";
 const EventScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [alert, setAlert] = useState();
@@ -55,9 +55,9 @@ const EventScreen = ({ navigation }) => {
   if (!event) return <></>;
   if (event && event.eventList.length === 0)
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
+      <EmptyScreen >
         <EmptyText>{`현재 진행중인 이벤트가\n없습니다.`}</EmptyText>
-      </BaseScreen>
+      </EmptyScreen>
     );
   return (
     <BaseScreen

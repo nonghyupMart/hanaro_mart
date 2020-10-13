@@ -32,7 +32,7 @@ const CouponItemA = (props) => {
           </IconContainer>
         )}
         {props.item.status == "20" && (
-          <IconContainer2>
+          <IconContainer2 onPress={props.onPress}>
             <Image source={require("@images/timer25.png")} />
             <IconText style={{ color: colors.greyishThree }}>사용완료</IconText>
           </IconContainer2>

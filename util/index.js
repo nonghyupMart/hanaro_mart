@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
+import Barcoder from "@util/barcode";
+
 import AesUtil from "@util/aes_util";
 var g_keySize = 128;
 var g_iterationCount = 10000;
@@ -10,6 +12,10 @@ var g_iv = "2fad5a477d13ecda7f718fbd8a9f0443";
 var g_passPhrase = "@__hanaro+app__!";
 var aesUtil = new AesUtil(g_keySize, g_iterationCount);
 
+export const validateBarcode = (barcode) => {
+  var validator = new Barcoder("ean13");
+  return validator.validate(barcode);
+};
 export const encrypt = (val) => {
   return aesUtil.encrypt(g_salt, g_iv, g_passPhrase, val);
 };
@@ -24,10 +30,11 @@ export const formatNumber = (num) => {
 export const formatPhoneNumber = (phoneNumberString) => {
   var cleaned = ("" + phoneNumberString).replace(/\D/g, "");
   var match = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
-  if (match) {
+  var match2 = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+  if (match || match2) {
     return "" + match[1] + "-" + match[2] + "-" + match[3];
   }
-  return null;
+  return phoneNumberString;
 };
 
 export const emptyPrint = (val) => {
@@ -71,4 +78,3 @@ export const setStorageItem = (name, data) => {
 export const getStorageItem = (name) => {
   return AsyncStorage.getItem(Constants.manifest.releaseChannel + "::" + name);
 };
-

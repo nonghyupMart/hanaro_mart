@@ -47,7 +47,7 @@ const EmptyScreen = (props) => {
           },
         });
       } else {
-        setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
+        setMessage("회원가입후 사용하실 수\n있는 메뉴입니다.");
         setConfirmText("회원가입");
         setOnPressConfirm({
           confirm: () => {

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   AsyncStorage,
+  BackHandler,
 } from "react-native";
 import {
   createStackNavigator,
@@ -37,7 +38,9 @@ import NaroTube from "@components/home/NaroTube";
 import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = (props) => {
+  const routeName = props.route.name;
+  const navigation = props.navigation;
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
@@ -52,6 +55,7 @@ const HomeScreen = ({ navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const [alert, setAlert] = useState();
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setAppPopupKey(Math.random());
@@ -60,8 +64,10 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
   useEffect(() => {
-    // AsyncStorage.removeItem("storePopupData");
-    // AsyncStorage.removeItem("appPopupData");
+    // if (__DEV__) {
+    //   AsyncStorage.removeItem("storePopupData");
+    //   AsyncStorage.removeItem("appPopupData");
+    // }
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
       setIsLoading(false);
@@ -95,11 +101,13 @@ const HomeScreen = ({ navigation }) => {
           key={appPopupKey}
           setIsReadyAppPopup={setIsReadyAppPopup}
           setFetchAppPopup={setFetchAppPopup}
+          {...props}
         />
         {isReadyAppPopup && (
           <StorePopup
             key={storePopupKey}
             setFetchStorePopup={setFetchStorePopup}
+            {...props}
           />
         )}
         <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />

@@ -26,14 +26,26 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState();
   const onPress = () => {
-    dispatch(authActions.withdrawal(userInfo.user_cd)).then(() => {
-      navigation.navigate("Home");
-      setAlert({
-        message: "탈퇴 되었습니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+    setAlert({
+      message: `탈퇴한 뒤에는 아이디 및\n데이터를 복구할 수 없습니다.\n탈퇴하시겠습니까?`,
+      onPressConfirm: () => {
+        dispatch(authActions.withdrawal(userInfo.user_cd)).then((data) => {
+          console.warn(data.result);
+          if (data.result == "success") {
+            setAlert({
+              message: "탈퇴 되었습니다.",
+              onPressConfirm: () => {
+                navigation.navigate("Home");
+                setAlert(null);
+                dispatch(authActions.withdrawalFinish());
+              },
+            });
+          }
+        });
+      },
+      onPressCancel: () => {
+        setAlert(null);
+      },
     });
   };
   return (

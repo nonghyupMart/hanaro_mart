@@ -82,6 +82,7 @@ const EventDetailScreen = (props, { navigation }) => {
           }}
         >
           <ScaledImage
+            key={eventDetail.detail_img}
             source={eventDetail.detail_img}
             style={{}}
             width={screenWidth}

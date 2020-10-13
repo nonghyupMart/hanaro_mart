@@ -12,10 +12,17 @@ const ENV = {
   staging: {
     SERVER_URL: "[your.staging.api.here]",
   },
+  default: {
+    SERVER_URL: "https://www.hanaromartapp.com",
+    // Add other keys you want here
+  },
   prod: {
     SERVER_URL: "https://www.hanaromartapp.com",
     // Add other keys you want here
   },
+};
+export const getEnv = (env = Constants.manifest.releaseChannel) => {
+  return env;
 };
 
 const getEnvVars = (env = Constants.manifest.releaseChannel) => {

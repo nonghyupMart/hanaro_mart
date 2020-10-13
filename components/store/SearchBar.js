@@ -21,7 +21,8 @@ const SearchBar = (props) => {
       mname: props.mname,
       store_nm: props.store_nm,
     };
-    dispatch(branchesActions.fetchBranches(query)).then(() => {
+
+    props.fetchBranches(props.lname, props.mname, props.store_nm).then(() => {
       props.setIsLoading(false);
     });
   };

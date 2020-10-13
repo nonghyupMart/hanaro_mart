@@ -147,11 +147,13 @@ export const withdrawal = (user_cd) => {
       throw new Error("withdrawal went wrong!");
     }
 
-    Util.log(resData.data);
-    clearAllData();
-    dispatch({ type: WITHDRAWAL });
+    // Util.log(resData.data);
     return resData.data;
   };
+};
+export const withdrawalFinish = () => {
+  clearAllData();
+  return { type: WITHDRAWAL };
 };
 const saveUserInfoToStorage = (userInfo) => {
   Util.setStorageItem("userInfoData", JSON.stringify(userInfo));

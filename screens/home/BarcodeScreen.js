@@ -58,6 +58,15 @@ const BarcodeScreen = (props) => {
     // return clearInterval(timer);
   }, [elapsedTime]);
 
+  const onError = () => {
+    setAlert({
+      message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+      onPressConfirm: () => {
+        setAlert(null);
+        props.navigation.pop();
+      },
+    });
+  };
   return (
     <BaseScreen
       isBottomNavigation={false}
@@ -88,6 +97,7 @@ const BarcodeScreen = (props) => {
           format="EAN13"
           flat
           text={barcode}
+          onError={onError}
         />
       </Container>
       <WarnContainer>

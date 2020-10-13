@@ -21,11 +21,14 @@ const Alert = (props) => {
       onModalHide={() => {}}
     >
       <Container>
-        <Icon>
-          <Image source={require("@images/ic_error_outline_24px.png")} />
-        </Icon>
-        {props.content}
-        {props.message && <Message>{props.message}</Message>}
+        <TitleContainer message={props.message}>
+          <Icon>
+            <Image source={require("@images/ic_error_outline_24px.png")} />
+          </Icon>
+
+          {props.content}
+          {props.message && <Message>{props.message}</Message>}
+        </TitleContainer>
         <ButtonContainer>
           <ConfirmButton onPress={onPressConfirm}>
             <ButtonText>{props.confirmText}</ButtonText>
@@ -40,7 +43,12 @@ const Alert = (props) => {
     </Modal>
   );
 };
-
+const TitleContainer = styled.View({
+  flexDirection: "row",
+  width: "100%",
+  flexWrap: "wrap",
+  paddingRight: (props) => (props.message ? 45 : 0),
+});
 const ButtonContainer = styled.View({
   justifyContent: "center",
   alignItems: "center",
@@ -81,10 +89,15 @@ const Message = styled(BaseText)({
   textAlign: "center",
   marginLeft: 18,
   marginRight: 18,
+  flex: 1,
 });
-const Icon = styled.View({ position: "absolute", left: 12, top: 12 });
+const Icon = styled.View({
+  marginTop: 12,
+  marginLeft: 12,
+  // position: "absolute", left: 12, top: 12
+});
 const Container = styled.View({
-  width: width - 16 * 2,
+  // width: width - 16 * 2,
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   borderRadius: 10,
   paddingBottom: 25,

@@ -65,6 +65,7 @@ const BaseScreen = (props) => {
     };
   }, []);
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
+
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );

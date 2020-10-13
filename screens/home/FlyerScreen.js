@@ -10,7 +10,7 @@ import BaseScreen from "@components/BaseScreen";
 import { useFocusEffect } from "@react-navigation/native";
 const initialLayout = { width: Dimensions.get("window").width };
 import { useIsFocused } from "@react-navigation/native";
-import { EmptyText } from "@UI/BaseUI";
+import { EmptyText, EmptyScreen } from "@UI/BaseUI";
 const FlyerScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [alert, setAlert] = useState();
@@ -67,7 +67,6 @@ const FlyerScreen = ({ navigation }) => {
     }
   };
   const renderScene = ({ route, jumpTo }) => {
-
     return (
       <FlyerContentsScreen
         // route={route}
@@ -83,9 +82,9 @@ const FlyerScreen = ({ navigation }) => {
   };
   if (routes.length === 0)
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
+      <EmptyScreen>
         <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
-      </BaseScreen>
+      </EmptyScreen>
     );
   return (
     <TabView

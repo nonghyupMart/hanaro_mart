@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, TouchableOpacity, Text } from "react-native";
-
+import * as Util from "@util";
 import {
   SafeAreaView,
   View,
@@ -50,11 +50,25 @@ const CouponDetailScreen = (props) => {
   const onPress = () => {
     let msg;
     if (!isUsed) {
-      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로  처리됩니다.`;
+      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로\n처리됩니다.`;
 
       setAlert({
         message: msg,
         onPressConfirm: () => {
+          if (
+            couponDetail.barcode.length < 13 ||
+            !Util.validateBarcode(couponDetail.barcode)
+          ) {
+            setAlert({
+              message:
+                "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+              onPressConfirm: () => {
+                setAlert(null);
+              },
+            });
+            return;
+          }
+
           setAlert(null);
           dispatch(
             couponActions.useCoupon({
@@ -69,6 +83,7 @@ const CouponDetailScreen = (props) => {
           ).then((data) => {
             if (data.result == "success") {
               setIsUsed(true);
+
               props.navigation.navigate("Barcode", {
                 barcode: couponDetail.barcode,
               });
@@ -152,6 +167,8 @@ const CouponDetailScreen = (props) => {
               width: screenWidth * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
+              resizeMode: "contain",
+              backgroundColor: colors.trueWhite,
             }}
           />
           {/* <Discount>

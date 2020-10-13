@@ -175,9 +175,9 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         </View>
       </Animated.View>
       <HomeTopTabNavigator.Navigator
-        onStateChange={() => {
-        }}
-        lazy={true}
+        backBehavior="initialRoute"
+        onStateChange={() => {}}
+        lazy={false}
         // optimizationsEnabled={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"

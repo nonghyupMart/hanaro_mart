@@ -25,6 +25,7 @@ import {
   BaseTextInput,
 } from "@UI/BaseUI";
 import { formatPhoneNumber } from "@util";
+import moment from "moment";
 
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
@@ -46,10 +47,42 @@ const JoinStep2Screen = ({ navigation }) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [timer, setTimer] = useState();
+
   const dispatch = useDispatch();
   useEffect(() => {
     // if (phoneNumberRef) phoneNumberRef.focus();
   }, []);
+  useEffect(() => {
+    return () => {
+      // console.warn("distroy", timer);
+      clearInterval(timer);
+    };
+  }, []);
+
+  const startTimer = () => {
+    clearInterval(timer);
+    const eventTime = moment().add(2, "minutes"); // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
+    const currentTime = moment(); // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
+    const diffTime = eventTime.diff(currentTime, "seconds");
+    let duration = moment.duration(diffTime * 1000, "milliseconds");
+    const interval = 1000;
+    duration = moment.duration(duration - interval, "milliseconds");
+    setMinutes(duration.minutes());
+    setSeconds(duration.seconds());
+
+    return setInterval(() => {
+      duration = moment.duration(duration - interval, "milliseconds");
+      setMinutes(duration.minutes());
+      setSeconds(duration.seconds());
+      if (duration.minutes() <= 0 && duration.seconds() <= 0) {
+        clearInterval(timer);
+      }
+      // console.warn(minutes, seconds, duration.minutes(), duration.seconds());
+    }, interval);
+  };
 
   const onPressJoin = () => {
     Keyboard.dismiss();
@@ -60,12 +93,17 @@ const JoinStep2Screen = ({ navigation }) => {
       token: Util.encrypt(pushToken),
       os: Platform.OS === "ios" ? "I" : "A",
     };
-    signup(query, dispatch, setAlert, agreedStatus);
+    signup(query, dispatch, setAlert, agreedStatus, setIsLoading);
     setIsRequestedJoin(true);
+  };
+  const pad = (num = 0) => {
+    while (num.length < 2) num = "0" + num;
+    return num;
   };
 
   const requestOTP = () => {
-    Keyboard.dismiss();
+    if (minutes > 0 || seconds > 0) return;
+
     if (!phoneNumber) {
       setAlert({
         message: "휴대폰번호를 입력해주세요.",
@@ -75,7 +113,7 @@ const JoinStep2Screen = ({ navigation }) => {
       });
       return;
     }
-    if (phoneNumber.length < 11) {
+    if (phoneNumber.length < 10) {
       setAlert({
         message: "휴대폰번호를 정확히 입력해주세요.",
         onPressConfirm: () => {
@@ -96,6 +134,7 @@ const JoinStep2Screen = ({ navigation }) => {
     }
     if (phoneNumber) {
       dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
+        setTimer(startTimer());
         setAcCode(data.accessCode);
         setJoinStep([true, false]);
       });
@@ -103,21 +142,29 @@ const JoinStep2Screen = ({ navigation }) => {
   };
   const validateOTP = () => {
     Keyboard.dismiss();
-    if (accessCode == acCode) {
-      setJoinStep([true, true]);
-    } else {
-      setAlert({
+    if (!accessCode || accessCode.length == 0) {
+      return setAlert({
+        message: "인증번호를 입력하세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    if (accessCode != acCode) {
+      return setAlert({
         message: "인증번호를 확인해 주세요.",
         onPressConfirm: () => {
           setAlert(null);
         },
       });
     }
+    setJoinStep([true, true]);
   };
 
   return (
     <BaseScreen alert={alert} isScroll={false} isLoading={isLoading}>
       <ScrollContainer keyboardShouldPersistTaps="handled">
+        <DescText>{`아래의 휴대폰번호로 SMS 인증번호 6자리를\n보내드립니다.`}</DescText>
         <TextInputContainer style={{ marginBottom: 7 }}>
           <Image source={require("@images/ic_phone_iphone_24px.png")} />
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
@@ -132,45 +179,61 @@ const JoinStep2Screen = ({ navigation }) => {
             placeholder="- 없이 입력하세요."
           />
         </TextInputContainer>
-        <BlackButton onPress={() => requestOTP()}>
-          <ButtonText>인증번호 신청</ButtonText>
-        </BlackButton>
+        {(minutes > 0 || seconds > 0) && (
+          <BlackButton
+            style={{ marginTop: 10, backgroundColor: colors.greyishThree }}
+          >
+            <ButtonText>
+              {minutes}분 {pad(seconds)}초 후 재전송
+            </ButtonText>
+          </BlackButton>
+        )}
+        {minutes <= 0 && seconds <= 0 && (
+          <BlackButton onPress={() => requestOTP()} style={{ marginTop: 10 }}>
+            <ButtonText>인증번호 신청</ButtonText>
+          </BlackButton>
+        )}
         {joinStep[0] && (
-          <View style={{ flexDirection: "row", marginTop: 57 }}>
-            <TextInputContainer style={{ marginRight: 8 }}>
-              <Image source={require("@images/help.png")} />
-              <Label
-                style={{ marginLeft: 10, marginRight: 10 }}
-                onPress={() => {
-                  otpRef.focus();
-                }}
-              >
-                인증번호
-              </Label>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <BaseTextInput
-                  ref={(input) => setOtpRef(input)}
-                  required
-                  keyboardType="numeric"
-                  maxLength={6}
-                  placeholder="6자리"
-                  autoFocus={true}
-                  value={accessCode}
-                  style={{ lineHeight: 18 }}
-                  onSubmitEditing={Keyboard.dismiss}
-                  onChangeText={(text) => setAccessCode(text)}
-                />
-              </View>
-            </TextInputContainer>
-            <BlueButton onPress={() => validateOTP()}>
-              <ButtonText>인증번호 확인</ButtonText>
-            </BlueButton>
+          <View style={{ marginTop: 22 }}>
+            <DescText>{`통신사의 사정에 따라 SMS 전송시간이 다소 지연될 수 있습니다.`}</DescText>
+            <View style={{ flexDirection: "row" }}>
+              <TextInputContainer style={{ marginRight: 8 }}>
+                <Image source={require("@images/help.png")} />
+                <Label
+                  style={{ marginLeft: 10, marginRight: 10 }}
+                  onPress={() => {
+                    otpRef.focus();
+                  }}
+                >
+                  인증번호
+                </Label>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <BaseTextInput
+                    ref={(input) => setOtpRef(input)}
+                    required
+                    keyboardType="numeric"
+                    maxLength={6}
+                    placeholder="6자리"
+                    autoFocus={true}
+                    value={accessCode}
+                    style={{ lineHeight: 18, width: "100%" }}
+                    onSubmitEditing={Keyboard.dismiss}
+                    onChangeText={(text) => setAccessCode(text)}
+                  />
+                </View>
+              </TextInputContainer>
+
+              <BlueButton onPress={() => validateOTP()}>
+                <ButtonText>인증번호 확인</ButtonText>
+              </BlueButton>
+            </View>
           </View>
         )}
         {joinStep[1] && (
@@ -202,12 +265,19 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-export const signup = (query, dispatch, setAlert, agreedStatus) => {
+export const signup = (
+  query,
+  dispatch,
+  setAlert,
+  agreedStatus,
+  setIsLoading
+) => {
   dispatch(authActions.signup(query)).then((userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
           (storeData) => {
+            setIsLoading(false);
             authActions.saveUserStoreToStorage(storeData);
             dispatch(authActions.saveUserStore(storeData));
             setAlert({
@@ -220,6 +290,7 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
           }
         );
       } else {
+        setIsLoading(false);
         setAlert({
           content: popupConetnt(agreedStatus, userInfo),
           onPressConfirm: () => {
@@ -229,6 +300,7 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
         });
       }
     } else {
+      setIsLoading(false);
       setAlert({
         message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
         onPressConfirm: () => {
@@ -238,52 +310,64 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
     }
   });
 };
-
+const DescText = styled(BaseText)({
+  fontSize: 14,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+  marginBottom: 17,
+  marginLeft: 20,
+  marginRight: 20,
+});
 const ScrollContainer = styled.ScrollView({
   flex: 1,
   paddingRight: StyleConstants.defaultPadding,
   paddingLeft: StyleConstants.defaultPadding,
   marginTop: 20,
 });
+const GreenText = styled(BaseText)({
+  fontSize: 18,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 28,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.appleGreen,
+});
+const WhiteText = styled(BaseText)({
+  fontSize: 24,
+  color: colors.trueWhite,
+  textAlign: "center",
+});
+const Container = styled.View({
+  marginTop: 0,
+  paddingBottom: 30,
+});
+const Line = styled.View({
+  flexDirection: "row",
+
+  marginLeft: 29,
+  marginRight: 29,
+  flexShrink: 1,
+});
+const SmallText = styled(BaseText)({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 25,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.trueWhite,
+  marginLeft: 10,
+  flexShrink: 1,
+});
+const Icon = styled.Image({ marginTop: 5 });
 export const popupConetnt = (agreedStatus, userInfo) => {
   // Util.log(agreedStatus);
-  const GreenText = styled(BaseText)({
-    fontSize: 18,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    lineHeight: 28,
-    letterSpacing: 0,
-    textAlign: "center",
-    color: colors.appleGreen,
-  });
-  const WhiteText = styled(BaseText)({
-    fontSize: 24,
-    color: colors.trueWhite,
-    textAlign: "center",
-  });
-  const Container = styled.View({
-    marginTop: 60,
-    paddingBottom: 30,
-  });
-  const Line = styled.View({
-    flexDirection: "row",
 
-    marginLeft: 29,
-    marginRight: 29,
-    flexShrink: 1,
-  });
-  const SmallText = styled(BaseText)({
-    fontSize: 14,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    lineHeight: 25,
-    letterSpacing: 0,
-    textAlign: "left",
-    color: colors.trueWhite,
-    marginLeft: 10,
-    flexShrink: 1,
-  });
-  const Icon = styled.Image({ marginTop: 5 });
   // Util.log(userInfo.user_id);
   return (
     <Container>
@@ -298,6 +382,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
         if (agreedStatus[keyName].isChecked)
           return (
             <Line
+              key={index}
               style={{
                 marginTop: index == 0 ? 20 : 0,
                 // marginBottom:
@@ -338,7 +423,7 @@ const ConfrimText = styled(BaseText)({
 });
 const InputText = styled(BaseTextInput)({
   flex: 1,
-  lineHeight: 20,
+  // lineHeight: 20,
 });
 const BlackButton = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.greyishBrown,
@@ -361,7 +446,7 @@ const LabelText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.pinkishGrey,
+  color: colors.greyishBrown,
 });
 const Label = (props) => (
   <LabelContainer {...props}>

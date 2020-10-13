@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Text, Button, Image, FlatList, Dimensions } from "react-native";
+import { View, Platform, Image, FlatList, Dimensions } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { BaseTouchable, BaseImage } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
@@ -22,7 +22,6 @@ const FlyerContentsScreen = (props) => {
   const product = useSelector((state) => state.flyer.product);
 
   useEffect(() => {
-
     setIsLoading(true);
 
     const fetchProduct = dispatch(
@@ -48,8 +47,17 @@ const FlyerContentsScreen = (props) => {
 
   return (
     <BaseScreen
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{
+        backgroundColor: colors.trueWhite,
+      }}
       isLoading={isLoading}
+      isPadding={Platform.OS == "ios" ? false : true}
+      // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
+      contentStyle={{
+        paddingTop: Platform.OS == "ios" ? 19 : 19,
+        paddingLeft: Platform.OS == "ios" ? 16 : 0,
+        paddingRight: Platform.OS == "ios" ? 16 : 0,
+      }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
 

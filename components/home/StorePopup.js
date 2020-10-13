@@ -18,6 +18,7 @@ import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
 const StorePopup = (props) => {
+  const routeName = props.route.name;
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -25,8 +26,9 @@ const StorePopup = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
   useEffect(() => {
-    if (isStorePopup) setIsVisible(true);
-  }, [isStorePopup]);
+    if (isStorePopup && !_.isEmpty(userStore) && userStore.storeInfo)
+      setIsVisible(true);
+  }, []);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
       props.setFetchStorePopup(true);
@@ -55,7 +57,8 @@ const StorePopup = (props) => {
     !isJoin ||
     !isStorePopup ||
     storePopup.popupCnt == 0 ||
-    !isVisible
+    !isVisible ||
+    routeName !== "Home"
   )
     return <></>;
   return (

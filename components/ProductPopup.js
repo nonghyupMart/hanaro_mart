@@ -90,7 +90,7 @@ const ProductPopup = (props) => {
             </QuantityContainer> */}
             <TotalContainer>
               <TotalUnit>합계 : </TotalUnit>
-              <Total>{Util.formatNumber(props.item.price)}원</Total>
+              <Total>{Util.formatNumber(props.item.sale_price)}원</Total>
             </TotalContainer>
             <BtnContainer style={{}}>
               {/* <BlueBtn>

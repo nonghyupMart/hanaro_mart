@@ -35,7 +35,7 @@ const CouponItem = (props) => {
         </Button>
       )}
       {props.item.status == "20" && (
-        <Button>
+        <Button onPress={props.onPress}>
           <ButtonText style={{ color: colors.greyishThree }}>
             사용완료
           </ButtonText>
@@ -105,6 +105,7 @@ const Date = styled(BaseText)({
   textAlign: "center",
   color: colors.greyishBrown,
   marginBottom: 10,
+  letterSpacing: -0.5,
 });
 const Container = styled.View({
   maxWidth: "50%",

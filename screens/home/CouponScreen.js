@@ -8,7 +8,7 @@ import CouponItem from "@components/CouponItem";
 import CouponItemA from "@components/CouponItemA";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
-import { BaseImage, screenWidth, BaseTouchable, EmptyText } from "@UI/BaseUI";
+import { BaseImage, screenWidth, EmptyScreen, EmptyText } from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -65,6 +65,7 @@ const CouponScreen = (props) => {
     // return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
+    setIsLoading(true);
     let couponList;
     switch (type) {
       case "A":
@@ -111,8 +112,9 @@ const CouponScreen = (props) => {
             });
           }
         });
-        return;
+        break;
       case "10": // 쿠폰이 있는 경우
+      case "20": // 사용완료
         navigation.navigate("CouponDetail", {
           store_cd: userStore.storeInfo.store_cd,
           cou_cd: item.cou_cd,
@@ -121,10 +123,10 @@ const CouponScreen = (props) => {
           index: index,
           type,
         });
-        return;
-      case "20": // 사용완료
-        return;
+
+        break;
     }
+    setIsLoading(false);
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
@@ -149,9 +151,9 @@ const CouponScreen = (props) => {
     coupon.couponList.length === 0
   )
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
+      <EmptyScreen>
         <EmptyText>{`나의 쿠폰이 없습니다.`}</EmptyText>
-      </BaseScreen>
+      </EmptyScreen>
     );
   if (
     routeName == "Coupon" &&
@@ -161,9 +163,9 @@ const CouponScreen = (props) => {
     coupon.couponList.length === 0
   )
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
+      <EmptyScreen>
         <EmptyText>현재 진행중인 나로쿠폰이 없습니다.</EmptyText>
-      </BaseScreen>
+      </EmptyScreen>
     );
   return (
     <BaseScreen
@@ -243,8 +245,6 @@ export const screenOptions = ({ navigation }) => {
 };
 
 const ScrollList = styled(ExtendedFlatList)({
-  flex: 1,
-
   width: "100%",
 });
 const styles = StyleSheet.create({

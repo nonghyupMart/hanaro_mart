@@ -49,7 +49,7 @@ const StoreChangeDetailScreen = (props) => {
 
   const [alert, setAlert] = useState();
   const storeChangeHandler = () => {
-    const msg = `기존 매장에서 사용하신 스탬프와\n쿠폰은 변경매장에서 보이지 않으며\n기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
+    const msg = `기존 매장에서 사용하신\n스탬프와 쿠폰은 \n변경매장에서 보이지\n 않으며 기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
     setAlert({
       message: msg,
       onPressConfirm: () => {
