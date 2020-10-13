@@ -36,8 +36,10 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
               message: "탈퇴 되었습니다.",
               onPressConfirm: () => {
                 navigation.navigate("Home");
-                setAlert(null);
-                dispatch(authActions.withdrawalFinish());
+                setTimeout(() => {
+                  setAlert(null);
+                  dispatch(authActions.withdrawalFinish());
+                }, 0);
               },
             });
           }

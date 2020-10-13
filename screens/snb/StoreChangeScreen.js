@@ -73,7 +73,7 @@ const StoreChangeScreen = (props) => {
         setLocation(location);
       }
     })();
-  }, [location]);
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);

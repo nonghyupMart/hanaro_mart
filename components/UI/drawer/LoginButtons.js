@@ -43,15 +43,13 @@ const LoginButtons = (props) => {
         <Text2>
           {`대표이사 : ${Util.emptyPrint(
             storeInfo && storeInfo.ceo
-          )} / 사업자 등록 번호 ${Util.emptyPrint(
+          )}\n사업자 등록 번호 ${Util.emptyPrint(
             storeInfo && storeInfo.biz_no
-          )} ${Util.emptyPrint(
-            storeInfo && storeInfo.addr
-          )} 고객만족센터 : ${Util.emptyPrint(
+          )}\n고객만족센터 : ${Util.emptyPrint(
             storeInfo && storeInfo.support_tel
-          )} / 개인정보관리책임자 : ${Util.emptyPrint(
+          )}\n개인정보관리책임자 : ${Util.emptyPrint(
             storeInfo && storeInfo.prv_manager
-          )}`}
+          )}\n주소 : ${Util.emptyPrint(storeInfo && storeInfo.addr)}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>

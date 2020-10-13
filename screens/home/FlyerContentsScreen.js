@@ -44,7 +44,6 @@ const FlyerContentsScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
-
   return (
     <BaseScreen
       style={{
@@ -63,9 +62,11 @@ const FlyerContentsScreen = (props) => {
 
       <BaseTouchable
         onPress={() =>
-          RootNavigation.navigate("FlyerDetail", {
-            leaf_cd: props.leaf_cd,
-          })
+          props.detail_img_cnt > 0
+            ? RootNavigation.navigate("FlyerDetail", {
+                leaf_cd: props.leaf_cd,
+              })
+            : null
         }
         style={{ height: width * 0.283, flex: 1, width: "100%" }}
       >
@@ -76,15 +77,19 @@ const FlyerContentsScreen = (props) => {
           }}
           source={props.title_img}
         />
-        <ArrowBtn onPress={() => props.goLeft(props.number)}>
-          <Image source={require("@images/l_off.png")} />
-        </ArrowBtn>
-        <ArrowBtn
-          style={{ right: 0 }}
-          onPress={() => props.goRight(props.number)}
-        >
-          <Image source={require("@images/r_off.png")} />
-        </ArrowBtn>
+        {props.number > 0 && (
+          <ArrowBtn onPress={() => props.goLeft(props.number)}>
+            <Image source={require("@images/l_off.png")} />
+          </ArrowBtn>
+        )}
+        {props.number < props.routesCnt - 1 && (
+          <ArrowBtn
+            style={{ right: 0 }}
+            onPress={() => props.goRight(props.number)}
+          >
+            <Image source={require("@images/r_off.png")} />
+          </ArrowBtn>
+        )}
       </BaseTouchable>
       {/* <Text>{props.number}</Text> */}
 

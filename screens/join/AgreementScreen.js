@@ -41,6 +41,7 @@ import {
   saveAgreedStatusToStorage,
 } from "@actions/auth";
 
+import * as Util from "@util";
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -103,8 +104,8 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>제공항목</SmallTextBold>
           <SmallText>
-            회원가입의 성립.하나로마트앱 서비스 이용. 민원처리,사고조사 등을
-            위한 원할한 의사소통 경로 확보.
+            휴대폰번호, 14세 이상여부, 본인인증 시 성명, 생년월일, 성별,
+            내외국인여부 , CI
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
           <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
@@ -150,11 +151,11 @@ const AgreementScreen = ({ navigation }) => {
         <Desc>
           <DescTextLine>
             <BulletIcon />
-            <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
+            <DescText1>개인정보의 선택적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
             <BulletIcon />
-            <DescText1>개인정보의 필수적 제공동의</DescText1>
+            <DescText1>개인정보의 선택적 제공동의</DescText1>
           </DescTextLine>
           <GrayDesc>
             이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
@@ -176,10 +177,10 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>제공항목</SmallTextBold>
           <SmallText>
-            상휴대폰번호, 본인인증 시 성명,생년월일,성별, 내외국인 여부, CI
+            휴대폰번호, 본인인증 시 성명,생년월일,성별, 내외국인 여부, CI
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.justUnderline}>회원탈퇴 시</SmallText>
+          <SmallText style={styles.justUnderline}>회원탈퇴시</SmallText>
         </ExtraBox>
       ),
     },
@@ -264,6 +265,7 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((response) => {
         const token = response.data;
+        Util.log("token==>", token);
         dispatch(setPushToken(token));
         return token;
       })

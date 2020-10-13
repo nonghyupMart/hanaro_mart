@@ -77,6 +77,8 @@ const FlyerScreen = ({ navigation }) => {
         goRight={goRight}
         leaf_cd={route.leaf_cd}
         store_cd={userStore.storeInfo.store_cd}
+        routesCnt={routes.length}
+        detail_img_cnt={route.detail_img_cnt}
       />
     );
   };
