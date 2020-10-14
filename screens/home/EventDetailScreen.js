@@ -98,7 +98,6 @@ const EventDetailScreen = (props, { navigation }) => {
       });
     }
     const price = QRCode.substr(id.length - 10);
-
     if (price < eventDetail.entry.entry_price) {
       return setAlert({
         message: "영수증 금액이 부족합니다.",
@@ -134,21 +133,24 @@ const EventDetailScreen = (props, { navigation }) => {
     });
   };
   const onApply = (reg_num) => {
-    if (rcp_qr.length !== 40) {
-      return setAlert({
-        message: "QR코드가 정확하지 않습니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
-    }
-    if (price < eventDetail.entry.entry_price) {
-      return setAlert({
-        message: "영수증 금액이 부족합니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+    if (rcp_qr) {
+      if (rcp_qr.length !== 40) {
+        return setAlert({
+          message: "QR코드가 정확하지 않습니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      }
+      const price = QRCode.substr(id.length - 10);
+      if (price < eventDetail.entry.entry_price) {
+        return setAlert({
+          message: "영수증 금액이 부족합니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      }
     }
     dispatch(
       eventActions.applyEvent({
