@@ -20,10 +20,20 @@ const StampBox = (props) => {
   const stamp_history_cnt = props.eventDetail.entry.stamp_history_cnt;
   let stamps = [];
   for (let i = 0; i < stamp_history_cnt; i++) {
-    stamps.push(<StampImage source={require("@images/on_nara192.png")} />);
+    stamps.push(
+      <StampImage
+        source={require("@images/on_nara192.png")}
+        key={Math.random()}
+      />
+    );
   }
   for (let i = 0; i < stamp_cnt - stamp_history_cnt; i++) {
-    stamps.push(<StampImage source={require("@images/off_nara191.png")} />);
+    stamps.push(
+      <StampImage
+        source={require("@images/off_nara191.png")}
+        key={Math.random()}
+      />
+    );
   }
 
   const onPress = () => {

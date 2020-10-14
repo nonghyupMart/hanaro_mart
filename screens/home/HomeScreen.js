@@ -89,6 +89,25 @@ const HomeScreen = (props) => {
     }
   }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
 
+  const navigateToCart = () => {
+    if (_.isEmpty(userStore)) return navigation.navigate("Empty");
+    navigation.navigate("Cart");
+  };
+
+  // TODO: 장바구니 클릭 않되게..
+  // React.useLayoutEffect(() => {
+  //   navigation.setOptions({
+  //     title: "쿠폰",
+  //   });
+  // }, [navigation]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     props.navigation.setOptions({
+  //       title: "쿠폰",
+  //     });
+  //     console.warn(1);
+  //   }, 1000);
+  // }, [isLoading]);
   return (
     <>
       <BaseScreen
@@ -132,61 +151,67 @@ export const screenOptions = ({ navigation }) => {
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
-    headerTitle: (props) => <LogoTitle {...props} />,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          iconSize={30}
-          IconComponent={MaterialIcons}
-          title="메뉴"
-          iconName="menu"
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-          color={colors.pine}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="검색"
-          iconName="search"
-          onPress={() => {
-            // animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: -5, marginLeft: -5 }}
-        />
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="알림"
-          iconName="notifications-none"
-          onPress={() => {
-            // animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: -5, marginLeft: -5 }}
-        />
-        <Item
-          iconSize={24}
-          IconComponent={MaterialCommunityIcons}
-          title="장바구니"
-          iconName="cart-outline"
-          onPress={() => {
-            // animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: -5, marginLeft: -5 }}
-        />
-      </HeaderButtons>
-    ),
+    headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
+    headerLeft: (props) => <HeaderMenu {...props} navigator={navigation} />,
+    headerRight: (props) => <HeaderRight {...props} navigator={navigation} />,
   };
 };
-
+const HeaderMenu = (props) => {
+  return (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        iconSize={30}
+        IconComponent={MaterialIcons}
+        title="메뉴"
+        iconName="menu"
+        onPress={() => {
+          props.navigator.dispatch(DrawerActions.toggleDrawer());
+        }}
+        color={colors.pine}
+      />
+    </HeaderButtons>
+  );
+};
+const HeaderRight = (props) => {
+  return (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        IconComponent={MaterialIcons}
+        iconSize={24}
+        title="검색"
+        iconName="search"
+        onPress={() => {
+          // animate();
+        }}
+        color={colors.pine}
+        style={{ marginRight: -5, marginLeft: -5 }}
+      />
+      <Item
+        IconComponent={MaterialIcons}
+        iconSize={24}
+        title="알림"
+        iconName="notifications-none"
+        onPress={() => {
+          props.navigator.navigate("Notification");
+        }}
+        color={colors.pine}
+        style={{ marginRight: -5, marginLeft: -5 }}
+      />
+      <Item
+        iconSize={24}
+        IconComponent={MaterialCommunityIcons}
+        title="장바구니"
+        iconName="cart-outline"
+        onPress={() => {
+          props.navigator.navigate("Cart");
+          // if (props.navigateToCart) props.navigateToCart();
+        }}
+        color={colors.pine}
+        style={{ marginRight: -5, marginLeft: -5 }}
+      />
+    </HeaderButtons>
+  );
+};
 const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,

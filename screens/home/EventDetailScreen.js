@@ -97,7 +97,7 @@ const EventDetailScreen = (props, { navigation }) => {
         },
       });
     }
-    const price = QRCode.substr(id.length - 10);
+    const price = QRCode.substr(QRCode.length - 10);
     if (price < eventDetail.entry.entry_price) {
       return setAlert({
         message: "영수증 금액이 부족합니다.",
@@ -142,7 +142,7 @@ const EventDetailScreen = (props, { navigation }) => {
           },
         });
       }
-      const price = QRCode.substr(id.length - 10);
+      const price = rcp_qr.substr(rcp_qr.length - 10);
       if (price < eventDetail.entry.entry_price) {
         return setAlert({
           message: "영수증 금액이 부족합니다.",

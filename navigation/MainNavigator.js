@@ -94,6 +94,13 @@ import WithdrawalMembershipScreen, {
   screenOptions as WithdrawalMembershipScreenOptions,
 } from "@screens/myPage/WithdrawalMembershipScreen";
 
+import NotificationScreen, {
+  screenOptions as NotificationScreenOptions,
+} from "@screens/NotificationScreen";
+import CartScreen, {
+  screenOptions as CartScreenOptions,
+} from "@screens/CartScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -340,6 +347,16 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="Withdrawal"
           component={WithdrawalMembershipScreen}
           options={WithdrawalMembershipScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={NotificationScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Cart"
+          component={CartScreen}
+          options={CartScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
