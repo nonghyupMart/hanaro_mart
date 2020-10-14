@@ -6,6 +6,7 @@ import {
   BlueButtonText,
   screenWidth,
   StyleConstants,
+  BaseText,
 } from "@UI/BaseUI";
 import { Image, FlatList } from "react-native";
 import StoreItem from "@components/store/StoreItem";
@@ -57,7 +58,7 @@ const HistoryList = (props) => {
     </>
   );
 };
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",

@@ -1,5 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+import * as Util from "@util";
+
 export const SET_COUPON_A = "SET_COUPON_A";
 export const SET_COUPON = "SET_COUPON";
 export const SET_MY_COUPON_A = "SET_MY_COUPON_A";
@@ -22,10 +24,10 @@ export const fetchCoupon = (query) => {
 
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchCoupon Something went wrong!");
       }
-      console.warn(url);
+      Util.log(url);
       let type = SET_COUPON;
 
       if (query.page > 1) {
@@ -83,11 +85,10 @@ export const downloadCoupon = (query) => {
       });
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         return resData.error;
         throw new Error("downloadCoupon Something went wrong!");
       }
-      console.warn("downloadCoupon", resData.data);
       coupon.couponList[index].status = "10";
       switch (type) {
         case "A":
@@ -108,9 +109,11 @@ export const useCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
   const type = query.type;
+  const routeName = query.routeName;
   delete query.coupon;
   delete query.index;
   delete query.type;
+  delete query.routeName;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/coupon`,
   });
@@ -123,20 +126,25 @@ export const useCoupon = (query) => {
         },
         body: JSON.stringify(query),
       });
-      console.warn(url, query);
+      Util.log(url, query);
       const resData = await response.json();
       if (!response.ok) {
-        console.warn(url, resData.error.errorMsg);
+        Util.log(url, resData.error.errorMsg);
         throw new Error("useCoupon Something went wrong!");
       }
-      console.warn("useCoupon", resData.data);
+      Util.log("routeName", routeName);
+      // return;
       coupon.couponList[index].status = "20";
       switch (type) {
         case "A":
-          dispatch({ type: SET_COUPON_A, coupon: coupon });
+          if (routeName === "MyCoupon")
+            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
+          else dispatch({ type: SET_COUPON_A, coupon: coupon });
           break;
         case "B":
-          dispatch({ type: SET_COUPON, coupon: coupon });
+          if (routeName === "MyCoupon")
+            dispatch({ type: SET_MY_COUPON, coupon: coupon });
+          else dispatch({ type: SET_COUPON, coupon: coupon });
           break;
       }
       return resData.data;
@@ -151,7 +159,7 @@ export const fetchCouponDetail = (query) => {
   const url = queryString.stringifyUrl({
     url: `${API_URL}/coupon/${query.cou_cd}?user_cd=${query.user_cd}`,
   });
-  // console.warn(url);
+  // Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -161,7 +169,7 @@ export const fetchCouponDetail = (query) => {
       }
 
       const resData = await response.json();
-      // console.warn("fetchCouponDetail", resData.data.couponInfo);
+      // Util.log("fetchCouponDetail", resData.data.couponInfo);
       dispatch({
         type: SET_COUPON_DETAIL,
         couponDetail: resData.data.couponInfo,

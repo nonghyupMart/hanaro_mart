@@ -30,7 +30,6 @@ const FlyerDetailScreen = (props, { navigation }) => {
   if (leafletDetail) {
     //
     leafletDetail.detail_img.map((item, index) => {
-      // console.warn(item);
       images.push({ source: { uri: IMAGE_URL + item } });
     });
   }

@@ -9,30 +9,40 @@ import {
   BaseTouchable,
   screenWidth,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
 import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Platform } from "react-native";
 const StorePopup = (props) => {
+  const routeName = props.route.name;
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
+  // console.warn(storePopup);
   useEffect(() => {
-    if (isStorePopup) setIsVisible(true);
-  }, [isStorePopup]);
+    if (
+      isStorePopup &&
+      !_.isEmpty(userStore) &&
+      userStore.storeInfo &&
+      storePopup &&
+      storePopup.popupCnt > 0
+    )
+      setIsVisible(true);
+    else setIsVisible(false);
+  }, [isStorePopup, userStore, storePopup]);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
-      // console.warn("ignored!");
       props.setFetchStorePopup(true);
       return;
     }
-    if (!_.isEmpty(userStore)) {
+    if (!_.isEmpty(userStore) && userStore.storeInfo) {
       props.setFetchStorePopup(false);
       dispatch(
         homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
@@ -40,7 +50,7 @@ const StorePopup = (props) => {
         props.setFetchStorePopup(true);
       });
     }
-  }, [userStore, storePopup]);
+  }, [userStore]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForStorePopupToStorage();
@@ -48,14 +58,16 @@ const StorePopup = (props) => {
     setIsVisible(false);
   };
 
-  //매장이 있는 경우만 매장 팝업
   if (
     _.isEmpty(storePopup) ||
     _.isEmpty(userStore) ||
     !isJoin ||
     !isStorePopup ||
-    storePopup.popupCnt == 0
+    storePopup.popupCnt == 0 ||
+    !isVisible ||
+    routeName !== "Home"
   )
+    //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
     <Modal
@@ -102,19 +114,10 @@ const StorePopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  // console.warn(item.link_url);
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >
-                <BaseImage
-                  source={item.display_img}
-                  width={screenWidth}
-                  style={{
-                    resizeMode: "cover",
-                    width: screenWidth,
-                    height: screenHeight - 40,
-                  }}
-                />
+                <Image source={item.display_img} width={screenWidth} />
               </TouchableOpacity>
             );
           })}
@@ -132,9 +135,13 @@ const StorePopup = (props) => {
     </Modal>
   );
 };
-
+const Image = styled(BaseImage)({
+  resizeMode: "cover",
+  width: screenWidth,
+  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+});
 const BtnContainer = styled.View({ flexDirection: "row" });
-const BtnText = styled.Text({
+const BtnText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",

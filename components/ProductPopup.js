@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import {
   Button,
-  Text,
   StyleSheet,
   View,
   Image,
@@ -10,12 +9,13 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
-import { BaseImage, screenWidth, screenHeight } from "@UI/BaseUI";
+import { BaseImage, screenWidth, screenHeight, BaseText } from "@UI/BaseUI";
 import * as flyerActions from "@actions/flyer";
 import {
   BaseTouchable,
   BaseSquareButtonContainer,
   ButtonText,
+  BaseTextInput,
 } from "./UI/BaseUI";
 import * as Util from "@util";
 
@@ -73,7 +73,7 @@ const ProductPopup = (props) => {
                 판매가 : {Util.formatNumber(props.item.sale_price)}원
               </SalePrice>
             </PriceContainer>
-            <QuantityContainer>
+            {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
@@ -87,18 +87,18 @@ const ProductPopup = (props) => {
                   <Image source={require("@images/sp108.png")} />
                 </TouchableOpacity>
               </QButtonContainer>
-            </QuantityContainer>
+            </QuantityContainer> */}
             <TotalContainer>
               <TotalUnit>합계 : </TotalUnit>
-              <Total>{Util.formatNumber(props.item.price)}원</Total>
+              <Total>{Util.formatNumber(props.item.sale_price)}원</Total>
             </TotalContainer>
             <BtnContainer style={{}}>
-              <BlueBtn>
+              {/* <BlueBtn>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn>
+              </BlueBtn> */}
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
@@ -114,7 +114,7 @@ const ProductPopup = (props) => {
     </Modal>
   );
 };
-const BtnText = styled.Text({
+const BtnText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -143,7 +143,7 @@ const BtnContainer = styled.View({
   alignItems: "flex-end",
   marginBottom: 24,
 });
-const TotalUnit = styled.Text({
+const TotalUnit = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",
@@ -152,7 +152,7 @@ const TotalUnit = styled.Text({
   textAlign: "right",
   color: colors.greyishBrown,
 });
-const Total = styled.Text({
+const Total = styled(BaseText)({
   fontSize: 22,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -167,7 +167,7 @@ const TotalContainer = styled.View({
   flexDirection: "row",
   marginTop: 5,
 });
-const QInput = styled.TextInput({
+const QInput = styled(BaseTextInput)({
   width: 50,
   fontSize: 21,
   fontWeight: "500",
@@ -190,7 +190,7 @@ const QContainer = styled.View({
   borderColor: colors.white,
   paddingRight: 20.5,
 });
-const QuantityTitle = styled.Text({
+const QuantityTitle = styled(BaseText)({
   fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",
@@ -216,7 +216,7 @@ const QuantityContainer = styled.View({
   flexDirection: "row",
   // width: () => `calc(100% -20)`,
 });
-const SalePrice = styled.Text({
+const SalePrice = styled(BaseText)({
   fontSize: 14,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -226,7 +226,7 @@ const SalePrice = styled.Text({
   color: colors.greyishBrown,
   marginLeft: 11,
 });
-const Price = styled.Text({
+const Price = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -241,7 +241,7 @@ const PriceContainer = styled.View({
   marginBottom: 7,
 });
 
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",

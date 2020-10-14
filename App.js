@@ -52,7 +52,7 @@ const appReducer = combineReducers({
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {
     // for all keys defined in your persistConfig(s)
-    storage.removeItem("persist:root");
+    // AsyncStorage.removeItem("persist:root");
     // storage.removeItem('persist:otherKey')
 
     state = undefined;
@@ -64,8 +64,10 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 const fetchFonts = () => {
   return Font.loadAsync({
-    "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    // "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
+    // "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
+    // SourceHanSansKR: require("./assets/fonts/SourceHanSansHWK-Regular.otf"),
+    // "SourceHanSansKR-Bold": require("./assets/fonts/SourceHanSansHWK-Bold.otf"),
   });
 };
 
@@ -91,13 +93,13 @@ export default function App() {
   useEffect(() => {
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log(response);
+        console.warn(response);
       }
     );
 
     const foregroundSubscription = Notifications.addNotificationReceivedListener(
       (notification) => {
-        console.log(notification);
+        console.warn(notification);
       }
     );
 
@@ -109,10 +111,10 @@ export default function App() {
       // BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
   }, []);
-  // SplashScreen.preventAutoHideAsync();
+  SplashScreen.preventAutoHideAsync();
 
   const _cacheResourcesAsync = async () => {
-    // SplashScreen.hideAsync();
+    SplashScreen.hideAsync();
     const images = [
       require("./assets/images/20200811_83175949013327_5_1280x480 (1).jpg"),
       // require("./assets/images/slack-icon.png"),

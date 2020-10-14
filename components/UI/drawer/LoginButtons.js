@@ -7,6 +7,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import { setPreview } from "@actions/auth";
 import * as Util from "@util";
@@ -36,17 +37,19 @@ const LoginButtons = (props) => {
       </ButtonContainer>
 
       <GrayContainer>
-        <Text1>사업자명 : {Util.emptyPrint(storeInfo.store_nm)}</Text1>
+        <Text1>
+          사업자명 : {Util.emptyPrint(storeInfo && storeInfo.store_nm)}
+        </Text1>
         <Text2>
           {`대표이사 : ${Util.emptyPrint(
-            storeInfo.ceo
-          )} / 사업자 등록 번호 ${Util.emptyPrint(
-            storeInfo.biz_no
-          )} ${Util.emptyPrint(
-            storeInfo.addr
-          )} 고객만족센터 : ${Util.emptyPrint(
-            storeInfo.support_tel
-          )} / 개인정보관리책임자 : ${Util.emptyPrint(storeInfo.prv_manager)}`}
+            storeInfo && storeInfo.ceo
+          )}\n사업자 등록 번호 ${Util.emptyPrint(
+            storeInfo && storeInfo.biz_no
+          )}\n고객만족센터 : ${Util.emptyPrint(
+            storeInfo && storeInfo.support_tel
+          )}\n개인정보관리책임자 : ${Util.emptyPrint(
+            storeInfo && storeInfo.prv_manager
+          )}\n주소 : ${Util.emptyPrint(storeInfo && storeInfo.addr)}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>
@@ -66,7 +69,7 @@ const LoginButtons = (props) => {
     </BottomContainer>
   );
 };
-const Info = styled.Text({
+const Info = styled(BaseText)({
   margin: 9,
   fontSize: 10,
   fontWeight: "500",
@@ -79,7 +82,7 @@ const Info = styled.Text({
 const TextArea = styled.View({
   flexDirection: "row",
 });
-const Text3 = styled.Text({
+const Text3 = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -88,7 +91,7 @@ const Text3 = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   marginTop: 2,
   marginBottom: 4,
   fontSize: 10,
@@ -99,7 +102,7 @@ const Text2 = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",
@@ -114,6 +117,7 @@ const GrayContainer = styled.View({
   paddingRight: 21,
   paddingTop: 10,
   paddingBottom: 10,
+  width: "100%",
 });
 const BaseButton = styled(BaseButtonContainer)({
   width: screenWidth * 0.333,
@@ -133,7 +137,7 @@ const BlueButton = styled(BaseButtonContainer)({
   marginRight: 16,
   backgroundColor: colors.cerulean,
 });
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",
@@ -149,7 +153,7 @@ const BottomContainer = styled.View({
   alignItems: "flex-end",
   justifyContent: "flex-end",
 });
-const BlackText = styled.Text({
+const BlackText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "300",
   fontStyle: "normal",

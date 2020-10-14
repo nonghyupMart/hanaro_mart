@@ -32,6 +32,7 @@ import {
   ButtonText,
   screenHeight,
   screenWidth,
+  BaseText,
 } from "@UI/BaseUI";
 
 import {
@@ -40,6 +41,7 @@ import {
   saveAgreedStatusToStorage,
 } from "@actions/auth";
 
+import * as Util from "@util";
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -102,8 +104,8 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>제공항목</SmallTextBold>
           <SmallText>
-            회원가입의 성립.하나로마트앱 서비스 이용. 민원처리,사고조사 등을
-            위한 원할한 의사소통 경로 확보.
+            휴대폰번호, 14세 이상여부, 본인인증 시 성명, 생년월일, 성별,
+            내외국인여부 , CI
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
           <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
@@ -149,11 +151,11 @@ const AgreementScreen = ({ navigation }) => {
         <Desc>
           <DescTextLine>
             <BulletIcon />
-            <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
+            <DescText1>개인정보의 선택적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
             <BulletIcon />
-            <DescText1>개인정보의 필수적 제공동의</DescText1>
+            <DescText1>개인정보의 선택적 제공동의</DescText1>
           </DescTextLine>
           <GrayDesc>
             이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
@@ -175,10 +177,10 @@ const AgreementScreen = ({ navigation }) => {
           </SmallText>
           <SmallTextBold>제공항목</SmallTextBold>
           <SmallText>
-            상휴대폰번호, 본인인증 시 성명,생년월일,성별, 내외국인 여부, CI
+            휴대폰번호, 본인인증 시 성명,생년월일,성별, 내외국인 여부, CI
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.justUnderline}>회원탈퇴 시</SmallText>
+          <SmallText style={styles.justUnderline}>회원탈퇴시</SmallText>
         </ExtraBox>
       ),
     },
@@ -203,7 +205,6 @@ const AgreementScreen = ({ navigation }) => {
       ),
     },
   ]);
-  // console.log("====>", checkBoxes);
   const dispatch = useDispatch();
 
   const handleAllChecked = (isCheckAll) => {
@@ -230,7 +231,6 @@ const AgreementScreen = ({ navigation }) => {
     let cks = [...checkBoxes];
     cks[checkBox.id].isOpen = !cks[checkBox.id].isOpen;
     setCheckBoxes(() => cks);
-    // console.log("cks====>", cks);
   };
 
   const getPermissions = () => {
@@ -261,17 +261,15 @@ const AgreementScreen = ({ navigation }) => {
         }
       })
       .then(() => {
-        console.log("getting token");
         return Notifications.getExpoPushTokenAsync();
       })
       .then((response) => {
         const token = response.data;
-        console.warn("token==>" + token);
+        Util.log("token==>", token);
         dispatch(setPushToken(token));
         return token;
       })
       .catch((err) => {
-        console.warn(err);
         return err;
       });
   };
@@ -282,6 +280,8 @@ const AgreementScreen = ({ navigation }) => {
       checkBoxes[2].isChecked
     ) {
       if (!Constants.isDevice) {
+        dispatch(setAgreedStatus(checkBoxes));
+        saveAgreedStatusToStorage(checkBoxes);
         navigation.navigate("JoinStep1");
         return;
       }
@@ -316,17 +316,32 @@ const AgreementScreen = ({ navigation }) => {
       <CheckBox
         activeOpacity={0.8}
         onPress={() => handleAllChecked(!toggleAllheckBox)}
-        title="전체동의"
+        title={
+          <BaseText style={{ color: colors.trueWhite, marginLeft: 10 }}>
+            전체동의
+          </BaseText>
+        }
+        // title="전체동의"
+
         textStyle={styles.text}
         containerStyle={[styles.btnBlack, { marginLeft: -1 }]}
         checkedIcon={
-          <Image source={require("@images/check_circle-24on.png")} />
+          <Image
+            source={require("@images/check_circle-24on.png")}
+            style={{ marginLeft: -10 }}
+          />
         }
         uncheckedIcon={
-          <Image source={require("@images/check_circle-24off.png")} />
+          <Image
+            source={require("@images/check_circle-24off.png")}
+            style={{ marginLeft: -10 }}
+          />
         }
         checked={toggleAllheckBox}
-        style={{ margin: 0, padding: 0 }}
+        style={{
+          margin: 0,
+          padding: 0,
+        }}
       />
       {checkBoxes.map((item, index) => (
         <TextBox key={index}>
@@ -337,18 +352,15 @@ const AgreementScreen = ({ navigation }) => {
                 onPress={() => handleChecked(item)}
                 isRequired={item.isRequired}
               />
-
-              <BoldText>
-                <TextView
-                  style={{
-                    color: item.isRequired ? colors.cerulean : colors.viridian,
-                    fontWeight: item.isNormalTitle ? "normal" : "bold",
-                  }}
-                >
-                  {item.isRequired ? "[필수] " : "[선택] "}
-                </TextView>
-                {item.title}
-              </BoldText>
+              <TextView
+                style={{
+                  color: item.isRequired ? colors.cerulean : colors.viridian,
+                  fontWeight: item.isNormalTitle ? "normal" : "bold",
+                }}
+              >
+                {item.isRequired ? "[필수] " : "[선택] "}
+              </TextView>
+              <BoldText>{item.title}</BoldText>
             </TitleContainer>
 
             <CheckBox
@@ -424,7 +436,7 @@ const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
   source: require("@images/checkmark2.png"),
 };
-const WarnText = styled.Text({
+const WarnText = styled(BaseText)({
   marginTop: 25,
   fontSize: 9,
   fontWeight: "normal",
@@ -434,7 +446,7 @@ const WarnText = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const GrayDesc = styled(Text)({
+const GrayDesc = styled(BaseText)({
   fontSize: 12,
   fontWeight: "500",
   fontStyle: "normal",
@@ -446,7 +458,7 @@ const GrayDesc = styled(Text)({
   marginLeft: 16,
   marginRight: 23,
 });
-const DescText1 = styled(Text)({
+const DescText1 = styled(BaseText)({
   marginLeft: 7.5,
   fontSize: 12,
   fontWeight: "normal",
@@ -462,13 +474,13 @@ const DescTextLine = styled.View({
 });
 export const TitleContainer = styled.View({
   flexDirection: "row",
-  flex: 1,
+  flex: 0.75,
 });
-const SmallText = styled(Text)({
+const SmallText = styled(BaseText)({
   fontSize: 11,
   color: colors.greyishBrown,
 });
-const SmallTextBold = styled(Text)({
+const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
@@ -494,7 +506,7 @@ const ExtraBox = styled.View({
   flex: 1,
   width: "100%",
 });
-const NoticeText = styled(Text)({
+const NoticeText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -530,14 +542,17 @@ const TextBox = styled.View({
   borderColor: colors.pinkishGrey,
   flex: 1,
 });
-export const TextView = styled(Text)({
+export const TextView = styled(BaseText)({
   flexShrink: 1,
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
+
+  flexShrink: 0,
 });
-const BoldText = styled(TextView)({
+const BoldText = styled(BaseText).attrs({})({
   fontWeight: "bold",
+  lineHeight: 20,
 });
 const styles = StyleSheet.create({
   justUnderline: {
@@ -560,7 +575,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 14,
-    fontWeight: "500",
+
     fontStyle: "normal",
     lineHeight: 18,
     letterSpacing: 0,

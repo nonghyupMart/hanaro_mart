@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import JsBarcode from "jsbarcode";
 
 import { DOMImplementation, XMLSerializer } from "xmldom";
-import { screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -42,7 +42,6 @@ const BarcodeScreen = (props) => {
   const [barContainerWidth, setBarContainerWidth] = useState(0);
 
   useEffect(() => {
-   
     const timer = setInterval(() => {
       if (elapsedTime < 120) {
         setElapsedTime(() => elapsedTime + 1);
@@ -59,6 +58,15 @@ const BarcodeScreen = (props) => {
     // return clearInterval(timer);
   }, [elapsedTime]);
 
+  const onError = () => {
+    setAlert({
+      message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+      onPressConfirm: () => {
+        setAlert(null);
+        props.navigation.pop();
+      },
+    });
+  };
   return (
     <BaseScreen
       isBottomNavigation={false}
@@ -89,7 +97,7 @@ const BarcodeScreen = (props) => {
           format="EAN13"
           flat
           text={barcode}
-          onError={() => console.warn("Barcode Error")}
+          onError={onError}
         />
       </Container>
       <WarnContainer>
@@ -99,14 +107,18 @@ const BarcodeScreen = (props) => {
           문의/고객센터로 문의 하시기 바랍니다.
         </Warn>
       </WarnContainer>
-      <BlueButton onPress={()=>{ props.navigation.pop();}}>
+      <BlueButton
+        onPress={() => {
+          props.navigation.pop();
+        }}
+      >
         <Image source={require("@images/ic_gps_off_24px.png")} />
         <BlueButtonText>쿠폰확인 닫기</BlueButtonText>
       </BlueButton>
     </BaseScreen>
   );
 };
-const BlueButtonText = styled.Text({
+const BlueButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -129,7 +141,7 @@ const BlueButton = styled(BaseButtonContainer)({
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
-const Warn = styled.Text({
+const Warn = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -149,10 +161,10 @@ const WarnContainer = styled.View({
   marginBottom: 22,
   flex: 1,
 });
-const Now = styled.Text({
+const Now = styled(BaseText)({
   color: colors.appleGreen,
 });
-const TimerText = styled.Text({
+const TimerText = styled(BaseText)({
   marginTop: 45,
   justifyContent: "flex-end",
   alignItems: "flex-end",

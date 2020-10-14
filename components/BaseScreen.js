@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   BackHandler,
@@ -21,12 +20,9 @@ import Loading from "@UI/Loading";
 import Alert from "@UI/Alert";
 import { StyleConstants } from "@UI/BaseUI";
 import _ from "lodash";
-
 const Contents = (props) => {
-  // if (props.alert) console.log(props.alert.content);
   return (
     <>
-      <Loading isLoading={props.isLoading} />
       {props.alert && (
         <Alert
           isVisible={props.alert.content || props.alert.message ? true : false}
@@ -69,12 +65,10 @@ const BaseScreen = (props) => {
     };
   }, []);
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
-  //   console.log(props.alert);
-  // console.log(props.style);
+
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );
-  // console.log(isScroll);
   if (props.isInitialized !== undefined && props.isInitialized === false) {
     return (
       <Screen headerHeight={useHeaderHeight()} style={props.style}>
@@ -84,41 +78,44 @@ const BaseScreen = (props) => {
   }
 
   return (
-    <Screen
-      headerHeight={useHeaderHeight()}
-      style={props.style}
-      isPadding={isPadding}
-      isCenter={props.isCenter}
-    >
-      {isScroll && (
-        <ScrollList
-          isPadding={isPadding}
-          ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
-          nestedScrollEnabled={true}
-          // keyboardDismissMode="none"
-          // keyboardShouldPersistTaps="always"
-          removeClippedSubviews={false}
-          keyboardDismissMode="none"
-          keyboardShouldPersistTaps="handled"
-          windowSize={props.windowSize ? props.windowSize : 5}
-          style={props.scrollListStyle}
-          data={[0]}
-          keyExtractor={(item, index) => `${index}`}
-          headerHeight={useHeaderHeight()}
-          {...props}
-          contentContainerStyle={[styles.safeAreaView]}
-          renderItem={({ item, index, separators }) => (
-            <ContentContainer
-              style={[props.contentStyle]}
-              isPadding={isPadding}
-            >
-              <Contents {...props} />
-            </ContentContainer>
-          )}
-        />
-      )}
-      {!isScroll && <Contents {...props} />}
-    </Screen>
+    <>
+      <Loading isLoading={props.isLoading} />
+      <Screen
+        headerHeight={useHeaderHeight()}
+        style={props.style}
+        isPadding={isPadding}
+        isCenter={props.isCenter}
+      >
+        {isScroll && (
+          <ScrollList
+            isPadding={isPadding}
+            ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
+            nestedScrollEnabled={true}
+            // keyboardDismissMode="none"
+            // keyboardShouldPersistTaps="always"
+            removeClippedSubviews={false}
+            keyboardDismissMode="none"
+            keyboardShouldPersistTaps="handled"
+            windowSize={props.windowSize ? props.windowSize : 5}
+            style={props.scrollListStyle}
+            data={[0]}
+            keyExtractor={(item, index) => `${index}`}
+            headerHeight={useHeaderHeight()}
+            {...props}
+            contentContainerStyle={[styles.safeAreaView]}
+            renderItem={({ item, index, separators }) => (
+              <ContentContainer
+                style={[props.contentStyle]}
+                isPadding={isPadding}
+              >
+                <Contents {...props} />
+              </ContentContainer>
+            )}
+          />
+        )}
+        {!isScroll && <Contents {...props} />}
+      </Screen>
+    </>
   );
 };
 
@@ -134,14 +131,11 @@ const ContentContainer = styled.View({
   // flex: 1,
   // flexGrow: 1,
   paddingTop: (props) => {
-    // console.log(props.headerHeight);
-
     let v = 0;
     if (!props.headerHeight || props.headerHeight == 0)
       v = Platform.OS == "ios" ? Constants.statusBarHeight : 0;
     v += 19;
     if (!props.isPadding) v = 0;
-    // console.log(v);
     return v;
   },
   paddingBottom: (props) => (props.isPadding ? 19 : 0),

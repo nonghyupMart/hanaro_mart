@@ -9,7 +9,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { BaseTouchable } from "@UI/BaseUI";
+import { BaseTouchable, BaseText } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { StoreBox, BottomCover } from "@components/store/InfoBox";
@@ -71,7 +71,7 @@ const MyPageScreen = ({ navigation }) => {
     </BaseScreen>
   );
 };
-const GrayText = styled.Text({
+const GrayText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "500",
   fontStyle: "normal",
@@ -109,7 +109,7 @@ const Icon = styled.Image.attrs({
 })({
   width: 21,
 });
-const BtnText = styled.Text({
+const BtnText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -130,7 +130,7 @@ const BtnContainer = styled.TouchableOpacity({
   paddingLeft: "13.88%",
   alignItems: "center",
 });
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 20,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -139,7 +139,7 @@ const Title = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const Name = styled.Text({
+const Name = styled(BaseText)({
   marginLeft: 8,
   fontSize: 30,
   fontWeight: "normal",
@@ -149,7 +149,7 @@ const Name = styled.Text({
   textAlign: "left",
   color: colors.black,
 });
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   fontSize: 22,
   fontWeight: "normal",
   fontStyle: "normal",

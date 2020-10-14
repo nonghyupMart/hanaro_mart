@@ -222,24 +222,20 @@ function toggleRoadview(position){
 function roadMap() {
     rvClient.getNearestPanoId(placePosition, 500, function(panoId) {  
         // 37.464175, 127.036021
-        var roadViewUrl = "http://map.kakao.com/?panoid="+panoId;
+        // var roadViewUrl = "http://map.kakao.com/?panoid="+panoId;
         // window.open(roadViewUrl);
 
-        var a = {
-      message: "111",
-      onPressConfirm: function a(){
-        alert("1");
-      },
-      onPressCancel: function b(){
-      
-      },
-    };
+    //     var a = "method=openURL&value=http://naver.com"; 
        
-    var b = {method:"openURL", url:roadViewUrl};
-        var event =  JSON.stringify(a);
-        alert(event);
+    // var b = {method:"openURL", url:roadViewUrl};
+    //     var event =  JSON.stringify(a);
+    //     alert(event);
 
-        window.ReactNativeWebView.postMessage(event);
+    //     window.ReactNativeWebView.postMessage(event);
+
+    window.location = 'native://' + JSON.stringify({ 
+    functionName : 'openURL', value : 'http://naver.com' 
+});
         
     });
 }

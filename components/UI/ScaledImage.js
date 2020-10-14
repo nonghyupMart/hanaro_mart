@@ -66,7 +66,6 @@ export default class ScaledImage extends Component {
   }
 
   render() {
-    // console.warn(this.state.height);
     return (
       <Image
         {...this.props}

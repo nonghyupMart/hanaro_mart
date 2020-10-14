@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, TouchableOpacity, Text } from "react-native";
-
+import * as Util from "@util";
 import {
   SafeAreaView,
   View,
@@ -18,6 +18,7 @@ import {
   BaseButtonContainer,
   BlueButton,
   BlueButtonText,
+  BaseText,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -49,11 +50,25 @@ const CouponDetailScreen = (props) => {
   const onPress = () => {
     let msg;
     if (!isUsed) {
-      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로  처리됩니다.`;
+      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로\n처리됩니다.`;
 
       setAlert({
         message: msg,
         onPressConfirm: () => {
+          if (
+            couponDetail.barcode.length < 13 ||
+            !Util.validateBarcode(couponDetail.barcode)
+          ) {
+            setAlert({
+              message:
+                "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+              onPressConfirm: () => {
+                setAlert(null);
+              },
+            });
+            return;
+          }
+
           setAlert(null);
           dispatch(
             couponActions.useCoupon({
@@ -64,10 +79,12 @@ const CouponDetailScreen = (props) => {
               user_cd: userInfo.user_cd,
               cou_cd: params.cou_cd,
               ucou_cd: couponDetail.ucou_cd,
+              routeName: params.routeName,
             })
           ).then((data) => {
             if (data.result == "success") {
               setIsUsed(true);
+
               props.navigation.navigate("Barcode", {
                 barcode: couponDetail.barcode,
               });
@@ -151,6 +168,8 @@ const CouponDetailScreen = (props) => {
               width: screenWidth * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
+              resizeMode: "contain",
+              backgroundColor: colors.trueWhite,
             }}
           />
           {/* <Discount>
@@ -230,7 +249,7 @@ const CouponDetailScreen = (props) => {
     </BaseScreen>
   );
 };
-const Memo = styled.Text({
+const Memo = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -246,7 +265,7 @@ const TextContainer = styled.View({
   paddingRight: "11%",
   width: "100%",
 });
-const TopText = styled.Text({
+const TopText = styled(BaseText)({
   color: colors.trueWhite,
   fontSize: 24,
   backgroundColor: colors.appleGreen,
@@ -260,7 +279,7 @@ const TopBox = styled.View({
 
   marginBottom: 15,
 });
-const Desc = styled.Text({
+const Desc = styled(BaseText)({
   marginTop: 20,
   fontSize: 12,
   fontWeight: "normal",
@@ -272,7 +291,7 @@ const Desc = styled.Text({
   paddingLeft: 25,
   paddingRight: 25,
 });
-const DescText = styled.Text({
+const DescText = styled(BaseText)({
   marginLeft: 7,
   fontSize: 18,
   fontWeight: "500",
@@ -291,7 +310,7 @@ const DescContainer = styled.View({
   marginTop: 8,
 });
 
-const Warn = styled.Text({
+const Warn = styled(BaseText)({
   marginTop: 20,
   fontSize: 16,
   fontWeight: "normal",
@@ -301,7 +320,7 @@ const Warn = styled.Text({
   textAlign: "left",
   color: colors.cerulean,
 });
-const PriceText = styled.Text({
+const PriceText = styled(BaseText)({
   fontSize: 16,
   lineHeight: 24,
   color: colors.greyishBrown,
@@ -323,7 +342,7 @@ const Price = (props) => {
     </>
   );
 };
-const Title = styled.Text({
+const Title = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -333,7 +352,7 @@ const Title = styled.Text({
   color: colors.greyishBrown,
   marginBottom: 8,
 });
-const Discount = styled.Text({
+const Discount = styled(BaseText)({
   fontSize: 30,
   fontWeight: "bold",
   fontStyle: "normal",

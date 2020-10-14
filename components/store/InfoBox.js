@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import blueplus from "@images/num4291.png";
+import { BaseText } from "@UI/BaseUI";
+
 const InfoBox = (props) => {
   return (
     <StoreBox style={{}}>
@@ -37,7 +38,7 @@ BottomCover.defaultProps = {
   source: require("@images/num_m.png"),
   resizeMode: "cover",
 };
-const BlueText = styled.Text({
+const BlueText = styled(BaseText)({
   marginTop: 10,
   fontSize: 18,
   fontWeight: "500",
@@ -51,7 +52,6 @@ const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
 Plus.defaultProps = {
   source: require("@images/num4291.png"),
-  defaultSource: require("@images/num4291.png"),
 };
 export const StoreBox = styled.View({
   flex: 1,

@@ -2,6 +2,7 @@ import queryString from "query-string";
 import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
 import { clearStorePopup } from "@actions/home";
+import * as Util from "@util";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
@@ -32,17 +33,17 @@ export const sendSMS = (query) => {
 
     const resData = await response.json();
     if (!response.ok) {
-      console.warn(url, resData.error.errorMsg);
+      Util.log(url, resData.error.errorMsg);
       throw new Error("sendSMS went wrong!");
     }
 
-    // console.warn(resData);
+    // Util.log(resData);
     return resData.data;
   };
 };
 export const signup = (query) => {
   const url = `${API_URL}/users`;
-  console.warn(url, query);
+  Util.log(url, query);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "POST",
@@ -53,11 +54,11 @@ export const signup = (query) => {
     });
     const resData = await response.json();
     if (!response.ok) {
-      console.warn(url, resData.error.errorMsg);
+      Util.log(url, resData.error.errorMsg);
       throw new Error("signup went wrong!");
     }
 
-    console.warn("signup userInfo==>", resData.data.userInfo);
+    Util.log("signup userInfo==>", resData.data.userInfo);
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
     return resData.data.userInfo;
@@ -87,9 +88,24 @@ export const setCI = (ci) => {
 export const saveUserStore = (userStore) => {
   return { type: SET_USER_STORE, userStore: userStore };
 };
+
+export const updateLoginLog = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/users`,
+    query: query,
+  });
+  return async (dispatch) => {
+    const response = await fetch(url);
+    const resData = await response.json();
+    if (!response.ok) {
+      Util.log(url, resData.error.errorMsg);
+      throw new Error("updateLoginLog went wrong!");
+    }
+    return resData.data;
+  };
+};
 export const setUserStore = (query, userStore) => {
   const url = `${API_URL}/users`;
-  console.warn(url, query);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "PATCH",
@@ -100,32 +116,13 @@ export const setUserStore = (query, userStore) => {
     });
     const resData = await response.json();
     if (!response.ok) {
-      console.warn(url, resData.error.errorMsg);
+      Util.log(url, resData.error.errorMsg);
       throw new Error("setUserStore went wrong!");
     }
 
     dispatch(saveUserStore(userStore));
     saveUserStoreToStorage(userStore);
-   
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     return resData.data;
   };
 };
@@ -136,7 +133,7 @@ export const setAgreedStatus = (status) => {
 
 export const withdrawal = (user_cd) => {
   const url = `${API_URL}/users/${user_cd}`;
-  console.warn(url);
+  Util.log(url);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "DELETE",
@@ -146,29 +143,31 @@ export const withdrawal = (user_cd) => {
     });
     const resData = await response.json();
     if (!response.ok) {
-      console.warn(url, resData.error.errorMsg);
+      Util.log(url, resData.error.errorMsg);
       throw new Error("withdrawal went wrong!");
     }
 
-    console.warn(resData.data);
-    clearAllData();
-    dispatch({ type: WITHDRAWAL });
+    // Util.log(resData.data);
     return resData.data;
   };
 };
+export const withdrawalFinish = () => {
+  clearAllData();
+  return { type: WITHDRAWAL };
+};
 const saveUserInfoToStorage = (userInfo) => {
-  AsyncStorage.setItem("userInfoData", JSON.stringify(userInfo));
+  Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
 };
 export const saveUserStoreToStorage = (store) => {
-  AsyncStorage.setItem("userStoreData", JSON.stringify(store));
+  Util.setStorageItem("userStoreData", JSON.stringify(store));
 };
 
 export const saveAgreedStatusToStorage = (status) => {
-  AsyncStorage.setItem("agreedStatusData", JSON.stringify(status));
+  Util.setStorageItem("agreedStatusData", JSON.stringify(status));
 };
 
 export const saveIsJoinToStorage = (status) => {
-  AsyncStorage.setItem("isJoinData", true);
+  Util.setStorageItem("isJoinData", true);
 };
 
 const clearAllData = () => {

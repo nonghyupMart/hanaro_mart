@@ -35,7 +35,6 @@ const EmptyScreen = (props) => {
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
       // global.alert(1);
-      console.warn("is Empty userStore", _.isEmpty(userStore), "isJoin", isJoin);
       setIsVisible(true);
       if (_.isEmpty(userStore) && isJoin) {
         setMessage("나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.");
@@ -48,7 +47,7 @@ const EmptyScreen = (props) => {
           },
         });
       } else {
-        setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
+        setMessage("회원가입후 사용하실 수\n있는 메뉴입니다.");
         setConfirmText("회원가입");
         setOnPressConfirm({
           confirm: () => {

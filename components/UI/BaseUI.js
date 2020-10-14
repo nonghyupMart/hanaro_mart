@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
 import { IMAGE_URL } from "@constants/settings";
-import { Dimensions, TouchableOpacity, Image } from "react-native";
+import * as Util from "@util";
+import { Dimensions, TouchableOpacity, Image, Platform } from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -16,6 +17,12 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
 };
 
+export const BaseText = styled.Text({
+  // fontFamily: "SourceHanSansKR",
+});
+export const BaseTextInput = styled.TextInput({
+  // fontFamily: "SourceHanSansKR",
+});
 export const BaseImage = styled(Image).attrs((props) => {
   let source;
   if (typeof props.source == "string")
@@ -27,8 +34,6 @@ export const BaseImage = styled(Image).attrs((props) => {
     source: source,
   };
 })((props) => {
-  // console.warn(JSON.stringify(props, null, "\t"));
-
   return {
     backgroundColor: colors.white,
   };
@@ -39,10 +44,11 @@ BaseImage.defaultProps = {
   resizeMode: "cover",
 };
 export const BaseTouchable = (props) => {
+  const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
   return (
-    <TouchableOpacity activeOpacity={0.8} {...props}>
+    <Touchbale activeOpacity={1} {...props}>
       {props.children}
-    </TouchableOpacity>
+    </Touchbale>
   );
 };
 export const BaseButtonContainer = styled(BaseTouchable)({
@@ -54,7 +60,7 @@ export const BaseButtonContainer = styled(BaseTouchable)({
   alignItems: "center",
 });
 
-export const ButtonText = styled.Text({
+export const ButtonText = styled(BaseText)({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",
@@ -76,7 +82,7 @@ export const DetailContainer = styled.View({
   paddingBottom: 45,
 });
 
-export const BlueButtonText = styled.Text({
+export const BlueButtonText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -101,7 +107,7 @@ export const BlueButton = styled(BaseButtonContainer)({
   borderRadius: 25,
 });
 
-export const EmptyText = styled.Text({
+export const EmptyText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -109,4 +115,13 @@ export const EmptyText = styled.Text({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.greyishThree,
+});
+export const EmptyScreen = styled.View({
+  flex: 1,
+  width: "100%",
+  height: "100%",
+  backgroundColor: colors.white,
+  justifyContent: "center",
+  alignItems: "center",
+  alignSelf: "center",
 });

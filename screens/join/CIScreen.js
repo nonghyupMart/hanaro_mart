@@ -8,6 +8,7 @@ import {
   screenWidth,
   screenHeight,
   BaseTouchable,
+  BaseText,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -24,7 +25,6 @@ const CIScreen = ({ navigation }) => {
           opacity: 0.99,
           width: screenWidth,
         }}
-        cacheMode="LOAD_NO_CACHE"
         source={{
           uri:
             "https://www.hanaromartapp.com/web/access/auth.do?key=" +
@@ -69,7 +69,7 @@ const UpperContainer = styled.View({
   alignSelf: "center",
 });
 
-const Info = styled.Text({
+const Info = styled(BaseText)({
   // marginTop: screenHeight *  0.029,
   // marginBottom: screenHeight * 0.030,
   // marginLeft: "12%",

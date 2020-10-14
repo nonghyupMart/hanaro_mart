@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   AsyncStorage,
+  BackHandler,
 } from "react-native";
 import {
   createStackNavigator,
@@ -37,7 +38,9 @@ import NaroTube from "@components/home/NaroTube";
 import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = (props) => {
+  const routeName = props.route.name;
+  const navigation = props.navigation;
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
@@ -52,6 +55,7 @@ const HomeScreen = ({ navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const [alert, setAlert] = useState();
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setAppPopupKey(Math.random());
@@ -60,8 +64,10 @@ const HomeScreen = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
   useEffect(() => {
-    // AsyncStorage.removeItem("storePopupData"); //
-    // AsyncStorage.removeItem("appPopupData");
+    // if (__DEV__) {
+    //   AsyncStorage.removeItem("storePopupData");
+    //   AsyncStorage.removeItem("appPopupData");
+    // }
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
       setIsLoading(false);
@@ -92,14 +98,16 @@ const HomeScreen = ({ navigation }) => {
         contentStyle={{ paddingTop: 0 }}
       >
         <AppPopup
-          key={appPopupKey}
+          // key={appPopupKey}
           setIsReadyAppPopup={setIsReadyAppPopup}
           setFetchAppPopup={setFetchAppPopup}
+          {...props}
         />
         {isReadyAppPopup && (
           <StorePopup
-            key={storePopupKey}
+            // key={storePopupKey}
             setFetchStorePopup={setFetchStorePopup}
+            {...props}
           />
         )}
         <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
@@ -140,49 +148,49 @@ export const screenOptions = ({ navigation }) => {
       </HeaderButtons>
     ),
     headerRight: () => (
-      <></>
-      // <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      //   <Item
-      //     IconComponent={MaterialIcons}
-      //     iconSize={24}
-      //     title="검색"
-      //     iconName="search"
-      //     onPress={() => {
-      //       animate();
-      //     }}
-      //     color={colors.pine}
-      //     style={{ marginRight: 0, marginLeft: 0 }}
-      //   />
-      //   <Item
-      //     IconComponent={MaterialIcons}
-      //     iconSize={24}
-      //     title="알림"
-      //     iconName="notifications-none"
-      //     onPress={() => {
-      //       animate();
-      //     }}
-      //     color={colors.pine}
-      //   />
-      //   <Item
-      //     iconSize={24}
-      //     IconComponent={MaterialCommunityIcons}
-      //     title="장바구니"
-      //     iconName="cart-outline"
-      //     onPress={() => {
-      //       animate();
-      //     }}
-      //     color={colors.pine}
-      //   />
-      //   {/* <Item
-      //     title="Scanner"
-      //     iconName={
-      //       Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
-      //     }
-      //     onPress={() => {
-      //       navigation.navigate("BarCodeScanner");
-      //     }}
-      //   /> */}
-      // </HeaderButtons>
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <></>
+        {/* <Item
+          IconComponent={MaterialIcons}
+          iconSize={24}
+          title="검색"
+          iconName="search"
+          onPress={() => {
+            animate();
+          }}
+          color={colors.pine}
+          style={{ marginRight: 0, marginLeft: 0 }}
+        />
+        <Item
+          IconComponent={MaterialIcons}
+          iconSize={24}
+          title="알림"
+          iconName="notifications-none"
+          onPress={() => {
+            animate();
+          }}
+          color={colors.pine}
+        />
+        <Item
+          iconSize={24}
+          IconComponent={MaterialCommunityIcons}
+          title="장바구니"
+          iconName="cart-outline"
+          onPress={() => {
+            animate();
+          }}
+          color={colors.pine}
+        /> */}
+        {/* <Item
+          title="Scanner"
+          iconName={
+            Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
+          }
+          onPress={() => {
+            navigation.navigate("BarCodeScanner");
+          }}
+        /> */}
+      </HeaderButtons>
     ),
   };
 };

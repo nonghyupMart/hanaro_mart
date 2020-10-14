@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Text, Button, Image, FlatList, Dimensions } from "react-native";
+import { View, Platform, Image, FlatList, Dimensions } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { BaseTouchable, BaseImage } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
@@ -20,14 +20,8 @@ const FlyerContentsScreen = (props) => {
   const [currentItem, setCurrentItem] = useState(null);
 
   const product = useSelector((state) => state.flyer.product);
-  console.warn("FlyerContentsScreen =->", props);
-  useEffect(() => {
-    // const unsubscribe = navigation.addListener("focus", () => {
-    //   console.warn("focus1111");
-    // });
-    // return unsubscribe;
 
-    console.warn("FlyerContentsScreen useEffect = > ", props);
+  useEffect(() => {
     setIsLoading(true);
 
     const fetchProduct = dispatch(
@@ -39,7 +33,6 @@ const FlyerContentsScreen = (props) => {
 
     Promise.all([fetchProduct]).then(() => {
       setIsLoading(false);
-      // console.log(homeBanner);
     });
     // alert(1);
   }, [props]);
@@ -51,19 +44,29 @@ const FlyerContentsScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
-
   return (
     <BaseScreen
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{
+        backgroundColor: colors.trueWhite,
+      }}
       isLoading={isLoading}
+      isPadding={Platform.OS == "ios" ? false : true}
+      // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
+      contentStyle={{
+        paddingTop: Platform.OS == "ios" ? 19 : 19,
+        paddingLeft: Platform.OS == "ios" ? 16 : 0,
+        paddingRight: Platform.OS == "ios" ? 16 : 0,
+      }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
 
       <BaseTouchable
         onPress={() =>
-          RootNavigation.navigate("FlyerDetail", {
-            leaf_cd: props.leaf_cd,
-          })
+          props.detail_img_cnt > 0
+            ? RootNavigation.navigate("FlyerDetail", {
+                leaf_cd: props.leaf_cd,
+              })
+            : null
         }
         style={{ height: width * 0.283, flex: 1, width: "100%" }}
       >
@@ -74,15 +77,19 @@ const FlyerContentsScreen = (props) => {
           }}
           source={props.title_img}
         />
-        <ArrowBtn onPress={() => props.goLeft(props.number)}>
-          <Image source={require("@images/l_off.png")} />
-        </ArrowBtn>
-        <ArrowBtn
-          style={{ right: 0 }}
-          onPress={() => props.goRight(props.number)}
-        >
-          <Image source={require("@images/r_off.png")} />
-        </ArrowBtn>
+        {props.number > 0 && (
+          <ArrowBtn onPress={() => props.goLeft(props.number)}>
+            <Image source={require("@images/l_off.png")} />
+          </ArrowBtn>
+        )}
+        {props.number < props.routesCnt - 1 && (
+          <ArrowBtn
+            style={{ right: 0 }}
+            onPress={() => props.goRight(props.number)}
+          >
+            <Image source={require("@images/r_off.png")} />
+          </ArrowBtn>
+        )}
       </BaseTouchable>
       {/* <Text>{props.number}</Text> */}
 

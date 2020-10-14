@@ -8,7 +8,7 @@ import CouponItem from "@components/CouponItem";
 import CouponItemA from "@components/CouponItemA";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
-import { BaseImage, screenWidth, BaseTouchable, EmptyText } from "@UI/BaseUI";
+import { BaseImage, screenWidth, EmptyScreen, EmptyText } from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -35,37 +35,37 @@ const CouponScreen = (props) => {
   // useScrollToTop(ref);
   // global.alert(1);
   useEffect(() => {
-    // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
-      // console.warn("coupon", coupon);
-      setIsLoading(true);
-      setPage(1);
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (userStore) {
+        setIsLoading(true);
+        setPage(1);
 
-      const fetchCouponA = dispatch(
-        couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
-          user_yn: routeName == "MyCoupon" ? "Y" : "N",
-          gbn: "A",
-        })
-      );
-      const fetchCouponB = dispatch(
-        couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
-          user_yn: routeName == "MyCoupon" ? "Y" : "N",
-          gbn: "B",
-        })
-      );
+        const fetchCouponA = dispatch(
+          couponActions.fetchCoupon({
+            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo.user_cd,
+            user_yn: routeName == "MyCoupon" ? "Y" : "N",
+            gbn: "A",
+          })
+        );
+        const fetchCouponB = dispatch(
+          couponActions.fetchCoupon({
+            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo.user_cd,
+            user_yn: routeName == "MyCoupon" ? "Y" : "N",
+            gbn: "B",
+          })
+        );
 
-      Promise.all([fetchCouponA, fetchCouponB]).then(() => {
-        setIsLoading(false);
-      });
-    }
-    // });
-    // return unsubscribe;
+        Promise.all([fetchCouponA, fetchCouponB]).then(() => {
+          setIsLoading(false);
+        });
+      }
+    });
+    return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
+    setIsLoading(true);
     let couponList;
     switch (type) {
       case "A":
@@ -100,6 +100,7 @@ const CouponScreen = (props) => {
                   coupon: type == "A" ? couponA : coupon,
                   index: index,
                   type,
+                  routeName,
                 });
               },
             });
@@ -111,9 +112,8 @@ const CouponScreen = (props) => {
               },
             });
           }
-          // console.warn("downloaded =>", data);
         });
-        return;
+        break;
       case "10": // 쿠폰이 있는 경우
         navigation.navigate("CouponDetail", {
           store_cd: userStore.storeInfo.store_cd,
@@ -122,15 +122,15 @@ const CouponScreen = (props) => {
           coupon: type == "A" ? couponA : coupon,
           index: index,
           type,
+          routeName,
         });
-        return;
       case "20": // 사용완료
-        return;
+        break;
     }
+    setIsLoading(false);
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
-      console.warn("loadMore");
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
@@ -143,6 +143,7 @@ const CouponScreen = (props) => {
       setPage(page + 1);
     }
   };
+  if (!couponA || !coupon) return <></>;
   if (
     routeName == "MyCoupon" &&
     couponA &&
@@ -151,9 +152,9 @@ const CouponScreen = (props) => {
     coupon.couponList.length === 0
   )
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
-        <EmptyText>나의 쿠폰이 없습니다.</EmptyText>
-      </BaseScreen>
+      <EmptyScreen>
+        <EmptyText>{`나의 쿠폰이 없습니다.`}</EmptyText>
+      </EmptyScreen>
     );
   if (
     routeName == "Coupon" &&
@@ -163,9 +164,9 @@ const CouponScreen = (props) => {
     coupon.couponList.length === 0
   )
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
-        <EmptyText>현재 진행중인 쿠폰이 없습니다.</EmptyText>
-      </BaseScreen>
+      <EmptyScreen>
+        <EmptyText>현재 진행중인 나로쿠폰이 없습니다.</EmptyText>
+      </EmptyScreen>
     );
   return (
     <BaseScreen
@@ -245,8 +246,6 @@ export const screenOptions = ({ navigation }) => {
 };
 
 const ScrollList = styled(ExtendedFlatList)({
-  flex: 1,
-
   width: "100%",
 });
 const styles = StyleSheet.create({

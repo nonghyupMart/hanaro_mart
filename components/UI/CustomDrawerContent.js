@@ -34,7 +34,6 @@ import LoginButtons from "@UI/drawer/LoginButtons";
 const { width, height } = Dimensions.get("window");
 
 export const CustomDrawerContent = (props, dispatch, menuList) => {
-  // console.warn("CustomDrawerContent==>");
   // const userStore = useSelector((state) => state.auth.userStore);
   return (
     <View style={{ width: "100%", height: "100%" }}>
@@ -47,7 +46,7 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
         }}
       >
         <DrawerContentScrollView {...props}>
-          <View style={{ height: screenHeight - screenHeight * 0.3 }}>
+          <View style={{ height: screenHeight - screenHeight * 0.24 }}>
             <MemberInfo {...props} />
             <GrayButtons {...props} menuList={menuList} />
             <MenuList {...props} menuList={menuList} />

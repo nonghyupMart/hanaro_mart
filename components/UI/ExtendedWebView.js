@@ -13,6 +13,9 @@ import * as branchesActions from "@actions/branches";
 import { signup } from "@screens/join/JoinStep2Screen";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as CommonActions from "@actions/common";
+import queryString from "query-string";
+import * as Util from "@util";
+import Constants from "expo-constants";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -25,13 +28,35 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
 
-  const onMessage = (event) => {
-    // console.log(obj.nativeEvent.data);
-    const message = JSON.parse(event.nativeEvent.data);
-    console.log(message);
+  // const onMessage = (event) => {
+  //   // iOS용
+  //   const message = JSON.parse(event.nativeEvent.data);
+  //   parseMethod(message);
+  // };
+
+  const onShouldStartLoadWithRequest = (e) => {
+    // android용
+    return interceptStateChange(e);
+  };
+  const onNavigationStateChange = (e) => {
+    // if (Platform.OS === "ios") return interceptStateChange(e);
+  };
+  const interceptStateChange = (e) => {
+    // allow normal the navigation
+    if (!e.url.startsWith("native://")) return true;
+    const message = JSON.parse(
+      decodeURIComponent(e.url.replace("native://", ""))
+    );
+    parseMethod(message);
+
+    // return false to prevent webview navitate to the location of e.url
+    return false;
+  };
+  const parseMethod = (message) => {
     switch (message.method) {
       case "openURL":
-        return Linking.openURL(message.value);
+        Linking.openURL(message.value);
+        break;
       case "alert":
         setAlert({
           message: message.value,
@@ -39,30 +64,29 @@ export const ExtendedWebView = (props) => {
             setAlert(null);
           },
         });
-        return;
+        break;
       case "auth":
-        console.warn(message.value);
-
         let query = {
           user_sex: message.value.sex,
           user_id: message.value.tel,
           user_name: message.value.name,
           token: pushToken,
           os: Platform.OS === "ios" ? "I" : "A",
+          di: message.value.di,
+          ci: message.value.ci,
         };
-        signup(query, dispatch, setAlert, agreedStatus);
+        signup(query, dispatch, setAlert, agreedStatus, setIsLoaded);
 
         // message.value
-        return;
+        break;
       case "close":
         dispatch(CommonActions.setBottomNavigation(true));
-        RootNavigation.pop();
-        return;
+        const canGoBack =
+          props.commandType === "Push" || props.commandType === "ShowModal";
+        if (canGoBack) RootNavigation.pop();
+        else RootNavigation.navigate("Home");
+        break;
     }
-  };
-
-  const onNavigationStateChange = (newNavState) => {
-    // console.warn(newNavState);
   };
   const hideSpinner = () => {
     setIsLoaded(true);
@@ -96,27 +120,20 @@ export const ExtendedWebView = (props) => {
         allowFileAccessFromFileURLs={true}
         mixedContentMode="always"
         sharedCookiesEnabled={true}
-        onMessage={(event) => onMessage(event)}
-        renderError={(error) => console.warn("Webview error:" + error)}
+        thirdPartyCookiesEnabled={true}
+        // onMessage={(event) => onMessage(event)}
+        // renderError={(error) => Util.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
-          const { nativeEvent } = syntheticEvent;
-          console.warn("WebView error: ", nativeEvent);
+          // const { nativeEvent } = syntheticEvent;
+          // Util.log("WebView error: ", nativeEvent);
         }}
         onHttpError={(syntheticEvent) => {
-          const { nativeEvent } = syntheticEvent;
-          console.warn(
-            "WebView received error status code: ",
-            nativeEvent.statusCode
-          );
+          // const { nativeEvent } = syntheticEvent;
+          // Util.log(
+          //   "WebView received error status code: ",
+          //   nativeEvent.statusCode
+          // );
         }}
-        // onShouldStartLoadWithRequest={(request) => {
-        //   // console.warn(request.url);
-        //   // If we're loading the current URI, allow it to load
-        //   if (request.url === currentURI) return true;
-        //   // We're loading a new URL -- change state first
-        //   setURI(request.url);
-        //   return false;
-        // }}
         renderLoading={() => {
           return (
             <ActivityIndicator
@@ -134,6 +151,7 @@ export const ExtendedWebView = (props) => {
             />
           );
         }}
+        onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         onNavigationStateChange={onNavigationStateChange}
         startInLoadingState={true}
         scalesPageToFit={true}

@@ -1,5 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
+import * as Util from "@util";
+
 export const SET_LEAFLET = "SET_LEAFLET";
 export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
 export const SET_PRODUCT = "SET_PRODUCT";
@@ -20,7 +22,6 @@ export const fetchLeaflet = (query) => {
       }
 
       const resData = await response.json();
-      console.warn("fetchLeaflet");
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
     } catch (err) {
       throw err;
@@ -42,7 +43,6 @@ export const fetchLeafletDetail = (query) => {
       }
 
       const resData = await response.json();
-      // console.warn("fetchLeaflet");
       dispatch({
         type: SET_LEAFLET_DETAIL,
         leafletDetail: resData.data.leafletInfo,
@@ -68,7 +68,7 @@ export const fetchProduct = (query) => {
       }
 
       const resData = await response.json();
-      console.warn("fetchProduct=> ", resData.data);
+      Util.log("fetchProduct=> ", resData.data);
 
       dispatch({ type: SET_PRODUCT, product: resData.data });
     } catch (err) {
@@ -95,7 +95,6 @@ export const fetchProductDetail = (query) => {
       }
 
       const resData = await response.json();
-      //   console.warn("fetchProduct=> ", resData.data);
 
       dispatch({
         type: SET_PRODUCT_DETAIL,

@@ -9,7 +9,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { BaseTouchable, BlueButton, BlueButtonText } from "@UI/BaseUI";
+import {
+  BaseTouchable,
+  BlueButton,
+  BlueButtonText,
+  BaseText,
+} from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { StoreBox, BottomCover } from "@components/store/InfoBox";
@@ -21,13 +26,28 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState();
   const onPress = () => {
-    dispatch(authActions.withdrawal(userInfo.user_cd)).then(() => {
-      setAlert({
-        message: "탈퇴 되었습니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+    setAlert({
+      message: `탈퇴한 뒤에는 아이디 및\n데이터를 복구할 수 없습니다.\n탈퇴하시겠습니까?`,
+      onPressConfirm: () => {
+        dispatch(authActions.withdrawal(userInfo.user_cd)).then((data) => {
+          console.warn(data.result);
+          if (data.result == "success") {
+            setAlert({
+              message: "탈퇴 되었습니다.",
+              onPressConfirm: () => {
+                navigation.navigate("Home");
+                setTimeout(() => {
+                  setAlert(null);
+                  dispatch(authActions.withdrawalFinish());
+                }, 0);
+              },
+            });
+          }
+        });
+      },
+      onPressCancel: () => {
+        setAlert(null);
+      },
     });
   };
   return (
@@ -39,6 +59,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       }}
       contentStyle={{
         backgroundColor: colors.trueWhite,
+        marginBottom: 40,
       }}
     >
       <MemberInfo />
@@ -57,7 +78,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
 const GreenButton = styled(BlueButton)({
   backgroundColor: colors.pine,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",

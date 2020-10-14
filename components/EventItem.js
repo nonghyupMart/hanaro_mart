@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable } from "@UI/BaseUI";
+import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
 
 const EventItem = (props) => {
   return (
@@ -43,7 +43,7 @@ const EventItem = (props) => {
     </Container>
   );
 };
-const Status = styled.Text({
+const Status = styled(BaseText)({
   fontSize: 13,
   fontWeight: "500",
   fontStyle: "normal",
@@ -62,7 +62,7 @@ const TitleContainer = styled.View({
   marginTop: 5,
   marginRight: 10,
 });
-const Date = styled.Text({
+const Date = styled(BaseText)({
   marginLeft: 5,
   fontSize: 13,
   fontWeight: "500",

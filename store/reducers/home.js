@@ -36,7 +36,6 @@ export default (state = initialState, action) => {
         newHomeNotice.noticeList
       );
       homeNotice.noticeList = updatedNoticeList;
-      // console.warn(JSON.stringify(homeNotice.noticeList, null, "\t"));
 
       return {
         ...state,
@@ -58,7 +57,6 @@ export default (state = initialState, action) => {
         storePopup: { ...action.storePopup },
       };
     case CLEAR_STORE_POPUP:
-      console.warn("clear! ", initialState.storePopup);
       return {
         ...state,
         storePopup: initialState.storePopup,

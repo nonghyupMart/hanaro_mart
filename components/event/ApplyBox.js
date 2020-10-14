@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import {
@@ -8,7 +8,12 @@ import {
   TextView,
 } from "@screens/join/AgreementScreen";
 
-import { BlueButton, BlueButtonText } from "@UI/BaseUI";
+import {
+  BlueButton,
+  BlueButtonText,
+  BaseText,
+  BaseTextInput,
+} from "@UI/BaseUI";
 const ApplyBox = (props) => {
   const [checkItem, setCheckItem] = useState({
     isRequired: true,
@@ -28,7 +33,7 @@ const ApplyBox = (props) => {
     }
     if (!reg_num) {
       props.setAlert({
-        message: "주민등록번호를 입력해주세요.",
+        message: "주민등록번호(7자리-8501011)를 입력해주세요.",
         onPressConfirm: () => {
           props.setAlert(null);
         },
@@ -37,7 +42,7 @@ const ApplyBox = (props) => {
     }
     if (reg_num.length < 7) {
       props.setAlert({
-        message: "주민등록번호를 정확히 입력해주세요.",
+        message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
         onPressConfirm: () => {
           props.setAlert(null);
         },
@@ -75,11 +80,12 @@ const ApplyBox = (props) => {
           </TextView2>
         </TitleContainer>
         <InputText
-          placeholder="주민등록번호 입력 바랍니다.(앞7자리)"
+          placeholder="주민등록번호(7자리-8501011)"
           keyboardType="numeric"
           maxLength={7}
           value={reg_num}
           onChangeText={(text) => setReg_num(text)}
+          editable={props.eventDetail.entry.entry_status === "10"}
         />
       </Container>
       {props.eventDetail.entry.entry_status === "10" && (
@@ -108,7 +114,7 @@ ApplyBox.defaultProps = {
   },
 };
 
-const InputText = styled.TextInput({
+const InputText = styled(BaseTextInput)({
   borderRadius: 16,
   backgroundColor: colors.trueWhite,
   borderStyle: "solid",
@@ -135,7 +141,7 @@ const TextView2 = styled(TextView)({
   color: colors.greyishBrown,
 });
 
-const Title = styled.Text({
+const Title = styled(BaseText)({
   flex: 1,
   fontSize: 15,
   fontWeight: "300",

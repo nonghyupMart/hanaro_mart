@@ -7,15 +7,18 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
+import _ from "lodash";
 const MenuList = (props) => {
-  const isPreview = useSelector((state) => state.auth.isPreview);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const isJoin = useSelector((state) => state.auth.isJoin);
   return (
     <MenuContainer>
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
-            if (isPreview) return props.navigation.navigate("Empty");
+            if (!isJoin) return props.navigation.navigate("Empty");
             props.navigation.navigate("StoreChange");
           }}
         >
@@ -28,7 +31,7 @@ const MenuList = (props) => {
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
-            if (props.menuList.length === 0)
+            if (_.isEmpty(userStore) || !userStore.storeInfo)
               return props.navigation.navigate("Empty");
             props.navigation.navigate("Notice");
           }}
@@ -42,7 +45,7 @@ const MenuList = (props) => {
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
-            if (props.menuList.length === 0)
+            if (_.isEmpty(userStore) || !userStore.storeInfo)
               return props.navigation.navigate("Empty");
             props.navigation.navigate("Inquiry");
           }}
@@ -56,7 +59,7 @@ const MenuList = (props) => {
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={() => {
-            if (props.menuList.length === 0)
+            if (_.isEmpty(userStore) || !userStore.storeInfo)
               return props.navigation.navigate("Empty");
             props.navigation.navigate("MyPage");
           }}
@@ -82,7 +85,7 @@ const MenuButtonContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const MenuText = styled.Text({
+const MenuText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",

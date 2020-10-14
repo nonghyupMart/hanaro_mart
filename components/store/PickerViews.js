@@ -3,12 +3,10 @@ import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as branchesActions from "@actions/branches";
 import {
-  Text,
   View,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
-  TextInput,
   Button,
   FlatList,
   Platform,

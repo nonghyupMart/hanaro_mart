@@ -8,6 +8,7 @@ import {
   BaseImage,
   BaseTouchable,
   screenWidth,
+  BaseText,
 } from "@UI/BaseUI";
 import URI from "urijs";
 import * as homeActions from "@actions/home";
@@ -27,7 +28,7 @@ const NaroTube = (props) => {
   return (
     <>
       <NaroTubeContainer>
-        <Carousel
+        {/* <Carousel
           delay={3000}
           style={{ height: screenWidth * 0.555, width: "100%" }}
           autoplay={false}
@@ -46,38 +47,39 @@ const NaroTube = (props) => {
           pageInfoBackgroundColor={"transparent"}
           pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
           pageInfoTextSeparator="/"
-        >
-          {homeNaro.naroList.map((item, index) => {
-            const url = URI(item.video_dir);
-            let videoId = url.query(true).v;
-            if (videoId == undefined || videoId == "") {
-              videoId = url.filename();
-            }
+        > */}
+        {homeNaro.naroList.map((item, index) => {
+          const url = URI(item.video_dir);
+          let videoId = url.query(true).v;
+          if (videoId == undefined || videoId == "") {
+            videoId = url.filename();
+          }
 
-            return (
-              <ExtendedWebView
-                key={videoId}
-                style={{
-                  height: screenWidth * 0.555,
-                  opacity: 0.99,
-                  width: screenWidth - 10,
-                  marginLeft: 5,
-                  marginRight: 5,
-                  marginTop: 5,
-                }}
-                source={{
-                  html: require("../../youtubePlayer.js")(videoId),
-                }}
-              />
-            );
-          })}
-        </Carousel>
+          return (
+            <ExtendedWebView
+              bounces={false}
+              key={videoId}
+              style={{
+                height: screenWidth * 0.555,
+                opacity: 0.99,
+                width: screenWidth - 10,
+                marginLeft: 5,
+                marginRight: 5,
+                marginTop: 5,
+              }}
+              source={{
+                html: require("../../youtubePlayer.js")(videoId),
+              }}
+            />
+          );
+        })}
+        {/* </Carousel> */}
       </NaroTubeContainer>
     </>
   );
 };
 
-const MoreText = styled.Text({
+const MoreText = styled(BaseText)({
   fontSize: 10,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -100,7 +102,7 @@ const NaroTitContainer = styled.View({
   justifyContent: "space-between",
   alignItems: "center",
 });
-const NaroTubeTitle = styled.Text({
+const NaroTubeTitle = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -113,6 +115,6 @@ const NaroTubeContainer = styled.View({
   // marginTop: 10,
   backgroundColor: colors.trueWhite,
   width: "100%",
-  height: screenWidth * 0.555,
+  // height: screenWidth * 0.555,
 });
 export default NaroTube;

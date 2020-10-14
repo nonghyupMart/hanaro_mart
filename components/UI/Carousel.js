@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import {
+  Text,
   Platform,
   StyleSheet,
-  Text,
   ScrollView,
   TouchableOpacity,
   View,

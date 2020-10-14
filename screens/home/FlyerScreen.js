@@ -10,14 +10,13 @@ import BaseScreen from "@components/BaseScreen";
 import { useFocusEffect } from "@react-navigation/native";
 const initialLayout = { width: Dimensions.get("window").width };
 import { useIsFocused } from "@react-navigation/native";
-import { EmptyText } from "@UI/BaseUI";
+import { EmptyText, EmptyScreen } from "@UI/BaseUI";
 const FlyerScreen = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [alert, setAlert] = useState();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore, shallowEqual);
-  // console.warn("==> start FlyerScreen", userStore.store_cd);
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const routes = useSelector((state) =>
     state.flyer.leaflet ? state.flyer.leaflet.leafletList : []
@@ -28,15 +27,12 @@ const FlyerScreen = ({ navigation }) => {
     if (userStore) {
       setIsLoading(true);
 
-      // console.warn("start FlyerScreen", userStore.store_cd);
       const fetchLeaflet = dispatch(
         flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
       );
 
       Promise.all([fetchLeaflet]).then(() => {
         setIsLoading(false);
-
-        // console.log(homeBanner);
       });
     }
     // });
@@ -71,8 +67,6 @@ const FlyerScreen = ({ navigation }) => {
     }
   };
   const renderScene = ({ route, jumpTo }) => {
-    console.warn("renderScene -> ", route);
-
     return (
       <FlyerContentsScreen
         // route={route}
@@ -83,14 +77,16 @@ const FlyerScreen = ({ navigation }) => {
         goRight={goRight}
         leaf_cd={route.leaf_cd}
         store_cd={userStore.storeInfo.store_cd}
+        routesCnt={routes.length}
+        detail_img_cnt={route.detail_img_cnt}
       />
     );
   };
   if (routes.length === 0)
     return (
-      <BaseScreen isScroll={false} isCenter={true}>
+      <EmptyScreen>
         <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
-      </BaseScreen>
+      </EmptyScreen>
     );
   return (
     <TabView

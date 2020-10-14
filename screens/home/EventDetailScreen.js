@@ -56,10 +56,22 @@ const EventDetailScreen = (props, { navigation }) => {
         rcp_qr,
       })
     ).then((data) => {
-      console.warn(data);
       if (data.result == "success") {
         eventDetail.entry.entry_status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
+        setAlert({
+          message: "응모 되었습니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      } else {
+        setAlert({
+          message: data,
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
       }
     });
   };
@@ -83,6 +95,7 @@ const EventDetailScreen = (props, { navigation }) => {
           }}
         >
           <ScaledImage
+            key={eventDetail.detail_img}
             source={eventDetail.detail_img}
             style={{}}
             width={screenWidth}

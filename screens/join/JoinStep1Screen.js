@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
   ButtonText,
   screenHeight,
   BaseTouchable,
+  BaseText,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -49,7 +50,11 @@ export const screenOptions = ({ navigation }) => {
     // },
   };
 };
+const Image = styled.Image({
+  flex: 1,
 
+  resizeMode: () => (Platform.OS == "android" ? "center" : "contain"),
+});
 const GreenButton = styled(BaseButtonContainer)({
   backgroundColor: colors.appleGreen,
 
@@ -67,7 +72,7 @@ const UpperContainer = styled.View({
   alignSelf: "center",
 });
 
-const Info = styled.Text({
+const Info = styled(BaseText)({
   // marginTop: screenHeight *  0.029,
   // marginBottom: screenHeight * 0.030,
   // marginLeft: "12%",
@@ -93,11 +98,11 @@ const Symbol = styled.Image.attrs({ resizeMode: "contain" })({
 });
 
 const Box = styled(BaseTouchable)({
-  flexDirection: "column",
+  // flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  alignContent: "center",
-  height: "50%",
+  // alignContent: "center",
+  // height: "50%",
   width: "100%",
   flex: 1,
   borderRadius: 8,
@@ -107,9 +112,9 @@ const Box = styled(BaseTouchable)({
   borderColor: colors.pinkishGrey,
   paddingLeft: screenHeight * 0.083,
   paddingRight: screenHeight * 0.083,
-  // paddingBottom:screenHeight *0.027,
-  // paddingTop:screenHeight *0.027,
-  // overflow:"hidden"
+  paddingBottom: screenHeight * 0.027,
+  paddingTop: screenHeight * 0.027,
+  overflow: "hidden",
 });
 
 const styles = StyleSheet.create({

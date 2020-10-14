@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { BlueButton, BlueButtonText } from "@UI/BaseUI";
+import { BlueButton, BlueButtonText, BaseText } from "@UI/BaseUI";
 import { Image } from "react-native";
 
 const ScanBox = (props) => {
@@ -31,12 +31,12 @@ const ScanBox = (props) => {
           <BlueButtonText>영수증 확인</BlueButtonText>
         </GreenBtn>
       )}
-      {props.eventDetail.entry.entry_status === "20" && (
+      {/* {props.eventDetail.entry.entry_status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
-      )}
+      )} */}
     </TextContainer1>
   );
 };
@@ -52,7 +52,7 @@ const TextContainer1 = styled.View({
   marginTop: 18,
   marginBottom: 42,
 });
-const Text3 = styled.Text({
+const Text3 = styled(BaseText)({
   fontSize: 20,
   fontWeight: "500",
   fontStyle: "normal",
@@ -62,7 +62,7 @@ const Text3 = styled.Text({
   color: colors.black,
   marginBottom: 10,
 });
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   fontSize: 13,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -72,7 +72,7 @@ const Text2 = styled.Text({
   color: colors.black,
   marginBottom: 35,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   fontSize: 16,
   fontWeight: "bold",
   fontStyle: "normal",

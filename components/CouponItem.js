@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable } from "@UI/BaseUI";
+import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
 
 const CouponItem = (props) => {
   return (
@@ -35,7 +35,7 @@ const CouponItem = (props) => {
         </Button>
       )}
       {props.item.status == "20" && (
-        <Button>
+        <Button onPress={props.onPress}>
           <ButtonText style={{ color: colors.greyishThree }}>
             사용완료
           </ButtonText>
@@ -46,7 +46,7 @@ const CouponItem = (props) => {
   );
 };
 const Icon = styled.Image({});
-const ButtonText = styled.Text({
+const ButtonText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -70,7 +70,7 @@ const Button = styled(BaseTouchable).attrs({
   minHeight: 26,
   height: screenWidth * 0.072,
 });
-const Title = styled.Text({
+const Title = styled(BaseText)({
   marginTop: 20,
   marginBottom: 40,
   fontSize: 14,
@@ -81,7 +81,7 @@ const Title = styled.Text({
   textAlign: "center",
   color: colors.greyishBrown,
 });
-const Discount = styled.Text({
+const Discount = styled(BaseText)({
   fontSize: 18,
   fontWeight: "bold",
   fontStyle: "normal",
@@ -96,7 +96,7 @@ const StatusContainer = styled.View({
   flexDirection: "row",
 });
 
-const Date = styled.Text({
+const Date = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -105,6 +105,7 @@ const Date = styled.Text({
   textAlign: "center",
   color: colors.greyishBrown,
   marginBottom: 10,
+  letterSpacing: -0.5,
 });
 const Container = styled.View({
   maxWidth: "50%",
@@ -115,7 +116,6 @@ const Container = styled.View({
   borderColor: colors.white,
   padding: 18,
 
-  // marginLeft: (props) => console.log(props),
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
   marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
 });

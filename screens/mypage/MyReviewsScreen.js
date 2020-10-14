@@ -10,14 +10,18 @@ import BaseScreen from "@components/BaseScreen";
 import _ from "lodash";
 const MyReviewScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [url, setUrl] = useState();
 
   useEffect(() => {
-    if (_.isEmpty(userStore)) return;
+    if (_.isEmpty(userStore) || !userStore.storeInfo) return;
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
       url: `${SERVER_URL}/web/community/review.do`,
-      query: { store_cd: userStore.storeInfo.store_cd },
+      query: {
+        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo.user_cd,
+      },
     });
     setUrl(stringifyUrl);
   }, []);

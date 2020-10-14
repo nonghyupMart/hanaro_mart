@@ -18,6 +18,7 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
+  BaseText,
 } from "@UI/BaseUI";
 import * as CommonActions from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,7 +29,6 @@ const BarCodeScannerScreen = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
-
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -38,9 +38,6 @@ const BarCodeScannerScreen = (props) => {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    console.warn(
-      `Bar code with type ${type} and data ${data} has been scanned!`
-    );
 
     params.setRcp_qr(data);
     dispatch(CommonActions.setBottomNavigation(true));
@@ -69,9 +66,9 @@ const BarCodeScannerScreen = (props) => {
     >
       <Camera
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        // barCodeScannerSettings={{
-        //   barCodeTypes: [BarCodeScanner.Constants.BarCodeType.ean13],
-        // }}
+        barCodeScannerSettings={{
+          barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
+        }}
         style={[StyleSheet.absoluteFill]}
       />
       {/* <BarCodeScanner
@@ -103,7 +100,7 @@ const BarCodeScannerScreen = (props) => {
           }}
         >
           <Image source={require("@images/barcodeWhite.png")} />
-          <Text1>영수증바코드</Text1>
+          <Text1>영수증QR코드</Text1>
         </ImageBackground>
       </View>
       <View
@@ -125,7 +122,7 @@ const BarCodeScannerScreen = (props) => {
       >
         <Image source={require("@images/logo1pic478.png")} />
         <Text2>
-          {`하나로마트에서 구매하신 영수증의\n바코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
+          {`하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
         </Text2>
       </View>
       {/* </BarCodeScanner> */}
@@ -135,7 +132,7 @@ const BarCodeScannerScreen = (props) => {
     </BaseScreen>
   );
 };
-const Text2 = styled.Text({
+const Text2 = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -145,7 +142,7 @@ const Text2 = styled.Text({
   color: colors.trueWhite,
   marginLeft: 25.5,
 });
-const Text1 = styled.Text({
+const Text1 = styled(BaseText)({
   marginLeft: 10.8,
   fontSize: 16,
   fontWeight: "normal",
@@ -157,7 +154,7 @@ const Text1 = styled.Text({
 });
 export const screenOptions = ({ navigation }) => {
   return {
-    title: "바코드 촬영",
+    title: "QR코드 촬영",
     cardStyle: {
       marginBottom: 0,
     },

@@ -145,7 +145,6 @@ const animatedStyles = [
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
 export const HomeTabNavigator = ({ navigation, route }) => {
-  // console.warn("***HomeTabNavigator! =>", route.params.menuList);
   const userStore = useSelector((state) => state.auth.userStore);
   const menuList =
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
@@ -176,10 +175,9 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         </View>
       </Animated.View>
       <HomeTopTabNavigator.Navigator
-        onStateChange={() => {
-          console.warn("state changed");
-        }}
-        lazy={true}
+        backBehavior="initialRoute"
+        onStateChange={() => {}}
+        lazy={false}
         // optimizationsEnabled={true}
         tabBar={(props) => <MeterialTopTabBar {...props} />}
         initialRouteName="Home"
@@ -355,7 +353,6 @@ const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
-  // console.warn(userStore);
   // return <></>;
   return (
     <Drawer.Navigator

@@ -2,38 +2,37 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   FlatList,
   TouchableOpacity,
   TouchableNativeFeedback,
 } from "react-native";
-import { StyleConstants, screenWidth } from "@UI/BaseUI";
+import { StyleConstants, screenWidth, BaseText } from "@UI/BaseUI";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeNotice = (props) => {
-    const [page, setPage] = useState(1);
-   const dispatch = useDispatch();
-   const homeNotice = useSelector((state) => state.home.homeNotice);
-   useEffect(() => {
-     props.setFetchHomeNotice(false);
-     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
-     Promise.all([fetchHomeNotice]).then((result) => {
-       props.setFetchHomeNotice(true);
-     });
-   }, [dispatch]);
-  
-    const loadMore = () => {
-      if (!isLoading && page + 1 <= homeNotice.finalPage) {
-        console.warn("loadMore");
-        dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
-        setPage(page + 1);
-      }
-    };
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
+  const homeNotice = useSelector((state) => state.home.homeNotice);
+  useEffect(() => {
+    props.setFetchHomeNotice(false);
+    const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
+    Promise.all([fetchHomeNotice]).then((result) => {
+      props.setFetchHomeNotice(true);
+    });
+  }, [dispatch]);
+
+  const loadMore = () => {
+    if (!isLoading && page + 1 <= homeNotice.finalPage) {
+      dispatch(homeActions.fetchHomeNotice({ page: page + 1 }));
+      setPage(page + 1);
+    }
+  };
 
   return (
     <>
@@ -53,7 +52,6 @@ const HomeNotice = (props) => {
           }}
           data={homeNotice.noticeList}
           keyExtractor={(item) => {
-            // console.warn(item.id);
             return item.notice_cd;
           }}
           renderItem={(itemData) => {
@@ -109,7 +107,7 @@ const TitleContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
-const Date = styled.Text({
+const Date = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -118,7 +116,7 @@ const Date = styled.Text({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const NoticeTitle = styled.Text({
+const NoticeTitle = styled(BaseText)({
   fontSize: 15,
   fontWeight: "normal",
   fontStyle: "normal",

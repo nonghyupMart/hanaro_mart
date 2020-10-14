@@ -8,6 +8,7 @@ import {
   ScaledImage,
   BaseTouchable,
   screenWidth,
+  BaseText,
 } from "@UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
@@ -17,13 +18,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
 const AppPopup = (props) => {
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
   useEffect(() => {
-    // console.warn("isAppPopup", isAppPopup);
     if (isAppPopup) setIsVisible(true);
   }, [isAppPopup]);
   useEffect(() => {
@@ -47,7 +45,12 @@ const AppPopup = (props) => {
     setIsVisible(false);
   };
 
-  if (!isAppPopup || _.isEmpty(appPopup) || appPopup.popupCnt == 0)
+  if (
+    !isAppPopup ||
+    _.isEmpty(appPopup) ||
+    appPopup.popupCnt == 0 ||
+    !isVisible
+  )
     return <></>;
   return (
     <Modal
@@ -89,17 +92,15 @@ const AppPopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  // console.warn(item.link_url);
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >
                 <BaseImage
                   onLoad={() => props.setIsReadyAppPopup(true)}
                   source={item.display_img}
-                  width={screenWidth - 19 - 19 - 2}
                   style={{
                     resizeMode: "cover",
-                    width: screenWidth - 19 - 19 - 2,
+                    width: "100%",
                     height: screenWidth - 19 - 19 - 2,
                   }}
                 />
@@ -122,7 +123,7 @@ const AppPopup = (props) => {
 };
 
 const BtnContainer = styled.View({ flexDirection: "row" });
-const BtnText = styled.Text({
+const BtnText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "500",
   fontStyle: "normal",

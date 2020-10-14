@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import {
-  Button,
-  Text,
-  StyleSheet,
-  View,
-  Image,
-  Dimensions,
-} from "react-native";
+import { Button, StyleSheet, View, Image, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 const { width, height } = Dimensions.get("window");
-import { BaseTouchable } from "@UI/BaseUI";
+import { BaseTouchable, BaseText } from "@UI/BaseUI";
 
 const Alert = (props) => {
   const [show, setShow] = useState(true);
   const [isVisible, setIsVisible] = useState(props.isVisible);
-  // console.warn(props.isVisible);
-  // useEffect(() => {
-  //   setIsVisible(() => props.isVisible);
-  //   // action on update of movies
-  // }, [props.isVisible, isVisible]);
   const onPressConfirm = () => {
     if (props.onPressConfirm) props.onPressConfirm();
     // else setIsVisible(() => false);
@@ -33,11 +21,14 @@ const Alert = (props) => {
       onModalHide={() => {}}
     >
       <Container>
-        <Icon>
-          <Image source={require("@images/ic_error_outline_24px.png")} />
-        </Icon>
-        {props.content}
-        {props.message && <Message>{props.message}</Message>}
+        <TitleContainer message={props.message}>
+          <Icon>
+            <Image source={require("@images/ic_error_outline_24px.png")} />
+          </Icon>
+
+          {props.content}
+          {props.message && <Message>{props.message}</Message>}
+        </TitleContainer>
         <ButtonContainer>
           <ConfirmButton onPress={onPressConfirm}>
             <ButtonText>{props.confirmText}</ButtonText>
@@ -52,7 +43,12 @@ const Alert = (props) => {
     </Modal>
   );
 };
-
+const TitleContainer = styled.View({
+  flexDirection: "row",
+  width: "100%",
+  flexWrap: "wrap",
+  paddingRight: (props) => (props.message ? 45 : 0),
+});
 const ButtonContainer = styled.View({
   justifyContent: "center",
   alignItems: "center",
@@ -74,7 +70,7 @@ const CancelButton = styled(BaseButton)({
 const ConfirmButton = styled(BaseButton)({
   backgroundColor: colors.appleGreen,
 });
-const ButtonText = styled(Text)({
+const ButtonText = styled(BaseText)({
   fontSize: 18,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -83,7 +79,7 @@ const ButtonText = styled(Text)({
   textAlign: "left",
   color: colors.trueWhite,
 });
-const Message = styled(Text)({
+const Message = styled(BaseText)({
   fontSize: 16,
   color: colors.trueWhite,
   lineHeight: 22,
@@ -93,10 +89,15 @@ const Message = styled(Text)({
   textAlign: "center",
   marginLeft: 18,
   marginRight: 18,
+  flex: 1,
 });
-const Icon = styled.View({ position: "absolute", left: 12, top: 12 });
+const Icon = styled.View({
+  marginTop: 12,
+  marginLeft: 12,
+  // position: "absolute", left: 12, top: 12
+});
 const Container = styled.View({
-  width: width - 16 * 2,
+  // width: width - 16 * 2,
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   borderRadius: 10,
   paddingBottom: 25,

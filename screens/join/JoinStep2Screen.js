@@ -8,9 +8,8 @@ import {
   StyleSheet,
   Button,
   Picker,
-  TextInput,
   ActionSheetIOS,
-  ScrollView,
+  Keyboard,
   Image,
 } from "react-native";
 import Constants from "expo-constants";
@@ -22,43 +21,89 @@ import {
   ButtonText,
   BaseButtonContainer,
   StyleConstants,
+  BaseText,
+  BaseTextInput,
 } from "@UI/BaseUI";
 import { formatPhoneNumber } from "@util";
+import moment from "moment";
 
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 import * as branchesActions from "@actions/branches";
 import _ from "lodash";
+import * as Util from "@util";
 
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
   const [accessCode, setAccessCode] = useState();
   const [acCode, setAcCode] = useState();
   const [phoneNumberRef, setPhoneNumberRef] = useState();
   const [alert, setAlert] = useState();
   const [otpRef, setOtpRef] = useState();
+  const [isRequestedJoin, setIsRequestedJoin] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [timer, setTimer] = useState();
+
   const dispatch = useDispatch();
   useEffect(() => {
     // if (phoneNumberRef) phoneNumberRef.focus();
-    // console.warn(agreedStatus["0"]);
+  }, []);
+  useEffect(() => {
+    return () => {
+      // console.warn("distroy", timer);
+      clearInterval(timer);
+    };
   }, []);
 
+  const startTimer = () => {
+    clearInterval(timer);
+    const eventTime = moment().add(2, "minutes"); // Timestamp - Sun, 21 Apr 2013 13:00:00 GMT
+    const currentTime = moment(); // Timestamp - Sun, 21 Apr 2013 12:30:00 GMT
+    const diffTime = eventTime.diff(currentTime, "seconds");
+    let duration = moment.duration(diffTime * 1000, "milliseconds");
+    const interval = 1000;
+    duration = moment.duration(duration - interval, "milliseconds");
+    setMinutes(duration.minutes());
+    setSeconds(duration.seconds());
+
+    return setInterval(() => {
+      duration = moment.duration(duration - interval, "milliseconds");
+      setMinutes(duration.minutes());
+      setSeconds(duration.seconds());
+      if (duration.minutes() <= 0 && duration.seconds() <= 0) {
+        clearInterval(timer);
+      }
+      // console.warn(minutes, seconds, duration.minutes(), duration.seconds());
+    }, interval);
+  };
+
   const onPressJoin = () => {
+    Keyboard.dismiss();
+    setIsLoading(true);
+    if (isRequestedJoin) return;
     let query = {
-      user_id: phoneNumber,
-      token: pushToken,
+      user_id: Util.encrypt(phoneNumber),
+      token: Util.encrypt(pushToken),
       os: Platform.OS === "ios" ? "I" : "A",
     };
-    signup(query, dispatch, setAlert, agreedStatus);
+    signup(query, dispatch, setAlert, agreedStatus, setIsLoading);
+    setIsRequestedJoin(true);
+  };
+  const pad = (num = 0) => {
+    while (num.length < 2) num = "0" + num;
+    return num;
   };
 
   const requestOTP = () => {
+    if (minutes > 0 || seconds > 0) return;
+
     if (!phoneNumber) {
       setAlert({
         message: "휴대폰번호를 입력해주세요.",
@@ -68,7 +113,7 @@ const JoinStep2Screen = ({ navigation }) => {
       });
       return;
     }
-    if (phoneNumber.length < 11) {
+    if (phoneNumber.length < 10) {
       setAlert({
         message: "휴대폰번호를 정확히 입력해주세요.",
         onPressConfirm: () => {
@@ -89,29 +134,37 @@ const JoinStep2Screen = ({ navigation }) => {
     }
     if (phoneNumber) {
       dispatch(authActions.sendSMS({ user_id: phoneNumber })).then((data) => {
-        console.warn(data);
+        setTimer(startTimer());
         setAcCode(data.accessCode);
         setJoinStep([true, false]);
       });
     }
   };
   const validateOTP = () => {
-    console.warn(accessCode, acCode);
-    if (accessCode == acCode) {
-      setJoinStep([true, true]);
-    } else {
-      setAlert({
+    Keyboard.dismiss();
+    if (!accessCode || accessCode.length == 0) {
+      return setAlert({
+        message: "인증번호를 입력하세요.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    if (accessCode != acCode) {
+      return setAlert({
         message: "인증번호를 확인해 주세요.",
         onPressConfirm: () => {
           setAlert(null);
         },
       });
     }
+    setJoinStep([true, true]);
   };
 
   return (
-    <BaseScreen alert={alert} isScroll={false}>
-      <ScrollContainer>
+    <BaseScreen alert={alert} isScroll={false} isLoading={isLoading}>
+      <ScrollContainer keyboardShouldPersistTaps="handled">
+        <DescText>{`아래의 휴대폰번호로 SMS 인증번호 6자리를\n보내드립니다.`}</DescText>
         <TextInputContainer style={{ marginBottom: 7 }}>
           <Image source={require("@images/ic_phone_iphone_24px.png")} />
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
@@ -122,46 +175,65 @@ const JoinStep2Screen = ({ navigation }) => {
             maxLength={11}
             value={phoneNumber}
             onChangeText={(text) => setPhoneNumber(text)}
+            onSubmitEditing={Keyboard.dismiss}
             placeholder="- 없이 입력하세요."
           />
         </TextInputContainer>
-        <BlackButton onPress={() => requestOTP()}>
-          <ButtonText>인증번호 신청</ButtonText>
-        </BlackButton>
+        {(minutes > 0 || seconds > 0) && (
+          <BlackButton
+            style={{ marginTop: 10, backgroundColor: colors.greyishThree }}
+          >
+            <ButtonText>
+              {minutes}분 {pad(seconds)}초 후 재전송
+            </ButtonText>
+          </BlackButton>
+        )}
+        {minutes <= 0 && seconds <= 0 && (
+          <BlackButton onPress={() => requestOTP()} style={{ marginTop: 10 }}>
+            <ButtonText>인증번호 신청</ButtonText>
+          </BlackButton>
+        )}
         {joinStep[0] && (
-          <View style={{ flexDirection: "row", marginTop: 57 }}>
-            <TextInputContainer style={{ marginRight: 8 }}>
-              <Image source={require("@images/help.png")} />
-              <Label
-                style={{ marginLeft: 10, marginRight: 10 }}
-                onPress={() => {
-                  otpRef.focus();
-                }}
-              >
-                인증번호
-              </Label>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <TextInput
-                  ref={(input) => setOtpRef(input)}
-                  required
-                  keyboardType="numeric"
-                  maxLength={6}
-                  placeholder="6자리"
-                  autoFocus={true}
-                  value={accessCode}
-                  onChangeText={(text) => setAccessCode(text)}
-                />
-              </View>
-            </TextInputContainer>
-            <BlueButton onPress={() => validateOTP()}>
-              <ButtonText>인증번호 확인</ButtonText>
-            </BlueButton>
+          <View style={{ marginTop: 22 }}>
+            <DescText>{`통신사의 사정에 따라 SMS 전송시간이 다소 지연될 수 있습니다.`}</DescText>
+            <View style={{ flexDirection: "row" }}>
+              <TextInputContainer style={{ marginRight: 8 }}>
+                <Image source={require("@images/help.png")} />
+                <Label
+                  style={{ marginLeft: 10, marginRight: 10 }}
+                  onPress={() => {
+                    otpRef.focus();
+                  }}
+                >
+                  인증번호
+                </Label>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <BaseTextInput
+                    ref={(input) => setOtpRef(input)}
+                    required
+                    keyboardType="numeric"
+                    maxLength={6}
+                    placeholder="6자리"
+                    autoFocus={true}
+                    value={accessCode}
+                    style={{ lineHeight: 18, width: "100%" }}
+                    onSubmitEditing={Keyboard.dismiss}
+                    onChangeText={(text) => setAccessCode(text)}
+                  />
+                </View>
+              </TextInputContainer>
+
+              <BlueButton onPress={() => validateOTP()}>
+                <ButtonText>인증번호 확인</ButtonText>
+              </BlueButton>
+            </View>
           </View>
         )}
         {joinStep[1] && (
@@ -175,7 +247,7 @@ const JoinStep2Screen = ({ navigation }) => {
               }}
             >
               <ConfrimText style={{}}>
-                인증이 완료되었습니다.{"\n"}하나로플러스앱에 가입하시겠습니까?
+                인증이 완료되었습니다.{"\n"}하나로마트앱에 가입하시겠습니까?
               </ConfrimText>
             </TextInputContainer>
             <GreenButton
@@ -193,12 +265,19 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-export const signup = (query, dispatch, setAlert, agreedStatus) => {
+export const signup = (
+  query,
+  dispatch,
+  setAlert,
+  agreedStatus,
+  setIsLoading
+) => {
   dispatch(authActions.signup(query)).then((userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
           (storeData) => {
+            setIsLoading(false);
             authActions.saveUserStoreToStorage(storeData);
             dispatch(authActions.saveUserStore(storeData));
             setAlert({
@@ -211,6 +290,7 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
           }
         );
       } else {
+        setIsLoading(false);
         setAlert({
           content: popupConetnt(agreedStatus, userInfo),
           onPressConfirm: () => {
@@ -220,6 +300,7 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
         });
       }
     } else {
+      setIsLoading(false);
       setAlert({
         message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
         onPressConfirm: () => {
@@ -229,53 +310,62 @@ export const signup = (query, dispatch, setAlert, agreedStatus) => {
     }
   });
 };
-
+const DescText = styled(BaseText)({
+  fontSize: 14,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+  marginBottom: 17,
+  marginLeft: 20,
+  marginRight: 20,
+});
 const ScrollContainer = styled.ScrollView({
   flex: 1,
   paddingRight: StyleConstants.defaultPadding,
   paddingLeft: StyleConstants.defaultPadding,
   marginTop: 20,
 });
-export const popupConetnt = (agreedStatus, userInfo) => {
-  // console.warn(agreedStatus);
-  const GreenText = styled(Text)({
-    fontSize: 18,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    lineHeight: 28,
-    letterSpacing: 0,
-    textAlign: "center",
-    color: colors.appleGreen,
-  });
-  const WhiteText = styled(Text)({
-    fontSize: 24,
-    color: colors.trueWhite,
-    textAlign: "center",
-  });
-  const Container = styled.View({
-    marginTop: 60,
-    paddingBottom: 30,
-  });
-  const Line = styled.View({
-    flexDirection: "row",
+const GreenText = styled(BaseText)({
+  fontSize: 18,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 28,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.appleGreen,
+});
+const WhiteText = styled(BaseText)({
+  fontSize: 24,
+  color: colors.trueWhite,
+  textAlign: "center",
+});
+const Container = styled.View({
+  marginTop: 0,
+  paddingBottom: 30,
+});
+const Line = styled.View({
+  flexDirection: "row",
 
-    marginLeft: 29,
-    marginRight: 29,
-    flexShrink: 1,
-  });
-  const SmallText = styled(Text)({
-    fontSize: 14,
-    fontWeight: "normal",
-    fontStyle: "normal",
-    lineHeight: 25,
-    letterSpacing: 0,
-    textAlign: "left",
-    color: colors.trueWhite,
-    marginLeft: 10,
-    flexShrink: 1,
-  });
-  const Icon = styled.Image({ marginTop: 5 });
-  // console.warn(userInfo.user_id);
+  marginLeft: 29,
+  marginRight: 29,
+  flexShrink: 1,
+});
+const SmallText = styled(BaseText)({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 25,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.trueWhite,
+  marginLeft: 10,
+  flexShrink: 1,
+});
+const Icon = styled.Image({ marginTop: 5 });
+export const popupConetnt = (agreedStatus, userInfo) => {
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
@@ -285,10 +375,11 @@ export const popupConetnt = (agreedStatus, userInfo) => {
           : ""}
       </WhiteText>
       {Object.keys(agreedStatus).map((keyName, index) => {
-        // console.warn(Object.keys(agreedStatus).length);.
+        // Util.log(Object.keys(agreedStatus).length);.
         if (agreedStatus[keyName].isChecked)
           return (
             <Line
+              key={index}
               style={{
                 marginTop: index == 0 ? 20 : 0,
                 // marginBottom:
@@ -315,7 +406,7 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const ConfrimText = styled(Text)({
+const ConfrimText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -327,8 +418,9 @@ const ConfrimText = styled(Text)({
   marginTop: 5,
   marginBottom: 5,
 });
-const InputText = styled.TextInput({
+const InputText = styled(BaseTextInput)({
   flex: 1,
+  // lineHeight: 20,
 });
 const BlackButton = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.greyishBrown,
@@ -344,14 +436,14 @@ const GreenButton = styled(BaseButtonContainer)({
 const LabelContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 1,
 })({});
-const LabelText = styled.Text({
+const LabelText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.pinkishGrey,
+  color: colors.greyishBrown,
 });
 const Label = (props) => (
   <LabelContainer {...props}>
