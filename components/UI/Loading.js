@@ -1,11 +1,12 @@
 import React from "react";
 // import Modal from "react-native-modal";
-
+import { useHeaderHeight } from "@react-navigation/stack";
 import { StyleSheet, ActivityIndicator, View, Modal } from "react-native";
 import { screenHeight, screenWidth } from "@UI/BaseUI";
 
 const Loading = (props) => {
-  const isLoading = props.is;
+  const headerHeight = useHeaderHeight();
+  const isLoading = props.isLoading;
   return (
     // <Modal
     //   backdropOpacity={0.7}
@@ -29,7 +30,11 @@ const Loading = (props) => {
             elevation: 99999,
           }}
         >
-          <ActivityIndicator size="large" color={colors.cerulean} />
+          <ActivityIndicator
+            size="large"
+            color={colors.cerulean}
+            style={{ marginTop: -headerHeight }}
+          />
         </View>
       )}
     </>

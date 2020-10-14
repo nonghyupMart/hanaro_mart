@@ -71,16 +71,29 @@ export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
   borderRadius: 8,
 });
 
-export const DetailContainer = styled.View({
+const DetailContainerBody = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
   backgroundColor: colors.trueWhite,
-  marginTop: 7,
+  // marginTop: 7,
   paddingLeft: 18,
   paddingRight: 18,
   paddingBottom: 45,
 });
+const DetailContainerMarginTop = styled.View({
+  width: "100%",
+  height: 7,
+  backgroundColor: colors.white,
+});
+export const DetailContainer = (props) => {
+  return (
+    <>
+      <DetailContainerMarginTop />
+      <DetailContainerBody {...props} />
+    </>
+  );
+};
 
 export const BlueButtonText = styled(BaseText)({
   fontSize: 16,

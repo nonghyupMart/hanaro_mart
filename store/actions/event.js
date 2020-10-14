@@ -60,6 +60,10 @@ export const fetchEventDetail = (query) => {
     }
   };
 };
+export const clearEventDetail = () => {
+  return { type: SET_EVENT_DETAIL, eventDetail: null };
+};
+
 export const updateEventDetail = (eventDetail) => {
   return {
     type: SET_EVENT_DETAIL,
@@ -86,6 +90,61 @@ export const applyEvent = (query) => {
         Util.log(url, query, resData.error.errorMsg);
         return resData.error.errorMsg;
         throw new Error(`applyEvent Something went wrong! ${response}`);
+      }
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const applyStamp = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/stamp`,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(query),
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        Util.log(url, query, resData.error.errorMsg);
+        return resData.error.errorMsg;
+        throw new Error(`applyStamp Something went wrong! ${response}`);
+      }
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+
+export const exchangeStamp = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/stamp-trade`,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(query),
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        Util.log(url, query, resData.error.errorMsg);
+        return resData.error.errorMsg;
+        throw new Error(`exchangeStamp Something went wrong! ${response}`);
       }
       return resData.data;
     } catch (err) {

@@ -85,16 +85,16 @@ const ApplyBox = (props) => {
           maxLength={7}
           value={reg_num}
           onChangeText={(text) => setReg_num(text)}
-          editable={props.eventDetail.entry.entry_status === "10"}
+          editable={props.eventDetail.entry.status === "10"}
         />
       </Container>
-      {props.eventDetail.entry.entry_status === "10" && (
+      {props.eventDetail.entry.status === "10" && (
         <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모하기</BlueButtonText>
         </BlueButton>
       )}
-      {props.eventDetail.entry.entry_status === "20" && (
+      {props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>

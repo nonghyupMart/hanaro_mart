@@ -8,7 +8,7 @@ export const SET_HOME_NOTICE_MORE = "SET_HOME_NOTICE_MORE";
 export const SET_HOME_NARO = "SET_HOME_NARO";
 export const SET_STORE_POPUP = "SET_STORE_POPUP";
 export const SET_APP_POPUP = "SET_APP_POPUP";
-export const CLEAR_STORE_POPUP = "CLEAR_STORE_POPUP";
+
 
 export const fetchHomeBanner = () => {
   return async (dispatch, getState) => {
@@ -80,7 +80,10 @@ export const fetchHomeNaro = (query) => {
 };
 
 export const clearStorePopup = () => {
-  return { type: CLEAR_STORE_POPUP };
+  return {
+    type: SET_STORE_POPUP,
+    storePopup: null,
+  };
 };
 
 export const fetchPopup = (query) => {

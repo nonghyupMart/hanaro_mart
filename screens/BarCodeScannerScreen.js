@@ -22,6 +22,7 @@ import {
 } from "@UI/BaseUI";
 import * as CommonActions from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
+import Loading from "@UI/Loading";
 
 const BarCodeScannerScreen = (props) => {
   const dispatch = useDispatch();
@@ -46,10 +47,14 @@ const BarCodeScannerScreen = (props) => {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Loading isLoading={true} />;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <Text>
+        카메라에 접근 권한이 없습니다. 설정에서 카메라 권한을 승인해 주세요.
+      </Text>
+    );
   }
 
   return (

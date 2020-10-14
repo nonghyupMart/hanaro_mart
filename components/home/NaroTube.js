@@ -58,7 +58,7 @@ const NaroTube = (props) => {
           return (
             <ExtendedWebView
               bounces={false}
-              key={videoId}
+              key={item.naro_cd}
               style={{
                 height: screenWidth * 0.555,
                 opacity: 0.99,

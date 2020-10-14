@@ -15,6 +15,7 @@ import {
   screenWidth,
   BaseButtonContainer,
 } from "@UI/BaseUI";
+import Loading from "@UI/Loading";
 
 import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
@@ -31,22 +32,124 @@ const EventDetailScreen = (props, { navigation }) => {
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
-
   useEffect(() => {
-    setIsLoading(true);
+    return () => {
+      dispatch(eventActions.clearEventDetail());
+    };
+  }, []);
+  useEffect(() => {
+    requestEvent();
+  }, [dispatch]);
 
-    const requestEvent = dispatch(
+  const requestEvent = () => {
+    setIsLoading(true);
+    dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
       })
-    );
-
-    Promise.all([requestEvent]).then(() => {
+    ).then(() => {
       setIsLoading(false);
     });
-  }, [dispatch]);
+  };
+
+  const onExchangeStamp = (QRCode) => {
+    if (QRCode.length !== 12) {
+      return setAlert({
+        message: "QR코드가 정확하지 않습니다.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    dispatch(
+      eventActions.exchangeStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        mana_qr: QRCode,
+      })
+    ).then((data) => {
+      if (data.result == "success") {
+        setAlert({
+          message: "응모 되었습니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+            requestEvent();
+          },
+        });
+      } else {
+        setAlert({
+          message: data,
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      }
+    });
+  };
+  const onApplyStamp = (QRCode) => {
+    if (QRCode.length !== 40) {
+      return setAlert({
+        message: "QR코드가 정확하지 않습니다.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    const price = QRCode.substr(id.length - 10);
+
+    if (price < eventDetail.entry.entry_price) {
+      return setAlert({
+        message: "영수증 금액이 부족합니다.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    dispatch(
+      eventActions.applyStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        rcp_qr: QRCode,
+      })
+    ).then((data) => {
+      if (data.result == "success") {
+        setAlert({
+          message: "응모 되었습니다.",
+          onPressConfirm: () => {
+            setAlert(null);
+            requestEvent();
+          },
+        });
+      } else {
+        setAlert({
+          message: data,
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      }
+    });
+  };
   const onApply = (reg_num) => {
+    if (rcp_qr.length !== 40) {
+      return setAlert({
+        message: "QR코드가 정확하지 않습니다.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
+    if (price < eventDetail.entry.entry_price) {
+      return setAlert({
+        message: "영수증 금액이 부족합니다.",
+        onPressConfirm: () => {
+          setAlert(null);
+        },
+      });
+    }
     dispatch(
       eventActions.applyEvent({
         event_cd: params.event_cd,
@@ -57,7 +160,7 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       if (data.result == "success") {
-        eventDetail.entry.entry_status = "20";
+        eventDetail.entry.status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
         setAlert({
           message: "응모 되었습니다.",
@@ -75,15 +178,18 @@ const EventDetailScreen = (props, { navigation }) => {
       }
     });
   };
+  if (!eventDetail) return <Loading isLoading={true} />;
   return (
     <BaseScreen
       alert={alert}
       setScrollRef={setScrollRef}
       isLoading={isLoading}
-      style={styles.screen}
+      style={{ backgroundColor: colors.trueWhite }}
+      isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
+        backgroundColor: colors.trueWhite,
       }}
     >
       {eventDetail && (
@@ -133,9 +239,9 @@ const EventDetailScreen = (props, { navigation }) => {
                 key={scrollRef}
                 setAlert={setAlert}
                 onApply={onApply}
-                setRcp_qr={setRcp_qr}
-                rcp_qr={rcp_qr}
+                setRcp_qr={onApplyStamp}
                 eventDetail={eventDetail}
+                setMana_qr={onExchangeStamp}
               />
             )}
         </DetailContainer>
@@ -158,6 +264,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
+    backgroundColor: colors.trueWhite,
   },
 });
 

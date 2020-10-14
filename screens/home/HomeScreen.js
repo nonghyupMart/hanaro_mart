@@ -149,17 +149,16 @@ export const screenOptions = ({ navigation }) => {
     ),
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <></>
-        {/* <Item
+        <Item
           IconComponent={MaterialIcons}
           iconSize={24}
           title="검색"
           iconName="search"
           onPress={() => {
-            animate();
+            // animate();
           }}
           color={colors.pine}
-          style={{ marginRight: 0, marginLeft: 0 }}
+          style={{ marginRight: -5, marginLeft: -5 }}
         />
         <Item
           IconComponent={MaterialIcons}
@@ -167,9 +166,10 @@ export const screenOptions = ({ navigation }) => {
           title="알림"
           iconName="notifications-none"
           onPress={() => {
-            animate();
+            // animate();
           }}
           color={colors.pine}
+          style={{ marginRight: -5, marginLeft: -5 }}
         />
         <Item
           iconSize={24}
@@ -177,19 +177,11 @@ export const screenOptions = ({ navigation }) => {
           title="장바구니"
           iconName="cart-outline"
           onPress={() => {
-            animate();
+            // animate();
           }}
           color={colors.pine}
-        /> */}
-        {/* <Item
-          title="Scanner"
-          iconName={
-            Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
-          }
-          onPress={() => {
-            navigation.navigate("BarCodeScanner");
-          }}
-        /> */}
+          style={{ marginRight: -5, marginLeft: -5 }}
+        />
       </HeaderButtons>
     ),
   };

@@ -205,7 +205,7 @@ const CouponDetailScreen = (props) => {
                   props.navigation.pop();
                 }}
               >
-                <Image source={require("@images/resize3.png")} />
+                {/* <Image source={require("@images/resize3.png")} /> */}
                 <BlueButtonText>확인</BlueButtonText>
               </BlueButton>
             </>

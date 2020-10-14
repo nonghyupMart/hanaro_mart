@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import ApplyBox from "@components/event/ApplyBox";
+import StampBox from "@components/event/StampBox";
 import ScanBox from "@components/event/ScanBox";
 
 const C = (props) => {
   return (
-    <Container>
-      <ScanBox
-        setRcp_qr={props.setRcp_qr}
-        scrollRef={props.scrollRef}
-        eventDetail={props.eventDetail}
-        {...props}
-      />
-      {props.rcp_qr && (
-        <ApplyBox
-          onApply={props.onApply}
-          setAlert={props.setAlert}
+    <View>
+      <Container>
+        <ScanBox
+          setRcp_qr={props.setRcp_qr}
+          scrollRef={props.scrollRef}
           eventDetail={props.eventDetail}
           {...props}
         />
-      )}
-    </Container>
+      </Container>
+
+      <StampBox
+        onApply={props.onApply}
+        setAlert={props.setAlert}
+        eventDetail={props.eventDetail}
+        {...props}
+      />
+    </View>
   );
 };
-
+const View = styled.View({
+  width: "100%",
+});
 const Container = styled.View({
   paddingRight: 18,
   paddingLeft: 18,
-
   width: "100%",
 });
 export default C;

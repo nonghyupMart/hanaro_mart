@@ -25,13 +25,13 @@ const ScanBox = (props) => {
         {`1. 구매하신 영수증을 판매원의 QR 판독기로 스캔을 합니다. \n2. 영수증확인 후 하단에 응모하기 버튼을 클릭합니다.`}
       </Text2>
       <Text3>영수증 확인 후 응모가 가능합니다.</Text3>
-      {props.eventDetail.entry.entry_status === "10" && (
+      {props.eventDetail.entry.status === "10" && (
         <GreenBtn onPress={onPress}>
           <Image source={require("@images/barcode2.png")} />
           <BlueButtonText>영수증 확인</BlueButtonText>
         </GreenBtn>
       )}
-      {/* {props.eventDetail.entry.entry_status === "20" && (
+      {/* {props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
