@@ -143,7 +143,7 @@ export const useCoupon = (query) => {
           break;
         case "B":
           if (routeName === "MyCoupon")
-            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
+            dispatch({ type: SET_MY_COUPON, coupon: coupon });
           else dispatch({ type: SET_COUPON, coupon: coupon });
           break;
       }

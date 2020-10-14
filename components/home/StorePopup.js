@@ -25,7 +25,7 @@ const StorePopup = (props) => {
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
-  console.warn(storePopup);
+  // console.warn(storePopup);
   useEffect(() => {
     if (
       isStorePopup &&
@@ -36,7 +36,7 @@ const StorePopup = (props) => {
     )
       setIsVisible(true);
     else setIsVisible(false);
-  }, []);
+  }, [isStorePopup, userStore, storePopup]);
   useEffect(() => {
     if (!_.isEmpty(storePopup)) {
       props.setFetchStorePopup(true);
@@ -50,7 +50,7 @@ const StorePopup = (props) => {
         props.setFetchStorePopup(true);
       });
     }
-  }, [userStore, storePopup]);
+  }, [userStore]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForStorePopupToStorage();

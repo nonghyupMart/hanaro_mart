@@ -76,8 +76,7 @@ const StoreChangeDetailScreen = (props) => {
           onPressConfirm: () => {
             setAlert(null);
             props.navigation.popToTop();
-
-            // dispatch(homeActions.clearStorePopup());
+            dispatch(homeActions.clearStorePopup());
 
             // Restart();
           },

@@ -35,34 +35,34 @@ const CouponScreen = (props) => {
   // useScrollToTop(ref);
   // global.alert(1);
   useEffect(() => {
-    // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
-      setIsLoading(true);
-      setPage(1);
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (userStore) {
+        setIsLoading(true);
+        setPage(1);
 
-      const fetchCouponA = dispatch(
-        couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
-          user_yn: routeName == "MyCoupon" ? "Y" : "N",
-          gbn: "A",
-        })
-      );
-      const fetchCouponB = dispatch(
-        couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
-          user_yn: routeName == "MyCoupon" ? "Y" : "N",
-          gbn: "B",
-        })
-      );
+        const fetchCouponA = dispatch(
+          couponActions.fetchCoupon({
+            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo.user_cd,
+            user_yn: routeName == "MyCoupon" ? "Y" : "N",
+            gbn: "A",
+          })
+        );
+        const fetchCouponB = dispatch(
+          couponActions.fetchCoupon({
+            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo.user_cd,
+            user_yn: routeName == "MyCoupon" ? "Y" : "N",
+            gbn: "B",
+          })
+        );
 
-      Promise.all([fetchCouponA, fetchCouponB]).then(() => {
-        setIsLoading(false);
-      });
-    }
-    // });
-    // return unsubscribe;
+        Promise.all([fetchCouponA, fetchCouponB]).then(() => {
+          setIsLoading(false);
+        });
+      }
+    });
+    return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
     setIsLoading(true);

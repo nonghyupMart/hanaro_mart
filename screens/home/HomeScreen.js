@@ -98,14 +98,14 @@ const HomeScreen = (props) => {
         contentStyle={{ paddingTop: 0 }}
       >
         <AppPopup
-          key={appPopupKey}
+          // key={appPopupKey}
           setIsReadyAppPopup={setIsReadyAppPopup}
           setFetchAppPopup={setFetchAppPopup}
           {...props}
         />
         {isReadyAppPopup && (
           <StorePopup
-            key={storePopupKey}
+            // key={storePopupKey}
             setFetchStorePopup={setFetchStorePopup}
             {...props}
           />
