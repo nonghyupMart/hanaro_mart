@@ -104,7 +104,7 @@ const FlyerContentsScreen = (props) => {
           numColumns={3}
           style={{ flexGrow: 1, flex: 1, width: "100%" }}
           data={product.productList}
-          keyExtractor={(item) => item.id + ""}
+          keyExtractor={(item) => item.product_cd + ""}
           renderItem={(itemData) => (
             <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}

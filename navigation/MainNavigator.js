@@ -101,6 +101,10 @@ import CartScreen, {
   screenOptions as CartScreenOptions,
 } from "@screens/CartScreen";
 
+import SearchProductScreen, {
+  screenOptions as SearchProductScreenOptions,
+} from "@screens/SearchProductScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -239,7 +243,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
           cardStyle: {
-            marginBottom: 60,
+            marginBottom: 70,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -357,6 +361,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="Cart"
           component={CartScreen}
           options={CartScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="SearchProduct"
+          component={SearchProductScreen}
+          options={SearchProductScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

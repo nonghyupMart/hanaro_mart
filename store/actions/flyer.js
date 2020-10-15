@@ -5,6 +5,9 @@ import * as Util from "@util";
 export const SET_LEAFLET = "SET_LEAFLET";
 export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
 export const SET_PRODUCT = "SET_PRODUCT";
+export const SET_PRODUCT_MORE = "SET_PRODUCT_MORE";
+export const SET_SEARCHED_PRODUCT = "SET_SEARCHED_PRODUCT";
+export const SET_SEARCHED_PRODUCT_MORE = "SET_SEARCHED_PRODUCT_MORE";
 export const SET_PRODUCT_DETAIL = "SET_PRODUCT_DETAIL";
 
 export const fetchLeaflet = (query) => {
@@ -16,12 +19,12 @@ export const fetchLeaflet = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-
+      const resData = await response.json();
       if (!response.ok) {
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchLeaflet Something went wrong!");
       }
 
-      const resData = await response.json();
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
     } catch (err) {
       throw err;
@@ -37,12 +40,12 @@ export const fetchLeafletDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-
+      const resData = await response.json();
       if (!response.ok) {
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchLeafletDetail Something went wrong!");
       }
 
-      const resData = await response.json();
       dispatch({
         type: SET_LEAFLET_DETAIL,
         leafletDetail: resData.data.leafletInfo,
@@ -58,19 +61,25 @@ export const fetchProduct = (query) => {
     url: `${API_URL}/product`,
     query: query,
   });
-
+  console.warn(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-
+      const resData = await response.json();
       if (!response.ok) {
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchProduct Something went wrong!");
       }
 
-      const resData = await response.json();
-      Util.log("fetchProduct=> ", resData.data);
-
-      dispatch({ type: SET_PRODUCT, product: resData.data });
+      let type = SET_PRODUCT;
+      if (query.product_nm) {
+        if (query.page > 1) type = SET_SEARCHED_PRODUCT_MORE;
+        else type = SET_SEARCHED_PRODUCT;
+      } else {
+        if (query.page > 1) type = SET_PRODUCT_MORE;
+        else type = SET_PRODUCT;
+      }
+      dispatch({ type, product: resData.data });
     } catch (err) {
       throw err;
     }
@@ -89,12 +98,11 @@ export const fetchProductDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-
+      const resData = await response.json();
       if (!response.ok) {
+        Util.log(url, resData.error.errorMsg);
         throw new Error("fetchProductDetail Something went wrong!");
       }
-
-      const resData = await response.json();
 
       dispatch({
         type: SET_PRODUCT_DETAIL,

@@ -16,7 +16,7 @@ const ExtendedFlatList = (props) => {
   return (
     <FlatList
       onEndReachedThreshold={0.5}
-      scrollEventThrottle={16}
+      scrollEventThrottle={60}
       {...props}
       onScroll={onScroll}
       onEndReached={onEndReached}

@@ -181,7 +181,7 @@ const HeaderRight = (props) => {
         title="검색"
         iconName="search"
         onPress={() => {
-          // animate();
+          props.navigator.navigate("SearchProduct");
         }}
         color={colors.pine}
         style={{ marginRight: -5, marginLeft: -5 }}

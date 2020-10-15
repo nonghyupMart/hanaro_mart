@@ -16,7 +16,7 @@ import { IMAGE_URL } from "@constants/settings";
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
+    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
       <Container>
         <BaseImage
           style={{

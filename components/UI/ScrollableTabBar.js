@@ -204,7 +204,7 @@ const ScrollableTabBar = createReactClass({
           bounces={false}
           scrollsToTop={false}
           onScroll={onScroll}
-          scrollEventThrottle={16}
+          scrollEventThrottle={60}
         >
           <View
             style={[
