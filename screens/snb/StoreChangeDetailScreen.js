@@ -62,6 +62,7 @@ const StoreChangeDetailScreen = (props) => {
     });
   };
   const saveStore = () => {
+    if (!branch || !branch.storeInfo) return;
     let msg;
     dispatch(
       setUserStore(
