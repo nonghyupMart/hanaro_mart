@@ -71,12 +71,14 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   return PreventDoubleClick;
 };
 
+const storagePrefix = Constants.manifest.releaseChannel + "::";
 export const setStorageItem = (name, data) => {
-  return AsyncStorage.setItem(
-    Constants.manifest.releaseChannel + "::" + name,
-    data
-  );
+  return AsyncStorage.setItem(storagePrefix + name, data);
 };
 export const getStorageItem = (name) => {
-  return AsyncStorage.getItem(Constants.manifest.releaseChannel + "::" + name);
+  return AsyncStorage.getItem(storagePrefix + name);
+};
+
+export const removeStorageItem = (name) => {
+  AsyncStorage.removeItem(storagePrefix + name);
 };
