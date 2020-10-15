@@ -2,7 +2,7 @@
   "expo": {
     "name": "하나로마트앱",
     "slug": "hanaro-plus",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "privacy": "public",
     "platforms": ["ios", "android"],
@@ -12,7 +12,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "buildNumber": "1.0.5",
+      "buildNumber": "1.0.6",
       "icon": "./assets/icon.png",
       "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": false,
@@ -22,10 +22,17 @@
         "resizeMode": "cover",
         "image": "./assets/splash/ios/img1242x2436.png",
         "hideExponentText": true
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "이벤트, 경품 및 스탬프 응모시 영수증의 QR코드 촬영을 위해 카메라 권한이 필요합니다.",
+        "NSLocationAlwaysUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
+        "NSLocationUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
+        "NSLocationWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다."
       }
     },
     "android": {
-      "versionCode": 5,
+      "versionCode": 6,
       "splash": {
         "mdpi": "./assets/splash/and/img320x480.png",
         "hdpi": "./assets/splash/and/img480x800.png",
@@ -40,6 +47,7 @@
       "useNextNotificationsApi": true,
       "permissions": [
         "CAMERA",
+        "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",
         "READ_INTERNAL_STORAGE",
