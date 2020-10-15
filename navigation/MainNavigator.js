@@ -211,14 +211,15 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         {menuList.map((menu) => {
           {
             let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
-            return (
-              <HomeTopTabNavigator.Screen
-                key={Tab[0].name}
-                name={Tab[0].name}
-                component={Tab[0].components}
-                options={{ title: menu.menu_nm }}
-              />
-            );
+            if (!Tab[0]) return;
+              return (
+                <HomeTopTabNavigator.Screen
+                  key={Tab[0].name}
+                  name={Tab[0].name}
+                  component={Tab[0].components}
+                  options={{ title: menu.menu_nm }}
+                />
+              );
           }
         })}
         {menuList.length === 0 &&

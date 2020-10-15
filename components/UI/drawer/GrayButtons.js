@@ -16,6 +16,7 @@ const GrayButtons = (props) => {
       <GrayContainer>
         {props.menuList.map((menu) => {
           let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+          if (!Tab[0]) return;
           return (
             <WhiteButtonContainer
               key={Tab[0].name}
