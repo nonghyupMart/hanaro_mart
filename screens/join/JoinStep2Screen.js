@@ -152,13 +152,15 @@ const JoinStep2Screen = ({ navigation }) => {
         },
       });
     }
-    if (accessCode !== acCode && phoneNumber !== TEST_PHONE_NUMBER) {
-      return setAlert({
-        message: "인증번호를 확인해 주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+    if (phoneNumber !== TEST_PHONE_NUMBER) {
+      if (accessCode !== acCode) {
+        return setAlert({
+          message: "인증번호를 확인해 주세요.",
+          onPressConfirm: () => {
+            setAlert(null);
+          },
+        });
+      }
     }
     setJoinStep([true, true]);
   };
@@ -248,9 +250,9 @@ const JoinStep2Screen = ({ navigation }) => {
                 height: null,
               }}
             >
-              <ConfrimText style={{}}>
+              <ConfirmText style={{}}>
                 인증이 완료되었습니다.{"\n"}하나로마트앱에 가입하시겠습니까?
-              </ConfrimText>
+              </ConfirmText>
             </TextInputContainer>
             <GreenButton
               style={{ width: "100%" }}
@@ -408,7 +410,7 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const ConfrimText = styled(BaseText)({
+const ConfirmText = styled(BaseText)({
   fontSize: 16,
   fontWeight: "normal",
   fontStyle: "normal",
