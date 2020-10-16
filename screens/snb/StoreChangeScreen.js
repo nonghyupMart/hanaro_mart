@@ -25,11 +25,12 @@ import PickerViews from "@components/store/PickerViews";
 import SearchBar from "@components/store/SearchBar";
 import InfoBox from "@components/store/InfoBox";
 import HistoryList from "@components/store/HistoryList";
-
+import _ from "lodash";
 import * as branchesActions from "@actions/branches";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -49,10 +50,6 @@ const StoreChangeScreen = (props) => {
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
-
-  const popupHandler = (item) => {
-    props.navigation.navigate("StoreChangeDetail", { item: item });
-  };
 
   const [location, setLocation] = useState(null);
   useEffect(() => {
@@ -110,7 +107,13 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      <HistoryList location={location} {...props} setIsLoading={setIsLoading} />
+      {!_.isEmpty(userStore) && (
+        <HistoryList
+          location={location}
+          {...props}
+          setIsLoading={setIsLoading}
+        />
+      )}
       <WhiteContainer>
         <SearchBar
           location={location}
@@ -139,15 +142,11 @@ const StoreChangeScreen = (props) => {
 
         {branches && (
           <FlatList
+            listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}
             keyExtractor={(item) => item.store_cd}
-            renderItem={(itemData) => (
-              <StoreItem
-                onPress={popupHandler.bind(this, itemData.item)}
-                item={itemData.item}
-              />
-            )}
+            renderItem={(itemData) => <StoreItem item={itemData.item} />}
           />
         )}
       </WhiteContainer>

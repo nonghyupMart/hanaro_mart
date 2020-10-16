@@ -14,6 +14,7 @@ import { IMAGE_URL } from "@constants/settings";
 const { width } = Dimensions.get("window");
 
 const FlyerContentsScreen = (props) => {
+  const [alert, setAlert] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -46,6 +47,7 @@ const FlyerContentsScreen = (props) => {
   };
   return (
     <BaseScreen
+      alert={alert}
       style={{
         backgroundColor: colors.trueWhite,
       }}
@@ -119,6 +121,7 @@ const FlyerContentsScreen = (props) => {
           isVisible={isVisible}
           setIsVisible={setIsVisible}
           setIsLoading={setIsLoading}
+          setAlert={setAlert}
         />
       )}
     </BaseScreen>

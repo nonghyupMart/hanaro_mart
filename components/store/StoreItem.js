@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   StyleSheet,
@@ -7,13 +8,37 @@ import {
   Platform,
   Image,
 } from "react-native";
-import { BaseText } from "@UI/BaseUI";
-import { Ionicons } from "@expo/vector-icons";
+import { BaseText, BaseTouchable } from "@UI/BaseUI";
+import * as RootNavigation from "@navigation/RootNavigation";
+import * as branchesActions from "@actions/branches";
 
 const StoreItem = (props) => {
+  const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const isMark = props.isMark;
+  const onPress = () => {
+    RootNavigation.navigate("StoreChangeDetail", { item: props.item });
+  };
+  const onDelete = () => {
+    dispatch(
+      branchesActions.deleteMarkedStore({
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+      })
+    ).then((data) => {
+      if (data.result == "success") props.fetchMarkedStores(true);
+    });
+  };
+
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={onPress}>
       <Container>
+        {isMark && (
+          <StarContainer>
+            <Image source={require("@images/star2.png")} />
+          </StarContainer>
+        )}
         <TitleContainer>
           <Title>{props.item.store_nm}</Title>
           <Tel>Tel. {props.item.tel}</Tel>
@@ -21,12 +46,27 @@ const StoreItem = (props) => {
         <IconContainer>
           <Image source={require("@images/location-pin.png")} />
           <BlueText>{props.item.dist}km</BlueText>
-          <Image source={require("@images/circle-right.png")} />
+          {!isMark && <Image source={require("@images/circle-right.png")} />}
+          {isMark && (
+            <Btn onPress={onDelete}>
+              <Image source={require("@images/close_x646.png")} />
+            </Btn>
+          )}
         </IconContainer>
       </Container>
     </TouchableOpacity>
   );
 };
+
+const Btn = styled(BaseTouchable)({
+  justifyContent: "center",
+  alignItems: "center",
+});
+const StarContainer = styled.View({
+  height: "100%",
+  paddingTop: 6,
+  paddingRight: 4.4,
+});
 const Tel = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",

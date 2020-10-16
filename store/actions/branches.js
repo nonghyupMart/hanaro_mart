@@ -95,7 +95,7 @@ export const fetchBranch = (store_cd) => {
 export const fetchStoreMark = (query) => {
   const url = queryString.stringifyUrl({
     url: `${API_URL}/store-mark`,
-    query: query,
+    query,
   });
   Util.log("fetchStoreMark ", url);
   return async (dispatch, getState) => {
@@ -110,6 +110,33 @@ export const fetchStoreMark = (query) => {
 
       // Util.log("fetchBranches data", resData.data);
       dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const deleteMarkedStore = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/store-mark`,
+    query: query,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        Util.log(url, query, resData.error.errorMsg);
+        return resData.error.errorMsg;
+        throw new Error(`deleteMarkedStore Something went wrong! ${response}`);
+      }
+      return resData.data;
     } catch (err) {
       throw err;
     }

@@ -113,3 +113,31 @@ export const fetchProductDetail = (query) => {
     }
   };
 };
+
+
+export const addCart = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/basket`,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(query),
+      });
+      const resData = await response.json();
+      if (!response.ok) {
+        Util.log(url, query, resData.error.errorMsg);
+        return resData.error.errorMsg;
+        throw new Error(`addCart Something went wrong! ${response}`);
+      }
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};

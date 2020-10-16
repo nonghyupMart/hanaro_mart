@@ -149,6 +149,7 @@ const SearchProductScreen = (props) => {
           isVisible={isVisible}
           setIsVisible={setIsVisible}
           setIsLoading={setIsLoading}
+          setAlert={setAlert}
         />
       )}
     </BaseScreen>

@@ -60,7 +60,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // setAppPopupKey(Math.random());
-      if (!_.isEmpty(userStore) && isJoin)
+      if (!_.isEmpty(userStore))
         setStorePopupKey(userStore.storeInfo.store_cd);
     });
     return unsubscribe;

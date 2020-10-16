@@ -3,7 +3,13 @@ import styled from "styled-components/native";
 import colors from "@constants/colors";
 import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
-import { Dimensions, TouchableOpacity, Image, Platform } from "react-native";
+import {
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  Platform,
+  View,
+} from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -43,13 +49,17 @@ BaseImage.defaultProps = {
   defaultSource: require("@images/b_img500.png"),
   resizeMode: "cover",
 };
+const BaseTouchbaleOpacity = (props) => {
+  const opacity = props.disabled === true ? 0.5 : 1;
+  return (
+    <TouchableOpacity {...props}>
+      <View style={{ opacity }}>{props.children}</View>
+    </TouchableOpacity>
+  );
+};
 export const BaseTouchable = (props) => {
   const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
-  return (
-    <Touchbale activeOpacity={1} {...props}>
-      {props.children}
-    </Touchbale>
-  );
+  return <Touchbale {...props}>{props.children}</Touchbale>;
 };
 export const BaseButtonContainer = styled(BaseTouchable)({
   width: screenWidth * 0.44,

@@ -212,14 +212,14 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           {
             let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
             if (!Tab[0]) return;
-              return (
-                <HomeTopTabNavigator.Screen
-                  key={Tab[0].name}
-                  name={Tab[0].name}
-                  component={Tab[0].components}
-                  options={{ title: menu.menu_nm }}
-                />
-              );
+            return (
+              <HomeTopTabNavigator.Screen
+                key={Tab[0].name}
+                name={Tab[0].name}
+                component={Tab[0].components}
+                options={{ title: menu.menu_nm }}
+              />
+            );
           }
         })}
         {menuList.length === 0 &&
@@ -244,7 +244,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
           cardStyle: {
-            marginBottom: 70,
+            marginBottom: 65,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -380,11 +380,19 @@ const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  if (isInitialRender) {
+    setTimeout(() => setIsInitialRender(false), 1);
+  }
   // return <></>;
   return (
     <Drawer.Navigator
       edgeWidth={0}
-      drawerStyle={drawerStyle}
+      drawerStyle={[
+        drawerStyle,
+        { width: isInitialRender ? null : screenWidth * 0.791 },
+      ]}
       drawerContent={(props) =>
         CustomDrawerContent(
           props,

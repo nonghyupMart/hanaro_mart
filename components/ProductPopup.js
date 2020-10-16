@@ -18,27 +18,49 @@ import {
   BaseTextInput,
 } from "./UI/BaseUI";
 import * as Util from "@util";
-
+import * as RootNavigation from "@navigation/RootNavigation";
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const productDetail = useSelector((state) => state.flyer.productDetail);
+  const [item_amount, setItem_amount] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(props.item.sale_price);
 
   useEffect(() => {
-    // props.setIsLoading(true);
-
-    const fetchProductDetail = dispatch(
+    if (!props.isVisible) return;
+    setItem_amount(1);
+    dispatch(
       flyerActions.fetchProductDetail({ product_cd: props.item.product_cd })
     );
+  }, [props.isVisible]);
 
-    Promise.all([fetchProductDetail]).then(() => {
-      // props.setIsLoading(false);
+  const onAddCart = () => {
+    dispatch(
+      flyerActions.addCart({
+        store_cd: props.item.store_cd,
+        user_cd: userInfo.user_cd,
+        product_cd: props.item.product_cd,
+        leaf_cd: props.item.leaf_cd,
+        item_amount: item_amount ? item_amount : 1,
+      })
+    ).then((data) => {
+      if (data.result == "success")
+        props.setAlert({
+          message: "장바구니에 추가되었습니다.",
+          confirmText: "확인",
+          cancelText: "장바구니로 이동",
+          onPressConfirm: () => {
+            props.setAlert(null);
+          },
+          onPressCancel: () => {
+            props.setAlert(null);
+            props.setIsVisible(false);
+            RootNavigation.navigate("Cart");
+          },
+        });
     });
-  }, []);
-
-  //   if (props.isVisible != isVisible) {
-  //
-  //   }
+  };
 
   return (
     <Modal
@@ -73,32 +95,42 @@ const ProductPopup = (props) => {
                 판매가 : {Util.formatNumber(props.item.sale_price)}원
               </SalePrice>
             </PriceContainer>
-            {/* <QuantityContainer>
+            <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
               </QContainer>
               <QButtonContainer>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setItem_amount(item_amount + 1)}
+                >
                   <Image source={require("@images/sp107.png")} />
                 </TouchableOpacity>
-                <QInput value="1" keyboardType="numeric" />
-                <TouchableOpacity>
+                <QInput
+                  keyboardType="numeric"
+                  value={`${item_amount}`}
+                  onChangeText={(val) => setItem_amount(val)}
+                />
+                <TouchableOpacity
+                  onPress={() =>
+                    item_amount > 1 ? setItem_amount(item_amount - 1) : null
+                  }
+                >
                   <Image source={require("@images/sp108.png")} />
                 </TouchableOpacity>
               </QButtonContainer>
-            </QuantityContainer> */}
+            </QuantityContainer>
             <TotalContainer>
               <TotalUnit>합계 : </TotalUnit>
-              <Total>{Util.formatNumber(props.item.sale_price)}원</Total>
+              <Total>{Util.formatNumber(totalPrice * item_amount)}원</Total>
             </TotalContainer>
             <BtnContainer style={{}}>
-              {/* <BlueBtn>
+              <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn> */}
+              </BlueBtn>
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
