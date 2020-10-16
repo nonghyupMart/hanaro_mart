@@ -152,8 +152,9 @@ const JoinStep2Screen = ({ navigation }) => {
         },
       });
     }
-    if (phoneNumber !== TEST_PHONE_NUMBER) {
-      if (accessCode !== acCode) {
+    if (phoneNumber != TEST_PHONE_NUMBER) {
+      if (accessCode != acCode) {
+        Util.log(accessCode, acCode);
         return setAlert({
           message: "인증번호를 확인해 주세요.",
           onPressConfirm: () => {
