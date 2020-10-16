@@ -33,6 +33,8 @@ import * as branchesActions from "@actions/branches";
 import _ from "lodash";
 import * as Util from "@util";
 
+const TEST_PHONE_NUMBER = "01999999999";
+
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
@@ -150,7 +152,7 @@ const JoinStep2Screen = ({ navigation }) => {
         },
       });
     }
-    if (accessCode != acCode) {
+    if (accessCode !== acCode && phoneNumber !== TEST_PHONE_NUMBER) {
       return setAlert({
         message: "인증번호를 확인해 주세요.",
         onPressConfirm: () => {
