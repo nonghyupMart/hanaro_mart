@@ -114,45 +114,7 @@ const getTabBarVisible = (route) => {
   }
   return true;
 };
-const getSearchBarVisible = (route) => {
-  const params = route.params;
-  if (params) {
-    if (params.tabBarVisible === false) {
-      return false;
-    }
-  }
-  return true;
-};
 
-let isShowSearchBar = false;
-let opacity = new Animated.Value(1);
-opacity.setValue(0);
-const animate = () => {
-  Keyboard.dismiss();
-  if (!isShowSearchBar) {
-    opacity.setValue(0);
-  } else {
-    opacity.setValue(1);
-  }
-  Animated.timing(opacity, {
-    toValue: isShowSearchBar ? 0 : 1,
-    duration: isShowSearchBar ? 200 : 400,
-    easing: isShowSearchBar ? Easing.elastic(0) : Easing.elastic(0),
-    useNativeDriver: false,
-  }).start();
-  isShowSearchBar = !isShowSearchBar;
-};
-
-const size = opacity.interpolate({
-  inputRange: [0, 1],
-  outputRange: [0, 80],
-});
-const animatedStyles = [
-  {
-    width: "100%",
-    height: size,
-  },
-];
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
 export const HomeTabNavigator = ({ navigation, route }) => {
