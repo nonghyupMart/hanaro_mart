@@ -9,7 +9,6 @@ export const SET_HOME_NARO = "SET_HOME_NARO";
 export const SET_STORE_POPUP = "SET_STORE_POPUP";
 export const SET_APP_POPUP = "SET_APP_POPUP";
 
-
 export const fetchHomeBanner = () => {
   return async (dispatch, getState) => {
     try {

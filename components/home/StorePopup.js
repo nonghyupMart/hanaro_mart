@@ -38,12 +38,13 @@ const StorePopup = (props) => {
     else setIsVisible(false);
   }, [isStorePopup, userStore, storePopup]);
   useEffect(() => {
-    if (!_.isEmpty(storePopup)) {
+    if (_.isEmpty(storePopup) || !isStorePopup) {
       props.setFetchStorePopup(true);
       return;
     }
     if (!_.isEmpty(userStore) && userStore.storeInfo) {
       props.setFetchStorePopup(false);
+
       dispatch(
         homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
       ).then(() => {
@@ -53,9 +54,8 @@ const StorePopup = (props) => {
   }, [userStore]);
 
   const setDisablePopup = () => {
-    CommonActions.saveDateForStorePopupToStorage();
+    CommonActions.saveDateForStorePopupToStorage(userStore.storeInfo.store_cd);
     dispatch(CommonActions.setIsStorePopup(false));
-    setIsVisible(false);
   };
 
   if (

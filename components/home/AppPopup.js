@@ -25,12 +25,13 @@ const AppPopup = (props) => {
     if (isAppPopup) setIsVisible(true);
   }, [isAppPopup]);
   useEffect(() => {
-    if (!_.isEmpty(appPopup)) {
+    if (!_.isEmpty(appPopup) || !isAppPopup) {
       props.setIsReadyAppPopup(true);
       props.setFetchAppPopup(true);
       return;
     }
     props.setFetchAppPopup(false);
+
     dispatch(homeActions.fetchPopup()).then(() => {
       props.setFetchAppPopup(true);
       if (_.isEmpty(appPopup)) {

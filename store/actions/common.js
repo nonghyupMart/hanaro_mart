@@ -20,9 +20,20 @@ export const setIsStorePopup = (isStorePopup) => {
   };
 };
 
-export const saveDateForStorePopupToStorage = () => {
-  const expirationDate = new Date(new Date().getTime());
-  Util.setStorageItem("dateForStorePopupData", expirationDate.toISOString());
+export const saveDateForStorePopupToStorage = (store_cd) => {
+  (async () => {
+    // const dateForStorePopup = await Util.getStorageItem(
+    //   "dateForStorePopupData"
+    // );
+    // const parsedData = await JSON.parse(dateForStorePopup);
+    const expirationDate = new Date(new Date().getTime());
+
+    Util.setStorageItem(
+      "dateForStorePopupData",
+      expirationDate.toISOString()
+      // { store_cd: expirationDate.toISOString() }
+    );
+  })();
 };
 
 export const setIsAppPopup = (isAppPopup) => {
