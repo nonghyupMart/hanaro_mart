@@ -32,7 +32,7 @@ const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
-
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const [isLoading, setIsLoading] = useState(false);
 
   const [lname, setLname] = useState();
@@ -50,7 +50,7 @@ const StoreChangeScreen = (props) => {
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
-
+  const storeMark = useSelector((state) => state.branches.storeMark);
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {
@@ -75,9 +75,17 @@ const StoreChangeScreen = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
+    let query = {
+      user_cd: userInfo.user_cd,
+    };
+    if (location) {
+      query.lat = location.coords.latitude;
+      query.lng = location.coords.longitude;
+    }
+    const fetchStoreMark = dispatch(branchesActions.fetchStoreMark(query));
     fetchBranches();
 
-    Promise.all([fetchAddress1]).then(() => {
+    Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
       setIsLoading(false);
     });
   }, [location]);
@@ -107,13 +115,15 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      {!_.isEmpty(userStore) && (
-        <HistoryList
-          location={location}
-          {...props}
-          setIsLoading={setIsLoading}
-        />
-      )}
+      {!_.isEmpty(userStore) &&
+        !_.isEmpty(storeMark) &&
+        storeMark.storeList.length > 0 && (
+          <HistoryList
+            location={location}
+            {...props}
+            setIsLoading={setIsLoading}
+          />
+        )}
       <WhiteContainer>
         <SearchBar
           location={location}

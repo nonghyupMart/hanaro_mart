@@ -53,7 +53,6 @@ export const fetchBranches = (query) => {
     url: `${API_URL}/store`,
     query: query,
   });
-  Util.log("fetchBranches ", url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -64,7 +63,6 @@ export const fetchBranches = (query) => {
         throw new Error("fetchBranches Something went wrong!");
       }
 
-      // Util.log("fetchBranches data", resData.data);
       dispatch({ type: SET_BRANCHES, branches: resData.data });
     } catch (err) {
       throw err;
@@ -97,7 +95,6 @@ export const fetchStoreMark = (query) => {
     url: `${API_URL}/store-mark`,
     query,
   });
-  Util.log("fetchStoreMark ", url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -108,7 +105,6 @@ export const fetchStoreMark = (query) => {
         throw new Error("fetchStoreMark Something went wrong!");
       }
 
-      // Util.log("fetchBranches data", resData.data);
       dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
     } catch (err) {
       throw err;

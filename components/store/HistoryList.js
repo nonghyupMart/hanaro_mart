@@ -19,9 +19,9 @@ const HistoryList = (props) => {
   const storeMark = useSelector((state) => state.branches.storeMark);
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
-    fetchMarkedStores();
-  }, [isVisible]);
+  // useEffect(() => {
+  //   fetchMarkedStores();
+  // }, [isVisible]);
 
   const fetchMarkedStores = (isDel = false) => {
     if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
