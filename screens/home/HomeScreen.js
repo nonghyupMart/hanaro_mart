@@ -37,6 +37,7 @@ import HomeBanner from "@components/home/HomeBanner";
 import NaroTube from "@components/home/NaroTube";
 import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
+import * as Util from "@util";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -58,15 +59,16 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      setAppPopupKey(Math.random());
-      setStorePopupKey(Math.random());
+      // setAppPopupKey(Math.random());
+      if (!_.isEmpty(userStore) && isJoin)
+        setStorePopupKey(userStore.storeInfo.store_cd);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [userStore]);
   useEffect(() => {
     // if (__DEV__) {
-    //   AsyncStorage.removeItem("storePopupData");
-    //   AsyncStorage.removeItem("appPopupData");
+      // Util.removeStorageItem("dateForStorePopupData5");
+      // Util.removeStorageItem("dateForAppPopupData5");
     // }
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
@@ -124,7 +126,7 @@ const HomeScreen = (props) => {
         />
         {isReadyAppPopup && (
           <StorePopup
-            // key={storePopupKey}
+            key={storePopupKey}
             setFetchStorePopup={setFetchStorePopup}
             {...props}
           />
