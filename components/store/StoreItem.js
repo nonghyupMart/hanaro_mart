@@ -24,7 +24,7 @@ const StoreItem = (props) => {
     dispatch(
       branchesActions.deleteMarkedStore({
         user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
+        store_cd: props.item.store_cd,
       })
     ).then((data) => {
       if (data.result == "success") props.fetchMarkedStores(true);
