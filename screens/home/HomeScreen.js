@@ -17,7 +17,7 @@ import {
 import { DrawerActions } from "@react-navigation/native";
 import colors from "@constants/colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderButton, LogoTitle } from "@UI/header";
+import { HeaderButton, LogoTitle, HomeHeaderRight } from "@UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -60,15 +60,14 @@ const HomeScreen = (props) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       // setAppPopupKey(Math.random());
-      if (!_.isEmpty(userStore))
-        setStorePopupKey(userStore.storeInfo.store_cd);
+      if (!_.isEmpty(userStore)) setStorePopupKey(userStore.storeInfo.store_cd);
     });
     return unsubscribe;
   }, [userStore]);
   useEffect(() => {
     // if (__DEV__) {
-      // Util.removeStorageItem("dateForStorePopupData5");
-      // Util.removeStorageItem("dateForAppPopupData5");
+    // Util.removeStorageItem("dateForStorePopupData5");
+    // Util.removeStorageItem("dateForAppPopupData5");
     // }
     setIsLoading(true);
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
@@ -96,20 +95,6 @@ const HomeScreen = (props) => {
     navigation.navigate("Cart");
   };
 
-  // TODO: 장바구니 클릭 않되게..
-  // React.useLayoutEffect(() => {
-  //   navigation.setOptions({
-  //     title: "쿠폰",
-  //   });
-  // }, [navigation]);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     props.navigation.setOptions({
-  //       title: "쿠폰",
-  //     });
-  //     console.warn(1);
-  //   }, 1000);
-  // }, [isLoading]);
   return (
     <>
       <BaseScreen
@@ -155,7 +140,9 @@ export const screenOptions = ({ navigation }) => {
     headerStyle: { elevation: 0, shadowOpacity: 0 },
     headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
     headerLeft: (props) => <HeaderMenu {...props} navigator={navigation} />,
-    headerRight: (props) => <HeaderRight {...props} navigator={navigation} />,
+    headerRight: (props) => (
+      <HomeHeaderRight {...props} navigator={navigation} />
+    ),
   };
 };
 const HeaderMenu = (props) => {
@@ -174,46 +161,7 @@ const HeaderMenu = (props) => {
     </HeaderButtons>
   );
 };
-const HeaderRight = (props) => {
-  return (
-    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item
-        IconComponent={MaterialIcons}
-        iconSize={24}
-        title="검색"
-        iconName="search"
-        onPress={() => {
-          props.navigator.navigate("SearchProduct");
-        }}
-        color={colors.pine}
-        style={{ marginRight: -5, marginLeft: -5 }}
-      />
-      <Item
-        IconComponent={MaterialIcons}
-        iconSize={24}
-        title="알림"
-        iconName="notifications-none"
-        onPress={() => {
-          props.navigator.navigate("Notification");
-        }}
-        color={colors.pine}
-        style={{ marginRight: -5, marginLeft: -5 }}
-      />
-      <Item
-        iconSize={24}
-        IconComponent={MaterialCommunityIcons}
-        title="장바구니"
-        iconName="cart-outline"
-        onPress={() => {
-          props.navigator.navigate("Cart");
-          // if (props.navigateToCart) props.navigateToCart();
-        }}
-        color={colors.pine}
-        style={{ marginRight: -5, marginLeft: -5 }}
-      />
-    </HeaderButtons>
-  );
-};
+
 const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,

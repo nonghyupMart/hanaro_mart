@@ -162,29 +162,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
   // const menuList = route.params ? route.params.menuList : [];
   return (
     <Fragment>
-      <Animated.View
-        key={1}
-        style={[
-          animatedStyles,
-          // {
-          //   transform: [
-          //     // scaleX, scaleY, scale, theres plenty more options you can find online for this.
-          //     { translateY: opacity }, // this would be the result of the animation code below and is just a number.
-          //   ],
-          // },
-        ]}
-      >
-        <View>
-          <Input
-            id="title"
-            label="Title"
-            errorText="Please enter a valid title!"
-            keyboardType="default"
-            returnKeyType="next"
-            placeholder="원하시는 상품을 검색하세요!"
-          />
-        </View>
-      </Animated.View>
       <HomeTopTabNavigator.Navigator
         backBehavior="initialRoute"
         onStateChange={() => {}}
@@ -223,14 +200,18 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           }
         })}
         {menuList.length === 0 &&
-          TabMenus.map((tab) => (
-            <HomeTopTabNavigator.Screen
-              key={tab.name}
-              name={tab.name}
-              component={tab.subComponents}
-              options={{ title: tab.title }}
-            />
-          ))}
+          TabMenus.map((tab) => {
+            if (_.isEmpty(userStore))
+              return (
+                <HomeTopTabNavigator.Screen
+                  key={tab.name}
+                  name={tab.name}
+                  component={tab.subComponents}
+                  options={{ title: tab.title }}
+                />
+              );
+            return <></>;
+          })}
       </HomeTopTabNavigator.Navigator>
     </Fragment>
   );
@@ -252,7 +233,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         }}
       >
         <HomeStackNavigator.Screen
-          name="Home"
+          name="HomeTab"
           component={HomeTabNavigator}
           options={HomeScreenOptions}
           // initialParams={{
