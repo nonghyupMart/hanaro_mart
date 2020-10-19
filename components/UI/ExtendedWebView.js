@@ -16,6 +16,7 @@ import * as CommonActions from "@actions/common";
 import queryString from "query-string";
 import * as Util from "@util";
 import Constants from "expo-constants";
+import { useNavigationState } from "@react-navigation/native";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ export const ExtendedWebView = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const index = useNavigationState((state) => state.index);
 
   // const onMessage = (event) => {
   //   // iOS용
@@ -81,9 +83,7 @@ export const ExtendedWebView = (props) => {
         break;
       case "close":
         dispatch(CommonActions.setBottomNavigation(true));
-        const canGoBack =
-          props.commandType === "Push" || props.commandType === "ShowModal";
-        if (canGoBack) RootNavigation.pop();
+        if (index > 0) RootNavigation.pop();
         else RootNavigation.navigate("Home");
         break;
     }
