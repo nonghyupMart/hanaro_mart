@@ -22,17 +22,9 @@ const StartupScreen = (props) => {
       await dispatch(authActions.setUserInfo(parsedUserData));
       if (parsedUserData && parsedUserData.user_id) {
         dispatch(authActions.setIsJoin(true));
-        await dispatch(
+        dispatch(
           authActions.updateLoginLog({ user_cd: parsedUserData.user_cd })
-        ).then((data) => {
-          if (data && data.userInfo.user_id) {
-            dispatch(authActions.setIsJoin(true));
-          } else {
-            //회원조회 실패한 경우
-            dispatch(authActions.withdrawalFinish());
-            dispatch(authActions.setIsJoin(false));
-          }
-        });
+        );
       } else dispatch(authActions.setIsJoin(false));
 
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
