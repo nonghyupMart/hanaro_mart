@@ -72,7 +72,7 @@ const MenuList = (props) => {
         </MenuButton>
       </MenuButtonContainer>
       <ShareBtn onPress={() => Util.sendShareLink()}>
-        <Image source={require("@images/sns_good.png")} />
+        <Image source={require("@images/plusapp.png")} />
       </ShareBtn>
     </MenuContainer>
   );
