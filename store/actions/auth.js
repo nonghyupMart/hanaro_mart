@@ -99,6 +99,7 @@ export const updateLoginLog = (query) => {
     const resData = await response.json();
     if (!response.ok) {
       Util.log(url, resData.error.errorMsg);
+      return resData.error.errorMsg;
       throw new Error("updateLoginLog went wrong!");
     }
     return resData.data;

@@ -8,22 +8,31 @@ import Splash from "@UI/Splash";
 import * as CommonActions from "@actions/common";
 import moment from "moment";
 import * as Util from "@util";
+import _ from "lodash";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
       const userStoreData = await Util.getStorageItem("userStoreData");
-      dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
+      await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 
       const userInfoData = await Util.getStorageItem("userInfoData");
-      const parsedUserData = JSON.parse(userInfoData);
-      dispatch(authActions.setUserInfo(parsedUserData));
+      const parsedUserData = await JSON.parse(userInfoData);
+      await dispatch(authActions.setUserInfo(parsedUserData));
       if (parsedUserData && parsedUserData.user_id) {
         dispatch(authActions.setIsJoin(true));
-        dispatch(
+        await dispatch(
           authActions.updateLoginLog({ user_cd: parsedUserData.user_cd })
-        );
+        ).then((data) => {
+          if (data && data.userInfo.user_id) {
+            dispatch(authActions.setIsJoin(true));
+          } else {
+            //회원조회 실패한 경우
+            dispatch(authActions.withdrawalFinish());
+            dispatch(authActions.setIsJoin(false));
+          }
+        });
       } else dispatch(authActions.setIsJoin(false));
 
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
