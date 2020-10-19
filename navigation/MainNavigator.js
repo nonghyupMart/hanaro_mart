@@ -109,6 +109,10 @@ import MyOrderScreen, {
   screenOptions as MyOrderScreenOptions,
 } from "@screens/MyOrderScreen";
 
+import MyInfoScreen, {
+  screenOptions as MyInfoScreenOptions,
+} from "@screens/MyInfoScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -319,6 +323,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="MyOrder"
           component={MyOrderScreen}
           options={MyOrderScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyInfo"
+          component={MyInfoScreen}
+          options={MyInfoScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

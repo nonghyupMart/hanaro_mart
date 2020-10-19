@@ -103,3 +103,7 @@ export const sendShareLink = async () => {
     alert(error.message);
   }
 };
+
+export const pad = (n, number) => {
+  return new Array(n).join("0").slice((n || 2) * -1) + number;
+};
