@@ -45,9 +45,11 @@ const FlyerScreen = (props) => {
       dispatch(
         flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
       ).then((data) => {
-        fetchProduct(data.leafletList[0].leaf_cd, 1).then(() => {
-          setIsLoading(false);
-        });
+        if (!_.isEmpty(data) && data.leafletList[0]) {
+          fetchProduct(data.leafletList[0].leaf_cd, 1).then(() => {
+            setIsLoading(false);
+          });
+        }
       });
     }
     // });
