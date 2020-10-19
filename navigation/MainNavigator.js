@@ -105,6 +105,10 @@ import SearchProductScreen, {
   screenOptions as SearchProductScreenOptions,
 } from "@screens/SearchProductScreen";
 
+import MyOrderScreen, {
+  screenOptions as MyOrderScreenOptions,
+} from "@screens/MyOrderScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -310,6 +314,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="SearchProduct"
           component={SearchProductScreen}
           options={SearchProductScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyOrder"
+          component={MyOrderScreen}
+          options={MyOrderScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
