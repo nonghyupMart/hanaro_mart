@@ -3,6 +3,8 @@ import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "@util/barcode";
+import { Share } from "react-native";
+import { SERVER_URL } from "@constants/settings";
 
 import AesUtil from "@util/aes_util";
 var g_keySize = 128;
@@ -81,4 +83,23 @@ export const getStorageItem = (name) => {
 
 export const removeStorageItem = (name) => {
   AsyncStorage.removeItem(storagePrefix + name);
+};
+
+export const sendShareLink = async () => {
+  try {
+    const result = await Share.share({
+      message: `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore.do`,
+    });
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  } catch (error) {
+    alert(error.message);
+  }
 };
