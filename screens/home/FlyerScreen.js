@@ -146,6 +146,7 @@ const FlyerScreen = (props) => {
         {leaflet.leafletList.map((item, index) => {
           return (
             <BaseTouchable
+              key={item.leaf_cd}
               onPress={() =>
                 item.detail_img_cnt > 0
                   ? RootNavigation.navigate("FlyerDetail", {
