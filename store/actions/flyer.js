@@ -26,6 +26,7 @@ export const fetchLeaflet = (query) => {
       }
 
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
+      return resData.data;
     } catch (err) {
       throw err;
     }
@@ -113,7 +114,6 @@ export const fetchProductDetail = (query) => {
     }
   };
 };
-
 
 export const addCart = (query) => {
   const url = queryString.stringifyUrl({

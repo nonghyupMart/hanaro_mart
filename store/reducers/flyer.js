@@ -41,7 +41,7 @@ export default (state = initialState, action) => {
       newEvent = { ...action.product };
       updatedProductList = product.productList.concat(newEvent.productList);
 
-      searchedProduct.productList = updatedProductList;
+      product.productList = updatedProductList;
       return {
         ...state,
         product: product,

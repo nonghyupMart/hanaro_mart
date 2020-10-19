@@ -41,6 +41,8 @@ import {
   saveAgreedStatusToStorage,
 } from "@actions/auth";
 
+import _ from "lodash";
+
 import * as Util from "@util";
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
@@ -279,17 +281,22 @@ const AgreementScreen = ({ navigation }) => {
       checkBoxes[1].isChecked &&
       checkBoxes[2].isChecked
     ) {
+      let cks = _.cloneDeep(checkBoxes);
+      cks.map((el) => {
+        delete el.desc;
+        delete el.content;
+      });
       if (!Constants.isDevice) {
-        dispatch(setAgreedStatus(checkBoxes));
-        saveAgreedStatusToStorage(checkBoxes);
+        dispatch(setAgreedStatus(cks));
+        saveAgreedStatusToStorage(cks);
         navigation.navigate("JoinStep1");
         return;
       }
       setIsLoading(() => true);
       getPermissions().then((token) => {
         if (token) {
-          dispatch(setAgreedStatus(checkBoxes));
-          saveAgreedStatusToStorage(checkBoxes);
+          dispatch(setAgreedStatus(cks));
+          saveAgreedStatusToStorage(cks);
           navigation.navigate("JoinStep1");
         }
         setIsLoading(() => false);

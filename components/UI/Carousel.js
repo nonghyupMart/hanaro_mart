@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   ViewPropTypes,
+  Image,
 } from "react-native";
 import PropTypes from "prop-types";
 import isEqual from "lodash.isequal";
@@ -409,17 +410,13 @@ export default class Carousel extends Component {
             onPress={this._animatePreviousPage}
             style={this.props.arrowStyle}
           >
-            <Text style={this.props.leftArrowStyle}>
-              {this.props.leftArrowText ? this.props.leftArrowText : "Left"}
-            </Text>
+            <Image source={require("@images/l_off.png")} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this._animateNextPage}
             style={this.props.arrowStyle}
           >
-            <Text style={this.props.rightArrowStyle}>
-              {this.props.rightArrowText ? this.props.rightArrowText : "Right"}
-            </Text>
+            <Image source={require("@images/r_off.png")} />
           </TouchableOpacity>
         </View>
       </View>
