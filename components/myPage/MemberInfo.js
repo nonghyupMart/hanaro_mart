@@ -12,7 +12,10 @@ const MemberInfo = (props) => {
         <Image source={require("@images/unlocked.png")} />
         <View style={{ marginLeft: 18 }}>
           <View style={{ flexDirection: "row" }}>
-            <Image source={require("@images/user2.png")} />
+            <Image
+              source={require("@images/user2.png")}
+              style={{ alignSelf: "center" }}
+            />
             <Name>
               <UserName />
               <Title>님</Title>
