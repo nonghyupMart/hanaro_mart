@@ -21,12 +21,12 @@ import Carousel from "@UI/Carousel";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { SET_PRODUCT } from "@actions/flyer";
 import _ from "lodash";
+import { setIsLoading } from "@actions/common";
 
 const { width } = Dimensions.get("window");
 
 const FlyerScreen = (props) => {
-  const [alert, setAlert] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
   const [currentItem, setCurrentItem] = useState(null);
@@ -40,14 +40,14 @@ const FlyerScreen = (props) => {
     setPage(1);
     // const unsubscribe = navigation.addListener("focus", () => {
     if (userStore) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
 
       dispatch(
         flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
       ).then((data) => {
         if (!_.isEmpty(data) && data.leafletList[0]) {
           fetchProduct(data.leafletList[0].leaf_cd, 1).then(() => {
-            setIsLoading(false);
+            dispatch(setIsLoading(false));
           });
         }
       });
@@ -75,9 +75,9 @@ const FlyerScreen = (props) => {
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
     if (leaflet) {
-      setIsLoading(true);
+      dispatch(setIsLoading(true));
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-        setIsLoading(false);
+        dispatch(setIsLoading(false));
       });
     }
   }, [pageforCarousel]);
@@ -95,7 +95,7 @@ const FlyerScreen = (props) => {
     setCurrentItem(() => item);
   };
   if (!leaflet) return <></>;
-  if (leaflet && leaflet.leafletList.length === 0)
+  if (_.size(leaflet.leafletList) === 0)
     return (
       <EmptyScreen>
         <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
@@ -103,11 +103,9 @@ const FlyerScreen = (props) => {
     );
   return (
     <BaseScreen
-      alert={alert}
       style={{
         backgroundColor: colors.trueWhite,
       }}
-      isLoading={isLoading}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
@@ -202,8 +200,6 @@ const FlyerScreen = (props) => {
           item={currentItem}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
-          setIsLoading={setIsLoading}
-          setAlert={setAlert}
         />
       )}
     </BaseScreen>

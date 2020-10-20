@@ -6,7 +6,6 @@ const A = (props) => {
     <Container>
       <ApplyBox
         onApply={props.onApply}
-        setAlert={props.setAlert}
         {...props}
         eventDetail={props.eventDetail}
       />

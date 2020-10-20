@@ -24,22 +24,24 @@ import * as homeActions from "@actions/home";
 
 import * as branchesActions from "@actions/branches";
 import { setUserStore } from "@actions/auth";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
       branchesActions.fetchBranch(storeItem.store_cd)
     );
     Promise.all([fetchBranch]).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       if (branch && branch.storeInfo)
         setLocation(
           `${branch.storeInfo.lname}  ${branch.storeInfo.mname} ${branch.storeInfo.addr1} ${branch.storeInfo.addr2}`
@@ -47,19 +49,20 @@ const StoreChangeDetailScreen = (props) => {
     });
   }, [dispatch]);
 
-  const [alert, setAlert] = useState();
   const storeChangeHandler = () => {
     const msg = `기존 매장에서 사용하신\n스탬프와 쿠폰은 \n변경매장에서 보이지\n 않으며 기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
-    setAlert({
-      message: msg,
-      onPressConfirm: () => {
-        setAlert(null);
-        saveStore();
-      },
-      onPressCancel: () => {
-        setAlert(null);
-      },
-    });
+    dispatch(
+      setAlert({
+        message: msg,
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          saveStore();
+        },
+        onPressCancel: () => {
+          dispatch(setAlert(null));
+        },
+      })
+    );
   };
   const saveStore = () => {
     if (!branch || !branch.storeInfo) return;
@@ -72,35 +75,26 @@ const StoreChangeDetailScreen = (props) => {
     ).then((data) => {
       if (data.result == "success") {
         msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
-        setAlert({
-          message: msg,
-          onPressConfirm: () => {
-            setAlert(null);
-            // props.navigation.popToTop();
-            props.navigation.navigate("Home");
-            dispatch(homeActions.clearStorePopup());
+        dispatch(
+          setAlert({
+            message: msg,
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              // props.navigation.popToTop();
+              props.navigation.navigate("Home");
+              dispatch(homeActions.clearStorePopup());
 
-            // Restart();
-          },
-        });
-      } else {
-        msg = "매장변경에 실패하였습니다.";
-        setAlert({
-          message: msg,
-          onPressConfirm: () => {
-            setAlert(null);
-            // Restart();
-          },
-        });
+              // Restart();
+            },
+          })
+        );
       }
     });
   };
-  if (!branch) return <Loading isLoading={isLoading} />;
+  if (!branch) return <Loading />;
 
   return (
     <BaseScreen
-      alert={alert}
-      isLoading={isLoading}
       style={{
         backgroundColor: colors.trueWhite,
         paddingRight: 0,

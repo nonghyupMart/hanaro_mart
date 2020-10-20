@@ -3,12 +3,11 @@ import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
 import { clearStorePopup } from "@actions/home";
 import * as Util from "@util";
+import * as Network from "@util/network";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
-
 export const SET_PREVIEW = "SET_PREVIEW";
-
 export const SET_USER_STORE = "SET_USER_STORE";
 export const SET_USER_INFO = "SET_USER_INFO";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
@@ -30,12 +29,7 @@ export const sendSMS = (query) => {
   });
   return async (dispatch) => {
     const response = await fetch(url);
-
-    const resData = await response.json();
-    if (!response.ok) {
-      Util.log(url, resData.error.errorMsg);
-      throw new Error("sendSMS went wrong!");
-    }
+    const resData = await Network.getResponse(response, dispatch, url, query);
 
     // Util.log(resData);
     return resData.data;
@@ -52,11 +46,7 @@ export const signup = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await response.json();
-    if (!response.ok) {
-      Util.log(url, resData.error.errorMsg);
-      throw new Error("signup went wrong!");
-    }
+    const resData = await Network.getResponse(response, dispatch, url, query);
 
     Util.log("signup userInfo==>", resData.data.userInfo);
     dispatch(setUserInfo(resData.data.userInfo));
@@ -96,31 +86,22 @@ export const updateLoginLog = (query) => {
   });
   return async (dispatch) => {
     const response = await fetch(url);
-    const resData = await response.json();
-    if (!response.ok) {
-      Util.log(url, resData.error.errorMsg);
-      dispatch(withdrawalFinish());
-      return resData.error.errorMsg;
-      throw new Error("updateLoginLog went wrong!");
-    }
+    const resData = await Network.getResponse(response, dispatch, url, query);
     return resData.data;
   };
 };
 export const setUserStore = (query, userStore) => {
   const url = `${API_URL}/users`;
   return async (dispatch) => {
+    const method = "PATCH";
     const response = await fetch(url, {
-      method: "PATCH",
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(query),
     });
-    const resData = await response.json();
-    if (!response.ok) {
-      Util.log(url, resData.error.errorMsg);
-      throw new Error("setUserStore went wrong!");
-    }
+    const resData = await Network.getResponse(response, dispatch, url, query);
 
     dispatch(saveUserStore(userStore));
     saveUserStoreToStorage(userStore);
@@ -143,11 +124,7 @@ export const withdrawal = (user_cd) => {
         "Content-Type": "application/json",
       },
     });
-    const resData = await response.json();
-    if (!response.ok) {
-      Util.log(url, resData.error.errorMsg);
-      throw new Error("withdrawal went wrong!");
-    }
+    const resData = await Network.getResponse(response, dispatch, url, user_cd);
 
     // Util.log(resData.data);
     return resData.data;

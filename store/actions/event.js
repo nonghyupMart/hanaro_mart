@@ -1,9 +1,12 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
 import * as Util from "@util";
+import * as Network from "@util/network";
 
 export const SET_EVENT = "SET_EVENT";
+export const SET_MY_EVENT = "SET_MY_EVENT";
 export const SET_EVENT_MORE = "SET_EVENT_MORE";
+export const SET_MY_EVENT_MORE = "SET_MY_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
 
 export const fetchEvent = (query) => {
@@ -16,18 +19,14 @@ export const fetchEvent = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchEvent Something went wrong!");
-      }
-
+      const resData = await Network.getResponse(response, dispatch, url, query);
       let type = SET_EVENT;
       if (query.page > 1) {
-        type = SET_EVENT_MORE;
+        if (query.user_cd) type = SET_MY_EVENT_MORE;
+        else type = SET_EVENT_MORE;
       } else {
-        type = SET_EVENT;
+        if (query.user_cd) type = SET_MY_EVENT;
+        else type = SET_EVENT;
       }
       dispatch({ type: type, event: resData.data });
     } catch (err) {
@@ -47,12 +46,7 @@ export const fetchEventDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchEventDetail Something went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_EVENT_DETAIL, eventDetail: resData.data.eventInfo });
     } catch (err) {
@@ -85,12 +79,7 @@ export const applyEvent = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, query, resData.error.errorMsg);
-        return resData.error.errorMsg;
-        throw new Error(`applyEvent Something went wrong! ${response}`);
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;
@@ -112,19 +101,13 @@ export const applyStamp = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, query, resData.error.errorMsg);
-        return resData.error.errorMsg;
-        throw new Error(`applyStamp Something went wrong! ${response}`);
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;
     }
   };
 };
-
 
 export const exchangeStamp = (query) => {
   const url = queryString.stringifyUrl({
@@ -140,12 +123,7 @@ export const exchangeStamp = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, query, resData.error.errorMsg);
-        return resData.error.errorMsg;
-        throw new Error(`exchangeStamp Something went wrong! ${response}`);
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;

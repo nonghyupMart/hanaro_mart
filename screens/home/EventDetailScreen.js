@@ -20,11 +20,12 @@ import Loading from "@UI/Loading";
 import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
 import C from "@screens/home/EventDetail/C";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const EventDetailScreen = (props, { navigation }) => {
   const dispatch = useDispatch();
-  const [alert, setAlert] = useState();
   const [scrollRef, setScrollRef] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -42,26 +43,59 @@ const EventDetailScreen = (props, { navigation }) => {
   }, [dispatch]);
 
   const requestEvent = () => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
       })
     ).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
-
-  const onExchangeStamp = (QRCode) => {
-    if (QRCode.length !== 12) {
-      return setAlert({
-        message: "QR코드가 정확하지 않습니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+  const checkQRLength = (val, length) => {
+    if (val.length !== length) {
+      dispatch(
+        setAlert({
+          message: "QR코드가 정확하지 않습니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+      return false;
     }
+    return true;
+  };
+  const checkRequiredAmount = (val) => {
+    const price = val.substr(val.length - 10);
+    if (price < eventDetail.entry.entry_price) {
+      dispatch(
+        setAlert({
+          message: "영수증 금액이 부족합니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+      return false;
+    }
+    return true;
+  };
+  const alertSusscess = () => {
+    dispatch(
+      setAlert({
+        message: "응모 되었습니다.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          requestEvent();
+        },
+      })
+    );
+  };
+  const onExchangeStamp = (QRCode) => {
+    if (!checkQRLength(QRCode, 12)) return;
+
     dispatch(
       eventActions.exchangeStamp({
         event_cd: params.event_cd,
@@ -71,41 +105,14 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       if (data.result == "success") {
-        setAlert({
-          message: "응모 되었습니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-            requestEvent();
-          },
-        });
-      } else {
-        setAlert({
-          message: data,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        alertSusscess();
       }
     });
   };
   const onApplyStamp = (QRCode) => {
-    if (QRCode.length !== 40) {
-      return setAlert({
-        message: "QR코드가 정확하지 않습니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
-    }
-    const price = QRCode.substr(QRCode.length - 10);
-    if (price < eventDetail.entry.entry_price) {
-      return setAlert({
-        message: "영수증 금액이 부족합니다.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
-    }
+    if (!checkQRLength(QRCode, 40)) return;
+    if (!checkRequiredAmount(QRCode)) return;
+
     dispatch(
       eventActions.applyStamp({
         event_cd: params.event_cd,
@@ -115,42 +122,14 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       if (data.result == "success") {
-        setAlert({
-          message: "응모 되었습니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-            requestEvent();
-          },
-        });
-      } else {
-        setAlert({
-          message: data,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        alertSusscess();
       }
     });
   };
   const onApply = (reg_num) => {
     if (rcp_qr) {
-      if (rcp_qr.length !== 40) {
-        return setAlert({
-          message: "QR코드가 정확하지 않습니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
-      }
-      const price = rcp_qr.substr(rcp_qr.length - 10);
-      if (price < eventDetail.entry.entry_price) {
-        return setAlert({
-          message: "영수증 금액이 부족합니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
-      }
+      if (!checkQRLength(rcp_qr, 40)) return;
+      if (!checkRequiredAmount(rcp_qr)) return;
     }
     dispatch(
       eventActions.applyEvent({
@@ -164,28 +143,14 @@ const EventDetailScreen = (props, { navigation }) => {
       if (data.result == "success") {
         eventDetail.entry.status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
-        setAlert({
-          message: "응모 되었습니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
-      } else {
-        setAlert({
-          message: data,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        alertSusscess();
       }
     });
   };
   if (!eventDetail) return <Loading isLoading={true} />;
   return (
     <BaseScreen
-      alert={alert}
       setScrollRef={setScrollRef}
-      isLoading={isLoading}
       style={{ backgroundColor: colors.trueWhite }}
       isPadding={false}
       contentStyle={{
@@ -211,12 +176,7 @@ const EventDetailScreen = (props, { navigation }) => {
           {eventDetail.entry &&
             eventDetail.entry_yn == "Y" &&
             eventDetail.gbn == "A" && (
-              <A
-                {...props}
-                onApply={onApply}
-                setAlert={setAlert}
-                eventDetail={eventDetail}
-              />
+              <A {...props} onApply={onApply} eventDetail={eventDetail} />
             )}
           {eventDetail.entry &&
             eventDetail.entry_yn == "Y" &&
@@ -225,7 +185,6 @@ const EventDetailScreen = (props, { navigation }) => {
                 {...props}
                 scrollRef={scrollRef}
                 key={scrollRef}
-                setAlert={setAlert}
                 onApply={onApply}
                 setRcp_qr={setRcp_qr}
                 rcp_qr={rcp_qr}
@@ -239,7 +198,6 @@ const EventDetailScreen = (props, { navigation }) => {
                 {...props}
                 scrollRef={scrollRef}
                 key={scrollRef}
-                setAlert={setAlert}
                 onApply={onApply}
                 setRcp_qr={onApplyStamp}
                 eventDetail={eventDetail}

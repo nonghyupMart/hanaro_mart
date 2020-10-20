@@ -14,6 +14,7 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
+import { setIsLoading } from "@actions/common";
 
 const PickerViews = (props) => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const PickerViews = (props) => {
     const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 
     Promise.all([fetchBranches, fetchAddress2]).then(() => {
-      props.setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
   const onMnameChange = (lname, mname) => {

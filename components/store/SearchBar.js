@@ -11,11 +11,12 @@ import {
   BaseText,
   BaseTextInput,
 } from "@UI/BaseUI";
+import { setIsLoading } from "@actions/common";
 
 const SearchBar = (props) => {
   const dispatch = useDispatch();
   const onPressSearch = () => {
-    props.setIsLoading(true);
+    dispatch(setIsLoading(true));
     const query = {
       lname: props.lname,
       mname: props.mname,
@@ -23,7 +24,7 @@ const SearchBar = (props) => {
     };
 
     props.fetchBranches(props.lname, props.mname, props.store_nm).then(() => {
-      props.setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
   return (

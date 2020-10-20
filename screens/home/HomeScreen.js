@@ -38,12 +38,13 @@ import NaroTube from "@components/home/NaroTube";
 import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
 import * as Util from "@util";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
   const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
   const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
@@ -55,7 +56,6 @@ const HomeScreen = (props) => {
 
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
-  const [alert, setAlert] = useState();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -69,24 +69,26 @@ const HomeScreen = (props) => {
     // Util.removeStorageItem("dateForStorePopupData5");
     // Util.removeStorageItem("dateForAppPopupData5");
     // }
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     }
 
     if (_.isEmpty(userStore) && isJoin) {
-      setAlert({
-        message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-          navigation.navigate("StoreChange");
-        },
-        onPressCancel: () => {
-          setAlert(null);
-        },
-        confirmText: "매장선택",
-        cancelText: "취소",
-      });
+      dispatch(
+        setAlert({
+          message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+            navigation.navigate("StoreChange");
+          },
+          onPressCancel: () => {
+            dispatch(setAlert(null));
+          },
+          confirmText: "매장선택",
+          cancelText: "취소",
+        })
+      );
     }
   }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
 
@@ -97,12 +99,7 @@ const HomeScreen = (props) => {
 
   return (
     <>
-      <BaseScreen
-        alert={alert}
-        isLoading={isLoading}
-        style={styles.screen}
-        contentStyle={{ paddingTop: 0 }}
-      >
+      <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
         <AppPopup
           // key={appPopupKey}
           setIsReadyAppPopup={setIsReadyAppPopup}

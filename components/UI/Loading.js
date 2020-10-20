@@ -3,10 +3,11 @@ import React from "react";
 import { useHeaderHeight } from "@react-navigation/stack";
 import { StyleSheet, ActivityIndicator, View, Modal } from "react-native";
 import { screenHeight, screenWidth } from "@UI/BaseUI";
+import { useSelector, useDispatch } from "react-redux";
 
 const Loading = (props) => {
-  const headerHeight = useHeaderHeight();
-  const isLoading = props.isLoading;
+  // const headerHeight = useHeaderHeight();
+  const isLoading = useSelector((state) => state.common.isLoading);
   return (
     // <Modal
     //   backdropOpacity={0.7}
@@ -14,7 +15,7 @@ const Loading = (props) => {
     //   animationIn="fadeIn"
     // >
     <>
-      {props.isLoading && (
+      {isLoading && (
         <View
           style={{
             position: "absolute",
@@ -33,7 +34,7 @@ const Loading = (props) => {
           <ActivityIndicator
             size="large"
             color={colors.cerulean}
-            style={{ marginTop: -headerHeight }}
+            // style={{ marginTop: -headerHeight }}
           />
         </View>
       )}

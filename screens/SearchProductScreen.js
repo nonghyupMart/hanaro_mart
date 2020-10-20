@@ -28,10 +28,10 @@ import { IMAGE_URL } from "@constants/settings";
 import { BackButton, TextTitle } from "@UI/header";
 const { width } = Dimensions.get("window");
 import { SET_SEARCHED_PRODUCT } from "@actions/flyer";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const SearchProductScreen = (props) => {
-  const [alert, setAlert] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [product_nm, setProduct_nm] = useState("");
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
@@ -63,15 +63,17 @@ const SearchProductScreen = (props) => {
   };
   const fetchProduct = (e, p = page) => {
     if (product_nm.length < 1) {
-      return setAlert({
-        message: "상품명을 입력해주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      return dispatch(
+        setAlert({
+          message: "상품명을 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     }
     console.warn(page);
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     dispatch(
       flyerActions.fetchProduct({
         store_cd: userStore.storeInfo.store_cd,
@@ -79,7 +81,7 @@ const SearchProductScreen = (props) => {
         page: p,
       })
     ).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
   const loadMore = () => {
@@ -96,11 +98,9 @@ const SearchProductScreen = (props) => {
   };
   return (
     <BaseScreen
-      alert={alert}
       style={{
         backgroundColor: colors.trueWhite,
       }}
-      isLoading={isLoading}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
@@ -148,8 +148,6 @@ const SearchProductScreen = (props) => {
           item={currentItem}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
-          setIsLoading={setIsLoading}
-          setAlert={setAlert}
         />
       )}
     </BaseScreen>

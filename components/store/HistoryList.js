@@ -13,6 +13,7 @@ import StoreItem from "@components/store/StoreItem";
 import * as branchesActions from "@actions/branches";
 import { SET_STORE_MARK } from "@actions/branches";
 import _ from "lodash";
+import {setIsLoading} from "@actions/common";
 
 const HistoryList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -25,7 +26,7 @@ const HistoryList = (props) => {
 
   const fetchMarkedStores = (isDel = false) => {
     if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
-    props.setIsLoading(true);
+    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
     };
@@ -34,7 +35,7 @@ const HistoryList = (props) => {
       query.lng = props.location.coords.longitude;
     }
     dispatch(branchesActions.fetchStoreMark(query)).then(() => {
-      props.setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
   useEffect(() => {

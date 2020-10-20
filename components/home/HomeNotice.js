@@ -15,7 +15,7 @@ import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
 const HomeNotice = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const homeNotice = useSelector((state) => state.home.homeNotice);
@@ -39,7 +39,6 @@ const HomeNotice = (props) => {
       {homeNotice && (
         <ExtendedFlatList
           {...props}
-          onEndReachedThreshold={0.5}
           onEndReached={loadMore}
           contentContainerStyle={{
             justifyContent: "space-between",

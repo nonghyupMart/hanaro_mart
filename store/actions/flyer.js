@@ -1,6 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
 import * as Util from "@util";
+import * as Network from "@util/network";
 
 export const SET_LEAFLET = "SET_LEAFLET";
 export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
@@ -19,12 +20,7 @@ export const fetchLeaflet = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchLeaflet Something went wrong!");
-      }
-
+      const resData = await Network.getResponse(response, dispatch, url, query);
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
       return resData.data;
     } catch (err) {
@@ -41,11 +37,7 @@ export const fetchLeafletDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchLeafletDetail Something went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({
         type: SET_LEAFLET_DETAIL,
@@ -66,11 +58,7 @@ export const fetchProduct = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchProduct Something went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       let type = SET_PRODUCT;
       if (query.product_nm) {
@@ -99,11 +87,7 @@ export const fetchProductDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchProductDetail Something went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({
         type: SET_PRODUCT_DETAIL,
@@ -129,12 +113,8 @@ export const addCart = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await response.json();
-      if (!response.ok) {
-        Util.log(url, query, resData.error.errorMsg);
-        return resData.error.errorMsg;
-        throw new Error(`addCart Something went wrong! ${response}`);
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
+      
       return resData.data;
     } catch (err) {
       throw err;

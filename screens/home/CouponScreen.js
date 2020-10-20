@@ -12,12 +12,14 @@ import { BaseImage, screenWidth, EmptyScreen, EmptyText } from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
+import _ from "lodash";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const CouponScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
-  const [alert, setAlert] = useState();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [page, setPage] = useState(1);
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -37,7 +39,7 @@ const CouponScreen = (props) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (userStore) {
-        setIsLoading(true);
+        dispatch(setIsLoading(true));
         setPage(1);
 
         const fetchCouponA = dispatch(
@@ -58,14 +60,14 @@ const CouponScreen = (props) => {
         );
 
         Promise.all([fetchCouponA, fetchCouponB]).then(() => {
-          setIsLoading(false);
+          dispatch(setIsLoading(false));
         });
       }
     });
     return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     let couponList;
     switch (type) {
       case "A":
@@ -89,28 +91,23 @@ const CouponScreen = (props) => {
           })
         ).then((data) => {
           if (data.result == "success") {
-            setAlert({
-              message: "쿠폰 발급이 완료 되었습니다.",
-              onPressConfirm: () => {
-                setAlert(null);
-                navigation.navigate("CouponDetail", {
-                  store_cd: userStore.storeInfo.store_cd,
-                  cou_cd: item.cou_cd,
-                  user_cd: userInfo.user_cd,
-                  coupon: type == "A" ? couponA : coupon,
-                  index: index,
-                  type,
-                  routeName,
-                });
-              },
-            });
-          } else {
-            setAlert({
-              message: data.errorMsg,
-              onPressConfirm: () => {
-                setAlert(null);
-              },
-            });
+            dispatch(
+              setAlert({
+                message: "쿠폰 발급이 완료 되었습니다.",
+                onPressConfirm: () => {
+                  dispatch(setAlert(null));
+                  navigation.navigate("CouponDetail", {
+                    store_cd: userStore.storeInfo.store_cd,
+                    cou_cd: item.cou_cd,
+                    user_cd: userInfo.user_cd,
+                    coupon: type == "A" ? couponA : coupon,
+                    index: index,
+                    type,
+                    routeName,
+                  });
+                },
+              })
+            );
           }
         });
         break;
@@ -127,7 +124,7 @@ const CouponScreen = (props) => {
       case "20": // 사용완료
         break;
     }
-    setIsLoading(false);
+    dispatch(setIsLoading(false));
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
@@ -146,10 +143,8 @@ const CouponScreen = (props) => {
   if (!couponA || !coupon) return <></>;
   if (
     routeName == "MyCoupon" &&
-    couponA &&
-    couponA.couponList.length === 0 &&
-    coupon &&
-    coupon.couponList.length === 0
+    _.size(couponA.couponList) === 0 &&
+    _.size(coupon.couponList) === 0
   )
     return (
       <EmptyScreen>
@@ -158,10 +153,8 @@ const CouponScreen = (props) => {
     );
   if (
     routeName == "Coupon" &&
-    couponA &&
-    couponA.couponList.length === 0 &&
-    coupon &&
-    coupon.couponList.length === 0
+    _.size(couponA.couponList) === 0 &&
+    _.size(coupon.couponList) === 0
   )
     return (
       <EmptyScreen>
@@ -171,8 +164,7 @@ const CouponScreen = (props) => {
   return (
     <BaseScreen
       // isBottomNavigation={routeName == "MyCoupon" ? false : true}
-      alert={alert}
-      isLoading={isLoading}
+
       style={styles.screen}
       contentStyle={{ paddingTop: 0, width: "100%", height: "100%" }}
       scrollListStyle={{ width: "100%", height: "100%", flex: 1 }}
@@ -208,9 +200,7 @@ const CouponScreen = (props) => {
             numColumns={2}
             data={coupon.couponList}
             keyExtractor={(item) => item.cou_cd}
-            onEndReached={() => {
-              loadMore();
-            }}
+            onEndReached={loadMore}
             columnWrapperStyle={{
               alignItems: "space-between",
               justifyContent: "space-between",

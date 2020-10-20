@@ -14,7 +14,11 @@ import {
   BaseText,
   BaseTextInput,
 } from "@UI/BaseUI";
+import { setAlert } from "@actions/common";
+import { useSelector, useDispatch } from "react-redux";
+
 const ApplyBox = (props) => {
+   const dispatch = useDispatch();
   const [checkItem, setCheckItem] = useState({
     isRequired: true,
     isChecked: false,
@@ -23,30 +27,30 @@ const ApplyBox = (props) => {
 
   const onPress = () => {
     if (!checkItem.isChecked) {
-      props.setAlert({
+      dispatch(setAlert({
         message: "개인정보 수집에 동의해주세요.",
         onPressConfirm: () => {
-          props.setAlert(null);
+          dispatch(setAlert(null));
         },
-      });
+      }));
       return;
     }
     if (!reg_num) {
-      props.setAlert({
+      dispatch(setAlert({
         message: "주민등록번호(7자리-8501011)를 입력해주세요.",
         onPressConfirm: () => {
-          props.setAlert(null);
+          dispatch(setAlert(null));
         },
-      });
+      }));
       return;
     }
     if (reg_num.length < 7) {
-      props.setAlert({
+      dispatch(setAlert({
         message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
         onPressConfirm: () => {
-          props.setAlert(null);
+          dispatch(setAlert(null));
         },
-      });
+      }));
       return;
     }
 

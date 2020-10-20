@@ -42,12 +42,12 @@ import {
 } from "@actions/auth";
 
 import _ from "lodash";
-
+import { setAlert, setIsLoading } from "@actions/common";
 import * as Util from "@util";
+
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [alert, setAlert] = useState();
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [checkBoxes, setCheckBoxes] = useState([
     {
       id: 0,
@@ -253,12 +253,14 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((statusObj) => {
         if (statusObj.status !== "granted") {
-          setAlert({
-            message: "권한이 거부되었습니다.",
-            onPressConfirm: () => {
-              setAlert(null);
-            },
-          });
+          dispatch(
+            setAlert({
+              message: "권한이 거부되었습니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
           return statusObj;
         }
       })
@@ -292,29 +294,28 @@ const AgreementScreen = ({ navigation }) => {
         navigation.navigate("JoinStep1");
         return;
       }
-      setIsLoading(() => true);
+      dispatch(setIsLoading(true));
       getPermissions().then((token) => {
         if (token) {
           dispatch(setAgreedStatus(cks));
           saveAgreedStatusToStorage(cks);
           navigation.navigate("JoinStep1");
         }
-        setIsLoading(() => false);
+        dispatch(setIsLoading(false));
       });
     } else {
-      // setAlertMessage("필수 항목을 동의해 주세요.");
-      setAlert({
-        message: "필수 항목을 동의해 주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "필수 항목을 동의해 주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     }
   };
   return (
     <BaseScreen
-      isLoading={isLoading}
-      alert={alert}
       headerShown={false}
       // style={{ width: "100%", height: "100%" }}
       // contentStyle={{ width: "100%", height: screenHeight }}

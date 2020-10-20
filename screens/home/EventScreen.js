@@ -9,42 +9,50 @@ import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
 import { EmptyText, EmptyScreen } from "@UI/BaseUI";
-const EventScreen = ({ navigation }) => {
+import { BackButton, TextTitle } from "@UI/header";
+import _ from "lodash";
+import { setIsLoading } from "@actions/common";
+
+const EventScreen = (props) => {
+  const routeName = props.route.name;
+  const navigation = props.navigation;
   const isFocused = useIsFocused();
-  const [alert, setAlert] = useState();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [page, setPage] = useState(1);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
-  const event = useSelector((state) => state.event.event);
+  let event;
+  if (routeName == "MyEvent") {
+    //이벤트응모내역 일 경우..
+    event = useSelector((state) => state.event.myEvent);
+  } else {
+    event = useSelector((state) => state.event.event);
+  }
 
   useEffect(() => {
     // const unsubscribe = navigation.addListener("focus", () => {
     if (userStore) {
-      setIsLoading(true);
       setPage(1);
-
-      const requestEvent = dispatch(
-        eventActions.fetchEvent({
-          store_cd: userStore.storeInfo.store_cd,
-        })
-      );
-
-      Promise.all([requestEvent]).then(() => {
-        setIsLoading(false);
-      });
+      fetchEvent();
     }
     // });
   }, [userStore]);
 
+  const fetchEvent = (p = page) => {
+    dispatch(setIsLoading(true));
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      page: p,
+    };
+    if (routeName == "MyEvent") query.user_cd = userInfo.user_cd;
+    dispatch(eventActions.fetchEvent(query)).then(() => {
+      dispatch(setIsLoading(false));
+    });
+  };
   const loadMore = () => {
     if (!isLoading && page + 1 <= event.finalPage) {
-      const requestEvent = dispatch(
-        eventActions.fetchEvent({
-          store_cd: userStore.storeInfo.store_cd,
-          page: page + 1,
-        })
-      );
+      fetchEvent(page + 1);
       setPage(page + 1);
     }
   };
@@ -53,19 +61,20 @@ const EventScreen = ({ navigation }) => {
     navigation.navigate("EventDetail", { event_cd: item.event_cd });
   };
   if (!event) return <></>;
-  if (event && event.eventList.length === 0)
+  if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
-      <EmptyScreen >
+      <EmptyScreen>
+        <EmptyText>{`응모한 이벤트가\n없습니다.`}</EmptyText>
+      </EmptyScreen>
+    );
+  if (routeName == "Event" && _.size(event.eventList) === 0)
+    return (
+      <EmptyScreen>
         <EmptyText>{`현재 진행중인 이벤트가\n없습니다.`}</EmptyText>
       </EmptyScreen>
     );
   return (
-    <BaseScreen
-      alert={alert}
-      isLoading={isLoading}
-      style={styles.screen}
-      contentStyle={{ paddingTop: 0 }}
-    >
+    <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
       {event && (
         <ScrollList
           numColumns={1}
@@ -85,6 +94,16 @@ const EventScreen = ({ navigation }) => {
     </BaseScreen>
   );
 };
+export const screenOptions = ({ navigation }) => {
+  return {
+    title: "이벤트 응모내역",
+
+    headerLeft: () => <BackButton />,
+    headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: () => <></>,
+  };
+};
+
 const ScrollList = styled(ExtendedFlatList)({
   flexGrow: 1,
 

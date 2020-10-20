@@ -23,7 +23,7 @@ export const ExtendedWebView = (props) => {
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
-  const [alert, setAlert] = useState();
+
   const [isLoaded, setIsLoaded] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
@@ -60,12 +60,14 @@ export const ExtendedWebView = (props) => {
         Linking.openURL(message.value);
         break;
       case "alert":
-        setAlert({
-          message: message.value,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        dispatch(
+          setAlert({
+            message: message.value,
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
         break;
       case "auth":
         let query = {
@@ -77,7 +79,7 @@ export const ExtendedWebView = (props) => {
           di: message.value.di,
           ci: message.value.ci,
         };
-        signup(query, dispatch, setAlert, agreedStatus, setIsLoaded);
+        signup(query, dispatch, agreedStatus, setIsLoaded);
 
         // message.value
         break;
@@ -93,18 +95,6 @@ export const ExtendedWebView = (props) => {
   };
   return (
     <>
-      {alert && (
-        <Alert
-          isVisible={alert.content || alert.message ? true : false}
-          message={alert.message}
-          onPressConfirm={alert.onPressConfirm}
-          onPressCancel={alert.onPressCancel}
-          cancelText={alert.cancelText}
-          confirmText={alert.confirmText}
-          content={alert.content}
-        />
-      )}
-
       <WebView
         onLoad={() => hideSpinner()}
         {...restProps}

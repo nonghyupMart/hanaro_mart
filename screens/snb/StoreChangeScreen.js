@@ -27,13 +27,14 @@ import InfoBox from "@components/store/InfoBox";
 import HistoryList from "@components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "@actions/branches";
+import { setIsLoading } from "@actions/common";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const [lname, setLname] = useState();
   const [mname, setMname] = useState();
@@ -73,7 +74,7 @@ const StoreChangeScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
     let query = {
       user_cd: userInfo.user_cd,
@@ -86,7 +87,7 @@ const StoreChangeScreen = (props) => {
     fetchBranches();
 
     Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   }, [location]);
 
@@ -110,19 +111,14 @@ const StoreChangeScreen = (props) => {
         paddingLeft: 0,
         paddingRight: 0,
       }}
-      isLoading={isLoading}
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
       {!_.isEmpty(userStore) &&
         !_.isEmpty(storeMark) &&
-        storeMark.storeList.length > 0 && (
-          <HistoryList
-            location={location}
-            {...props}
-            setIsLoading={setIsLoading}
-          />
+        _.size(storeMark.storeList) > 0 && (
+          <HistoryList location={location} {...props} />
         )}
       <WhiteContainer>
         <SearchBar
@@ -132,7 +128,6 @@ const StoreChangeScreen = (props) => {
           lname={lname}
           mname={mname}
           setStore_nm={setStore_nm}
-          setIsLoading={setIsLoading}
           fetchBranches={fetchBranches}
         />
 
@@ -144,7 +139,6 @@ const StoreChangeScreen = (props) => {
           mname={mname}
           address1={address1}
           address2={address2}
-          setIsLoading={setIsLoading}
           setLname={setLname}
           setMname={setMname}
           fetchBranches={fetchBranches}

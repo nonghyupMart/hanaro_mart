@@ -22,6 +22,8 @@ import { HeaderButton, LogoTitle } from "@UI/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { setPreview } from "@actions/auth";
+import { setAlert } from "@actions/common";
+
 import _ from "lodash";
 const EmptyScreen = (props) => {
   const dispatch = useDispatch();
@@ -37,24 +39,35 @@ const EmptyScreen = (props) => {
       // global.alert(1);
       setIsVisible(true);
       if (_.isEmpty(userStore) && isJoin) {
-        setMessage("나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.");
-        setConfirmText("매장설정");
-        setOnPressConfirm({
-          confirm: () => {
-            setIsVisible(false);
-            props.navigation.navigate("Home");
-            props.navigation.navigate("StoreChange");
-          },
-        });
+        dispatch(
+          setAlert({
+            message: "나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              props.navigation.navigate("Home");
+              props.navigation.navigate("StoreChange");
+            },
+            confirmText: "매장설정",
+            onPressCancel: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
       } else {
-        setMessage("회원가입후 사용하실 수\n있는 메뉴입니다.");
-        setConfirmText("회원가입");
-        setOnPressConfirm({
-          confirm: () => {
-            setIsVisible(false);
-            dispatch(setPreview(false));
-          },
-        });
+        dispatch(
+          setAlert({
+            message: "회원가입후 사용하실 수\n있는 메뉴입니다.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              dispatch(setPreview(false));
+            },
+            confirmText: "회원가입",
+            onPressCancel: () => {
+              dispatch(setAlert(null));
+              props.navigation.navigate("Home");
+            },
+          })
+        );
       }
       //   setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
       // or 매장 설정
@@ -63,18 +76,7 @@ const EmptyScreen = (props) => {
     return unsubscribe;
   });
 
-  return (
-    <Alert
-      confirmText={confirmText}
-      isVisible={isVisible}
-      message={message}
-      onPressConfirm={onPressConfirm && onPressConfirm.confirm}
-      onPressCancel={() => {
-        setIsVisible(false);
-        props.navigation.navigate("Home");
-      }}
-    />
-  );
+  return <></>;
 };
 
 export const screenOptions = ({ navigation }) => {

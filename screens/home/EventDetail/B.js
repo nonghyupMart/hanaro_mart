@@ -15,7 +15,6 @@ const B = (props) => {
       {props.rcp_qr && (
         <ApplyBox
           onApply={props.onApply}
-          setAlert={props.setAlert}
           eventDetail={props.eventDetail}
           {...props}
         />

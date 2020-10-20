@@ -45,7 +45,9 @@ import FlyerDetailScreen, {
 } from "@screens/home/FlyerDetailScreen";
 
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
-
+import EventScreen, {
+  screenOptions as EventScreenOptions,
+} from "@screens/home/EventScreen";
 import EventDetailScreen, {
   screenOptions as EventDetailScreenOptions,
 } from "@screens/home/EventDetailScreen";
@@ -169,7 +171,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
             );
           }
         })}
-        {menuList.length === 0 &&
+        {_.size(menuList) === 0 &&
           TabMenus.map((tab) => {
             if (_.isEmpty(userStore))
               return (
@@ -191,6 +193,7 @@ const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = ({ navigation, route }) => {
   return (
     <Fragment>
+      
       <HomeStackNavigator.Navigator
         // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
@@ -328,6 +331,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="MyInfo"
           component={MyInfoScreen}
           options={MyInfoScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyEvent"
+          component={EventScreen}
+          options={EventScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

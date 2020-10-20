@@ -20,12 +20,12 @@ import {
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import Barcode from "@components/Barcode";
+import { setAlert } from "@actions/common";
 
 const BarcodeScreen = (props) => {
-  const [alert, setAlert] = useState();
   const params = props.route.params;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [isBarcodeSafe, setIsBarcodeSafe] = useState(false);
   const [svgBarcode, setSvgBarcode] = useState();
   const xmlSerializer = new XMLSerializer();
@@ -59,19 +59,19 @@ const BarcodeScreen = (props) => {
   }, [elapsedTime]);
 
   const onError = () => {
-    setAlert({
-      message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
-      onPressConfirm: () => {
-        setAlert(null);
-        props.navigation.pop();
-      },
-    });
+    dispatch(
+      setAlert({
+        message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          props.navigation.pop();
+        },
+      })
+    );
   };
   return (
     <BaseScreen
       isBottomNavigation={false}
-      alert={alert}
-      isLoading={isLoading}
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >

@@ -25,17 +25,17 @@ import { BackButton, TextTitle } from "@UI/header";
 import * as couponActions from "@actions/coupon";
 import * as CommonActions from "@actions/common";
 import _ from "lodash";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const CouponDetailScreen = (props) => {
-  const [alert, setAlert] = useState();
   const params = props.route.params;
   const couponDetail = useSelector((state) => state.coupon.couponDetail);
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [isUsed, setIsUsed] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(
       couponActions.fetchCouponDetail({
         cou_cd: params.cou_cd,
@@ -44,7 +44,7 @@ const CouponDetailScreen = (props) => {
     );
 
     Promise.all([fetchCouponDetail]).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   }, [dispatch]);
   const onPress = () => {
@@ -52,59 +52,65 @@ const CouponDetailScreen = (props) => {
     if (!isUsed) {
       msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로\n처리됩니다.`;
 
-      setAlert({
-        message: msg,
-        onPressConfirm: () => {
-          if (
-            couponDetail.barcode.length < 13 ||
-            !Util.validateBarcode(couponDetail.barcode)
-          ) {
-            setAlert({
-              message:
-                "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
-              onPressConfirm: () => {
-                setAlert(null);
-              },
-            });
-            return;
-          }
-
-          setAlert(null);
-          dispatch(
-            couponActions.useCoupon({
-              index: params.index,
-              type: params.type,
-              coupon: params.coupon,
-              store_cd: params.store_cd,
-              user_cd: userInfo.user_cd,
-              cou_cd: params.cou_cd,
-              ucou_cd: couponDetail.ucou_cd,
-              routeName: params.routeName,
-            })
-          ).then((data) => {
-            if (data.result == "success") {
-              setIsUsed(true);
-
-              props.navigation.navigate("Barcode", {
-                barcode: couponDetail.barcode,
-              });
+      dispatch(
+        setAlert({
+          message: msg,
+          onPressConfirm: () => {
+            if (
+              couponDetail.barcode.length < 13 ||
+              !Util.validateBarcode(couponDetail.barcode)
+            ) {
+              dispatch(
+                setAlert({
+                  message:
+                    "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+                  onPressConfirm: () => {
+                    dispatch(setAlert(null));
+                  },
+                })
+              );
+              return;
             }
-          });
 
-          // saveStore();
-        },
-        onPressCancel: () => {
-          setAlert(null);
-        },
-      });
+            dispatch(setAlert(null));
+            dispatch(
+              couponActions.useCoupon({
+                index: params.index,
+                type: params.type,
+                coupon: params.coupon,
+                store_cd: params.store_cd,
+                user_cd: userInfo.user_cd,
+                cou_cd: params.cou_cd,
+                ucou_cd: couponDetail.ucou_cd,
+                routeName: params.routeName,
+              })
+            ).then((data) => {
+              if (data.result == "success") {
+                setIsUsed(true);
+
+                props.navigation.navigate("Barcode", {
+                  barcode: couponDetail.barcode,
+                });
+              }
+            });
+
+            // saveStore();
+          },
+          onPressCancel: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     } else {
       msg = `이미 사용된 쿠폰입니다.`;
-      setAlert({
-        message: msg,
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: msg,
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     }
   };
   if (couponDetail) {
@@ -121,8 +127,6 @@ const CouponDetailScreen = (props) => {
   return (
     <BaseScreen
       isBottomNavigation={false}
-      alert={alert}
-      isLoading={isLoading}
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >

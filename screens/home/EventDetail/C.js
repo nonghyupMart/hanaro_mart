@@ -17,7 +17,6 @@ const C = (props) => {
 
       <StampBox
         onApply={props.onApply}
-        setAlert={props.setAlert}
         eventDetail={props.eventDetail}
         {...props}
       />

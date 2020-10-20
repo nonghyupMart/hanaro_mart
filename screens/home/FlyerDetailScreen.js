@@ -8,22 +8,24 @@ import { BackButton, TextTitle } from "@UI/header";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "@actions/flyer";
 import { IMAGE_URL } from "@constants/settings";
+import { setIsLoading } from "@actions/common";
+
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
   const dispatch = useDispatch();
   const leafletDetail = useSelector((state) => state.flyer.leafletDetail);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
 
     const fetchLeafletDetail = dispatch(
       flyerActions.fetchLeafletDetail({ leaf_cd: params.leaf_cd })
     );
 
     Promise.all([fetchLeafletDetail]).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   }, [dispatch]);
   let images = [];
@@ -63,11 +65,7 @@ const FlyerDetailScreen = (props, { navigation }) => {
   };
 
   return (
-    <BaseScreen
-      isBottomNavigation={false}
-      isLoading={isLoading}
-      isScroll={false}
-    >
+    <BaseScreen isBottomNavigation={false} isScroll={false}>
       <View
         style={{
           flexDirection: "row",

@@ -23,12 +23,11 @@ import * as Util from "@util";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import Barcode from "@components/Barcode";
+import { setAlert } from "@actions/common";
 
 const MyInfoScreen = (props) => {
-  const [alert, setAlert] = useState();
   const params = props.route.params;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
@@ -41,18 +40,20 @@ const MyInfoScreen = (props) => {
     }
   }, [userInfo]);
   const onError = () => {
-    setAlert({
-      message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
-      onPressConfirm: () => {
-        setAlert(null);
-        props.navigation.pop();
-      },
-    });
+    dispatch(
+      setAlert({
+        message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          props.navigation.pop();
+        },
+      })
+    );
   };
   if (!barcode || !userStore) return <></>;
   return (
     <BaseScreen
-      alert={alert}
+     
       isPadding={false}
       style={{
         backgroundColor: colors.trueWhite,

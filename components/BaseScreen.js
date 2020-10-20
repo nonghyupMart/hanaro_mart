@@ -16,28 +16,11 @@ import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
 import * as CommonActions from "@actions/common";
 import Constants from "expo-constants";
-
-import Loading from "@UI/Loading";
-import Alert from "@UI/Alert";
 import { StyleConstants } from "@UI/BaseUI";
 import _ from "lodash";
+
 const Contents = (props) => {
-  return (
-    <>
-      {props.alert && (
-        <Alert
-          isVisible={props.alert.content || props.alert.message ? true : false}
-          message={props.alert.message}
-          onPressConfirm={props.alert.onPressConfirm}
-          onPressCancel={props.alert.onPressCancel}
-          cancelText={props.alert.cancelText}
-          confirmText={props.alert.confirmText}
-          content={props.alert.content}
-        />
-      )}
-      {props.children}
-    </>
-  );
+  return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
   const [isPadding, setIsPadding] = useState(
@@ -87,17 +70,9 @@ const BaseScreen = (props) => {
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );
-  if (props.isInitialized !== undefined && props.isInitialized === false) {
-    return (
-      <Screen headerHeight={useHeaderHeight()} style={props.style}>
-        <Loading isLoading={props.isLoading} />
-      </Screen>
-    );
-  }
 
   return (
     <>
-      <Loading isLoading={props.isLoading} />
       <Screen
         headerHeight={useHeaderHeight()}
         style={props.style}

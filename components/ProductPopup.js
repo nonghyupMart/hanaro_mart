@@ -19,6 +19,8 @@ import {
 } from "./UI/BaseUI";
 import * as Util from "@util";
 import * as RootNavigation from "@navigation/RootNavigation";
+import { setAlert } from "@actions/common";
+
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
   const dispatch = useDispatch();
@@ -46,19 +48,21 @@ const ProductPopup = (props) => {
       })
     ).then((data) => {
       if (data.result == "success")
-        props.setAlert({
-          message: "장바구니에 추가되었습니다.",
-          confirmText: "확인",
-          cancelText: "장바구니로 이동",
-          onPressConfirm: () => {
-            props.setAlert(null);
-          },
-          onPressCancel: () => {
-            props.setAlert(null);
-            props.setIsVisible(false);
-            RootNavigation.navigate("Cart");
-          },
-        });
+        dispatch(
+          setAlert({
+            message: "장바구니에 추가되었습니다.",
+            confirmText: "확인",
+            cancelText: "장바구니로 이동",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+            onPressCancel: () => {
+              dispatch(setAlert(null));
+              props.setIsVisible(false);
+              RootNavigation.navigate("Cart");
+            },
+          })
+        );
     });
   };
 
@@ -66,7 +70,7 @@ const ProductPopup = (props) => {
     <Modal
       isVisible={props.isVisible}
       useNativeDriver={true}
-      hideModalContentWhileAnimating={true}
+      hideModalContentWhileAnimating={false}
     >
       {productDetail && (
         <Container>

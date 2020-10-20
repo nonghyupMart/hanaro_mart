@@ -47,7 +47,7 @@ const BarCodeScannerScreen = (props) => {
   };
 
   if (hasPermission === null) {
-    return <Loading isLoading={true} />;
+    return <></>;
   }
   if (hasPermission === false) {
     return (

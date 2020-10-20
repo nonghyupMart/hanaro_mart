@@ -27,6 +27,7 @@ import {
 import { formatPhoneNumber } from "@util";
 import moment from "moment";
 
+import { setAlert, setIsLoading } from "@actions/common";
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 import * as branchesActions from "@actions/branches";
@@ -38,12 +39,11 @@ const TEST_PHONE_NUMBER = "01999999999";
 const JoinStep2Screen = ({ navigation }) => {
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [phoneNumber, setPhoneNumber] = useState();
   const [accessCode, setAccessCode] = useState();
   const [acCode, setAcCode] = useState();
   const [phoneNumberRef, setPhoneNumberRef] = useState();
-  const [alert, setAlert] = useState();
   const [otpRef, setOtpRef] = useState();
   const [isRequestedJoin, setIsRequestedJoin] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
@@ -87,15 +87,15 @@ const JoinStep2Screen = ({ navigation }) => {
   };
 
   const onPressJoin = () => {
+    dispatch(setIsLoading(true));
     Keyboard.dismiss();
-    setIsLoading(true);
     if (isRequestedJoin) return;
     let query = {
       user_id: Util.encrypt(phoneNumber),
       token: Util.encrypt(pushToken),
       os: Platform.OS === "ios" ? "I" : "A",
     };
-    signup(query, dispatch, setAlert, agreedStatus, setIsLoading);
+    signup(query, dispatch, agreedStatus, setIsLoading);
     setIsRequestedJoin(true);
   };
   const pad = (num = 0) => {
@@ -107,31 +107,37 @@ const JoinStep2Screen = ({ navigation }) => {
     if (minutes > 0 || seconds > 0) return;
 
     if (!phoneNumber) {
-      setAlert({
-        message: "휴대폰번호를 입력해주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "휴대폰번호를 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (phoneNumber.length < 10) {
-      setAlert({
-        message: "휴대폰번호를 정확히 입력해주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "휴대폰번호를 정확히 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     const reg = /^\d+$/;
     if (!reg.test(phoneNumber)) {
-      setAlert({
-        message: "휴대폰번호를 정확히 입력해주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "휴대폰번호를 정확히 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (phoneNumber) {
@@ -145,29 +151,33 @@ const JoinStep2Screen = ({ navigation }) => {
   const validateOTP = () => {
     Keyboard.dismiss();
     if (!accessCode || accessCode.length == 0) {
-      return setAlert({
-        message: "인증번호를 입력하세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      return dispatch(
+        setAlert({
+          message: "인증번호를 입력하세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     }
     if (phoneNumber != TEST_PHONE_NUMBER) {
       if (accessCode != acCode) {
         Util.log(accessCode, acCode);
-        return setAlert({
-          message: "인증번호를 확인해 주세요.",
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        return dispatch(
+          setAlert({
+            message: "인증번호를 확인해 주세요.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
       }
     }
     setJoinStep([true, true]);
   };
 
   return (
-    <BaseScreen alert={alert} isScroll={false} isLoading={isLoading}>
+    <BaseScreen isScroll={false}>
       <ScrollContainer keyboardShouldPersistTaps="handled">
         <DescText>{`아래의 휴대폰번호로 SMS 인증번호 6자리를\n보내드립니다.`}</DescText>
         <TextInputContainer style={{ marginBottom: 7 }}>
@@ -270,48 +280,48 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-export const signup = (
-  query,
-  dispatch,
-  setAlert,
-  agreedStatus,
-  setIsLoading
-) => {
+export const signup = (query, dispatch, agreedStatus, setIsLoading) => {
   dispatch(authActions.signup(query)).then((userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
           (storeData) => {
-            setIsLoading(false);
+            dispatch(setIsLoading(false));
             authActions.saveUserStoreToStorage(storeData);
             dispatch(authActions.saveUserStore(storeData));
-            setAlert({
-              content: popupConetnt(agreedStatus, userInfo),
-              onPressConfirm: () => {
-                setAlert(null);
-                dispatch(setIsJoin(true));
-              },
-            });
+            dispatch(
+              setAlert({
+                content: popupConetnt(agreedStatus, userInfo),
+                onPressConfirm: () => {
+                  dispatch(setAlert(null));
+                  dispatch(setIsJoin(true));
+                },
+              })
+            );
           }
         );
       } else {
-        setIsLoading(false);
-        setAlert({
-          content: popupConetnt(agreedStatus, userInfo),
-          onPressConfirm: () => {
-            setAlert(null);
-            dispatch(setIsJoin(true));
-          },
-        });
+        dispatch(setIsLoading(false));
+        dispatch(
+          setAlert({
+            content: popupConetnt(agreedStatus, userInfo),
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              dispatch(setIsJoin(true));
+            },
+          })
+        );
       }
     } else {
-      setIsLoading(false);
-      setAlert({
-        message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-        },
-      });
+      dispatch(setIsLoading(false));
+      dispatch(
+        setAlert({
+          message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
     }
   });
 };
