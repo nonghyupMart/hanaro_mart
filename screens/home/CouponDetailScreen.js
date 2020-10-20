@@ -26,6 +26,7 @@ import * as couponActions from "@actions/coupon";
 import * as CommonActions from "@actions/common";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
+import { SET_COUPON_DETAIL } from "@actions/coupon";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;
@@ -34,6 +35,14 @@ const CouponDetailScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const [isUsed, setIsUsed] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: SET_COUPON_DETAIL,
+        couponDetail: null,
+      });
+    };
+  }, []);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(
