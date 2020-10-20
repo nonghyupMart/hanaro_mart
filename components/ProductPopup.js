@@ -99,10 +99,10 @@ const ProductPopup = (props) => {
             />
             <BorderLine />
             <Title>{props.item.title}</Title>
-            <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+            <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
             <PriceContainer style={{}}>
               <PriceUnit>쿠폰할인가 </PriceUnit>
-              <Price>{Util.formatNumber(props.item.price)}원</Price>
+              <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
             </PriceContainer>
             <QuantityContainer>
               <QContainer>
