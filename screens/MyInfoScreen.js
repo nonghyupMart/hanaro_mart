@@ -120,7 +120,7 @@ const Text2 = styled(BaseTextStyle)({
   flexShrink: 0,
 });
 Text2.defaultProps = {
-  numberOfLines: 1,
+  // numberOfLines: 1,
 };
 
 const TextContainer = styled.View({

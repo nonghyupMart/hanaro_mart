@@ -133,6 +133,7 @@ const CouponDetailScreen = (props) => {
       headerRight: (props) => <UseButton onPress={onPress} />,
     });
   }
+  if (!couponDetail) return <></>;
   return (
     <BaseScreen
       isBottomNavigation={false}
