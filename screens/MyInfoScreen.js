@@ -53,7 +53,6 @@ const MyInfoScreen = (props) => {
   if (!barcode || !userStore) return <></>;
   return (
     <BaseScreen
-     
       isPadding={false}
       style={{
         backgroundColor: colors.trueWhite,
@@ -77,7 +76,7 @@ const MyInfoScreen = (props) => {
       <WhiteContainer>
         <BarcodeContainer>
           <Barcode
-            width={2.5}
+            width={2}
             height={100}
             value={barcode}
             format="CODE128"
