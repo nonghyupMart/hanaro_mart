@@ -30,6 +30,10 @@ const ProductPopup = (props) => {
   const [totalPrice, setTotalPrice] = useState(props.item.sale_price);
 
   useEffect(() => {
+    setTotalPrice(props.item.sale_price);
+  }, [props.item.sale_price]);
+
+  useEffect(() => {
     if (!props.isVisible) return;
     setItem_amount(1);
     dispatch(
