@@ -73,7 +73,7 @@ const StorePopup = (props) => {
     <Modal
       backdropTransitionInTiming={0}
       backdropTransitionOutTiming={0}
-      animationInTiming={0}
+      // animationInTiming={0}
       animationIn="fadeIn"
       animationOut="fadeOut"
       style={{
