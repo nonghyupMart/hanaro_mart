@@ -79,7 +79,7 @@ export const ExtendedWebView = (props) => {
           di: message.value.di,
           ci: message.value.ci,
         };
-        signup(query, dispatch, agreedStatus, setIsLoaded);
+        signup(query, dispatch, agreedStatus);
 
         // message.value
         break;

@@ -86,17 +86,18 @@ const JoinStep2Screen = ({ navigation }) => {
     }, interval);
   };
 
-  const onPressJoin = () => {
-    dispatch(setIsLoading(true));
-    Keyboard.dismiss();
-    if (isRequestedJoin) return;
-    let query = {
-      user_id: Util.encrypt(phoneNumber),
-      token: Util.encrypt(pushToken),
-      os: Platform.OS === "ios" ? "I" : "A",
-    };
-    signup(query, dispatch, agreedStatus, setIsLoading);
-    setIsRequestedJoin(true);
+  const onPressJoin = async () => {
+    dispatch(setIsLoading(true)).then(() => {
+      Keyboard.dismiss();
+      if (isRequestedJoin) return;
+      let query = {
+        user_id: Util.encrypt(phoneNumber),
+        token: Util.encrypt(pushToken),
+        os: Platform.OS === "ios" ? "I" : "A",
+      };
+      signup(query, dispatch, agreedStatus);
+      setIsRequestedJoin(true);
+    });
   };
   const pad = (num = 0) => {
     while (num.length < 2) num = "0" + num;
@@ -280,7 +281,7 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-export const signup = (query, dispatch, agreedStatus, setIsLoading) => {
+export const signup = (query, dispatch, agreedStatus) => {
   dispatch(authActions.signup(query)).then((userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
@@ -312,17 +313,7 @@ export const signup = (query, dispatch, agreedStatus, setIsLoading) => {
           })
         );
       }
-    } else {
-      dispatch(setIsLoading(false));
-      dispatch(
-        setAlert({
-          message: "회원가입이 실패하였습니다. 고객센터에 문의해주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-    }
+    } 
   });
 };
 const DescText = styled(BaseText)({

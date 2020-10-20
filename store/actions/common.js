@@ -55,5 +55,6 @@ export const setAlert = (alert) => {
 };
 
 export const setIsLoading = (isLoading) => {
-  return { type: SET_IS_LOADING, isLoading: isLoading };
+  return async (dispatch) =>
+    await dispatch({ type: SET_IS_LOADING, isLoading: isLoading });
 };
