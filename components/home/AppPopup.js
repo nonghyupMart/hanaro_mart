@@ -22,8 +22,8 @@ const AppPopup = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
   useEffect(() => {
-    if (isAppPopup) setIsVisible(true);
-  }, [isAppPopup]);
+    if (isAppPopup && props.isFocused) setIsVisible(true);
+  }, [isAppPopup, props.isFocused]);
   useEffect(() => {
     if (!_.isEmpty(appPopup) || !isAppPopup) {
       props.setIsReadyAppPopup(true);

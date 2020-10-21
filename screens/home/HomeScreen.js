@@ -102,6 +102,7 @@ const HomeScreen = (props) => {
     <>
       <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
         <AppPopup
+          isFocused={isFocused}
           // key={appPopupKey}
           setIsReadyAppPopup={setIsReadyAppPopup}
           setFetchAppPopup={setFetchAppPopup}

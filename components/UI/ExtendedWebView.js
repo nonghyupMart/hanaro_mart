@@ -127,7 +127,7 @@ export const ExtendedWebView = (props) => {
         renderLoading={() => {
           return (
             <ActivityIndicator
-              size="large"
+              size={props.indicatorSize ? props.indicatorSize : "large"}
               color={colors.cerulean}
               style={{
                 position: "absolute",

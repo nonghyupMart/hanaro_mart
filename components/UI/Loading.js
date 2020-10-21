@@ -1,12 +1,16 @@
 import React from "react";
 // import Modal from "react-native-modal";
-import { useHeaderHeight } from "@react-navigation/stack";
-import { StyleSheet, ActivityIndicator, View, Modal } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  StyleSheet,
+  ActivityIndicator,
+  View,
+  Modal,
+  SafeAreaView,
+} from "react-native";
 import { screenHeight, screenWidth } from "@UI/BaseUI";
-import { useSelector, useDispatch } from "react-redux";
 
 const Loading = (props) => {
-  // const headerHeight = useHeaderHeight();
   const isLoading = useSelector((state) => state.common.isLoading);
   return (
     // <Modal
@@ -16,7 +20,7 @@ const Loading = (props) => {
     // >
     <>
       {isLoading && (
-        <View
+        <SafeAreaView
           style={{
             position: "absolute",
             justifyContent: "center",
@@ -26,7 +30,9 @@ const Loading = (props) => {
             height: screenHeight,
             backgroundColor: "rgba(0, 0, 0, 0.0)",
             left: 0,
+            right: 0,
             top: 0,
+            bottom: 0,
             zIndex: 99999,
             elevation: 99999,
           }}
@@ -34,9 +40,18 @@ const Loading = (props) => {
           <ActivityIndicator
             size="large"
             color={colors.cerulean}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 88.4,
+              bottom: 0,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
             // style={{ marginTop: -headerHeight }}
           />
-        </View>
+        </SafeAreaView>
       )}
     </>
     // </Modal>

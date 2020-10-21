@@ -4,6 +4,7 @@ import {
   SET_IS_APP_POPUP,
   SET_ALERT,
   SET_IS_LOADING,
+  SET_HEADER_HEIGHT,
 } from "@actions/common";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
   isStorePopup: {},
   isAppPopup: true,
   alert: null,
-  isLoading: false,
+  isLoading: true,
+  headerHeight: 0,
 };
 
 export default (state = initialState, action) => {
@@ -20,6 +22,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isBottomNavigation: action.isBottomNavigation,
+      };
+    case SET_HEADER_HEIGHT:
+      return {
+        ...state,
+        headerHeight: action.headerHeight,
       };
 
     case SET_IS_STORE_POPUP:

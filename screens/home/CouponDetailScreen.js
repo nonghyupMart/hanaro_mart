@@ -35,14 +35,14 @@ const CouponDetailScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const [isUsed, setIsUsed] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  useEffect(() => {
-    return () => {
-      dispatch({
-        type: SET_COUPON_DETAIL,
-        couponDetail: null,
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({
+  //       type: SET_COUPON_DETAIL,
+  //       couponDetail: null,
+  //     });
+  //   };
+  // }, []);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(
@@ -133,7 +133,7 @@ const CouponDetailScreen = (props) => {
       headerRight: (props) => <UseButton onPress={onPress} />,
     });
   }
-  if (!couponDetail) return <></>;
+  if (!couponDetail || isLoading) return <></>;
   return (
     <BaseScreen
       isBottomNavigation={false}
@@ -185,6 +185,7 @@ const CouponDetailScreen = (props) => {
               resizeMode: "contain",
               backgroundColor: colors.trueWhite,
             }}
+            resizeMode="contain"
           />
           {/* <Discount>
             {couponDetail.price}

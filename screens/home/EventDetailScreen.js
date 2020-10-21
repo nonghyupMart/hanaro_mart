@@ -32,11 +32,11 @@ const EventDetailScreen = (props, { navigation }) => {
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
-  useEffect(() => {
-    return () => {
-      dispatch(eventActions.clearEventDetail());
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(eventActions.clearEventDetail());
+  //   };
+  // }, []);
   useEffect(() => {
     requestEvent();
   }, [dispatch]);
@@ -146,7 +146,7 @@ const EventDetailScreen = (props, { navigation }) => {
       }
     });
   };
-  if (!eventDetail) return <></>;
+  if (!eventDetail || isLoading) return <></>;
   return (
     <BaseScreen
       setScrollRef={setScrollRef}

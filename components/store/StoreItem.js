@@ -11,6 +11,7 @@ import {
 import { BaseText, BaseTouchable } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as branchesActions from "@actions/branches";
+import { setIsLoading } from "@actions/common";
 
 const StoreItem = (props) => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const StoreItem = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isMark = props.isMark;
   const onPress = () => {
+    dispatch(setIsLoading(true));
     RootNavigation.navigate("StoreChangeDetail", { item: props.item });
   };
   const onDelete = () => {

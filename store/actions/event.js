@@ -15,7 +15,6 @@ export const fetchEvent = (query) => {
     url: `${API_URL}/event`,
     query: query,
   });
-  Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
@@ -42,7 +41,6 @@ export const fetchEventDetail = (query) => {
     url: `${API_URL}/event/${event_cd}`,
     query: query,
   });
-  Util.log(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);

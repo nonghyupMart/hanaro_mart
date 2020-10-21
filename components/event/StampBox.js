@@ -62,7 +62,7 @@ const BtnContainer = styled.View({
   marginTop: 30,
   width: "100%",
 });
-const StampImage = styled(BaseImage)({
+const StampImage = styled.Image({
   margin: 15,
 });
 const StampContainer = styled.View({

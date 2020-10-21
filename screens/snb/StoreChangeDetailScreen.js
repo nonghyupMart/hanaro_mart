@@ -24,6 +24,7 @@ import * as homeActions from "@actions/home";
 import * as branchesActions from "@actions/branches";
 import { setUserStore } from "@actions/auth";
 import { setAlert, setIsLoading } from "@actions/common";
+import { SET_BRANCH } from "@actions/branches";
 
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
@@ -34,6 +35,11 @@ const StoreChangeDetailScreen = (props) => {
 
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({ type: SET_BRANCH, branch: null });
+  //   };
+  // }, []);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
@@ -89,7 +95,7 @@ const StoreChangeDetailScreen = (props) => {
       }
     });
   };
-  if (!branch) return <></>;
+  if (!branch || isLoading) return <></>;
 
   return (
     <BaseScreen
@@ -113,6 +119,7 @@ const StoreChangeDetailScreen = (props) => {
         }}
       >
         <ExtendedWebView
+          indicatorSize="small"
           ref={(wv) => (webView = wv)}
           key={location}
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=

@@ -29,14 +29,14 @@ const StorePopup = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
 
-  useEffect(() => {
-    if (!isVisible) {
-      dispatch({
-        type: SET_STORE_POPUP,
-        storePopup: null,
-      });
-    }
-  }, [isVisible]);
+  // useEffect(() => {
+  //   if (!isVisible) {
+  //     dispatch({
+  //       type: SET_STORE_POPUP,
+  //       storePopup: null,
+  //     });
+  //   }
+  // }, [isVisible]);
   useEffect(() => {
     return () => {
       dispatch({
@@ -86,7 +86,6 @@ const StorePopup = (props) => {
     _.isEmpty(storePopup) ||
     _.isEmpty(userStore) ||
     !isJoin ||
-    !isStorePopup ||
     storePopup.popupCnt == 0 ||
     !isVisible ||
     routeName !== "Home"

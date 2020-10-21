@@ -269,7 +269,6 @@ const AgreementScreen = ({ navigation }) => {
       })
       .then((response) => {
         const token = response.data;
-        Util.log("token==>", token);
         dispatch(setPushToken(token));
         return token;
       })

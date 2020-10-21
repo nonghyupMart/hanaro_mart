@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Carousel from "@UI/Carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
@@ -70,6 +75,7 @@ const NaroTube = (props) => {
               source={{
                 html: require("../../youtubePlayer.js")(videoId),
               }}
+              indicatorSize="small"
             />
           );
         })}

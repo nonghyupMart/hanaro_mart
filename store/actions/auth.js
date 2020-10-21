@@ -31,13 +31,12 @@ export const sendSMS = (query) => {
     const response = await fetch(url);
     const resData = await Network.getResponse(response, dispatch, url, query);
 
-    // Util.log(resData);
     return resData.data;
   };
 };
 export const signup = (query) => {
   const url = `${API_URL}/users`;
-  Util.log(url, query);
+
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "POST",
@@ -48,7 +47,6 @@ export const signup = (query) => {
     });
     const resData = await Network.getResponse(response, dispatch, url, query);
 
-    Util.log("signup userInfo==>", resData.data.userInfo);
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
     return resData.data.userInfo;
@@ -116,7 +114,6 @@ export const setAgreedStatus = (status) => {
 
 export const withdrawal = (user_cd) => {
   const url = `${API_URL}/users/${user_cd}`;
-  Util.log(url);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "DELETE",

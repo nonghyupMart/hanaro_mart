@@ -7,11 +7,18 @@ export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
 export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
 export const SET_ALERT = "SET_ALERT";
 export const SET_IS_LOADING = "SET_IS_LOADING";
+export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
 
 export const setBottomNavigation = (isBottomNavigation) => {
   return {
     type: SET_BOTTOM_NAVIGATION,
     isBottomNavigation: isBottomNavigation,
+  };
+};
+export const setHeaderHeight = (headerHeight) => {
+  return {
+    type: SET_HEADER_HEIGHT,
+    headerHeight: headerHeight,
   };
 };
 
@@ -36,7 +43,7 @@ export const saveDateForStorePopupToStorage = (store_cd, dispatch) => {
     obj[store_cd] = expirationDate.toISOString();
 
     Util.setStorageItem("dateForStorePopupData", JSON.stringify(obj));
-    dispatch(CommonActions.setIsStorePopup(obj));
+    dispatch(setIsStorePopup(obj));
   })();
 };
 

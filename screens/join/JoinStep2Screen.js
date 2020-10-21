@@ -162,7 +162,6 @@ const JoinStep2Screen = ({ navigation }) => {
     }
     if (phoneNumber != TEST_PHONE_NUMBER) {
       if (accessCode != acCode) {
-        Util.log(accessCode, acCode);
         return dispatch(
           setAlert({
             message: "인증번호를 확인해 주세요.",
