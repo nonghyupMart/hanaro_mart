@@ -18,7 +18,7 @@ import { setAlert } from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
 const ApplyBox = (props) => {
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [checkItem, setCheckItem] = useState({
     isRequired: true,
     isChecked: false,
@@ -27,34 +27,46 @@ const ApplyBox = (props) => {
 
   const onPress = () => {
     if (!checkItem.isChecked) {
-      dispatch(setAlert({
-        message: "개인정보 수집에 동의해주세요.",
-        onPressConfirm: () => {
-          dispatch(setAlert(null));
-        },
-      }));
+      dispatch(
+        setAlert({
+          message: "개인정보 수집에 동의해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (!reg_num) {
-      dispatch(setAlert({
-        message: "주민등록번호(7자리-8501011)를 입력해주세요.",
-        onPressConfirm: () => {
-          dispatch(setAlert(null));
-        },
-      }));
+      dispatch(
+        setAlert({
+          message: "주민등록번호(7자리-8501011)를 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (reg_num.length < 7) {
-      dispatch(setAlert({
-        message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
-        onPressConfirm: () => {
-          dispatch(setAlert(null));
-        },
-      }));
+      dispatch(
+        setAlert({
+          message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
 
     props.onApply(reg_num);
+  };
+  const onFocus = () => {
+    if (props.scrollRef)
+      setTimeout(() => {
+        props.scrollRef.scrollToEnd();
+      }, 800);
   };
   return (
     <>
@@ -90,6 +102,7 @@ const ApplyBox = (props) => {
           value={reg_num}
           onChangeText={(text) => setReg_num(text)}
           editable={props.eventDetail.entry.status === "10"}
+          onFocus={onFocus}
         />
       </Container>
       {props.eventDetail.entry.status === "10" && (

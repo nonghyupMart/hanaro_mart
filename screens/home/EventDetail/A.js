@@ -5,6 +5,7 @@ const A = (props) => {
   return (
     <Container>
       <ApplyBox
+        scrollRef={props.scrollRef}
         onApply={props.onApply}
         {...props}
         eventDetail={props.eventDetail}

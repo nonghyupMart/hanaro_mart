@@ -23,10 +23,13 @@ const Contents = (props) => {
   return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
+  const [isKeyboardOn, setIsKeyboardOn] = useState(false);
   const [isPadding, setIsPadding] = useState(
     props.isPadding == undefined ? true : props.isPadding
   );
-
+  const isBottomNavigationFromRedux = useSelector(
+    (state) => state.common.isBottomNavigation
+  );
   const isBottomNavigation =
     props.isBottomNavigation == undefined ? true : props.isBottomNavigation;
   const dispatch = useDispatch();
@@ -51,19 +54,23 @@ const BaseScreen = (props) => {
     return () => {
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-    };
-
-    return () => {
       backHandler.remove();
     };
   }, []);
 
   const _keyboardDidShow = () => {
-    dispatch(CommonActions.setBottomNavigation(false));
+    setIsKeyboardOn(true);
+    // dispatch(CommonActions.setBottomNavigation(false));
   };
 
   const _keyboardDidHide = () => {
-    dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+    setIsKeyboardOn(false);
+    // dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+  };
+  const onScroll = () => {
+    // if (isBottomNavigationFromRedux != isBottomNavigation)
+    //   dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+    // if (isKeyboardOn) Keyboard.dismiss();
   };
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
 
@@ -81,6 +88,7 @@ const BaseScreen = (props) => {
       >
         {isScroll && (
           <ScrollList
+            // onScroll={onScroll}
             isPadding={isPadding}
             ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
             nestedScrollEnabled={true}

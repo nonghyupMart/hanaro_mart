@@ -168,6 +168,7 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: () => <></>,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
   };
 };
 // const SearchButton = styled(BaseButtonContainer)({});

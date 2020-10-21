@@ -159,7 +159,7 @@ export const screenOptions = ({ navigation }) => {
     // cardStyle: {
     //   marginBottom: 0,
     // },
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 60 },
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
     title: "상품검색",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

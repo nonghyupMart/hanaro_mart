@@ -15,7 +15,6 @@ import {
   screenWidth,
   BaseButtonContainer,
 } from "@UI/BaseUI";
-import Loading from "@UI/Loading";
 
 import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
@@ -147,7 +146,7 @@ const EventDetailScreen = (props, { navigation }) => {
       }
     });
   };
-  if (!eventDetail) return <Loading isLoading={true} />;
+  if (!eventDetail) return <></>;
   return (
     <BaseScreen
       setScrollRef={setScrollRef}
@@ -176,7 +175,12 @@ const EventDetailScreen = (props, { navigation }) => {
           {eventDetail.entry &&
             eventDetail.entry_yn == "Y" &&
             eventDetail.gbn == "A" && (
-              <A {...props} onApply={onApply} eventDetail={eventDetail} />
+              <A
+                {...props}
+                onApply={onApply}
+                eventDetail={eventDetail}
+                scrollRef={scrollRef}
+              />
             )}
           {eventDetail.entry &&
             eventDetail.entry_yn == "Y" &&
