@@ -84,11 +84,11 @@ const ProductPopup = (props) => {
       {productDetail && (
         <Container>
           <Header>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={props.setIsVisible.bind(this, !props.isVisible)}
             >
               <Image source={require("@images/cross.png")} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Header>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
@@ -224,11 +224,11 @@ const GreenBtn = styled(BlueBtn)({
   backgroundColor: colors.appleGreen,
 });
 const BtnContainer = styled.View({
-  marginTop: 17,
+  marginTop: 13,
   flex: 1,
   flexDirection: "row",
   alignItems: "flex-end",
-  marginBottom: 24,
+  marginBottom: 0,
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
@@ -354,12 +354,15 @@ Title.defaultProps = {
 const Body = styled.ScrollView({ flex: 1, width: "100%" });
 const Header = styled.View({
   backgroundColor: colors.black,
-  padding: 8,
+  height: 12,
   justifyContent: "flex-end",
   alignItems: "flex-end",
   width: "100%",
 });
 const Container = styled.View({
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+  overflow: "hidden",
   alignItems: "center",
   backgroundColor: colors.trueWhite,
   width: "100%",
