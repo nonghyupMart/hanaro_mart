@@ -25,7 +25,7 @@ const StorePopup = (props) => {
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
-  // console.warn(storePopup);
+
   useEffect(() => {
     if (
       isStorePopup &&

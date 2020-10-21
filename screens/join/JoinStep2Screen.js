@@ -59,7 +59,7 @@ const JoinStep2Screen = ({ navigation }) => {
   }, []);
   useEffect(() => {
     return () => {
-      // console.warn("distroy", timer);
+
       clearInterval(timer);
     };
   }, []);
@@ -82,7 +82,6 @@ const JoinStep2Screen = ({ navigation }) => {
       if (duration.minutes() <= 0 && duration.seconds() <= 0) {
         clearInterval(timer);
       }
-      // console.warn(minutes, seconds, duration.minutes(), duration.seconds());
     }, interval);
   };
 
