@@ -91,11 +91,15 @@ const StoreChangeScreen = (props) => {
     });
   }, [location]);
 
-  const fetchBranches = (lname = lname, mname = mname, store_nm = store_nm) => {
+  const fetchBranches = (
+    lname = lname,
+    mname = mname,
+    storeName = store_nm
+  ) => {
     let query = {
       lname,
       mname,
-      store_nm,
+      store_nm: storeName,
     };
     if (location) {
       query.lat = location.coords.latitude;

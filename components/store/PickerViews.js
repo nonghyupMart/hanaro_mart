@@ -20,6 +20,7 @@ const PickerViews = (props) => {
   const dispatch = useDispatch();
   const onLnameChange = (lname) => {
     props.setLname(() => lname);
+    props.setMname(() => null);
     const fetchBranches = props.fetchBranches(lname);
     const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 
