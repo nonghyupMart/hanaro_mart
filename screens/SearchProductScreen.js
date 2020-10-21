@@ -29,6 +29,7 @@ import { BackButton, TextTitle } from "@UI/header";
 const { width } = Dimensions.get("window");
 import { SET_SEARCHED_PRODUCT } from "@actions/flyer";
 import { setAlert, setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -40,7 +41,12 @@ const SearchProductScreen = (props) => {
   const [currentItem, setCurrentItem] = useState(null);
 
   const product = useSelector((state) => state.flyer.searchedProduct);
-
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     if (!userStore) return;
 

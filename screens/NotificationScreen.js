@@ -7,8 +7,10 @@ import { ExtendedWebView } from "@UI/ExtendedWebView";
 import { SERVER_URL, API_URL } from "@constants/settings";
 import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "@components/BaseScreen";
+import * as CommonActions from "@actions/common";
 import _ from "lodash";
 const NotificationScreen = (props) => {
+  const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const [url, setUrl] = useState();
@@ -25,11 +27,7 @@ const NotificationScreen = (props) => {
     setUrl(stringifyUrl);
   }, []);
   return (
-    <BaseScreen
-      style={styles.screen}
-      isScroll={false}
-      // isBottomNavigation={false}
-    >
+    <BaseScreen style={styles.screen} isScroll={false}>
       <ExtendedWebView
         source={{
           // uri: `https://www.naver.com`,
@@ -43,9 +41,9 @@ const NotificationScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    // cardStyle: {
-    //   marginBottom: 0,
-    // },
+    cardStyle: {
+      marginBottom: 0,
+    },
     title: "알림",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

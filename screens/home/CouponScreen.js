@@ -164,7 +164,6 @@ const CouponScreen = (props) => {
   return (
     <BaseScreen
       // isBottomNavigation={routeName == "MyCoupon" ? false : true}
-
       style={styles.screen}
       contentStyle={{ paddingTop: 0, width: "100%", height: "100%" }}
       scrollListStyle={{ width: "100%", height: "100%", flex: 1 }}

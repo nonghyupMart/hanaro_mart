@@ -115,7 +115,7 @@ const ProductPopup = (props) => {
               </QContainer>
               <QButtonContainer>
                 <TouchableOpacity
-                  onPress={() => setItem_amount(item_amount + 1)}
+                  onPress={() => setItem_amount(parseInt(item_amount) + 1)}
                 >
                   <Image source={require("@images/sp107.png")} />
                 </TouchableOpacity>

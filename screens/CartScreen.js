@@ -29,7 +29,7 @@ const CartScreen = (props) => {
     <BaseScreen
       style={styles.screen}
       isScroll={false}
-      // isBottomNavigation={false}
+  
     >
       <ExtendedWebView
         source={{

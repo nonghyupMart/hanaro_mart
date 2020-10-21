@@ -43,6 +43,13 @@ const CouponDetailScreen = (props) => {
   //     });
   //   };
   // }, []);
+
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(
@@ -136,7 +143,7 @@ const CouponDetailScreen = (props) => {
   if (!couponDetail || isLoading) return <></>;
   return (
     <BaseScreen
-      isBottomNavigation={false}
+  
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >

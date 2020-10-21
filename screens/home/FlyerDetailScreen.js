@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "@actions/flyer";
 import { IMAGE_URL } from "@constants/settings";
 import { setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
 
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
@@ -17,6 +18,12 @@ const FlyerDetailScreen = (props, { navigation }) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     dispatch(setIsLoading(true));
 
@@ -65,7 +72,7 @@ const FlyerDetailScreen = (props, { navigation }) => {
   };
 
   return (
-    <BaseScreen isBottomNavigation={false} isScroll={false}>
+    <BaseScreen isScroll={false}>
       <View
         style={{
           flexDirection: "row",

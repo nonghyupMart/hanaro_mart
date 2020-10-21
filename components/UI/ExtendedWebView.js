@@ -51,7 +51,7 @@ export const ExtendedWebView = (props) => {
     );
     parseMethod(message);
 
-    // return false to prevent webview navitate to the location of e.url
+    // return false to prevent webview navigate to the location of e.url
     return false;
   };
   const parseMethod = (message) => {
@@ -61,10 +61,10 @@ export const ExtendedWebView = (props) => {
         break;
       case "alert":
         dispatch(
-          setAlert({
+          CommonActions.setAlert({
             message: message.value,
             onPressConfirm: () => {
-              dispatch(setAlert(null));
+              dispatch(CommonActions.setAlert(null));
             },
           })
         );

@@ -37,14 +37,14 @@ const StorePopup = (props) => {
   //     });
   //   }
   // }, [isVisible]);
-  useEffect(() => {
-    return () => {
-      dispatch({
-        type: SET_STORE_POPUP,
-        storePopup: null,
-      });
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({
+  //       type: SET_STORE_POPUP,
+  //       storePopup: null,
+  //     });
+  //   };
+  // }, []);
   useEffect(() => {
     if (
       props.isFocused &&
@@ -54,6 +54,7 @@ const StorePopup = (props) => {
       storePopup.popupCnt > 0
     ) {
       let setDate = moment().subtract(1, "days");
+      // console.warn(isStorePopup);
       if (isStorePopup[userStore.storeInfo.store_cd]) {
         setDate = moment(isStorePopup[userStore.storeInfo.store_cd]);
       }
@@ -76,7 +77,9 @@ const StorePopup = (props) => {
   }, [userStore]);
 
   const setDisablePopup = () => {
+    //userStore의 store_cd가 최신 업데이트가 않되는 경우가 있음..
     CommonActions.saveDateForStorePopupToStorage(
+      isStorePopup,
       userStore.storeInfo.store_cd,
       dispatch
     );
@@ -107,8 +110,8 @@ const StorePopup = (props) => {
       isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={false}
-      onBackdropPress={() => setIsVisible(false)}
-      onRequestClose={() => setIsVisible(false)}
+      // onBackdropPress={() => setIsVisible(false)}
+      // onRequestClose={() => setIsVisible(false)}
     >
       <Container>
         <Carousel

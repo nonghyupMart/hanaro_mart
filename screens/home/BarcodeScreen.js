@@ -21,6 +21,7 @@ import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import Barcode from "@components/Barcode";
 import { setAlert } from "@actions/common";
+import * as CommonActions from "@actions/common";
 
 const BarcodeScreen = (props) => {
   const params = props.route.params;
@@ -40,7 +41,12 @@ const BarcodeScreen = (props) => {
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const [barContainerWidth, setBarContainerWidth] = useState(0);
-
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     const timer = setInterval(() => {
       if (elapsedTime < 120) {
@@ -71,7 +77,7 @@ const BarcodeScreen = (props) => {
   };
   return (
     <BaseScreen
-      isBottomNavigation={false}
+
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >

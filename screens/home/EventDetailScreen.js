@@ -20,6 +20,7 @@ import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
 import C from "@screens/home/EventDetail/C";
 import { setAlert, setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
 
 const EventDetailScreen = (props, { navigation }) => {
   const dispatch = useDispatch();
@@ -37,6 +38,12 @@ const EventDetailScreen = (props, { navigation }) => {
   //     dispatch(eventActions.clearEventDetail());
   //   };
   // }, []);
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     requestEvent();
   }, [dispatch]);
@@ -217,7 +224,9 @@ const EventDetailScreen = (props, { navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "이벤트",
-
+    cardStyle: {
+      marginBottom: 0,
+    },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,

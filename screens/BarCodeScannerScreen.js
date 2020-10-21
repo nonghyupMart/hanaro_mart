@@ -28,7 +28,12 @@ const BarCodeScannerScreen = (props) => {
   const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -58,7 +63,6 @@ const BarCodeScannerScreen = (props) => {
 
   return (
     <BaseScreen
-      isBottomNavigation={false}
       isScroll={false}
       style={{
         paddingBottom: 0,

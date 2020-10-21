@@ -22,30 +22,30 @@ const Contents = (props) => {
   return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
+  const isBottomNavigation = useSelector(
+    (state) => state.common.isBottomNavigation
+  );
   const [isKeyboardOn, setIsKeyboardOn] = useState(false);
   const [isPadding, setIsPadding] = useState(
     props.isPadding == undefined ? true : props.isPadding
   );
-  const isBottomNavigationFromRedux = useSelector(
-    (state) => state.common.isBottomNavigation
-  );
-  const isBottomNavigation =
-    props.isBottomNavigation == undefined ? true : props.isBottomNavigation;
   const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
-    }, 0);
 
+  useEffect(() => {
     const backAction = () => {
       dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setIsLoading(false));
       return false;
     };
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
     );
-
+    return () => {
+      backHandler.remove();
+    };
+  }, [isBottomNavigation]);
+  useEffect(() => {
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
@@ -53,7 +53,6 @@ const BaseScreen = (props) => {
     return () => {
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
-      backHandler.remove();
     };
   }, []);
 
