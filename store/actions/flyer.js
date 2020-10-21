@@ -54,7 +54,6 @@ export const fetchProduct = (query) => {
     url: `${API_URL}/product`,
     query: query,
   });
-  console.warn(url);
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
