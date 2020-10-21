@@ -72,7 +72,7 @@ const SearchProductScreen = (props) => {
         })
       );
     }
-    console.warn(page);
+
     dispatch(setIsLoading(true));
     dispatch(
       flyerActions.fetchProduct({
