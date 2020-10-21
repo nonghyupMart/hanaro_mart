@@ -17,6 +17,9 @@ import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
+import { SET_STORE_POPUP } from "@actions/home";
+import moment from "moment";
+
 const StorePopup = (props) => {
   const routeName = props.route.name;
   const dispatch = useDispatch();
@@ -27,35 +30,56 @@ const StorePopup = (props) => {
   const storePopup = useSelector((state) => state.home.storePopup);
 
   useEffect(() => {
+    if (!isVisible) {
+      dispatch({
+        type: SET_STORE_POPUP,
+        storePopup: null,
+      });
+    }
+  }, [isVisible]);
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: SET_STORE_POPUP,
+        storePopup: null,
+      });
+    };
+  }, []);
+  useEffect(() => {
     if (
+      props.isFocused &&
       isStorePopup &&
       !_.isEmpty(userStore) &&
-      userStore.storeInfo &&
       storePopup &&
       storePopup.popupCnt > 0
-    )
-      setIsVisible(true);
-    else setIsVisible(false);
-  }, [isStorePopup, userStore, storePopup]);
-  useEffect(() => {
-    if (_.isEmpty(storePopup) || !isStorePopup) {
-      props.setFetchStorePopup(true);
-      return;
+    ) {
+      let setDate = moment().subtract(1, "days");
+      if (isStorePopup[userStore.storeInfo.store_cd]) {
+        setDate = moment(isStorePopup[userStore.storeInfo.store_cd]);
+      }
+      setIsVisible(moment(setDate).isBefore(moment(), "day"));
+    } else {
+      setIsVisible(false);
     }
-    if (!_.isEmpty(userStore) && userStore.storeInfo) {
+  }, [isStorePopup, userStore, storePopup, props.isFocused]);
+  useEffect(() => {
+    if (!_.isEmpty(userStore)) {
       props.setFetchStorePopup(false);
-
       dispatch(
         homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
       ).then(() => {
         props.setFetchStorePopup(true);
       });
+    } else {
+      props.setFetchStorePopup(true);
     }
   }, [userStore]);
 
   const setDisablePopup = () => {
-    CommonActions.saveDateForStorePopupToStorage(userStore.storeInfo.store_cd);
-    dispatch(CommonActions.setIsStorePopup(false));
+    CommonActions.saveDateForStorePopupToStorage(
+      userStore.storeInfo.store_cd,
+      dispatch
+    );
   };
 
   if (

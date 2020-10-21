@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Image } from "react-native";
+import { Image as CacheImage } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "@constants/settings";
 
 // import { BaseImage } from "@UI/BaseUI";

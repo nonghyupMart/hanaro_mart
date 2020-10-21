@@ -21,7 +21,7 @@ import { HeaderButton, LogoTitle, HomeHeaderRight } from "@UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
@@ -56,6 +56,7 @@ const HomeScreen = (props) => {
 
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -108,7 +109,8 @@ const HomeScreen = (props) => {
         />
         {isReadyAppPopup && (
           <StorePopup
-            key={storePopupKey}
+            isFocused={isFocused}
+            // key={storePopupKey}
             setFetchStorePopup={setFetchStorePopup}
             {...props}
           />

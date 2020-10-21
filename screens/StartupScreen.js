@@ -30,7 +30,7 @@ const StartupScreen = (props) => {
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
       dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
 
-      getIsStorePopup(userStoreData);
+      getIsStorePopup(userStoreData, dispatch);
 
       const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
       setDate = moment().subtract(1, "days");
@@ -47,18 +47,15 @@ const StartupScreen = (props) => {
   return <Splash />;
 };
 
-export const getIsStorePopup = (userStore) => {
+export const getIsStorePopup = (userStore, dispatch) => {
   (async () => {
     const dateForStorePopup = await Util.getStorageItem(
       "dateForStorePopupData"
     );
-    let setDate = moment().subtract(1, "days");
-    if (dateForStorePopup) setDate = moment(dateForStorePopup);
 
-    //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
-    dispatch(
-      CommonActions.setIsStorePopup(moment(setDate).isBefore(moment(), "day"))
-    );
+    let obj = await JSON.parse(dateForStorePopup);
+    if (!obj) obj = {};
+    dispatch(CommonActions.setIsStorePopup(obj));
   })();
 };
 export default StartupScreen;

@@ -17,7 +17,7 @@ const CartScreen = (props) => {
     if (_.isEmpty(userStore) || !userStore.storeInfo) return;
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
-      url: `${SERVER_URL}/web/product/product.do`,
+      url: `${SERVER_URL}/web/basket/basket.do`,
       query: {
         store_cd: userStore.storeInfo.store_cd,
         user_cd: userInfo.user_cd,

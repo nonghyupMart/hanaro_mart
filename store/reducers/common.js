@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   isBottomNavigation: true,
-  isStorePopup: true,
+  isStorePopup: {},
   isAppPopup: true,
   alert: null,
   isLoading: false,
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
     case SET_IS_STORE_POPUP:
       return {
         ...state,
-        isStorePopup: action.isStorePopup,
+        isStorePopup: { ...action.isStorePopup },
       };
     case SET_IS_APP_POPUP:
       return {

@@ -1,15 +1,10 @@
 import React from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
+import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
-import {
-  Dimensions,
-  TouchableOpacity,
-  Image,
-  Platform,
-  View,
-} from "react-native";
+import { Dimensions, TouchableOpacity, Platform, View } from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(

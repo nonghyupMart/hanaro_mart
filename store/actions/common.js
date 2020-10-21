@@ -22,19 +22,21 @@ export const setIsStorePopup = (isStorePopup) => {
   };
 };
 
-export const saveDateForStorePopupToStorage = (store_cd) => {
+export const saveDateForStorePopupToStorage = (store_cd, dispatch) => {
   (async () => {
-    // const dateForStorePopup = await Util.getStorageItem(
-    //   "dateForStorePopupData"
-    // );
-    // const parsedData = await JSON.parse(dateForStorePopup);
-    const expirationDate = new Date(new Date().getTime());
-
-    Util.setStorageItem(
-      "dateForStorePopupData",
-      expirationDate.toISOString()
-      // { store_cd: expirationDate.toISOString() }
+    // 스토리지에서 데이터를 가져온다.
+    const dateForStorePopup = await Util.getStorageItem(
+      "dateForStorePopupData"
     );
+
+    let obj = await JSON.parse(dateForStorePopup);
+    if (!obj) obj = {};
+
+    const expirationDate = new Date(new Date().getTime());
+    obj[store_cd] = expirationDate.toISOString();
+
+    Util.setStorageItem("dateForStorePopupData", JSON.stringify(obj));
+    dispatch(CommonActions.setIsStorePopup(obj));
   })();
 };
 

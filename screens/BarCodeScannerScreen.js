@@ -22,7 +22,6 @@ import {
 } from "@UI/BaseUI";
 import * as CommonActions from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
-import Loading from "@UI/Loading";
 
 const BarCodeScannerScreen = (props) => {
   const dispatch = useDispatch();

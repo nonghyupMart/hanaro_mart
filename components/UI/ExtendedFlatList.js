@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 
 const ExtendedFlatList = (props) => {

@@ -90,10 +90,8 @@ export const fetchPopup = (query) => {
           type: SET_STORE_POPUP,
           storePopup: resData.data,
         });
-        Util.log("fetchStorePopup", resData.data);
       } else {
         dispatch({ type: SET_APP_POPUP, appPopup: resData.data });
-        Util.log("fetchAppPopup", resData.data);
       }
     } catch (err) {
       throw err;

@@ -13,7 +13,6 @@ import {
   StyleConstants,
   BaseText,
 } from "@UI/BaseUI";
-import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import * as Util from "@util";
 import colors from "@constants/colors";
@@ -82,7 +81,6 @@ const StoreChangeDetailScreen = (props) => {
               dispatch(setAlert(null));
               // props.navigation.popToTop();
               props.navigation.navigate("Home");
-              dispatch(homeActions.clearStorePopup());
 
               // Restart();
             },
@@ -91,7 +89,7 @@ const StoreChangeDetailScreen = (props) => {
       }
     });
   };
-  if (!branch) return <Loading />;
+  if (!branch) return <></>;
 
   return (
     <BaseScreen

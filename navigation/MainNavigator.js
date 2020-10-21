@@ -195,7 +195,6 @@ export const HomeNavigator = ({ navigation, route }) => {
     <Fragment>
       
       <HomeStackNavigator.Navigator
-        // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
           cardStyle: {
             marginBottom: 65,
