@@ -97,23 +97,15 @@ const CouponScreen = (props) => {
           })
         ).then((data) => {
           if (data.result == "success") {
-            dispatch(
-              setAlert({
-                message: "쿠폰 발급이 완료 되었습니다.",
-                onPressConfirm: () => {
-                  dispatch(setAlert(null));
-                  navigation.navigate("CouponDetail", {
-                    store_cd: userStore.storeInfo.store_cd,
-                    cou_cd: item.cou_cd,
-                    user_cd: userInfo.user_cd,
-                    coupon: type == "A" ? couponA : coupon,
-                    index: index,
-                    type,
-                    routeName,
-                  });
-                },
-              })
-            );
+            navigation.navigate("CouponDetail", {
+              store_cd: userStore.storeInfo.store_cd,
+              cou_cd: item.cou_cd,
+              user_cd: userInfo.user_cd,
+              coupon: type == "A" ? couponA : coupon,
+              index: index,
+              type,
+              routeName,
+            });
           }
         });
         break;

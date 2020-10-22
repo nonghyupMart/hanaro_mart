@@ -129,21 +129,23 @@ const CouponDetailScreen = (props) => {
       );
     }
   };
-  if (couponDetail) {
-    props.navigation.setOptions({
-      title: "쿠폰",
-      cardStyle: {
-        marginBottom: 0,
-      },
-      headerLeft: () => <BackButton />,
-      headerTitle: (props) => <TextTitle {...props} />,
-      headerRight: (props) => <UseButton onPress={onPress} />,
-    });
-  }
+  useEffect(() => {
+    if (couponDetail) {
+      props.navigation.setOptions({
+        title: "쿠폰",
+        cardStyle: {
+          marginBottom: 0,
+        },
+        headerLeft: () => <BackButton />,
+        headerTitle: (props) => <TextTitle {...props} />,
+        headerRight: (props) => <UseButton onPress={onPress} />,
+      });
+    }
+  }, [couponDetail]);
+
   if (!couponDetail || isLoading) return <></>;
   return (
     <BaseScreen
-  
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >
@@ -237,8 +239,14 @@ const CouponDetailScreen = (props) => {
               <Warn style={{ color: colors.greyishBrown }}>
                 본 쿠폰은 사용완료 되었습니다.
               </Warn>
-              <BlueButton style={{ backgroundColor: colors.greyishThree }}>
-                <Image source={require("@images/resize3.png")} />
+              <BlueButton
+                onPress={() => {
+                  dispatch(CommonActions.setBottomNavigation(true));
+                  props.navigation.pop();
+                }}
+                style={{ backgroundColor: colors.greyishThree }}
+              >
+                {/* <Image source={require("@images/resize3.png")} /> */}
                 <BlueButtonText>사용완료</BlueButtonText>
               </BlueButton>
             </>
