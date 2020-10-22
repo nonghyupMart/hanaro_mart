@@ -199,6 +199,7 @@ const FlyerScreen = (props) => {
             height: screenHeight - (width * 0.283 + 250),
           }}
         >
+          <EmptyIcon source={require("@images/not06.png")} />
           <EmptyText>{`현재 진행중인 행사상품이\n없습니다.`}</EmptyText>
         </EmptyScreen>
       )}

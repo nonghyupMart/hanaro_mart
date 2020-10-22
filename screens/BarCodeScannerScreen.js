@@ -31,7 +31,7 @@ const BarCodeScannerScreen = (props) => {
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
-      dispatch(CommonActions.setBottomNavigation(true));
+      dispatch(CommonActions.setBottomNavigation(false));
     };
   }, []);
   useEffect(() => {

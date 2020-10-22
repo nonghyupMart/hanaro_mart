@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
-import * as RootNavigation from "../navigation/RootNavigation";
+import * as RootNavigation from "@navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import { BaseText } from "@UI/BaseUI";
 
