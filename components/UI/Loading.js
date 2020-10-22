@@ -1,60 +1,83 @@
 import React from "react";
-// import Modal from "react-native-modal";
+import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   StyleSheet,
   ActivityIndicator,
   View,
-  Modal,
   SafeAreaView,
+  Platform,
 } from "react-native";
 import { screenHeight, screenWidth } from "@UI/BaseUI";
 
 const Loading = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
-  return (
-    // <Modal
-    //   backdropOpacity={0.7}
-    //   isVisible={props.isLoading}
-    //   animationIn="fadeIn"
-    // >
-    <>
-      {isLoading && (
-        <SafeAreaView
+  if (Platform.OS == "android")
+    return (
+      <Modal
+        backdropOpacity={0}
+        backdropTransitionInTiming={0}
+        backdropTransitionOutTiming={0}
+        isVisible={isLoading}
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={false}
+        animationIn="fadeIn"
+        animationOut="fadeOut"
+      >
+        <ActivityIndicator
+          size="large"
+          color={colors.cerulean}
           style={{
             position: "absolute",
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-            width: screenWidth,
-            height: screenHeight,
-            backgroundColor: "rgba(0, 0, 0, 0.0)",
             left: 0,
             right: 0,
             top: 0,
             bottom: 0,
-            zIndex: 99999,
-            elevation: 99999,
+            alignItems: "center",
+            justifyContent: "center",
           }}
-        >
-          <ActivityIndicator
-            size="large"
-            color={colors.cerulean}
+          // style={{ marginTop: -headerHeight }}
+        />
+      </Modal>
+    );
+  else
+    return (
+      <>
+        {isLoading && (
+          <SafeAreaView
             style={{
               position: "absolute",
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+              width: screenWidth,
+              height: screenHeight,
+              backgroundColor: "rgba(0, 0, 0, 0.0)",
               left: 0,
               right: 0,
-              top: 88.4,
+              top: 0,
               bottom: 0,
-              alignItems: "center",
-              justifyContent: "center",
+              zIndex: 99999,
+              elevation: 99999,
             }}
-            // style={{ marginTop: -headerHeight }}
-          />
-        </SafeAreaView>
-      )}
-    </>
-    // </Modal>
-  );
+          >
+            <ActivityIndicator
+              size="large"
+              color={colors.cerulean}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 88.4,
+                bottom: 0,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              // style={{ marginTop: -headerHeight }}
+            />
+          </SafeAreaView>
+        )}
+      </>
+    );
 };
 export default Loading;

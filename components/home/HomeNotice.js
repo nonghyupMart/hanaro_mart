@@ -50,9 +50,7 @@ const HomeNotice = (props) => {
             flexGrow: 1,
           }}
           data={homeNotice.noticeList}
-          keyExtractor={(item) => {
-            return item.notice_cd;
-          }}
+          keyExtractor={(item, index) => `${item.notice_cd}`}
           renderItem={(itemData) => {
             return (
               <TouchableOpacity

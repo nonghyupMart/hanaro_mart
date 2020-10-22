@@ -187,7 +187,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
                   options={{ title: tab.title }}
                 />
               );
-            return <></>;
+            return;
           })}
       </HomeTopTabNavigator.Navigator>
     </Fragment>

@@ -54,15 +54,12 @@ const JoinStep2Screen = ({ navigation }) => {
   const [timer, setTimer] = useState();
 
   const dispatch = useDispatch();
-  useEffect(() => {
-    // if (phoneNumberRef) phoneNumberRef.focus();
-  }, []);
+
   useEffect(() => {
     return () => {
-
       clearInterval(timer);
     };
-  }, []);
+  }, [timer]);
 
   const startTimer = () => {
     clearInterval(timer);
@@ -311,7 +308,7 @@ export const signup = (query, dispatch, agreedStatus) => {
           })
         );
       }
-    } 
+    }
   });
 };
 const DescText = styled(BaseText)({
@@ -378,29 +375,31 @@ export const popupConetnt = (agreedStatus, userInfo) => {
           ? formatPhoneNumber(userInfo.user_id)
           : ""}
       </WhiteText>
-      {Object.keys(agreedStatus).map((keyName, index) => {
-        // Util.log(Object.keys(agreedStatus).length);.
-        if (agreedStatus[keyName].isChecked)
-          return (
-            <Line
-              key={index}
-              style={{
-                marginTop: index == 0 ? 20 : 0,
-                // marginBottom:
-                //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
-              }}
-            >
-              <Icon source={require("@images/checkmark.png")} />
-              <SmallText>
-                {agreedStatus[keyName].title}에 동의하셨습니다.
-              </SmallText>
-            </Line>
-          );
-      })}
+      <List
+        data={Object.keys(agreedStatus)}
+        keyExtractor={(item, index) => `${index}`}
+        renderItem={({ item, index, separators }) => {
+          if (agreedStatus[item].isChecked)
+            return (
+              <Line
+                style={{
+                  marginTop: index == 0 ? 20 : 0,
+                  // marginBottom:
+                  //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
+                }}
+              >
+                <Icon source={require("@images/checkmark.png")} />
+                <SmallText>
+                  {agreedStatus[item].title}에 동의하셨습니다.
+                </SmallText>
+              </Line>
+            );
+        }}
+      />
     </Container>
   );
 };
-
+export const List = styled.FlatList({});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",

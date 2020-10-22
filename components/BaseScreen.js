@@ -77,44 +77,43 @@ const BaseScreen = (props) => {
   );
 
   return (
-    <>
-      <Screen
-        headerHeight={useHeaderHeight()}
-        style={props.style}
-        isPadding={isPadding}
-        isCenter={props.isCenter}
-      >
-        {isScroll && (
-          <ScrollList
-            // onScroll={onScroll}
-            isPadding={isPadding}
-            ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
-            nestedScrollEnabled={true}
-            // keyboardDismissMode="none"
-            // keyboardShouldPersistTaps="always"
-            removeClippedSubviews={false}
-            keyboardDismissMode="none"
-            keyboardShouldPersistTaps="handled"
-            windowSize={props.windowSize ? props.windowSize : 5}
-            style={props.scrollListStyle}
-            data={[0]}
-            keyExtractor={(item, index) => `${index}`}
-            headerHeight={useHeaderHeight()}
-            {...props}
-            contentContainerStyle={[styles.safeAreaView]}
-            renderItem={({ item, index, separators }) => (
-              <ContentContainer
-                style={[props.contentStyle]}
-                isPadding={isPadding}
-              >
-                <Contents {...props} />
-              </ContentContainer>
-            )}
-          />
-        )}
-        {!isScroll && <Contents {...props} />}
-      </Screen>
-    </>
+    <Screen
+      headerHeight={useHeaderHeight()}
+      style={props.style}
+      isPadding={isPadding}
+      isCenter={props.isCenter}
+    >
+      {isScroll && (
+        <ScrollList
+          listKey="BaseScreen"
+          // onScroll={onScroll}
+          isPadding={isPadding}
+          ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
+          nestedScrollEnabled={true}
+          // keyboardDismissMode="none"
+          // keyboardShouldPersistTaps="always"
+          removeClippedSubviews={false}
+          keyboardDismissMode="none"
+          keyboardShouldPersistTaps="handled"
+          windowSize={props.windowSize ? props.windowSize : 5}
+          style={props.scrollListStyle}
+          data={[0]}
+          keyExtractor={(item, index) => `${index}`}
+          headerHeight={useHeaderHeight()}
+          {...props}
+          contentContainerStyle={[styles.safeAreaView]}
+          renderItem={({ item, index, separators }) => (
+            <ContentContainer
+              style={[props.contentStyle]}
+              isPadding={isPadding}
+            >
+              <Contents {...props} />
+            </ContentContainer>
+          )}
+        />
+      )}
+      {!isScroll && <Contents {...props} />}
+    </Screen>
   );
 };
 

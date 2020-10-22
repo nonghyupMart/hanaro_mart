@@ -50,6 +50,7 @@ const EmptyScreen = (props) => {
             confirmText: "매장설정",
             onPressCancel: () => {
               dispatch(setAlert(null));
+              props.navigation.navigate("Home");
             },
           })
         );

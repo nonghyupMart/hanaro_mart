@@ -153,7 +153,7 @@ const StoreChangeScreen = (props) => {
             listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}
-            keyExtractor={(item) => item.store_cd}
+            keyExtractor={(item) => `stores-${item.store_cd}`}
             renderItem={(itemData) => <StoreItem item={itemData.item} />}
           />
         )}
