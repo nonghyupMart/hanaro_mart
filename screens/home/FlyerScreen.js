@@ -7,6 +7,7 @@ import {
   BaseImage,
   EmptyScreen,
   EmptyText,
+  EmptyIcon,
   screenHeight,
 } from "@UI/BaseUI";
 
@@ -74,7 +75,7 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
-    if (leaflet) {
+    if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       dispatch(setIsLoading(true));
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
         dispatch(setIsLoading(false));
@@ -83,7 +84,12 @@ const FlyerScreen = (props) => {
   }, [pageforCarousel]);
 
   const loadMore = () => {
-    if (!isLoading && page + 1 <= product.finalPage) {
+    if (
+      !isLoading &&
+      page + 1 <= product.finalPage &&
+      !_.isEmpty(leaflet) &&
+      _.size(leaflet.leafletList) > 0
+    ) {
       setPage(page + 1);
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1);
     }
@@ -95,9 +101,10 @@ const FlyerScreen = (props) => {
     setCurrentItem(() => item);
   };
   if (!leaflet) return <></>;
-  if (_.size(leaflet.leafletList) === 0)
+  if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
     return (
       <EmptyScreen>
+        <EmptyIcon source={require("@images/not01.png")} />
         <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
       </EmptyScreen>
     );

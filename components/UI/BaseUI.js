@@ -133,13 +133,16 @@ export const EmptyText = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.greyishThree,
+  marginTop: 28,
 });
 export const EmptyScreen = styled.View({
   flex: 1,
   width: "100%",
   height: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.trueWhite,
   justifyContent: "center",
   alignItems: "center",
   alignSelf: "center",
 });
+
+export const EmptyIcon = styled.Image({});

@@ -8,7 +8,13 @@ import CouponItem from "@components/CouponItem";
 import CouponItemA from "@components/CouponItemA";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
-import { BaseImage, screenWidth, EmptyScreen, EmptyText } from "@UI/BaseUI";
+import {
+  BaseImage,
+  screenWidth,
+  EmptyScreen,
+  EmptyText,
+  EmptyIcon,
+} from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
@@ -148,6 +154,7 @@ const CouponScreen = (props) => {
   )
     return (
       <EmptyScreen>
+        <EmptyIcon source={require("@images/not05.png")} />
         <EmptyText>{`나의 쿠폰이 없습니다.`}</EmptyText>
       </EmptyScreen>
     );
@@ -158,6 +165,7 @@ const CouponScreen = (props) => {
   )
     return (
       <EmptyScreen>
+        <EmptyIcon source={require("@images/not03.png")} />
         <EmptyText>현재 진행중인 나로쿠폰이 없습니다.</EmptyText>
       </EmptyScreen>
     );

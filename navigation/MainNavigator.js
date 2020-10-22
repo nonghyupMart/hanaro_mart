@@ -166,7 +166,12 @@ export const HomeTabNavigator = ({ navigation, route }) => {
                 key={Tab[0].name}
                 name={Tab[0].name}
                 component={Tab[0].components}
-                options={{ title: menu.menu_nm }}
+                options={{
+                  title: menu.menu_nm,
+                  cardStyle: {
+                    backgroundColor: colors.trueWhite,
+                  },
+                }}
               />
             );
           }
@@ -193,7 +198,6 @@ const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = ({ navigation, route }) => {
   return (
     <Fragment>
-      
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {

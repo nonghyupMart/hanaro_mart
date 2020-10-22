@@ -8,7 +8,7 @@ import * as eventActions from "@actions/event";
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { EmptyText, EmptyScreen } from "@UI/BaseUI";
+import { EmptyText, EmptyScreen, EmptyIcon } from "@UI/BaseUI";
 import { BackButton, TextTitle } from "@UI/header";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
@@ -65,12 +65,14 @@ const EventScreen = (props) => {
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
       <EmptyScreen>
+        <EmptyIcon source={require("@images/not02.png")} />
         <EmptyText>{`응모한 이벤트가\n없습니다.`}</EmptyText>
       </EmptyScreen>
     );
   if (routeName == "Event" && _.size(event.eventList) === 0)
     return (
       <EmptyScreen>
+        <EmptyIcon source={require("@images/not02.png")} />
         <EmptyText>{`현재 진행중인 이벤트가\n없습니다.`}</EmptyText>
       </EmptyScreen>
     );
