@@ -113,7 +113,7 @@ export const addCart = (query) => {
         body: JSON.stringify(query),
       });
       const resData = await Network.getResponse(response, dispatch, url, query);
-      
+
       return resData.data;
     } catch (err) {
       throw err;

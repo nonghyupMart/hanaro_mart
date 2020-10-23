@@ -35,28 +35,36 @@ const FlyerScreen = (props) => {
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
   const [page, setPage] = useState(1);
+  const [carouselKey, setCarouselKey] = useState();
 
   useEffect(() => {
-    dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
-    // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
-      dispatch(setIsLoading(true));
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      dispatch({ type: SET_PRODUCT, product: null });
+      setPage(1);
+      setCarouselKey(Math.random());
 
-      dispatch(
-        flyerActions.fetchLeaflet({ store_cd: userStore.storeInfo.store_cd })
-      ).then((data) => {
-        if (!_.isEmpty(data) && data.leafletList[0]) {
-          fetchProduct(data.leafletList[0].leaf_cd, 1).then(() => {
-            dispatch(setIsLoading(false));
-          });
-        }
-      });
-    }
-    // });
-    // Return the function to unsubscribe from the event so it gets removed on unmount
-    // return unsubscribe;
+      if (userStore) {
+        dispatch(setIsLoading(true));
+
+        dispatch(
+          flyerActions.fetchLeaflet({
+            store_cd: userStore.storeInfo.store_cd,
+          })
+        ).then((data) => {
+          console.warn("pageforCarousel", pageforCarousel);
+          if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
+            fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
+              () => {
+                dispatch(setIsLoading(false));
+              }
+            );
+          }
+        });
+      }
+    });
+
     return () => {
+      unsubscribe;
       setPage(1);
       dispatch({ type: SET_PRODUCT, product: null });
     };
@@ -123,6 +131,7 @@ const FlyerScreen = (props) => {
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <Carousel
+        key={carouselKey}
         style={{
           height: width * 0.283,
           flex: 1,

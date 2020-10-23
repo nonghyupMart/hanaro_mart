@@ -23,12 +23,13 @@ const HomeBanner = (props) => {
   const dispatch = useDispatch();
   const homeBanner = useSelector((state) => state.home.homeBanner);
   useEffect(() => {
+    if (!props.isFocused) return;
     props.setFetchHomeBanner(false);
     const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
     Promise.all([fetchHomeBanner]).then((result) => {
       props.setFetchHomeBanner(true);
     });
-  }, [dispatch]);
+  }, [props.isFocused]);
   if (!homeBanner || !homeBanner.bannerList || homeBanner.bannerCnt == 0)
     return <></>;
   return (

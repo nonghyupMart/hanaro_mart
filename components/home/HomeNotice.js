@@ -20,12 +20,13 @@ const HomeNotice = (props) => {
   const dispatch = useDispatch();
   const homeNotice = useSelector((state) => state.home.homeNotice);
   useEffect(() => {
+    if (!props.isFocused) return;
     props.setFetchHomeNotice(false);
     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
     Promise.all([fetchHomeNotice]).then((result) => {
       props.setFetchHomeNotice(true);
     });
-  }, [dispatch]);
+  }, [props.isFocused]);
 
   const loadMore = () => {
     if (!isLoading && page + 1 <= homeNotice.finalPage) {

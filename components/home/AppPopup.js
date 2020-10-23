@@ -27,7 +27,7 @@ const AppPopup = (props) => {
       setIsVisible(true);
   }, [isAppPopup, props.isFocused]);
   useEffect(() => {
-    if (!_.isEmpty(appPopup) || !isAppPopup) {
+    if (!_.isEmpty(appPopup) || !isAppPopup || !props.isFocused) {
       props.setIsReadyAppPopup(true);
       props.setFetchAppPopup(true);
       return;
@@ -40,7 +40,7 @@ const AppPopup = (props) => {
         props.setIsReadyAppPopup(true);
       }
     });
-  }, []);
+  }, [props.isFocused]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForAppPopupToStorage();

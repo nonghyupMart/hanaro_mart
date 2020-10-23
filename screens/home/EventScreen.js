@@ -31,12 +31,13 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    // const unsubscribe = navigation.addListener("focus", () => {
-    if (userStore) {
-      setPage(1);
-      fetchEvent();
-    }
-    // });
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (userStore) {
+        setPage(1);
+        fetchEvent();
+      }
+    });
+    return unsubscribe;
   }, [userStore]);
 
   const fetchEvent = (p = page) => {

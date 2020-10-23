@@ -92,10 +92,16 @@ const HomeScreen = (props) => {
           setFetchAppPopup={setFetchAppPopup}
           {...props}
         />
-        <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
+        <HomeBanner
+          isFocused={isFocused}
+          setFetchHomeBanner={setFetchHomeBanner}
+        />
         <Space />
-        <NaroTube setFetchHomeNaro={setFetchHomeNaro} />
-        <HomeNotice setFetchHomeNotice={setFetchHomeNotice} />
+        <NaroTube isFocused={isFocused} setFetchHomeNaro={setFetchHomeNaro} />
+        <HomeNotice
+          isFocused={isFocused}
+          setFetchHomeNotice={setFetchHomeNotice}
+        />
       </BaseScreen>
     </>
   );
