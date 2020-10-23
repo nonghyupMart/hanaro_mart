@@ -133,64 +133,62 @@ export const HomeTabNavigator = ({ navigation, route }) => {
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
   return (
-    <Fragment>
-      <HomeTopTabNavigator.Navigator
-        backBehavior="initialRoute"
-        onStateChange={() => {}}
-        lazy={false}
-        // optimizationsEnabled={true}
-        tabBar={(props) => <MeterialTopTabBar {...props} />}
-        initialRouteName="Home"
-        swipeEnabled={false}
-        tabBarOptions={{
-          scrollEnabled: true,
-          tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
-          style: { marginLeft: -83 },
-        }}
-      >
-        <HomeTopTabNavigator.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ route }) => ({
-            title: "",
-            tabBarLabel: "",
-            tabBarVisible: getTabBarVisible(route),
-          })}
-        />
-        {menuList.map((menu) => {
-          {
-            let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
-            if (!Tab[0]) return;
+    <HomeTopTabNavigator.Navigator
+      backBehavior="initialRoute"
+      onStateChange={() => {}}
+      lazy={false}
+      // optimizationsEnabled={true}
+      tabBar={(props) => <MeterialTopTabBar {...props} />}
+      initialRouteName="Home"
+      swipeEnabled={false}
+      tabBarOptions={{
+        scrollEnabled: true,
+        tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
+        style: { marginLeft: -83 },
+      }}
+    >
+      <HomeTopTabNavigator.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({ route }) => ({
+          title: "",
+          tabBarLabel: "",
+          tabBarVisible: getTabBarVisible(route),
+        })}
+      />
+      {menuList.map((menu) => {
+        {
+          let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+          if (!Tab[0]) return;
+          return (
+            <HomeTopTabNavigator.Screen
+              key={Tab[0].name}
+              name={Tab[0].name}
+              component={Tab[0].components}
+              options={{
+                title: menu.menu_nm,
+                cardStyle: {
+                  backgroundColor: colors.trueWhite,
+                },
+              }}
+            />
+          );
+        }
+      })}
+      {_.size(menuList) === 0 &&
+        TabMenus.map((tab) => {
+          if (_.isEmpty(userStore))
             return (
               <HomeTopTabNavigator.Screen
-                key={Tab[0].name}
-                name={Tab[0].name}
-                component={Tab[0].components}
-                options={{
-                  title: menu.menu_nm,
-                  cardStyle: {
-                    backgroundColor: colors.trueWhite,
-                  },
-                }}
+                key={tab.name}
+                name={tab.name}
+                component={tab.subComponents}
+                options={{ title: tab.title }}
               />
             );
-          }
+          return;
         })}
-        {_.size(menuList) === 0 &&
-          TabMenus.map((tab) => {
-            if (_.isEmpty(userStore))
-              return (
-                <HomeTopTabNavigator.Screen
-                  key={tab.name}
-                  name={tab.name}
-                  component={tab.subComponents}
-                  options={{ title: tab.title }}
-                />
-              );
-            return;
-          })}
-      </HomeTopTabNavigator.Navigator>
-    </Fragment>
+    </HomeTopTabNavigator.Navigator>
   );
 };
 
@@ -202,6 +200,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         screenOptions={{
           cardStyle: {
             marginBottom: 65,
+            backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -363,7 +362,9 @@ export const MainNavigator = (props) => {
       edgeWidth={0}
       drawerStyle={[
         drawerStyle,
-        { width: isInitialRender ? null : screenWidth * 0.791 },
+        {
+          width: isInitialRender ? null : screenWidth * 0.791,
+        },
       ]}
       drawerContent={(props) =>
         CustomDrawerContent(

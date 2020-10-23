@@ -12,6 +12,7 @@ import { BaseImage, BaseText } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { IMAGE_URL } from "@constants/settings";
+import * as Util from "@util";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
@@ -27,8 +28,8 @@ const FlyerItem = (props) => {
           defaultSource={require("@images/p_img503.png")}
         />
         <Title>{props.item.title}</Title>
-        <OriginalPrice>{props.item.price}원</OriginalPrice>
-        <SalePrice>{props.item.sale_price}원</SalePrice>
+        <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
+        <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
       </Container>
     </TouchableOpacity>
   );

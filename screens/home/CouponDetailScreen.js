@@ -204,7 +204,7 @@ const CouponDetailScreen = (props) => {
           <Title>{couponDetail.title}</Title> */}
           <TextContainer>
             <Price>쿠폰명 : {couponDetail.title}</Price>
-            <Price>할인가 : {couponDetail.price}원</Price>
+            <Price>할인가 : {Util.formatNumber(couponDetail.price)}원</Price>
             <Price>최소구매금액 : {couponDetail.m_price}원</Price>
             <Price>사용기간 : ~ {couponDetail.end_date}까지</Price>
             <View

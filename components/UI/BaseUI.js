@@ -4,7 +4,14 @@ import colors from "@constants/colors";
 import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
-import { Dimensions, TouchableOpacity, Platform, View } from "react-native";
+import {
+  Dimensions,
+  TouchableOpacity,
+  Platform,
+  View,
+  Text,
+  TextInput,
+} from "react-native";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -17,13 +24,22 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
   //  defaultImage: require("@images/b_img500.png"),
 };
+Text.defaultProps = { allowFontScaling: false };
+export const BaseText = styled(Text)({
+  // fontFamily: "SourceHanSansKR",
+});
 
-export const BaseText = styled.Text({
+BaseText.defaultProps = { allowFontScaling: false };
+TextInput.defaultProps = {
+  allowFontScaling: false,
+  underlineColorAndroid: "transparent",
+};
+export const BaseTextInput = styled(TextInput)({
   // fontFamily: "SourceHanSansKR",
+  borderWidth: 0,
 });
-export const BaseTextInput = styled.TextInput({
-  // fontFamily: "SourceHanSansKR",
-});
+
+BaseTextInput.defaultProps = { allowFontScaling: false };
 export const BaseImage = styled(Image).attrs((props) => {
   let source;
   if (typeof props.source == "string")

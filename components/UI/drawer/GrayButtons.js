@@ -9,8 +9,11 @@ import {
   screenHeight,
   BaseText,
 } from "@UI/BaseUI";
+import _ from "lodash";
 import { TabMenus } from "@constants/menu";
+
 const GrayButtons = (props) => {
+  const userStore = useSelector((state) => state.auth.userStore);
   return (
     <>
       <GrayContainer>
@@ -29,15 +32,17 @@ const GrayButtons = (props) => {
         })}
         {props.menuList.length === 0 &&
           TabMenus.map((tab) => {
-            return (
-              <WhiteButtonContainer
-                key={tab.name}
-                onPress={() => props.navigation.navigate(tab.name)}
-              >
-                <Image source={tab.icon} />
-                <WButtonText>{tab.title}</WButtonText>
-              </WhiteButtonContainer>
-            );
+            if (_.isEmpty(userStore))
+              return (
+                <WhiteButtonContainer
+                  key={tab.name}
+                  onPress={() => props.navigation.navigate(tab.name)}
+                >
+                  <Image source={tab.icon} />
+                  <WButtonText>{tab.title}</WButtonText>
+                </WhiteButtonContainer>
+              );
+            return;
           })}
       </GrayContainer>
       <Image

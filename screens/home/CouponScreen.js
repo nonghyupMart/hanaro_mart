@@ -165,8 +165,18 @@ const CouponScreen = (props) => {
     <BaseScreen
       // isBottomNavigation={routeName == "MyCoupon" ? false : true}
       style={styles.screen}
-      contentStyle={{ paddingTop: 0, width: "100%", height: "100%" }}
-      scrollListStyle={{ width: "100%", height: "100%", flex: 1 }}
+      contentStyle={{
+        paddingTop: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: colors.trueWhite,
+      }}
+      scrollListStyle={{
+        width: "100%",
+        height: "100%",
+        flex: 1,
+        backgroundColor: colors.trueWhite,
+      }}
       // isScroll={false}
     >
       {coupon && couponA && (
@@ -227,7 +237,9 @@ const CouponScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "나의 쿠폰",
-
+    cardStyle: {
+      backgroundColor: colors.trueWhite,
+    },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,

@@ -45,7 +45,7 @@ const BarCodeScannerScreen = (props) => {
     setScanned(true);
 
     params.setRcp_qr(data);
-    dispatch(CommonActions.setBottomNavigation(true));
+    dispatch(CommonActions.setBottomNavigation(false));
     props.navigation.goBack();
     // props.navigation.navigate("BarCodeScanner", { rcp_qr: data });
   };

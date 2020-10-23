@@ -21,7 +21,6 @@ const BackButton = (props) => {
         title="back"
         iconName="chevron-thin-left"
         onPress={() => {
-          dispatch(CommonActions.setBottomNavigation(true));
           dispatch(CommonActions.setIsLoading(false));
           if (index > 0) navigation.goBack();
           else navigation.navigate("Home");
