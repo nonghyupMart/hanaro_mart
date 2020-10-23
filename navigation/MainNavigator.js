@@ -69,7 +69,9 @@ import BarcodeScreen, {
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "@screens/BarCodeScannerScreen";
-import RingPickerScreen from "@screens/RingPickerScreen";
+import RingPickerScreen, {
+  screenOptions as RingPickerScreenOptions,
+} from "@screens/RingPickerScreen";
 import NoticeScreen, {
   screenOptions as NoticeScreenOptions,
 } from "@screens/snb/NoticeScreen";
@@ -115,6 +117,10 @@ import MyInfoScreen, {
   screenOptions as MyInfoScreenOptions,
 } from "@screens/MyInfoScreen";
 
+import PopupScreen, {
+  screenOptions as PopupScreenOptions,
+} from "@screens/PopupScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -136,7 +142,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
     <HomeTopTabNavigator.Navigator
       backBehavior="initialRoute"
       onStateChange={() => {}}
-      lazy={false}
+      lazy={true}
       // optimizationsEnabled={true}
       tabBar={(props) => <MeterialTopTabBar {...props} />}
       initialRouteName="Home"
@@ -254,15 +260,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         <HomeStackNavigator.Screen
           name="RingPicker"
           component={RingPickerScreen}
-          options={{
-            cardStyle: {
-              marginBottom: 0,
-            },
-            headerShown: false,
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-            headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-          }}
+          options={RingPickerScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="Notice"

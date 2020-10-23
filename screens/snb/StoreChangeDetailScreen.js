@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { SERVER_URL } from "@constants/settings";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import { Restart } from "fiction-expo-restart";
+import * as Updates from "expo-updates";
 import { View, StyleSheet, Image } from "react-native";
 import _ from "lodash";
 import { BackButton, TextTitle } from "@UI/header";
@@ -25,6 +25,7 @@ import * as branchesActions from "@actions/branches";
 import { setUserStore } from "@actions/auth";
 import { setAlert, setIsLoading } from "@actions/common";
 import { SET_BRANCH } from "@actions/branches";
+import * as CommonActions from "@actions/common";
 
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
@@ -35,11 +36,18 @@ const StoreChangeDetailScreen = (props) => {
 
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
   // useEffect(() => {
   //   return () => {
   //     dispatch({ type: SET_BRANCH, branch: null });
   //   };
   // }, []);
+  useEffect(() => {
+    // console.warn("didTryPopup2", didTryPopup);
+    if (!didTryPopup) {
+      navigation.popToTop();
+    }
+  }, [didTryPopup]);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
@@ -84,11 +92,13 @@ const StoreChangeDetailScreen = (props) => {
           setAlert({
             message: msg,
             onPressConfirm: () => {
-              dispatch(setAlert(null));
-              // props.navigation.popToTop();
-              props.navigation.navigate("Home");
+              (async () => {
+                dispatch(setAlert(null));
+                await props.navigation.navigate("Home");
+                await dispatch(CommonActions.setDidTryPopup(false));
+              })();
 
-              // Restart();
+              // Updates.reloadAsync();
             },
           })
         );

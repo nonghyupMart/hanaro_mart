@@ -5,6 +5,7 @@ import {
   SET_ALERT,
   SET_IS_LOADING,
   SET_HEADER_HEIGHT,
+  SET_DID_TRY_POPUP,
 } from "@actions/common";
 
 const initialState = {
@@ -14,10 +15,16 @@ const initialState = {
   alert: null,
   isLoading: true,
   headerHeight: 0,
+  didTryPopup: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_DID_TRY_POPUP:
+      return {
+        ...state,
+        didTryPopup: action.didTryPopup,
+      };
     case SET_BOTTOM_NAVIGATION:
       return {
         ...state,

@@ -21,8 +21,10 @@ const AppPopup = (props) => {
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
   useEffect(() => {
-    if (isAppPopup && props.isFocused) setIsVisible(true);
+    if (isAppPopup && props.isFocused && typeof didTryPopup !== "string")
+      setIsVisible(true);
   }, [isAppPopup, props.isFocused]);
   useEffect(() => {
     if (!_.isEmpty(appPopup) || !isAppPopup) {
@@ -133,7 +135,7 @@ const BtnText = styled(BaseText)({
   textAlign: "center",
   color: colors.trueWhite,
 });
-const BtnWarpper = styled(BaseTouchable)({
+const BtnWarpper = styled.TouchableOpacity({
   backgroundColor: colors.black,
   borderStyle: "solid",
   borderWidth: 1,

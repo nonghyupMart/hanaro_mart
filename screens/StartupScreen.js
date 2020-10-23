@@ -30,7 +30,7 @@ const StartupScreen = (props) => {
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
       dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
 
-      getIsStorePopup(userStoreData, dispatch);
+      await getIsStorePopup(userStoreData, dispatch);
 
       const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
       setDate = moment().subtract(1, "days");
@@ -47,15 +47,13 @@ const StartupScreen = (props) => {
   return <Splash />;
 };
 
-export const getIsStorePopup = (userStore, dispatch) => {
-  (async () => {
-    const dateForStorePopup = await Util.getStorageItem(
-      "dateForStorePopupData"
-    );
+export const getIsStorePopup = async (userStore, dispatch) => {
+  const dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
 
-    let obj = await JSON.parse(dateForStorePopup);
-    if (!obj) obj = {};
-    dispatch(CommonActions.setIsStorePopup(obj));
-  })();
+  let obj = await JSON.parse(dateForStorePopup);
+  if (!obj) obj = {};
+  // console.warn(obj);
+  await dispatch(CommonActions.setIsStorePopup(obj));
+  return obj;
 };
 export default StartupScreen;

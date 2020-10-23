@@ -39,6 +39,7 @@ import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
 import * as Util from "@util";
 import { setAlert, setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -53,18 +54,12 @@ const HomeScreen = (props) => {
   const [storePopupKey, setStorePopupKey] = useState();
   const [appPopupKey, setAppPopupKey] = useState();
   const [isReadyAppPopup, setIsReadyAppPopup] = useState(false);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      // setAppPopupKey(Math.random());
-      if (!_.isEmpty(userStore)) setStorePopupKey(userStore.storeInfo.store_cd);
-    });
-    return unsubscribe;
-  }, [userStore]);
   useEffect(() => {
     // if (__DEV__) {
     // Util.removeStorageItem("dateForStorePopupData5");
@@ -73,23 +68,12 @@ const HomeScreen = (props) => {
     dispatch(setIsLoading(true));
     if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
       dispatch(setIsLoading(false));
-    }
-
-    if (_.isEmpty(userStore) && isJoin) {
-      dispatch(
-        setAlert({
-          message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-            navigation.navigate("StoreChange");
-          },
-          onPressCancel: () => {
-            dispatch(setAlert(null));
-          },
-          confirmText: "매장선택",
-          cancelText: "취소",
-        })
-      );
+      if (typeof didTryPopup == "string") {
+        setTimeout(() => {
+          navigation.navigate(didTryPopup);
+        }, 0);
+        dispatch(CommonActions.setDidTryPopup(true));
+      }
     }
   }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
 
@@ -108,14 +92,6 @@ const HomeScreen = (props) => {
           setFetchAppPopup={setFetchAppPopup}
           {...props}
         />
-        {isReadyAppPopup && (
-          <StorePopup
-            isFocused={isFocused}
-            // key={storePopupKey}
-            setFetchStorePopup={setFetchStorePopup}
-            {...props}
-          />
-        )}
         <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
         <Space />
         <NaroTube setFetchHomeNaro={setFetchHomeNaro} />

@@ -31,6 +31,7 @@ import { setAlert, setIsLoading } from "@actions/common";
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
 import * as authActions from "@actions/auth";
 import * as branchesActions from "@actions/branches";
+import * as CommonActions from "@actions/common";
 import _ from "lodash";
 import * as Util from "@util";
 
@@ -290,6 +291,7 @@ export const signup = (query, dispatch, agreedStatus) => {
                 content: popupConetnt(agreedStatus, userInfo),
                 onPressConfirm: () => {
                   dispatch(setAlert(null));
+                  dispatch(CommonActions.setDidTryPopup(false));
                   dispatch(setIsJoin(true));
                 },
               })
@@ -303,6 +305,7 @@ export const signup = (query, dispatch, agreedStatus) => {
             content: popupConetnt(agreedStatus, userInfo),
             onPressConfirm: () => {
               dispatch(setAlert(null));
+              dispatch(CommonActions.setDidTryPopup(false));
               dispatch(setIsJoin(true));
             },
           })

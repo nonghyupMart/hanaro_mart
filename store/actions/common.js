@@ -8,6 +8,7 @@ export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
 export const SET_ALERT = "SET_ALERT";
 export const SET_IS_LOADING = "SET_IS_LOADING";
 export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
+export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
 
 export const setBottomNavigation = (isBottomNavigation) => {
   return {
@@ -15,6 +16,13 @@ export const setBottomNavigation = (isBottomNavigation) => {
     isBottomNavigation: isBottomNavigation,
   };
 };
+export const setDidTryPopup = (didTryPopup) => {
+  return {
+    type: SET_DID_TRY_POPUP,
+    didTryPopup: didTryPopup,
+  };
+};
+
 export const setHeaderHeight = (headerHeight) => {
   return {
     type: SET_HEADER_HEIGHT,
@@ -37,7 +45,7 @@ export const saveDateForStorePopupToStorage = (
   return (async () => {
     const expirationDate = await new Date(new Date().getTime());
     isStorePopup[store_cd] = expirationDate.toISOString();
-    // console.warn("1일 닫기 ", obj);
+    // console.warn("1일 닫기 ", isStorePopup);
     await dispatch(setIsStorePopup(isStorePopup));
     await Util.setStorageItem(
       "dateForStorePopupData",

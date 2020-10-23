@@ -5,6 +5,7 @@ import { MainNavigator } from "./MainNavigator";
 import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "@screens/StartupScreen";
+import PopupScreen from "@screens/PopupScreen";
 import Alert from "@UI/Alert";
 import Loading from "@UI/Loading";
 import colors from "@constants/colors";
@@ -22,7 +23,17 @@ const AppNavigator = (props) => {
   const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
+  const currentScreen = () => {
+    if (!isPreview && isJoin && didTryAutoLogin && !didTryPopup)
+      return <PopupScreen />;
+    else if (!isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
+      return <StartupScreen />;
+    else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
+    else if ((isPreview || isJoin) && didTryPopup) return <MainNavigator />;
+    return <MainNavigator />;
+  };
   return (
     <Fragment>
       <Loading />
@@ -34,9 +45,7 @@ const AppNavigator = (props) => {
           isReadyRef.current = true;
         }}
       >
-        {!isPreview && !isJoin && !didTryAutoLogin && <StartupScreen />}
-        {!isPreview && !isJoin && didTryAutoLogin && <JoinNavigator />}
-        {(isPreview || isJoin) && <MainNavigator />}
+        {currentScreen()}
       </NavigationContainer>
     </Fragment>
   );

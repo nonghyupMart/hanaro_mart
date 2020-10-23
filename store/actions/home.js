@@ -93,6 +93,7 @@ export const fetchPopup = (query) => {
       } else {
         dispatch({ type: SET_APP_POPUP, appPopup: resData.data });
       }
+      return resData.data;
     } catch (err) {
       throw err;
     }
