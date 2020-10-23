@@ -37,10 +37,10 @@ const MyPageScreen = ({ navigation }) => {
           <Icon source={require("@images/chat3.png")} />
           <BtnText>나의리뷰</BtnText>
         </BtnContainer>
-        <BtnContainer onPress={() => navigation.navigate("MyOrder")}>
+        {/* <BtnContainer onPress={() => navigation.navigate("MyOrder")}>
           <Icon source={require("@images/calculator.png")} />
           <BtnText>상품주문내역</BtnText>
-        </BtnContainer>
+        </BtnContainer> */}
         <BtnContainer onPress={() => navigation.navigate("MyEvent")}>
           <Icon source={require("@images/barcode.png")} />
           <BtnText>이벤트 응모내역</BtnText>

@@ -152,12 +152,12 @@ const ProductPopup = (props) => {
               </Notice>
             </NoticeContainer>
             <BtnContainer style={{}}>
-              <BlueBtn onPress={onAddCart}>
+              {/* <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn>
+              </BlueBtn> */}
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >

@@ -17,14 +17,17 @@ const HomeHeaderRight = (props) => {
       <Btn onPress={() => RootNavigation.navigate("SearchProduct")}>
         <MaterialIcons name="search" size={24} color={colors.pine} />
       </Btn>
-      <Btn onPress={() => RootNavigation.navigate("Notification")}>
+      <Btn
+        onPress={() => RootNavigation.navigate("Notification")}
+        style={{ paddingRight: 10 }}
+      >
         <MaterialIcons
           name="notifications-none"
           size={24}
           color={colors.pine}
         />
       </Btn>
-      <Btn
+      {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
       >
@@ -33,7 +36,7 @@ const HomeHeaderRight = (props) => {
           size={24}
           color={colors.pine}
         />
-      </Btn>
+      </Btn> */}
     </BtnContainer>
   );
 };
