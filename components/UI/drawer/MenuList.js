@@ -40,7 +40,7 @@ const MenuList = (props) => {
           <Icon>
             <Image source={require("@images/loudspeaker-announce.png")} />
           </Icon>
-          <MenuText>공지사항</MenuText>
+          <MenuText>매장공지사항</MenuText>
         </MenuButton>
       </MenuButtonContainer>
       <MenuButtonContainer>

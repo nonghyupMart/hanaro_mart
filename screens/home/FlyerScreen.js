@@ -51,7 +51,7 @@ const FlyerScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
           })
         ).then((data) => {
-          console.warn("pageforCarousel", pageforCarousel);
+          // console.warn("pageforCarousel", pageforCarousel);
           if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
             fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
               () => {

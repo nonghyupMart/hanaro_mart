@@ -27,10 +27,9 @@ const Alert = (props) => {
           <Icon>
             <Image source={require("@images/ic_error_outline_24px.png")} />
           </Icon>
-
-          {alert.content}
           {alert.message && <Message>{alert.message}</Message>}
         </TitleContainer>
+        {alert.content && <ContentContainer>{alert.content}</ContentContainer>}
         <ButtonContainer>
           <ConfirmButton onPress={onPressConfirm}>
             <ButtonText>
@@ -49,6 +48,7 @@ const Alert = (props) => {
     </Modal>
   );
 };
+const ContentContainer = styled.View({});
 const TitleContainer = styled.View({
   flexDirection: "row",
   width: "100%",

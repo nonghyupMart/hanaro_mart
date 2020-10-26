@@ -53,7 +53,6 @@ const JoinStep2Screen = ({ navigation }) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timer, setTimer] = useState();
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -352,9 +351,8 @@ const Container = styled.View({
 });
 const Line = styled.View({
   flexDirection: "row",
-
-  marginLeft: 29,
-  marginRight: 29,
+  marginLeft: 50,
+  marginRight: 50,
   flexShrink: 1,
 });
 const SmallText = styled(BaseText)({
@@ -370,6 +368,7 @@ const SmallText = styled(BaseText)({
 });
 const Icon = styled.Image({ marginTop: 5 });
 export const popupConetnt = (agreedStatus, userInfo) => {
+  const date = moment();
   return (
     <Container>
       <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
@@ -378,6 +377,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
           ? formatPhoneNumber(userInfo.user_id)
           : ""}
       </WhiteText>
+      <Text6>{`고객님께서는 ${date.year()}년 ${date.month()}월 ${date.day()}일\n아래항목에 동의하셨습니다.`}</Text6>
       <List
         data={Object.keys(agreedStatus)}
         keyExtractor={(item, index) => `${index}`}
@@ -392,9 +392,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
                 }}
               >
                 <Icon source={require("@images/checkmark.png")} />
-                <SmallText>
-                  {agreedStatus[item].title}에 동의하셨습니다.
-                </SmallText>
+                <SmallText>{agreedStatus[item].title}</SmallText>
               </Line>
             );
         }}
@@ -402,7 +400,21 @@ export const popupConetnt = (agreedStatus, userInfo) => {
     </Container>
   );
 };
-export const List = styled.FlatList({});
+export const Text6 = styled(BaseText)({
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+  // marginLeft: 10,
+  flexShrink: 1,
+  marginRight: 20,
+  marginTop: 10,
+  marginBottom: 0,
+});
+export const List = styled.FlatList({ marginTop: -10 });
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",

@@ -130,18 +130,6 @@ const AgreementScreen = ({ navigation }) => {
       isRequired: true,
       isNormalTitle: true,
       title: "본인은 만 14세 이상입니다",
-      content: () => (
-        <ExtraBox>
-          <SmallTextBold>이용목적</SmallTextBold>
-          <SmallText>회원가입의 성립. 하나로마트앱 서비스 이용</SmallText>
-          <SmallTextBold>수집항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 본인인증 시 성명, 생년월일, 성별, 내외국인여부, CI
-          </SmallText>
-          <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
-        </ExtraBox>
-      ),
     },
     {
       id: 3,
@@ -371,17 +359,18 @@ const AgreementScreen = ({ navigation }) => {
               </TextView>
               <BoldText>{item.title}</BoldText>
             </TitleContainer>
-
-            <CheckBox
-              containerStyle={[styles.checkbox]}
-              checked={item.isOpen}
-              onPress={() => handleOpen(item)}
-              checkedIcon={<Image source={require("@images/close_m.png")} />}
-              uncheckedIcon={<Image source={require("@images/close_p.png")} />}
-            />
+            {item.content &&
+              <CheckBox
+                containerStyle={[styles.checkbox]}
+                checked={item.isOpen}
+                onPress={() => handleOpen(item)}
+                checkedIcon={<Image source={require("@images/close_m.png")} />}
+                uncheckedIcon={<Image source={require("@images/close_p.png")} />}
+              />
+            }
           </TitleArea>
           {item.desc && <item.desc />}
-          {item.isOpen && <item.content />}
+          {item.isOpen && item.content && <item.content />}
         </TextBox>
       ))}
 

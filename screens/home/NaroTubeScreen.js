@@ -17,7 +17,13 @@ const NaroTubeScreen = (props) => {
     const unsubscribe = navigation.addListener("focus", () => {
       setKey(Math.random());
     });
-    return unsubscribe;
+    const blur = navigation.addListener("blur", () => {
+      setKey(Math.random());
+    });
+    return () => {
+      unsubscribe;
+      blur;
+    };
   }, []);
   useEffect(() => {
     let stringifyUrl;
