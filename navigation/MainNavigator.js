@@ -208,7 +208,7 @@ export const HomeNavigator = ({ navigation, route }) => {
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {
-            marginBottom: 65,
+            paddingBottom: 65,
             backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",
