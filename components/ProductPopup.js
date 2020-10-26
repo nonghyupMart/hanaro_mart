@@ -250,7 +250,7 @@ const TotalUnit = styled(BaseText)({
 });
 const Total = styled(BaseText)({
   fontSize: 22,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 32,
   letterSpacing: 0,
@@ -324,7 +324,7 @@ const SalePrice = styled(BaseText)({
 });
 const Price = styled(BaseText)({
   fontSize: 18,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
 
   lineHeight: 24,
   letterSpacing: 0,

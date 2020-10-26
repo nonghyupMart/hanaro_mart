@@ -49,7 +49,7 @@ const Container = styled.View({
 });
 const SalePrice = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
@@ -58,7 +58,7 @@ const SalePrice = styled(BaseText)({
 });
 const OriginalPrice = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
@@ -92,13 +92,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quantity: {
-    fontFamily: "open-sans",
     color: "#888",
     fontSize: 16,
   },
   mainText: {
     color: "black",
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 16,
   },
   deleteButton: {

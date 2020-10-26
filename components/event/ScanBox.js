@@ -74,7 +74,7 @@ const Text2 = styled(BaseText)({
 });
 const Text1 = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,

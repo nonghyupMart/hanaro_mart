@@ -84,7 +84,7 @@ const Title = styled(BaseText)({
 });
 const Discount = styled(BaseText)({
   fontSize: 18,
-  fontWeight: "bold",
+  fontFamily:"CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 26,
   letterSpacing: -0.45,

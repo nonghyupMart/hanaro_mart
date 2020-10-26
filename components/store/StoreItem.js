@@ -138,13 +138,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quantity: {
-    fontFamily: "open-sans",
     color: "#888",
     fontSize: 16,
   },
   mainText: {
     color: "black",
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 16,
   },
   deleteButton: {

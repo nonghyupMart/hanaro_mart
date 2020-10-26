@@ -53,7 +53,7 @@ const Container = styled.View({
 });
 const BranchName = styled(BaseText)({
   fontSize: 15,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",

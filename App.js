@@ -62,10 +62,16 @@ const rootReducer = (state, action) => {
   }
   return appReducer(state, action);
 };
-
+const fetchFonts = () => {
+  return Font.loadAsync({
+    CustomFont: require("./assets/fonts/Roboto-Regular.ttf"),
+    "CustomFont-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+  });
+};
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
+  const [fontLoaded, setFontLoaded] = useState(false);
   if (!__DEV__) {
     usePreventScreenCapture();
   }
@@ -88,6 +94,16 @@ export default function App() {
     };
   }, []);
 
+  if (!fontLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => {
+          setFontLoaded(true);
+        }}
+      />
+    );
+  }
   return (
     <Provider store={store}>
       <StatusBar barStyle="light" backgroundColor="white" />

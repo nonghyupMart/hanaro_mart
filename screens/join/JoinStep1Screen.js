@@ -46,7 +46,7 @@ export const screenOptions = ({ navigation }) => {
     // },
     // headerTintColor: "#fff",
     // headerTitleStyle: {
-    //   fontWeight: "bold",
+    //   fontFamily:"CustomFont-Bold",
     // },
   };
 };

@@ -96,6 +96,7 @@ export const ExtendedWebView = (props) => {
   return (
     <>
       <WebView
+        textZoom={100}
         onLoad={() => hideSpinner()}
         {...restProps}
         // source={newSource}

@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryBaseText: {
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 18,
   },
   amount: {

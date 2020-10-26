@@ -11,7 +11,9 @@ import {
   View,
   Text,
   TextInput,
+  StyleSheet,
 } from "react-native";
+import _ from "lodash";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -24,9 +26,56 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
   //  defaultImage: require("@images/b_img500.png"),
 };
+const CustomText = ({ style, children, ...rest }) => {
+  let baseStyle = styles.medium;
+
+  // Multiple styles may be provided.
+  (Array.isArray(style) ? style : [style]).forEach((style) => {
+    if (style && style.fontWeight) {
+      baseStyle = style.fontWeight === "bold" ? styles.bold : styles.regular;
+    }
+  });
+
+  // We need to force fontWeight to match the right font family.
+  return (
+    <Text style={[baseStyle, style, { fontWeight: "normal" }]} {...rest}>
+      {children}
+    </Text>
+  );
+};
+
+const styles = StyleSheet.create({
+  bold: {
+    fontFamily: "CustomFont-Bold",
+  },
+  regular: {
+    fontFamily: "CustomFont",
+  },
+});
 Text.defaultProps = { allowFontScaling: false };
 export const BaseText = styled(Text)({
-  // fontFamily: "SourceHanSansKR",
+  fontFamily: (props) => {
+    // const rules = props.forwardedComponent.inlineStyle.rules;
+    // var isFontWeight = _.some(rules, _.method("includes", "bold"));
+    // console.warn(isFontWeight, props);
+    // if (isFontWeight || (props.style && props.style.fontWeight == "bold")) {
+    //   return "CustomFont-Bold";
+    // }
+    return "CustomFont";
+  },
+
+  //  ...Platform.select({
+  //    ios: {
+  //      fontFamily: "Arial",
+  //    },
+  //    android: {
+  //      fontFamily: "Roboto",
+  //    },
+  //    default: {
+  //      // other platforms, web for example
+  //      fontFamily: "sans-serif",
+  //    },
+  //  }),
 });
 
 BaseText.defaultProps = { allowFontScaling: false };
@@ -35,7 +84,7 @@ TextInput.defaultProps = {
   underlineColorAndroid: "transparent",
 };
 export const BaseTextInput = styled(TextInput)({
-  // fontFamily: "SourceHanSansKR",
+  fontFamily: "CustomFont",
   borderWidth: 0,
 });
 
