@@ -28,6 +28,8 @@ import flyerReducer from "@reducers/flyer";
 import eventReducer from "@reducers/event";
 import couponReducer from "@reducers/coupon";
 import commonReducer from "@reducers/common";
+import exhibitionReducer from "@reducers/exhibition";
+import exclusiveReducer from "@reducers/exclusive";
 import { WITHDRAWAL } from "@actions/auth";
 LogBox.ignoreLogs(["Expected", "No native"]);
 // console.disableLogBox = true;
@@ -47,6 +49,8 @@ const appReducer = combineReducers({
   event: eventReducer,
   coupon: couponReducer,
   common: commonReducer,
+  exhibition: exhibitionReducer,
+  exclusive: exclusiveReducer,
 });
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {

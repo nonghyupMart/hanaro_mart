@@ -100,7 +100,7 @@ const DetailContainerBody = styled.View({
   // marginTop: 7,
   paddingLeft: 18,
   paddingRight: 18,
-  paddingBottom: 45,
+  paddingBottom: 65,
 });
 const DetailContainerMarginTop = styled.View({
   width: "100%",
@@ -149,7 +149,6 @@ export const EmptyText = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.greyishThree,
-  marginTop: 28,
 });
 export const EmptyScreen = styled.View({
   flex: 1,
@@ -161,4 +160,4 @@ export const EmptyScreen = styled.View({
   alignSelf: "center",
 });
 
-export const EmptyIcon = styled.Image({});
+export const EmptyIcon = styled.Image({ marginBottom: 28 });

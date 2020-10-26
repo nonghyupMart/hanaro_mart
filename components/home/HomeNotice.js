@@ -72,6 +72,7 @@ const HomeNotice = (props) => {
                       }
                     />
                     <NoticeTitle
+                      numberOfLines={1}
                       style={{
                         color:
                           itemData.item.today_yn == "Y"
@@ -104,6 +105,7 @@ const HomeNotice = (props) => {
 const TitleContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
+  flexShrink: 1,
 });
 const Date = styled(BaseText)({
   fontSize: 12,
@@ -113,6 +115,7 @@ const Date = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
+  flexShrink: 0,
 });
 const NoticeTitle = styled(BaseText)({
   fontSize: 15,
@@ -123,6 +126,7 @@ const NoticeTitle = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
   marginLeft: 7.5,
+  flexShrink: 1,
 });
 NoticeTitle.defaultProps = {
   numberOfLines: 1,

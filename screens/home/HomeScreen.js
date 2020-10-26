@@ -117,6 +117,7 @@ const Space = styled.View({
 
 export const screenOptions = ({ navigation }) => {
   return {
+    cardStyle: { backgroundColor: colors.trueWhite },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },

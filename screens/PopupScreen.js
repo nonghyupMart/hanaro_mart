@@ -106,10 +106,10 @@ const PopupScreen = (props) => {
 
   const setDisablePopup = () => {
     (async () => {
-      //   const isPopupStoreFromStorage = await getIsStorePopup(
-      //     userStore,
-      //     dispatch
-      //   );
+      const isPopupStoreFromStorage = await getIsStorePopup(
+        userStore,
+        dispatch
+      );
       await CommonActions.saveDateForStorePopupToStorage(
         isPopupStoreFromStorage,
         userStore.storeInfo.store_cd,

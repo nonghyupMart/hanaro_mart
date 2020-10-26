@@ -40,7 +40,7 @@ const ApplyBox = (props) => {
     if (!reg_num) {
       dispatch(
         setAlert({
-          message: "주민등록번호(7자리-8501011)를 입력해주세요.",
+          message: "생년원일+성별(7자리-8501011)를 입력해주세요.",
           onPressConfirm: () => {
             dispatch(setAlert(null));
           },
@@ -51,7 +51,7 @@ const ApplyBox = (props) => {
     if (reg_num.length < 7) {
       dispatch(
         setAlert({
-          message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
+          message: "생년원일+성별(7자리-8501011)를 정확히 입력해주세요.",
           onPressConfirm: () => {
             dispatch(setAlert(null));
           },
@@ -96,7 +96,7 @@ const ApplyBox = (props) => {
           </TextView2>
         </TitleContainer>
         <InputText
-          placeholder="주민등록번호(7자리-8501011)"
+          placeholder="생년원일+성별(7자리-8501011)"
           keyboardType="numeric"
           maxLength={7}
           value={reg_num}

@@ -45,6 +45,9 @@ import FlyerDetailScreen, {
 } from "@screens/home/FlyerDetailScreen";
 
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
+import ExhibitionDetailScreen, {
+  screenOptions as ExhibitionDetailScreenOptions,
+} from "@screens/home/ExhibitionDetailScreen";
 import EventScreen, {
   screenOptions as EventScreenOptions,
 } from "@screens/home/EventScreen";
@@ -336,6 +339,16 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="MyEvent"
           component={EventScreen}
           options={EventScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="ExhibitionDetail"
+          component={ExhibitionDetailScreen}
+          options={ExhibitionDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="ForStoreDetail"
+          component={ExhibitionDetailScreen}
+          options={ExhibitionDetailScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

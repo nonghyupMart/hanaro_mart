@@ -23,6 +23,7 @@ const Loading = (props) => {
         hideModalContentWhileAnimating={false}
         animationIn="fadeIn"
         animationOut="fadeOut"
+        // onRequestClose={() => setIsVisible(false)}
       >
         <ActivityIndicator
           size="large"
