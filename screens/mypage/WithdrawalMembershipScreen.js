@@ -29,7 +29,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
   const onPress = () => {
     dispatch(
       setAlert({
-        message: `탈퇴한 뒤에는 아이디 및\n데이터를 복구할 수 없습니다.\n탈퇴하시겠습니까?`,
+        message: `회원탈퇴 유의사항을\n모두 확인하였으며,\n회원탈퇴에 동의합니다.`,
         onPressConfirm: () => {
           dispatch(authActions.withdrawal(userInfo.user_cd)).then((data) => {
             if (data.result == "success") {
@@ -68,7 +68,13 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       <MemberInfo />
       <WhiteContainer>
         <BorderContainer>
-          <Text1>{`탈퇴한 뒤에는 아이디 및 데이터를 복구할 수 없으니 신중히 진행해 주시기 바랍니다.\n\n내 포스타입, 포스트, 구매 항목, 포인트 충전·사용 내역, 수익 내역, 구독, 멤버십 가입 정보, 댓글, 좋아요 등 모든 기록이 재생할 수 없는 기술적 방법을 사용하여 완전히 파기됩니다. 환불 신청을 하지 않거나 환불이 처리되기 전에 탈퇴하면 환불이 불가능합니다.\n`}</Text1>
+          <Text1>{` [탈퇴 유의사항]
+ 
+ 쿠폰, 스탬프 소멸
+· 회원탈퇴 시 보유하고 계신 쿠폰, 스탬프가 소멸되며 복원되지 않습니다.
+ 
+ 개인정보 파기
+· 회원탈퇴 시 유예기간(15일) 경과 후 이용내역은 모두 삭제처리 되며, 삭제 후 복원하여 사용할 수 없습니다.  단, 법령에 특별한 규정이 있는 경우에는 관련 법령에 따라 보유 및 이용합니다.(자세한 내용은 개인정보처리방침을 참조하시기 바랍니다.)\n`}</Text1>
         </BorderContainer>
 
         <GreenButton onPress={onPress}>
