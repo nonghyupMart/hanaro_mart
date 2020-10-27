@@ -63,19 +63,19 @@ const HomeScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   useEffect(() => {
-    if (isFocused && userInfo) {
-      dispatch(authActions.updateLoginLog({ user_cd: userInfo.user_cd })).then(
-        (data) => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      if (userInfo) {
+        dispatch(
+          authActions.updateLoginLog({ user_cd: userInfo.user_cd })
+        ).then((data) => {
           const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
           dispatch(authActions.saveUserStore(obj));
           authActions.saveUserStoreToStorage(obj);
-        }
-      );
-    }
-    return () => {
-      isFocused;
-    };
-  }, [isFocused]);
+        });
+      }
+    });
+    return unsubscribe;
+  }, []);
   useEffect(() => {
     // if (__DEV__) {
     // Util.removeStorageItem("dateForStorePopupData5");
