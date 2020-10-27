@@ -78,7 +78,6 @@ export const ExtendedWebView = (props) => {
           os: Platform.OS === "ios" ? "I" : "A",
           di: message.value.di,
           ci: message.value.ci,
-          marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
         };
         signup(query, dispatch, agreedStatus);
 
