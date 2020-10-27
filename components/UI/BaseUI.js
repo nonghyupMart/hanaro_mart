@@ -121,7 +121,7 @@ export const BaseTouchable = (props) => {
   const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
   return <Touchbale {...props}>{props.children}</Touchbale>;
 };
-export const BaseButtonContainer = styled(BaseTouchable)({
+export const BaseButtonContainer = styled.TouchableOpacity({
   width: screenWidth * 0.44,
   minHeight: screenHeight * 0.058,
   height: undefined,
