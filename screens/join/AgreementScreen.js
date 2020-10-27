@@ -80,14 +80,24 @@ const AgreementScreen = ({ navigation }) => {
       isOpen: false,
       isRequired: true,
       title: "개인정보의 필수적 수집,이용,제공,동의",
+      child: [
+        { id: 0, isChecked: false },
+        { id: 1, isChecked: false },
+      ],
       desc: () => (
         <Desc>
           <DescTextLine>
-            <BulletIcon />
+            <CircleCheckButton
+              checked={checkBoxes[1].child[0].isChecked}
+              onPress={() => setChecked(checkBoxes[1], checkBoxes[1].child[0])}
+            />
             <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
-            <BulletIcon />
+            <CircleCheckButton
+              checked={checkBoxes[1].child[1].isChecked}
+              onPress={() => setChecked(checkBoxes[1], checkBoxes[1].child[1])}
+            />
             <DescText1>개인정보의 필수적 제공동의</DescText1>
           </DescTextLine>
         </Desc>
@@ -137,14 +147,24 @@ const AgreementScreen = ({ navigation }) => {
       isOpen: false,
       isRequired: false,
       title: "행사안내 및 이벤트 수신 동의",
+      child: [
+        { id: 0, isChecked: false },
+        { id: 1, isChecked: false },
+      ],
       desc: () => (
         <Desc>
           <DescTextLine>
-            <BulletIcon />
+            <CircleCheckButton
+              checked={checkBoxes[3].child[0].isChecked}
+              onPress={() => setChecked(checkBoxes[3], checkBoxes[3].child[0])}
+            />
             <DescText1>개인정보의 선택적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
-            <BulletIcon />
+            <CircleCheckButton
+              checked={checkBoxes[3].child[1].isChecked}
+              onPress={() => setChecked(checkBoxes[3], checkBoxes[3].child[1])}
+            />
             <DescText1>개인정보의 선택적 제공동의</DescText1>
           </DescTextLine>
           <GrayDesc>
@@ -221,6 +241,11 @@ const AgreementScreen = ({ navigation }) => {
     let cks = [...checkBoxes];
     cks.map((el) => {
       isCheckAll ? (el.isChecked = true) : (el.isChecked = false);
+      if (el.child) {
+        el.child.map((e) => {
+          isCheckAll ? (e.isChecked = true) : (e.isChecked = false);
+        });
+      }
     });
     setCheckBoxes(() => cks);
     setToggleAllCheckBox(isCheckAll);
@@ -228,6 +253,13 @@ const AgreementScreen = ({ navigation }) => {
   const handleChecked = (checkBox) => {
     let cks = [...checkBoxes];
     cks[checkBox.id].isChecked = !cks[checkBox.id].isChecked;
+    if (cks[checkBox.id].child) {
+      cks[checkBox.id].child.map((el) => {
+        cks[checkBox.id].isChecked
+          ? (el.isChecked = true)
+          : (el.isChecked = false);
+      });
+    }
     setCheckBoxes(() => cks);
     if (cks[checkBox.id].isChecked == false) {
       setToggleAllCheckBox(false);
@@ -235,6 +267,22 @@ const AgreementScreen = ({ navigation }) => {
       let allTrue = cks.every((el) => el.isChecked);
       if (allTrue) setToggleAllCheckBox(true);
     }
+  };
+  const setChecked = (checkBox, child) => {
+    let cks = [...checkBoxes];
+    // console.warn(cks[checkBox.id].child[cks[checkBox.id].child[child.id]].isChecked);
+    cks[checkBox.id].child[child.id].isChecked = !cks[checkBox.id].child[
+      child.id
+    ].isChecked;
+
+    if (cks[checkBox.id].child[child.id].isChecked == false) {
+      setToggleAllCheckBox(false);
+      cks[checkBox.id].isChecked = false;
+    } else {
+      let allTrue = cks[checkBox.id].child.every((el) => el.isChecked);
+      if (allTrue) cks[checkBox.id].isChecked = true;
+    }
+    setCheckBoxes(() => cks);
   };
 
   const handleOpen = (checkBox) => {
@@ -288,6 +336,8 @@ const AgreementScreen = ({ navigation }) => {
     if (
       checkBoxes[0].isChecked &&
       checkBoxes[1].isChecked &&
+      checkBoxes[1].child[0].isChecked &&
+      checkBoxes[1].child[1].isChecked &&
       checkBoxes[2].isChecked
     ) {
       let cks = _.cloneDeep(checkBoxes);
@@ -421,7 +471,19 @@ const AgreementScreen = ({ navigation }) => {
     </BaseScreen>
   );
 };
+export const CircleCheckButton = (props) => {
+  const checkedIcon = require("@images/checkcircleon.png");
+  const uncheckedIcon = require("@images/checkcircleoff.png");
 
+  return (
+    <CheckBox
+      {...props}
+      containerStyle={[styles.checkbox, { marginLeft: 0, marginRight: 0 }]}
+      checkedIcon={<Image source={checkedIcon} />}
+      uncheckedIcon={<Image source={uncheckedIcon} />}
+    />
+  );
+};
 export const CheckButton = (props) => {
   const checkedIcon = props.value.isRequired
     ? require("@images/check_box-2404.png")
@@ -477,7 +539,7 @@ const GrayDesc = styled(BaseText)({
   marginRight: 23,
 });
 const DescText1 = styled(BaseText)({
-  marginLeft: 7.5,
+  marginLeft: 5,
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -486,9 +548,10 @@ const DescText1 = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const Desc = styled.View({ marginLeft: 58, marginBottom: 5 });
+const Desc = styled.View({ marginLeft: 46, marginBottom: 5 });
 const DescTextLine = styled.View({
   flexDirection: "row",
+  alignItems: "center",
 });
 export const TitleContainer = styled.View({
   flexDirection: "row",
