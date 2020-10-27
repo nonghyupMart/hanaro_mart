@@ -378,7 +378,9 @@ export const popupConetnt = (agreedStatus, userInfo) => {
           ? formatPhoneNumber(userInfo.user_id)
           : ""}
       </WhiteText>
-      <Text6>{`고객님께서는 ${date.year()}년 ${date.month()}월 ${date.day()}일\n아래항목에 동의하셨습니다.`}</Text6>
+      <Text6>{`고객님께서는 ${date.format("YYYY")}년 ${date.format(
+        "MM"
+      )}월 ${date.format("DD")}일\n아래항목에 동의하셨습니다.`}</Text6>
       <List
         data={Object.keys(agreedStatus)}
         keyExtractor={(item, index) => `${index}`}
