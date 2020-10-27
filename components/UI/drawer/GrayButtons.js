@@ -25,7 +25,7 @@ const GrayButtons = (props) => {
               key={Tab[0].name}
               onPress={() => props.navigation.navigate(Tab[0].name)}
             >
-              <Image source={Tab[0].icon} />
+              <Icon source={Tab[0].icon} />
               <WButtonText>{menu.menu_nm}</WButtonText>
             </WhiteButtonContainer>
           );
@@ -38,7 +38,7 @@ const GrayButtons = (props) => {
                   key={tab.name}
                   onPress={() => props.navigation.navigate(tab.name)}
                 >
-                  <Image source={tab.icon} />
+                  <Icon source={tab.icon} />
                   <WButtonText>{tab.title}</WButtonText>
                 </WhiteButtonContainer>
               );
@@ -52,8 +52,12 @@ const GrayButtons = (props) => {
     </>
   );
 };
+const Icon = styled.Image({
+  flexShrink: 0,
+  alignSelf: "center",
+});
 const WhiteButtonContainer = styled(BaseTouchable)({
-  height: 50,
+  minHeight: 50,
 
   alignItems: "center",
   paddingLeft: 15,
@@ -69,11 +73,13 @@ const WhiteButtonContainer = styled(BaseTouchable)({
 });
 const WButtonText = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-
   color: colors.greyishBrown,
   marginLeft: 11,
+  flex: 1,
 });
+WButtonText.defaultProps = {
+  numberOfLines: 2,
+};
 
 const GrayContainer = styled.View({
   backgroundColor: colors.white,
