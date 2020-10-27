@@ -29,7 +29,7 @@ const CouponItemA = (props) => {
         {props.item.status == "10" && (
           <IconContainer onPress={props.onPress}>
             <Image source={require("@images/use25.png")} />
-            <IconText>사용하기</IconText>
+            <IconText style={{ color: colors.viridian }}>사용하기</IconText>
           </IconContainer>
         )}
         {props.item.status == "20" && (
@@ -103,6 +103,6 @@ const CouponContainer = styled.View({
   borderWidth: 1,
   borderColor: colors.white,
   padding: 15,
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
+  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.020,
 });
 export default CouponItemA;

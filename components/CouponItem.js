@@ -15,7 +15,9 @@ const CouponItem = (props) => {
       <BaseImage
         source={props.item.title_img}
         style={{
-          height: screenWidth * 0.333,
+          height: screenWidth * 0.277,
+          aspectRatio: 1 / 1,
+          alignSelf: "center",
         }}
         defaultSource={require("@images/n_img501.png")}
       />
@@ -24,13 +26,19 @@ const CouponItem = (props) => {
         {props.item.start_date}~{props.item.end_date}
       </Date>
       {props.item.status == "00" && (
-        <Button onPress={props.onPress}>
+        <Button
+          onPress={props.onPress}
+          style={{ backgroundColor: colors.cerulean }}
+        >
           <ButtonText>쿠폰 다운로드</ButtonText>
           <Icon source={require("@images/ic_file_download_24px.png")} />
         </Button>
       )}
       {props.item.status == "10" && (
-        <Button onPress={props.onPress}>
+        <Button
+          onPress={props.onPress}
+          style={{ backgroundColor: colors.viridian }}
+        >
           <ButtonText>사용하기</ButtonText>
           <Icon source={require("@images/ic_rotate_right_24px.png")} />
         </Button>
@@ -54,7 +62,7 @@ const ButtonText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
+  color: colors.trueWhite,
   marginRight: 5,
 });
 const Button = styled(BaseTouchable).attrs({
@@ -66,14 +74,14 @@ const Button = styled(BaseTouchable).attrs({
   borderRadius: 17,
   backgroundColor: colors.white,
   borderStyle: "solid",
-  borderWidth: 1,
+  borderWidth: 0,
   borderColor: colors.pinkishGrey,
   minHeight: 26,
   height: screenWidth * 0.072,
 });
 const Title = styled(BaseText)({
-  marginTop: 20,
-  marginBottom: 40,
+  marginTop: 3,
+  marginBottom: 0,
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
@@ -84,13 +92,13 @@ const Title = styled(BaseText)({
 });
 const Discount = styled(BaseText)({
   fontSize: 18,
-  fontFamily:"CustomFont-Bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 26,
   letterSpacing: -0.45,
   textAlign: "center",
   color: colors.lipstick,
-  marginBottom: 20,
+  marginBottom: 8,
 });
 
 const StatusContainer = styled.View({
@@ -110,15 +118,15 @@ const Date = styled(BaseText)({
 });
 const Container = styled.View({
   maxWidth: "50%",
-  flex: 0.483,
+  flex: 0.489,
   width: "100%",
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: colors.white,
-  padding: 18,
+  padding: 10,
 
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
+  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.020,
 });
 
 export default CouponItem;
