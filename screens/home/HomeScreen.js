@@ -64,7 +64,7 @@ const HomeScreen = (props) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      if (userInfo) {
+      if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
         dispatch(
           authActions.updateLoginLog({ user_cd: userInfo.user_cd })
         ).then((data) => {
@@ -75,7 +75,7 @@ const HomeScreen = (props) => {
       }
     });
     return unsubscribe;
-  }, []);
+  }, [navigation]);
   useEffect(() => {
     // if (__DEV__) {
     // Util.removeStorageItem("dateForStorePopupData5");

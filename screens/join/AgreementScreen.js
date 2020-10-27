@@ -208,7 +208,10 @@ const AgreementScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setIsLoading(false));
-  }, []);
+    return () => {
+      dispatch(setIsLoading(false));
+    };
+  }, [dispatch]);
   const handleAllChecked = (isCheckAll) => {
     let cks = [...checkBoxes];
     cks.map((el) => {
