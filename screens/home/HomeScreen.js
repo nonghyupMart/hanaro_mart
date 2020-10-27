@@ -40,6 +40,7 @@ import AppPopup from "@components/home/AppPopup";
 import * as Util from "@util";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
+import * as authActions from "@actions/auth";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -59,7 +60,22 @@ const HomeScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
+  useEffect(() => {
+    if (isFocused && userInfo) {
+      dispatch(authActions.updateLoginLog({ user_cd: userInfo.user_cd })).then(
+        (data) => {
+          const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+          dispatch(authActions.saveUserStore(obj));
+          authActions.saveUserStoreToStorage(obj);
+        }
+      );
+    }
+    return () => {
+      isFocused;
+    };
+  }, [isFocused]);
   useEffect(() => {
     // if (__DEV__) {
     // Util.removeStorageItem("dateForStorePopupData5");
