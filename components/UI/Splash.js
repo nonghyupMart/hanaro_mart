@@ -10,11 +10,6 @@ const Splash = (props) => {
         source={require("@images/img1242x2436.png")}
         resizeMode="cover"
       />
-      <ActivityIndicator
-        size="large"
-        color={colors.cerulean}
-        style={{ position: "absolute", width: "100%", height: "100%" }}
-      />
     </Container>
   );
 };

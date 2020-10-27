@@ -13,19 +13,21 @@ import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const HomeNotice = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const homeNotice = useSelector((state) => state.home.homeNotice);
   useEffect(() => {
-    props.setFetchHomeNotice(false);
+    if (!props.isFocused) return;
+    dispatch(setIsLoading(true));
     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
     Promise.all([fetchHomeNotice]).then((result) => {
-      props.setFetchHomeNotice(true);
+      dispatch(setIsLoading(false));
     });
-  }, [dispatch]);
+  }, [props.isFocused]);
 
   const loadMore = () => {
     if (!isLoading && page + 1 <= homeNotice.finalPage) {
@@ -39,7 +41,6 @@ const HomeNotice = (props) => {
       {homeNotice && (
         <ExtendedFlatList
           {...props}
-          onEndReachedThreshold={0.5}
           onEndReached={loadMore}
           contentContainerStyle={{
             justifyContent: "space-between",
@@ -51,9 +52,7 @@ const HomeNotice = (props) => {
             flexGrow: 1,
           }}
           data={homeNotice.noticeList}
-          keyExtractor={(item) => {
-            return item.notice_cd;
-          }}
+          keyExtractor={(item, index) => `${item.notice_cd}`}
           renderItem={(itemData) => {
             return (
               <TouchableOpacity
@@ -74,6 +73,7 @@ const HomeNotice = (props) => {
                       }
                     />
                     <NoticeTitle
+                      numberOfLines={1}
                       style={{
                         color:
                           itemData.item.today_yn == "Y"
@@ -106,6 +106,7 @@ const HomeNotice = (props) => {
 const TitleContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
+  flexShrink: 1,
 });
 const Date = styled(BaseText)({
   fontSize: 12,
@@ -115,6 +116,7 @@ const Date = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
+  flexShrink: 0,
 });
 const NoticeTitle = styled(BaseText)({
   fontSize: 15,
@@ -125,6 +127,7 @@ const NoticeTitle = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
   marginLeft: 7.5,
+  flexShrink: 1,
 });
 NoticeTitle.defaultProps = {
   numberOfLines: 1,

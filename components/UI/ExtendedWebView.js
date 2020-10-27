@@ -16,17 +16,19 @@ import * as CommonActions from "@actions/common";
 import queryString from "query-string";
 import * as Util from "@util";
 import Constants from "expo-constants";
+import { useNavigationState } from "@react-navigation/native";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
-  const [alert, setAlert] = useState();
+
   const [isLoaded, setIsLoaded] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const index = useNavigationState((state) => state.index);
 
   // const onMessage = (event) => {
   //   // iOS용
@@ -49,7 +51,7 @@ export const ExtendedWebView = (props) => {
     );
     parseMethod(message);
 
-    // return false to prevent webview navitate to the location of e.url
+    // return false to prevent webview navigate to the location of e.url
     return false;
   };
   const parseMethod = (message) => {
@@ -58,12 +60,14 @@ export const ExtendedWebView = (props) => {
         Linking.openURL(message.value);
         break;
       case "alert":
-        setAlert({
-          message: message.value,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        dispatch(
+          CommonActions.setAlert({
+            message: message.value,
+            onPressConfirm: () => {
+              dispatch(CommonActions.setAlert(null));
+            },
+          })
+        );
         break;
       case "auth":
         let query = {
@@ -74,16 +78,15 @@ export const ExtendedWebView = (props) => {
           os: Platform.OS === "ios" ? "I" : "A",
           di: message.value.di,
           ci: message.value.ci,
+          marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
         };
-        signup(query, dispatch, setAlert, agreedStatus, setIsLoaded);
+        signup(query, dispatch, agreedStatus);
 
         // message.value
         break;
       case "close":
         dispatch(CommonActions.setBottomNavigation(true));
-        const canGoBack =
-          props.commandType === "Push" || props.commandType === "ShowModal";
-        if (canGoBack) RootNavigation.pop();
+        if (index > 0) RootNavigation.pop();
         else RootNavigation.navigate("Home");
         break;
     }
@@ -93,19 +96,8 @@ export const ExtendedWebView = (props) => {
   };
   return (
     <>
-      {alert && (
-        <Alert
-          isVisible={alert.content || alert.message ? true : false}
-          message={alert.message}
-          onPressConfirm={alert.onPressConfirm}
-          onPressCancel={alert.onPressCancel}
-          cancelText={alert.cancelText}
-          confirmText={alert.confirmText}
-          content={alert.content}
-        />
-      )}
-
       <WebView
+        textZoom={100}
         onLoad={() => hideSpinner()}
         {...restProps}
         // source={newSource}
@@ -137,7 +129,7 @@ export const ExtendedWebView = (props) => {
         renderLoading={() => {
           return (
             <ActivityIndicator
-              size="large"
+              size={props.indicatorSize ? props.indicatorSize : "large"}
               color={colors.cerulean}
               style={{
                 position: "absolute",

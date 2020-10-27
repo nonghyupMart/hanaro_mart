@@ -188,6 +188,7 @@ export default class Barcode extends PureComponent {
               color: this.props.textColor,
               width: this.state.barCodeWidth,
               textAlign: "center",
+              fontSize: 19,
             }}
           >
             {this.props.text}

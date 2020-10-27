@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { Image } from "react-native";
+import { Image as CacheImage } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "@constants/settings";
 
 // import { BaseImage } from "@UI/BaseUI";
@@ -40,6 +41,10 @@ export default class ScaledImage extends Component {
         }
       });
     } else {
+      const meta = Image.resolveAssetSource(this.state.sourceURI);
+      if (!meta || !meta.width || !meta.height)
+        return this.setState({ width: 0, height: 0 });
+
       if (this.props.width && !this.props.height) {
         this.setState({
           width: this.props.width,

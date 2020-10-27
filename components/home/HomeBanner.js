@@ -18,17 +18,19 @@ import colors from "@constants/colors";
 import * as Linking from "expo-linking";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
   const homeBanner = useSelector((state) => state.home.homeBanner);
   useEffect(() => {
-    props.setFetchHomeBanner(false);
+    if (!props.isFocused) return;
+    dispatch(setIsLoading(true));
     const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
     Promise.all([fetchHomeBanner]).then((result) => {
-      props.setFetchHomeBanner(true);
+      dispatch(setIsLoading(false));
     });
-  }, [dispatch]);
+  }, [props.isFocused]);
   if (!homeBanner || !homeBanner.bannerList || homeBanner.bannerCnt == 0)
     return <></>;
   return (

@@ -17,11 +17,11 @@ import {
 import { DrawerActions } from "@react-navigation/native";
 import colors from "@constants/colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderButton, LogoTitle } from "@UI/header";
+import { HeaderButton, LogoTitle, HomeHeaderRight } from "@UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 
@@ -37,83 +37,74 @@ import HomeBanner from "@components/home/HomeBanner";
 import NaroTube from "@components/home/NaroTube";
 import StorePopup from "@components/home/StorePopup";
 import AppPopup from "@components/home/AppPopup";
+import * as Util from "@util";
+import { setAlert, setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
+import * as authActions from "@actions/auth";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
-  const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
-  const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
-  const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
-  const [fetchStorePopup, setFetchStorePopup] = useState(false);
-  const [fetchAppPopup, setFetchAppPopup] = useState(false);
-  const [storePopupKey, setStorePopupKey] = useState();
-  const [appPopupKey, setAppPopupKey] = useState();
-  const [isReadyAppPopup, setIsReadyAppPopup] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
-  const [alert, setAlert] = useState();
-
+  const isFocused = useIsFocused();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  let timer;
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      setAppPopupKey(Math.random());
-      setStorePopupKey(Math.random());
+      if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
+        console.warn(JSON.stringify(userInfo, null, "\t"));
+        dispatch(
+          authActions.updateLoginLog({ user_cd: userInfo.user_cd })
+        ).then((data) => {
+          const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+          if (_.isEmpty(obj)) return;
+          dispatch(authActions.saveUserStore(obj));
+          authActions.saveUserStoreToStorage(obj);
+        });
+      }
     });
-    return unsubscribe;
-  }, [navigation]);
+    return () => {
+      dispatch(setIsLoading(false));
+      unsubscribe;
+    };
+  }, [navigation, userInfo]);
   useEffect(() => {
-    // if (__DEV__) {
-    //   AsyncStorage.removeItem("storePopupData");
-    //   AsyncStorage.removeItem("appPopupData");
-    // }
-    setIsLoading(true);
-    if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
-      setIsLoading(false);
+    if (typeof didTryPopup == "string") {
+      timer = setTimeout(() => {
+        navigation.navigate(didTryPopup);
+      }, 0);
+      dispatch(CommonActions.setDidTryPopup(true));
     }
 
-    if (_.isEmpty(userStore) && isJoin) {
-      setAlert({
-        message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-        onPressConfirm: () => {
-          setAlert(null);
-          navigation.navigate("StoreChange");
-        },
-        onPressCancel: () => {
-          setAlert(null);
-        },
-        confirmText: "매장선택",
-        cancelText: "취소",
-      });
-    }
-  }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
+    return () => {
+      dispatch(setIsLoading(false));
+      clearTimeout(timer);
+      timer;
+    };
+  }, []);
+
+  const navigateToCart = () => {
+    if (_.isEmpty(userStore)) return navigation.navigate("Empty");
+    navigation.navigate("Cart");
+  };
 
   return (
     <>
-      <BaseScreen
-        alert={alert}
-        isLoading={isLoading}
-        style={styles.screen}
-        contentStyle={{ paddingTop: 0 }}
-      >
+      <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
         <AppPopup
+          isFocused={isFocused}
           // key={appPopupKey}
-          setIsReadyAppPopup={setIsReadyAppPopup}
-          setFetchAppPopup={setFetchAppPopup}
           {...props}
         />
-        {isReadyAppPopup && (
-          <StorePopup
-            // key={storePopupKey}
-            setFetchStorePopup={setFetchStorePopup}
-            {...props}
-          />
-        )}
-        <HomeBanner setFetchHomeBanner={setFetchHomeBanner} />
+        <HomeBanner isFocused={isFocused} />
         <Space />
-        <NaroTube setFetchHomeNaro={setFetchHomeNaro} />
-        <HomeNotice setFetchHomeNotice={setFetchHomeNotice} />
+        <NaroTube isFocused={isFocused} />
+        <HomeNotice isFocused={isFocused} />
       </BaseScreen>
     </>
   );
@@ -129,70 +120,32 @@ const Space = styled.View({
 
 export const screenOptions = ({ navigation }) => {
   return {
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
-    headerTitle: (props) => <LogoTitle {...props} />,
-    headerLeft: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          iconSize={30}
-          IconComponent={MaterialIcons}
-          title="메뉴"
-          iconName="menu"
-          onPress={() => {
-            navigation.dispatch(DrawerActions.toggleDrawer());
-          }}
-          color={colors.pine}
-        />
-      </HeaderButtons>
-    ),
-    headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <></>
-        {/* <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="검색"
-          iconName="search"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-          style={{ marginRight: 0, marginLeft: 0 }}
-        />
-        <Item
-          IconComponent={MaterialIcons}
-          iconSize={24}
-          title="알림"
-          iconName="notifications-none"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        />
-        <Item
-          iconSize={24}
-          IconComponent={MaterialCommunityIcons}
-          title="장바구니"
-          iconName="cart-outline"
-          onPress={() => {
-            animate();
-          }}
-          color={colors.pine}
-        /> */}
-        {/* <Item
-          title="Scanner"
-          iconName={
-            Platform.OS === "android" ? "md-qr-scanner" : "md-qr-scanner"
-          }
-          onPress={() => {
-            navigation.navigate("BarCodeScanner");
-          }}
-        /> */}
-      </HeaderButtons>
+    headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
+    headerLeft: (props) => <HeaderMenu {...props} navigator={navigation} />,
+    headerRight: (props) => (
+      <HomeHeaderRight {...props} navigator={navigation} />
     ),
   };
+};
+const HeaderMenu = (props) => {
+  return (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        iconSize={30}
+        IconComponent={MaterialIcons}
+        title="메뉴"
+        iconName="menu"
+        onPress={() => {
+          props.navigator.dispatch(DrawerActions.toggleDrawer());
+        }}
+        color={colors.pine}
+      />
+    </HeaderButtons>
+  );
 };
 
 const styles = StyleSheet.create({

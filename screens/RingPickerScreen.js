@@ -20,7 +20,12 @@ import {
   screenWidth,
   screenHeight,
 } from "@UI/BaseUI";
-import BaseScreen from "../components/BaseScreen";
+import BaseScreen from "@components/BaseScreen";
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+  HeaderStyleInterpolators,
+} from "@react-navigation/stack";
 const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,7 +36,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
   }, []);
 
   return (
-    <BaseScreen isPadding={false} isScroll={false} isBottomNavigation={false}>
+    <BaseScreen isPadding={false} isScroll={false} >
       <ExtendedWebView
         style={{
           height: screenHeight,
@@ -47,7 +52,16 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
     </BaseScreen>
   );
 };
-
+export const screenOptions = ({ navigation }) => {
+  return {
+    cardStyle: {
+      marginBottom: 0,
+    },
+    headerShown: false,
+    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
+    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+  };
+};
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",

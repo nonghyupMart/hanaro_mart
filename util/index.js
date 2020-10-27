@@ -3,6 +3,8 @@ import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "@util/barcode";
+import { Share } from "react-native";
+import { SERVER_URL } from "@constants/settings";
 
 import AesUtil from "@util/aes_util";
 var g_keySize = 128;
@@ -46,6 +48,7 @@ export const emptyPrint = (val) => {
 export const log = (...val) => {
   if (__DEV__) {
     console.warn(...val);
+    // console.warn(JSON.stringify(userStore, null, "\t"));
   }
 };
 
@@ -71,12 +74,39 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   return PreventDoubleClick;
 };
 
+const storagePrefix = Constants.manifest.releaseChannel
+  ? Constants.manifest.releaseChannel
+  : "dev" + "::";
 export const setStorageItem = (name, data) => {
-  return AsyncStorage.setItem(
-    Constants.manifest.releaseChannel + "::" + name,
-    data
-  );
+  return AsyncStorage.setItem(storagePrefix + name, data);
 };
 export const getStorageItem = (name) => {
-  return AsyncStorage.getItem(Constants.manifest.releaseChannel + "::" + name);
+  return AsyncStorage.getItem(storagePrefix + name);
+};
+
+export const removeStorageItem = (name) => {
+  AsyncStorage.removeItem(storagePrefix + name);
+};
+
+export const sendShareLink = async () => {
+  try {
+    const result = await Share.share({
+      message: `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore.do`,
+    });
+    if (result.action === Share.sharedAction) {
+      if (result.activityType) {
+        // shared with activity type of result.activityType
+      } else {
+        // shared
+      }
+    } else if (result.action === Share.dismissedAction) {
+      // dismissed
+    }
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
+export const pad = (n, number) => {
+  return new Array(n).join("0").slice((n || 2) * -1) + number;
 };

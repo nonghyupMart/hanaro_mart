@@ -9,34 +9,40 @@ import {
   screenHeight,
   BaseText,
 } from "@UI/BaseUI";
+import _ from "lodash";
 import { TabMenus } from "@constants/menu";
+
 const GrayButtons = (props) => {
+  const userStore = useSelector((state) => state.auth.userStore);
   return (
     <>
       <GrayContainer>
         {props.menuList.map((menu) => {
           let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+          if (!Tab[0]) return;
           return (
             <WhiteButtonContainer
               key={Tab[0].name}
               onPress={() => props.navigation.navigate(Tab[0].name)}
             >
-              <Image source={Tab[0].icon} />
+              <Icon source={Tab[0].icon} />
               <WButtonText>{menu.menu_nm}</WButtonText>
             </WhiteButtonContainer>
           );
         })}
         {props.menuList.length === 0 &&
           TabMenus.map((tab) => {
-            return (
-              <WhiteButtonContainer
-                key={tab.name}
-                onPress={() => props.navigation.navigate(tab.name)}
-              >
-                <Image source={tab.icon} />
-                <WButtonText>{tab.title}</WButtonText>
-              </WhiteButtonContainer>
-            );
+            if (_.isEmpty(userStore))
+              return (
+                <WhiteButtonContainer
+                  key={tab.name}
+                  onPress={() => props.navigation.navigate(tab.name)}
+                >
+                  <Icon source={tab.icon} />
+                  <WButtonText>{tab.title}</WButtonText>
+                </WhiteButtonContainer>
+              );
+            return;
           })}
       </GrayContainer>
       <Image
@@ -46,8 +52,12 @@ const GrayButtons = (props) => {
     </>
   );
 };
+const Icon = styled.Image({
+  flexShrink: 0,
+  alignSelf: "center",
+});
 const WhiteButtonContainer = styled(BaseTouchable)({
-  height: 50,
+  minHeight: 50,
 
   alignItems: "center",
   paddingLeft: 15,
@@ -63,11 +73,13 @@ const WhiteButtonContainer = styled(BaseTouchable)({
 });
 const WButtonText = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-
   color: colors.greyishBrown,
   marginLeft: 11,
+  flex: 1,
 });
+WButtonText.defaultProps = {
+  numberOfLines: 2,
+};
 
 const GrayContainer = styled.View({
   backgroundColor: colors.white,

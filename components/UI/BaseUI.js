@@ -1,9 +1,19 @@
 import React from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
+import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
-import { Dimensions, TouchableOpacity, Image, Platform } from "react-native";
+import {
+  Dimensions,
+  TouchableOpacity,
+  Platform,
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+} from "react-native";
+import _ from "lodash";
 // import ScaledImage from "@UI/ScaledImage";
 export { default as ScaledImage } from "@UI/ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
@@ -16,13 +26,69 @@ export const StyleConstants = {
   //  defaultImage: require("@images/b_img500.png"),
   //  defaultImage: require("@images/b_img500.png"),
 };
+const CustomText = ({ style, children, ...rest }) => {
+  let baseStyle = styles.medium;
 
-export const BaseText = styled.Text({
-  // fontFamily: "SourceHanSansKR",
+  // Multiple styles may be provided.
+  (Array.isArray(style) ? style : [style]).forEach((style) => {
+    if (style && style.fontWeight) {
+      baseStyle = style.fontWeight === "bold" ? styles.bold : styles.regular;
+    }
+  });
+
+  // We need to force fontWeight to match the right font family.
+  return (
+    <Text style={[baseStyle, style, { fontWeight: "normal" }]} {...rest}>
+      {children}
+    </Text>
+  );
+};
+
+const styles = StyleSheet.create({
+  bold: {
+    fontFamily: "CustomFont-Bold",
+  },
+  regular: {
+    fontFamily: "CustomFont",
+  },
 });
-export const BaseTextInput = styled.TextInput({
-  // fontFamily: "SourceHanSansKR",
+Text.defaultProps = { allowFontScaling: false };
+export const BaseText = styled(Text)({
+  fontFamily: (props) => {
+    // const rules = props.forwardedComponent.inlineStyle.rules;
+    // var isFontWeight = _.some(rules, _.method("includes", "bold"));
+    // console.warn(isFontWeight, props);
+    // if (isFontWeight || (props.style && props.style.fontWeight == "bold")) {
+    //   return "CustomFont-Bold";
+    // }
+    return "CustomFont";
+  },
+
+  //  ...Platform.select({
+  //    ios: {
+  //      fontFamily: "Arial",
+  //    },
+  //    android: {
+  //      fontFamily: "Roboto",
+  //    },
+  //    default: {
+  //      // other platforms, web for example
+  //      fontFamily: "sans-serif",
+  //    },
+  //  }),
 });
+
+BaseText.defaultProps = { allowFontScaling: false };
+TextInput.defaultProps = {
+  allowFontScaling: false,
+  underlineColorAndroid: "transparent",
+};
+export const BaseTextInput = styled(TextInput)({
+  fontFamily: "CustomFont",
+  borderWidth: 0,
+});
+
+BaseTextInput.defaultProps = { allowFontScaling: false };
 export const BaseImage = styled(Image).attrs((props) => {
   let source;
   if (typeof props.source == "string")
@@ -43,15 +109,19 @@ BaseImage.defaultProps = {
   defaultSource: require("@images/b_img500.png"),
   resizeMode: "cover",
 };
-export const BaseTouchable = (props) => {
-  const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
+const BaseTouchbaleOpacity = (props) => {
+  const opacity = props.disabled === true ? 0.5 : 1;
   return (
-    <Touchbale activeOpacity={1} {...props}>
-      {props.children}
-    </Touchbale>
+    <TouchableOpacity {...props}>
+      <View style={{ opacity }}>{props.children}</View>
+    </TouchableOpacity>
   );
 };
-export const BaseButtonContainer = styled(BaseTouchable)({
+export const BaseTouchable = (props) => {
+  const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
+  return <Touchbale {...props}>{props.children}</Touchbale>;
+};
+export const BaseButtonContainer = styled.TouchableOpacity({
   width: screenWidth * 0.44,
   minHeight: screenHeight * 0.058,
   height: undefined,
@@ -71,16 +141,29 @@ export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
   borderRadius: 8,
 });
 
-export const DetailContainer = styled.View({
+const DetailContainerBody = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
   backgroundColor: colors.trueWhite,
-  marginTop: 7,
+  // marginTop: 7,
   paddingLeft: 18,
   paddingRight: 18,
-  paddingBottom: 45,
+  paddingBottom: 65,
 });
+const DetailContainerMarginTop = styled.View({
+  width: "100%",
+  height: 7,
+  backgroundColor: colors.white,
+});
+export const DetailContainer = (props) => {
+  return (
+    <>
+      <DetailContainerMarginTop />
+      <DetailContainerBody {...props} />
+    </>
+  );
+};
 
 export const BlueButtonText = styled(BaseText)({
   fontSize: 16,
@@ -120,8 +203,10 @@ export const EmptyScreen = styled.View({
   flex: 1,
   width: "100%",
   height: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.trueWhite,
   justifyContent: "center",
   alignItems: "center",
   alignSelf: "center",
 });
+
+export const EmptyIcon = styled.Image({ marginBottom: 28 });

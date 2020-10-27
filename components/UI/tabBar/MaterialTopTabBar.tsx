@@ -38,7 +38,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
     descriptors,
     activeTintColor = ConstantsColors.black,
     inactiveTintColor = ConstantsColors.black,
-    allowFontScaling = true,
+    allowFontScaling = false,
     keyboardHidesTabBar = false,
     showIcon = false,
     showLabel = true,
@@ -217,7 +217,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
           return (
             <BaseText
               style={[styles.label, { color }, labelStyle]}
-              allowFontScaling={allowFontScaling}
+              allowFontScaling={false}
             >
               {label}
             </BaseText>

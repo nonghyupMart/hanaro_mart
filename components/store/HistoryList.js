@@ -11,13 +11,22 @@ import {
 import { Image, FlatList } from "react-native";
 import StoreItem from "@components/store/StoreItem";
 import * as branchesActions from "@actions/branches";
+import { SET_STORE_MARK } from "@actions/branches";
+import _ from "lodash";
+import {setIsLoading} from "@actions/common";
 
 const HistoryList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const storeMark = useSelector((state) => state.branches.storeMark);
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-  useEffect(() => {
+  // useEffect(() => {
+  //   fetchMarkedStores();
+  // }, [isVisible]);
+
+  const fetchMarkedStores = (isDel = false) => {
+    if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
+    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
     };
@@ -25,8 +34,15 @@ const HistoryList = (props) => {
       query.lat = props.location.coords.latitude;
       query.lng = props.location.coords.longitude;
     }
-    dispatch(branchesActions.fetchStoreMark(query));
-  }, [props]);
+    dispatch(branchesActions.fetchStoreMark(query)).then(() => {
+      dispatch(setIsLoading(false));
+    });
+  };
+  useEffect(() => {
+    return () => {
+      dispatch({ type: SET_STORE_MARK, storeMark: null });
+    };
+  }, []);
 
   const onPress = () => {};
   return (
@@ -44,13 +60,15 @@ const HistoryList = (props) => {
       <Line />
       {storeMark && isVisible && (
         <FlatList
-          style={{ width: "100%", flexGrow: 1 }}
+          listKey="mark"
+          style={{ width: "100%", flexGrow: 1, marginBottom: 10 }}
           data={storeMark.storeList}
-          keyExtractor={(item) => item.store_cd}
+          keyExtractor={(item, index) => "mark:" + item.store_cd}
           renderItem={(itemData) => (
             <StoreItem
-              onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
+              isMark={true}
+              fetchMarkedStores={fetchMarkedStores}
             />
           )}
         />

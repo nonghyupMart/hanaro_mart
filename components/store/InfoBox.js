@@ -11,7 +11,6 @@ const InfoBox = (props) => {
       </TitleContainer>
       <BottomCover
         onLoadStart={() => {
-          // setIsLoading(true);
         }}
       />
     </StoreBox>

@@ -4,7 +4,6 @@ import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import {
   View,
-  Image,
   StyleSheet,
   BackHandler,
   Alert,
@@ -29,6 +28,8 @@ import flyerReducer from "@reducers/flyer";
 import eventReducer from "@reducers/event";
 import couponReducer from "@reducers/coupon";
 import commonReducer from "@reducers/common";
+import exhibitionReducer from "@reducers/exhibition";
+import exclusiveReducer from "@reducers/exclusive";
 import { WITHDRAWAL } from "@actions/auth";
 LogBox.ignoreLogs(["Expected", "No native"]);
 // console.disableLogBox = true;
@@ -48,6 +49,8 @@ const appReducer = combineReducers({
   event: eventReducer,
   coupon: couponReducer,
   common: commonReducer,
+  exhibition: exhibitionReducer,
+  exclusive: exclusiveReducer,
 });
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {
@@ -59,37 +62,19 @@ const rootReducer = (state, action) => {
   }
   return appReducer(state, action);
 };
-
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-
 const fetchFonts = () => {
   return Font.loadAsync({
-    // "open-sans": require("./assets/fonts/OpenSans-Regular.ttf"),
-    // "open-sans-bold": require("./assets/fonts/OpenSans-Bold.ttf"),
-    // SourceHanSansKR: require("./assets/fonts/SourceHanSansHWK-Regular.otf"),
-    // "SourceHanSansKR-Bold": require("./assets/fonts/SourceHanSansHWK-Bold.otf"),
+    CustomFont: require("./assets/fonts/Roboto-Regular.ttf"),
+    "CustomFont-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
   });
 };
+const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
-  usePreventScreenCapture();
-  const [isReady, setIsReady] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
-
-  // const [pushToken, setPushToken] = useState();
-
-  const backAction = () => {
-    Alert.alert("Hold on!", "Are you sure you want to go back?", [
-      {
-        text: "Cancel",
-        onPress: () => null,
-        style: "cancel",
-      },
-      { text: "YES", onPress: () => BackHandler.exitApp() },
-    ]);
-    return true;
-  };
-
+  if (!__DEV__) {
+    usePreventScreenCapture();
+  }
   useEffect(() => {
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
@@ -103,37 +88,12 @@ export default function App() {
       }
     );
 
-    // BackHandler.addEventListener("hardwareBackPress", backAction);
-
     return () => {
       backgroundSubscription.remove();
       foregroundSubscription.remove();
-      // BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
   }, []);
-  SplashScreen.preventAutoHideAsync();
 
-  const _cacheResourcesAsync = async () => {
-    SplashScreen.hideAsync();
-    const images = [
-      require("./assets/images/20200811_83175949013327_5_1280x480 (1).jpg"),
-      // require("./assets/images/slack-icon.png"),
-    ];
-
-    // const cacheImages = images.map((image) => {
-    //   return Asset.fromModule(image).downloadAsync();
-    // });
-    // const cacheImages = () => {
-    //   return new Promise((resolve) => setTimeout(resolve, 1000));
-    // };
-
-    // await Promise.all(cacheImages);
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    setIsReady(() => true);
-  };
-  if (!isReady) {
-    return <Splash onLoad={_cacheResourcesAsync} />;
-  }
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -151,17 +111,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  ringPickerContainer: {
-    flex: 1,
-    position: "absolute",
-    bottom: -200,
-  },
-});

@@ -28,7 +28,12 @@ const BarCodeScannerScreen = (props) => {
   const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
+  useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(false));
+    };
+  }, []);
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -40,21 +45,24 @@ const BarCodeScannerScreen = (props) => {
     setScanned(true);
 
     params.setRcp_qr(data);
-    dispatch(CommonActions.setBottomNavigation(true));
+    dispatch(CommonActions.setBottomNavigation(false));
     props.navigation.goBack();
     // props.navigation.navigate("BarCodeScanner", { rcp_qr: data });
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <></>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <Text>
+        카메라에 접근 권한이 없습니다. 설정에서 카메라 권한을 승인해 주세요.
+      </Text>
+    );
   }
 
   return (
     <BaseScreen
-      isBottomNavigation={false}
       isScroll={false}
       style={{
         paddingBottom: 0,

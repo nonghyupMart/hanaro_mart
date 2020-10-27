@@ -11,11 +11,12 @@ import {
   BaseText,
   BaseTextInput,
 } from "@UI/BaseUI";
+import { setIsLoading, setBottomNavigation } from "@actions/common";
 
 const SearchBar = (props) => {
   const dispatch = useDispatch();
   const onPressSearch = () => {
-    props.setIsLoading(true);
+    dispatch(setIsLoading(true));
     const query = {
       lname: props.lname,
       mname: props.mname,
@@ -23,8 +24,14 @@ const SearchBar = (props) => {
     };
 
     props.fetchBranches(props.lname, props.mname, props.store_nm).then(() => {
-      props.setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
+  };
+  const onFocus = () => {
+    // dispatch(setBottomNavigation(false));
+  };
+  const onBlur = () => {
+    // dispatch(setBottomNavigation(true));
   };
   return (
     <SearchBarContainer>
@@ -34,6 +41,8 @@ const SearchBar = (props) => {
       </BlueRoundView>
       <TextInputContainer>
         <SearchTextInput
+          onFocus={onFocus}
+          onBlur={onBlur}
           placeholder="매장명을 입력하세요."
           onChangeText={(name) => props.setStore_nm(name)}
           value={props.store_nm}

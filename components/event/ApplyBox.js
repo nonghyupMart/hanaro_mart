@@ -14,7 +14,11 @@ import {
   BaseText,
   BaseTextInput,
 } from "@UI/BaseUI";
+import { setAlert } from "@actions/common";
+import { useSelector, useDispatch } from "react-redux";
+
 const ApplyBox = (props) => {
+  const dispatch = useDispatch();
   const [checkItem, setCheckItem] = useState({
     isRequired: true,
     isChecked: false,
@@ -23,34 +27,46 @@ const ApplyBox = (props) => {
 
   const onPress = () => {
     if (!checkItem.isChecked) {
-      props.setAlert({
-        message: "개인정보 수집에 동의해주세요.",
-        onPressConfirm: () => {
-          props.setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "개인정보 수집에 동의해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (!reg_num) {
-      props.setAlert({
-        message: "주민등록번호(7자리-8501011)를 입력해주세요.",
-        onPressConfirm: () => {
-          props.setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "생년원일+성별(7자리-8501011)를 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
     if (reg_num.length < 7) {
-      props.setAlert({
-        message: "주민등록번호(7자리-8501011)를 정확히 입력해주세요.",
-        onPressConfirm: () => {
-          props.setAlert(null);
-        },
-      });
+      dispatch(
+        setAlert({
+          message: "생년원일+성별(7자리-8501011)를 정확히 입력해주세요.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
       return;
     }
 
     props.onApply(reg_num);
+  };
+  const onFocus = () => {
+    if (props.scrollRef)
+      setTimeout(() => {
+        props.scrollRef.scrollToEnd();
+      }, 800);
   };
   return (
     <>
@@ -80,21 +96,22 @@ const ApplyBox = (props) => {
           </TextView2>
         </TitleContainer>
         <InputText
-          placeholder="주민등록번호(7자리-8501011)"
+          placeholder="생년원일+성별(7자리-8501011)"
           keyboardType="numeric"
           maxLength={7}
           value={reg_num}
           onChangeText={(text) => setReg_num(text)}
-          editable={props.eventDetail.entry.entry_status === "10"}
+          editable={props.eventDetail.entry.status === "10"}
+          onFocus={onFocus}
         />
       </Container>
-      {props.eventDetail.entry.entry_status === "10" && (
+      {props.eventDetail.entry.status === "10" && (
         <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모하기</BlueButtonText>
         </BlueButton>
       )}
-      {props.eventDetail.entry.entry_status === "20" && (
+      {props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>

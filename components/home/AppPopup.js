@@ -16,28 +16,31 @@ import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const AppPopup = (props) => {
   const dispatch = useDispatch();
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
   useEffect(() => {
-    if (isAppPopup) setIsVisible(true);
-  }, [isAppPopup]);
+    if (isAppPopup && props.isFocused && typeof didTryPopup !== "string")
+      setIsVisible(true);
+  }, [isAppPopup, props.isFocused]);
   useEffect(() => {
-    if (!_.isEmpty(appPopup)) {
-      props.setIsReadyAppPopup(true);
-      props.setFetchAppPopup(true);
+    if (!_.isEmpty(appPopup) || !isAppPopup || !props.isFocused) {
       return;
     }
-    props.setFetchAppPopup(false);
+    dispatch(setIsLoading(true));
+
     dispatch(homeActions.fetchPopup()).then(() => {
-      props.setFetchAppPopup(true);
+      dispatch(setIsLoading(false));
       if (_.isEmpty(appPopup)) {
-        props.setIsReadyAppPopup(true);
+        dispatch(setIsLoading(false));
       }
     });
-  }, []);
+  }, [props.isFocused]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForAppPopupToStorage();
@@ -56,7 +59,7 @@ const AppPopup = (props) => {
     <Modal
       backdropTransitionInTiming={0}
       backdropTransitionOutTiming={0}
-      animationInTiming={0}
+      // animationInTiming={0}
       animationIn="fadeIn"
       animationOut="fadeOut"
       isVisible={isVisible}
@@ -96,7 +99,6 @@ const AppPopup = (props) => {
                 }}
               >
                 <BaseImage
-                  onLoad={() => props.setIsReadyAppPopup(true)}
                   source={item.display_img}
                   style={{
                     resizeMode: "cover",
@@ -132,7 +134,7 @@ const BtnText = styled(BaseText)({
   textAlign: "center",
   color: colors.trueWhite,
 });
-const BtnWarpper = styled(BaseTouchable)({
+const BtnWarpper = styled.TouchableOpacity({
   backgroundColor: colors.black,
   borderStyle: "solid",
   borderWidth: 1,

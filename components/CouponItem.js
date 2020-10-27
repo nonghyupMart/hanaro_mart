@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
 import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
+import * as Util from "@util";
 
 const CouponItem = (props) => {
   return (
     <Container index={props.index}>
       <Discount>
-        {props.item.price}
+        {Util.formatNumber(props.item.price)}
         {props.item.price_gbn == "A" ? "원 " : "% "}
         할인
       </Discount>
@@ -83,7 +84,7 @@ const Title = styled(BaseText)({
 });
 const Discount = styled(BaseText)({
   fontSize: 18,
-  fontWeight: "bold",
+  fontFamily:"CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 26,
   letterSpacing: -0.45,

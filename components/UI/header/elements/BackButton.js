@@ -7,10 +7,12 @@ import { HeaderButton } from "@UI/header/elements/HeaderButton";
 import * as CommonActions from "@actions/common";
 import colors from "@constants/colors";
 import { Entypo } from "@expo/vector-icons";
+import { useNavigationState } from "@react-navigation/native";
 
 const BackButton = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const index = useNavigationState((state) => state.index);
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
       <Item
@@ -19,8 +21,9 @@ const BackButton = (props) => {
         title="back"
         iconName="chevron-thin-left"
         onPress={() => {
-          dispatch(CommonActions.setBottomNavigation(true));
-          navigation.goBack();
+          dispatch(CommonActions.setIsLoading(false));
+          if (index > 0) navigation.goBack();
+          else navigation.navigate("Home");
         }}
       />
     </HeaderButtons>

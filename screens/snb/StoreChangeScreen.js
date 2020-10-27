@@ -25,14 +25,16 @@ import PickerViews from "@components/store/PickerViews";
 import SearchBar from "@components/store/SearchBar";
 import InfoBox from "@components/store/InfoBox";
 import HistoryList from "@components/store/HistoryList";
-
+import _ from "lodash";
 import * as branchesActions from "@actions/branches";
+import { setIsLoading } from "@actions/common";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const [lname, setLname] = useState();
   const [mname, setMname] = useState();
@@ -49,11 +51,7 @@ const StoreChangeScreen = (props) => {
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
-
-  const popupHandler = (item) => {
-    props.navigation.navigate("StoreChangeDetail", { item: item });
-  };
-
+  const storeMark = useSelector((state) => state.branches.storeMark);
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {
@@ -76,20 +74,32 @@ const StoreChangeScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    setIsLoading(true);
+    dispatch(setIsLoading(true));
     const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
+    let query = {
+      user_cd: userInfo.user_cd,
+    };
+    if (location) {
+      query.lat = location.coords.latitude;
+      query.lng = location.coords.longitude;
+    }
+    const fetchStoreMark = dispatch(branchesActions.fetchStoreMark(query));
     fetchBranches();
 
-    Promise.all([fetchAddress1]).then(() => {
-      setIsLoading(false);
+    Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
+      dispatch(setIsLoading(false));
     });
   }, [location]);
 
-  const fetchBranches = (lname = lname, mname = mname, store_nm = store_nm) => {
+  const fetchBranches = (
+    lname = lname,
+    mname = mname,
+    storeName = store_nm
+  ) => {
     let query = {
       lname,
       mname,
-      store_nm,
+      store_nm: storeName,
     };
     if (location) {
       query.lat = location.coords.latitude;
@@ -105,12 +115,15 @@ const StoreChangeScreen = (props) => {
         paddingLeft: 0,
         paddingRight: 0,
       }}
-      isLoading={isLoading}
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      {/* <HistoryList location={location} {...props} setIsLoading={setIsLoading} /> */}
+      {!_.isEmpty(userStore) &&
+        !_.isEmpty(storeMark) &&
+        _.size(storeMark.storeList) > 0 && (
+          <HistoryList location={location} {...props} />
+        )}
       <WhiteContainer>
         <SearchBar
           location={location}
@@ -119,7 +132,6 @@ const StoreChangeScreen = (props) => {
           lname={lname}
           mname={mname}
           setStore_nm={setStore_nm}
-          setIsLoading={setIsLoading}
           fetchBranches={fetchBranches}
         />
 
@@ -131,7 +143,6 @@ const StoreChangeScreen = (props) => {
           mname={mname}
           address1={address1}
           address2={address2}
-          setIsLoading={setIsLoading}
           setLname={setLname}
           setMname={setMname}
           fetchBranches={fetchBranches}
@@ -139,15 +150,11 @@ const StoreChangeScreen = (props) => {
 
         {branches && (
           <FlatList
+            listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}
-            keyExtractor={(item) => item.store_cd}
-            renderItem={(itemData) => (
-              <StoreItem
-                onPress={popupHandler.bind(this, itemData.item)}
-                item={itemData.item}
-              />
-            )}
+            keyExtractor={(item) => `stores-${item.store_cd}`}
+            renderItem={(itemData) => <StoreItem item={itemData.item} />}
           />
         )}
       </WhiteContainer>
@@ -161,6 +168,7 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: () => <></>,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
   };
 };
 // const SearchButton = styled(BaseButtonContainer)({});
@@ -186,7 +194,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryText: {
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 18,
   },
   amount: {

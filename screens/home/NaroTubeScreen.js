@@ -9,9 +9,22 @@ import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "@components/BaseScreen";
 import _ from "lodash";
 const NaroTubeScreen = (props) => {
+  const navigation = props.navigation;
   const userStore = useSelector((state) => state.auth.userStore);
   const [url, setUrl] = useState();
-
+  const [key, setKey] = useState();
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      setKey(Math.random());
+    });
+    const blur = navigation.addListener("blur", () => {
+      setKey(Math.random());
+    });
+    return () => {
+      unsubscribe;
+      blur;
+    };
+  }, []);
   useEffect(() => {
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
@@ -21,6 +34,7 @@ const NaroTubeScreen = (props) => {
   }, []);
   return (
     <BaseScreen
+      key={key}
       style={styles.screen}
       isScroll={false}
       // isBottomNavigation={false}

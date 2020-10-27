@@ -10,6 +10,7 @@ import {
   BaseText,
 } from "@UI/BaseUI";
 import _ from "lodash";
+import * as Util from "@util";
 const MenuList = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -39,7 +40,7 @@ const MenuList = (props) => {
           <Icon>
             <Image source={require("@images/loudspeaker-announce.png")} />
           </Icon>
-          <MenuText>공지사항</MenuText>
+          <MenuText>매장공지사항</MenuText>
         </MenuButton>
       </MenuButtonContainer>
       <MenuButtonContainer>
@@ -70,9 +71,18 @@ const MenuList = (props) => {
           <MenuText>마이페이지</MenuText>
         </MenuButton>
       </MenuButtonContainer>
+      <ShareBtn onPress={() => Util.sendShareLink()}>
+        <Image source={require("@images/plusapp.png")} />
+      </ShareBtn>
     </MenuContainer>
   );
 };
+const ShareBtn = styled.TouchableOpacity({
+  marginTop: 43.5,
+  justifyContent: "center",
+  width: "100%",
+  alignItems: "center",
+});
 const MenuContainer = styled.View({
   paddingTop: 5,
   paddingLeft: 35.5,

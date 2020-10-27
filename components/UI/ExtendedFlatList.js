@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 
 const ExtendedFlatList = (props) => {
@@ -16,7 +16,7 @@ const ExtendedFlatList = (props) => {
   return (
     <FlatList
       onEndReachedThreshold={0.5}
-      scrollEventThrottle={16}
+      scrollEventThrottle={60}
       {...props}
       onScroll={onScroll}
       onEndReached={onEndReached}

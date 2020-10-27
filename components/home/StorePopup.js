@@ -17,6 +17,9 @@ import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
+import { SET_STORE_POPUP } from "@actions/home";
+import moment from "moment";
+
 const StorePopup = (props) => {
   const routeName = props.route.name;
   const dispatch = useDispatch();
@@ -25,44 +28,67 @@ const StorePopup = (props) => {
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const [isVisible, setIsVisible] = useState(false);
   const storePopup = useSelector((state) => state.home.storePopup);
-  // console.warn(storePopup);
+
+  // useEffect(() => {
+  //   if (!isVisible) {
+  //     dispatch({
+  //       type: SET_STORE_POPUP,
+  //       storePopup: null,
+  //     });
+  //   }
+  // }, [isVisible]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({
+  //       type: SET_STORE_POPUP,
+  //       storePopup: null,
+  //     });
+  //   };
+  // }, []);
   useEffect(() => {
     if (
+      props.isFocused &&
       isStorePopup &&
       !_.isEmpty(userStore) &&
-      userStore.storeInfo &&
       storePopup &&
       storePopup.popupCnt > 0
-    )
-      setIsVisible(true);
-    else setIsVisible(false);
-  }, [isStorePopup, userStore, storePopup]);
-  useEffect(() => {
-    if (!_.isEmpty(storePopup)) {
-      props.setFetchStorePopup(true);
-      return;
+    ) {
+      let setDate = moment().subtract(1, "days");
+      // console.warn(isStorePopup);
+      if (isStorePopup[userStore.storeInfo.store_cd]) {
+        setDate = moment(isStorePopup[userStore.storeInfo.store_cd]);
+      }
+      setIsVisible(moment(setDate).isBefore(moment(), "day"));
+    } else {
+      setIsVisible(false);
     }
-    if (!_.isEmpty(userStore) && userStore.storeInfo) {
+  }, [isStorePopup, userStore, storePopup, props.isFocused]);
+  useEffect(() => {
+    if (!_.isEmpty(userStore)) {
       props.setFetchStorePopup(false);
       dispatch(
         homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
       ).then(() => {
         props.setFetchStorePopup(true);
       });
+    } else {
+      props.setFetchStorePopup(true);
     }
   }, [userStore]);
 
   const setDisablePopup = () => {
-    CommonActions.saveDateForStorePopupToStorage();
-    dispatch(CommonActions.setIsStorePopup(false));
-    setIsVisible(false);
+    //userStore의 store_cd가 최신 업데이트가 않되는 경우가 있음..
+    CommonActions.saveDateForStorePopupToStorage(
+      isStorePopup,
+      userStore.storeInfo.store_cd,
+      dispatch
+    );
   };
 
   if (
     _.isEmpty(storePopup) ||
     _.isEmpty(userStore) ||
     !isJoin ||
-    !isStorePopup ||
     storePopup.popupCnt == 0 ||
     !isVisible ||
     routeName !== "Home"
@@ -73,7 +99,7 @@ const StorePopup = (props) => {
     <Modal
       backdropTransitionInTiming={0}
       backdropTransitionOutTiming={0}
-      animationInTiming={0}
+      // animationInTiming={0}
       animationIn="fadeIn"
       animationOut="fadeOut"
       style={{
@@ -84,8 +110,8 @@ const StorePopup = (props) => {
       isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={false}
-      onBackdropPress={() => setIsVisible(false)}
-      onRequestClose={() => setIsVisible(false)}
+      // onBackdropPress={() => setIsVisible(false)}
+      // onRequestClose={() => setIsVisible(false)}
     >
       <Container>
         <Carousel

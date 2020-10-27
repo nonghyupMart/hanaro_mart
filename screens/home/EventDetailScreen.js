@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
-import AutoHeightImage from "react-native-auto-height-image";
 
 import {
   DetailContainer,
@@ -19,11 +18,13 @@ import {
 import A from "@screens/home/EventDetail/A";
 import B from "@screens/home/EventDetail/B";
 import C from "@screens/home/EventDetail/C";
+import { setAlert, setIsLoading } from "@actions/common";
+import * as CommonActions from "@actions/common";
+
 const EventDetailScreen = (props, { navigation }) => {
   const dispatch = useDispatch();
-  const [alert, setAlert] = useState();
   const [scrollRef, setScrollRef] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -31,22 +32,112 @@ const EventDetailScreen = (props, { navigation }) => {
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
-
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(eventActions.clearEventDetail());
+  //   };
+  // }, []);
   useEffect(() => {
-    setIsLoading(true);
-
-    const requestEvent = dispatch(
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
+  useEffect(() => {
+    requestEvent();
+  }, [dispatch]);
+  const onLoad = () => {
+    dispatch(setIsLoading(false));
+  };
+  const requestEvent = () => {
+    dispatch(setIsLoading(true));
+    dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
       })
-    );
-
-    Promise.all([requestEvent]).then(() => {
-      setIsLoading(false);
+    ).then(() => {
+      // dispatch(setIsLoading(false));
     });
-  }, [dispatch]);
+  };
+  const checkQRLength = (val, length) => {
+    if (val.length !== length) {
+      dispatch(
+        setAlert({
+          message: "QR코드가 정확하지 않습니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+      return false;
+    }
+    return true;
+  };
+  const checkRequiredAmount = (val) => {
+    const price = val.substr(val.length - 10);
+    if (price < eventDetail.entry.entry_price) {
+      dispatch(
+        setAlert({
+          message: "영수증 금액이 부족합니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+      return false;
+    }
+    return true;
+  };
+  const alertSusscess = () => {
+    dispatch(
+      setAlert({
+        message: "응모 되었습니다.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          requestEvent();
+        },
+      })
+    );
+  };
+  const onExchangeStamp = (QRCode) => {
+    if (!checkQRLength(QRCode, 12)) return;
+
+    dispatch(
+      eventActions.exchangeStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        mana_qr: QRCode,
+      })
+    ).then((data) => {
+      if (data.result == "success") {
+        alertSusscess();
+      }
+    });
+  };
+  const onApplyStamp = (QRCode) => {
+    if (!checkQRLength(QRCode, 40)) return;
+    if (!checkRequiredAmount(QRCode)) return;
+
+    dispatch(
+      eventActions.applyStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        rcp_qr: QRCode,
+      })
+    ).then((data) => {
+      if (data.result == "success") {
+        alertSusscess();
+      }
+    });
+  };
   const onApply = (reg_num) => {
+    if (rcp_qr) {
+      if (!checkQRLength(rcp_qr, 40)) return;
+      if (!checkRequiredAmount(rcp_qr)) return;
+    }
     dispatch(
       eventActions.applyEvent({
         event_cd: params.event_cd,
@@ -57,33 +148,22 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       if (data.result == "success") {
-        eventDetail.entry.entry_status = "20";
+        eventDetail.entry.status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
-        setAlert({
-          message: "응모 되었습니다.",
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
-      } else {
-        setAlert({
-          message: data,
-          onPressConfirm: () => {
-            setAlert(null);
-          },
-        });
+        alertSusscess();
       }
     });
   };
+  if (!eventDetail || isLoading) return <></>;
   return (
     <BaseScreen
-      alert={alert}
       setScrollRef={setScrollRef}
-      isLoading={isLoading}
-      style={styles.screen}
+      style={{ backgroundColor: colors.trueWhite }}
+      isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
+        backgroundColor: colors.trueWhite,
       }}
     >
       {eventDetail && (
@@ -95,6 +175,9 @@ const EventDetailScreen = (props, { navigation }) => {
           }}
         >
           <ScaledImage
+            onLoad={onLoad}
+            onError={onLoad}
+            onLoadEnd={onLoad}
             key={eventDetail.detail_img}
             source={eventDetail.detail_img}
             style={{}}
@@ -106,8 +189,8 @@ const EventDetailScreen = (props, { navigation }) => {
               <A
                 {...props}
                 onApply={onApply}
-                setAlert={setAlert}
                 eventDetail={eventDetail}
+                scrollRef={scrollRef}
               />
             )}
           {eventDetail.entry &&
@@ -117,7 +200,6 @@ const EventDetailScreen = (props, { navigation }) => {
                 {...props}
                 scrollRef={scrollRef}
                 key={scrollRef}
-                setAlert={setAlert}
                 onApply={onApply}
                 setRcp_qr={setRcp_qr}
                 rcp_qr={rcp_qr}
@@ -131,11 +213,10 @@ const EventDetailScreen = (props, { navigation }) => {
                 {...props}
                 scrollRef={scrollRef}
                 key={scrollRef}
-                setAlert={setAlert}
                 onApply={onApply}
-                setRcp_qr={setRcp_qr}
-                rcp_qr={rcp_qr}
+                setRcp_qr={onApplyStamp}
                 eventDetail={eventDetail}
+                setMana_qr={onExchangeStamp}
               />
             )}
         </DetailContainer>
@@ -147,7 +228,9 @@ const EventDetailScreen = (props, { navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "이벤트",
-
+    cardStyle: {
+      marginBottom: 0,
+    },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
@@ -158,6 +241,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
+    backgroundColor: colors.trueWhite,
   },
 });
 

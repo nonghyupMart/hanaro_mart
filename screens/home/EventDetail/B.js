@@ -14,8 +14,8 @@ const B = (props) => {
       />
       {props.rcp_qr && (
         <ApplyBox
+          scrollRef={props.scrollRef}
           onApply={props.onApply}
-          setAlert={props.setAlert}
           eventDetail={props.eventDetail}
           {...props}
         />

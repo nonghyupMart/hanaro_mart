@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import { SERVER_URL } from "@constants/settings";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import { Restart } from "fiction-expo-restart";
+import * as Updates from "expo-updates";
 import { View, StyleSheet, Image } from "react-native";
 import _ from "lodash";
 import { BackButton, TextTitle } from "@UI/header";
@@ -13,7 +13,6 @@ import {
   StyleConstants,
   BaseText,
 } from "@UI/BaseUI";
-import Loading from "@UI/Loading";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import * as Util from "@util";
 import colors from "@constants/colors";
@@ -24,22 +23,38 @@ import * as homeActions from "@actions/home";
 
 import * as branchesActions from "@actions/branches";
 import { setUserStore } from "@actions/auth";
+import { setAlert, setIsLoading } from "@actions/common";
+import { SET_BRANCH } from "@actions/branches";
+import * as CommonActions from "@actions/common";
+
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
+  const didTryPopup = useSelector((state) => state.common.didTryPopup);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch({ type: SET_BRANCH, branch: null });
+  //   };
+  // }, []);
   useEffect(() => {
-    setIsLoading(true);
+    // console.warn("didTryPopup2", didTryPopup);
+    if (!didTryPopup) {
+      navigation.popToTop();
+    }
+  }, [didTryPopup]);
+  useEffect(() => {
+    dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
       branchesActions.fetchBranch(storeItem.store_cd)
     );
     Promise.all([fetchBranch]).then(() => {
-      setIsLoading(false);
+      dispatch(setIsLoading(false));
       if (branch && branch.storeInfo)
         setLocation(
           `${branch.storeInfo.lname}  ${branch.storeInfo.mname} ${branch.storeInfo.addr1} ${branch.storeInfo.addr2}`
@@ -47,21 +62,24 @@ const StoreChangeDetailScreen = (props) => {
     });
   }, [dispatch]);
 
-  const [alert, setAlert] = useState();
   const storeChangeHandler = () => {
     const msg = `기존 매장에서 사용하신\n스탬프와 쿠폰은 \n변경매장에서 보이지\n 않으며 기존매장으로 재변경시 이용가능합니다.\n변경하시겠습니까?`;
-    setAlert({
-      message: msg,
-      onPressConfirm: () => {
-        setAlert(null);
-        saveStore();
-      },
-      onPressCancel: () => {
-        setAlert(null);
-      },
-    });
+    dispatch(
+      setAlert({
+        message: msg,
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          saveStore();
+        },
+        onPressCancel: () => {
+          dispatch(setAlert(null));
+        },
+      })
+    );
   };
   const saveStore = () => {
+    if (!branch || !branch.storeInfo) return;
+    dispatch(setIsLoading(true));
     let msg;
     dispatch(
       setUserStore(
@@ -71,34 +89,27 @@ const StoreChangeDetailScreen = (props) => {
     ).then((data) => {
       if (data.result == "success") {
         msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
-        setAlert({
-          message: msg,
-          onPressConfirm: () => {
-            setAlert(null);
-            props.navigation.popToTop();
-            dispatch(homeActions.clearStorePopup());
+        dispatch(
+          setAlert({
+            message: msg,
+            onPressConfirm: () => {
+              (async () => {
+                dispatch(setAlert(null));
+                await props.navigation.navigate("Home");
+                await dispatch(CommonActions.setDidTryPopup(false));
+              })();
 
-            // Restart();
-          },
-        });
-      } else {
-        msg = "매장변경에 실패하였습니다.";
-        setAlert({
-          message: msg,
-          onPressConfirm: () => {
-            setAlert(null);
-            // Restart();
-          },
-        });
+              // Updates.reloadAsync();
+            },
+          })
+        );
       }
     });
   };
-  if (!branch) return <Loading isLoading={isLoading} />;
+  if (!branch || isLoading) return <></>;
 
   return (
     <BaseScreen
-      alert={alert}
-      isLoading={isLoading}
       style={{
         backgroundColor: colors.trueWhite,
         paddingRight: 0,
@@ -119,7 +130,7 @@ const StoreChangeDetailScreen = (props) => {
         }}
       >
         <ExtendedWebView
-          ref={(wv) => (webView = wv)}
+          indicatorSize="small"
           key={location}
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
           // source={{ html: require("../../map.js")(location) }}
@@ -351,7 +362,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryBaseText: {
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 18,
   },
   amount: {

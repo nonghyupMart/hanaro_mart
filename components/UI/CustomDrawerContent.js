@@ -5,7 +5,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Image,
   Dimensions,
 } from "react-native";
 
@@ -34,7 +33,6 @@ import LoginButtons from "@UI/drawer/LoginButtons";
 const { width, height } = Dimensions.get("window");
 
 export const CustomDrawerContent = (props, dispatch, menuList) => {
-  // const userStore = useSelector((state) => state.auth.userStore);
   return (
     <View style={{ width: "100%", height: "100%" }}>
       <View

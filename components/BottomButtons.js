@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
-import * as RootNavigation from "../navigation/RootNavigation";
+import * as RootNavigation from "@navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import { BaseText } from "@UI/BaseUI";
 
@@ -25,7 +25,6 @@ const BottomButtons = (props) => {
     return (
       <Container>
         <TouchableOpacity
-          activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
             RootNavigation.navigate("Home");
@@ -37,7 +36,6 @@ const BottomButtons = (props) => {
           </IconContainer>
         </TouchableOpacity>
         <TouchableOpacity
-          activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
@@ -56,7 +54,6 @@ const BottomButtons = (props) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.icons, { marginTop: 0, marginBottom: 5 }]}
-          activeOpacity={1}
           onPress={() => {
             RootNavigation.navigate("RingPicker");
           }}
@@ -64,7 +61,6 @@ const BottomButtons = (props) => {
           <Image source={require("@images/hana_logo.png")} />
         </TouchableOpacity>
         <TouchableOpacity
-          activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
@@ -77,7 +73,6 @@ const BottomButtons = (props) => {
           </IconContainer>
         </TouchableOpacity>
         <TouchableOpacity
-          activeOpacity={0.7}
           style={styles.icons}
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");

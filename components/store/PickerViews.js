@@ -14,16 +14,18 @@ import {
   Image,
   KeyboardAvoidingView,
 } from "react-native";
+import { setIsLoading } from "@actions/common";
 
 const PickerViews = (props) => {
   const dispatch = useDispatch();
   const onLnameChange = (lname) => {
     props.setLname(() => lname);
+    props.setMname(() => null);
     const fetchBranches = props.fetchBranches(lname);
     const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 
     Promise.all([fetchBranches, fetchAddress2]).then(() => {
-      props.setIsLoading(false);
+      dispatch(setIsLoading(false));
     });
   };
   const onMnameChange = (lname, mname) => {
@@ -99,7 +101,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryText: {
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 18,
   },
   amount: {

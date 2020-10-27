@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Carousel from "@UI/Carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
@@ -13,15 +18,16 @@ import {
 import URI from "urijs";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const NaroTube = (props) => {
   const dispatch = useDispatch();
   const homeNaro = useSelector((state) => state.home.homeNaro);
   useEffect(() => {
-    props.setFetchHomeNaro(false);
+    dispatch(setIsLoading(true));
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
-      props.setFetchHomeNaro(true);
+       dispatch(setIsLoading(false));
     });
   }, [dispatch]);
   if (!homeNaro || !homeNaro.naroList || homeNaro.naroCnt == 0) return <></>;
@@ -58,7 +64,7 @@ const NaroTube = (props) => {
           return (
             <ExtendedWebView
               bounces={false}
-              key={videoId}
+              key={item.naro_cd}
               style={{
                 height: screenWidth * 0.555,
                 opacity: 0.99,
@@ -70,6 +76,7 @@ const NaroTube = (props) => {
               source={{
                 html: require("../../youtubePlayer.js")(videoId),
               }}
+              indicatorSize="small"
             />
           );
         })}

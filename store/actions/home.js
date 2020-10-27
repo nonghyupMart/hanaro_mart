@@ -1,6 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "@constants/settings";
 import * as Util from "@util";
+import * as Network from "@util/network";
 
 export const SET_HOME_BANNER = "SET_HOME_BANNER";
 export const SET_HOME_NOTICE = "SET_HOME_NOTICE";
@@ -8,18 +9,16 @@ export const SET_HOME_NOTICE_MORE = "SET_HOME_NOTICE_MORE";
 export const SET_HOME_NARO = "SET_HOME_NARO";
 export const SET_STORE_POPUP = "SET_STORE_POPUP";
 export const SET_APP_POPUP = "SET_APP_POPUP";
-export const CLEAR_STORE_POPUP = "CLEAR_STORE_POPUP";
 
-export const fetchHomeBanner = () => {
+export const fetchHomeBanner = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/home-banner`,
+    query,
+  });
   return async (dispatch, getState) => {
     try {
-      const response = await fetch(`${API_URL}/home-banner`);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchHomeBanner went wrong!");
-      }
+      const response = await fetch(url);
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_HOME_BANNER, homeBanner: resData.data });
     } catch (err) {
@@ -37,12 +36,7 @@ export const fetchHomeNotice = (query = {}) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchHomeNotice went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       let type = SET_HOME_NOTICE;
       if (query.page > 1) {
@@ -65,12 +59,7 @@ export const fetchHomeNaro = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchHomeNaro went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_HOME_NARO, homeNaro: resData.data });
     } catch (err) {
@@ -80,7 +69,10 @@ export const fetchHomeNaro = (query) => {
 };
 
 export const clearStorePopup = () => {
-  return { type: CLEAR_STORE_POPUP };
+  return {
+    type: SET_STORE_POPUP,
+    storePopup: null,
+  };
 };
 
 export const fetchPopup = (query) => {
@@ -91,23 +83,17 @@ export const fetchPopup = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await response.json();
-
-      if (!response.ok) {
-        Util.log(url, resData.error.errorMsg);
-        throw new Error("fetchPopup went wrong!");
-      }
+      const resData = await Network.getResponse(response, dispatch, url, query);
 
       if (query && query.store_cd) {
         dispatch({
           type: SET_STORE_POPUP,
           storePopup: resData.data,
         });
-        Util.log("fetchStorePopup", resData.data);
       } else {
         dispatch({ type: SET_APP_POPUP, appPopup: resData.data });
-        Util.log("fetchAppPopup", resData.data);
       }
+      return resData.data;
     } catch (err) {
       throw err;
     }

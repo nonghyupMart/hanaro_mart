@@ -45,7 +45,12 @@ import FlyerDetailScreen, {
 } from "@screens/home/FlyerDetailScreen";
 
 import NaroTubeScreen from "@screens/home/NaroTubeScreen";
-
+import ExhibitionDetailScreen, {
+  screenOptions as ExhibitionDetailScreenOptions,
+} from "@screens/home/ExhibitionDetailScreen";
+import EventScreen, {
+  screenOptions as EventScreenOptions,
+} from "@screens/home/EventScreen";
 import EventDetailScreen, {
   screenOptions as EventDetailScreenOptions,
 } from "@screens/home/EventDetailScreen";
@@ -67,7 +72,9 @@ import BarcodeScreen, {
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
 } from "@screens/BarCodeScannerScreen";
-import RingPickerScreen from "@screens/RingPickerScreen";
+import RingPickerScreen, {
+  screenOptions as RingPickerScreenOptions,
+} from "@screens/RingPickerScreen";
 import NoticeScreen, {
   screenOptions as NoticeScreenOptions,
 } from "@screens/snb/NoticeScreen";
@@ -94,6 +101,29 @@ import WithdrawalMembershipScreen, {
   screenOptions as WithdrawalMembershipScreenOptions,
 } from "@screens/myPage/WithdrawalMembershipScreen";
 
+import NotificationScreen, {
+  screenOptions as NotificationScreenOptions,
+} from "@screens/NotificationScreen";
+import CartScreen, {
+  screenOptions as CartScreenOptions,
+} from "@screens/CartScreen";
+
+import SearchProductScreen, {
+  screenOptions as SearchProductScreenOptions,
+} from "@screens/SearchProductScreen";
+
+import MyOrderScreen, {
+  screenOptions as MyOrderScreenOptions,
+} from "@screens/MyOrderScreen";
+
+import MyInfoScreen, {
+  screenOptions as MyInfoScreenOptions,
+} from "@screens/MyInfoScreen";
+
+import PopupScreen, {
+  screenOptions as PopupScreenOptions,
+} from "@screens/PopupScreen";
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -103,45 +133,7 @@ const getTabBarVisible = (route) => {
   }
   return true;
 };
-const getSearchBarVisible = (route) => {
-  const params = route.params;
-  if (params) {
-    if (params.tabBarVisible === false) {
-      return false;
-    }
-  }
-  return true;
-};
 
-let isShowSearchBar = false;
-let opacity = new Animated.Value(1);
-opacity.setValue(0);
-const animate = () => {
-  Keyboard.dismiss();
-  if (!isShowSearchBar) {
-    opacity.setValue(0);
-  } else {
-    opacity.setValue(1);
-  }
-  Animated.timing(opacity, {
-    toValue: isShowSearchBar ? 0 : 1,
-    duration: isShowSearchBar ? 200 : 400,
-    easing: isShowSearchBar ? Easing.elastic(0) : Easing.elastic(0),
-    useNativeDriver: false,
-  }).start();
-  isShowSearchBar = !isShowSearchBar;
-};
-
-const size = opacity.interpolate({
-  inputRange: [0, 1],
-  outputRange: [0, 80],
-});
-const animatedStyles = [
-  {
-    width: "100%",
-    height: size,
-  },
-];
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
 export const HomeTabNavigator = ({ navigation, route }) => {
@@ -150,77 +142,62 @@ export const HomeTabNavigator = ({ navigation, route }) => {
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
   return (
-    <Fragment>
-      <Animated.View
-        key={1}
-        style={[
-          animatedStyles,
-          // {
-          //   transform: [
-          //     // scaleX, scaleY, scale, theres plenty more options you can find online for this.
-          //     { translateY: opacity }, // this would be the result of the animation code below and is just a number.
-          //   ],
-          // },
-        ]}
-      >
-        <View>
-          <Input
-            id="title"
-            label="Title"
-            errorText="Please enter a valid title!"
-            keyboardType="default"
-            returnKeyType="next"
-            placeholder="원하시는 상품을 검색하세요!"
-          />
-        </View>
-      </Animated.View>
-      <HomeTopTabNavigator.Navigator
-        backBehavior="initialRoute"
-        onStateChange={() => {}}
-        lazy={false}
-        // optimizationsEnabled={true}
-        tabBar={(props) => <MeterialTopTabBar {...props} />}
-        initialRouteName="Home"
-        swipeEnabled={false}
-        tabBarOptions={{
-          scrollEnabled: true,
-          tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
-          style: { marginLeft: -83 },
-        }}
-      >
-        <HomeTopTabNavigator.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ route }) => ({
-            title: "",
-            tabBarLabel: "",
-            tabBarVisible: getTabBarVisible(route),
-          })}
-        />
-        {menuList.map((menu) => {
-          {
-            let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+    <HomeTopTabNavigator.Navigator
+      backBehavior="initialRoute"
+      onStateChange={() => {}}
+      lazy={true}
+      // optimizationsEnabled={true}
+      tabBar={(props) => <MeterialTopTabBar {...props} />}
+      initialRouteName="Home"
+      swipeEnabled={false}
+      tabBarOptions={{
+        scrollEnabled: true,
+        tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
+        style: { marginLeft: -83 },
+      }}
+    >
+      <HomeTopTabNavigator.Screen
+        name="Home"
+        component={HomeScreen}
+        options={({ route }) => ({
+          title: "",
+          tabBarLabel: "",
+          tabBarVisible: getTabBarVisible(route),
+        })}
+      />
+      {menuList.map((menu) => {
+        {
+          let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+          if (!Tab[0]) return;
+          return (
+            <HomeTopTabNavigator.Screen
+              key={Tab[0].name}
+              name={Tab[0].name}
+              component={Tab[0].components}
+              options={{
+                title: menu.menu_nm,
+                cardStyle: {
+                  backgroundColor: colors.trueWhite,
+                },
+              }}
+            />
+          );
+        }
+      })}
+      {_.size(menuList) === 0 &&
+        TabMenus.map((tab) => {
+          if (_.isEmpty(userStore))
             return (
               <HomeTopTabNavigator.Screen
-                key={Tab[0].name}
-                name={Tab[0].name}
-                component={Tab[0].components}
-                options={{ title: menu.menu_nm }}
+                key={tab.name}
+                name={tab.name}
+                component={tab.subComponents}
+                options={{ title: tab.title }}
               />
             );
-          }
+          return;
         })}
-        {menuList.length === 0 &&
-          TabMenus.map((tab) => (
-            <HomeTopTabNavigator.Screen
-              key={tab.name}
-              name={tab.name}
-              component={tab.subComponents}
-              options={{ title: tab.title }}
-            />
-          ))}
-      </HomeTopTabNavigator.Navigator>
-    </Fragment>
+    </HomeTopTabNavigator.Navigator>
   );
 };
 
@@ -229,10 +206,10 @@ export const HomeNavigator = ({ navigation, route }) => {
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
-        // initialRouteName={() => (isStorePopup ? "StorePopup" : "Home")}
         screenOptions={{
           cardStyle: {
-            marginBottom: 60,
+            paddingBottom: 65,
+            backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -240,7 +217,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         }}
       >
         <HomeStackNavigator.Screen
-          name="Home"
+          name="HomeTab"
           component={HomeTabNavigator}
           options={HomeScreenOptions}
           // initialParams={{
@@ -286,15 +263,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         <HomeStackNavigator.Screen
           name="RingPicker"
           component={RingPickerScreen}
-          options={{
-            cardStyle: {
-              marginBottom: 0,
-            },
-            headerShown: false,
-            cardStyleInterpolator:
-              CardStyleInterpolators.forFadeFromBottomAndroid,
-            headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-          }}
+          options={RingPickerScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="Notice"
@@ -341,6 +310,46 @@ export const HomeNavigator = ({ navigation, route }) => {
           component={WithdrawalMembershipScreen}
           options={WithdrawalMembershipScreenOptions}
         />
+        <HomeStackNavigator.Screen
+          name="Notification"
+          component={NotificationScreen}
+          options={NotificationScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Cart"
+          component={CartScreen}
+          options={CartScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="SearchProduct"
+          component={SearchProductScreen}
+          options={SearchProductScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyOrder"
+          component={MyOrderScreen}
+          options={MyOrderScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyInfo"
+          component={MyInfoScreen}
+          options={MyInfoScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyEvent"
+          component={EventScreen}
+          options={EventScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="ExhibitionDetail"
+          component={ExhibitionDetailScreen}
+          options={ExhibitionDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="ForStoreDetail"
+          component={ExhibitionDetailScreen}
+          options={ExhibitionDetailScreenOptions}
+        />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
     </Fragment>
@@ -353,11 +362,21 @@ const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+  if (isInitialRender) {
+    setTimeout(() => setIsInitialRender(false), 1);
+  }
   // return <></>;
   return (
     <Drawer.Navigator
       edgeWidth={0}
-      drawerStyle={drawerStyle}
+      drawerStyle={[
+        drawerStyle,
+        {
+          width: isInitialRender ? null : screenWidth * 0.791,
+        },
+      ]}
       drawerContent={(props) =>
         CustomDrawerContent(
           props,

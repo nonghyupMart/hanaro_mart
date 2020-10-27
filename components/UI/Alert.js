@@ -5,37 +5,42 @@ import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 const { width, height } = Dimensions.get("window");
 import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import { useSelector, useDispatch } from "react-redux";
 
 const Alert = (props) => {
-  const [show, setShow] = useState(true);
-  const [isVisible, setIsVisible] = useState(props.isVisible);
+  const alert = useSelector((state) => state.common.alert);
   const onPressConfirm = () => {
-    if (props.onPressConfirm) props.onPressConfirm();
+    if (alert.onPressConfirm) alert.onPressConfirm();
     // else setIsVisible(() => false);
   };
+  if (!alert) return <></>;
   return (
     <Modal
-      isVisible={props.isVisible}
+      // backdropOpacity={0.1}
+      isVisible={alert.content || alert.message ? true : false}
       useNativeDriver={true}
-      hideModalContentWhileAnimating={true}
+      hideModalContentWhileAnimating={false}
       onModalHide={() => {}}
     >
       <Container>
-        <TitleContainer message={props.message}>
+        <TitleContainer message={alert.message}>
           <Icon>
             <Image source={require("@images/ic_error_outline_24px.png")} />
           </Icon>
-
-          {props.content}
-          {props.message && <Message>{props.message}</Message>}
+          {alert.message && <Message>{alert.message}</Message>}
         </TitleContainer>
+        {alert.content && <ContentContainer>{alert.content}</ContentContainer>}
         <ButtonContainer>
           <ConfirmButton onPress={onPressConfirm}>
-            <ButtonText>{props.confirmText}</ButtonText>
+            <ButtonText>
+              {alert.confirmText ? alert.confirmText : props.confirmText}
+            </ButtonText>
           </ConfirmButton>
-          {props.onPressCancel && (
-            <CancelButton onPress={props.onPressCancel}>
-              <ButtonText>{props.cancelText}</ButtonText>
+          {alert.onPressCancel && (
+            <CancelButton onPress={alert.onPressCancel}>
+              <ButtonText>
+                {alert.cancelText ? alert.cancelText : props.cancelText}
+              </ButtonText>
             </CancelButton>
           )}
         </ButtonContainer>
@@ -43,6 +48,7 @@ const Alert = (props) => {
     </Modal>
   );
 };
+const ContentContainer = styled.View({});
 const TitleContainer = styled.View({
   flexDirection: "row",
   width: "100%",

@@ -12,11 +12,12 @@ import { BaseImage, BaseText } from "@UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { IMAGE_URL } from "@constants/settings";
+import * as Util from "@util";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{ flex: 1 }}>
+    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
       <Container>
         <BaseImage
           style={{
@@ -27,8 +28,8 @@ const FlyerItem = (props) => {
           defaultSource={require("@images/p_img503.png")}
         />
         <Title>{props.item.title}</Title>
-        <OriginalPrice>{props.item.price}원</OriginalPrice>
-        <SalePrice>{props.item.sale_price}원</SalePrice>
+        <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
+        <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
       </Container>
     </TouchableOpacity>
   );
@@ -48,7 +49,7 @@ const Container = styled.View({
 });
 const SalePrice = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
@@ -57,7 +58,7 @@ const SalePrice = styled(BaseText)({
 });
 const OriginalPrice = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "bold",
+  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
@@ -91,13 +92,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   quantity: {
-    fontFamily: "open-sans",
     color: "#888",
     fontSize: 16,
   },
   mainText: {
     color: "black",
-    fontFamily: "open-sans-bold",
+    fontFamily: "CustomFont-Bold",
     fontSize: 16,
   },
   deleteButton: {

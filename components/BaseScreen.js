@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   View,
@@ -10,112 +9,111 @@ import {
   BackHandler,
   Platform,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
 import * as CommonActions from "@actions/common";
 import Constants from "expo-constants";
-
-import Loading from "@UI/Loading";
-import Alert from "@UI/Alert";
 import { StyleConstants } from "@UI/BaseUI";
 import _ from "lodash";
+
 const Contents = (props) => {
-  return (
-    <>
-      {props.alert && (
-        <Alert
-          isVisible={props.alert.content || props.alert.message ? true : false}
-          message={props.alert.message}
-          onPressConfirm={props.alert.onPressConfirm}
-          onPressCancel={props.alert.onPressCancel}
-          cancelText={props.alert.cancelText}
-          confirmText={props.alert.confirmText}
-          content={props.alert.content}
-        />
-      )}
-      {props.children}
-    </>
-  );
+  return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
+  const isBottomNavigation = useSelector(
+    (state) => state.common.isBottomNavigation
+  );
+  const [isKeyboardOn, setIsKeyboardOn] = useState(false);
   const [isPadding, setIsPadding] = useState(
     props.isPadding == undefined ? true : props.isPadding
   );
-
-  const isBottomNavigation =
-    props.isBottomNavigation == undefined ? true : props.isBottomNavigation;
   const dispatch = useDispatch();
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
-    }, 0);
 
+  useEffect(() => {
     const backAction = () => {
       dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setIsLoading(false));
       return false;
     };
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",
       backAction
     );
-
     return () => {
       backHandler.remove();
     };
+  }, [isBottomNavigation]);
+  useEffect(() => {
+    Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
+    Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
+
+    // cleanup function
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
+      Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
+    };
   }, []);
+
+  const _keyboardDidShow = () => {
+    setIsKeyboardOn(true);
+    // dispatch(CommonActions.setBottomNavigation(false));
+  };
+
+  const _keyboardDidHide = () => {
+    setIsKeyboardOn(false);
+    // dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+  };
+  const onScroll = () => {
+    // if (isBottomNavigationFromRedux != isBottomNavigation)
+    //   dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+    // if (isKeyboardOn) Keyboard.dismiss();
+  };
   //   const [isVisibleAlert, setIsVisibleAlert] = useState(props.isVisibleAlert);
 
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );
-  if (props.isInitialized !== undefined && props.isInitialized === false) {
-    return (
-      <Screen headerHeight={useHeaderHeight()} style={props.style}>
-        <Loading isLoading={props.isLoading} />
-      </Screen>
-    );
-  }
 
   return (
-    <>
-      <Loading isLoading={props.isLoading} />
-      <Screen
-        headerHeight={useHeaderHeight()}
-        style={props.style}
-        isPadding={isPadding}
-        isCenter={props.isCenter}
-      >
-        {isScroll && (
-          <ScrollList
-            isPadding={isPadding}
-            ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
-            nestedScrollEnabled={true}
-            // keyboardDismissMode="none"
-            // keyboardShouldPersistTaps="always"
-            removeClippedSubviews={false}
-            keyboardDismissMode="none"
-            keyboardShouldPersistTaps="handled"
-            windowSize={props.windowSize ? props.windowSize : 5}
-            style={props.scrollListStyle}
-            data={[0]}
-            keyExtractor={(item, index) => `${index}`}
-            headerHeight={useHeaderHeight()}
-            {...props}
-            contentContainerStyle={[styles.safeAreaView]}
-            renderItem={({ item, index, separators }) => (
-              <ContentContainer
-                style={[props.contentStyle]}
-                isPadding={isPadding}
-              >
-                <Contents {...props} />
-              </ContentContainer>
-            )}
-          />
-        )}
-        {!isScroll && <Contents {...props} />}
-      </Screen>
-    </>
+    <Screen
+      headerHeight={useHeaderHeight()}
+      style={props.style}
+      isPadding={isPadding}
+      isCenter={props.isCenter}
+    >
+      {isScroll && (
+        <ScrollList
+          listKey="BaseScreen"
+          // onScroll={onScroll}
+          isPadding={isPadding}
+          ref={(ref) => (props.setScrollRef ? props.setScrollRef(ref) : null)}
+          nestedScrollEnabled={true}
+          // keyboardDismissMode="none"
+          // keyboardShouldPersistTaps="always"
+          removeClippedSubviews={false}
+          keyboardDismissMode="none"
+          keyboardShouldPersistTaps="handled"
+          windowSize={props.windowSize ? props.windowSize : 5}
+          style={props.scrollListStyle}
+          data={[0]}
+          keyExtractor={(item, index) => `${index}`}
+          headerHeight={useHeaderHeight()}
+          {...props}
+          contentContainerStyle={[styles.safeAreaView]}
+          renderItem={({ item, index, separators }) => (
+            <ContentContainer
+              style={[props.contentStyle]}
+              isPadding={isPadding}
+            >
+              <Contents {...props} />
+            </ContentContainer>
+          )}
+        />
+      )}
+      {!isScroll && <Contents {...props} />}
+    </Screen>
   );
 };
 
