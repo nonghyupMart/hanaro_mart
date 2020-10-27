@@ -48,6 +48,7 @@ export const emptyPrint = (val) => {
 export const log = (...val) => {
   if (__DEV__) {
     console.warn(...val);
+    // console.warn(JSON.stringify(userStore, null, "\t"));
   }
 };
 

@@ -90,6 +90,7 @@ const JoinStep2Screen = ({ navigation }) => {
         user_id: Util.encrypt(phoneNumber),
         token: Util.encrypt(pushToken),
         os: Platform.OS === "ios" ? "I" : "A",
+        marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
       };
       signup(query, dispatch, agreedStatus);
       setIsRequestedJoin(true);

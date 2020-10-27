@@ -6,7 +6,6 @@ import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
-import AutoHeightImage from "react-native-auto-height-image";
 
 import {
   DetailContainer,
@@ -47,7 +46,9 @@ const EventDetailScreen = (props, { navigation }) => {
   useEffect(() => {
     requestEvent();
   }, [dispatch]);
-
+  const onLoad = () => {
+    dispatch(setIsLoading(false));
+  };
   const requestEvent = () => {
     dispatch(setIsLoading(true));
     dispatch(
@@ -56,7 +57,7 @@ const EventDetailScreen = (props, { navigation }) => {
         user_cd: userInfo.user_cd,
       })
     ).then(() => {
-      dispatch(setIsLoading(false));
+      // dispatch(setIsLoading(false));
     });
   };
   const checkQRLength = (val, length) => {
@@ -174,6 +175,9 @@ const EventDetailScreen = (props, { navigation }) => {
           }}
         >
           <ScaledImage
+            onLoad={onLoad}
+            onError={onLoad}
+            onLoadEnd={onLoad}
             key={eventDetail.detail_img}
             source={eventDetail.detail_img}
             style={{}}
