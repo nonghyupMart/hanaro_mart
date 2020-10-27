@@ -73,7 +73,9 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   return PreventDoubleClick;
 };
 
-const storagePrefix = Constants.manifest.releaseChannel + "::";
+const storagePrefix = Constants.manifest.releaseChannel
+  ? Constants.manifest.releaseChannel
+  : "dev" + "::";
 export const setStorageItem = (name, data) => {
   return AsyncStorage.setItem(storagePrefix + name, data);
 };

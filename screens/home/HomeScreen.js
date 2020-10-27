@@ -47,21 +47,13 @@ const HomeScreen = (props) => {
   const navigation = props.navigation;
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  const [fetchHomeBanner, setFetchHomeBanner] = useState(false);
-  const [fetchHomeNotice, setFetchHomeNotice] = useState(false);
-  const [fetchHomeNaro, setFetchHomeNaro] = useState(false);
-  const [fetchStorePopup, setFetchStorePopup] = useState(false);
-  const [fetchAppPopup, setFetchAppPopup] = useState(false);
-  const [storePopupKey, setStorePopupKey] = useState();
-  const [appPopupKey, setAppPopupKey] = useState();
-  const [isReadyAppPopup, setIsReadyAppPopup] = useState(false);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
-
+  let timer;
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
@@ -75,24 +67,25 @@ const HomeScreen = (props) => {
         });
       }
     });
-    return unsubscribe;
-  }, [navigation]);
-  useEffect(() => {
-    // if (__DEV__) {
-    // Util.removeStorageItem("dateForStorePopupData5");
-    // Util.removeStorageItem("dateForAppPopupData5");
-    // }
-    dispatch(setIsLoading(true));
-    if (fetchHomeBanner && fetchHomeNotice && fetchHomeNaro && fetchAppPopup) {
+    return () => {
       dispatch(setIsLoading(false));
-      if (typeof didTryPopup == "string") {
-        setTimeout(() => {
-          navigation.navigate(didTryPopup);
-        }, 0);
-        dispatch(CommonActions.setDidTryPopup(true));
-      }
+      unsubscribe;
+    };
+  }, [navigation, userInfo]);
+  useEffect(() => {
+    if (typeof didTryPopup == "string") {
+      timer = setTimeout(() => {
+        navigation.navigate(didTryPopup);
+      }, 0);
+      dispatch(CommonActions.setDidTryPopup(true));
     }
-  }, [fetchHomeBanner, fetchHomeNotice, fetchHomeNaro, fetchAppPopup]);
+
+    return () => {
+      dispatch(setIsLoading(false));
+      clearTimeout(timer);
+      timer;
+    };
+  }, []);
 
   const navigateToCart = () => {
     if (_.isEmpty(userStore)) return navigation.navigate("Empty");
@@ -105,19 +98,15 @@ const HomeScreen = (props) => {
         <AppPopup
           isFocused={isFocused}
           // key={appPopupKey}
-          setIsReadyAppPopup={setIsReadyAppPopup}
-          setFetchAppPopup={setFetchAppPopup}
           {...props}
         />
         <HomeBanner
           isFocused={isFocused}
-          setFetchHomeBanner={setFetchHomeBanner}
         />
         <Space />
-        <NaroTube isFocused={isFocused} setFetchHomeNaro={setFetchHomeNaro} />
+        <NaroTube isFocused={isFocused}  />
         <HomeNotice
           isFocused={isFocused}
-          setFetchHomeNotice={setFetchHomeNotice}
         />
       </BaseScreen>
     </>

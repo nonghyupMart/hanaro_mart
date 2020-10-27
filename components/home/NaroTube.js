@@ -18,15 +18,16 @@ import {
 import URI from "urijs";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const NaroTube = (props) => {
   const dispatch = useDispatch();
   const homeNaro = useSelector((state) => state.home.homeNaro);
   useEffect(() => {
-    props.setFetchHomeNaro(false);
+    dispatch(setIsLoading(true));
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
-      props.setFetchHomeNaro(true);
+       dispatch(setIsLoading(false));
     });
   }, [dispatch]);
   if (!homeNaro || !homeNaro.naroList || homeNaro.naroCnt == 0) return <></>;

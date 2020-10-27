@@ -16,10 +16,12 @@ const Loading = (props) => {
   let timer;
   useEffect(() => {
     if (!isLoading) return;
+    clearTimeout(timer);
     timer = setTimeout(() => {
       dispatch(setIsLoading(false));
     }, 1000 * 15);
     return () => {
+      clearTimeout(timer);
       timer;
     };
   }, [isLoading]);

@@ -16,6 +16,8 @@ import * as CommonActions from "@actions/common";
 import * as homeActions from "@actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const AppPopup = (props) => {
   const dispatch = useDispatch();
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
@@ -28,16 +30,14 @@ const AppPopup = (props) => {
   }, [isAppPopup, props.isFocused]);
   useEffect(() => {
     if (!_.isEmpty(appPopup) || !isAppPopup || !props.isFocused) {
-      props.setIsReadyAppPopup(true);
-      props.setFetchAppPopup(true);
       return;
     }
-    props.setFetchAppPopup(false);
+    dispatch(setIsLoading(true));
 
     dispatch(homeActions.fetchPopup()).then(() => {
-      props.setFetchAppPopup(true);
+      dispatch(setIsLoading(false));
       if (_.isEmpty(appPopup)) {
-        props.setIsReadyAppPopup(true);
+        dispatch(setIsLoading(false));
       }
     });
   }, [props.isFocused]);
@@ -99,7 +99,6 @@ const AppPopup = (props) => {
                 }}
               >
                 <BaseImage
-                  onLoad={() => props.setIsReadyAppPopup(true)}
                   source={item.display_img}
                   style={{
                     resizeMode: "cover",

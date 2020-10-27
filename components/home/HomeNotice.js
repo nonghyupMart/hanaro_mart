@@ -13,6 +13,7 @@ import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as homeActions from "@actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const HomeNotice = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -21,10 +22,10 @@ const HomeNotice = (props) => {
   const homeNotice = useSelector((state) => state.home.homeNotice);
   useEffect(() => {
     if (!props.isFocused) return;
-    props.setFetchHomeNotice(false);
+    dispatch(setIsLoading(true));
     const fetchHomeNotice = dispatch(homeActions.fetchHomeNotice());
     Promise.all([fetchHomeNotice]).then((result) => {
-      props.setFetchHomeNotice(true);
+      dispatch(setIsLoading(false));
     });
   }, [props.isFocused]);
 

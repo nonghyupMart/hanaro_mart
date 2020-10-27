@@ -4,6 +4,7 @@ import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
 import { clearStorePopup } from "@actions/home";
 import * as Util from "@util";
 import * as Network from "@util/network";
+import _ from "lodash";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
@@ -147,6 +148,9 @@ export const saveIsJoinToStorage = (status) => {
 };
 
 const clearAllData = () => {
-  AsyncStorage.getAllKeys().then((keys) => AsyncStorage.multiRemove(keys));
+  AsyncStorage.getAllKeys().then((keys) => {
+    if (_.isEmpty(keys)) return;
+    AsyncStorage.multiRemove(keys);
+  });
   // .then(() => alert('success'));
 };
