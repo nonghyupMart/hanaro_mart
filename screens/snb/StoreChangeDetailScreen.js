@@ -79,6 +79,7 @@ const StoreChangeDetailScreen = (props) => {
   };
   const saveStore = () => {
     if (!branch || !branch.storeInfo) return;
+    dispatch(setIsLoading(true));
     let msg;
     dispatch(
       setUserStore(

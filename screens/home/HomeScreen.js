@@ -69,6 +69,7 @@ const HomeScreen = (props) => {
           authActions.updateLoginLog({ user_cd: userInfo.user_cd })
         ).then((data) => {
           const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+          if (_.isEmpty(obj)) return;
           dispatch(authActions.saveUserStore(obj));
           authActions.saveUserStoreToStorage(obj);
         });

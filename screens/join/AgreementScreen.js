@@ -207,11 +207,16 @@ const AgreementScreen = ({ navigation }) => {
   ]);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setIsLoading(false));
+    const unsubscribe = navigation.addListener("focus", () => {
+      setTimeout(() => {
+        dispatch(setIsLoading(false));
+      }, 0);
+    });
     return () => {
       dispatch(setIsLoading(false));
+      unsubscribe;
     };
-  }, [dispatch]);
+  }, [navigation]);
   const handleAllChecked = (isCheckAll) => {
     let cks = [...checkBoxes];
     cks.map((el) => {

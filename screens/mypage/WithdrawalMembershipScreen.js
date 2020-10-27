@@ -21,7 +21,7 @@ import { StoreBox, BottomCover } from "@components/store/InfoBox";
 import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
 import MemberInfo from "@components/myPage/MemberInfo";
 import * as authActions from "@actions/auth";
-import { setAlert } from "@actions/common";
+import { setAlert, setIsLoading } from "@actions/common";
 
 const WithdrawalMembershipScreen = ({ navigation }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -42,6 +42,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
                     setTimeout(() => {
                       dispatch(setAlert(null));
                       dispatch(authActions.withdrawalFinish());
+                      dispatch(setIsLoading(false));
                     }, 0);
                   },
                 })
