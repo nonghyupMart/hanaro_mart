@@ -48,6 +48,7 @@ export const signup = (query) => {
     });
     const resData = await Network.getResponse(response, dispatch, url, query);
 
+    if (!resData.data.userInfo.user_cd) return resData.data.userInfo;
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
     return resData.data.userInfo;

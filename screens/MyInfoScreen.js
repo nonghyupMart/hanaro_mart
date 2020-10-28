@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import JsBarcode from "jsbarcode";
-
-import { DOMImplementation, XMLSerializer } from "xmldom";
 import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
-import MemberInfo from "@components/myPage/MemberInfo";
+import MemberInfoB from "@components/myPage/MemberInfoB";
 // import Barcode from "react-native-jsbarcode";
 import {
   SafeAreaView,
@@ -62,7 +59,7 @@ const MyInfoScreen = (props) => {
         marginBottom: 40,
       }}
     >
-      <MemberInfo />
+      <MemberInfoB />
       <MarginContainer>
         <TextContainer>
           <Text1>회원번호</Text1>
@@ -94,11 +91,34 @@ const MyInfoScreen = (props) => {
           <BlueButtonText>확인</BlueButtonText>
         </BlueButton> */}
       </WhiteContainer>
+      <Button onPress={() => props.navigation.goBack()}>
+        <BtnText>확인</BtnText>
+      </Button>
     </BaseScreen>
   );
 };
-const MarginContainer = styled.View({
-  marginTop: 40,
+
+export const BtnText = styled(BaseText)({
+  fontSize: 18,
+
+  lineHeight: 26,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+  fontFamily: "CustomFont-Bold",
+  paddingTop: 6,
+  paddingBottom: 6,
+});
+export const Button = styled.TouchableOpacity({
+  borderRadius: 18,
+  backgroundColor: colors.greyishBrown,
+  aspectRatio: 100 / 28.346,
+  alignSelf: "center",
+  marginTop: 65,
+});
+
+export const MarginContainer = styled.View({
+  marginTop: 24,
   marginBottom: 0,
 });
 const BaseTextStyle = styled(BaseText)({

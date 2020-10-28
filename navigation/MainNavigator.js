@@ -120,6 +120,10 @@ import MyInfoScreen, {
   screenOptions as MyInfoScreenOptions,
 } from "@screens/MyInfoScreen";
 
+import MyADAgreementScreen, {
+  screenOptions as MyADAgreementScreenOptions,
+} from "@screens/MyADAgreementScreen";
+
 import PopupScreen, {
   screenOptions as PopupScreenOptions,
 } from "@screens/PopupScreen";
@@ -334,6 +338,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="MyInfo"
           component={MyInfoScreen}
           options={MyInfoScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="MyADAgreement"
+          component={MyADAgreementScreen}
+          options={MyADAgreementScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="MyEvent"

@@ -57,7 +57,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
-        console.warn(JSON.stringify(userInfo, null, "\t"));
+        // console.warn(JSON.stringify(userInfo, null, "\t"));
         dispatch(
           authActions.updateLoginLog({ user_cd: userInfo.user_cd })
         ).then((data) => {

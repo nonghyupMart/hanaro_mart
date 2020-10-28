@@ -205,7 +205,9 @@ const CouponDetailScreen = (props) => {
           <TextContainer>
             <Price>쿠폰명 : {couponDetail.title}</Price>
             <Price>할인가 : {Util.formatNumber(couponDetail.price)}원</Price>
-            <Price>최소구매금액 : {couponDetail.m_price}원</Price>
+            <Price>
+              최소구매금액 : {Util.formatNumber(couponDetail.m_price)}원
+            </Price>
             <Price>사용기간 : ~ {couponDetail.end_date}까지</Price>
             <View
               style={{
@@ -263,7 +265,7 @@ const CouponDetailScreen = (props) => {
         <DescText>쿠폰사용시 유의사항</DescText>
       </DescContainer>
       <Desc>
-        {`- 앱쿠폰은 하나로마트 회원만 사용 가능합니다.
+        {`- 앱쿠폰은 하나로마트앱 회원만 사용 가능합니다.
 - 쿠폰은 다운받으신 매장에서만 사용 가능합니다.
 - 매장 계산대에서 본 쿠폰을 제시해 주세요.
 - 할인 조건은 최종결제금액 기준으로 적용됩니다.

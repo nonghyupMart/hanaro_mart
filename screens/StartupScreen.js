@@ -9,11 +9,23 @@ import * as CommonActions from "@actions/common";
 import moment from "moment";
 import * as Util from "@util";
 import _ from "lodash";
+import * as Updates from "expo-updates";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          // ... notify user of update ...
+          Updates.reloadAsync();
+        }
+      } catch (e) {
+        // handle or log error
+      }
       const userStoreData = await Util.getStorageItem("userStoreData");
       await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 

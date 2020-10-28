@@ -59,7 +59,7 @@ const AgreementScreen = ({ navigation }) => {
       isOpen: false,
       isRequired: true,
 
-      title: "농협 하나로마트앱 이용약관",
+      title: "하나로마트앱 이용약관",
       content: () => (
         <AutoHeightWebView
           // injectedJavaScript="window.onscroll=function(){alert('Not WORK');};true;"
@@ -463,7 +463,6 @@ const AgreementScreen = ({ navigation }) => {
               <TextView
                 style={{
                   color: item.isRequired ? colors.cerulean : colors.viridian,
-                  fontWeight: item.isNormalTitle ? "normal" : "bold",
                 }}
               >
                 {item.isRequired ? "[필수] " : "[선택] "}
@@ -559,7 +558,7 @@ const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
   source: require("@images/checkmark2.png"),
 };
-const WarnText = styled(BaseText)({
+export const WarnText = styled(BaseText)({
   marginTop: 25,
   fontSize: 9,
   fontWeight: "normal",
@@ -569,7 +568,7 @@ const WarnText = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const GrayDesc = styled(BaseText)({
+export const GrayDesc = styled(BaseText)({
   fontSize: 12,
   fontWeight: "500",
   fontStyle: "normal",
@@ -581,7 +580,7 @@ const GrayDesc = styled(BaseText)({
   marginLeft: 16,
   marginRight: 23,
 });
-const DescText1 = styled(BaseText)({
+export const DescText1 = styled(BaseText)({
   marginLeft: 5,
   fontSize: 12,
   fontWeight: "normal",
@@ -591,8 +590,8 @@ const DescText1 = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const Desc = styled.View({ marginLeft: 46, marginBottom: 5 });
-const DescTextLine = styled.View({
+export const Desc = styled.View({ marginLeft: 46, marginBottom: 5 });
+export const DescTextLine = styled.View({
   flexDirection: "row",
   alignItems: "center",
 });
@@ -600,17 +599,17 @@ export const TitleContainer = styled.View({
   flexDirection: "row",
   flex: 0.75,
 });
-const SmallText = styled(BaseText)({
+export const SmallText = styled(BaseText)({
   fontSize: 11,
   color: colors.greyishBrown,
 });
-const SmallTextBold = styled(BaseText)({
+export const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
   fontFamily: "CustomFont-Bold",
 });
-const TitleArea = styled.View({
+export const TitleArea = styled.View({
   paddingBottom: (props) => (!props.desc && props.isOpen ? 5 : 0),
   flex: 1,
   flexDirection: "row",
@@ -620,7 +619,7 @@ const TitleArea = styled.View({
   width: "100%",
   // paddingRight: 6,
 });
-const ExtraBox = styled.View({
+export const ExtraBox = styled.View({
   paddingLeft: 37,
   paddingRight: 37,
   paddingBottom: 14.5,
@@ -672,14 +671,14 @@ export const TextView = styled(BaseText)({
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
-
+  fontFamily: "CustomFont-Bold",
   flexShrink: 0,
 });
-const BoldText = styled(BaseText).attrs({})({
+export const BoldText = styled(BaseText).attrs({})({
   fontFamily: "CustomFont-Bold",
   lineHeight: 20,
 });
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   justUnderline: {
     textDecorationLine: "underline",
     textDecorationStyle: "solid",
