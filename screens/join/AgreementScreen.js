@@ -8,6 +8,7 @@ import {
   StatusBar,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import {
   createStackNavigator,
@@ -40,14 +41,17 @@ import {
   setAgreedStatus,
   saveAgreedStatusToStorage,
 } from "@actions/auth";
-
+import { SERVER_URL, API_URL } from "@constants/settings";
+import { ExtendedWebView } from "@UI/ExtendedWebView";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as Util from "@util";
+import AutoHeightWebView from "react-native-autoheight-webview";
 
 const AgreementScreen = ({ navigation }) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const isLoading = useSelector((state) => state.common.isLoading);
+  const [canScroll, setCanScroll] = useState(true);
   const [checkBoxes, setCheckBoxes] = useState([
     {
       id: 0,
@@ -57,21 +61,16 @@ const AgreementScreen = ({ navigation }) => {
 
       title: "농협 하나로마트앱 이용약관",
       content: () => (
-        <ExtraBox>
-          <SmallTextBold>이용목적</SmallTextBold>
-          <SmallText>회원가입의 성립. 하나로마트앱 서비스 이용</SmallText>
-          <SmallTextBold>수집항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 본인인증 시 성명, 생년월일, 성별, 내외국인여부, CI
-          </SmallText>
-          <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
-          <WarnText>
-            ※ 고객님께서는 필수항목 수집·이용에 대한 동의를 거부할 권리가
-            있습니다. 단, 필수항목 동의 거부 시에는 회원가입이 불가하며, 상기
-            이용목적에 명시된 서비스는 받으실 수 없습니다.
-          </WarnText>
-        </ExtraBox>
+        <AutoHeightWebView
+          // injectedJavaScript="window.onscroll=function(){alert('Not WORK');};true;"
+          source={{
+            uri: `${SERVER_URL}/web/about/terms.do`,
+          }}
+          style={{
+            width: screenWidth - 18 - 18 - 2,
+            flex: 1,
+          }}
+        />
       ),
     },
     {
@@ -104,6 +103,17 @@ const AgreementScreen = ({ navigation }) => {
       ),
       content: () => (
         <ExtraBox>
+          <SmallTextBold>이용목적</SmallTextBold>
+          <SmallText>
+            이용자 식별, 회원가입의 성립, 앱서비스 제공, 본인인증,
+            부정 이용방지, 민원처리 등을 위한 의사소통 경로 확보
+          </SmallText>
+          <SmallTextBold>수집항목</SmallTextBold>
+          <SmallText>
+            휴대폰번호, 14세 이상여부, 쿠폰 등 거래내역, 본인인증 시 성명,
+            생년월일, 성별, CI, DI
+          </SmallText>
+
           <SmallTextBold>제공받는자</SmallTextBold>
           <SmallText style={styles.underline}>
             농협유통, 농협대전유통, 농협부산경남유통,
@@ -120,7 +130,10 @@ const AgreementScreen = ({ navigation }) => {
             내외국인여부 , CI
           </SmallText>
           <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.underline}>회원탈퇴 시</SmallText>
+          <SmallText style={styles.underline}>
+            회원탈퇴 후 15일 이내 다만,
+            법령상 개인정보의 보존의무가 있는 경우 그에 따름
+          </SmallText>
           <WarnText>
             ※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장
             관리에서 확인이 가능합니다.
@@ -175,6 +188,15 @@ const AgreementScreen = ({ navigation }) => {
       ),
       content: () => (
         <ExtraBox>
+          <SmallTextBold>이용목적</SmallTextBold>
+          <SmallText>
+            상품 및 서비스 안내 또는 홍보(SMS, PUSH)
+            회원의 혜택과 서비스개선을 위한 통계분석 및 연구조사
+          </SmallText>
+          <SmallTextBold>수집항목</SmallTextBold>
+          <SmallText>
+            휴대폰번호, 성명, 생년월일, 성별, 마케팅수신 동의여부
+          </SmallText>
           <SmallTextBold>제공받는자</SmallTextBold>
           <SmallText style={styles.justUnderline}>
             농협유통, 농협대전유통, 농협부산경남유통, 농협충북유통,
@@ -194,8 +216,7 @@ const AgreementScreen = ({ navigation }) => {
             회원탈퇴 또는 동의철회 시
           </SmallText>
           <WarnText>
-            ※
-            회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장관리에서 확인이 가능합니다.
+            {`※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장관리에서 확인이 가능합니다.`}
           </WarnText>
           <WarnText>
             ※ 고객님께서는 선택항목에 대한 동의를 거부할 권리가 있습니다.  단,
@@ -221,6 +242,9 @@ const AgreementScreen = ({ navigation }) => {
           <SmallText style={styles.underline}>
             서버에 전송되거나 저장되지 않음
           </SmallText>
+          <WarnText>
+            {`※ 고객님께서는 선택항목에 대한 동의를 거부할 권리가 있습니다.  단, 선택항목 거부 시에는 상기 이용목적에 명시된 서비스는 받으실 수 없습니다`}
+          </WarnText>
         </ExtraBox>
       ),
     },
@@ -340,6 +364,24 @@ const AgreementScreen = ({ navigation }) => {
       checkBoxes[1].child[1].isChecked &&
       checkBoxes[2].isChecked
     ) {
+      if (
+        checkBoxes[3].child[0].isChecked ||
+        checkBoxes[3].child[1].isChecked
+      ) {
+        if (
+          checkBoxes[3].child[0].isChecked != checkBoxes[3].child[1].isChecked
+        ) {
+          return dispatch(
+            setAlert({
+              message:
+                "선택항목에 동의하셔야\n행사안내 및 이벤트\n수신이 가능합니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+        }
+      }
       let cks = _.cloneDeep(checkBoxes);
       cks.map((el) => {
         delete el.desc;
@@ -363,7 +405,7 @@ const AgreementScreen = ({ navigation }) => {
     } else {
       dispatch(
         setAlert({
-          message: "필수 항목을 동의해 주세요.",
+          message: "필수항목에 동의하셔야\n회원가입이 가능합니다.",
           onPressConfirm: () => {
             dispatch(setAlert(null));
           },
@@ -373,6 +415,7 @@ const AgreementScreen = ({ navigation }) => {
   };
   return (
     <BaseScreen
+      scrollEnabled={canScroll}
       headerShown={false}
       // style={{ width: "100%", height: "100%" }}
       // contentStyle={{ width: "100%", height: screenHeight }}
@@ -622,6 +665,7 @@ const TextBox = styled.View({
   borderWidth: 1,
   borderColor: colors.pinkishGrey,
   flex: 1,
+  overflow: "hidden",
 });
 export const TextView = styled(BaseText)({
   flexShrink: 1,

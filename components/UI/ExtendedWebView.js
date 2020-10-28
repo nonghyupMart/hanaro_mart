@@ -145,7 +145,6 @@ export const ExtendedWebView = (props) => {
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         onNavigationStateChange={onNavigationStateChange}
         startInLoadingState={true}
-        scalesPageToFit={true}
       />
     </>
   );

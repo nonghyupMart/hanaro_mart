@@ -31,9 +31,21 @@ const JoinStep1Screen = ({ navigation }) => {
       >
         <Image source={require("@images/mem2725.png")} />
       </Box>
+      <LogoContainer>
+        <Image source={require("@images/glaylogo.png")} />
+      </LogoContainer>
     </BaseScreen>
   );
 };
+const LogoContainer = styled.View({
+  flexGrow: 0,
+  width: "100%",
+  height: 19.8,
+  marginTop: 16.2,
+  marginBottom: 15,
+  justifyContent: "center",
+  alignItems: "center",
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
