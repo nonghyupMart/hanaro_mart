@@ -14,6 +14,8 @@ import {
   BlueButton,
   BlueButtonText,
   BaseText,
+  ScaledImage,
+  screenWidth,
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -68,18 +70,13 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       }}
     >
       <MemberInfo />
-      <WhiteContainer>
-        <BorderContainer>
-          <Text1>{` [탈퇴 유의사항]
- 
- 쿠폰, 스탬프 소멸
-· 회원탈퇴 시 보유하고 계신 쿠폰, 스탬프가 소멸되며 복원되지 않습니다.
- 
- 개인정보 파기
-· 회원탈퇴 시 유예기간(15일) 경과 후 이용내역은 모두 삭제처리 되며, 삭제 후 복원하여 사용할 수 없습니다.  단, 법령에 특별한 규정이 있는 경우에는 관련 법령에 따라 보유 및 이용합니다.(자세한 내용은 개인정보처리방침을 참조하시기 바랍니다.)\n`}</Text1>
-        </BorderContainer>
+      <WhiteContainer style={{ padding: 23, paddingTop: 12, flex: 1 }}>
+        <ScaledImage
+          source={require("@images/mem_out.png")}
+          width={screenWidth - 48}
+        />
 
-        <GreenButton onPress={onPress}>
+        <GreenButton onPress={onPress} style={{ marginTop: 60 }}>
           <BlueButtonText>회원탈퇴</BlueButtonText>
         </GreenButton>
       </WhiteContainer>

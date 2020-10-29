@@ -18,7 +18,7 @@ const MemberInfo = (props) => {
             />
             <Name>
               <UserName />
-              <Title>님</Title>
+              <Title> 님</Title>
             </Name>
           </View>
           <BlueText>
