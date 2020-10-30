@@ -11,6 +11,9 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": ["**/*"],
+    "notification": {
+      "icon": "./assets/9696.png"
+    },
     "ios": {
       "buildNumber": "1.0.9",
       "icon": "./assets/icon.png",
