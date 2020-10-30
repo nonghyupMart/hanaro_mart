@@ -98,8 +98,13 @@ const FlyerScreen = (props) => {
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
+      dispatch(setIsLoading(true));
       setPage(page + 1);
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1);
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1).then(
+        () => {
+          dispatch(setIsLoading(false));
+        }
+      );
     }
   };
   const [isVisible, setIsVisible] = useState(false);
@@ -127,20 +132,13 @@ const FlyerScreen = (props) => {
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
         paddingTop: Platform.OS == "ios" ? 19 : 19,
-        paddingLeft: 0,
-        paddingRight: 0,
+        // paddingLeft: Platform.OS == "ios" ? 16 : 0,
+        // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <View
-        style={{
-          flex: 1,
-          width: "100%",
-          paddingLeft: 16,
-          paddingRight: 16,
-        }}
-      >
+      <View style={{ paddingLeft: 16, paddingRight: 16, width: "100%" }}>
         <Carousel
           key={carouselKey}
           style={{
@@ -199,11 +197,18 @@ const FlyerScreen = (props) => {
       {product && (
         <ExtendedFlatList
           onEndReached={loadMore}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            alignItems: "space-between",
+            paddingLeft: 19,
+            paddingRight: 19,
+          }}
           numColumns={3}
           style={{ flexGrow: 1, flex: 1, width: "100%", marginTop: 10 }}
           data={product.productList}
-          keyExtractor={(item, index) => Math.random()}
+          keyExtractor={(item, index) => {
+            `${Math.random()}`;
+          }}
           // keyExtractor={(item) => item.product_cd + ""}
           renderItem={(itemData) => (
             <FlyerItem

@@ -19,40 +19,58 @@ import { LinearGradient } from "expo-linear-gradient";
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
+    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.285 }}>
+      {props.item.bogo && (
+        <BogoIcon>
+          <BogoText>{props.item.bogo}</BogoText>
+        </BogoIcon>
+      )}
       <Container>
-        {props.item.bogo && (
-          <BogoIcon>
-            <BogoText>{props.item.bogo}</BogoText>
-          </BogoIcon>
-        )}
-        <View style={{ width: width * 0.245 }}>
+        <View style={{ width: width * 0.285 }}>
           <BaseImage
             style={{
-              width: width * 0.245,
-              height: width * 0.227,
+              width: width * 0.285,
+              // height: width * 0.227,
+              aspectRatio: 100 / 103.797,
             }}
             source={props.item.title_img}
             defaultSource={require("@images/p_img503.png")}
           />
-          {props.item.card_sdate && (
+          {props.item.card_price && (
             <BadgeContainer>
               <Badge1>카드할인</Badge1>
-              <Badge2>
-                {moment(props.item.card_sdate).format("MM.DD")}~
-                {moment(props.item.card_edate).format("MM.DD")}
-              </Badge2>
+              {props.item.card_sdate && (
+                <Badge2>
+                  {moment(props.item.card_sdate).format("MM.DD")}~
+                  {moment(props.item.card_edate).format("MM.DD")}
+                </Badge2>
+              )}
             </BadgeContainer>
           )}
-          {props.item.coupon_sdate && (
+          {props.item.coupon_price && (
             <BadgeContainer>
               <Badge1 style={{ backgroundColor: colors.appleGreen }}>
                 쿠폰할인
               </Badge1>
-              <Badge2>
-                {moment(props.item.coupon_sdate).format("MM.DD")}~
-                {moment(props.item.coupon_edate).format("MM.DD")}
-              </Badge2>
+              {props.item.coupon_sdate && (
+                <Badge2>
+                  {moment(props.item.coupon_sdate).format("MM.DD")}~
+                  {moment(props.item.coupon_edate).format("MM.DD")}
+                </Badge2>
+              )}
+            </BadgeContainer>
+          )}
+          {props.item.members_price && (
+            <BadgeContainer>
+              <Badge1 style={{ backgroundColor: colors.waterBlue }}>
+                NH멤버스
+              </Badge1>
+              {props.item.members_sdate && (
+                <Badge2>
+                  {moment(props.item.members_sdate).format("MM.DD")}~
+                  {moment(props.item.members_edate).format("MM.DD")}
+                </Badge2>
+              )}
             </BadgeContainer>
           )}
 
@@ -80,8 +98,8 @@ const BogoIcon = styled(LinearGradient)({
   justifyContent: "center",
   alignItems: "center",
   position: "absolute",
-  right: -0,
-  top: -0,
+  right: -10,
+  top: -5,
   zIndex: 10,
   elevation: 1,
 });
@@ -103,6 +121,8 @@ const Badge1 = styled(BaseText)({
   textAlign: "right",
   color: colors.trueWhite,
   backgroundColor: colors.cerulean,
+  paddingLeft: 3,
+  paddingRight: 3,
 });
 const Badge2 = styled(BaseText)({
   fontSize: 9,
