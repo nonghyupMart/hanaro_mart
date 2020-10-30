@@ -329,7 +329,7 @@ const Notice0 = styled(BaseText)({
   paddingTop: 1,
   paddingBottom: 1,
   marginRight: 2,
-  width: "18%",
+  width: "20%",
 });
 const Notice1 = styled(BaseText)({
   fontSize: 9,
@@ -337,7 +337,6 @@ const Notice1 = styled(BaseText)({
   fontStyle: "normal",
   lineHeight: 13,
   letterSpacing: 0,
-
   color: colors.greyishBrown,
   backgroundColor: colors.white,
   paddingTop: 1,
