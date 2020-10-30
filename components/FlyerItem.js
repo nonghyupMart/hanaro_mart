@@ -15,12 +15,13 @@ import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
 import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
+import _ from "lodash";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 0.285 }}>
-      {props.item.bogo && (
+      {!_.isEmpty(props.item.bogo) && (
         <BogoIcon>
           <BogoText>{props.item.bogo}</BogoText>
         </BogoIcon>
@@ -36,10 +37,10 @@ const FlyerItem = (props) => {
             source={props.item.title_img}
             defaultSource={require("@images/p_img503.png")}
           />
-          {props.item.card_price && (
+          {!_.isEmpty(props.item.card_price) && (
             <BadgeContainer>
               <Badge1>카드할인</Badge1>
-              {props.item.card_sdate && (
+              {!_.isEmpty(props.item.card_sdate) && (
                 <Badge2>
                   {moment(props.item.card_sdate).format("MM.DD")}~
                   {moment(props.item.card_edate).format("MM.DD")}
@@ -47,12 +48,12 @@ const FlyerItem = (props) => {
               )}
             </BadgeContainer>
           )}
-          {props.item.coupon_price && (
+          {!_.isEmpty(props.item.coupon_price) && (
             <BadgeContainer>
               <Badge1 style={{ backgroundColor: colors.appleGreen }}>
                 쿠폰할인
               </Badge1>
-              {props.item.coupon_sdate && (
+              {!_.isEmpty(props.item.coupon_sdate) && (
                 <Badge2>
                   {moment(props.item.coupon_sdate).format("MM.DD")}~
                   {moment(props.item.coupon_edate).format("MM.DD")}
@@ -60,12 +61,12 @@ const FlyerItem = (props) => {
               )}
             </BadgeContainer>
           )}
-          {props.item.members_price && (
+          {!_.isEmpty(props.item.members_price) && (
             <BadgeContainer>
               <Badge1 style={{ backgroundColor: colors.waterBlue }}>
                 NH멤버스
               </Badge1>
-              {props.item.members_sdate && (
+              {!_.isEmpty(props.item.members_sdate) && (
                 <Badge2>
                   {moment(props.item.members_sdate).format("MM.DD")}~
                   {moment(props.item.members_edate).format("MM.DD")}
