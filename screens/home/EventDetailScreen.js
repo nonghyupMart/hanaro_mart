@@ -67,9 +67,9 @@ const EventDetailScreen = (props, { navigation }) => {
         user_cd: userInfo.user_cd,
       })
     ).then(() => {
-      if (__DEV__) {
-        dispatch(setIsLoading(false));
-      }
+      // if (__DEV__) {
+      dispatch(setIsLoading(false));
+      // }
     });
   };
   const checkQRLength = (val, length) => {

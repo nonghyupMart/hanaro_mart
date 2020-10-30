@@ -37,7 +37,7 @@ const FlyerItem = (props) => {
             source={props.item.title_img}
             defaultSource={require("@images/p_img503.png")}
           />
-          {!_.isEmpty(props.item.card_price) && (
+          {props.item.card_price != 0 && (
             <BadgeContainer>
               <Badge1>카드할인</Badge1>
               {!_.isEmpty(props.item.card_sdate) && (
@@ -48,7 +48,7 @@ const FlyerItem = (props) => {
               )}
             </BadgeContainer>
           )}
-          {!_.isEmpty(props.item.coupon_price) && (
+          {props.item.coupon_price != 0 && (
             <BadgeContainer>
               <Badge1 style={{ backgroundColor: colors.appleGreen }}>
                 쿠폰할인
@@ -61,7 +61,7 @@ const FlyerItem = (props) => {
               )}
             </BadgeContainer>
           )}
-          {!_.isEmpty(props.item.members_price) && (
+          {props.item.members_price != 0 && (
             <BadgeContainer>
               <Badge1 style={{ backgroundColor: colors.waterBlue }}>
                 NH멤버스
@@ -145,7 +145,7 @@ const Container = styled.View({
   // backgroundColor: "white",
 
   marginHorizontal: 5,
-  justifyContent: "center",
+  justifyContent: "flex-start",
   alignItems: "center",
 });
 const SalePrice = styled(BaseText)({

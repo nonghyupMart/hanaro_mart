@@ -20,6 +20,7 @@ import {
 import * as Util from "@util";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { setAlert } from "@actions/common";
+import _ from "lodash";
 
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
@@ -142,7 +143,7 @@ const ProductPopup = (props) => {
                 <NoticeIcon />
                 <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
               </NoticeTitleContainer>
-              {productDetail.card_price && (
+              {productDetail.card_price != 0 && (
                 <NoticeRow>
                   <Notice0 style={{ backgroundColor: colors.cerulean }}>
                     카드할인
@@ -167,7 +168,7 @@ const ProductPopup = (props) => {
                   </NoticeRight>
                 </NoticeRow>
               )}
-              {productDetail.card_info && (
+              {!_.isEmpty(productDetail.card_info) && (
                 <NoticeRow>
                   <Notice1 style={{ textAlign: "center" }}>
                     {productDetail.card_info}
@@ -177,7 +178,7 @@ const ProductPopup = (props) => {
                   </Notice1>
                 </NoticeRow>
               )}
-              {productDetail.coupon_price && (
+              {productDetail.coupon_price != 0 && (
                 <NoticeRow>
                   <Notice0 style={{ backgroundColor: colors.appleGreen }}>
                     쿠폰할인
@@ -202,13 +203,20 @@ const ProductPopup = (props) => {
                   </NoticeRight>
                 </NoticeRow>
               )}
-              {productDetail.bogo && (
+              {!_.isEmpty(productDetail.bogo) && (
                 <NoticeRow>
                   <Notice0 style={{ backgroundColor: colors.cherry }}>
                     다다익선
                   </Notice0>
                   <NoticeRight>
-                    <Notice2 style={{ color: colors.cherry, paddingLeft: 15 }}>
+                    <Notice2
+                      style={{
+                        color: colors.cherry,
+                        paddingLeft: 15,
+                        flexGrow: 0.3,
+                        flexShrink: 0,
+                      }}
+                    >
                       {productDetail.bogo}
                     </Notice2>
                     <Notice2
@@ -223,7 +231,7 @@ const ProductPopup = (props) => {
                   </NoticeRight>
                 </NoticeRow>
               )}
-              {productDetail.members_price && (
+              {productDetail.members_price != 0 && (
                 <NoticeRow>
                   <Notice0 style={{ backgroundColor: colors.waterBlue }}>
                     NH멤버스
