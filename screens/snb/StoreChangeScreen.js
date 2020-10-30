@@ -40,14 +40,6 @@ const StoreChangeScreen = (props) => {
   const [mname, setMname] = useState();
   const [store_nm, setStore_nm] = useState("");
 
-  useEffect(() => {
-    if (isJoin)
-      props.navigation.setOptions({
-        title: "매장변경",
-        headerLeft: (props) => <BackButton {...props} />,
-      });
-  }, [isJoin]);
-
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
   const branches = useSelector((state) => state.branches.branches);
@@ -165,7 +157,7 @@ const StoreChangeScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "매장설정",
-    headerLeft: () => <></>,
+    headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
     cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },

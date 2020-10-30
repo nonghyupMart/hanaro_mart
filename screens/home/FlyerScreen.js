@@ -120,76 +120,88 @@ const FlyerScreen = (props) => {
     <BaseScreen
       style={{
         backgroundColor: colors.trueWhite,
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
         paddingTop: Platform.OS == "ios" ? 19 : 19,
-        paddingLeft: Platform.OS == "ios" ? 16 : 0,
-        paddingRight: Platform.OS == "ios" ? 16 : 0,
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
+      scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <Carousel
-        key={carouselKey}
+      <View
         style={{
-          height: width * 0.283,
           flex: 1,
           width: "100%",
-          marginBottom: 30,
+          paddingLeft: 16,
+          paddingRight: 16,
         }}
-        autoplay={false}
-        pageInfo={false}
-        bullets={true}
-        arrows={true}
-        pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
-        pageInfoTextSeparator="/"
-        onAnimateNextPage={(p) => setPageForCarousel(p)}
-        chosenBulletStyle={{
-          backgroundColor: colors.yellowOrange,
-          marginLeft: 3.5,
-          marginRight: 3.5,
-        }}
-        bulletStyle={{
-          backgroundColor: colors.white,
-          borderWidth: 0,
-          marginLeft: 3.5,
-          marginRight: 3.5,
-        }}
-        bulletsContainerStyle={{ bottom: -30 }}
       >
-        {leaflet.leafletList.map((item, index) => {
-          return (
-            <BaseTouchable
-              key={item.leaf_cd}
-              onPress={() =>
-                item.detail_img_cnt > 0
-                  ? RootNavigation.navigate("FlyerDetail", {
-                      leaf_cd: item.leaf_cd,
-                    })
-                  : null
-              }
-              style={{ height: width * 0.283, flex: 1, width: "100%" }}
-            >
-              <BaseImage
-                style={{
-                  flex: 1,
-                  resizeMode: "cover",
-                }}
-                source={item.title_img}
-              />
-            </BaseTouchable>
-          );
-        })}
-      </Carousel>
+        <Carousel
+          key={carouselKey}
+          style={{
+            height: width * 0.283,
+            flex: 1,
+            width: "100%",
+            marginBottom: 30,
+          }}
+          autoplay={false}
+          pageInfo={false}
+          bullets={true}
+          arrows={true}
+          pageInfoBackgroundColor={"transparent"}
+          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+          pageInfoTextSeparator="/"
+          onAnimateNextPage={(p) => setPageForCarousel(p)}
+          chosenBulletStyle={{
+            backgroundColor: colors.yellowOrange,
+            marginLeft: 3.5,
+            marginRight: 3.5,
+          }}
+          bulletStyle={{
+            backgroundColor: colors.white,
+            borderWidth: 0,
+            marginLeft: 3.5,
+            marginRight: 3.5,
+          }}
+          bulletsContainerStyle={{ bottom: -30 }}
+        >
+          {leaflet.leafletList.map((item, index) => {
+            return (
+              <BaseTouchable
+                key={item.leaf_cd}
+                onPress={() =>
+                  item.detail_img_cnt > 0
+                    ? RootNavigation.navigate("FlyerDetail", {
+                        leaf_cd: item.leaf_cd,
+                      })
+                    : null
+                }
+                style={{ height: width * 0.283, flex: 1, width: "100%" }}
+              >
+                <BaseImage
+                  style={{
+                    flex: 1,
+                    resizeMode: "cover",
+                  }}
+                  source={item.title_img}
+                />
+              </BaseTouchable>
+            );
+          })}
+        </Carousel>
+      </View>
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
           onEndReached={loadMore}
-          columnWrapperStyle={{ justifyContent: "flex-start" }}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
           numColumns={3}
-          style={{ flexGrow: 1, flex: 1, width: "100%" }}
+          style={{ flexGrow: 1, flex: 1, width: "100%", marginTop: 10 }}
           data={product.productList}
           keyExtractor={(item, index) => Math.random()}
           // keyExtractor={(item) => item.product_cd + ""}

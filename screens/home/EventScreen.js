@@ -60,6 +60,7 @@ const EventScreen = (props) => {
 
   const onPress = (item) => {
     dispatch(setIsLoading(true));
+    if (!userInfo.ci) return navigation.navigate("Empty");
     navigation.navigate("EventDetail", { event_cd: item.event_cd });
   };
   if (!event) return <></>;

@@ -4,26 +4,25 @@ import { BlueButton, BlueButtonText, BaseText } from "@UI/BaseUI";
 import { Image } from "react-native";
 
 const ScanBox = (props) => {
-  const getBarcode = (data) => {
-    props.setRcp_qr(data);
-
-    if (props.scrollRef)
-      setTimeout(() => {
-        props.scrollRef.scrollToEnd();
-      }, 500);
+  const validateAgree = props.validateAgree;
+  const getBarcode = async (data) => {
+    await props.setRcp_qr(data);
+    props.onApply(data);
   };
 
-  const onPress = () => {
+  const onPress = async () => {
+    await props.setRcp_qr(null);
+    if (!validateAgree()) return;
     props.navigation.navigate("BarCodeScanner", {
       setRcp_qr: getBarcode,
     });
   };
   return (
     <TextContainer1>
-      <Text1>이벤트 응모방법</Text1>
+      {/* <Text1>이벤트 응모방법</Text1>
       <Text2>
         {`1. 구매하신 영수증을 판매원의 QR 판독기로 스캔을 합니다. \n2. 영수증확인 후 하단에 응모하기 버튼을 클릭합니다.`}
-      </Text2>
+      </Text2> */}
       <Text3>영수증 확인 후 응모가 가능합니다.</Text3>
       {props.eventDetail.entry.status === "10" && (
         <GreenBtn onPress={onPress}>
@@ -31,12 +30,12 @@ const ScanBox = (props) => {
           <BlueButtonText>영수증 확인</BlueButtonText>
         </GreenBtn>
       )}
-      {/* {props.eventDetail.entry.status === "20" && (
+      {props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
-      )} */}
+      )}
     </TextContainer1>
   );
 };

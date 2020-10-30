@@ -29,7 +29,6 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const index = useNavigationState((state) => state.index);
-
   // const onMessage = (event) => {
   //   // iOS용
   //   const message = JSON.parse(event.nativeEvent.data);
@@ -74,13 +73,27 @@ export const ExtendedWebView = (props) => {
           user_sex: message.value.sex,
           user_id: message.value.tel,
           user_name: message.value.name,
-          token: pushToken,
           os: Platform.OS === "ios" ? "I" : "A",
           di: message.value.di,
           ci: message.value.ci,
-          marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
+          user_age: message.value.birthday,
         };
-        signup(query, dispatch, agreedStatus);
+
+        if (pushToken) query.token = pushToken;
+        if (_.isEmpty(userInfo) && !_.isEmpty(agreedStatus)) {
+          // Only when the first signup
+          query.marketing_agree = agreedStatus[3].isChecked ? "Y" : "N";
+        }
+        if (!_.isEmpty(userInfo)) {
+          query.user_cd = userInfo.user_cd;
+        }
+        signup(query, dispatch, agreedStatus).then(() => {
+          if (!_.isEmpty(userInfo)) {
+            dispatch(CommonActions.setBottomNavigation(true));
+            if (index > 0) RootNavigation.pop();
+            else RootNavigation.navigate("Home");
+          }
+        });
 
         // message.value
         break;

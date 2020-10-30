@@ -2,24 +2,16 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import StampBox from "@components/event/StampBox";
 import ScanBox from "@components/event/ScanBox";
+import ApplyBox from "@components/event/ApplyBox";
 
 const C = (props) => {
   return (
     <View>
       <Container>
-        <ScanBox
-          setRcp_qr={props.setRcp_qr}
-          scrollRef={props.scrollRef}
-          eventDetail={props.eventDetail}
-          {...props}
-        />
+        <ApplyBox {...props} />
+        <ScanBox {...props} />
       </Container>
-
-      <StampBox
-        onApply={props.onApply}
-        eventDetail={props.eventDetail}
-        {...props}
-      />
+      <StampBox {...props} />
     </View>
   );
 };

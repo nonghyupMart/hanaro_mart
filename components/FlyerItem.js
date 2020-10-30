@@ -13,28 +13,108 @@ import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 import { IMAGE_URL } from "@constants/settings";
 import * as Util from "@util";
+import moment from "moment";
+import { LinearGradient } from "expo-linear-gradient";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
       <Container>
-        <BaseImage
-          style={{
-            width: width * 0.219,
-            height: width * 0.227,
-          }}
-          source={props.item.title_img}
-          defaultSource={require("@images/p_img503.png")}
-        />
-        <Title>{props.item.title}</Title>
-        <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
-        <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+        {props.item.bogo && (
+          <BogoIcon>
+            <BogoText>{props.item.bogo}</BogoText>
+          </BogoIcon>
+        )}
+        <View style={{ width: width * 0.245 }}>
+          <BaseImage
+            style={{
+              width: width * 0.245,
+              height: width * 0.227,
+            }}
+            source={props.item.title_img}
+            defaultSource={require("@images/p_img503.png")}
+          />
+          {props.item.card_sdate && (
+            <BadgeContainer>
+              <Badge1>카드할인</Badge1>
+              <Badge2>
+                {moment(props.item.card_sdate).format("MM.DD")}~
+                {moment(props.item.card_edate).format("MM.DD")}
+              </Badge2>
+            </BadgeContainer>
+          )}
+          {props.item.coupon_sdate && (
+            <BadgeContainer>
+              <Badge1 style={{ backgroundColor: colors.appleGreen }}>
+                쿠폰할인
+              </Badge1>
+              <Badge2>
+                {moment(props.item.coupon_sdate).format("MM.DD")}~
+                {moment(props.item.coupon_edate).format("MM.DD")}
+              </Badge2>
+            </BadgeContainer>
+          )}
+
+          <Title>{props.item.title}</Title>
+          <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
+          <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+        </View>
       </Container>
     </TouchableOpacity>
   );
 };
-
+const BogoText = styled(BaseText)({
+  fontSize: 12,
+  fontFamily: "CustomFont-Bold",
+  fontStyle: "normal",
+  lineHeight: 17,
+  letterSpacing: 0,
+  textAlign: "right",
+  color: colors.trueWhite,
+});
+const BogoIcon = styled(LinearGradient)({
+  width: 27,
+  height: 27,
+  borderRadius: 100,
+  justifyContent: "center",
+  alignItems: "center",
+  position: "absolute",
+  right: -0,
+  top: -0,
+  zIndex: 10,
+  elevation: 1,
+});
+BogoIcon.defaultProps = {
+  colors: [colors.cherry, colors.purplishRed, colors.wineRed],
+  start: { x: 0, y: -1 },
+  end: { x: 0, y: 1 },
+};
+const BadgeContainer = styled.View({
+  flexDirection: "row",
+  marginBottom: 1,
+});
+const Badge1 = styled(BaseText)({
+  fontSize: 9,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 13,
+  letterSpacing: 0,
+  textAlign: "right",
+  color: colors.trueWhite,
+  backgroundColor: colors.cerulean,
+});
+const Badge2 = styled(BaseText)({
+  fontSize: 9,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 13,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+  backgroundColor: colors.black,
+  flex: 1,
+});
 const Container = styled.View({
   // backgroundColor: colors.black,
   flexBasis: 0,
@@ -48,32 +128,34 @@ const Container = styled.View({
   alignItems: "center",
 });
 const SalePrice = styled(BaseText)({
-  fontSize: 16,
+  fontSize: 14,
   fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
-  lineHeight: 24,
+
   letterSpacing: 0,
-  textAlign: "center",
+  textAlign: "left",
   color: colors.cerulean,
 });
 const OriginalPrice = styled(BaseText)({
-  fontSize: 12,
+  fontSize: 14,
   fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
-  lineHeight: 17,
+
   letterSpacing: 0,
-  textAlign: "center",
+  textAlign: "left",
   color: colors.black,
 });
 const Title = styled(BaseText)({
-  marginTop: 20,
+  marginTop: 4,
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 17,
+  lineHeight: 14,
   letterSpacing: 0,
-  textAlign: "center",
+  textAlign: "left",
   color: colors.greyishBrown,
+  flex: 1,
+  width: "100%",
 });
 Title.defaultProps = {
   numberOfLines: 1,

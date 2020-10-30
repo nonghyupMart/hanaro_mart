@@ -6,20 +6,8 @@ import ScanBox from "@components/event/ScanBox";
 const B = (props) => {
   return (
     <Container>
-      <ScanBox
-        setRcp_qr={props.setRcp_qr}
-        scrollRef={props.scrollRef}
-        eventDetail={props.eventDetail}
-        {...props}
-      />
-      {props.rcp_qr && (
-        <ApplyBox
-          scrollRef={props.scrollRef}
-          onApply={props.onApply}
-          eventDetail={props.eventDetail}
-          {...props}
-        />
-      )}
+      <ApplyBox {...props} />
+      <ScanBox {...props} />
     </Container>
   );
 };

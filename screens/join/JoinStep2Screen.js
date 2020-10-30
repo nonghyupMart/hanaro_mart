@@ -278,7 +278,7 @@ const JoinStep2Screen = ({ navigation }) => {
 };
 
 export const signup = (query, dispatch, agreedStatus) => {
-  dispatch(authActions.signup(query)).then((userInfo) => {
+  return dispatch(authActions.signup(query)).then((userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(

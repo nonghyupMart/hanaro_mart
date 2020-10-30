@@ -26,7 +26,7 @@ const MenuList = (props) => {
           <Icon>
             <Image source={require("@images/position.png")} />
           </Icon>
-          <MenuText>매장변경</MenuText>
+          <MenuText>매장설정</MenuText>
         </MenuButton>
       </MenuButtonContainer>
       <MenuButtonContainer>

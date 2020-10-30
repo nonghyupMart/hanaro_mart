@@ -42,7 +42,6 @@ const MyADAgreementScreen = (props) => {
   const onPress = () => {
     const prevPush = userInfo.push_agree == "Y";
     const prevSms = userInfo.sms_agree == "Y";
-    console.warn(prevPush);
     if (push == prevPush && sms == prevSms) return;
     let query = {
       user_cd: userInfo.user_cd,

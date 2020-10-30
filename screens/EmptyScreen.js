@@ -22,7 +22,8 @@ import { HeaderButton, LogoTitle } from "@UI/header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { setPreview } from "@actions/auth";
-import { setAlert } from "@actions/common";
+import { setAlert, setIsLoading } from "@actions/common";
+import { useNavigationState } from "@react-navigation/native";
 
 import _ from "lodash";
 const EmptyScreen = (props) => {
@@ -33,11 +34,32 @@ const EmptyScreen = (props) => {
   const [onPressConfirm, setOnPressConfirm] = useState();
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
-
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const index = useNavigationState((state) => state.index);
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
+      dispatch(setIsLoading(false));
       // global.alert(1);
       setIsVisible(true);
+      if (!_.isEmpty(userInfo) && _.isEmpty(userInfo.ci)) {
+        return dispatch(
+          setAlert({
+            message: "본인인증후에\n사용하실 수 있는 메뉴입니다.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              if (index > 0) RootNavigation.pop();
+              else RootNavigation.navigate("Home");
+              props.navigation.navigate("CI");
+            },
+            confirmText: "본인인증",
+            onPressCancel: () => {
+              dispatch(setAlert(null));
+              if (index > 0) RootNavigation.pop();
+              else RootNavigation.navigate("Home");
+            },
+          })
+        );
+      }
       if (_.isEmpty(userStore) && isJoin) {
         dispatch(
           setAlert({
@@ -70,6 +92,7 @@ const EmptyScreen = (props) => {
           })
         );
       }
+
       //   setMessage("회원가입후 사용하실 수 있는 메뉴입니다.");
       // or 매장 설정
     });
