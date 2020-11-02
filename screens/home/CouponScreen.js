@@ -106,6 +106,7 @@ const CouponScreen = (props) => {
               index: index,
               type,
               routeName,
+              isNew: true,
             });
           }
         });

@@ -30,6 +30,7 @@ import { SET_COUPON_DETAIL } from "@actions/coupon";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;
+  const isNew = !!params.isNew;
   const couponDetail = useSelector((state) => state.coupon.couponDetail);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -66,7 +67,7 @@ const CouponDetailScreen = (props) => {
   const onPress = () => {
     let msg;
     if (!isUsed) {
-      msg = `계산원 전용 기능입니다.\n쿠폰이 사용된 것으로\n처리됩니다.`;
+      msg = `직원전용 기능입니다.\n쿠폰이 사용된 것으로\n처리됩니다.`;
 
       dispatch(
         setAlert({
@@ -152,7 +153,7 @@ const CouponDetailScreen = (props) => {
       {couponDetail && (
         <DetailContainer style={{ paddingBottom: 30 }}>
           <TopBox>
-            {!isUsed && (
+            {!isUsed && isNew && (
               <>
                 <TopText>쿠폰이 발급 되었습니다.</TopText>
                 <Image
@@ -203,10 +204,16 @@ const CouponDetailScreen = (props) => {
           </Discount>
           <Title>{couponDetail.title}</Title> */}
           <TextContainer>
-            <Price>쿠폰명 : {couponDetail.title}</Price>
+            <Price>
+              {couponDetail.gbn == "A" ? `쿠폰명` : `상품명`} :{" "}
+              {couponDetail.title}
+            </Price>
             <Price>할인가 : {Util.formatNumber(couponDetail.price)}원</Price>
             <Price>
-              최소구매금액 : {Util.formatNumber(couponDetail.m_price)}원
+              최소구매금액 :
+              {couponDetail.m_price > 0
+                ? `${Util.formatNumber(couponDetail.m_price)}원`
+                : "없음"}
             </Price>
             <Price>사용기간 : ~ {couponDetail.end_date}까지</Price>
             <View
@@ -222,7 +229,7 @@ const CouponDetailScreen = (props) => {
             ></View>
             {!_.isEmpty(couponDetail.memo) && <Memo>{couponDetail.memo}</Memo>}
           </TextContainer>
-          {!isUsed && (
+          {!isUsed && isNew && (
             <>
               <Warn>쿠폰 발급이 완료 되었습니다.</Warn>
               <BlueButton
@@ -423,7 +430,7 @@ const UseButton = (props) => {
           textAlign: "center",
         }}
       >
-        계산원 전용
+        직원확인
       </Text>
       <Item
         IconComponent={FontAwesome5}
