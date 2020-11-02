@@ -84,13 +84,12 @@ const ProductPopup = (props) => {
     >
       {productDetail && (
         <Container>
-          <Header>
-            {/* <TouchableOpacity
-              onPress={props.setIsVisible.bind(this, !props.isVisible)}
-            >
-              <Image source={require("@images/cross.png")} />
-            </TouchableOpacity> */}
-          </Header>
+          <CloseBtnContainer
+            onPress={props.setIsVisible.bind(this, !props.isVisible)}
+          >
+            <Image source={require("@images/cross.png")} />
+          </CloseBtnContainer>
+          <Header></Header>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
               style={{
@@ -289,13 +288,13 @@ const ProductPopup = (props) => {
               </InfoListContainer>
             </InfoContainer>
 
-            <BtnContainer style={{}}>
-              {/* <BlueBtn onPress={onAddCart}>
+            {/* <BtnContainer style={{}}>
+              <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn> */}
+              </BlueBtn>
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
@@ -304,22 +303,31 @@ const ProductPopup = (props) => {
                 />
                 <BtnText>닫기</BtnText>
               </GreenBtn>
-            </BtnContainer>
+            </BtnContainer> */}
           </Body>
+          <BottomBorder />
         </Container>
       )}
     </Modal>
   );
 };
+const CloseBtnContainer = styled.TouchableOpacity({
+  position: "absolute",
+  right: 0,
+  top: 15,
+  zIndex: 10,
+  elevation: 1,
+  padding: 10,
+});
 const NoticeRight = styled.View({
   flexDirection: "row",
   flex: 1,
 });
 const Notice0 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: 11,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 13,
+  lineHeight: 16,
   letterSpacing: 0,
   textAlign: "center",
   color: colors.trueWhite,
@@ -332,10 +340,10 @@ const Notice0 = styled(BaseText)({
   width: "20%",
 });
 const Notice1 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: 11,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 13,
+  lineHeight: 16,
   letterSpacing: 0,
   color: colors.greyishBrown,
   backgroundColor: colors.white,
@@ -344,9 +352,9 @@ const Notice1 = styled(BaseText)({
   flex: 1,
 });
 const Notice2 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: 11,
   fontFamily: "CustomFont-Bold",
-  lineHeight: 13,
+  lineHeight: 16,
   letterSpacing: 0,
 
   color: colors.greyishBrown,
@@ -431,7 +439,7 @@ const Notice = styled(BaseText)({
   marginBottom: 3,
 });
 const NoticeContainer = styled.View({
-  marginTop: 12,
+  marginTop: 0,
   width: screenWidth - 20.5 - 20.5 - 50,
 });
 const BorderLine = styled.View({
@@ -591,8 +599,13 @@ Title.defaultProps = {
   numberOfLines: 1,
 };
 const Body = styled.ScrollView({ flex: 1, width: "100%" });
+const BottomBorder = styled.View({
+  backgroundColor: colors.cerulean,
+  height: 12,
+  width: "100%",
+});
 const Header = styled.View({
-  backgroundColor: colors.black,
+  backgroundColor: colors.cerulean,
   height: 12,
   justifyContent: "flex-end",
   alignItems: "flex-end",
@@ -601,6 +614,8 @@ const Header = styled.View({
 const Container = styled.View({
   borderTopLeftRadius: 5,
   borderTopRightRadius: 5,
+  borderBottomRightRadius: 5,
+  borderBottomLeftRadius: 5,
   overflow: "hidden",
   alignItems: "center",
   backgroundColor: colors.trueWhite,

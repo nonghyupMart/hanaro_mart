@@ -108,10 +108,10 @@ const Container = styled.View({
   height: 66,
   backgroundColor: colors.trueWhite,
   shadowColor: colors.black16,
-  shadowOffset: {
-    width: 3,
-    height: 0,
-  },
+  // shadowOffset: {
+  //   width: 3,
+  //   height: 0,
+  // },
   shadowRadius: 6,
   shadowOpacity: 1,
   flexDirection: "row",

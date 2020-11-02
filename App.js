@@ -31,7 +31,7 @@ import commonReducer from "@reducers/common";
 import exhibitionReducer from "@reducers/exhibition";
 import exclusiveReducer from "@reducers/exclusive";
 import { WITHDRAWAL } from "@actions/auth";
-LogBox.ignoreLogs(["Expected", "No native"]);
+LogBox.ignoreLogs(["Expected", "No native", "Require cycle"]);
 // console.disableLogBox = true;
 // console.ignoredLogBox = ["Warning:"];
 Notifications.setNotificationHandler({
