@@ -42,7 +42,16 @@ const MyADAgreementScreen = (props) => {
   const onPress = () => {
     const prevPush = userInfo.push_agree == "Y";
     const prevSms = userInfo.sms_agree == "Y";
-    if (push == prevPush && sms == prevSms) return;
+    if (push == prevPush && sms == prevSms) {
+      return dispatch(
+        setAlert({
+          message: "변경사항이 없습니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+    }
     let query = {
       user_cd: userInfo.user_cd,
       push_agree: push ? "Y" : "N",
