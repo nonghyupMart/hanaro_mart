@@ -57,7 +57,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.cerulean,
+  color: colors.pine,
 });
 const MemberInfoContainer = styled.View({
   flexDirection: "row",

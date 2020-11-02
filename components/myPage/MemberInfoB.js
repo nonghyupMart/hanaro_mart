@@ -56,7 +56,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.pine,
   marginLeft: 17,
 });
 const MemberInfoContainer = styled.View({
