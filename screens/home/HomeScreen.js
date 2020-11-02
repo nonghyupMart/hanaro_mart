@@ -61,10 +61,15 @@ const HomeScreen = (props) => {
         dispatch(
           authActions.updateLoginLog({ user_cd: userInfo.user_cd })
         ).then((data) => {
-          const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
-          if (_.isEmpty(obj)) return;
+          let obj;
+          if (!_.isEmpty(data.storeInfo)) {
+            obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+          }
           dispatch(authActions.saveUserStore(obj));
           authActions.saveUserStoreToStorage(obj);
+          if (_.isEmpty(obj)) {
+            dispatch(CommonActions.setDidTryPopup(false));
+          }
         });
       }
     });
