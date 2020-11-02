@@ -220,6 +220,7 @@ const ProductPopup = (props) => {
                     </Notice2>
                     <Notice2
                       style={{
+                        flexShrink: 0,
                         textAlign: "right",
                         color: colors.cherry,
                         paddingRight: 4,
@@ -237,12 +238,17 @@ const ProductPopup = (props) => {
                   </Notice0>
                   <NoticeRight>
                     <Notice2
-                      style={{ color: colors.waterBlue, paddingLeft: 15 }}
+                      style={{
+                        flexGrow: 0.4,
+                        color: colors.waterBlue,
+                        paddingLeft: 15,
+                      }}
                     >
                       {Util.formatNumber(productDetail.members_price)}원
                     </Notice2>
                     <Notice2
                       style={{
+                        flexShrink: 0,
                         textAlign: "right",
                         color: colors.waterBlue,
                         paddingRight: 4,
@@ -337,7 +343,7 @@ const Notice0 = styled(BaseText)({
   paddingTop: 1,
   paddingBottom: 1,
   marginRight: 2,
-  width: "20%",
+  width: "25%",
 });
 const Notice1 = styled(BaseText)({
   fontSize: 11,
