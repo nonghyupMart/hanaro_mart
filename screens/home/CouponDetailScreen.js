@@ -264,7 +264,7 @@ const CouponDetailScreen = (props) => {
       )}
       <Image
         source={require("@images/pannel_n3.png")}
-        style={{ width: "110%", marginLeft: "-5%", marginTop: -2 }}
+        style={{ width: "110%", marginLeft: "-5%", marginTop: -3 }}
         resizeMode="cover"
       />
       <DescContainer>
