@@ -128,6 +128,7 @@ const CouponScreen = (props) => {
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
+      dispatch(setIsLoading(true));
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
@@ -135,7 +136,9 @@ const CouponScreen = (props) => {
           page: page + 1,
           gbn: "B",
         })
-      );
+      ).then(() => {
+        dispatch(setIsLoading(false));
+      });
 
       setPage(page + 1);
     }
