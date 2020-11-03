@@ -86,7 +86,7 @@ const MyInfoScreen = (props) => {
             onError={onError}
           />
         </BarcodeContainer>
-        {userInfo.mana_qr && (
+        {!!userInfo.mana_qr && (
           <MangerQRCodeContainer onPress={() => setIsVisible(true)}>
             <Image source={require("@images/adminqr.png")} />
           </MangerQRCodeContainer>
@@ -104,7 +104,7 @@ const MyInfoScreen = (props) => {
       <Button onPress={() => props.navigation.goBack()}>
         <BtnText>확인</BtnText>
       </Button>
-      {userInfo.mana_qr && (
+      {!!userInfo.mana_qr && (
         <Modal
           backdropTransitionInTiming={0}
           backdropTransitionOutTiming={0}
