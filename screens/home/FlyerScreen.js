@@ -213,9 +213,9 @@ const FlyerScreen = (props) => {
             alignSelf: "center",
           }}
           data={product.productList}
-          keyExtractor={(item, index) => {
-            `${Math.random()}`;
-          }}
+          keyExtractor={(item, index) =>
+            "_" + Math.random().toString(36).substr(2, 9)
+          }
           // keyExtractor={(item) => item.product_cd + ""}
           renderItem={(itemData) => (
             <FlyerItem
