@@ -41,7 +41,12 @@ const EmptyScreen = (props) => {
       dispatch(setIsLoading(false));
       // global.alert(1);
       setIsVisible(true);
-      if (!_.isEmpty(userInfo) && _.isEmpty(userInfo.ci)) {
+      if (
+        !_.isEmpty(userInfo) &&
+        _.isEmpty(userInfo.ci) &&
+        !_.isEmpty(userStore) &&
+        isJoin
+      ) {
         return dispatch(
           setAlert({
             message: "본인인증후에\n사용하실 수 있는 메뉴입니다.",
