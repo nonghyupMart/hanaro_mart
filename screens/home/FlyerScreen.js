@@ -196,6 +196,7 @@ const FlyerScreen = (props) => {
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
+          listKey="FlyerList"
           onEndReached={loadMore}
           columnWrapperStyle={{
             justifyContent: "flex-start",

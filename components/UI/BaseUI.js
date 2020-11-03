@@ -95,7 +95,7 @@ const ExtendedImage = (props) => {
     setSource(require("@images/m_img499.png"));
   };
   const onLoad = () => {
-    setColor(colors.trueWhite);
+    setColor("transparent");
   };
   return (
     <ImageBackground
@@ -104,6 +104,7 @@ const ExtendedImage = (props) => {
       source={source}
       resizeMode={props.resizeMode ? props.resizeMode : "cover"}
       style={[{ backgroundColor: color }, props.style]}
+      defaultSource={require("@images/m_img499.png")}
     />
   );
 };
