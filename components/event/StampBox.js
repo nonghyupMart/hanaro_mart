@@ -57,7 +57,7 @@ const StampBox = (props) => {
     </Container>
   );
 };
-const Container = styled.View({ width: "100%" });
+const Container = styled.View({ width: "100%", overflow: "hidden" });
 const BtnContainer = styled.View({
   marginTop: 30,
   width: "100%",
