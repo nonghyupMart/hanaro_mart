@@ -12,7 +12,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "notification": {
-      "icon": "./assets/9696.png"
+      "icon": "./assets/9696.png",
+      "color": "#b2b2b2"
     },
     "ios": {
       "buildNumber": "1.0.10",
