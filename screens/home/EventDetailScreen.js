@@ -114,7 +114,7 @@ const EventDetailScreen = (props, { navigation }) => {
     );
   };
   const onExchangeStamp = (QRCode) => {
-    if (!checkQRLength(QRCode, 12)) return;
+    // if (!checkQRLength(QRCode, 12)) return;
 
     dispatch(
       eventActions.exchangeStamp({
@@ -130,8 +130,8 @@ const EventDetailScreen = (props, { navigation }) => {
     });
   };
   const onApplyStamp = (QRCode) => {
-    if (!checkQRLength(QRCode, 40)) return;
-    if (!checkRequiredAmount(QRCode)) return;
+    // if (!checkQRLength(QRCode, 40)) return;
+    // if (!checkRequiredAmount(QRCode)) return;
 
     dispatch(
       eventActions.applyStamp({
@@ -170,10 +170,10 @@ const EventDetailScreen = (props, { navigation }) => {
   const onApply = (QRCode) => {
     if (!validateAgree()) return;
     if (QRCode) {
-      if (!checkQRLength(QRCode, 40) || !checkRequiredAmount(QRCode)) {
-        setRcp_qr(null);
-        return false;
-      }
+      // if (!checkQRLength(QRCode, 40) || !checkRequiredAmount(QRCode)) {
+      //   setRcp_qr(null);
+      //   return false;
+      // }
       setRcp_qr(QRCode);
     }
     let query = {
