@@ -35,8 +35,21 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      setSms(userInfo.sms_agree == "Y" ? true : false);
-      setPush(userInfo.push_agree == "Y" ? true : false);
+      dispatch(authActions.updateLoginLog({ user_cd: userInfo.user_cd })).then(
+        (data) => {
+          let obj;
+          if (!_.isEmpty(data.storeInfo)) {
+            obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+          }
+          dispatch(authActions.saveUserStore(obj));
+          authActions.saveUserStoreToStorage(obj);
+          if (_.isEmpty(obj)) {
+            dispatch(CommonActions.setDidTryPopup(false));
+          }
+          setSms(data.userInfo.sms_agree == "Y" ? true : false);
+          setPush(data.userInfo.push_agree == "Y" ? true : false);
+        }
+      );
     }
   }, [userInfo]);
   const onPress = () => {
