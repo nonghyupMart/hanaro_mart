@@ -118,7 +118,7 @@ export const withdrawal = (query) => {
   const url = queryString.stringifyUrl({
     url: `${API_URL}/users`,
   });
-  console.warn(url, query);
+  // console.warn(url, query);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "DELETE",

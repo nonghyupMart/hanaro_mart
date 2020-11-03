@@ -272,7 +272,7 @@ const EventDetailScreen = (props, { navigation }) => {
                 setReg_num={setReg_num}
               />
             )}
-          {eventDetail.winner_img && (
+          {!!eventDetail.winner_img && (
             <View style={{ marginTop: 30 }}>
               <ScaledImage
                 key={eventDetail.winner_img}
@@ -282,7 +282,9 @@ const EventDetailScreen = (props, { navigation }) => {
               />
             </View>
           )}
-          {eventDetail.winner_memo && <Text3>{eventDetail.winner_memo}</Text3>}
+          {!!eventDetail.winner_memo && (
+            <Text3>{eventDetail.winner_memo}</Text3>
+          )}
         </DetailContainer>
       )}
     </BaseScreen>
