@@ -21,7 +21,7 @@ import * as Util from "@util";
 
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
-import { setAlert } from "@actions/common";
+import { setAlert, setIsLoading } from "@actions/common";
 import * as authActions from "@actions/auth";
 import { updateUserInfo } from "@screens/home/HomeScreen";
 
@@ -37,7 +37,9 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
+      dispatch(setIsLoading(true));
       updateUserInfo(dispatch, userInfo).then((data) => {
+        dispatch(setIsLoading(false));
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
         setPush(data.userInfo.push_agree == "Y" ? true : false);
         setMarketing_date(data.userInfo.marketing_date);
@@ -57,12 +59,14 @@ const MyADAgreementScreen = (props) => {
         })
       );
     }
+    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
       push_agree: push ? "Y" : "N",
       sms_agree: sms ? "Y" : "N",
     };
     dispatch(authActions.signup(query)).then((userInfo) => {
+      dispatch(setIsLoading(false));
       dispatch(
         setAlert({
           message: "수정되었습니다.",
