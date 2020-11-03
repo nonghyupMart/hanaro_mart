@@ -20,7 +20,7 @@ import _ from "lodash";
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.285 }}>
+    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
       {!_.isEmpty(props.item.bogo) && (
         <BogoIcon>
           <BogoText>{props.item.bogo}</BogoText>
@@ -99,8 +99,8 @@ const BogoIcon = styled(LinearGradient)({
   justifyContent: "center",
   alignItems: "center",
   position: "absolute",
-  right: -10,
-  top: -5,
+  right: -5,
+  top: -0,
   zIndex: 10,
   elevation: 1,
 });

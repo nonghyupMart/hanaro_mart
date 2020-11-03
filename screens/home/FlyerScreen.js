@@ -198,13 +198,19 @@ const FlyerScreen = (props) => {
         <ExtendedFlatList
           onEndReached={loadMore}
           columnWrapperStyle={{
-            justifyContent: "space-between",
+            justifyContent: "flex-start",
             alignItems: "space-between",
-            paddingLeft: 19,
-            paddingRight: 19,
+            paddingLeft: 0,
+            paddingRight: 0,
           }}
           numColumns={3}
-          style={{ flexGrow: 1, flex: 1, width: "100%", marginTop: 10 }}
+          style={{
+            flexGrow: 1,
+            flex: 1,
+            width: "97%",
+            marginTop: 10,
+            alignSelf: "center",
+          }}
           data={product.productList}
           keyExtractor={(item, index) => {
             `${Math.random()}`;
