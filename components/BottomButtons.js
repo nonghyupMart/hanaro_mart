@@ -76,7 +76,7 @@ const BottomButtons = (props) => {
           style={styles.icons}
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            Linking.openURL("tel:" + userStore.storeInfo.tel);
+            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
           }}
         >
           <IconContainer>
