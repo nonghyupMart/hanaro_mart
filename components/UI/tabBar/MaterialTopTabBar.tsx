@@ -162,7 +162,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
         {
           backgroundColor:
             focusedRoute.name == "Home"
-              ? colors.trueWhite
+              ? ConstantsColors.trueWhite
               : ConstantsColors.pineGreen,
           height: 4,
         },
