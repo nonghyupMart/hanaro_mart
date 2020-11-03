@@ -13,6 +13,7 @@ import {
   ScaledImage,
   screenWidth,
   BaseButtonContainer,
+  BaseText,
 } from "@UI/BaseUI";
 
 import A from "@screens/home/EventDetail/A";
@@ -163,30 +164,6 @@ const EventDetailScreen = (props, { navigation }) => {
         return false;
       }
     }
-    if (userInfo && !userInfo.user_age) {
-      if (!reg_num) {
-        dispatch(
-          setAlert({
-            message: "생년원일+성별(7자리-8501011)를 입력해주세요.",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
-        return false;
-      }
-      if (reg_num.length < 7) {
-        dispatch(
-          setAlert({
-            message: "생년원일+성별(7자리-8501011)를 정확히 입력해주세요.",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
-        return false;
-      }
-    }
 
     return true;
   };
@@ -295,11 +272,33 @@ const EventDetailScreen = (props, { navigation }) => {
                 setReg_num={setReg_num}
               />
             )}
+          {eventDetail.winner_img && (
+            <View style={{ marginTop: 30 }}>
+              <ScaledImage
+                key={eventDetail.winner_img}
+                source={eventDetail.winner_img}
+                style={{}}
+                width={screenWidth}
+              />
+            </View>
+          )}
+          {eventDetail.winner_memo && <Text3>{eventDetail.winner_memo}</Text3>}
         </DetailContainer>
       )}
     </BaseScreen>
   );
 };
+
+const Text3 = styled(BaseText)({
+  fontSize: 20,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.black,
+  marginTop: 20,
+});
 
 export const screenOptions = ({ navigation }) => {
   return {
