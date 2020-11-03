@@ -101,26 +101,14 @@ const HomeScreen = (props) => {
 
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
         // console.warn(JSON.stringify(userInfo, null, "\t"));
-        dispatch(
-          authActions.updateLoginLog({ user_cd: userInfo.user_cd })
-        ).then((data) => {
-          let obj;
-          if (!_.isEmpty(data.storeInfo)) {
-            obj = { storeInfo: data.storeInfo, menuList: data.menuList };
-          }
-          dispatch(authActions.saveUserStore(obj));
-          authActions.saveUserStoreToStorage(obj);
-          if (_.isEmpty(obj)) {
-            dispatch(CommonActions.setDidTryPopup(false));
-          }
-        });
+        updateUserInfo(dispatch, userInfo);
       }
     });
     return () => {
       dispatch(setIsLoading(false));
       unsubscribe;
     };
-  }, [navigation, userInfo]);
+  }, [navigation]);
   useEffect(() => {
     if (typeof didTryPopup == "string") {
       timer = setTimeout(() => {
@@ -156,6 +144,26 @@ const HomeScreen = (props) => {
       </BaseScreen>
     </>
   );
+};
+export const updateUserInfo = (dispatch, userInfo) => {
+  return dispatch(
+    authActions.updateLoginLog({ user_cd: userInfo.user_cd })
+  ).then((data) => {
+    if (!_.isEmpty(data.userInfo)) {
+      dispatch(authActions.setUserInfo(data.userInfo));
+      authActions.saveUserInfoToStorage(data.userInfo);
+    }
+    let obj;
+    if (!_.isEmpty(data.storeInfo)) {
+      obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+    }
+    dispatch(authActions.saveUserStore(obj));
+    authActions.saveUserStoreToStorage(obj);
+    if (_.isEmpty(obj)) {
+      dispatch(CommonActions.setDidTryPopup(false));
+    }
+    return Promise.resolve(data);
+  });
 };
 const Space = styled.View({
   width: "100%",

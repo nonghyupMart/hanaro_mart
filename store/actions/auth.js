@@ -137,7 +137,7 @@ export const withdrawalFinish = () => {
   clearAllData();
   return { type: WITHDRAWAL };
 };
-const saveUserInfoToStorage = (userInfo) => {
+export const saveUserInfoToStorage = (userInfo) => {
   Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
 };
 export const saveUserStoreToStorage = (store) => {

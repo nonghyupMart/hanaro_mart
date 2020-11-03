@@ -23,6 +23,7 @@ import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { setAlert } from "@actions/common";
 import * as authActions from "@actions/auth";
+import { updateUserInfo } from "@screens/home/HomeScreen";
 
 const MyADAgreementScreen = (props) => {
   const params = props.route.params;
@@ -32,26 +33,17 @@ const MyADAgreementScreen = (props) => {
   const [barcode, setBarcode] = useState();
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
+  const [marketing_date, setMarketing_date] = useState();
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      dispatch(authActions.updateLoginLog({ user_cd: userInfo.user_cd })).then(
-        (data) => {
-          let obj;
-          if (!_.isEmpty(data.storeInfo)) {
-            obj = { storeInfo: data.storeInfo, menuList: data.menuList };
-          }
-          dispatch(authActions.saveUserStore(obj));
-          authActions.saveUserStoreToStorage(obj);
-          if (_.isEmpty(obj)) {
-            dispatch(CommonActions.setDidTryPopup(false));
-          }
-          setSms(data.userInfo.sms_agree == "Y" ? true : false);
-          setPush(data.userInfo.push_agree == "Y" ? true : false);
-        }
-      );
+      updateUserInfo(dispatch, userInfo).then((data) => {
+        setSms(data.userInfo.sms_agree == "Y" ? true : false);
+        setPush(data.userInfo.push_agree == "Y" ? true : false);
+        setMarketing_date(data.userInfo.marketing_date);
+      });
     }
-  }, [userInfo]);
+  }, []);
   const onPress = () => {
     const prevPush = userInfo.push_agree == "Y";
     const prevSms = userInfo.sms_agree == "Y";
@@ -115,7 +107,7 @@ const MyADAgreementScreen = (props) => {
           </TextContainer>
           <TextContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
             <Text1>마케팅 동의날짜</Text1>
-            <Text2>{userInfo && userInfo.marketing_date}</Text2>
+            <Text2>{marketing_date}</Text2>
           </TextContainer>
         </RoundBox>
         <SwitchContainer>
