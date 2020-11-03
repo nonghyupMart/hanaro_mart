@@ -102,7 +102,7 @@ const ExtendedImage = (props) => {
       {...props}
       onError={onError}
       source={source}
-      resizeMode="cover"
+      resizeMode={props.resizeMode ? props.resizeMode : "cover"}
       style={[{ backgroundColor: color }, props.style]}
     />
   );
