@@ -23,7 +23,7 @@ const CouponItem = (props) => {
       />
       <Title>{props.item.title}</Title>
       <Date>
-        {props.item.start_date}~{props.item.end_date}
+        {props.item.start_date} ~ {props.item.end_date}
       </Date>
       {props.item.status == "00" && (
         <Button
