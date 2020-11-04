@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as authActions from "@actions/auth";
-import AsyncStorage from "@react-native-community/async-storage";
 import Splash from "@UI/Splash";
 import * as CommonActions from "@actions/common";
 import moment from "moment";
