@@ -229,19 +229,17 @@ const CouponDetailScreen = (props) => {
             ></View>
             {!_.isEmpty(couponDetail.memo) && <Memo>{couponDetail.memo}</Memo>}
           </TextContainer>
-          {!isUsed && isNew && (
-            <>
-              <Warn>쿠폰 발급이 완료 되었습니다.</Warn>
-              <BlueButton
-                onPress={() => {
-                  dispatch(CommonActions.setBottomNavigation(true));
-                  props.navigation.pop();
-                }}
-              >
-                {/* <Image source={require("@images/resize3.png")} /> */}
-                <BlueButtonText>확인</BlueButtonText>
-              </BlueButton>
-            </>
+          {!isUsed && isNew && <Warn>쿠폰 발급이 완료 되었습니다.</Warn>}
+          {!isUsed && (
+            <BlueButton
+              onPress={() => {
+                dispatch(CommonActions.setBottomNavigation(true));
+                props.navigation.pop();
+              }}
+            >
+              {/* <Image source={require("@images/resize3.png")} /> */}
+              <BlueButtonText>확인</BlueButtonText>
+            </BlueButton>
           )}
           {isUsed && (
             <>
