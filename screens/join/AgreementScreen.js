@@ -16,6 +16,10 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import Constants from "expo-constants";
+import { styles } from "@components/join/styles";
+import AgreementContent1 from "@components/join/AgreementContent1";
+import AgreementContent3 from "@components/join/AgreementContent3";
+import AgreementContent4 from "@components/join/AgreementContent4";
 
 import { CheckBox } from "react-native-elements";
 
@@ -101,50 +105,7 @@ const AgreementScreen = ({ navigation }) => {
           </DescTextLine>
         </Desc>
       ),
-      content: () => (
-        <ExtraBox>
-          <SmallTextBold>이용목적</SmallTextBold>
-          <SmallText>
-            이용자 식별, 회원가입의 성립, 앱서비스 제공, 본인인증,
-            부정 이용방지, 민원처리 등을 위한 의사소통 경로 확보
-          </SmallText>
-          <SmallTextBold>수집항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 14세 이상여부, 쿠폰 등 거래내역, 본인인증 시 성명,
-            생년월일, 성별, CI, DI
-          </SmallText>
-
-          <SmallTextBold>제공받는자</SmallTextBold>
-          <SmallText style={styles.underline}>
-            농협유통, 농협대전유통, 농협부산경남유통,
-            농협충북유통,농협협동조합법에 의한 중앙회의 회원조합.
-          </SmallText>
-          <SmallTextBold>제공목적</SmallTextBold>
-          <SmallText style={styles.underline}>
-            회원가입의 성립.하나로마트앱 서비스 이용. 민원처리,사고조사 등을
-            위한 원할한 의사소통 경로 확보.
-          </SmallText>
-          <SmallTextBold>제공항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 14세 이상여부, 본인인증 시 성명, 생년월일, 성별,
-            내외국인여부 , CI
-          </SmallText>
-          <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.underline}>
-            회원탈퇴 후 15일 이내 다만,
-            법령상 개인정보의 보존의무가 있는 경우 그에 따름
-          </SmallText>
-          <WarnText>
-            ※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장
-            관리에서 확인이 가능합니다.
-          </WarnText>
-          <WarnText style={{ marginTop: 20 }}>
-            ※ 고객님께서는 필수항목 제공에 대한 동의를 거부할 권리가 있습니다.
-            단, 필수항목 동의 거부 시에는 회원가입이 불가하며, 상기이용목적에
-            명시된 서비스는 받으실 수 없습니다.
-          </WarnText>
-        </ExtraBox>
-      ),
+      content: () => <AgreementContent1 />,
     },
     {
       id: 2,
@@ -186,44 +147,7 @@ const AgreementScreen = ({ navigation }) => {
           </GrayDesc>
         </Desc>
       ),
-      content: () => (
-        <ExtraBox>
-          <SmallTextBold>이용목적</SmallTextBold>
-          <SmallText>
-            상품 및 서비스 안내 또는 홍보(SMS, PUSH)
-            회원의 혜택과 서비스개선을 위한 통계분석 및 연구조사
-          </SmallText>
-          <SmallTextBold>수집항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 성명, 생년월일, 성별, 마케팅수신 동의여부
-          </SmallText>
-          <SmallTextBold>제공받는자</SmallTextBold>
-          <SmallText style={styles.justUnderline}>
-            농협유통, 농협대전유통, 농협부산경남유통, 농협충북유통,
-            농업협동조합법에 의한 중앙회의 회원조합
-          </SmallText>
-          <SmallTextBold>제공목적</SmallTextBold>
-          <SmallText style={styles.justUnderline}>
-            상품 및 서비스 안내 또는 홍보(SMS, PUSH)
-            회원의 혜택과 서비스개선을 위한 통계분석 및 연구조사
-          </SmallText>
-          <SmallTextBold>제공항목</SmallTextBold>
-          <SmallText>
-            휴대폰번호, 성명, 생년월일, 성별, 마케팅수신 동의여부
-          </SmallText>
-          <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.justUnderline}>
-            회원탈퇴 또는 동의철회 시
-          </SmallText>
-          <WarnText>
-            {`※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장관리에서 확인이 가능합니다.`}
-          </WarnText>
-          <WarnText>
-            ※ 고객님께서는 선택항목에 대한 동의를 거부할 권리가 있습니다.  단,
-            선택항목 거부 시에는 상기 이용목적에 명시된 서비스는 받으실 수 없습니다.
-          </WarnText>
-        </ExtraBox>
-      ),
+      content: () => <AgreementContent3 />,
     },
     {
       id: 4,
@@ -232,21 +156,7 @@ const AgreementScreen = ({ navigation }) => {
       isRequired: false,
       isNormalTitle: true,
       title: "위치정보서비스 제공 동의",
-      content: () => (
-        <ExtraBox>
-          <SmallTextBold>이용목적</SmallTextBold>
-          <SmallText>가까운 위치에 있는 매장찾기 서비스 제공</SmallText>
-          <SmallTextBold>수집항목</SmallTextBold>
-          <SmallText>위치정보 (위도, 경도)</SmallText>
-          <SmallTextBold>보유 및 이용기간</SmallTextBold>
-          <SmallText style={styles.underline}>
-            서버에 전송되거나 저장되지 않음
-          </SmallText>
-          <WarnText>
-            {`※ 고객님께서는 선택항목에 대한 동의를 거부할 권리가 있습니다.  단, 선택항목 거부 시에는 상기 이용목적에 명시된 서비스는 받으실 수 없습니다`}
-          </WarnText>
-        </ExtraBox>
-      ),
+      content: () => <AgreementContent4 />,
     },
   ]);
   const dispatch = useDispatch();
@@ -558,16 +468,7 @@ const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
   source: require("@images/checkmark2.png"),
 };
-export const WarnText = styled(BaseText)({
-  marginTop: 25,
-  fontSize: 9,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 14,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.greyishBrown,
-});
+
 export const GrayDesc = styled(BaseText)({
   fontSize: 12,
   fontWeight: "500",
@@ -599,16 +500,8 @@ export const TitleContainer = styled.View({
   flexDirection: "row",
   flex: 0.75,
 });
-export const SmallText = styled(BaseText)({
-  fontSize: 11,
-  color: colors.greyishBrown,
-});
-export const SmallTextBold = styled(BaseText)({
-  paddingTop: 14.5,
-  fontSize: 11,
-  color: colors.greyishBrown,
-  fontFamily: "CustomFont-Bold",
-});
+// export const MarginContainer = styled.View({ marginLeft: 13 });
+
 export const TitleArea = styled.View({
   paddingBottom: (props) => (!props.desc && props.isOpen ? 5 : 0),
   flex: 1,
@@ -619,16 +512,7 @@ export const TitleArea = styled.View({
   width: "100%",
   // paddingRight: 6,
 });
-export const ExtraBox = styled.View({
-  paddingLeft: 37,
-  paddingRight: 37,
-  paddingBottom: 14.5,
-  borderStyle: "solid",
-  borderTopWidth: 1,
-  borderColor: colors.pinkishGrey,
-  flex: 1,
-  width: "100%",
-});
+
 const NoticeText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
@@ -677,56 +561,6 @@ export const TextView = styled(BaseText)({
 export const BoldText = styled(BaseText).attrs({})({
   fontFamily: "CustomFont-Bold",
   lineHeight: 20,
-});
-export const styles = StyleSheet.create({
-  justUnderline: {
-    textDecorationLine: "underline",
-    textDecorationStyle: "solid",
-  },
-  underline: {
-    fontSize: 13,
-    textDecorationLine: "underline",
-    textDecorationStyle: "solid",
-  },
-  checkbox: {
-    justifyContent: "flex-start",
-    margin: 0,
-    alignItems: "flex-start",
-    padding: 0,
-  },
-  text2: {
-    margin: 5,
-  },
-  text: {
-    fontSize: 14,
-
-    fontStyle: "normal",
-    lineHeight: 18,
-    letterSpacing: 0,
-
-    color: colors.trueWhite,
-  },
-  btnBlack: {
-    width: 158,
-    height: 36,
-    backgroundColor: colors.black,
-    borderRadius: 17,
-    padding: 0,
-    marginBottom: 25,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingLeft: 8,
-  },
-
-  screen: {
-    paddingTop: 19,
-    paddingLeft: 16,
-    paddingRight: 16,
-    // paddingTop: Constants.statusBarHeight,
-    flex: 1,
-
-    backgroundColor: colors.white,
-  },
 });
 
 export default AgreementScreen;

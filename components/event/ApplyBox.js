@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import * as AgreementScreen from "@screens/join/AgreementScreen";
 
+import AgreementContent3 from "@components/join/AgreementContent3";
+import { styles } from "@components/join/styles";
 import {
   BlueButton,
   BlueButtonText,
@@ -96,7 +98,7 @@ const ApplyBox = (props) => {
                 </AgreementScreen.BoldText>
               </AgreementScreen.TitleContainer>
               <CheckBox
-                containerStyle={[AgreementScreen.styles.checkbox]}
+                containerStyle={[styles.checkbox]}
                 checked={checkItem.isOpen}
                 onPress={() => handleOpen(checkItem)}
                 checkedIcon={<Image source={require("@images/close_m.png")} />}
@@ -132,66 +134,7 @@ const ApplyBox = (props) => {
               </AgreementScreen.GrayDesc>
             </AgreementScreen.Desc>
             {checkItem.isOpen && (
-              <>
-                <AgreementScreen.ExtraBox
-                  style={{ marginTop: 10, marginBottom: 10 }}
-                >
-                  <AgreementScreen.SmallTextBold>
-                    이용목적
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText>
-                    상품 및 서비스 안내 또는 홍보(SMS, PUSH)
-                    회원의 혜택과 서비스개선을 위한 통계분석 및 연구조사
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.SmallTextBold>
-                    수집항목
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText>
-                    휴대폰번호, 성명, 생년월일, 성별, 마케팅수신 동의여부
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.SmallTextBold>
-                    제공받는자
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText
-                    style={AgreementScreen.styles.justUnderline}
-                  >
-                    농협유통, 농협대전유통, 농협부산경남유통, 농협충북유통,
-                    농업협동조합법에 의한 중앙회의 회원조합
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.SmallTextBold>
-                    제공목적
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText
-                    style={AgreementScreen.styles.justUnderline}
-                  >
-                    상품 및 서비스 안내 또는 홍보(SMS, PUSH)
-                    회원의 혜택과 서비스개선을 위한 통계분석 및 연구조사
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.SmallTextBold>
-                    제공항목
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText>
-                    휴대폰번호, 성명, 생년월일, 성별, 마케팅수신 동의여부
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.SmallTextBold>
-                    보유 및 이용기간
-                  </AgreementScreen.SmallTextBold>
-                  <AgreementScreen.SmallText
-                    style={AgreementScreen.styles.justUnderline}
-                  >
-                    회원탈퇴 또는 동의철회 시
-                  </AgreementScreen.SmallText>
-                  <AgreementScreen.WarnText>
-                    {`※ 회원조합은 하나로마트앱을 통해 서비스를 제공하는 농협으로 선호매장관리에서 확인이 가능합니다.`}
-                  </AgreementScreen.WarnText>
-                  <AgreementScreen.WarnText>
-                    ※
-                    고객님께서는 선택항목에 대한 동의를 거부할 권리가 있습니다.
-                     단,
-                    선택항목 거부 시에는 상기 이용목적에 명시된 서비스는 받으실 수 없습니다.
-                  </AgreementScreen.WarnText>
-                </AgreementScreen.ExtraBox>
-              </>
+              <AgreementContent3 style={{ marginTop: 10, marginBottom: 10 }} />
             )}
 
             {/* {userInfo && !userInfo.user_age && (
