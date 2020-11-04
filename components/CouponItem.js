@@ -28,7 +28,7 @@ const CouponItem = (props) => {
       {props.item.status == "00" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.cerulean }}
+          style={{ backgroundColor: colors.blueyGreen }}
         >
           <ButtonText>쿠폰 다운로드</ButtonText>
           <Icon source={require("@images/ic_file_download_24px.png")} />
@@ -37,7 +37,7 @@ const CouponItem = (props) => {
       {props.item.status == "10" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.viridian }}
+          style={{ backgroundColor: colors.booger }}
         >
           <ButtonText>사용하기</ButtonText>
           <Icon source={require("@images/ic_rotate_right_24px.png")} />
@@ -45,9 +45,7 @@ const CouponItem = (props) => {
       )}
       {props.item.status == "20" && (
         <Button onPress={props.onPress}>
-          <ButtonText style={{ color: colors.greyishThree }}>
-            사용완료
-          </ButtonText>
+          <ButtonText style={{ color: colors.silver }}>사용완료</ButtonText>
           <Icon source={require("@images/ic_timer_24px.png")} />
         </Button>
       )}
@@ -71,7 +69,7 @@ const Button = styled(BaseTouchable).attrs({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  borderRadius: 17,
+  borderRadius: 5,
   backgroundColor: colors.white,
   borderStyle: "solid",
   borderWidth: 0,
@@ -126,7 +124,7 @@ const Container = styled.View({
   padding: 10,
 
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.020,
+  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
 });
 
 export default CouponItem;

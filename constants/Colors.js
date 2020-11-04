@@ -27,5 +27,8 @@ export default colors = {
   purplishRed: "#b00931",
   wineRed: "#6b061e",
   waterBlue: "#15a7cc",
+  booger: "#afc34a",
+  silver: "#c9cacc",
+  blueyGreen: "#27a486",
 };
 
