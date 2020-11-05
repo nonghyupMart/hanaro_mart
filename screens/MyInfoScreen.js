@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import JsBarcode from "jsbarcode";
-
-import { DOMImplementation, XMLSerializer } from "xmldom";
 import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
-import MemberInfo from "@components/myPage/MemberInfo";
+import MemberInfoB from "@components/myPage/MemberInfoB";
+import QRCode from "react-native-qrcode-svg";
 // import Barcode from "react-native-jsbarcode";
 import {
   SafeAreaView,
@@ -24,11 +22,13 @@ import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import Barcode from "@components/Barcode";
 import { setAlert } from "@actions/common";
+import Modal from "react-native-modal";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const [isVisible, setIsVisible] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
   useEffect(() => {
@@ -50,6 +50,7 @@ const MyInfoScreen = (props) => {
       })
     );
   };
+  const onPressShowQRCode = () => {};
   if (!barcode || !userStore) return <></>;
   return (
     <BaseScreen
@@ -62,7 +63,7 @@ const MyInfoScreen = (props) => {
         marginBottom: 40,
       }}
     >
-      <MemberInfo />
+      <MemberInfoB />
       <MarginContainer>
         <TextContainer>
           <Text1>회원번호</Text1>
@@ -85,6 +86,12 @@ const MyInfoScreen = (props) => {
             onError={onError}
           />
         </BarcodeContainer>
+        {!!userInfo.mana_qr && (
+          <MangerQRCodeContainer onPress={() => setIsVisible(true)}>
+            <Image source={require("@images/adminqr.png")} />
+          </MangerQRCodeContainer>
+        )}
+
         {/* <BlueButton
           onPress={() => {
             props.navigation.pop();
@@ -94,11 +101,104 @@ const MyInfoScreen = (props) => {
           <BlueButtonText>확인</BlueButtonText>
         </BlueButton> */}
       </WhiteContainer>
+      <Button onPress={() => props.navigation.goBack()}>
+        <BtnText>확인</BtnText>
+      </Button>
+      {!!userInfo.mana_qr && (
+        <Modal
+          backdropTransitionInTiming={0}
+          backdropTransitionOutTiming={0}
+          isVisible={isVisible}
+          useNativeDriver={true}
+          hideModalContentWhileAnimating={true}
+          onRequestClose={() => setIsVisible(false)}
+        >
+          <ModalContainer>
+            <ModalTitle>관리자 QR코드</ModalTitle>
+            <QRCodeContainer>
+              <QRCode value={userInfo.mana_qr} />
+            </QRCodeContainer>
+            <ModalCloseButton onPress={() => setIsVisible(false)}>
+              <Image source={require("@images/closeBtn10.png")} />
+              <ModalCloseText>닫기</ModalCloseText>
+            </ModalCloseButton>
+          </ModalContainer>
+        </Modal>
+      )}
     </BaseScreen>
   );
 };
-const MarginContainer = styled.View({
-  marginTop: 40,
+const ModalCloseText = styled(BaseText)({
+  fontSize: 16,
+  lineHeight: 30,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.black,
+  marginLeft: 5,
+});
+const ModalCloseButton = styled.TouchableOpacity({
+  alignItems: "center",
+  flexDirection: "row",
+  marginBottom: 20,
+  alignSelf: "center",
+});
+const QRCodeContainer = styled.View({
+  alignSelf: "center",
+  marginBottom: 30,
+});
+const ModalTitle = styled(BaseText)({
+  fontSize: 20,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 30,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.black,
+  marginTop: 15,
+  borderBottomWidth: 1,
+  borderBottomColor: colors.white,
+  marginLeft: 10,
+  marginRight: 10,
+  paddingBottom: 10,
+  marginBottom: 20,
+});
+
+const ModalContainer = styled.View({
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+  borderBottomRightRadius: 5,
+  borderBottomLeftRadius: 5,
+  overflow: "hidden",
+  borderTopWidth: 12,
+  borderTopColor: colors.cerulean,
+  borderBottomWidth: 12,
+  borderBottomColor: colors.appleGreen,
+  backgroundColor: colors.trueWhite,
+});
+const MangerQRCodeContainer = styled.TouchableOpacity({
+  alignSelf: "center",
+});
+export const BtnText = styled(BaseText)({
+  fontSize: 18,
+
+  lineHeight: 26,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+  fontFamily: "CustomFont-Bold",
+  paddingTop: 6,
+  paddingBottom: 6,
+});
+export const Button = styled.TouchableOpacity({
+  borderRadius: 18,
+  backgroundColor: colors.greyishBrown,
+  aspectRatio: 100 / 28.346,
+  alignSelf: "center",
+  marginTop: 65,
+});
+
+export const MarginContainer = styled.View({
+  marginTop: 24,
   marginBottom: 0,
 });
 const BaseTextStyle = styled(BaseText)({
@@ -230,9 +330,6 @@ const Container = styled.View({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "내정보확인",
-    cardStyle: {
-      marginBottom: 0,
-    },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,

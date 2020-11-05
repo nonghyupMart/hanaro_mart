@@ -41,6 +41,7 @@ import * as Util from "@util";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
 import * as authActions from "@actions/auth";
+import * as Updates from "expo-updates";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -56,22 +57,58 @@ const HomeScreen = (props) => {
   let timer;
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
+      if (!__DEV__) {
+        (async () => {
+          try {
+            const update = await Updates.checkForUpdateAsync();
+            if (update.isAvailable) {
+              await Updates.fetchUpdateAsync();
+              // ... notify user of update ...
+              Util.log("new update");
+              await dispatch(
+                setAlert({
+                  message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+                  confirmText: "업데이트",
+                  onPressConfirm: () => {
+                    dispatch(setAlert(null));
+                    Updates.reloadAsync();
+                  },
+                  onPressCancel: () => {
+                    dispatch(setAlert(null));
+                  },
+                })
+              );
+            }
+          } catch (e) {
+            // handle or log error
+            Util.log("update error=>", e);
+            dispatch(
+              setAlert({
+                message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+                confirmText: "업데이트",
+                onPressConfirm: () => {
+                  dispatch(setAlert(null));
+                  Updates.reloadAsync();
+                },
+                onPressCancel: () => {
+                  dispatch(setAlert(null));
+                },
+              })
+            );
+          }
+        })();
+      }
+
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
-        dispatch(
-          authActions.updateLoginLog({ user_cd: userInfo.user_cd })
-        ).then((data) => {
-          const obj = { storeInfo: data.storeInfo, menuList: data.menuList };
-          if (_.isEmpty(obj)) return;
-          dispatch(authActions.saveUserStore(obj));
-          authActions.saveUserStoreToStorage(obj);
-        });
+        // console.warn(JSON.stringify(userInfo, null, "\t"));
+        updateUserInfo(dispatch, userInfo);
       }
     });
     return () => {
       dispatch(setIsLoading(false));
       unsubscribe;
     };
-  }, [navigation, userInfo]);
+  }, [navigation]);
   useEffect(() => {
     if (typeof didTryPopup == "string") {
       timer = setTimeout(() => {
@@ -111,6 +148,26 @@ const HomeScreen = (props) => {
       </BaseScreen>
     </>
   );
+};
+export const updateUserInfo = (dispatch, userInfo) => {
+  return dispatch(
+    authActions.updateLoginLog({ user_cd: userInfo.user_cd })
+  ).then((data) => {
+    if (!_.isEmpty(data.userInfo)) {
+      dispatch(authActions.setUserInfo(data.userInfo));
+      authActions.saveUserInfoToStorage(data.userInfo);
+    }
+    let obj;
+    if (!_.isEmpty(data.storeInfo)) {
+      obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+    }
+    dispatch(authActions.saveUserStore(obj));
+    authActions.saveUserStoreToStorage(obj);
+    if (_.isEmpty(obj)) {
+      dispatch(CommonActions.setDidTryPopup(false));
+    }
+    return Promise.resolve(data);
+  });
 };
 const Space = styled.View({
   width: "100%",

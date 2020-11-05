@@ -48,6 +48,7 @@ export const signup = (query) => {
     });
     const resData = await Network.getResponse(response, dispatch, url, query);
 
+    if (!resData.data.userInfo.user_cd) return resData.data.userInfo;
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
     return resData.data.userInfo;
@@ -113,16 +114,20 @@ export const setAgreedStatus = (status) => {
   return { type: SET_AGREED_STATUS, agreedStatus: status };
 };
 
-export const withdrawal = (user_cd) => {
-  const url = `${API_URL}/users/${user_cd}`;
+export const withdrawal = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/users`,
+  });
+  // console.warn(url, query);
   return async (dispatch) => {
     const response = await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, user_cd);
+    const resData = await Network.getResponse(response, dispatch, url, query);
 
     // Util.log(resData.data);
     return resData.data;
@@ -132,7 +137,7 @@ export const withdrawalFinish = () => {
   clearAllData();
   return { type: WITHDRAWAL };
 };
-const saveUserInfoToStorage = (userInfo) => {
+export const saveUserInfoToStorage = (userInfo) => {
   Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
 };
 export const saveUserStoreToStorage = (store) => {

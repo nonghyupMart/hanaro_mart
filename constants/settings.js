@@ -6,4 +6,4 @@ import getEnvVars from "@constants/environment";
 export const { SERVER_URL } = getEnvVars();
 
 export const API_URL = `${SERVER_URL}/api`;
-export const IMAGE_URL = `${SERVER_URL}/`;
+export const IMAGE_URL = `${SERVER_URL}`;

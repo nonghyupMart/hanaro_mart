@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import {
-  CheckButton,
-  TitleContainer,
-  TextView,
-} from "@screens/join/AgreementScreen";
+import * as AgreementScreen from "@screens/join/AgreementScreen";
 
+import AgreementContent3 from "@components/join/AgreementContent3";
+import { styles } from "@components/join/styles";
 import {
   BlueButton,
   BlueButtonText,
@@ -16,51 +14,18 @@ import {
 } from "@UI/BaseUI";
 import { setAlert } from "@actions/common";
 import { useSelector, useDispatch } from "react-redux";
+import { CheckBox } from "react-native-elements";
 
 const ApplyBox = (props) => {
   const dispatch = useDispatch();
-  const [checkItem, setCheckItem] = useState({
-    isRequired: true,
-    isChecked: false,
-  });
-  const [reg_num, setReg_num] = useState();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const checkItem = props.checkItem;
+  const setCheckItem = props.setCheckItem;
+  const reg_num = props.reg_num;
+  const setReg_num = props.setReg_num;
 
   const onPress = () => {
-    if (!checkItem.isChecked) {
-      dispatch(
-        setAlert({
-          message: "개인정보 수집에 동의해주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return;
-    }
-    if (!reg_num) {
-      dispatch(
-        setAlert({
-          message: "생년원일+성별(7자리-8501011)를 입력해주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return;
-    }
-    if (reg_num.length < 7) {
-      dispatch(
-        setAlert({
-          message: "생년원일+성별(7자리-8501011)를 정확히 입력해주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return;
-    }
-
-    props.onApply(reg_num);
+    props.onApply();
   };
   const onFocus = () => {
     if (props.scrollRef)
@@ -68,50 +33,130 @@ const ApplyBox = (props) => {
         props.scrollRef.scrollToEnd();
       }, 800);
   };
+  const handleChecked = (checkBox) => {
+    let cks = { ...checkItem };
+    cks.isChecked = !cks.isChecked;
+    if (cks.child) {
+      cks.child.map((el) => {
+        cks.isChecked ? (el.isChecked = true) : (el.isChecked = false);
+      });
+    }
+    setCheckItem(() => cks);
+  };
+  const setChecked = (checkBox, child) => {
+    let cks = { ...checkItem };
+    cks.child[child.id].isChecked = !cks.child[child.id].isChecked;
+
+    if (cks.child[child.id].isChecked == false) {
+      cks.isChecked = false;
+    } else {
+      let allTrue = cks.child.every((el) => el.isChecked);
+      if (allTrue) cks.isChecked = true;
+    }
+    setCheckItem(() => cks);
+  };
+  const handleOpen = (checkBox) => {
+    let cks = { ...checkItem };
+    cks.isOpen = !cks.isOpen;
+    setCheckItem(() => cks);
+  };
+
   return (
     <>
-      <Container>
-        <Title>개인정보 수집동의</Title>
-        <TitleContainer style={{ marginTop: 13, marginBottom: 31 }}>
-          <CheckButton
-            value={checkItem}
-            onPress={() =>
-              setCheckItem({ ...checkItem, isChecked: !checkItem.isChecked })
-            }
-            isRequired={true}
-          />
-          <TextView
-            style={{
-              fontWeight: "normal",
-              fontSize: 14,
-              flexGrow: 1,
-              flexShrink: 0,
-              color: props.item.isRequired ? colors.cerulean : colors.viridian,
-            }}
-          >
-            {props.item.isRequired ? "[필수] " : "[선택] "}
-          </TextView>
-          <TextView2>
-            {`개인정보 수집 및 이용약관\n수집.이용목적 : 회원가입 및 서비스 제공\n수집항목 : 휴대폰 번호 / 주민 번호`}
-          </TextView2>
-        </TitleContainer>
-        <InputText
-          placeholder="생년원일+성별(7자리-8501011)"
-          keyboardType="numeric"
-          maxLength={7}
-          value={reg_num}
-          onChangeText={(text) => setReg_num(text)}
-          editable={props.eventDetail.entry.status === "10"}
-          onFocus={onFocus}
-        />
-      </Container>
-      {props.eventDetail.entry.status === "10" && (
+      {props.eventDetail.entry.status == "10" &&
+        userInfo &&
+        userInfo.marketing_agree == "N" && (
+          <Container>
+            <Title>개인정보 수집동의</Title>
+            <AgreementScreen.TitleArea>
+              <AgreementScreen.TitleContainer
+                style={{ marginTop: 13, marginBottom: 5 }}
+              >
+                <AgreementScreen.CheckButton
+                  value={checkItem}
+                  onPress={() => handleChecked(checkItem)}
+                  isRequired={true}
+                />
+                <AgreementScreen.TextView
+                  style={{
+                    fontWeight: "normal",
+                    fontSize: 14,
+                    flexGrow: 1,
+                    flexShrink: 0,
+                    color: props.item.isRequired
+                      ? colors.cerulean
+                      : colors.viridian,
+                    fontFamily: "CustomFont-Bold",
+                  }}
+                >
+                  {props.item.isRequired ? "[필수] " : "[선택] "}
+                </AgreementScreen.TextView>
+                <AgreementScreen.BoldText
+                  style={{ textAlign: "left", width: "100%" }}
+                >
+                  행사안내 및 이벤트 수신 동의
+                </AgreementScreen.BoldText>
+              </AgreementScreen.TitleContainer>
+              <CheckBox
+                containerStyle={[styles.checkbox]}
+                checked={checkItem.isOpen}
+                onPress={() => handleOpen(checkItem)}
+                checkedIcon={<Image source={require("@images/close_m.png")} />}
+                uncheckedIcon={
+                  <Image source={require("@images/close_p.png")} />
+                }
+                style={{ opacity: 0 }}
+              />
+            </AgreementScreen.TitleArea>
+
+            <AgreementScreen.Desc>
+              <AgreementScreen.DescTextLine>
+                <AgreementScreen.CircleCheckButton
+                  checked={checkItem.child[0].isChecked}
+                  onPress={() => setChecked(checkItem, checkItem.child[0])}
+                />
+                <AgreementScreen.DescText1>
+                  개인정보의 선택적 수집·이용 동의
+                </AgreementScreen.DescText1>
+              </AgreementScreen.DescTextLine>
+              <AgreementScreen.DescTextLine>
+                <AgreementScreen.CircleCheckButton
+                  checked={checkItem.child[1].isChecked}
+                  onPress={() => setChecked(checkItem, checkItem.child[1])}
+                />
+                <AgreementScreen.DescText1>
+                  개인정보의 선택적 제공동의
+                </AgreementScreen.DescText1>
+              </AgreementScreen.DescTextLine>
+              <AgreementScreen.GrayDesc>
+                이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
+                있습니다.
+              </AgreementScreen.GrayDesc>
+            </AgreementScreen.Desc>
+            {checkItem.isOpen && (
+              <AgreementContent3 style={{ marginTop: 10, marginBottom: 10 }} />
+            )}
+
+            {/* {userInfo && !userInfo.user_age && (
+              <InputText
+                placeholder="생년원일+성별(7자리-8501011)"
+                keyboardType="numeric"
+                maxLength={7}
+                value={reg_num}
+                onChangeText={(text) => setReg_num(text)}
+                editable={props.eventDetail.entry.status === "10"}
+                onFocus={onFocus}
+              />
+            )} */}
+          </Container>
+        )}
+      {props.isShowApplyButton && props.eventDetail.entry.status === "10" && (
         <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모하기</BlueButtonText>
         </BlueButton>
       )}
-      {props.eventDetail.entry.status === "20" && (
+      {props.isShowApplyButton && props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("@images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
@@ -145,7 +190,7 @@ const InputText = styled(BaseTextInput)({
   textAlign: "center",
 });
 
-const TextView2 = styled(TextView)({
+const TextView2 = styled(AgreementScreen.TextView)({
   flexGrow: 1,
   marginRight: 22,
   justifyContent: "flex-start",
@@ -173,7 +218,7 @@ const Title = styled(BaseText)({
 });
 const Container = styled.View({
   marginTop: 42,
-  flex: 1,
+
   width: "100%",
   backgroundColor: colors.trueWhite,
   borderStyle: "solid",
@@ -181,7 +226,7 @@ const Container = styled.View({
   borderColor: colors.greyishThree,
   borderRadius: 12,
   overflow: "hidden",
-  paddingBottom: 28,
+  paddingBottom: 10,
 });
 
 export default ApplyBox;

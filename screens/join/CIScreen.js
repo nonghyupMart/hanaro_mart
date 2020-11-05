@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -13,8 +12,28 @@ import {
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
+import _ from "lodash";
+import * as CommonActions from "@actions/common";
+import { useSelector, useDispatch } from "react-redux";
 
 const CIScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  useEffect(() => {
+    if (!_.isEmpty(userInfo)) {
+      navigation.setOptions({
+        title: "본인인증",
+        cardStyle: {
+          marginBottom: 0,
+        },
+      });
+    }
+    dispatch(CommonActions.setBottomNavigation(false));
+    return () => {
+      dispatch(CommonActions.setBottomNavigation(true));
+    };
+  }, []);
+
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView

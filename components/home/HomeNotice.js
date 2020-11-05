@@ -39,41 +39,67 @@ const HomeNotice = (props) => {
   return (
     <>
       {homeNotice && (
-        <ExtendedFlatList
-          {...props}
-          onEndReached={loadMore}
-          contentContainerStyle={{
-            justifyContent: "space-between",
-          }}
-          numColumns={1}
-          style={{
-            backgroundColor: colors.trueWhite,
-            width: screenWidth,
-            flexGrow: 1,
-          }}
-          data={homeNotice.noticeList}
-          keyExtractor={(item, index) => `${item.notice_cd}`}
-          renderItem={(itemData) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  RootNavigation.navigate("Notice", {
-                    type: "H",
-                    notice_cd: itemData.item.notice_cd,
-                  });
-                }}
-              >
-                <NoticeItemContainer>
-                  <TitleContainer>
-                    <Image
-                      source={
-                        itemData.item.today_yn == "Y"
-                          ? require("@images/newicon640.png")
-                          : require("@images/ic_message_24px.png")
-                      }
-                    />
-                    <NoticeTitle
-                      numberOfLines={1}
+        <>
+          <TouchableOpacity
+            activeOpacity={1}
+            style={{ width: "100%", paddingBottom: 10 }}
+            onPress={() => {
+              RootNavigation.navigate("Notice", {
+                type: "H",
+              });
+            }}
+          >
+            <Image
+              source={require("@images/total_n711.png")}
+              style={{ width: "100%", marginTop: 6 }}
+            />
+          </TouchableOpacity>
+          <ExtendedFlatList
+            {...props}
+            onEndReached={loadMore}
+            contentContainerStyle={{
+              justifyContent: "space-between",
+            }}
+            numColumns={1}
+            style={{
+              backgroundColor: colors.trueWhite,
+              width: screenWidth,
+              flexGrow: 1,
+            }}
+            data={homeNotice.noticeList}
+            keyExtractor={(item, index) => `${item.notice_cd}`}
+            renderItem={(itemData) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    RootNavigation.navigate("Notice", {
+                      type: "H",
+                      notice_cd: itemData.item.notice_cd,
+                    });
+                  }}
+                >
+                  <NoticeItemContainer>
+                    <TitleContainer>
+                      <Image
+                        source={
+                          itemData.item.today_yn == "Y"
+                            ? require("@images/newicon640.png")
+                            : require("@images/ic_message_24px.png")
+                        }
+                      />
+                      <NoticeTitle
+                        numberOfLines={1}
+                        style={{
+                          color:
+                            itemData.item.today_yn == "Y"
+                              ? colors.cerulean
+                              : colors.greyishBrown,
+                        }}
+                      >
+                        {itemData.item.title}
+                      </NoticeTitle>
+                    </TitleContainer>
+                    <Date
                       style={{
                         color:
                           itemData.item.today_yn == "Y"
@@ -81,24 +107,14 @@ const HomeNotice = (props) => {
                             : colors.greyishBrown,
                       }}
                     >
-                      {itemData.item.title}
-                    </NoticeTitle>
-                  </TitleContainer>
-                  <Date
-                    style={{
-                      color:
-                        itemData.item.today_yn == "Y"
-                          ? colors.cerulean
-                          : colors.greyishBrown,
-                    }}
-                  >
-                    {itemData.item.reg_date}
-                  </Date>
-                </NoticeItemContainer>
-              </TouchableOpacity>
-            );
-          }}
-        />
+                      {itemData.item.reg_date}
+                    </Date>
+                  </NoticeItemContainer>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </>
       )}
     </>
   );

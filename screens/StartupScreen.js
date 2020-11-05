@@ -12,6 +12,7 @@ import _ from "lodash";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     (async () => {
       const userStoreData = await Util.getStorageItem("userStoreData");

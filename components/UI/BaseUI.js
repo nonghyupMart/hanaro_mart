@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import colors from "@constants/colors";
 import { Image } from "react-native-expo-image-cache";
@@ -12,6 +12,7 @@ import {
   Text,
   TextInput,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import _ from "lodash";
 // import ScaledImage from "@UI/ScaledImage";
@@ -87,9 +88,29 @@ export const BaseTextInput = styled(TextInput)({
   fontFamily: "CustomFont",
   borderWidth: 0,
 });
+const ExtendedImage = (props) => {
+  const [source, setSource] = useState(props.source);
+  const [color, setColor] = useState(colors.white);
+  const onError = () => {
+    setSource(require("@images/m_img499.png"));
+  };
+  const onLoad = () => {
+    setColor("transparent");
+  };
+  return (
+    <ImageBackground
+      {...props}
+      onError={onError}
+      source={source}
+      resizeMode={props.resizeMode ? props.resizeMode : "cover"}
+      style={[{ backgroundColor: color }, props.style]}
+      defaultSource={require("@images/m_img499.png")}
+    />
+  );
+};
 
 BaseTextInput.defaultProps = { allowFontScaling: false };
-export const BaseImage = styled(Image).attrs((props) => {
+export const BaseImage = styled(ExtendedImage).attrs((props) => {
   let source;
   if (typeof props.source == "string")
     source = {
@@ -101,7 +122,7 @@ export const BaseImage = styled(Image).attrs((props) => {
   };
 })((props) => {
   return {
-    backgroundColor: colors.white,
+    // backgroundColor: colors.white,
   };
 });
 

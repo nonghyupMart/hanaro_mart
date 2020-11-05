@@ -212,7 +212,7 @@ const StoreChangeDetailScreen = (props) => {
                   color: colors.appleGreen,
                 }}
               >
-                Tel. {branch.storeInfo && branch.storeInfo.tel}
+                Tel. {branch.storeInfo && branch.storeInfo.support_tel}
               </BaseText>
             </View>
             <BaseTouchable

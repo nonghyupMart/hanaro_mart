@@ -159,7 +159,13 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
       activeColor={activeTintColor}
       inactiveColor={inactiveTintColor}
       indicatorStyle={[
-        { backgroundColor: ConstantsColors.pineGreen, height: 4 },
+        {
+          backgroundColor:
+            focusedRoute.name == "Home"
+              ? ConstantsColors.trueWhite
+              : ConstantsColors.pineGreen,
+          height: 4,
+        },
         indicatorStyle,
       ]}
       style={[{ backgroundColor: colors.card }, style]}

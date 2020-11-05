@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Carousel from "@UI/Carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
@@ -22,12 +17,16 @@ import { setAlert, setIsLoading } from "@actions/common";
 
 const NaroTube = (props) => {
   const dispatch = useDispatch();
+  const [key, setKey] = useState();
   const homeNaro = useSelector((state) => state.home.homeNaro);
+  useEffect(() => {
+    setKey(Math.random());
+  }, [props.isFocused]);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
-       dispatch(setIsLoading(false));
+      dispatch(setIsLoading(false));
     });
   }, [dispatch]);
   if (!homeNaro || !homeNaro.naroList || homeNaro.naroCnt == 0) return <></>;
@@ -64,7 +63,7 @@ const NaroTube = (props) => {
           return (
             <ExtendedWebView
               bounces={false}
-              key={item.naro_cd}
+              key={`${key}${item.naro_cd}`}
               style={{
                 height: screenWidth * 0.555,
                 opacity: 0.99,

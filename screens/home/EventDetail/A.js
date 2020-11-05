@@ -4,12 +4,7 @@ import ApplyBox from "@components/event/ApplyBox";
 const A = (props) => {
   return (
     <Container>
-      <ApplyBox
-        scrollRef={props.scrollRef}
-        onApply={props.onApply}
-        {...props}
-        eventDetail={props.eventDetail}
-      />
+      <ApplyBox {...props} isShowApplyButton={true} />
     </Container>
   );
 };

@@ -23,19 +23,19 @@ const CouponItemA = (props) => {
         {props.item.status == "00" && (
           <IconContainer onPress={props.onPress}>
             <Image source={require("@images/download25.png")} />
-            <IconText>쿠폰받기</IconText>
+            <IconText style={{ color: colors.blueyGreen }}>쿠폰받기</IconText>
           </IconContainer>
         )}
         {props.item.status == "10" && (
           <IconContainer onPress={props.onPress}>
             <Image source={require("@images/use25.png")} />
-            <IconText>사용하기</IconText>
+            <IconText style={{ color: colors.booger }}>사용하기</IconText>
           </IconContainer>
         )}
         {props.item.status == "20" && (
           <IconContainer2 onPress={props.onPress}>
             <Image source={require("@images/timer25.png")} />
-            <IconText style={{ color: colors.greyishThree }}>사용완료</IconText>
+            <IconText style={{ color: colors.silver }}>사용완료</IconText>
           </IconContainer2>
         )}
       </TextContainer>
@@ -103,6 +103,6 @@ const CouponContainer = styled.View({
   borderWidth: 1,
   borderColor: colors.white,
   padding: 15,
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.034,
+  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
 });
 export default CouponItemA;

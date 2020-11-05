@@ -73,6 +73,7 @@ const CouponScreen = (props) => {
     return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
+    if (!__DEV__ && !userInfo.ci) return navigation.navigate("Empty");
     dispatch(setIsLoading(true));
     let couponList;
     switch (type) {
@@ -105,6 +106,7 @@ const CouponScreen = (props) => {
               index: index,
               type,
               routeName,
+              isNew: true,
             });
           }
         });
@@ -126,6 +128,7 @@ const CouponScreen = (props) => {
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
+      dispatch(setIsLoading(true));
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
@@ -133,7 +136,9 @@ const CouponScreen = (props) => {
           page: page + 1,
           gbn: "B",
         })
-      );
+      ).then(() => {
+        dispatch(setIsLoading(false));
+      });
 
       setPage(page + 1);
     }
@@ -239,6 +244,7 @@ export const screenOptions = ({ navigation }) => {
     title: "나의 쿠폰",
     cardStyle: {
       backgroundColor: colors.trueWhite,
+      paddingBottom: 65,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

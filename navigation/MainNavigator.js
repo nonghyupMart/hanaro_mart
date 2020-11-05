@@ -120,9 +120,17 @@ import MyInfoScreen, {
   screenOptions as MyInfoScreenOptions,
 } from "@screens/MyInfoScreen";
 
+import MyADAgreementScreen, {
+  screenOptions as MyADAgreementScreenOptions,
+} from "@screens/MyADAgreementScreen";
+
 import PopupScreen, {
   screenOptions as PopupScreenOptions,
 } from "@screens/PopupScreen";
+
+import CIScreen, {
+  screenOptions as CIScreenOptions,
+} from "@screens/join/CIScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -138,6 +146,7 @@ const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
 export const HomeTabNavigator = ({ navigation, route }) => {
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const menuList =
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
@@ -169,11 +178,20 @@ export const HomeTabNavigator = ({ navigation, route }) => {
         {
           let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
           if (!Tab[0]) return;
+          let components = Tab[0].components;
+          {
+            /* if (
+            !userInfo.ci &&
+            (Tab[0].name == "Event" || Tab[0].name == "Coupon")
+          ) {
+            components = Tab[0].subComponents;
+          } */
+          }
           return (
             <HomeTopTabNavigator.Screen
               key={Tab[0].name}
               name={Tab[0].name}
-              component={Tab[0].components}
+              component={components}
               options={{
                 title: menu.menu_nm,
                 cardStyle: {
@@ -336,6 +354,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           options={MyInfoScreenOptions}
         />
         <HomeStackNavigator.Screen
+          name="MyADAgreement"
+          component={MyADAgreementScreen}
+          options={MyADAgreementScreenOptions}
+        />
+        <HomeStackNavigator.Screen
           name="MyEvent"
           component={EventScreen}
           options={EventScreenOptions}
@@ -349,6 +372,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="ForStoreDetail"
           component={ExhibitionDetailScreen}
           options={ExhibitionDetailScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="CI"
+          component={CIScreen}
+          options={CIScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

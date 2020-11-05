@@ -13,6 +13,7 @@ import {
   ScaledImage,
   screenWidth,
   BaseButtonContainer,
+  BaseText,
 } from "@UI/BaseUI";
 
 import A from "@screens/home/EventDetail/A";
@@ -32,6 +33,16 @@ const EventDetailScreen = (props, { navigation }) => {
   const eventDetail = useSelector((state) => state.event.eventDetail);
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
+  const [reg_num, setReg_num] = useState();
+  const [checkItem, setCheckItem] = useState({
+    isRequired: true,
+    isOpen: false,
+    isChecked: false,
+    child: [
+      { id: 0, isChecked: false },
+      { id: 1, isChecked: false },
+    ],
+  });
   // useEffect(() => {
   //   return () => {
   //     dispatch(eventActions.clearEventDetail());
@@ -57,7 +68,9 @@ const EventDetailScreen = (props, { navigation }) => {
         user_cd: userInfo.user_cd,
       })
     ).then(() => {
-      // dispatch(setIsLoading(false));
+      // if (__DEV__) {
+      dispatch(setIsLoading(false));
+      // }
     });
   };
   const checkQRLength = (val, length) => {
@@ -101,7 +114,7 @@ const EventDetailScreen = (props, { navigation }) => {
     );
   };
   const onExchangeStamp = (QRCode) => {
-    if (!checkQRLength(QRCode, 12)) return;
+    // if (!checkQRLength(QRCode, 12)) return;
 
     dispatch(
       eventActions.exchangeStamp({
@@ -117,8 +130,8 @@ const EventDetailScreen = (props, { navigation }) => {
     });
   };
   const onApplyStamp = (QRCode) => {
-    if (!checkQRLength(QRCode, 40)) return;
-    if (!checkRequiredAmount(QRCode)) return;
+    // if (!checkQRLength(QRCode, 40)) return;
+    // if (!checkRequiredAmount(QRCode)) return;
 
     dispatch(
       eventActions.applyStamp({
@@ -133,20 +146,45 @@ const EventDetailScreen = (props, { navigation }) => {
       }
     });
   };
-  const onApply = (reg_num) => {
-    if (rcp_qr) {
-      if (!checkQRLength(rcp_qr, 40)) return;
-      if (!checkRequiredAmount(rcp_qr)) return;
+  const validateAgree = () => {
+    if (userInfo && userInfo.marketing_agree == "N") {
+      if (
+        !checkItem.isChecked ||
+        !checkItem.child[0].isChecked ||
+        !checkItem.child[1].isChecked
+      ) {
+        dispatch(
+          setAlert({
+            message: "행사안내 및 이벤트 수신동의에 동의해주세요.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
+        return false;
+      }
     }
-    dispatch(
-      eventActions.applyEvent({
-        event_cd: params.event_cd,
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
-        reg_num,
-        rcp_qr,
-      })
-    ).then((data) => {
+
+    return true;
+  };
+  const onApply = (QRCode) => {
+    if (!validateAgree()) return;
+    if (QRCode) {
+      // if (!checkQRLength(QRCode, 40) || !checkRequiredAmount(QRCode)) {
+      //   setRcp_qr(null);
+      //   return false;
+      // }
+      setRcp_qr(QRCode);
+    }
+    let query = {
+      event_cd: params.event_cd,
+      user_cd: userInfo.user_cd,
+      store_cd: userStore.storeInfo.store_cd,
+      reg_num,
+    };
+    if (QRCode) query.rcp_qr = QRCode;
+    if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
+    dispatch(eventActions.applyEvent(query)).then((data) => {
       if (data.result == "success") {
         eventDetail.entry.status = "20";
         dispatch(eventActions.updateEventDetail(eventDetail));
@@ -191,6 +229,11 @@ const EventDetailScreen = (props, { navigation }) => {
                 onApply={onApply}
                 eventDetail={eventDetail}
                 scrollRef={scrollRef}
+                checkItem={checkItem}
+                setCheckItem={setCheckItem}
+                validateAgree={validateAgree}
+                reg_num={reg_num}
+                setReg_num={setReg_num}
               />
             )}
           {eventDetail.entry &&
@@ -204,6 +247,11 @@ const EventDetailScreen = (props, { navigation }) => {
                 setRcp_qr={setRcp_qr}
                 rcp_qr={rcp_qr}
                 eventDetail={eventDetail}
+                checkItem={checkItem}
+                setCheckItem={setCheckItem}
+                validateAgree={validateAgree}
+                reg_num={reg_num}
+                setReg_num={setReg_num}
               />
             )}
           {eventDetail.entry &&
@@ -213,17 +261,46 @@ const EventDetailScreen = (props, { navigation }) => {
                 {...props}
                 scrollRef={scrollRef}
                 key={scrollRef}
-                onApply={onApply}
-                setRcp_qr={onApplyStamp}
+                onApply={onApplyStamp}
+                setRcp_qr={setRcp_qr}
                 eventDetail={eventDetail}
                 setMana_qr={onExchangeStamp}
+                checkItem={checkItem}
+                setCheckItem={setCheckItem}
+                validateAgree={validateAgree}
+                reg_num={reg_num}
+                setReg_num={setReg_num}
               />
             )}
+          {!!eventDetail.winner_img && (
+            <View style={{ marginTop: 30 }}>
+              <ScaledImage
+                key={eventDetail.winner_img}
+                source={eventDetail.winner_img}
+                style={{}}
+                width={screenWidth}
+              />
+            </View>
+          )}
+          {!!eventDetail.winner_memo && (
+            <Text3>{eventDetail.winner_memo}</Text3>
+          )}
         </DetailContainer>
       )}
     </BaseScreen>
   );
 };
+
+const Text3 = styled(BaseText)({
+  fontSize: 20,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 20,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.black,
+  marginTop: 20,
+});
 
 export const screenOptions = ({ navigation }) => {
   return {

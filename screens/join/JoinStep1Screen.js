@@ -21,7 +21,7 @@ const JoinStep1Screen = ({ navigation }) => {
           navigation.navigate("CI");
         }}
       >
-        <Image source={require("@images/top_img646.png")} />
+        <Image source={require("@images/mem1725.png")} />
       </Box>
       <Box
         style={{ marginTop: 2.5 }}
@@ -29,11 +29,23 @@ const JoinStep1Screen = ({ navigation }) => {
           navigation.navigate("JoinStep2");
         }}
       >
-        <Image source={require("@images/bottom_img646.png")} />
+        <Image source={require("@images/mem2725.png")} />
       </Box>
+      <LogoContainer>
+        <Image source={require("@images/glaylogo.png")} />
+      </LogoContainer>
     </BaseScreen>
   );
 };
+const LogoContainer = styled.View({
+  flexGrow: 0,
+  width: "100%",
+  height: 19.8,
+  marginTop: 16.2,
+  marginBottom: 15,
+  justifyContent: "center",
+  alignItems: "center",
+});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",

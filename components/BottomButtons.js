@@ -76,7 +76,7 @@ const BottomButtons = (props) => {
           style={styles.icons}
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            Linking.openURL("tel:" + userStore.storeInfo.tel);
+            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
           }}
         >
           <IconContainer>
@@ -108,10 +108,10 @@ const Container = styled.View({
   height: 66,
   backgroundColor: colors.trueWhite,
   shadowColor: colors.black16,
-  shadowOffset: {
-    width: 3,
-    height: 0,
-  },
+  // shadowOffset: {
+  //   width: 3,
+  //   height: 0,
+  // },
   shadowRadius: 6,
   shadowOpacity: 1,
   flexDirection: "row",

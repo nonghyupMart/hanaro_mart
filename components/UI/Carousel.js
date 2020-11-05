@@ -109,7 +109,7 @@ export default class Carousel extends Component {
     this._clearTimer();
   }
 
-  componentWillReceiveProps({ children }) {
+  componentDidUpdate({ children }) {
     if (!isEqual(this.props.children, children)) {
       const { currentPage } = this.state;
       this._clearTimer();
@@ -224,7 +224,11 @@ export default class Carousel extends Component {
 
       // Fix bug #50
       if (!nofix && Platform.OS === "android" && !animated) {
-        this.scrollView.scrollTo({ y: 0, x: offset, animated: true });
+        this.scrollView.scrollTo({
+          y: 0,
+          x: offset,
+          animated: true,
+        });
       }
     }
   };
@@ -272,7 +276,10 @@ export default class Carousel extends Component {
             nofix: true,
           });
         }
-        this._scrollTo({ offset: childrenLength * width, animated: true });
+        this._scrollTo({
+          offset: childrenLength * width,
+          animated: true,
+        });
       } else {
         this._scrollTo({ offset: 0, animated: true });
       }
@@ -280,15 +287,26 @@ export default class Carousel extends Component {
       // To properly animate from the first page we need to move view
       // to its original position first (not needed if not looped)
       if (currentPage === 0 && isLooped) {
-        this._scrollTo({ offset: 0, animated: false, nofix: true });
+        this._scrollTo({
+          offset: 0,
+          animated: false,
+          nofix: true,
+        });
       }
       this._scrollTo({ offset: width, animated: true });
     } else {
       // Last page is allowed to jump to the first through the "border"
       if (currentPage === 0 && nextPage !== childrenLength - 1) {
-        this._scrollTo({ offset: 0, animated: false, nofix: true });
+        this._scrollTo({
+          offset: 0,
+          animated: false,
+          nofix: true,
+        });
       }
-      this._scrollTo({ offset: nextPage * width, animated: true });
+      this._scrollTo({
+        offset: nextPage * width,
+        animated: true,
+      });
     }
     this._setCurrentPage(nextPage);
     this._setUpTimer();
@@ -352,7 +370,9 @@ export default class Carousel extends Component {
         <View
           style={[
             styles.pageInfoPill,
-            { backgroundColor: this.props.pageInfoBackgroundColor },
+            {
+              backgroundColor: this.props.pageInfoBackgroundColor,
+            },
           ]}
         >
           <Text style={[styles.pageInfoText, this.props.pageInfoTextStyle]}>

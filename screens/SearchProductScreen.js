@@ -106,29 +106,33 @@ const SearchProductScreen = (props) => {
     <BaseScreen
       style={{
         backgroundColor: colors.trueWhite,
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
         backgroundColor: colors.trueWhite,
         paddingTop: Platform.OS == "ios" ? 19 : 19,
-        paddingLeft: Platform.OS == "ios" ? 16 : 0,
-        paddingRight: Platform.OS == "ios" ? 16 : 0,
+        // paddingLeft: Platform.OS == "ios" ? 16 : 0,
+        // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}
+      scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      <SearchContainer>
-        <SearchInput
-          placeholder="검색하실 상품명을 입력해주세요."
-          autoFocus={true}
-          value={product_nm}
-          onSubmitEditing={onSearch}
-          onChangeText={(text) => setProduct_nm(text)}
-        />
-        <SearchBtn onPress={onSearch}>
-          <SearchIcon />
-        </SearchBtn>
-      </SearchContainer>
-
+      <View style={{ paddingLeft: 16, paddingRight: 16 }}>
+        <SearchContainer>
+          <SearchInput
+            placeholder="검색하실 상품명을 입력해주세요."
+            autoFocus={true}
+            value={product_nm}
+            onSubmitEditing={onSearch}
+            onChangeText={(text) => setProduct_nm(text)}
+          />
+          <SearchBtn onPress={onSearch}>
+            <SearchIcon />
+          </SearchBtn>
+        </SearchContainer>
+      </View>
       {product && product.productList && (
         <ResultText>
           '{product_nm}'의 검색결과 (총{product.allCnt})
@@ -137,6 +141,12 @@ const SearchProductScreen = (props) => {
 
       {product && product.productList && (
         <ScrollList
+          columnWrapperStyle={{
+            justifyContent: "space-between",
+            alignItems: "space-between",
+            paddingLeft: 19,
+            paddingRight: 19,
+          }}
           onEndReached={loadMore}
           numColumns={3}
           data={product.productList}
@@ -162,10 +172,7 @@ const SearchProductScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    // cardStyle: {
-    //   marginBottom: 0,
-    // },
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
     title: "상품검색",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

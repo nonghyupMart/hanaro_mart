@@ -20,6 +20,7 @@ import {
 import * as Util from "@util";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { setAlert } from "@actions/common";
+import _ from "lodash";
 
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
@@ -75,7 +76,7 @@ const ProductPopup = (props) => {
       backdropTransitionInTiming={0}
       backdropTransitionOutTiming={0}
       // animationOutTiming={0}
-      onBackdropPress={() => props.setIsVisible(false)}
+      // onBackdropPress={() => props.setIsVisible(false)}
       onRequestClose={() => props.setIsVisible(false)}
       isVisible={props.isVisible}
       useNativeDriver={true}
@@ -83,13 +84,12 @@ const ProductPopup = (props) => {
     >
       {productDetail && (
         <Container>
-          <Header>
-            {/* <TouchableOpacity
-              onPress={props.setIsVisible.bind(this, !props.isVisible)}
-            >
-              <Image source={require("@images/cross.png")} />
-            </TouchableOpacity> */}
-          </Header>
+          <CloseBtnContainer
+            onPress={props.setIsVisible.bind(this, !props.isVisible)}
+          >
+            <Image source={require("@images/cross.png")} />
+          </CloseBtnContainer>
+          <Header></Header>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
               style={{
@@ -105,10 +105,10 @@ const ProductPopup = (props) => {
             <Title>{props.item.title}</Title>
             <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
             <PriceContainer style={{}}>
-              <PriceUnit>쿠폰할인가 </PriceUnit>
+              <PriceUnit>최종혜택가 </PriceUnit>
               <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
             </PriceContainer>
-            <QuantityContainer>
+            {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
@@ -136,28 +136,171 @@ const ProductPopup = (props) => {
             <TotalContainer>
               <TotalUnit>합계 : </TotalUnit>
               <Total>{Util.formatNumber(totalPrice * item_amount)}원</Total>
-            </TotalContainer>
+            </TotalContainer> */}
             <NoticeContainer>
-              <Image
-                source={require("@images/notic701.png")}
-                style={{ marginBottom: 10 }}
-              />
-              <Notice>
-                ※ 상품의 가격 및 내용은 공급자 사정에 따라 다소 변경될 수 있으며
-                조기품절 될 수도 있습니다.
-              </Notice>
-              <Notice>※ 일부 상품사진은 이미지컷입니다.</Notice>
-              <Notice>
-                ※ 카드/쿠폰할인,다다익선은 매장방문고객에 한합니다.
-              </Notice>
+              <NoticeTitleContainer>
+                <NoticeIcon />
+                <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
+              </NoticeTitleContainer>
+              {productDetail.card_price != 0 && (
+                <NoticeRow>
+                  <Notice0 style={{ backgroundColor: colors.cerulean }}>
+                    카드할인
+                  </Notice0>
+                  <NoticeRight>
+                    <Notice2
+                      style={{ color: colors.cerulean, paddingLeft: 15 }}
+                    >
+                      {Util.formatNumber(productDetail.card_price)}원
+                    </Notice2>
+                    <Notice2
+                      style={{
+                        textAlign: "right",
+                        color: colors.cerulean,
+                        paddingRight: 4,
+                      }}
+                    >
+                      {`카드할인가 ${Util.formatNumber(
+                        productDetail.price - productDetail.card_price
+                      )}원`}
+                    </Notice2>
+                  </NoticeRight>
+                </NoticeRow>
+              )}
+              {!_.isEmpty(productDetail.card_info) && (
+                <NoticeRow>
+                  <Notice1 style={{ textAlign: "center" }}>
+                    {productDetail.card_info}
+                    {productDetail.card_limit
+                      ? " / " + productDetail.card_limit
+                      : ""}
+                  </Notice1>
+                </NoticeRow>
+              )}
+              {productDetail.coupon_price != 0 && (
+                <NoticeRow>
+                  <Notice0 style={{ backgroundColor: colors.appleGreen }}>
+                    쿠폰할인
+                  </Notice0>
+                  <NoticeRight>
+                    <Notice2
+                      style={{ color: colors.appleGreen, paddingLeft: 15 }}
+                    >
+                      {Util.formatNumber(productDetail.coupon_price)}원
+                    </Notice2>
+                    <Notice2
+                      style={{
+                        textAlign: "right",
+                        color: colors.appleGreen,
+                        paddingRight: 4,
+                      }}
+                    >
+                      {`쿠폰할인가 ${Util.formatNumber(
+                        productDetail.price - productDetail.coupon_price
+                      )}원`}
+                    </Notice2>
+                  </NoticeRight>
+                </NoticeRow>
+              )}
+              {!_.isEmpty(productDetail.bogo) && (
+                <NoticeRow>
+                  <Notice0 style={{ backgroundColor: colors.cherry }}>
+                    다다익선
+                  </Notice0>
+                  <NoticeRight>
+                    <Notice2
+                      style={{
+                        color: colors.cherry,
+                        paddingLeft: 15,
+                        flexGrow: 0.3,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {productDetail.bogo}
+                    </Notice2>
+                    <Notice2
+                      style={{
+                        flexShrink: 0,
+                        textAlign: "right",
+                        color: colors.cherry,
+                        paddingRight: 4,
+                      }}
+                    >
+                      {productDetail.bogo_info}
+                    </Notice2>
+                  </NoticeRight>
+                </NoticeRow>
+              )}
+              {productDetail.members_price != 0 && (
+                <NoticeRow>
+                  <Notice0 style={{ backgroundColor: colors.waterBlue }}>
+                    NH멤버스
+                  </Notice0>
+                  <NoticeRight>
+                    <Notice2
+                      style={{
+                        flexGrow: 0.4,
+                        color: colors.waterBlue,
+                        paddingLeft: 15,
+                      }}
+                    >
+                      {Util.formatNumber(productDetail.members_price)}원
+                    </Notice2>
+                    <Notice2
+                      style={{
+                        flexShrink: 0,
+                        textAlign: "right",
+                        color: colors.waterBlue,
+                        paddingRight: 4,
+                      }}
+                    >
+                      {`NH멤버스가 ${Util.formatNumber(
+                        productDetail.price - productDetail.members_price
+                      )}원`}
+                    </Notice2>
+                  </NoticeRight>
+                </NoticeRow>
+              )}
             </NoticeContainer>
-            <BtnContainer style={{}}>
-              {/* <BlueBtn onPress={onAddCart}>
+            <InfoContainer>
+              <InfoListContainer>
+                <InfoListRow>
+                  <InfoText>※</InfoText>
+                </InfoListRow>
+                <InfoListText>
+                  <InfoText>
+                    상품의 가격 및 내용은 공급자 사정에 따라 다소 변경될 수
+                    있으며 조기품절 될 수도 있습니다.
+                  </InfoText>
+                </InfoListText>
+              </InfoListContainer>
+              <InfoListContainer>
+                <InfoListRow>
+                  <InfoText>※</InfoText>
+                </InfoListRow>
+                <InfoListText>
+                  <InfoText>일부 상품사진은 이미지컷입니다.</InfoText>
+                </InfoListText>
+              </InfoListContainer>
+              <InfoListContainer>
+                <InfoListRow>
+                  <InfoText>※</InfoText>
+                </InfoListRow>
+                <InfoListText>
+                  <InfoText>
+                    카드/쿠폰할인,다다익선은 매장방문고객에 한합니다.
+                  </InfoText>
+                </InfoListText>
+              </InfoListContainer>
+            </InfoContainer>
+
+            {/* <BtnContainer style={{}}>
+              <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn> */}
+              </BlueBtn>
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
@@ -166,13 +309,123 @@ const ProductPopup = (props) => {
                 />
                 <BtnText>닫기</BtnText>
               </GreenBtn>
-            </BtnContainer>
+            </BtnContainer> */}
           </Body>
+          <BottomBorder />
         </Container>
       )}
     </Modal>
   );
 };
+const CloseBtnContainer = styled.TouchableOpacity({
+  position: "absolute",
+  right: 0,
+  top: 15,
+  zIndex: 10,
+  elevation: 1,
+  padding: 10,
+});
+const NoticeRight = styled.View({
+  flexDirection: "row",
+  flex: 1,
+});
+const Notice0 = styled(BaseText)({
+  fontSize: 11,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 16,
+  letterSpacing: 0,
+  textAlign: "center",
+  color: colors.trueWhite,
+  backgroundColor: colors.white,
+  paddingLeft: 8,
+  paddingRight: 8,
+  paddingTop: 1,
+  paddingBottom: 1,
+  marginRight: 2,
+  width: "25%",
+});
+const Notice1 = styled(BaseText)({
+  fontSize: 11,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 16,
+  letterSpacing: 0,
+  color: colors.greyishBrown,
+  backgroundColor: colors.white,
+  paddingTop: 1,
+  paddingBottom: 1,
+  flex: 1,
+});
+const Notice2 = styled(BaseText)({
+  fontSize: 11,
+  fontFamily: "CustomFont-Bold",
+  lineHeight: 16,
+  letterSpacing: 0,
+
+  color: colors.greyishBrown,
+  backgroundColor: colors.white,
+  paddingTop: 1,
+  paddingBottom: 1,
+  flex: 1,
+  borderWidth: 0,
+  marginRight: 0,
+
+  marginLeft: 0,
+});
+const NoticeRow = styled.View({
+  flexDirection: "row",
+  marginBottom: 2,
+});
+const InfoListContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "flex-start",
+  flexWrap: "wrap",
+  // flex: 1,
+  width: "100%",
+  // height: "a",
+});
+const InfoListRow = styled.View({
+  // flex: 1,
+  flexShrink: 0,
+});
+const InfoListText = styled.View({
+  flex: 1,
+});
+const InfoText = styled(BaseText)({
+  fontSize: 10,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 15,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.black,
+});
+const InfoContainer = styled.View({
+  paddingLeft: 34,
+  paddingRight: 34,
+  paddingTop: 4,
+});
+const NoticeTitleContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 5,
+});
+const NoticeIcon = styled.View({
+  width: 4,
+  height: 11,
+  backgroundColor: colors.blackThree,
+  marginRight: 4,
+});
+const NoticeTitle = styled(BaseText)({
+  fontSize: 11,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 15,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.black,
+});
 const Notice = styled(BaseText)({
   borderLeftWidth: 3,
   borderColor: colors.greyishThree,
@@ -192,7 +445,7 @@ const Notice = styled(BaseText)({
   marginBottom: 3,
 });
 const NoticeContainer = styled.View({
-  marginTop: 12,
+  marginTop: 0,
   width: screenWidth - 20.5 - 20.5 - 50,
 });
 const BorderLine = styled.View({
@@ -237,7 +490,7 @@ const PriceUnit = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.cerulean,
+  color: colors.pine,
 });
 const TotalUnit = styled(BaseText)({
   fontSize: 16,
@@ -255,7 +508,7 @@ const Total = styled(BaseText)({
   lineHeight: 32,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.pine,
+  color: colors.black,
 });
 const TotalContainer = styled.View({
   alignItems: "center",
@@ -329,7 +582,7 @@ const Price = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.cerulean,
+  color: colors.pine,
 });
 const PriceContainer = styled.View({
   flexDirection: "row",
@@ -352,8 +605,13 @@ Title.defaultProps = {
   numberOfLines: 1,
 };
 const Body = styled.ScrollView({ flex: 1, width: "100%" });
+const BottomBorder = styled.View({
+  backgroundColor: colors.cerulean,
+  height: 12,
+  width: "100%",
+});
 const Header = styled.View({
-  backgroundColor: colors.black,
+  backgroundColor: colors.cerulean,
   height: 12,
   justifyContent: "flex-end",
   alignItems: "flex-end",
@@ -362,6 +620,8 @@ const Header = styled.View({
 const Container = styled.View({
   borderTopLeftRadius: 5,
   borderTopRightRadius: 5,
+  borderBottomRightRadius: 5,
+  borderBottomLeftRadius: 5,
   overflow: "hidden",
   alignItems: "center",
   backgroundColor: colors.trueWhite,

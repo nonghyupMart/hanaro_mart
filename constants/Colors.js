@@ -23,4 +23,12 @@ export default colors = {
   greyishThree: "#b5b5b5",
   lipstick: "#bf2338",
   blackThree: "#000000",
+  cherry: "#d60b3c",
+  purplishRed: "#b00931",
+  wineRed: "#6b061e",
+  waterBlue: "#15a7cc",
+  booger: "#afc34a",
+  silver: "#c9cacc",
+  blueyGreen: "#27a486",
 };
+

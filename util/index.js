@@ -26,7 +26,7 @@ export const decrypt = (val) => {
 };
 
 export const formatNumber = (num) => {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  if (num) return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 };
 
 export const formatPhoneNumber = (phoneNumberString) => {

@@ -98,8 +98,13 @@ const FlyerScreen = (props) => {
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
+      dispatch(setIsLoading(true));
       setPage(page + 1);
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1);
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1).then(
+        () => {
+          dispatch(setIsLoading(false));
+        }
+      );
     }
   };
   const [isVisible, setIsVisible] = useState(false);
@@ -120,78 +125,97 @@ const FlyerScreen = (props) => {
     <BaseScreen
       style={{
         backgroundColor: colors.trueWhite,
+        paddingLeft: 0,
+        paddingRight: 0,
       }}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
         paddingTop: Platform.OS == "ios" ? 19 : 19,
-        paddingLeft: Platform.OS == "ios" ? 16 : 0,
-        paddingRight: Platform.OS == "ios" ? 16 : 0,
+        // paddingLeft: Platform.OS == "ios" ? 16 : 0,
+        // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}
+      scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <Carousel
-        key={carouselKey}
-        style={{
-          height: width * 0.283,
-          flex: 1,
-          width: "100%",
-          marginBottom: 30,
-        }}
-        autoplay={false}
-        pageInfo={false}
-        bullets={true}
-        arrows={true}
-        pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
-        pageInfoTextSeparator="/"
-        onAnimateNextPage={(p) => setPageForCarousel(p)}
-        chosenBulletStyle={{
-          backgroundColor: colors.yellowOrange,
-          marginLeft: 3.5,
-          marginRight: 3.5,
-        }}
-        bulletStyle={{
-          backgroundColor: colors.white,
-          borderWidth: 0,
-          marginLeft: 3.5,
-          marginRight: 3.5,
-        }}
-        bulletsContainerStyle={{ bottom: -30 }}
-      >
-        {leaflet.leafletList.map((item, index) => {
-          return (
-            <BaseTouchable
-              key={item.leaf_cd}
-              onPress={() =>
-                item.detail_img_cnt > 0
-                  ? RootNavigation.navigate("FlyerDetail", {
-                      leaf_cd: item.leaf_cd,
-                    })
-                  : null
-              }
-              style={{ height: width * 0.283, flex: 1, width: "100%" }}
-            >
-              <BaseImage
-                style={{
-                  flex: 1,
-                  resizeMode: "cover",
-                }}
-                source={item.title_img}
-              />
-            </BaseTouchable>
-          );
-        })}
-      </Carousel>
+      <View style={{ paddingLeft: 16, paddingRight: 16, width: "100%" }}>
+        <Carousel
+          key={carouselKey}
+          style={{
+            height: width * 0.283,
+            flex: 1,
+            width: "100%",
+            marginBottom: 30,
+          }}
+          autoplay={false}
+          pageInfo={false}
+          bullets={true}
+          arrows={true}
+          pageInfoBackgroundColor={"transparent"}
+          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+          pageInfoTextSeparator="/"
+          onAnimateNextPage={(p) => setPageForCarousel(p)}
+          chosenBulletStyle={{
+            backgroundColor: colors.yellowOrange,
+            marginLeft: 3.5,
+            marginRight: 3.5,
+          }}
+          bulletStyle={{
+            backgroundColor: colors.white,
+            borderWidth: 0,
+            marginLeft: 3.5,
+            marginRight: 3.5,
+          }}
+          bulletsContainerStyle={{ bottom: -30 }}
+        >
+          {leaflet.leafletList.map((item, index) => {
+            return (
+              <BaseTouchable
+                key={item.leaf_cd}
+                onPress={() =>
+                  item.detail_img_cnt > 0
+                    ? RootNavigation.navigate("FlyerDetail", {
+                        leaf_cd: item.leaf_cd,
+                      })
+                    : null
+                }
+                style={{ height: width * 0.283, flex: 1, width: "100%" }}
+              >
+                <BaseImage
+                  style={{
+                    flex: 1,
+                    resizeMode: "cover",
+                  }}
+                  source={item.title_img}
+                />
+              </BaseTouchable>
+            );
+          })}
+        </Carousel>
+      </View>
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
+          listKey="FlyerList"
           onEndReached={loadMore}
-          columnWrapperStyle={{ justifyContent: "flex-start" }}
+          columnWrapperStyle={{
+            justifyContent: "flex-start",
+            alignItems: "space-between",
+            paddingLeft: 0,
+            paddingRight: 0,
+          }}
           numColumns={3}
-          style={{ flexGrow: 1, flex: 1, width: "100%" }}
+          style={{
+            flexGrow: 1,
+            flex: 1,
+            width: "97%",
+            marginTop: 10,
+            alignSelf: "center",
+          }}
           data={product.productList}
-          keyExtractor={(item, index) => Math.random()}
+          keyExtractor={(item, index) =>
+            "_" + Math.random().toString(36).substr(2, 9)
+          }
           // keyExtractor={(item) => item.product_cd + ""}
           renderItem={(itemData) => (
             <FlyerItem
