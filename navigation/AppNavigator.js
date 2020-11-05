@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useLayoutEffect } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
@@ -9,6 +9,8 @@ import PopupScreen from "@screens/PopupScreen";
 import Alert from "@UI/Alert";
 import Loading from "@UI/Loading";
 import colors from "@constants/colors";
+import * as CommonActions from "@actions/common";
+import * as Notifications from "expo-notifications";
 
 const Theme = {
   ...DefaultTheme,
@@ -19,7 +21,15 @@ const Theme = {
   },
 };
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return { shouldShowAlert: true };
+  },
+});
+
 const AppNavigator = (props) => {
+  const eventEmitter = props.eventEmitter;
+  const dispatch = useDispatch();
   const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -34,6 +44,28 @@ const AppNavigator = (props) => {
     else if ((isPreview || isJoin) && didTryPopup) return <MainNavigator />;
     return <MainNavigator />;
   };
+
+  useEffect(() => {
+    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        // console.warn(JSON.stringify(response, null, "\t"));
+        // console.warn(response.notification.request.content.data);
+        dispatch(CommonActions.setNotification(response.notification));
+      }
+    );
+    const foregroundSubscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        // console.warn(JSON.stringify(notification, null, "\t"));
+        //  console.warn(notification.request.content.data);
+        dispatch(CommonActions.setNotification(notification));
+      }
+    );
+
+    return () => {
+      backgroundSubscription.remove();
+      foregroundSubscription.remove();
+    };
+  }, []);
   return (
     <Fragment>
       <Loading />

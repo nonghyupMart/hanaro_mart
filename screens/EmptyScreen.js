@@ -50,13 +50,13 @@ const EmptyScreen = (props) => {
         return dispatch(
           setAlert({
             message: "본인인증후에\n사용하실 수 있는 메뉴입니다.",
+            confirmText: "본인인증",
             onPressConfirm: () => {
               dispatch(setAlert(null));
               if (index > 0) RootNavigation.pop();
               else RootNavigation.navigate("Home");
               props.navigation.navigate("CI");
             },
-            confirmText: "본인인증",
             onPressCancel: () => {
               dispatch(setAlert(null));
               if (index > 0) RootNavigation.pop();
@@ -69,12 +69,12 @@ const EmptyScreen = (props) => {
         dispatch(
           setAlert({
             message: "나의 매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.",
+            confirmText: "매장설정",
             onPressConfirm: () => {
               dispatch(setAlert(null));
               props.navigation.navigate("Home");
               props.navigation.navigate("StoreChange");
             },
-            confirmText: "매장설정",
             onPressCancel: () => {
               dispatch(setAlert(null));
               props.navigation.navigate("Home");
@@ -85,11 +85,11 @@ const EmptyScreen = (props) => {
         dispatch(
           setAlert({
             message: "회원가입후 사용하실 수\n있는 메뉴입니다.",
+            confirmText: "회원가입",
             onPressConfirm: () => {
               dispatch(setAlert(null));
               dispatch(setPreview(false));
             },
-            confirmText: "회원가입",
             onPressCancel: () => {
               dispatch(setAlert(null));
               props.navigation.navigate("Home");

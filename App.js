@@ -1,5 +1,5 @@
 import { usePreventScreenCapture } from "expo-screen-capture";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import {
@@ -20,7 +20,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { Asset } from "expo-asset";
 import { Ionicons } from "@expo/vector-icons";
 import { Icon } from "react-native-elements";
-import * as Notifications from "expo-notifications";
 import authReducer from "@reducers/auth";
 import branchesReducer from "@reducers/branches";
 import homeReducer from "@reducers/home";
@@ -31,14 +30,31 @@ import commonReducer from "@reducers/common";
 import exhibitionReducer from "@reducers/exhibition";
 import exclusiveReducer from "@reducers/exclusive";
 import { WITHDRAWAL } from "@actions/auth";
-LogBox.ignoreLogs(["Expected", "No native", "Require cycle"]);
+import * as Notifications from "expo-notifications";
+import * as CommonActions from "@actions/common";
+
+let globalInitialNotificationResponse;
+
+let globalSubscription = Notifications.addNotificationResponseReceivedListener(
+  (response) => {
+    // global.alert(JSON.stringify(response, null, "\t"));
+    // global.alert("Global scope listener triggered");
+    CommonActions.saveNotificationToStorage(response.notification);
+    globalInitialNotificationResponse = response;
+    ensureGlobalSubscriptionIsCleared();
+  }
+);
+
+function ensureGlobalSubscriptionIsCleared() {
+  if (globalSubscription) {
+    globalSubscription.remove();
+    globalSubscription = null;
+  }
+}
+
+LogBox.ignoreLogs(["Expected", "No native", "Require cycle", "cycles"]);
 // console.disableLogBox = true;
 // console.ignoredLogBox = ["Warning:"];
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return { shouldShowAlert: true };
-  },
-});
 const { width, height } = Dimensions.get("window");
 
 const appReducer = combineReducers({
@@ -75,24 +91,6 @@ export default function App() {
   if (!__DEV__) {
     usePreventScreenCapture();
   }
-  useEffect(() => {
-    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
-        console.warn(response);
-      }
-    );
-
-    const foregroundSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
-        console.warn(notification);
-      }
-    );
-
-    return () => {
-      backgroundSubscription.remove();
-      foregroundSubscription.remove();
-    };
-  }, []);
 
   if (!fontLoaded) {
     return (

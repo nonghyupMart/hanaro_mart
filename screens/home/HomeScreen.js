@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
 import {
   View,
@@ -42,62 +42,24 @@ import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
 import * as authActions from "@actions/auth";
 import * as Updates from "expo-updates";
+import { CATEGORY } from "@constants/settings";
+import { SET_NOTIFICATION } from "@actions/common";
+import * as RootNavigation from "@navigation/RootNavigation";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
-
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
   let timer;
+  initNotificationReceiver();
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      if (!__DEV__) {
-        (async () => {
-          try {
-            const update = await Updates.checkForUpdateAsync();
-            if (update.isAvailable) {
-              await Updates.fetchUpdateAsync();
-              // ... notify user of update ...
-              Util.log("new update");
-              await dispatch(
-                setAlert({
-                  message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-                  confirmText: "업데이트",
-                  onPressConfirm: () => {
-                    dispatch(setAlert(null));
-                    Updates.reloadAsync();
-                  },
-                  onPressCancel: () => {
-                    dispatch(setAlert(null));
-                  },
-                })
-              );
-            }
-          } catch (e) {
-            // handle or log error
-            Util.log("update error=>", e);
-            dispatch(
-              setAlert({
-                message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-                confirmText: "업데이트",
-                onPressConfirm: () => {
-                  dispatch(setAlert(null));
-                  Updates.reloadAsync();
-                },
-                onPressCancel: () => {
-                  dispatch(setAlert(null));
-                },
-              })
-            );
-          }
-        })();
-      }
+      updateExpo(dispatch);
 
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
         // console.warn(JSON.stringify(userInfo, null, "\t"));
@@ -110,6 +72,13 @@ const HomeScreen = (props) => {
     };
   }, [navigation]);
   useEffect(() => {
+    (async () => {
+      let data = await Util.getStorageItem("notificationData");
+      let jsonData = await JSON.parse(data);
+      if (_.isEmpty(jsonData)) return;
+      await dispatch(CommonActions.setNotification(jsonData));
+      await Util.removeStorageItem("notificationData");
+    })();
     if (typeof didTryPopup == "string") {
       timer = setTimeout(() => {
         navigation.navigate(didTryPopup);
@@ -144,6 +113,105 @@ const HomeScreen = (props) => {
       </BaseScreen>
     </>
   );
+};
+const initNotificationReceiver = () => {
+  const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
+  const isLoading = useSelector((state) => state.common.isLoading);
+  const notification = useSelector((state) => state.common.notification);
+  useLayoutEffect(() => {
+    if (
+      !isLoading &&
+      notification &&
+      notification.request &&
+      notification.request.content &&
+      notification.request.content.data
+    ) {
+      const category = notification.request.content.data.category;
+      const store_cd = notification.request.content.data.store_cd;
+      const store_nm = notification.request.content.data.store_nm;
+      const cd = notification.request.content.data.cd;
+
+      if (category) {
+        if (userStore && userStore.storeInfo.store_cd == store_cd) {
+          let param = {};
+          if (!!cd) param.notice_cd = cd;
+          switch (category) {
+            case "A":
+              param.type = "C";
+              break;
+            case "H":
+              param.type = "H";
+              break;
+            default:
+              break;
+          }
+          timer = setTimeout(() => {
+            RootNavigation.navigate(CATEGORY[category], param);
+          }, 0);
+        } else {
+          dispatch(
+            setAlert({
+              message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
+              confirmText: "매장설정",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                RootNavigation.navigate("Home");
+                RootNavigation.navigate("StoreChange");
+              },
+              onPressCancel: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+        }
+      }
+      dispatch({ type: SET_NOTIFICATION, notification: null });
+    }
+  }, [notification, isLoading]);
+};
+const updateExpo = (dispatch) => {
+  if (!__DEV__) {
+    (async () => {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          // ... notify user of update ...
+          Util.log("new update");
+          await dispatch(
+            setAlert({
+              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+              confirmText: "업데이트",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                Updates.reloadAsync();
+              },
+              onPressCancel: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+        }
+      } catch (e) {
+        // handle or log error
+        Util.log("update error=>", e);
+        dispatch(
+          setAlert({
+            message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+            confirmText: "업데이트",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+              Updates.reloadAsync();
+            },
+            onPressCancel: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
+      }
+    })();
+  }
 };
 export const updateUserInfo = (dispatch, userInfo) => {
   return dispatch(

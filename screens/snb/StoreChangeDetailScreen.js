@@ -88,7 +88,7 @@ const StoreChangeDetailScreen = (props) => {
       )
     ).then((data) => {
       if (data.result == "success") {
-        msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장변경 메뉴에서\n변경 가능합니다.`;
+        msg = `${branch.storeInfo.store_nm}을 선택하셨습니다.\n나의 매장은 매장설정 메뉴에서\n변경 가능합니다.`;
         dispatch(
           setAlert({
             message: msg,

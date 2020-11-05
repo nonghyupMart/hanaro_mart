@@ -1,4 +1,4 @@
-import { AsyncStorage } from "react-native";
+
 import moment from "moment";
 import * as Util from "@util";
 
@@ -9,7 +9,14 @@ export const SET_ALERT = "SET_ALERT";
 export const SET_IS_LOADING = "SET_IS_LOADING";
 export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
 export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
+export const SET_NOTIFICATION = "SET_NOTIFICATION";
 
+export const setNotification = (notification) => {
+  return {
+    type: SET_NOTIFICATION,
+    notification: notification,
+  };
+};
 export const setBottomNavigation = (isBottomNavigation) => {
   return {
     type: SET_BOTTOM_NAVIGATION,
@@ -73,4 +80,8 @@ export const setAlert = (alert) => {
 export const setIsLoading = (isLoading) => {
   return async (dispatch) =>
     await dispatch({ type: SET_IS_LOADING, isLoading: isLoading });
+};
+
+export const saveNotificationToStorage = (data) => {
+  Util.setStorageItem("notificationData", JSON.stringify(data));
 };

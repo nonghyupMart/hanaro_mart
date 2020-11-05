@@ -6,6 +6,7 @@ import {
   SET_IS_LOADING,
   SET_HEADER_HEIGHT,
   SET_DID_TRY_POPUP,
+  SET_NOTIFICATION,
 } from "@actions/common";
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   isLoading: true,
   headerHeight: 0,
   didTryPopup: false,
+  notification: null,
 };
 
 export default (state = initialState, action) => {
@@ -29,6 +31,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isBottomNavigation: action.isBottomNavigation,
+      };
+    case SET_NOTIFICATION:
+      return {
+        ...state,
+        notification: { ...action.notification },
       };
     case SET_HEADER_HEIGHT:
       return {
