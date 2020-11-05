@@ -146,6 +146,10 @@ const initNotificationReceiver = () => {
             default:
               break;
           }
+          const tab = userStore.menuList.filter(
+            (menu) => menu.r_menu_nm == CATEGORY[category]
+          );
+          if (_.isEmpty(tab)) return;
           timer = setTimeout(() => {
             RootNavigation.navigate(CATEGORY[category], param);
           }, 0);
