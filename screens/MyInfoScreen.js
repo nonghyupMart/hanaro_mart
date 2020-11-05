@@ -82,7 +82,6 @@ const MyInfoScreen = (props) => {
             value={barcode}
             format="CODE128"
             flat
-            text={barcode}
             onError={onError}
           />
         </BarcodeContainer>
