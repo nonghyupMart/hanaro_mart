@@ -98,7 +98,7 @@ const MyADAgreementScreen = (props) => {
         </TextContainer>
         <RoundBox>
           <TextContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
-            <Text1>회원번호</Text1>
+            <Text1>항목</Text1>
             <Text2>SMS, PUSH / 광고성 정보 수신동의</Text2>
           </TextContainer>
           <TextContainer style={{ paddingLeft: 0, paddingRight: 0 }}>
