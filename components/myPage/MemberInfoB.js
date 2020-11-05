@@ -36,7 +36,7 @@ const Title = styled(BaseText)({
   lineHeight: 29,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishThree,
+  color: colors.black,
 });
 const Name = styled(BaseText)({
   marginLeft: 8,
