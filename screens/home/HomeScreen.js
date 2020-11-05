@@ -45,7 +45,9 @@ import * as Updates from "expo-updates";
 import { CATEGORY } from "@constants/settings";
 import { SET_NOTIFICATION } from "@actions/common";
 import * as RootNavigation from "@navigation/RootNavigation";
+import { TabMenus } from "@constants/menu";
 
+let timer;
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
@@ -55,8 +57,8 @@ const HomeScreen = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
-  let timer;
-  initNotificationReceiver();
+
+  initNotificationReceiver(routeName);
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       updateExpo(dispatch);
@@ -114,7 +116,7 @@ const HomeScreen = (props) => {
     </>
   );
 };
-const initNotificationReceiver = () => {
+const initNotificationReceiver = (routeName) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -134,8 +136,11 @@ const initNotificationReceiver = () => {
 
       if (category) {
         if (userStore && userStore.storeInfo.store_cd == store_cd) {
+          const currentTab = TabMenus.filter(
+            (tab) => tab.name == CATEGORY[category]
+          );
           const tab = userStore.menuList.filter(
-            (menu) => menu.r_menu_nm == CATEGORY[category]
+            (menu) => menu.r_menu_nm == currentTab[0].title
           );
           if (_.isEmpty(tab)) return;
 
