@@ -31,22 +31,22 @@ expo upload:ios --latestre
 
 # 계정정보
 
-구글 계정 
-nonghyupmart@gmail.com
-PW : nonghyup1~
+### 구글 계정 
+* nonghyupmart@gmail.com
+* PW : nonghyup1~
 
-애플 계정 
-nonghyupmart@gmail.com
-PW : Nonghyup1~
+### 애플 계정 
+* nonghyupmart@gmail.com
+* PW : Nonghyup1~
 
-카카오관리자계정
-nhhanaromart@gmail.com
-PW : hanaro2020
+### 카카오관리자계정
+* nhhanaromart@gmail.com
+* PW : hanaro2020
 
-Expo 계정 
-https://expo.io/
-nonghyupmart@gmail.com
-PW : Nonghyup1~
+### Expo 계정 
+* https://expo.io/
+* nonghyupmart@gmail.com
+* PW : Nonghyup1~
 
 # Expo CLI 설치
 Cmd 에서 명령어 입력 
