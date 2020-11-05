@@ -182,6 +182,8 @@ const JoinStep2Screen = ({ navigation }) => {
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
           <InputText
             // ref={(ref) => setPhoneNumberRef(ref)}
+            accessibilityLabel="phoneNumber"
+            testID="phoneNumber"
             autoFocus={true}
             keyboardType="numeric"
             maxLength={11}
@@ -229,6 +231,8 @@ const JoinStep2Screen = ({ navigation }) => {
                 >
                   <BaseTextInput
                     ref={(input) => setOtpRef(input)}
+                    accessibilityLabel="accessCode"
+                    testID="accessCode"
                     required
                     keyboardType="numeric"
                     maxLength={6}
