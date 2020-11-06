@@ -1,4 +1,9 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
 import Carousel from "@UI/Carousel";
@@ -83,25 +88,29 @@ const PopupScreen = (props) => {
           }
         });
       } else if (_.isEmpty(userStore) && isJoin) {
-        dispatch(
-          CommonActions.setAlert({
-            message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-            onPressConfirm: () => {
-              (async () => {
-                await dispatch(CommonActions.setAlert(null));
-                await dispatch(CommonActions.setDidTryPopup("StoreChange"));
-              })();
-            },
-            onPressCancel: () => {
-              dispatch(CommonActions.setAlert(null));
-              dispatch(CommonActions.setDidTryPopup(true));
-            },
-            confirmText: "매장선택",
-            cancelText: "취소",
-          })
+        const t = setTimeout(
+          () => {
+            dispatch(
+              CommonActions.setAlert({
+                message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
+                onPressConfirm: async () => {
+                  await dispatch(CommonActions.setAlert(null));
+                  await dispatch(CommonActions.setDidTryPopup("StoreChange"));
+                },
+                onPressCancel: async () => {
+                  await dispatch(CommonActions.setAlert(null));
+                  await dispatch(CommonActions.setDidTryPopup(true));
+                },
+                confirmText: "매장선택",
+                cancelText: "취소",
+              })
+            );
+          },
+          Platform.OS == "ios" ? 500 : 0
         );
       }
     })();
+    return () => {};
   }, [userStore]);
 
   const setDisablePopup = () => {
