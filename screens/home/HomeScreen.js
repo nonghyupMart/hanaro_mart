@@ -118,7 +118,7 @@ const HomeScreen = (props) => {
             style={{ width: "100%" }}
           />
         </TouchableOpacity>
-        <Space />
+        {/* <Space /> */}
         <NaroTube isFocused={isFocused} />
         <HomeNotice isFocused={isFocused} />
       </BaseScreen>
