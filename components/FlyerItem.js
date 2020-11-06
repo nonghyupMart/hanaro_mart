@@ -77,7 +77,9 @@ const FlyerItem = (props) => {
 
           <Title>{props.item.title}</Title>
           <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
-          <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+          {props.item.sale_price > 0 && (
+            <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+          )}
         </View>
       </Container>
     </TouchableOpacity>

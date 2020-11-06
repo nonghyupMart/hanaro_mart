@@ -104,10 +104,12 @@ const ProductPopup = (props) => {
             <BorderLine />
             <Title>{props.item.title}</Title>
             <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-            <PriceContainer style={{}}>
-              <PriceUnit>최종혜택가 </PriceUnit>
-              <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
-            </PriceContainer>
+            {props.item.sale_price > 0 &&
+              <PriceContainer style={{}}>
+                <PriceUnit>최종혜택가 </PriceUnit>
+                <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
+              </PriceContainer>
+            }
             {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
