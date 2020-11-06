@@ -83,18 +83,17 @@ const JoinStep2Screen = ({ navigation }) => {
   };
 
   const onPressJoin = async () => {
-    dispatch(setIsLoading(true)).then(() => {
-      Keyboard.dismiss();
-      if (isRequestedJoin) return;
-      let query = {
-        user_id: Util.encrypt(phoneNumber),
-        token: Util.encrypt(pushToken),
-        os: Platform.OS === "ios" ? "I" : "A",
-        marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
-      };
-      signup(query, dispatch, agreedStatus);
-      setIsRequestedJoin(true);
-    });
+    await dispatch(setIsLoading(true));
+    await Keyboard.dismiss();
+    if (isRequestedJoin) return;
+    let query = {
+      user_id: await Util.encrypt(phoneNumber),
+      token: await Util.encrypt(pushToken),
+      os: Platform.OS === "ios" ? "I" : "A",
+      marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
+    };
+    await signup(query, dispatch, agreedStatus);
+    setIsRequestedJoin(true);
   };
   const pad = (num = 0) => {
     while (num.length < 2) num = "0" + num;
@@ -282,20 +281,20 @@ const JoinStep2Screen = ({ navigation }) => {
 };
 
 export const signup = (query, dispatch, agreedStatus) => {
-  return dispatch(authActions.signup(query)).then((userInfo) => {
+  return dispatch(authActions.signup(query)).then(async (userInfo) => {
     if (!_.isEmpty(userInfo)) {
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
-          (storeData) => {
-            dispatch(setIsLoading(false));
-            authActions.saveUserStoreToStorage(storeData);
-            dispatch(authActions.saveUserStore(storeData));
+          async (storeData) => {
+            await dispatch(setIsLoading(false));
+            await authActions.saveUserStoreToStorage(storeData);
+            await dispatch(authActions.saveUserStore(storeData));
             dispatch(
               setAlert({
-                content: popupConetnt(agreedStatus, userInfo),
-                onPressConfirm: () => {
-                  dispatch(setAlert(null));
-                  dispatch(CommonActions.setDidTryPopup(false));
+                content: await popupConetnt(agreedStatus, userInfo),
+                onPressConfirm: async () => {
+                  await dispatch(setAlert(null));
+                  await dispatch(CommonActions.setDidTryPopup(false));
                   dispatch(setIsJoin(true));
                 },
               })
@@ -303,13 +302,13 @@ export const signup = (query, dispatch, agreedStatus) => {
           }
         );
       } else {
-        dispatch(setIsLoading(false));
+        await dispatch(setIsLoading(false));
         dispatch(
           setAlert({
-            content: popupConetnt(agreedStatus, userInfo),
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-              dispatch(CommonActions.setDidTryPopup(false));
+            content: await popupConetnt(agreedStatus, userInfo),
+            onPressConfirm: async () => {
+              await dispatch(setAlert(null));
+              await dispatch(CommonActions.setDidTryPopup(false));
               dispatch(setIsJoin(true));
             },
           })

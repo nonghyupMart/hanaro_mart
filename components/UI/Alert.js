@@ -19,7 +19,7 @@ const Alert = (props) => {
       // backdropOpacity={0.1}
       isVisible={alert.content || alert.message ? true : false}
       useNativeDriver={true}
-      hideModalContentWhileAnimating={false}
+      hideModalContentWhileAnimating={true}
       onModalHide={() => {}}
     >
       <Container>

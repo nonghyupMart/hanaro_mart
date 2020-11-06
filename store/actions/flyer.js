@@ -22,6 +22,7 @@ export const fetchLeaflet = (query) => {
       const response = await fetch(url);
       const resData = await Network.getResponse(response, dispatch, url, query);
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
+
       return resData.data;
     } catch (err) {
       throw err;
