@@ -21,6 +21,7 @@ const StartupScreen = (props) => {
       const parsedUserData = await JSON.parse(userInfoData);
       await dispatch(authActions.setUserInfo(parsedUserData));
       if (parsedUserData && parsedUserData.user_id) {
+        dispatch(authActions.setPreview(false));
         dispatch(authActions.setIsJoin(true));
         dispatch(
           authActions.updateLoginLog({ user_cd: parsedUserData.user_cd })
