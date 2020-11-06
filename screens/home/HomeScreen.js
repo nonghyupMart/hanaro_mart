@@ -109,6 +109,15 @@ const HomeScreen = (props) => {
           {...props}
         />
         <HomeBanner isFocused={isFocused} />
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => Util.sendShareLink()}
+        >
+          <Image
+            source={require("@images/in730.png")}
+            style={{ width: "100%" }}
+          />
+        </TouchableOpacity>
         <Space />
         <NaroTube isFocused={isFocused} />
         <HomeNotice isFocused={isFocused} />
