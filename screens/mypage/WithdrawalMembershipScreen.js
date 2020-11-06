@@ -75,11 +75,11 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
                   message: "탈퇴 되었습니다.",
                   onPressConfirm: async () => {
                     await dispatch(authActions.setUserInfo(null));
-                    navigation.navigate("Home");
-                    setTimeout(() => {
-                      dispatch(setAlert(null));
-                      dispatch(authActions.withdrawalFinish());
-                      dispatch(setIsLoading(false));
+                    setTimeout(async () => {
+                      await dispatch(setAlert(null));
+                      await dispatch(authActions.withdrawalFinish());
+                      await dispatch(setIsLoading(false));
+                      await navigation.navigate("Home");
                     }, 0);
                   },
                 })

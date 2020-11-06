@@ -481,10 +481,6 @@ const TextInputContainer = styled.View({
   height: 42,
   backgroundColor: colors.trueWhite,
   shadowColor: "rgba(0, 0, 0, 0.16)",
-  shadowOffset: {
-    width: 1,
-    height: 1,
-  },
   elevation: 3,
   shadowRadius: 2,
   shadowOpacity: 1,

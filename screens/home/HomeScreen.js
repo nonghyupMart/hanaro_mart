@@ -225,6 +225,7 @@ const updateExpo = (dispatch) => {
   }
 };
 export const updateUserInfo = (dispatch, userInfo) => {
+  if (_.isEmpty(userInfo)) return;
   return dispatch(
     authActions.updateLoginLog({ user_cd: userInfo.user_cd })
   ).then((data) => {

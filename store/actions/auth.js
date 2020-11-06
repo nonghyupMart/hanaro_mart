@@ -141,6 +141,9 @@ export const saveUserInfoToStorage = (userInfo) => {
   Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
 };
 export const saveUserStoreToStorage = (store) => {
+  if (_.isEmpty(store)) {
+    return Util.removeStorageItem("userStoreData");
+  }
   Util.setStorageItem("userStoreData", JSON.stringify(store));
 };
 

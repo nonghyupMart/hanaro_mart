@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Carousel from "@UI/Carousel";
@@ -20,15 +20,15 @@ const NaroTube = (props) => {
   const [key, setKey] = useState();
   const homeNaro = useSelector((state) => state.home.homeNaro);
   useEffect(() => {
-    setKey(Math.random());
+    setKey("_" + Math.random().toString(36).substr(2, 9));
   }, [props.isFocused]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(setIsLoading(true));
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
       dispatch(setIsLoading(false));
     });
-  }, [dispatch]);
+  }, [props.isFocused]);
   if (!homeNaro || !homeNaro.naroList || homeNaro.naroCnt == 0) return <></>;
   return (
     <>
