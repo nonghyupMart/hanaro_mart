@@ -15,7 +15,7 @@ import {
 const initialState = {
   didTryAutoLogin: false,
   isJoin: false,
-  isPreview: true,
+  isPreview: false,
   pushToken: null,
   location: null,
   userStore: null,
