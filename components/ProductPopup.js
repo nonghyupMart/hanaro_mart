@@ -89,7 +89,6 @@ const ProductPopup = (props) => {
           >
             <Image source={require("@images/cross.png")} />
           </CloseBtnContainer>
-          <Header></Header>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
               style={{
@@ -303,17 +302,16 @@ const ProductPopup = (props) => {
                 />
                 <BtnText>장바구니</BtnText>
               </BlueBtn> */}
-              <GreenBtn
+              <GrayBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
-                <Image
+                {/* <Image
                   source={require("@images/whiteback.png")}
-                />
+                /> */}
                 <BtnText>닫기</BtnText>
-              </GreenBtn>
+              </GrayBtn>
             </BtnContainer>
           </Body>
-          <BottomBorder />
         </Container>
       )}
     </Modal>
@@ -475,8 +473,11 @@ const BlueBtn = styled(BaseSquareButtonContainer)({
   marginLeft: 2.5,
   marginRight: 2.5,
 });
-const GreenBtn = styled(BlueBtn)({
-  backgroundColor: colors.appleGreen,
+const GrayBtn = styled(BlueBtn)({
+  backgroundColor: colors.greyishBrown,
+  width: "100%",
+  marginLeft: 0,
+  marginRight: 0,
 });
 const BtnContainer = styled.View({
   marginTop: 13,
@@ -484,6 +485,7 @@ const BtnContainer = styled.View({
   flexDirection: "row",
   alignItems: "flex-end",
   marginBottom: 0,
+  width: screenWidth - 20.5 - 20.5 - 50,
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
@@ -606,12 +608,7 @@ const Title = styled(BaseText)({
 Title.defaultProps = {
   numberOfLines: 1,
 };
-const Body = styled.ScrollView({ flex: 1, width: "100%" });
-const BottomBorder = styled.View({
-  backgroundColor: colors.cerulean,
-  height: 12,
-  width: "100%",
-});
+const Body = styled.ScrollView({ width: "100%" });
 const Header = styled.View({
   backgroundColor: colors.cerulean,
   height: 12,
@@ -620,16 +617,22 @@ const Header = styled.View({
   width: "100%",
 });
 const Container = styled.View({
+  borderBottomWidth: 12,
+  borderTopWidth: 12,
   borderTopLeftRadius: 5,
   borderTopRightRadius: 5,
   borderBottomRightRadius: 5,
   borderBottomLeftRadius: 5,
+  borderColor: colors.cerulean,
+
   overflow: "hidden",
   alignItems: "center",
   backgroundColor: colors.trueWhite,
   width: "100%",
+  paddingBottom: 10,
+
   // height: screenHeight * 0.784,
-  aspectRatio: 54.86 / 105,
+  // aspectRatio: 54.86 / 105,
 });
 const styles = StyleSheet.create({});
 
