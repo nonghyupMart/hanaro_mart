@@ -104,12 +104,12 @@ const ProductPopup = (props) => {
             <BorderLine />
             <Title>{props.item.title}</Title>
             <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-            {props.item.sale_price > 0 &&
+            {props.item.sale_price > 0 && (
               <PriceContainer style={{}}>
                 <PriceUnit>최종혜택가 </PriceUnit>
                 <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
               </PriceContainer>
-            }
+            )}
             {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
@@ -296,22 +296,22 @@ const ProductPopup = (props) => {
               </InfoListContainer>
             </InfoContainer>
 
-            {/* <BtnContainer style={{}}>
-              <BlueBtn onPress={onAddCart}>
+            <BtnContainer style={{}}>
+              {/* <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn>
+              </BlueBtn> */}
               <GreenBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
                 <Image
-                  source={require("@images/baseline-backspace-24px.png")}
+                  source={require("@images/whiteback.png")}
                 />
                 <BtnText>닫기</BtnText>
               </GreenBtn>
-            </BtnContainer> */}
+            </BtnContainer>
           </Body>
           <BottomBorder />
         </Container>
