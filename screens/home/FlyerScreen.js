@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Platform, Image, FlatList, Dimensions } from "react-native";
+import {
+  View,
+  Platform,
+  Image,
+  FlatList,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import {
   BaseTouchable,
@@ -200,20 +207,9 @@ const FlyerScreen = (props) => {
         <ExtendedFlatList
           listKey="FlyerList"
           onEndReached={loadMore}
-          columnWrapperStyle={{
-            justifyContent: "flex-start",
-            alignItems: "space-between",
-            paddingLeft: 0,
-            paddingRight: 0,
-          }}
+          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={3}
-          style={{
-            flexGrow: 1,
-            flex: 1,
-            width: "97%",
-            marginTop: 10,
-            alignSelf: "center",
-          }}
+          style={styles.flyerListStyle}
           data={product.productList}
           keyExtractor={(item, index) =>
             "_" + Math.random().toString(36).substr(2, 9)
@@ -249,6 +245,20 @@ const FlyerScreen = (props) => {
   );
 };
 
+export const styles = StyleSheet.create({
+  flyerListColumnWrapperStyle: {
+    justifyContent: "flex-start",
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  flyerListStyle: {
+    flexGrow: 1,
+    flex: 1,
+    width: "97%",
+    marginTop: 10,
+    alignSelf: "center",
+  },
+});
 const ArrowBtn = styled.TouchableOpacity({
   position: "absolute",
   top: "50%",

@@ -3,10 +3,11 @@ import { View, Text, FlatList } from "react-native";
 import styled from "styled-components/native";
 
 const ExtendedFlatList = (props) => {
-  const [isScrolled, setIsScrolled] = useState(false);
+  // const [isScrolled, setIsScrolled] = useState(false);
+  let isScrolled = false;
+  
   const onScroll = () => {
-    if (!isScrolled) setIsScrolled(true);
-    // if (props.onScroll) props.onScroll();
+    if (!isScrolled) isScrolled = true;
   };
   const onEndReached = () => {
     if (isScrolled) {

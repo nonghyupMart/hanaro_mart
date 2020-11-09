@@ -30,6 +30,7 @@ const { width } = Dimensions.get("window");
 import { SET_SEARCHED_PRODUCT } from "@actions/flyer";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
+import { styles } from "@screens/home/FlyerScreen";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -140,13 +141,9 @@ const SearchProductScreen = (props) => {
       )}
 
       {product && product.productList && (
-        <ScrollList
-          columnWrapperStyle={{
-            justifyContent: "space-between",
-            alignItems: "space-between",
-            paddingLeft: 19,
-            paddingRight: 19,
-          }}
+        <ExtendedFlatList
+          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
+          style={[styles.flyerListStyle]}
           onEndReached={loadMore}
           numColumns={3}
           data={product.productList}
