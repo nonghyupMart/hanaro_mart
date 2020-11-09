@@ -87,7 +87,7 @@ const ProductPopup = (props) => {
           <CloseBtnContainer
             onPress={props.setIsVisible.bind(this, !props.isVisible)}
           >
-            <Image source={require("@images/cross.png")} />
+            <Image source={require("@images/cross0104.png")} />
           </CloseBtnContainer>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
@@ -320,10 +320,10 @@ const ProductPopup = (props) => {
 const CloseBtnContainer = styled.TouchableOpacity({
   position: "absolute",
   right: 0,
-  top: 15,
+  top: 0,
   zIndex: 10,
   elevation: 1,
-  padding: 10,
+  padding: 11.5,
 });
 const NoticeRight = styled.View({
   flexDirection: "row",
