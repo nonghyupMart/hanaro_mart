@@ -28,6 +28,7 @@ Notifications.setNotificationHandler({
 });
 
 const AppNavigator = (props) => {
+  const eventEmitter = props.eventEmitter;
   const dispatch = useDispatch();
   const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
@@ -37,7 +38,7 @@ const AppNavigator = (props) => {
   const currentScreen = () => {
     if (!isPreview && isJoin && didTryAutoLogin && !didTryPopup)
       return <PopupScreen />;
-    else if (isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
+    else if (!isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
       return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
     else if ((isPreview || isJoin) && didTryPopup) return <MainNavigator />;

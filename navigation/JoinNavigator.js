@@ -31,14 +31,14 @@ export const JoinNavigator = () => {
       }}
     >
       <JoinStackNavigator.Screen
-        name="JoinStep1"
-        component={JoinStep1Screen}
-        options={JoinStep1ScreenOptions}
-      />
-      <JoinStackNavigator.Screen
         name="Agreement"
         component={AgreementScreen}
         options={AgreementScreenOptions}
+      />
+      <JoinStackNavigator.Screen
+        name="JoinStep1"
+        component={JoinStep1Screen}
+        options={JoinStep1ScreenOptions}
       />
       <JoinStackNavigator.Screen
         name="CI"

@@ -8,12 +8,10 @@ import * as CommonActions from "@actions/common";
 import colors from "@constants/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigationState } from "@react-navigation/native";
-import { setPreview } from "@actions/auth";
 
 const BackButton = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const navigationState = useNavigationState((state) => state);
   const index = useNavigationState((state) => state.index);
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -23,10 +21,6 @@ const BackButton = (props) => {
         title="back"
         iconName="chevron-thin-left"
         onPress={() => {
-          if (navigationState.routes[index].name == "JoinStep1") {
-            return dispatch(setPreview(true));
-          }
-
           dispatch(CommonActions.setIsLoading(false));
           if (index > 0) navigation.goBack();
           else navigation.navigate("Home");
