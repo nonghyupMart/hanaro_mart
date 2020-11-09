@@ -14,8 +14,6 @@ import {
   BaseImage,
   BaseTextInput,
   BaseText,
-  EmptyText,
-  EmptyScreen,
 } from "@UI/BaseUI";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
