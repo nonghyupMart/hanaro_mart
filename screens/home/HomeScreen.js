@@ -47,7 +47,6 @@ import { SET_NOTIFICATION } from "@actions/common";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { TabMenus } from "@constants/menu";
 
-let timer;
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
@@ -82,7 +81,7 @@ const HomeScreen = (props) => {
       await Util.removeStorageItem("notificationData");
     })();
     if (typeof didTryPopup == "string") {
-      timer = setTimeout(() => {
+      setTimeout(() => {
         navigation.navigate(didTryPopup);
       }, 0);
       dispatch(CommonActions.setDidTryPopup(true));
@@ -90,8 +89,6 @@ const HomeScreen = (props) => {
 
     return () => {
       dispatch(setIsLoading(false));
-      clearTimeout(timer);
-      timer;
     };
   }, []);
 
@@ -166,7 +163,7 @@ const initNotificationReceiver = (routeName) => {
               break;
           }
 
-          timer = setTimeout(() => {
+          setTimeout(() => {
             RootNavigation.navigate(CATEGORY[category], param);
           }, 0);
         } else {
@@ -198,7 +195,7 @@ const updateExpo = (dispatch) => {
         if (update.isAvailable) {
           await Updates.fetchUpdateAsync();
           // ... notify user of update ...
-          Util.log("new update");
+          // Util.log("new update");
           await dispatch(
             setAlert({
               message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
