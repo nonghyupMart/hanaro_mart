@@ -629,7 +629,7 @@ const Container = styled.View({
   alignItems: "center",
   backgroundColor: colors.trueWhite,
   width: "100%",
-  paddingBottom: 10,
+  paddingBottom: 15,
 
   // height: screenHeight * 0.784,
   // aspectRatio: 54.86 / 105,
