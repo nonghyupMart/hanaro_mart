@@ -326,9 +326,8 @@ const AgreementScreen = ({ navigation }) => {
   return (
     <BaseScreen
       scrollEnabled={canScroll}
-      headerShown={false}
       // style={{ width: "100%", height: "100%" }}
-      // contentStyle={{ width: "100%", height: screenHeight }}
+      contentStyle={{ paddingTop: 16 }}
       // scrollListStyle={{ width: "100%", height: screenHeight }}
     >
       <CheckBox
