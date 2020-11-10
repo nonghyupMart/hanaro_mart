@@ -26,17 +26,23 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
+import { setAlert, setIsLoading } from "@actions/common";
+
 const RingPickerScreen = ({ navigation: { goBack } }) => {
+  const isLoading = useSelector((state) => state.common.isLoading);
   const dispatch = useDispatch();
-  useEffect(() => {
+  const [init, setInit] = useState(() => {
+    dispatch(setIsLoading(false));
     dispatch(CommonActions.setBottomNavigation(false));
+  });
+  useEffect(() => {
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
     };
   }, []);
 
   return (
-    <BaseScreen isPadding={false} isScroll={false} >
+    <BaseScreen isPadding={false} isScroll={false}>
       <ExtendedWebView
         style={{
           height: screenHeight,

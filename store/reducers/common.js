@@ -14,7 +14,7 @@ const initialState = {
   isStorePopup: {},
   isAppPopup: true,
   alert: null,
-  isLoading: true,
+  isLoading: false,
   headerHeight: 0,
   didTryPopup: false,
   notification: null,

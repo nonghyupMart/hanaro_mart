@@ -62,6 +62,7 @@ const NaroTube = (props) => {
 
           return (
             <ExtendedWebView
+              startInLoadingState={true}
               bounces={false}
               key={`${key}${item.naro_cd}`}
               style={{
