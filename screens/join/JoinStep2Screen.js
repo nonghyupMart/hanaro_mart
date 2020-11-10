@@ -53,6 +53,8 @@ const JoinStep2Screen = ({ navigation }) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timer, setTimer] = useState();
+  const [secureTextEntry1, setSecureTextEntry1] = useState(true);
+  const [secureTextEntry2, setSecureTextEntry2] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -190,6 +192,9 @@ const JoinStep2Screen = ({ navigation }) => {
             onChangeText={(text) => setPhoneNumber(text)}
             onSubmitEditing={Keyboard.dismiss}
             placeholder="- 없이 입력하세요."
+            secureTextEntry={secureTextEntry1}
+            onFocus={() => setSecureTextEntry1(false)}
+            onBlur={() => setSecureTextEntry1(true)}
           />
         </TextInputContainer>
         {(minutes > 0 || seconds > 0) && (
@@ -241,6 +246,9 @@ const JoinStep2Screen = ({ navigation }) => {
                     style={{ lineHeight: 18, width: "100%" }}
                     onSubmitEditing={Keyboard.dismiss}
                     onChangeText={(text) => setAccessCode(text)}
+                    secureTextEntry={secureTextEntry2}
+                    onFocus={() => setSecureTextEntry2(false)}
+                    onBlur={() => setSecureTextEntry2(true)}
                   />
                 </View>
               </TextInputContainer>
