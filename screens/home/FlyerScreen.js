@@ -52,7 +52,6 @@ const FlyerScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
           })
         ).then((data) => {
-          dispatch(setIsLoading(false));
           // console.warn("pageforCarousel", pageforCarousel);
           if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
             dispatch(setIsLoading(true));
@@ -61,6 +60,8 @@ const FlyerScreen = (props) => {
                 dispatch(setIsLoading(false));
               }
             );
+          } else {
+            dispatch(setIsLoading(false));
           }
         });
       }
@@ -84,14 +85,21 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-    dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
-    if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-      dispatch(setIsLoading(true));
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-        dispatch(setIsLoading(false));
-      });
-    }
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      dispatch({ type: SET_PRODUCT, product: null });
+      setPage(1);
+      if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
+        dispatch(setIsLoading(true));
+        fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(
+          () => {
+            dispatch(setIsLoading(false));
+          }
+        );
+      }
+    });
+    return () => {
+      unsubscribe;
+    };
   }, [pageforCarousel]);
 
   const loadMore = () => {
