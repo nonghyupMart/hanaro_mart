@@ -51,8 +51,11 @@ import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as Util from "@util";
 import AutoHeightWebView from "react-native-autoheight-webview";
+import { BackButton, TextTitle } from "@UI/header";
 
-const AgreementScreen = ({ navigation }) => {
+const AgreementScreen = (props) => {
+  const params = props.route.params;
+  const navigation = props.navigation;
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const isLoading = useSelector((state) => state.common.isLoading);
   const [canScroll, setCanScroll] = useState(true);
@@ -300,7 +303,7 @@ const AgreementScreen = ({ navigation }) => {
       if (!Constants.isDevice) {
         dispatch(setAgreedStatus(cks));
         saveAgreedStatusToStorage(cks);
-        navigation.navigate("JoinStep1");
+        navigation.navigate(params.nextPage);
         return;
       }
       dispatch(setIsLoading(true));
@@ -308,7 +311,7 @@ const AgreementScreen = ({ navigation }) => {
         if (token) {
           dispatch(setAgreedStatus(cks));
           saveAgreedStatusToStorage(cks);
-          navigation.navigate("JoinStep1");
+          navigation.navigate(params.nextPage);
         }
         dispatch(setIsLoading(false));
       });
@@ -413,10 +416,10 @@ const AgreementScreen = ({ navigation }) => {
         <BlueButton
           style={{ marginLeft: 3 }}
           onPress={() => {
-            dispatch(setPreview(true));
+            props.navigation.goBack();
           }}
         >
-          <ButtonText>동의 없이 보기</ButtonText>
+          <ButtonText>취소</ButtonText>
         </BlueButton>
       </View>
     </BaseScreen>
@@ -453,16 +456,6 @@ export const CheckButton = (props) => {
   );
 };
 
-export const screenOptions = ({ navigation }) => {
-  return {
-    title: "",
-    headerShown: false,
-    cardStyle: {
-      paddingTop: Platform.OS === "ios" ? 0 : StatusBar.currentHeight,
-    },
-    animationEnabled: false,
-  };
-};
 const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
   source: require("@images/checkmark2.png"),
@@ -562,4 +555,12 @@ export const BoldText = styled(BaseText).attrs({})({
   lineHeight: 20,
 });
 
+export const screenOptions = ({ navigation }) => {
+  return {
+    title: "약관동의",
+    headerLeft: (props) => <BackButton {...props} />,
+    headerTitle: (props) => <TextTitle {...props} />,
+    headerRight: (props) => <></>,
+  };
+};
 export default AgreementScreen;

@@ -18,7 +18,7 @@ const JoinStep1Screen = ({ navigation }) => {
       <Box
         style={{ marginBottom: 2.5 }}
         onPress={() => {
-          navigation.navigate("CI");
+          navigation.navigate("Agreement", { nextPage: "CI" });
         }}
       >
         <Image source={require("@images/mem1725.png")} />
@@ -26,7 +26,7 @@ const JoinStep1Screen = ({ navigation }) => {
       <Box
         style={{ marginTop: 2.5 }}
         onPress={() => {
-          navigation.navigate("JoinStep2");
+          navigation.navigate("Agreement", { nextPage: "JoinStep2" });
         }}
       >
         <Image source={require("@images/mem2725.png")} />
@@ -50,9 +50,10 @@ export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
 
-    headerLeft: (props) => <BackButton {...props} />,
+    headerLeft: (props) => <BackButton {...props}  />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
+    animationEnabled: false,
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },

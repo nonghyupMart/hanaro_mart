@@ -39,7 +39,7 @@ const AppNavigator = (props) => {
   const currentScreen = () => {
     if (!isPreview && isJoin && didTryAutoLogin && !didTryPopup)
       return <PopupScreen />;
-    else if (!isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
+    else if (isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
       return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
     else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
