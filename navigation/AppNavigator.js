@@ -11,6 +11,8 @@ import Loading from "@UI/Loading";
 import colors from "@constants/colors";
 import * as CommonActions from "@actions/common";
 import * as Notifications from "expo-notifications";
+import { BackHandler } from "react-native";
+import * as Device from "expo-device";
 
 const Theme = {
   ...DefaultTheme,
@@ -28,7 +30,6 @@ Notifications.setNotificationHandler({
 });
 
 const AppNavigator = (props) => {
-  const eventEmitter = props.eventEmitter;
   const dispatch = useDispatch();
   const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
@@ -41,11 +42,27 @@ const AppNavigator = (props) => {
     else if (!isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
       return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
-    else if ((isPreview || isJoin) && didTryPopup) return <MainNavigator />;
-    return <MainNavigator />;
+    else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
+      return <MainNavigator />;
+    else if (isPreview && didTryAutoLogin) return <MainNavigator />;
+    return <StartupScreen />;
   };
 
   useEffect(() => {
+    (async () => {
+      const isRooted = await Device.isRootedExperimentalAsync();
+      if (isRooted) {
+        return dispatch(
+          CommonActions.setAlert({
+            message: "루팅이 감지되었습니다.\n고객센터에 문의해주세요.",
+            onPressConfirm: () => {
+              BackHandler.exitApp();
+            },
+          })
+        );
+      }
+    })();
+
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         // console.warn(JSON.stringify(response, null, "\t"));
