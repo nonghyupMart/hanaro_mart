@@ -61,7 +61,7 @@ export default (state = initialState, action) => {
     case SET_IS_LOADING:
       return {
         ...state,
-        isLoading: action.isLoading,
+        isLoading: !!action.isLoading,
       };
     default:
       return state;

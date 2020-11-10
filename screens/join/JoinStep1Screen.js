@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { View, Text, StyleSheet, Platform } from "react-native";
+import { View, Text, StyleSheet, Platform, BackHandler } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
@@ -11,8 +11,24 @@ import {
 } from "@UI/BaseUI";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
+import { setPreview } from "@actions/auth";
 
 const JoinStep1Screen = ({ navigation }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const backAction = () => {
+      dispatch(setPreview(true));
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   return (
     <BaseScreen isScroll={false} style={styles.screen}>
       <Box
@@ -50,7 +66,7 @@ export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
 
-    headerLeft: (props) => <BackButton {...props}  />,
+    headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
     animationEnabled: false,

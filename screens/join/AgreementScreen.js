@@ -307,13 +307,15 @@ const AgreementScreen = (props) => {
         return;
       }
       dispatch(setIsLoading(true));
-      getPermissions().then((token) => {
-        if (token) {
-          dispatch(setAgreedStatus(cks));
-          saveAgreedStatusToStorage(cks);
-          navigation.navigate(params.nextPage);
+      getPermissions().then(async (token) => {
+        await dispatch(setIsLoading(false));
+        if (token && !isLoading) {
+          setTimeout(async () => {
+            await dispatch(setAgreedStatus(cks));
+            await saveAgreedStatusToStorage(cks);
+            await navigation.navigate(params.nextPage);
+          }, 0);
         }
-        dispatch(setIsLoading(false));
       });
     } else {
       dispatch(

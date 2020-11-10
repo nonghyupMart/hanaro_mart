@@ -9,12 +9,7 @@ import {
   Keyboard,
 } from "react-native";
 import BaseScreen from "@components/BaseScreen";
-import {
-  BaseTouchable,
-  BaseImage,
-  BaseTextInput,
-  BaseText,
-} from "@UI/BaseUI";
+import { BaseTouchable, BaseImage, BaseTextInput, BaseText } from "@UI/BaseUI";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -36,8 +31,8 @@ const SearchProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-
   const [currentItem, setCurrentItem] = useState(null);
+
 
   const product = useSelector((state) => state.flyer.searchedProduct);
   useEffect(() => {
