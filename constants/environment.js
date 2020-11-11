@@ -9,8 +9,8 @@ const ENV = {
   develop: {
     SERVER_URL: "http://dv-www.hanaromartapp.com",
   },
-  staging: {
-    SERVER_URL: "[your.staging.api.here]",
+  stage: {
+    SERVER_URL: "https://www.hanaromartapp.com",
   },
   default: {
     SERVER_URL: "https://www.hanaromartapp.com",
@@ -33,8 +33,8 @@ const getEnvVars = (env = Constants.manifest.releaseChannel) => {
     return ENV.dev;
   } else if (env === "develop") {
     return ENV.develop;
-  } else if (env === "staging") {
-    return ENV.staging;
+  } else if (env === "stage") {
+    return ENV.stage;
   } else if (env === "prod") {
     return ENV.prod;
   }

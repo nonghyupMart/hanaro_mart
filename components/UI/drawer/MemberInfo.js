@@ -34,7 +34,7 @@ const MemberInfo = (props) => {
           </Text4>
         </MemberContainer>
         <BaseTouchable onPress={() => props.navigation.closeDrawer()}>
-          <Image source={require("@images/login.png")} />
+          <Image source={require("@images/ic_close_24px.png")} />
         </BaseTouchable>
       </MemberInfoContainer>
       <GradientBar></GradientBar>

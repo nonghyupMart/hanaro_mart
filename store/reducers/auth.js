@@ -30,7 +30,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isPreview: action.isPreview,
-        didTryAutoLogin: true,
       };
     }
     case SET_DID_TRY_AL: {
@@ -43,7 +42,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isJoin: action.isJoin,
-        didTryAutoLogin: true,
       };
     }
     case SET_AGREED_STATUS: {
@@ -56,7 +54,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         userInfo: { ...action.userInfo },
-        didTryAutoLogin: true,
       };
     }
     case SET_CI:
@@ -84,7 +81,6 @@ export default (state = initialState, action) => {
     case WITHDRAWAL:
       return {
         ...initialState,
-        didTryAutoLogin: true,
       };
     default:
       return state;

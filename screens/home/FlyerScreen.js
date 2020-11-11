@@ -9,14 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import BaseScreen from "@components/BaseScreen";
-import {
-  BaseTouchable,
-  BaseImage,
-  EmptyScreen,
-  EmptyText,
-  EmptyIcon,
-  screenHeight,
-} from "@UI/BaseUI";
+import { BaseTouchable, BaseImage, screenHeight } from "@UI/BaseUI";
 
 import * as RootNavigation from "@navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -30,6 +23,7 @@ import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { SET_PRODUCT } from "@actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
+import NoList from "@UI/NoList";
 
 const { width } = Dimensions.get("window");
 
@@ -58,7 +52,6 @@ const FlyerScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
           })
         ).then((data) => {
-          dispatch(setIsLoading(false));
           // console.warn("pageforCarousel", pageforCarousel);
           if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
             dispatch(setIsLoading(true));
@@ -67,6 +60,8 @@ const FlyerScreen = (props) => {
                 dispatch(setIsLoading(false));
               }
             );
+          } else {
+            dispatch(setIsLoading(false));
           }
         });
       }
@@ -90,14 +85,21 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-    dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
-    if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-      dispatch(setIsLoading(true));
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-        dispatch(setIsLoading(false));
-      });
-    }
+    const unsubscribe = props.navigation.addListener("focus", () => {
+      dispatch({ type: SET_PRODUCT, product: null });
+      setPage(1);
+      if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
+        dispatch(setIsLoading(true));
+        fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(
+          () => {
+            dispatch(setIsLoading(false));
+          }
+        );
+      }
+    });
+    return () => {
+      unsubscribe;
+    };
   }, [pageforCarousel]);
 
   const loadMore = () => {
@@ -124,12 +126,7 @@ const FlyerScreen = (props) => {
   };
   if (!leaflet) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
-    return (
-      <EmptyScreen>
-        <EmptyIcon source={require("@images/not01.png")} />
-        <EmptyText>{`현재 진행중인 행사전단이\n없습니다.`}</EmptyText>
-      </EmptyScreen>
-    );
+    return <NoList source={require("@images/files.png")} text={"행사전단"} />;
   return (
     <BaseScreen
       style={{
@@ -224,15 +221,14 @@ const FlyerScreen = (props) => {
         />
       )}
       {!_.isEmpty(product) && product.productList.length === 0 && (
-        <EmptyScreen
+        <NoList
           style={{
             backgroundColor: colors.trueWhite,
             height: screenHeight - (width * 0.283 + 250),
           }}
-        >
-          <EmptyIcon source={require("@images/not06.png")} />
-          <EmptyText>{`현재 진행중인 행사상품이\n없습니다.`}</EmptyText>
-        </EmptyScreen>
+          source={require("@images/box.png")}
+          text={"행사상품"}
+        />
       )}
       {currentItem && (
         <ProductPopup

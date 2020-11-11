@@ -210,24 +210,3 @@ export const BlueButton = styled(BaseButtonContainer)({
   aspectRatio: 100 / 12.804,
   borderRadius: 25,
 });
-
-export const EmptyText = styled(BaseText)({
-  fontSize: 18,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 22,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.greyishThree,
-});
-export const EmptyScreen = styled.View({
-  flex: 1,
-  width: "100%",
-  height: "100%",
-  backgroundColor: colors.trueWhite,
-  justifyContent: "center",
-  alignItems: "center",
-  alignSelf: "center",
-});
-
-export const EmptyIcon = styled.Image({ marginBottom: 28 });

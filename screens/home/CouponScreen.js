@@ -8,18 +8,13 @@ import CouponItem from "@components/CouponItem";
 import CouponItemA from "@components/CouponItemA";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
-import {
-  BaseImage,
-  screenWidth,
-  EmptyScreen,
-  EmptyText,
-  EmptyIcon,
-} from "@UI/BaseUI";
+import { BaseImage, screenWidth } from "@UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
+import NoList from "@UI/NoList";
 
 const CouponScreen = (props) => {
   const routeName = props.route.name;
@@ -150,10 +145,11 @@ const CouponScreen = (props) => {
     _.size(coupon.couponList) === 0
   )
     return (
-      <EmptyScreen>
-        <EmptyIcon source={require("@images/not05.png")} />
-        <EmptyText>{`나의 쿠폰이 없습니다.`}</EmptyText>
-      </EmptyScreen>
+      <NoList
+        source={require("@images/wallet.png")}
+        text={"나의 쿠폰"}
+        infoText="나의 쿠폰이 없습니다."
+      />
     );
   if (
     routeName == "Coupon" &&
@@ -161,10 +157,7 @@ const CouponScreen = (props) => {
     _.size(coupon.couponList) === 0
   )
     return (
-      <EmptyScreen>
-        <EmptyIcon source={require("@images/not03.png")} />
-        <EmptyText>현재 진행중인 나로쿠폰이 없습니다.</EmptyText>
-      </EmptyScreen>
+      <NoList source={require("@images/ticketWhite.png")} text={"나로쿠폰"} />
     );
   return (
     <BaseScreen

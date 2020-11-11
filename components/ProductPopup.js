@@ -87,9 +87,8 @@ const ProductPopup = (props) => {
           <CloseBtnContainer
             onPress={props.setIsVisible.bind(this, !props.isVisible)}
           >
-            <Image source={require("@images/cross.png")} />
+            <Image source={require("@images/cross0104.png")} />
           </CloseBtnContainer>
-          <Header></Header>
           <Body contentContainerStyle={{ alignItems: "center" }}>
             <BaseImage
               style={{
@@ -104,12 +103,12 @@ const ProductPopup = (props) => {
             <BorderLine />
             <Title>{props.item.title}</Title>
             <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-            {props.item.sale_price > 0 &&
+            {props.item.sale_price > 0 && (
               <PriceContainer style={{}}>
                 <PriceUnit>최종혜택가 </PriceUnit>
                 <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
               </PriceContainer>
-            }
+            )}
             {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
@@ -296,24 +295,23 @@ const ProductPopup = (props) => {
               </InfoListContainer>
             </InfoContainer>
 
-            {/* <BtnContainer style={{}}>
-              <BlueBtn onPress={onAddCart}>
+            <BtnContainer style={{}}>
+              {/* <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
-              </BlueBtn>
-              <GreenBtn
+              </BlueBtn> */}
+              <GrayBtn
                 onPress={props.setIsVisible.bind(this, !props.isVisible)}
               >
-                <Image
-                  source={require("@images/baseline-backspace-24px.png")}
-                />
+                {/* <Image
+                  source={require("@images/whiteback.png")}
+                /> */}
                 <BtnText>닫기</BtnText>
-              </GreenBtn>
-            </BtnContainer> */}
+              </GrayBtn>
+            </BtnContainer>
           </Body>
-          <BottomBorder />
         </Container>
       )}
     </Modal>
@@ -322,10 +320,10 @@ const ProductPopup = (props) => {
 const CloseBtnContainer = styled.TouchableOpacity({
   position: "absolute",
   right: 0,
-  top: 15,
+  top: 0,
   zIndex: 10,
   elevation: 1,
-  padding: 10,
+  padding: 11.5,
 });
 const NoticeRight = styled.View({
   flexDirection: "row",
@@ -475,8 +473,11 @@ const BlueBtn = styled(BaseSquareButtonContainer)({
   marginLeft: 2.5,
   marginRight: 2.5,
 });
-const GreenBtn = styled(BlueBtn)({
-  backgroundColor: colors.appleGreen,
+const GrayBtn = styled(BlueBtn)({
+  backgroundColor: colors.greyishBrown,
+  width: "100%",
+  marginLeft: 0,
+  marginRight: 0,
 });
 const BtnContainer = styled.View({
   marginTop: 13,
@@ -484,6 +485,7 @@ const BtnContainer = styled.View({
   flexDirection: "row",
   alignItems: "flex-end",
   marginBottom: 0,
+  width: screenWidth - 20.5 - 20.5 - 50,
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
@@ -606,12 +608,7 @@ const Title = styled(BaseText)({
 Title.defaultProps = {
   numberOfLines: 1,
 };
-const Body = styled.ScrollView({ flex: 1, width: "100%" });
-const BottomBorder = styled.View({
-  backgroundColor: colors.cerulean,
-  height: 12,
-  width: "100%",
-});
+const Body = styled.ScrollView({ width: "100%" });
 const Header = styled.View({
   backgroundColor: colors.cerulean,
   height: 12,
@@ -620,16 +617,22 @@ const Header = styled.View({
   width: "100%",
 });
 const Container = styled.View({
+  borderBottomWidth: 12,
+  borderTopWidth: 12,
   borderTopLeftRadius: 5,
   borderTopRightRadius: 5,
   borderBottomRightRadius: 5,
   borderBottomLeftRadius: 5,
+  borderColor: colors.cerulean,
+
   overflow: "hidden",
   alignItems: "center",
   backgroundColor: colors.trueWhite,
   width: "100%",
+  paddingBottom: 15,
+
   // height: screenHeight * 0.784,
-  aspectRatio: 54.86 / 105,
+  // aspectRatio: 54.86 / 105,
 });
 const styles = StyleSheet.create({});
 

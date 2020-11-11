@@ -93,6 +93,7 @@ const BlueText = styled(BaseText)({
 const IconContainer = styled.View({
   flexDirection: "row",
   justifyContent: "center",
+  alignItems: "center",
   flexShrink: 0,
 });
 const Container = styled.View({

@@ -27,32 +27,36 @@ const Loading = (props) => {
   }, [isLoading]);
   if (Platform.OS == "android")
     return (
-      <Modal
-        backdropOpacity={0}
-        backdropTransitionInTiming={0}
-        backdropTransitionOutTiming={0}
-        isVisible={isLoading}
-        useNativeDriver={true}
-        hideModalContentWhileAnimating={false}
-        animationIn="fadeIn"
-        animationOut="fadeOut"
-        // onRequestClose={() => setIsVisible(false)}
-      >
-        <ActivityIndicator
-          size="large"
-          color={colors.cerulean}
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          // style={{ marginTop: -headerHeight }}
-        />
-      </Modal>
+      <>
+        {isLoading && (
+          <Modal
+            backdropOpacity={0}
+            backdropTransitionInTiming={0}
+            backdropTransitionOutTiming={0}
+            isVisible={isLoading}
+            useNativeDriver={true}
+            hideModalContentWhileAnimating={false}
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            // onRequestClose={() => setIsVisible(false)}
+          >
+            <ActivityIndicator
+              size="large"
+              color={colors.cerulean}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              // style={{ marginTop: -headerHeight }}
+            />
+          </Modal>
+        )}
+      </>
     );
   else
     return (

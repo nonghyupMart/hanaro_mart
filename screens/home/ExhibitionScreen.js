@@ -9,11 +9,11 @@ import * as exclusiveActions from "@actions/exclusive";
 import { StyleConstants, screenWidth } from "@UI/BaseUI";
 import EventItem from "@components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { EmptyText, EmptyScreen, EmptyIcon } from "@UI/BaseUI";
 import { BackButton, TextTitle } from "@UI/header";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import { TabMenus } from "@constants/menu";
+import NoList from "@UI/NoList";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -32,9 +32,7 @@ const ExhibitionScreen = (props) => {
     data = useSelector((state) => state.exclusive.exclusive);
   }
   useEffect(() => {
-    const currentTab = TabMenus.filter(
-      (tab) => tab.name == routeName
-    );
+    const currentTab = TabMenus.filter((tab) => tab.name == routeName);
 
     const tab = userStore.menuList.filter(
       (menu) => menu.r_menu_nm == currentTab[0].title
@@ -92,14 +90,14 @@ const ExhibitionScreen = (props) => {
     (routeName == "ForStore" && _.size(data.list) === 0)
   )
     return (
-      <EmptyScreen>
-        {routeName == "Exhibition" && (
-          <EmptyIcon source={require("@images/not04.png")} />
-        )}
-        <EmptyText>{`현재 진행중인 ${
-          tabInfo && tabInfo.menu_nm
-        }\n목록이 없습니다.`}</EmptyText>
-      </EmptyScreen>
+      <NoList
+        source={
+          routeName == "Exhibition"
+            ? require("@images/diamond.png")
+            : require("@images/shopwhite.png")
+        }
+        text={tabInfo && tabInfo.menu_nm}
+      />
     );
   return (
     <BaseScreen

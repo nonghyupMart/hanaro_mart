@@ -158,7 +158,7 @@ export const ExtendedWebView = (props) => {
         }}
         onShouldStartLoadWithRequest={onShouldStartLoadWithRequest}
         onNavigationStateChange={onNavigationStateChange}
-        startInLoadingState={true}
+        cacheEnabled={true}
       />
     </>
   );

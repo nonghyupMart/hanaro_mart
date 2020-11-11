@@ -23,7 +23,6 @@ const NaroTube = (props) => {
     setKey("_" + Math.random().toString(36).substr(2, 9));
   }, [props.isFocused]);
   useLayoutEffect(() => {
-    dispatch(setIsLoading(true));
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
       dispatch(setIsLoading(false));
@@ -62,6 +61,7 @@ const NaroTube = (props) => {
 
           return (
             <ExtendedWebView
+              startInLoadingState={true}
               bounces={false}
               key={`${key}${item.naro_cd}`}
               style={{
