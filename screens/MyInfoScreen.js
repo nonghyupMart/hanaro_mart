@@ -66,10 +66,6 @@ const MyInfoScreen = (props) => {
       <MemberInfoB />
       <MarginContainer>
         <TextContainer>
-          <Text1>회원번호</Text1>
-          <Text2>{userInfo.user_cd}</Text2>
-        </TextContainer>
-        <TextContainer>
           <Text1>주매장</Text1>
           <Text2>{userStore.storeInfo.store_nm}</Text2>
         </TextContainer>
