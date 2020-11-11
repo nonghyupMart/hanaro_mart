@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
 import Carousel from "@UI/Carousel";
@@ -168,9 +163,10 @@ const PopupScreen = (props) => {
               }}
             >
               <Image
+                resizeMode="contain"
                 source={item.display_img}
                 width={screenWidth}
-                style={{ height: "100%" }}
+                style={{ height: "100%", backgroundColor: "black" }}
               />
             </TouchableOpacity>
           );
