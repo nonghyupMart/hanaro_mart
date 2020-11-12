@@ -80,6 +80,9 @@ export const saveUserStore = (userStore) => {
 };
 
 export const updateLoginLog = (query) => {
+  if (query.user_cd && !isNaN(query.user_cd)) {
+    query.user_cd = Util.encrypt(`${query.user_cd}`);
+  }
   const url = queryString.stringifyUrl({
     url: `${API_URL}/users`,
     query: query,
