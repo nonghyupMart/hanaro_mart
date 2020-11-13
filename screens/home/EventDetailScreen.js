@@ -132,15 +132,14 @@ const EventDetailScreen = (props, { navigation }) => {
   const onApplyStamp = (QRCode) => {
     // if (!checkQRLength(QRCode, 40)) return;
     // if (!checkRequiredAmount(QRCode)) return;
-
-    dispatch(
-      eventActions.applyStamp({
-        event_cd: params.event_cd,
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
-        rcp_qr: QRCode,
-      })
-    ).then((data) => {
+    let query = {
+      event_cd: params.event_cd,
+      user_cd: userInfo.user_cd,
+      store_cd: userStore.storeInfo.store_cd,
+      rcp_qr: QRCode,
+    };
+    if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
+    dispatch(eventActions.applyStamp(query)).then((data) => {
       if (data.result == "success") {
         alertSusscess();
       }
