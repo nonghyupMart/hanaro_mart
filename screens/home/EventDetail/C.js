@@ -9,7 +9,7 @@ const C = (props) => {
   const stamp_history_cnt = props.eventDetail.entry.stamp_history_cnt;
   return (
     <View>
-      {stamp_history_cnt- stamp_cnt   > 0 && (
+      {stamp_cnt - stamp_history_cnt > 0 && (
         <Container>
           <ApplyBox {...props} />
           <ScanBox {...props} />

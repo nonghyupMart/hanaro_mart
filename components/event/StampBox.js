@@ -49,7 +49,7 @@ const StampBox = (props) => {
           return item;
         })}
       </StampContainer>
-      {stamp_history_cnt - stamp_cnt <= 0 && (
+      {stamp_cnt - stamp_history_cnt <= 0 && (
         <BtnContainer>
           <BlueButton onPress={onPress}>
             <Image source={require("@images/ticket3.png")} />
@@ -62,7 +62,6 @@ const StampBox = (props) => {
 };
 const Container = styled.View({ width: "100%" });
 const BtnContainer = styled.View({
-  marginTop: 30,
   width: "100%",
 });
 const StampImage = styled.Image({
@@ -77,5 +76,6 @@ const StampContainer = styled.View({
   justifyContent: "center",
   alignItems: "center",
   marginTop: 30,
+  marginBottom: 30,
 });
 export default StampBox;
