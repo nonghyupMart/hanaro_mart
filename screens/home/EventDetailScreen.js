@@ -102,10 +102,10 @@ const EventDetailScreen = (props, { navigation }) => {
     }
     return true;
   };
-  const alertSusscess = () => {
+  const alertSusscess = (message = "응모 되었습니다.") => {
     dispatch(
       setAlert({
-        message: "응모 되었습니다.",
+        message: message,
         onPressConfirm: () => {
           dispatch(setAlert(null));
           requestEvent();
@@ -125,7 +125,7 @@ const EventDetailScreen = (props, { navigation }) => {
       })
     ).then((data) => {
       if (data.result == "success") {
-        alertSusscess();
+        alertSusscess("교환처리 되었습니다.");
       }
     });
   };
