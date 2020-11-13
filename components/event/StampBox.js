@@ -14,6 +14,7 @@ import {
   BaseText,
   BaseTextInput,
   BaseImage,
+  screenWidth,
 } from "@UI/BaseUI";
 const StampBox = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;
@@ -57,7 +58,7 @@ const StampBox = (props) => {
     </Container>
   );
 };
-const Container = styled.View({ width: "100%", overflow: "hidden" });
+const Container = styled.View({ width: "100%" });
 const BtnContainer = styled.View({
   marginTop: 30,
   width: "100%",

@@ -307,6 +307,7 @@ export const screenOptions = ({ navigation }) => {
     title: "이벤트",
     cardStyle: {
       marginBottom: 0,
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

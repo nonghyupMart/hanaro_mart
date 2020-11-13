@@ -170,7 +170,7 @@ const DetailContainerBody = styled.View({
   // marginTop: 7,
   paddingLeft: 18,
   paddingRight: 18,
-  paddingBottom: 65,
+  // paddingBottom: 65,
 });
 const DetailContainerMarginTop = styled.View({
   width: "100%",
