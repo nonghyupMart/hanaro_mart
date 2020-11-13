@@ -49,12 +49,14 @@ const StampBox = (props) => {
           return item;
         })}
       </StampContainer>
-      <BtnContainer>
-        <BlueButton onPress={onPress}>
-          <Image source={require("@images/ticket3.png")} />
-          <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
-        </BlueButton>
-      </BtnContainer>
+      {stamp_history_cnt - stamp_cnt <= 0 && (
+        <BtnContainer>
+          <BlueButton onPress={onPress}>
+            <Image source={require("@images/ticket3.png")} />
+            <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
+          </BlueButton>
+        </BtnContainer>
+      )}
     </Container>
   );
 };

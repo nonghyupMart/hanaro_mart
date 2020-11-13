@@ -5,12 +5,16 @@ import ScanBox from "@components/event/ScanBox";
 import ApplyBox from "@components/event/ApplyBox";
 
 const C = (props) => {
+  const stamp_cnt = props.eventDetail.entry.stamp_cnt;
+  const stamp_history_cnt = props.eventDetail.entry.stamp_history_cnt;
   return (
     <View>
-      <Container>
-        <ApplyBox {...props} />
-        <ScanBox {...props} />
-      </Container>
+      {stamp_history_cnt- stamp_cnt   > 0 && (
+        <Container>
+          <ApplyBox {...props} />
+          <ScanBox {...props} />
+        </Container>
+      )}
       <StampBox {...props} />
     </View>
   );
