@@ -91,7 +91,7 @@ export const removeStorageItem = (name) => {
 export const sendShareLink = async (reference) => {
   try {
     const result = await Share.share({
-      message: `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore.do\n\n추천인코드 : ${reference}`,
+      message: `모든 것을 하나로마트 - https://www.hanaromartapp.com/web/about/appStore.do\n\n추천인코드 : ${reference}`,
     });
     if (result.action === Share.sharedAction) {
       if (result.activityType) {
