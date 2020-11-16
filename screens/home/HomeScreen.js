@@ -108,7 +108,7 @@ const HomeScreen = (props) => {
         <HomeBanner isFocused={isFocused} />
         <TouchableOpacity
           style={{ width: "100%" }}
-          onPress={() => Util.sendShareLink()}
+          onPress={() => Util.sendShareLink(userInfo.recommend)}
         >
           <Image
             source={require("@images/in730.png")}

@@ -12,6 +12,7 @@ import {
 import _ from "lodash";
 import * as Util from "@util";
 const MenuList = (props) => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
   return (
@@ -71,7 +72,7 @@ const MenuList = (props) => {
           <MenuText>마이페이지</MenuText>
         </MenuButton>
       </MenuButtonContainer>
-      <ShareBtn onPress={() => Util.sendShareLink()}>
+      <ShareBtn onPress={() => Util.sendShareLink(userInfo.recommend)}>
         <Image source={require("@images/plusapp.png")} />
       </ShareBtn>
     </MenuContainer>
