@@ -21,8 +21,10 @@ import * as Util from "@util";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import Barcode from "@components/Barcode";
-import { setAlert } from "@actions/common";
+import { setAlert, setIsLoading } from "@actions/common";
 import Modal from "react-native-modal";
+import { setReference } from "@actions/auth";
+import { updateUserInfo } from "@screens/home/HomeScreen";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;
@@ -31,6 +33,15 @@ const MyInfoScreen = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
+  const [recommend, setRecommend] = useState();
+  useEffect(() => {
+    if (!_.isEmpty(userInfo)) {
+      dispatch(setIsLoading(true));
+      updateUserInfo(dispatch, userInfo).then((data) => {
+        dispatch(setIsLoading(false));
+      });
+    }
+  }, []);
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       const userID = userInfo.user_id;
@@ -50,6 +61,27 @@ const MyInfoScreen = (props) => {
       })
     );
   };
+  const onPress = () => {
+    if (!recommend || recommend.length <= 0) return props.navigation.goBack();
+    dispatch(setReference({ user_cd: userInfo.user_cd, recommend })).then(
+      (data) => {
+        if (data.result == "success") {
+          dispatch(
+            setAlert({
+              message: "추천인이 등록되었습니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                dispatch(setIsLoading(true));
+                updateUserInfo(dispatch, userInfo).then((data) => {
+                  dispatch(setIsLoading(false));
+                });
+              },
+            })
+          );
+        }
+      }
+    );
+  };
   const onPressShowQRCode = () => {};
   if (!barcode || !userStore) return <></>;
   return (
@@ -66,12 +98,38 @@ const MyInfoScreen = (props) => {
       <MemberInfoB />
       <MarginContainer>
         <TextContainer>
+          <TitleIcon source={require("@images/shop1black.png")} />
           <Text1>주매장</Text1>
           <Text2>{userStore.storeInfo.store_nm}</Text2>
         </TextContainer>
+        <TextContainer>
+          <TitleIcon source={require("@images/heart2black.png")} />
+          <Text1>추천인코드</Text1>
+          <Text2>{userInfo.recommend}</Text2>
+        </TextContainer>
       </MarginContainer>
-      <WhiteContainer>
-        <BarcodeContainer>
+      <WhiteContainer style={{ marginTop: 10 }}>
+        {userInfo.recommend_apply != "Y" && (
+          <BarcodeContainer
+            style={{
+              paddingLeft: 10,
+              paddingRight: 10,
+              marginBottom: 0,
+              marginTop: 5,
+            }}
+          >
+            <ReferenceContainer>
+              <Image source={require("@images/heart2green.png")} />
+              <ReferenceTitle>추천인코드 입력하기</ReferenceTitle>
+            </ReferenceContainer>
+            <ReferenceInput
+              placeholder="추천해주신 분의 코드를 입력하시기 바랍니다."
+              onChangeText={(t) => setRecommend(t)}
+              value={recommend}
+            />
+          </BarcodeContainer>
+        )}
+        <BarcodeContainer style={{ marginTop: 5 }}>
           <Barcode
             width={2}
             height={100}
@@ -96,7 +154,7 @@ const MyInfoScreen = (props) => {
           <BlueButtonText>확인</BlueButtonText>
         </BlueButton> */}
       </WhiteContainer>
-      <Button onPress={() => props.navigation.goBack()}>
+      <Button onPress={onPress}>
         <BtnText>확인</BtnText>
       </Button>
       {!!userInfo.mana_qr && (
@@ -123,6 +181,38 @@ const MyInfoScreen = (props) => {
     </BaseScreen>
   );
 };
+const ReferenceInput = styled.TextInput({
+  fontSize: 12,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 17,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+  borderRadius: 19,
+  backgroundColor: colors.white,
+  paddingLeft: 15,
+  paddingRight: 15,
+  paddingTop: 5,
+  paddingBottom: 5,
+  marginTop: 15,
+});
+const ReferenceTitle = styled(BaseText)({
+  fontSize: 16,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 24,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: colors.greyishBrown,
+  marginLeft: 15,
+});
+const ReferenceContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+});
+const TitleIcon = styled.Image({ marginRight: 7.7 });
 const ModalCloseText = styled(BaseText)({
   fontSize: 16,
   lineHeight: 30,
@@ -189,18 +279,18 @@ export const Button = styled.TouchableOpacity({
   backgroundColor: colors.greyishBrown,
   aspectRatio: 100 / 28.346,
   alignSelf: "center",
-  marginTop: 65,
+  marginTop: 20,
 });
 
 export const MarginContainer = styled.View({
-  marginTop: 24,
+  marginTop: 20,
   marginBottom: 0,
 });
 const BaseTextStyle = styled(BaseText)({
-  fontSize: 20,
+  fontSize: 16,
   fontWeight: "500",
   fontStyle: "normal",
-  lineHeight: 29,
+  lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
@@ -224,6 +314,7 @@ const TextContainer = styled.View({
   marginRight: 50,
   width: "100%",
   alignSelf: "stretch",
+  alignItems: "center",
 });
 const BarcodeContainer = styled.View({
   borderStyle: "solid",

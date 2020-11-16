@@ -162,3 +162,25 @@ const clearAllData = () => {
   });
   // .then(() => alert('success'));
 };
+
+export const setReference = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/recommend`,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(query),
+      });
+      const resData = await Network.getResponse(response, dispatch, url, query);
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};
