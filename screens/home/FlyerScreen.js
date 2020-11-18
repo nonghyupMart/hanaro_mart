@@ -53,16 +53,16 @@ const FlyerScreen = (props) => {
           })
         ).then((data) => {
           // console.warn("pageforCarousel", pageforCarousel);
-          if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
-            dispatch(setIsLoading(true));
-            fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
-              () => {
-                dispatch(setIsLoading(false));
-              }
-            );
-          } else {
-            dispatch(setIsLoading(false));
-          }
+          // if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
+          //   dispatch(setIsLoading(true));
+          //   fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
+          //     () => {
+          //       dispatch(setIsLoading(false));
+          //     }
+          //   );
+          // } else {
+          //   dispatch(setIsLoading(false));
+          // }
         });
       }
     });
@@ -85,21 +85,14 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener("focus", () => {
-      dispatch({ type: SET_PRODUCT, product: null });
-      setPage(1);
-      if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-        dispatch(setIsLoading(true));
-        fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(
-          () => {
-            dispatch(setIsLoading(false));
-          }
-        );
-      }
-    });
-    return () => {
-      unsubscribe;
-    };
+    dispatch({ type: SET_PRODUCT, product: null });
+    setPage(1);
+    if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
+      dispatch(setIsLoading(true));
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
+        dispatch(setIsLoading(false));
+      });
+    }
   }, [pageforCarousel]);
 
   const loadMore = () => {

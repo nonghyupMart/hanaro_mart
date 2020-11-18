@@ -17,13 +17,13 @@ expo publish --release-channel prod
 안드로이드
 
 ```bash
-expo build:android --release-channel prod --no-publish --no-wait -t app-bundle
+expo build:android --release-channel prod --no-wait -t app-bundle
 ```
 
 iOS
 
 ```bash
-expo build:ios --release-channel prod --no-publish --no-wait -t archive
+expo build:ios --release-channel prod --no-wait -t archive
 ```
 
 # Expo 앱스토어 업로드
