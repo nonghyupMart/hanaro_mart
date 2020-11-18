@@ -24,10 +24,12 @@ import { SET_PRODUCT } from "@actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import NoList from "@UI/NoList";
+import { useIsFocused } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
 const FlyerScreen = (props) => {
+  const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
@@ -57,11 +59,16 @@ const FlyerScreen = (props) => {
         });
       }
     });
+    const blurSubscribe = props.navigation.addListener("blur", () => {
+      setPageForCarousel(null);
+    });
 
     return () => {
+      blurSubscribe;
       unsubscribe;
       setPage(1);
       dispatch({ type: SET_PRODUCT, product: null });
+      setPageForCarousel(null);
     };
   }, [userStore]);
 
@@ -76,8 +83,8 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-    if (isNaN(pageforCarousel)) return;
-
+    if (!isFocused) return;
+    if (pageforCarousel == null || pageforCarousel == undefined) return;
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
@@ -86,7 +93,7 @@ const FlyerScreen = (props) => {
         dispatch(setIsLoading(false));
       });
     }
-  }, [pageforCarousel]);
+  }, [pageforCarousel, isFocused]);
 
   const loadMore = () => {
     if (
