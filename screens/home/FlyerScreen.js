@@ -53,6 +53,7 @@ const FlyerScreen = (props) => {
           })
         ).then((data) => {
           dispatch(setIsLoading(false));
+          setPageForCarousel(0);
         });
       }
     });
