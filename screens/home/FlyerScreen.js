@@ -32,7 +32,7 @@ const FlyerScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
   const [currentItem, setCurrentItem] = useState(null);
-  const [pageforCarousel, setPageForCarousel] = useState(0);
+  const [pageforCarousel, setPageForCarousel] = useState();
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
   const [page, setPage] = useState(1);
@@ -52,17 +52,7 @@ const FlyerScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
           })
         ).then((data) => {
-          // console.warn("pageforCarousel", pageforCarousel);
-          // if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
-          //   dispatch(setIsLoading(true));
-          //   fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
-          //     () => {
-          //       dispatch(setIsLoading(false));
-          //     }
-          //   );
-          // } else {
-          //   dispatch(setIsLoading(false));
-          // }
+          dispatch(setIsLoading(false));
         });
       }
     });
@@ -85,6 +75,8 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
+    if (isNaN(pageforCarousel)) return;
+
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
@@ -139,7 +131,7 @@ const FlyerScreen = (props) => {
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <View style={{ paddingLeft: 16, paddingRight: 16, width: "100%" }}>
         <Carousel
-          key={carouselKey}
+          key={`${carouselKey}`}
           style={{
             height: width * 0.283,
             flex: 1,
@@ -195,7 +187,7 @@ const FlyerScreen = (props) => {
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
-          listKey="FlyerList"
+          listKey={`FlyerList-${Math.random().toString(36).substr(2, 9)}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={3}
