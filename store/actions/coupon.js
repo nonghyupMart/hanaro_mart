@@ -12,6 +12,7 @@ export const SET_MY_COUPON_MORE = "SET_MY_COUPON_MORE";
 export const SET_COUPON_DETAIL = "SET_COUPON_DETAIL";
 
 export const fetchCoupon = (query) => {
+  query.limit = 40;
   // store_cd , user_cd
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({

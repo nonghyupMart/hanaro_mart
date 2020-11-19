@@ -20,28 +20,33 @@ import { useFocusEffect } from "@react-navigation/native";
 import { IMAGE_URL } from "@constants/settings";
 import Carousel from "@UI/Carousel";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { SET_PRODUCT } from "@actions/flyer";
+import { SET_PRODUCT, SET_LEAFLET } from "@actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import NoList from "@UI/NoList";
+import { useIsFocused } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
 const FlyerScreen = (props) => {
+  const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
   const [currentItem, setCurrentItem] = useState(null);
-  const [pageforCarousel, setPageForCarousel] = useState(0);
+  const [pageforCarousel, setPageForCarousel] = useState();
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
   const [page, setPage] = useState(1);
   const [carouselKey, setCarouselKey] = useState();
 
+  const clearData = () => {
+    dispatch({ type: SET_PRODUCT, product: null });
+    setPage(1);
+  };
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
-      dispatch({ type: SET_PRODUCT, product: null });
-      setPage(1);
+      clearData();
       setCarouselKey(Math.random());
 
       if (userStore) {
@@ -52,25 +57,22 @@ const FlyerScreen = (props) => {
             store_cd: userStore.storeInfo.store_cd,
           })
         ).then((data) => {
-          // console.warn("pageforCarousel", pageforCarousel);
-          // if (!_.isEmpty(data) && data.leafletList[pageforCarousel]) {
-          //   dispatch(setIsLoading(true));
-          //   fetchProduct(data.leafletList[pageforCarousel].leaf_cd, 1).then(
-          //     () => {
-          //       dispatch(setIsLoading(false));
-          //     }
-          //   );
-          // } else {
-          //   dispatch(setIsLoading(false));
-          // }
+          dispatch(setIsLoading(false));
+          setPageForCarousel(0);
         });
       }
     });
+    const blurSubscribe = props.navigation.addListener("blur", () => {
+      setPageForCarousel(null);
+      dispatch({ type: SET_LEAFLET, leaflet: null });
+    });
 
     return () => {
+      blurSubscribe;
       unsubscribe;
-      setPage(1);
-      dispatch({ type: SET_PRODUCT, product: null });
+      clearData();
+      dispatch({ type: SET_LEAFLET, leaflet: null });
+      setPageForCarousel(null);
     };
   }, [userStore]);
 
@@ -85,15 +87,18 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-    dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
+
+    if (!isFocused) return;
+    if (pageforCarousel == null || pageforCarousel == undefined) return;
+    clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       dispatch(setIsLoading(true));
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
         dispatch(setIsLoading(false));
       });
     }
-  }, [pageforCarousel]);
+  }, [pageforCarousel, isFocused]);
+
 
   const loadMore = () => {
     if (
@@ -117,7 +122,7 @@ const FlyerScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
-  if (!leaflet) return <></>;
+  if (!leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
     return <NoList source={require("@images/files.png")} text={"행사전단"} />;
   return (
@@ -139,7 +144,7 @@ const FlyerScreen = (props) => {
       {/* <StoreListPopup isVisible={isVisible} /> */}
       <View style={{ paddingLeft: 16, paddingRight: 16, width: "100%" }}>
         <Carousel
-          key={carouselKey}
+          key={`${carouselKey}`}
           style={{
             height: width * 0.283,
             flex: 1,
@@ -195,7 +200,7 @@ const FlyerScreen = (props) => {
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
-          listKey="FlyerList"
+          listKey={`FlyerList-${Math.random().toString(36).substr(2, 9)}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={3}

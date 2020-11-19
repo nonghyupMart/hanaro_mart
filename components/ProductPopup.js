@@ -73,8 +73,6 @@ const ProductPopup = (props) => {
 
   return (
     <Modal
-      backdropTransitionInTiming={0}
-      backdropTransitionOutTiming={0}
       // animationOutTiming={0}
       // onBackdropPress={() => props.setIsVisible(false)}
       onRequestClose={() => props.setIsVisible(false)}
@@ -82,34 +80,33 @@ const ProductPopup = (props) => {
       useNativeDriver={true}
       hideModalContentWhileAnimating={true}
     >
-      {productDetail && (
-        <Container>
-          <CloseBtnContainer
-            onPress={props.setIsVisible.bind(this, !props.isVisible)}
-          >
-            <Image source={require("@images/cross0104.png")} />
-          </CloseBtnContainer>
-          <Body contentContainerStyle={{ alignItems: "center" }}>
-            <BaseImage
-              style={{
-                width: screenWidth * 0.566,
-                height: screenWidth * 0.566,
-                aspectRatio: 1 / 1,
-                marginTop: 18,
-              }}
-              source={props.item.title_img}
-              resizeMode="cover"
-            />
-            <BorderLine />
-            <Title>{props.item.title}</Title>
-            <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-            {props.item.sale_price > 0 && (
-              <PriceContainer style={{}}>
-                <PriceUnit>최종혜택가 </PriceUnit>
-                <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
-              </PriceContainer>
-            )}
-            {/* <QuantityContainer>
+      <Container>
+        <CloseBtnContainer
+          onPress={props.setIsVisible.bind(this, !props.isVisible)}
+        >
+          <Image source={require("@images/cross0104.png")} />
+        </CloseBtnContainer>
+        <Body contentContainerStyle={{ alignItems: "center" }}>
+          <BaseImage
+            style={{
+              width: screenWidth * 0.566,
+              height: screenWidth * 0.566,
+              aspectRatio: 1 / 1,
+              marginTop: 18,
+            }}
+            source={props.item.title_img || productDetail.title_img}
+            resizeMode="cover"
+          />
+          <BorderLine />
+          <Title>{props.item.title}</Title>
+          <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
+          {props.item.sale_price > 0 && (
+            <PriceContainer style={{}}>
+              <PriceUnit>최종혜택가 </PriceUnit>
+              <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
+            </PriceContainer>
+          )}
+          {/* <QuantityContainer>
               <QContainer>
                 <Image source={require("@images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
@@ -138,182 +135,177 @@ const ProductPopup = (props) => {
               <TotalUnit>합계 : </TotalUnit>
               <Total>{Util.formatNumber(totalPrice * item_amount)}원</Total>
             </TotalContainer> */}
-            <NoticeContainer>
-              <NoticeTitleContainer>
-                <NoticeIcon />
-                <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
-              </NoticeTitleContainer>
-              {productDetail.card_price != 0 && (
-                <NoticeRow>
-                  <Notice0 style={{ backgroundColor: colors.cerulean }}>
-                    카드할인
-                  </Notice0>
-                  <NoticeRight>
-                    <Notice2
-                      style={{ color: colors.cerulean, paddingLeft: 15 }}
-                    >
-                      {Util.formatNumber(productDetail.card_price)}원
-                    </Notice2>
-                    <Notice2
-                      style={{
-                        textAlign: "right",
-                        color: colors.cerulean,
-                        paddingRight: 4,
-                      }}
-                    >
-                      {`카드할인가 ${Util.formatNumber(
-                        productDetail.price - productDetail.card_price
-                      )}원`}
-                    </Notice2>
-                  </NoticeRight>
-                </NoticeRow>
-              )}
-              {!_.isEmpty(productDetail.card_info) && (
-                <NoticeRow>
-                  <Notice1 style={{ textAlign: "center" }}>
-                    {productDetail.card_info}
-                    {productDetail.card_limit
-                      ? " / " + productDetail.card_limit
-                      : ""}
-                  </Notice1>
-                </NoticeRow>
-              )}
-              {productDetail.coupon_price != 0 && (
-                <NoticeRow>
-                  <Notice0 style={{ backgroundColor: colors.appleGreen }}>
-                    쿠폰할인
-                  </Notice0>
-                  <NoticeRight>
-                    <Notice2
-                      style={{ color: colors.appleGreen, paddingLeft: 15 }}
-                    >
-                      {Util.formatNumber(productDetail.coupon_price)}원
-                    </Notice2>
-                    <Notice2
-                      style={{
-                        textAlign: "right",
-                        color: colors.appleGreen,
-                        paddingRight: 4,
-                      }}
-                    >
-                      {`쿠폰할인가 ${Util.formatNumber(
-                        productDetail.price - productDetail.coupon_price
-                      )}원`}
-                    </Notice2>
-                  </NoticeRight>
-                </NoticeRow>
-              )}
-              {!_.isEmpty(productDetail.bogo) && (
-                <NoticeRow>
-                  <Notice0 style={{ backgroundColor: colors.cherry }}>
-                    다다익선
-                  </Notice0>
-                  <NoticeRight>
-                    <Notice2
-                      style={{
-                        color: colors.cherry,
-                        paddingLeft: 15,
-                        flexGrow: 0.3,
-                        flexShrink: 0,
-                      }}
-                    >
-                      {productDetail.bogo}
-                    </Notice2>
-                    <Notice2
-                      style={{
-                        flexShrink: 0,
-                        textAlign: "right",
-                        color: colors.cherry,
-                        paddingRight: 4,
-                      }}
-                    >
-                      {productDetail.bogo_info}
-                    </Notice2>
-                  </NoticeRight>
-                </NoticeRow>
-              )}
-              {productDetail.members_price != 0 && (
-                <NoticeRow>
-                  <Notice0 style={{ backgroundColor: colors.waterBlue }}>
-                    NH멤버스
-                  </Notice0>
-                  <NoticeRight>
-                    <Notice2
-                      style={{
-                        flexGrow: 0.4,
-                        color: colors.waterBlue,
-                        paddingLeft: 15,
-                      }}
-                    >
-                      {Util.formatNumber(productDetail.members_price)}원
-                    </Notice2>
-                    <Notice2
-                      style={{
-                        flexShrink: 0,
-                        textAlign: "right",
-                        color: colors.waterBlue,
-                        paddingRight: 4,
-                      }}
-                    >
-                      {`NH멤버스가 ${Util.formatNumber(
-                        productDetail.price - productDetail.members_price
-                      )}원`}
-                    </Notice2>
-                  </NoticeRight>
-                </NoticeRow>
-              )}
-            </NoticeContainer>
-            <InfoContainer>
-              <InfoListContainer>
-                <InfoListRow>
-                  <InfoText>※</InfoText>
-                </InfoListRow>
-                <InfoListText>
-                  <InfoText>
-                    상품의 가격 및 내용은 공급자 사정에 따라 다소 변경될 수
-                    있으며 조기품절 될 수도 있습니다.
-                  </InfoText>
-                </InfoListText>
-              </InfoListContainer>
-              <InfoListContainer>
-                <InfoListRow>
-                  <InfoText>※</InfoText>
-                </InfoListRow>
-                <InfoListText>
-                  <InfoText>일부 상품사진은 이미지컷입니다.</InfoText>
-                </InfoListText>
-              </InfoListContainer>
-              <InfoListContainer>
-                <InfoListRow>
-                  <InfoText>※</InfoText>
-                </InfoListRow>
-                <InfoListText>
-                  <InfoText>
-                    카드/쿠폰할인,다다익선은 매장방문고객에 한합니다.
-                  </InfoText>
-                </InfoListText>
-              </InfoListContainer>
-            </InfoContainer>
+          <NoticeContainer>
+            <NoticeTitleContainer>
+              <NoticeIcon />
+              <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
+            </NoticeTitleContainer>
+            {props.item.card_price != 0 && (
+              <NoticeRow>
+                <Notice0 style={{ backgroundColor: colors.cerulean }}>
+                  카드할인
+                </Notice0>
+                <NoticeRight>
+                  <Notice2 style={{ color: colors.cerulean, paddingLeft: 15 }}>
+                    {Util.formatNumber(props.item.card_price)}원
+                  </Notice2>
+                  <Notice2
+                    style={{
+                      textAlign: "right",
+                      color: colors.cerulean,
+                      paddingRight: 4,
+                    }}
+                  >
+                    {`카드할인가 ${Util.formatNumber(
+                      props.item.price - props.item.card_price
+                    )}원`}
+                  </Notice2>
+                </NoticeRight>
+              </NoticeRow>
+            )}
+            {productDetail && !_.isEmpty(productDetail.card_info) && (
+              <NoticeRow>
+                <Notice1 style={{ textAlign: "center" }}>
+                  {productDetail.card_info}
+                  {productDetail.card_limit
+                    ? " / " + productDetail.card_limit
+                    : ""}
+                </Notice1>
+              </NoticeRow>
+            )}
+            {props.item.coupon_price != 0 && (
+              <NoticeRow>
+                <Notice0 style={{ backgroundColor: colors.appleGreen }}>
+                  쿠폰할인
+                </Notice0>
+                <NoticeRight>
+                  <Notice2
+                    style={{ color: colors.appleGreen, paddingLeft: 15 }}
+                  >
+                    {Util.formatNumber(props.item.coupon_price)}원
+                  </Notice2>
+                  <Notice2
+                    style={{
+                      textAlign: "right",
+                      color: colors.appleGreen,
+                      paddingRight: 4,
+                    }}
+                  >
+                    {`쿠폰할인가 ${Util.formatNumber(
+                      props.item.price - props.item.coupon_price
+                    )}원`}
+                  </Notice2>
+                </NoticeRight>
+              </NoticeRow>
+            )}
+            {!_.isEmpty(props.item.bogo) && (
+              <NoticeRow>
+                <Notice0 style={{ backgroundColor: colors.cherry }}>
+                  다다익선
+                </Notice0>
+                <NoticeRight>
+                  <Notice2
+                    style={{
+                      color: colors.cherry,
+                      paddingLeft: 15,
+                      flexGrow: 0.3,
+                      flexShrink: 0,
+                    }}
+                  >
+                    {props.item.bogo}
+                  </Notice2>
+                  <Notice2
+                    style={{
+                      flexShrink: 0,
+                      textAlign: "right",
+                      color: colors.cherry,
+                      paddingRight: 4,
+                    }}
+                  >
+                    {productDetail.bogo_info}
+                  </Notice2>
+                </NoticeRight>
+              </NoticeRow>
+            )}
+            {props.item.members_price != 0 && (
+              <NoticeRow>
+                <Notice0 style={{ backgroundColor: colors.waterBlue }}>
+                  NH멤버스
+                </Notice0>
+                <NoticeRight>
+                  <Notice2
+                    style={{
+                      flexGrow: 0.4,
+                      color: colors.waterBlue,
+                      paddingLeft: 15,
+                    }}
+                  >
+                    {Util.formatNumber(props.item.members_price)}원
+                  </Notice2>
+                  <Notice2
+                    style={{
+                      flexShrink: 0,
+                      textAlign: "right",
+                      color: colors.waterBlue,
+                      paddingRight: 4,
+                    }}
+                  >
+                    {`NH멤버스가 ${Util.formatNumber(
+                      props.item.price - props.item.members_price
+                    )}원`}
+                  </Notice2>
+                </NoticeRight>
+              </NoticeRow>
+            )}
+          </NoticeContainer>
+          <InfoContainer>
+            <InfoListContainer>
+              <InfoListRow>
+                <InfoText>※</InfoText>
+              </InfoListRow>
+              <InfoListText>
+                <InfoText>
+                  상품의 가격 및 내용은 공급자 사정에 따라 다소 변경될 수 있으며
+                  조기품절 될 수도 있습니다.
+                </InfoText>
+              </InfoListText>
+            </InfoListContainer>
+            <InfoListContainer>
+              <InfoListRow>
+                <InfoText>※</InfoText>
+              </InfoListRow>
+              <InfoListText>
+                <InfoText>일부 상품사진은 이미지컷입니다.</InfoText>
+              </InfoListText>
+            </InfoListContainer>
+            <InfoListContainer>
+              <InfoListRow>
+                <InfoText>※</InfoText>
+              </InfoListRow>
+              <InfoListText>
+                <InfoText>
+                  카드/쿠폰할인,다다익선은 매장방문고객에 한합니다.
+                </InfoText>
+              </InfoListText>
+            </InfoListContainer>
+          </InfoContainer>
 
-            <BtnContainer style={{}}>
-              {/* <BlueBtn onPress={onAddCart}>
+          <BtnContainer style={{}}>
+            {/* <BlueBtn onPress={onAddCart}>
                 <Image
                   source={require("@images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
               </BlueBtn> */}
-              <GrayBtn
-                onPress={props.setIsVisible.bind(this, !props.isVisible)}
-              >
-                {/* <Image
+            <GrayBtn onPress={props.setIsVisible.bind(this, !props.isVisible)}>
+              {/* <Image
                   source={require("@images/whiteback.png")}
                 /> */}
-                <BtnText>닫기</BtnText>
-              </GrayBtn>
-            </BtnContainer>
-          </Body>
-        </Container>
-      )}
+              <BtnText>닫기</BtnText>
+            </GrayBtn>
+          </BtnContainer>
+        </Body>
+      </Container>
     </Modal>
   );
 };

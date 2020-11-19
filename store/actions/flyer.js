@@ -51,6 +51,7 @@ export const fetchLeafletDetail = (query) => {
 };
 
 export const fetchProduct = (query) => {
+  query.limit = 45;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/product`,
     query: query,
@@ -69,6 +70,7 @@ export const fetchProduct = (query) => {
         else type = SET_PRODUCT;
       }
       dispatch({ type, product: resData.data });
+      return resData.data;
     } catch (err) {
       throw err;
     }
