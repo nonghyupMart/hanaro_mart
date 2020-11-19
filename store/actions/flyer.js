@@ -69,7 +69,6 @@ export const fetchProduct = (query) => {
         else type = SET_PRODUCT;
       }
       dispatch({ type, product: resData.data });
-      console.log(url, query);
       return resData.data;
     } catch (err) {
       throw err;
