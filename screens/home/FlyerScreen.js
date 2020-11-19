@@ -20,7 +20,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { IMAGE_URL } from "@constants/settings";
 import Carousel from "@UI/Carousel";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { SET_PRODUCT, SET_LEAFLET, SET_LEAFLET_DETAIL } from "@actions/flyer";
+import { SET_PRODUCT, SET_LEAFLET } from "@actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import NoList from "@UI/NoList";
@@ -65,7 +65,6 @@ const FlyerScreen = (props) => {
     const blurSubscribe = props.navigation.addListener("blur", () => {
       setPageForCarousel(null);
       dispatch({ type: SET_LEAFLET, leaflet: null });
-      dispatch({ type: SET_LEAFLET_DETAIL, leafletDetail: null });
     });
 
     return () => {
@@ -73,7 +72,6 @@ const FlyerScreen = (props) => {
       unsubscribe;
       clearData();
       dispatch({ type: SET_LEAFLET, leaflet: null });
-      dispatch({ type: SET_LEAFLET_DETAIL, leafletDetail: null });
       setPageForCarousel(null);
     };
   }, [userStore]);
