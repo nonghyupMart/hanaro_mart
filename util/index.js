@@ -92,7 +92,7 @@ export const sendShareLink = async (reference) => {
   try {
     let message =
       "모든 것을 하나로마트 - https://www.hanaromartapp.com/web/about/appStore.do";
-    if (reference) message + "\n\n추천인코드 : " + reference;
+    if (reference) message += "\n\n추천인코드 : " + reference;
     const result = await Share.share({
       message: message,
     });
