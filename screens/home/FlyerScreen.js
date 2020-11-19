@@ -20,7 +20,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { IMAGE_URL } from "@constants/settings";
 import Carousel from "@UI/Carousel";
 import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { SET_PRODUCT } from "@actions/flyer";
+import { SET_PRODUCT, SET_LEAFLET, SET_LEAFLET_DETAIL } from "@actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import NoList from "@UI/NoList";
@@ -40,10 +40,13 @@ const FlyerScreen = (props) => {
   const [page, setPage] = useState(1);
   const [carouselKey, setCarouselKey] = useState();
 
+  const clearData = () => {
+    dispatch({ type: SET_PRODUCT, product: null });
+    setPage(1);
+  };
   useEffect(() => {
     const unsubscribe = props.navigation.addListener("focus", () => {
-      dispatch({ type: SET_PRODUCT, product: null });
-      setPage(1);
+      clearData();
       setCarouselKey(Math.random());
 
       if (userStore) {
@@ -61,13 +64,16 @@ const FlyerScreen = (props) => {
     });
     const blurSubscribe = props.navigation.addListener("blur", () => {
       setPageForCarousel(null);
+      dispatch({ type: SET_LEAFLET, leaflet: null });
+      dispatch({ type: SET_LEAFLET_DETAIL, leafletDetail: null });
     });
 
     return () => {
       blurSubscribe;
       unsubscribe;
-      setPage(1);
-      dispatch({ type: SET_PRODUCT, product: null });
+      clearData();
+      dispatch({ type: SET_LEAFLET, leaflet: null });
+      dispatch({ type: SET_LEAFLET_DETAIL, leafletDetail: null });
       setPageForCarousel(null);
     };
   }, [userStore]);
@@ -85,8 +91,7 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
-    dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
+    clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       dispatch(setIsLoading(true));
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
@@ -117,7 +122,7 @@ const FlyerScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     setCurrentItem(() => item);
   };
-  if (!leaflet) return <></>;
+  if (!leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
     return <NoList source={require("@images/files.png")} text={"행사전단"} />;
   return (
