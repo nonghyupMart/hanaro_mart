@@ -62,7 +62,8 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPress = () => {
-    if (!recommend || recommend.length <= 0) return props.navigation.goBack();
+    if (userInfo.recommend_apply == "Y" || !recommend || recommend.length <= 0)
+      return props.navigation.goBack();
     dispatch(setReference({ user_cd: userInfo.user_cd, recommend })).then(
       (data) => {
         if (data.result == "success") {
