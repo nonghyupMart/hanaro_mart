@@ -19,6 +19,7 @@ const CouponItem = (props) => {
           aspectRatio: 1 / 1,
           alignSelf: "center",
         }}
+        resizeMode="contain"
         defaultSource={require("@images/n_img501.png")}
       />
       <Title>{props.item.title}</Title>

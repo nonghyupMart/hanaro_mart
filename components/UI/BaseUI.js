@@ -100,6 +100,7 @@ const ExtendedImage = (props) => {
   return (
     <ImageBackground
       {...props}
+      onLoad={onLoad}
       onError={onError}
       source={source}
       resizeMode={props.resizeMode ? props.resizeMode : "cover"}
