@@ -9,6 +9,7 @@ import {
   FlatList,
   Platform,
   Image,
+  AppState,
 } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import {
@@ -47,6 +48,7 @@ const StoreChangeScreen = (props) => {
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {
+      if (AppState.currentState != "active") return;
       let { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
@@ -64,7 +66,6 @@ const StoreChangeScreen = (props) => {
       }
     })();
   }, []);
-
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
