@@ -37,8 +37,8 @@ const StoreChangeScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.common.isLoading);
 
-  const [lname, setLname] = useState();
-  const [mname, setMname] = useState();
+  const [lname, setLname] = useState(null);
+  const [mname, setMname] = useState(null);
   const [store_nm, setStore_nm] = useState("");
 
   const address1 = useSelector((state) => state.branches.address1);
