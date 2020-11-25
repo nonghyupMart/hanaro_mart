@@ -13,7 +13,10 @@ import {
 import Splash from "@UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
-import { StatusBar } from "expo-status-bar";
+import {
+  StatusBar,
+  setStatusBarStyle,
+} from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -92,6 +95,12 @@ export default function App() {
     usePreventScreenCapture();
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      setStatusBarStyle("dark-content");
+    }, 500);
+  }, []);
+
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -104,7 +113,8 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <StatusBar barStyle="light" backgroundColor="white" />
+      <StatusBar backgroundColor="white" translucent={false} hidden={false} />
+
       <AppNavigator />
     </Provider>
   );
