@@ -103,8 +103,8 @@ export const setUserStore = (query, userStore) => {
     });
     const resData = await Network.getResponse(response, dispatch, url, query);
 
-    dispatch(saveUserStore(userStore));
-    saveUserStoreToStorage(userStore);
+    await dispatch(saveUserStore(userStore));
+    await saveUserStoreToStorage(userStore);
 
     return resData.data;
   };

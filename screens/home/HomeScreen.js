@@ -80,17 +80,19 @@ const HomeScreen = (props) => {
       await dispatch(CommonActions.setNotification(jsonData));
       await Util.removeStorageItem("notificationData");
     })();
-    if (typeof didTryPopup == "string") {
-      setTimeout(() => {
-        navigation.navigate(didTryPopup);
-      }, 0);
-      dispatch(CommonActions.setDidTryPopup(true));
-    }
 
     return () => {
       dispatch(setIsLoading(false));
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof didTryPopup != "string") return;
+    setTimeout(() => {
+      navigation.navigate(didTryPopup);
+    }, 0);
+    dispatch(CommonActions.setDidTryPopup(true));
+  }, [didTryPopup]);
 
   const navigateToCart = () => {
     if (_.isEmpty(userStore)) return navigation.navigate("Empty");

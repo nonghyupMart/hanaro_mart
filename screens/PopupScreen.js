@@ -58,7 +58,11 @@ const PopupScreen = (props) => {
   }, [isPreview]);
   useEffect(() => {
     (async () => {
-      if (!_.isEmpty(userStore)) {
+      if (
+        !_.isEmpty(userStore) &&
+        userStore.storeInfo &&
+        userStore.storeInfo.store_cd
+      ) {
         dispatch(CommonActions.setIsLoading(true));
         dispatch(
           homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
@@ -103,6 +107,8 @@ const PopupScreen = (props) => {
           },
           Platform.OS == "ios" ? 500 : 0
         );
+      } else {
+        dispatch(CommonActions.setDidTryPopup(true));
       }
     })();
     return () => {};

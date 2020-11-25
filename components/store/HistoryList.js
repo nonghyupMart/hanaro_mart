@@ -13,13 +13,13 @@ import StoreItem from "@components/store/StoreItem";
 import * as branchesActions from "@actions/branches";
 import { SET_STORE_MARK } from "@actions/branches";
 import _ from "lodash";
-import {setIsLoading} from "@actions/common";
+import { setIsLoading } from "@actions/common";
 
 const HistoryList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const storeMark = useSelector((state) => state.branches.storeMark);
   const dispatch = useDispatch();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   // useEffect(() => {
   //   fetchMarkedStores();
   // }, [isVisible]);

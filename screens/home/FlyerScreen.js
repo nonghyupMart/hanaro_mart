@@ -25,6 +25,7 @@ import _ from "lodash";
 import { setIsLoading } from "@actions/common";
 import NoList from "@UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
+import * as Util from "@util";
 
 const { width } = Dimensions.get("window");
 
@@ -44,37 +45,39 @@ const FlyerScreen = (props) => {
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
   };
+  const init = async () => {
+    clearData();
+    setCarouselKey(Math.random());
+
+    if (userStore) {
+      console.log(userStore.storeInfo.store_nm);
+      dispatch(setIsLoading(true));
+
+      dispatch(
+        flyerActions.fetchLeaflet({
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      ).then((data) => {
+        dispatch(setIsLoading(false));
+        setPageForCarousel(0);
+      });
+    }
+  };
+
   useEffect(() => {
-    const unsubscribe = props.navigation.addListener("focus", () => {
-      clearData();
-      setCarouselKey(Math.random());
-
-      if (userStore) {
-        dispatch(setIsLoading(true));
-
-        dispatch(
-          flyerActions.fetchLeaflet({
-            store_cd: userStore.storeInfo.store_cd,
-          })
-        ).then((data) => {
-          dispatch(setIsLoading(false));
-          setPageForCarousel(0);
-        });
-      }
-    });
-    const blurSubscribe = props.navigation.addListener("blur", () => {
+    if (isFocused) {
+      init();
+    } else {
       setPageForCarousel(null);
       dispatch({ type: SET_LEAFLET, leaflet: null });
-    });
+    }
 
     return () => {
-      blurSubscribe;
-      unsubscribe;
       clearData();
       dispatch({ type: SET_LEAFLET, leaflet: null });
       setPageForCarousel(null);
     };
-  }, [userStore]);
+  }, [isFocused]);
 
   const fetchProduct = (leaf_cd, p = page) => {
     return dispatch(
@@ -87,7 +90,6 @@ const FlyerScreen = (props) => {
   };
 
   useEffect(() => {
-
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
     clearData();
@@ -98,7 +100,6 @@ const FlyerScreen = (props) => {
       });
     }
   }, [pageforCarousel, isFocused]);
-
 
   const loadMore = () => {
     if (

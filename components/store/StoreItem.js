@@ -12,15 +12,38 @@ import { BaseText, BaseTouchable } from "@UI/BaseUI";
 import * as RootNavigation from "@navigation/RootNavigation";
 import * as branchesActions from "@actions/branches";
 import { setIsLoading } from "@actions/common";
+import { findLastKey } from "lodash";
+import * as CommonActions from "@actions/common";
+import { setUserStore } from "@actions/auth";
 
 const StoreItem = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isMark = props.isMark;
+
   const onPress = () => {
     dispatch(setIsLoading(true));
-    RootNavigation.navigate("StoreChangeDetail", { item: props.item });
+    if (!isMark) {
+      return RootNavigation.navigate("StoreChangeDetail", { item: props.item });
+    }
+    dispatch(branchesActions.fetchBranch(props.item.store_cd)).then((data) => {
+      dispatch(
+        setUserStore(
+          { user_cd: userInfo.user_cd, store_cd: props.item.store_cd },
+          data
+        )
+      ).then((data) => {
+        if (data.result == "success") {
+          (async () => {
+            await dispatch(setIsLoading(false));
+            await dispatch(CommonActions.setDidTryPopup("Flyer"));
+          })();
+
+          // Updates.reloadAsync();
+        }
+      });
+    });
   };
   const onDelete = () => {
     dispatch(

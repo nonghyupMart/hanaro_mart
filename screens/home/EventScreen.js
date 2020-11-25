@@ -72,12 +72,7 @@ const EventScreen = (props) => {
       />
     );
   if (routeName == "Event" && _.size(event.eventList) === 0)
-    return (
-      <NoList
-        source={require("@images/megaphone.png")}
-        text={"이벤트"}
-      />
-    );
+    return <NoList source={require("@images/megaphone.png")} text={"이벤트"} />;
   return (
     <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
       {event && (

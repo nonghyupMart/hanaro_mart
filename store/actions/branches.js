@@ -52,6 +52,7 @@ export const fetchBranches = (query) => {
       const resData = await Network.getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_BRANCHES, branches: resData.data });
+      return resData.data;
     } catch (err) {
       throw err;
     }
