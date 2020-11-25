@@ -50,7 +50,6 @@ const FlyerScreen = (props) => {
     setCarouselKey(Math.random());
 
     if (userStore) {
-      console.log(userStore.storeInfo.store_nm);
       dispatch(setIsLoading(true));
 
       dispatch(
@@ -201,16 +200,15 @@ const FlyerScreen = (props) => {
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
-          listKey={`FlyerList-${Math.random().toString(36).substr(2, 9)}`}
+          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={3}
           style={styles.flyerListStyle}
           data={product.productList}
-          keyExtractor={(item, index) =>
-            "_" + Math.random().toString(36).substr(2, 9)
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
-          // keyExtractor={(item) => item.product_cd + ""}
           renderItem={(itemData) => (
             <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
@@ -247,8 +245,9 @@ export const styles = StyleSheet.create({
     paddingRight: 0,
   },
   flyerListStyle: {
-    flexGrow: 1,
-    flex: 1,
+    // flexGrow: 1,
+    // flex: 1,
+    // height: screenHeight,
     width: "97%",
     marginTop: 10,
     alignSelf: "center",

@@ -20,67 +20,72 @@ import _ from "lodash";
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={{ flex: 0.333 }}>
+    <TouchableOpacity
+      onPress={props.onPress}
+      style={{
+        flex: 0.333,
+        width: "100%",
+        maxWidth: "33.3333%",
+      }}
+    >
       {!_.isEmpty(props.item.bogo) && (
         <BogoIcon>
           <BogoText>{props.item.bogo}</BogoText>
         </BogoIcon>
       )}
       <Container>
-        <View style={{ width: width * 0.285 }}>
-          <BaseImage
-            style={{
-              width: width * 0.285,
-              // height: width * 0.227,
-              aspectRatio: 100 / 103.797,
-            }}
-            source={props.item.title_img}
-            defaultSource={require("@images/p_img503.png")}
-          />
-          {props.item.card_price != 0 && (
-            <BadgeContainer>
-              <Badge1>카드할인</Badge1>
-              {!_.isEmpty(props.item.card_sdate) && (
-                <Badge2>
-                  {moment(props.item.card_sdate).format("MM.DD")}~
-                  {moment(props.item.card_edate).format("MM.DD")}
-                </Badge2>
-              )}
-            </BadgeContainer>
-          )}
-          {props.item.coupon_price != 0 && (
-            <BadgeContainer>
-              <Badge1 style={{ backgroundColor: colors.appleGreen }}>
-                쿠폰할인
-              </Badge1>
-              {!_.isEmpty(props.item.coupon_sdate) && (
-                <Badge2>
-                  {moment(props.item.coupon_sdate).format("MM.DD")}~
-                  {moment(props.item.coupon_edate).format("MM.DD")}
-                </Badge2>
-              )}
-            </BadgeContainer>
-          )}
-          {props.item.members_price != 0 && (
-            <BadgeContainer>
-              <Badge1 style={{ backgroundColor: colors.waterBlue }}>
-                NH멤버스
-              </Badge1>
-              {!_.isEmpty(props.item.members_sdate) && (
-                <Badge2>
-                  {moment(props.item.members_sdate).format("MM.DD")}~
-                  {moment(props.item.members_edate).format("MM.DD")}
-                </Badge2>
-              )}
-            </BadgeContainer>
-          )}
+        <BaseImage
+          style={{
+            width: width * 0.285,
+            // height: width * 0.227,
+            aspectRatio: 100 / 103.797,
+          }}
+          source={props.item.title_img}
+          defaultSource={require("@images/p_img503.png")}
+        />
+        {props.item.card_price != 0 && (
+          <BadgeContainer>
+            <Badge1>카드할인</Badge1>
+            {!_.isEmpty(props.item.card_sdate) && (
+              <Badge2>
+                {moment(props.item.card_sdate).format("MM.DD")}~
+                {moment(props.item.card_edate).format("MM.DD")}
+              </Badge2>
+            )}
+          </BadgeContainer>
+        )}
+        {props.item.coupon_price != 0 && (
+          <BadgeContainer>
+            <Badge1 style={{ backgroundColor: colors.appleGreen }}>
+              쿠폰할인
+            </Badge1>
+            {!_.isEmpty(props.item.coupon_sdate) && (
+              <Badge2>
+                {moment(props.item.coupon_sdate).format("MM.DD")}~
+                {moment(props.item.coupon_edate).format("MM.DD")}
+              </Badge2>
+            )}
+          </BadgeContainer>
+        )}
+        {props.item.members_price != 0 && (
+          <BadgeContainer>
+            <Badge1 style={{ backgroundColor: colors.waterBlue }}>
+              NH멤버스
+            </Badge1>
+            {!_.isEmpty(props.item.members_sdate) && (
+              <Badge2>
+                {moment(props.item.members_sdate).format("MM.DD")}~
+                {moment(props.item.members_edate).format("MM.DD")}
+              </Badge2>
+            )}
+          </BadgeContainer>
+        )}
 
-          <Title>{props.item.title}</Title>
-          <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
-          {props.item.sale_price > 0 && (
-            <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
-          )}
-        </View>
+        <Title>{props.item.title}</Title>
+        <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
+        {props.item.sale_price > 0 && (
+          <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+        )}
       </Container>
     </TouchableOpacity>
   );
@@ -114,6 +119,7 @@ BogoIcon.defaultProps = {
 const BadgeContainer = styled.View({
   flexDirection: "row",
   marginBottom: 1,
+  width: "100%",
 });
 const Badge1 = styled(BaseText)({
   fontSize: 9,
@@ -140,9 +146,13 @@ const Badge2 = styled(BaseText)({
 });
 const Container = styled.View({
   // backgroundColor: colors.black,
-  flexBasis: 0,
-  flex: 1,
-  padding: 10,
+  // flexBasis: 0,
+
+  // flex: 1,
+  // padding: 10,
+  paddingTop: 10,
+  paddingBottom: 10,
+  width: width * 0.285,
 
   // backgroundColor: "white",
 
@@ -157,6 +167,7 @@ const SalePrice = styled(BaseText)({
 
   letterSpacing: 0,
   textAlign: "left",
+  width: "100%",
   color: colors.cerulean,
 });
 const OriginalPrice = styled(BaseText)({
@@ -166,6 +177,7 @@ const OriginalPrice = styled(BaseText)({
 
   letterSpacing: 0,
   textAlign: "left",
+  width: "100%",
   color: colors.black,
 });
 const Title = styled(BaseText)({
@@ -177,8 +189,9 @@ const Title = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
-  flex: 1,
+
   width: "100%",
+  height: 14,
 });
 Title.defaultProps = {
   numberOfLines: 1,

@@ -33,7 +33,6 @@ const SearchProductScreen = (props) => {
   const [page, setPage] = useState(1);
   const [currentItem, setCurrentItem] = useState(null);
 
-
   const product = useSelector((state) => state.flyer.searchedProduct);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
@@ -140,7 +139,9 @@ const SearchProductScreen = (props) => {
           onEndReached={loadMore}
           numColumns={3}
           data={product.productList}
-          keyExtractor={(item, index) => Math.random()}
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.product_cd}`
+          }
           renderItem={(itemData) => (
             <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
