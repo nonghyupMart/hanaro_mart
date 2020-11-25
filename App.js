@@ -9,6 +9,7 @@ import {
   Alert,
   Dimensions,
   LogBox,
+  Platform,
 } from "react-native";
 import Splash from "@UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
@@ -93,9 +94,14 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (Platform.OS == "android") return;
+    setStatusBarStyle("dark-content");
     setTimeout(() => {
       setStatusBarStyle("dark-content");
-    }, 500);
+    }, 1000);
+    return () => {
+      setStatusBarStyle("dark-content");
+    };
   }, []);
 
   if (!fontLoaded) {
@@ -110,7 +116,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor="white" />
+      <StatusBar style="dark" backgroundColor="white" />
       <AppNavigator />
     </Provider>
   );
