@@ -13,10 +13,7 @@ import {
 import Splash from "@UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
 import { AppLoading } from "expo";
-import {
-  StatusBar,
-  setStatusBarStyle,
-} from "expo-status-bar";
+import { StatusBar, setStatusBarStyle } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
@@ -113,8 +110,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <StatusBar backgroundColor="white" translucent={false} hidden={false} />
-
+      <StatusBar backgroundColor="white" />
       <AppNavigator />
     </Provider>
   );
