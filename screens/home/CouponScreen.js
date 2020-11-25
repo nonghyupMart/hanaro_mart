@@ -183,7 +183,9 @@ const CouponScreen = (props) => {
             listKey={0}
             numColumns={1}
             data={couponA.couponList}
-            keyExtractor={(item) => `A-${Math.random()}-${item.cou_cd}`}
+            keyExtractor={(item) =>
+              `A-${userStore.storeInfo.store_cd}-${item.cou_cd}`
+            }
             // columnWrapperStyle={{
             //   alignItems: "space-between",
             //   justifyContent: "space-between",
@@ -206,7 +208,9 @@ const CouponScreen = (props) => {
             listKey={1}
             numColumns={2}
             data={coupon.couponList}
-            keyExtractor={(item) => `${Math.random()}-${item.cou_cd}`}
+            keyExtractor={(item) =>
+              `${userStore.storeInfo.store_cd}-${item.cou_cd}`
+            }
             onEndReached={loadMore}
             columnWrapperStyle={{
               alignItems: "space-between",

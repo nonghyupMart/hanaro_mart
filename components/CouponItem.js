@@ -22,7 +22,7 @@ const CouponItem = (props) => {
         resizeMode="contain"
         defaultSource={require("@images/n_img501.png")}
       />
-      <Title>{props.item.title}</Title>
+      <Title numberOfLines={2}>{props.item.title}</Title>
       <Date>
         {props.item.start_date} ~ {props.item.end_date}
       </Date>
@@ -88,6 +88,7 @@ const Title = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.greyishBrown,
+  minHeight: 40,
 });
 const Discount = styled(BaseText)({
   fontSize: 18,

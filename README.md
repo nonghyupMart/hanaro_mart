@@ -1,5 +1,11 @@
 # Expo 배포
 
+Expo 운영서버 확인용
+
+```bash
+expo publish --release-channel stage
+```
+
 개발서버
 
 ```bash

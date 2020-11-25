@@ -10,7 +10,9 @@ const CouponItemA = (props) => {
       <CouponImgA source={props.item.title_img} />
       <TextContainer>
         <TitleContainer>
-          <Title>{props.item.title}</Title>
+          <Title numberOfLines={1}>
+            {props.item.title}
+          </Title>
           <Title>
             [{Util.formatNumber(props.item.price)}
             {props.item.price_gbn == "A" ? "원 " : "% "}
@@ -65,10 +67,12 @@ const IconText = styled(BaseText)({
 const IconContainer2 = styled.View({
   justifyContent: "center",
   alignItems: "center",
+  flexShrink: 0,
 });
 const IconContainer = styled.TouchableOpacity({
   justifyContent: "center",
   alignItems: "center",
+  flexShrink: 0,
 });
 const Title = styled(BaseText)({
   fontSize: 13,
@@ -79,7 +83,7 @@ const Title = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
-const TitleContainer = styled.View({});
+const TitleContainer = styled.View({ flex: 1 });
 const TextContainer = styled.View({
   flexDirection: "row",
   flex: 1,
