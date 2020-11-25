@@ -115,7 +115,11 @@ const StoreChangeScreen = (props) => {
       {!_.isEmpty(userStore) &&
         !_.isEmpty(storeMark) &&
         _.size(storeMark.storeList) > 0 && (
-          <HistoryList location={location} {...props} />
+          <HistoryList
+            location={location}
+            {...props}
+            fetchBranches={fetchBranches}
+          />
         )}
       <WhiteContainer>
         <SearchBar

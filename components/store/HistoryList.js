@@ -69,6 +69,7 @@ const HistoryList = (props) => {
               item={itemData.item}
               isMark={true}
               fetchMarkedStores={fetchMarkedStores}
+              fetchBranches={props.fetchBranches}
             />
           )}
         />

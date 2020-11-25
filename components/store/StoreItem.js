@@ -52,7 +52,10 @@ const StoreItem = (props) => {
         store_cd: props.item.store_cd,
       })
     ).then((data) => {
-      if (data.result == "success") props.fetchMarkedStores(true);
+      if (data.result == "success") {
+        props.fetchMarkedStores(true);
+        props.fetchBranches();
+      }
     });
   };
 
