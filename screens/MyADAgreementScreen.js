@@ -72,6 +72,9 @@ const MyADAgreementScreen = (props) => {
           message: "수정되었습니다.",
           onPressConfirm: () => {
             dispatch(setAlert(null));
+            setSms(userInfo.sms_agree == "Y" ? true : false);
+            setPush(userInfo.push_agree == "Y" ? true : false);
+            setMarketing_date(userInfo.marketing_date);
           },
         })
       );
