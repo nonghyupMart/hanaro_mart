@@ -128,6 +128,9 @@ const MyInfoScreen = (props) => {
               onChangeText={(t) => setRecommend(t)}
               value={recommend}
             />
+            <Button onPress={onPress}>
+              <BtnText>확인</BtnText>
+            </Button>
           </BarcodeContainer>
         )}
         <BarcodeContainer style={{ marginTop: 5 }}>
@@ -155,9 +158,7 @@ const MyInfoScreen = (props) => {
           <BlueButtonText>확인</BlueButtonText>
         </BlueButton> */}
       </WhiteContainer>
-      <Button onPress={onPress}>
-        <BtnText>확인</BtnText>
-      </Button>
+
       {!!userInfo.mana_qr && (
         <Modal
           backdropTransitionInTiming={0}
@@ -277,10 +278,11 @@ export const BtnText = styled(BaseText)({
 });
 export const Button = styled.TouchableOpacity({
   borderRadius: 18,
-  backgroundColor: colors.greyishBrown,
-  aspectRatio: 100 / 28.346,
+  backgroundColor: colors.cerulean,
+  // aspectRatio: 100 / 28.346,
   alignSelf: "center",
   marginTop: 20,
+  width: "100%",
 });
 
 export const MarginContainer = styled.View({
