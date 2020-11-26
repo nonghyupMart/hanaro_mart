@@ -451,9 +451,9 @@ const UseButton = (props) => {
         style={{
           alignItems: "center",
           color: colors.appleGreen,
-          fontSize: 12,
+          fontSize: 15,
           justifyContent: "center",
-
+          fontFamily: "CustomFont-Bold",
           textAlignVertical: "center",
           textAlign: "center",
         }}
