@@ -28,7 +28,7 @@ const AgreementContent3 = (props) => {
         선택항목 거부 시에는 상기 이용목적에 명시된 서비스는 받으실 수 없습니다.
       </AgreementStyle.WarnText>
       <AgreementStyle.SmallTextTitle>
-        개인정보의 선택적 제공 동의
+        개인정보의 선택적 제3자 제공 동의
       </AgreementStyle.SmallTextTitle>
       <AgreementStyle.SmallTextBold>제공받는자</AgreementStyle.SmallTextBold>
       <AgreementStyle.SmallText style={styles.justUnderline}>

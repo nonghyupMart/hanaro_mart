@@ -85,7 +85,7 @@ const AgreementScreen = (props) => {
       isChecked: false,
       isOpen: false,
       isRequired: true,
-      title: "개인정보의 필수적 수집,이용,제공,동의",
+      title: "개인정보의 필수적 수집・이용・제3자 제공 동의",
       child: [
         { id: 0, isChecked: false },
         { id: 1, isChecked: false },
@@ -104,7 +104,7 @@ const AgreementScreen = (props) => {
               checked={checkBoxes[1].child[1].isChecked}
               onPress={() => setChecked(checkBoxes[1], checkBoxes[1].child[1])}
             />
-            <DescText1>개인정보의 필수적 제공동의</DescText1>
+            <DescText1>개인정보의 필수적 제3자 제공동의</DescText1>
           </DescTextLine>
         </Desc>
       ),
@@ -142,7 +142,7 @@ const AgreementScreen = (props) => {
               checked={checkBoxes[3].child[1].isChecked}
               onPress={() => setChecked(checkBoxes[3], checkBoxes[3].child[1])}
             />
-            <DescText1>개인정보의 선택적 제공동의</DescText1>
+            <DescText1>개인정보의 선택적 제3자 제공동의</DescText1>
           </DescTextLine>
           <GrayDesc>
             이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
