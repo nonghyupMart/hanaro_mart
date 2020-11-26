@@ -466,7 +466,7 @@ const BlueBtn = styled(BaseSquareButtonContainer)({
   marginRight: 2.5,
 });
 const GrayBtn = styled(BlueBtn)({
-  backgroundColor: colors.greyishBrown,
+  backgroundColor: colors.greyishThree,
   width: "100%",
   marginLeft: 0,
   marginRight: 0,

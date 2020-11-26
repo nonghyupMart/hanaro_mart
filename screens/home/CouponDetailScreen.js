@@ -153,6 +153,29 @@ const CouponDetailScreen = (props) => {
       {couponDetail && (
         <DetailContainer style={{ paddingBottom: 30 }}>
           <TopBox>
+            {!isUsed && !isNew && (
+              <>
+                <TopText
+                  style={{
+                    backgroundColor: colors.lipstickTwo,
+                    fontSize: 18,
+                    paddingTop: 14,
+                    paddingBottom: 14,
+                  }}
+                >
+                  본쿠폰을 직원에게 제시하여 주시기 바랍니다.
+                </TopText>
+                <Image
+                  source={require("@images/num_128.png")}
+                  resizeMode="cover"
+                  style={{
+                    width: screenWidth + screenWidth * 0.1,
+                    marginLeft: "-5%",
+                    marginTop: -2,
+                  }}
+                />
+              </>
+            )}
             {!isUsed && isNew && (
               <>
                 <TopText>쿠폰이 발급 되었습니다.</TopText>
@@ -232,13 +255,20 @@ const CouponDetailScreen = (props) => {
           {!isUsed && isNew && <Warn>쿠폰 발급이 완료 되었습니다.</Warn>}
           {!isUsed && (
             <BlueButton
+              style={{
+                backgroundColor: "white",
+                borderWidth: 1,
+                borderColor: colors.pinkishGrey,
+              }}
               onPress={() => {
                 dispatch(CommonActions.setBottomNavigation(true));
                 props.navigation.pop();
               }}
             >
               {/* <Image source={require("@images/resize3.png")} /> */}
-              <BlueButtonText>확인</BlueButtonText>
+              <BlueButtonText style={{ color: colors.greyishBrown }}>
+                닫기
+              </BlueButtonText>
             </BlueButton>
           )}
           {isUsed && (
@@ -420,7 +450,7 @@ const UseButton = (props) => {
       <Text
         style={{
           alignItems: "center",
-          color: colors.greyishThree,
+          color: colors.appleGreen,
           fontSize: 12,
           justifyContent: "center",
 
@@ -435,6 +465,7 @@ const UseButton = (props) => {
         iconSize={24}
         title="back"
         iconName="users-cog"
+        color={colors.appleGreen}
         onPress={() => {
           if (props.onPress) props.onPress();
         }}

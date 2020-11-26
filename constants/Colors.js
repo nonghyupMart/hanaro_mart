@@ -30,5 +30,6 @@ export default colors = {
   booger: "#afc34a",
   silver: "#c9cacc",
   blueyGreen: "#27a486",
+  lipstickTwo: "#e11d39",
 };
 
