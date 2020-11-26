@@ -11,6 +11,7 @@ import {
   Image,
   AppState,
 } from "react-native";
+import ExtendedFlatList from "@UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "@UI/header";
 import {
   BaseButtonContainer,
@@ -36,10 +37,10 @@ const StoreChangeScreen = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.common.isLoading);
-
   const [lname, setLname] = useState(null);
   const [mname, setMname] = useState(null);
   const [store_nm, setStore_nm] = useState("");
+  const [pageNum, setPage] = useState(1);
 
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
@@ -87,12 +88,14 @@ const StoreChangeScreen = (props) => {
   const fetchBranches = (
     lname = lname,
     mname = mname,
-    storeName = store_nm
+    storeName = store_nm,
+    page = pageNum
   ) => {
     let query = {
       lname,
       mname,
       store_nm: storeName,
+      page: page,
     };
     if (location) {
       query.lat = location.coords.latitude;
@@ -100,7 +103,15 @@ const StoreChangeScreen = (props) => {
     }
     return dispatch(branchesActions.fetchBranches(query));
   };
-
+  const loadMore = async () => {
+    if (!isLoading && pageNum + 1 <= branches.finalPage) {
+      dispatch(setIsLoading(true));
+      fetchBranches(lname, mname, store_nm, pageNum + 1).then((data) => {
+        dispatch(setIsLoading(false));
+      });
+      setPage(pageNum + 1);
+    }
+  };
   return (
     <BaseScreen
       style={{
@@ -146,7 +157,8 @@ const StoreChangeScreen = (props) => {
         />
 
         {branches && (
-          <FlatList
+          <ExtendedFlatList
+            onEndReached={loadMore}
             listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}

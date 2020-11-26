@@ -23,10 +23,10 @@ const PickerViews = (props) => {
   let lnameItems = [];
   const [mnameItems, setMnameItems] = useState([]);
   const dispatch = useDispatch();
-  const onLnameChange = (lname) => {
+  const onLnameChange = async (lname) => {
     props.setLname(() => lname);
     props.setMname(() => null);
-    const fetchBranches = props.fetchBranches(lname);
+    const fetchBranches = props.fetchBranches(lname, null, "", 1);
     const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 
     Promise.all([fetchBranches, fetchAddress2]).then(() => {
@@ -35,7 +35,7 @@ const PickerViews = (props) => {
   };
   const onMnameChange = (lname, mname) => {
     props.setMname(() => mname);
-    props.fetchBranches(lname, mname);
+    props.fetchBranches(lname, mname, "", 1);
   };
 
   props.address1 &&

@@ -2,6 +2,7 @@ import {
   SET_ADDRESS1,
   SET_ADDRESS2,
   SET_BRANCHES,
+  SET_BRANCHES_MORE,
   SET_BRANCH,
   SET_STORE_MARK,
 } from "@actions/branches";
@@ -15,6 +16,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+  let branches;
   switch (action.type) {
     case SET_ADDRESS1:
       return {
@@ -31,6 +33,18 @@ export default (state = initialState, action) => {
         ...state,
         branches: { ...action.branches },
       };
+    case SET_BRANCHES_MORE:
+      branches = { ...state.branches };
+      let newBranches = { ...action.branches };
+      let updatedStoreList = branches.storeList.concat(newBranches.storeList);
+
+      branches.storeList = updatedStoreList;
+
+      return {
+        ...state,
+        branches: branches,
+      };
+
     case SET_BRANCH:
       return {
         ...state,

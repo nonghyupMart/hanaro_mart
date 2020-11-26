@@ -22,10 +22,11 @@ const SearchBar = (props) => {
       mname: props.mname,
       store_nm: props.store_nm,
     };
-
-    props.fetchBranches(props.lname, props.mname, props.store_nm).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    props
+      .fetchBranches(props.lname, props.mname, props.store_nm, 1)
+      .then(() => {
+        dispatch(setIsLoading(false));
+      });
   };
   const onFocus = () => {
     // dispatch(setBottomNavigation(false));

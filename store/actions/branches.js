@@ -5,6 +5,7 @@ import * as Network from "@util/network";
 export const SET_ADDRESS1 = "SET_ADDRESS1";
 export const SET_ADDRESS2 = "SET_ADDRESS2";
 export const SET_BRANCHES = "SET_BRANCHES";
+export const SET_BRANCHES_MORE = "SET_BRANCHES_MORE";
 export const SET_BRANCH = "SET_BRANCH";
 export const SET_STORE_MARK = "SET_STORE_MARK";
 
@@ -42,6 +43,7 @@ export const fetchAddress2 = (lname) => {
 };
 
 export const fetchBranches = (query) => {
+  query.limit = 40;
   const url = queryString.stringifyUrl({
     url: `${API_URL}/store`,
     query: query,
@@ -51,7 +53,11 @@ export const fetchBranches = (query) => {
       const response = await fetch(url);
       const resData = await Network.getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_BRANCHES, branches: resData.data });
+      if (query.page > 1) {
+        dispatch({ type: SET_BRANCHES_MORE, branches: resData.data });
+      } else {
+        dispatch({ type: SET_BRANCHES, branches: resData.data });
+      }
       return resData.data;
     } catch (err) {
       throw err;
