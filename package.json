@@ -23,7 +23,7 @@
     "@react-navigation/stack": "^5.11.1",
     "axios": "^0.20.0",
     "debounce": "^1.2.0",
-    "expo": "^39.0.0",
+    "expo": "^39.0.5",
     "expo-asset": "~8.2.0",
     "expo-av": "~8.6.0",
     "expo-background-fetch": "~8.5.0",
