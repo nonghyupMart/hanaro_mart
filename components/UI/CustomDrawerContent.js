@@ -44,7 +44,7 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
         }}
       >
         <DrawerContentScrollView {...props}>
-          <View style={{ height: screenHeight - screenHeight * 0.24 }}>
+          <View style={{ height: screenHeight - screenHeight * 0.22 }}>
             <MemberInfo {...props} />
             <GrayButtons {...props} menuList={menuList} />
             <MenuList {...props} menuList={menuList} />

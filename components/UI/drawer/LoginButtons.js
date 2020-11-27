@@ -63,9 +63,6 @@ const LoginButtons = (props) => {
           </TouchableOpacity>
         </TextArea>
       </GrayContainer>
-      <BlackContainer>
-        <Info>{`하나로마트앱은 하나로마트에서 독립적으로 운영하는 서비스로서 이용자와 하나로마트간의 양자간 거래이며, 모바일앱을 공급 관리하는 농협하나로유통과는 거래당사자가 아니며 보증책임도 지지않음을 양지하여 주시기 바랍니다.`}</Info>
-      </BlackContainer>
     </BottomContainer>
   );
 };
