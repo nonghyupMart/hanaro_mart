@@ -12,6 +12,8 @@ import {
 import { setPreview } from "@actions/auth";
 import * as Util from "@util";
 import _ from "lodash";
+import { INTERNAL_APP_VERSION } from "@constants/settings";
+
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
   const storeInfo = useSelector((state) =>
@@ -62,6 +64,7 @@ const LoginButtons = (props) => {
             <Text3>개인정보처리방침</Text3>
           </TouchableOpacity>
         </TextArea>
+        <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
       </GrayContainer>
     </BottomContainer>
   );
