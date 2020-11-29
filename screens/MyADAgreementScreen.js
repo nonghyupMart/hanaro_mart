@@ -163,7 +163,10 @@ const MyADAgreementScreen = (props) => {
             />
           </SwitchBox>
         </SwitchContainer>
-        <MyInfoScreen.Button onPress={onPress}>
+        <MyInfoScreen.Button
+          onPress={onPress}
+          style={{ aspectRatio: 100 / 28.346, width: null }}
+        >
           <MyInfoScreen.BtnText>확인</MyInfoScreen.BtnText>
         </MyInfoScreen.Button>
       </MyInfoScreen.MarginContainer>
