@@ -23,9 +23,6 @@ const StartupScreen = (props) => {
       if (parsedUserData && parsedUserData.user_id) {
         dispatch(authActions.setPreview(false));
         dispatch(authActions.setIsJoin(true));
-        dispatch(
-          authActions.updateLoginLog({ user_cd: parsedUserData.user_cd })
-        );
       } else dispatch(authActions.setIsJoin(false));
 
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
