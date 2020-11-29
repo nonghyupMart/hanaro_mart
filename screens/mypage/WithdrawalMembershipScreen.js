@@ -25,6 +25,7 @@ import MemberInfo from "@components/myPage/MemberInfo";
 import * as authActions from "@actions/auth";
 import { setAlert, setIsLoading } from "@actions/common";
 import { ButtonGroup } from "react-native-elements";
+import * as Updates from "expo-updates";
 
 const WithdrawalMembershipScreen = ({ navigation }) => {
   const [del_type, setDel_type] = useState();
@@ -78,9 +79,9 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
                     await dispatch(authActions.saveUserStore(null));
                     setTimeout(async () => {
                       await dispatch(setAlert(null));
-                      await navigation.navigate("Home");
                       await dispatch(authActions.withdrawalFinish());
                       await dispatch(setIsLoading(false));
+                      Updates.reloadAsync();
                     }, 0);
                   },
                 })
