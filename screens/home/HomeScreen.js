@@ -41,7 +41,6 @@ import * as Util from "@util";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
 import * as authActions from "@actions/auth";
-import * as Updates from "expo-updates";
 import { CATEGORY } from "@constants/settings";
 import { SET_NOTIFICATION } from "@actions/common";
 import * as RootNavigation from "@navigation/RootNavigation";
@@ -60,7 +59,6 @@ const HomeScreen = (props) => {
   initNotificationReceiver(routeName);
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      updateExpo(dispatch);
 
       if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
         // console.warn(JSON.stringify(userInfo, null, "\t"));
@@ -188,49 +186,6 @@ const initNotificationReceiver = (routeName) => {
       dispatch({ type: SET_NOTIFICATION, notification: null });
     }
   }, [notification, isLoading]);
-};
-const updateExpo = (dispatch) => {
-  if (!__DEV__) {
-    (async () => {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          // ... notify user of update ...
-          // Util.log("new update");
-          await dispatch(
-            setAlert({
-              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-              confirmText: "업데이트",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                Updates.reloadAsync();
-              },
-              onPressCancel: () => {
-                dispatch(setAlert(null));
-              },
-            })
-          );
-        }
-      } catch (e) {
-        // handle or log error
-        Util.log("update error=>", e);
-        dispatch(
-          setAlert({
-            message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-            confirmText: "업데이트",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-              Updates.reloadAsync();
-            },
-            onPressCancel: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
-      }
-    })();
-  }
 };
 export const updateUserInfo = (dispatch, userInfo) => {
   if (_.isEmpty(userInfo)) return;
