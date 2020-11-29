@@ -46,7 +46,8 @@ const MyInfoScreen = (props) => {
     if (!_.isEmpty(userInfo)) {
       const userID = userInfo.user_id;
       const LastNumber = userID.substr(userID.length - 4);
-      const userCD = Util.pad(8, Util.decrypt(userInfo.user_cd));
+      const cd = decodeURIComponent(userInfo.user_cd);
+      const userCD = Util.pad(8, Util.decrypt(cd));
       setBarcode(LastNumber + userCD);
     }
   }, [userInfo]);
