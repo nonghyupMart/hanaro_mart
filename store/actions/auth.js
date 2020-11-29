@@ -81,7 +81,7 @@ export const saveUserStore = (userStore) => {
 
 export const updateLoginLog = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/v1/user`,
+    url: `${API_URL}/v2/user`,
   });
   return async (dispatch) => {
     const response = await fetch(url, {

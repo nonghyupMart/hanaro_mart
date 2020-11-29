@@ -25,6 +25,8 @@ import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Updates from "expo-updates";
+import * as Permissions from "expo-permissions";
+import * as Notifications from "expo-notifications";
 
 import {
   StyleConstants,
@@ -187,20 +189,22 @@ const initNotificationReceiver = (routeName) => {
     }
   }, [notification, isLoading]);
 };
-export const updateUserInfo = (dispatch, userInfo) => {
+export const updateUserInfo = async (dispatch, userInfo) => {
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
+  const token = (await Notifications.getExpoPushTokenAsync()).data;
   return dispatch(
     authActions.updateLoginLog({
-      user_cd: userInfo.user_cd,
-      recommend: userInfo.recommend,
+      token: token,
     })
   ).then(async (data) => {
     if (!_.isEmpty(data.userInfo)) {
       // if user_cd is different from apps' -> logout
-      if (userInfo.user_cd != data.userInfo.user_cd) {
-        await dispatch(authActions.withdrawalFinish());
-        return Updates.reloadAsync();
-      }
+      // if (userInfo.user_cd != data.userInfo.user_cd) {
+      //   await dispatch(authActions.setUserInfo(null));
+      //   await dispatch(authActions.saveUserStore(null));
+      //   await dispatch(authActions.withdrawalFinish());
+      //   return Updates.reloadAsync();
+      // }
       dispatch(authActions.setUserInfo(data.userInfo));
       authActions.saveUserInfoToStorage(data.userInfo);
     }
