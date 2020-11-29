@@ -81,11 +81,16 @@ export const saveUserStore = (userStore) => {
 
 export const updateLoginLog = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/users`,
-    query: query,
+    url: `${API_URL}/v1/user`,
   });
   return async (dispatch) => {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(query),
+    });
     const resData = await Network.getResponse(response, dispatch, url, query);
     return resData.data;
   };
