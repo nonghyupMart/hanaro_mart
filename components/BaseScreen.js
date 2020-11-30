@@ -10,6 +10,7 @@ import {
   Platform,
   KeyboardAvoidingView,
   Keyboard,
+  AppState,
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
@@ -24,6 +25,7 @@ const Contents = (props) => {
   return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
+  const [appState, setAppState] = useState(AppState.currentState);
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
   );
@@ -47,18 +49,24 @@ const BaseScreen = (props) => {
       backHandler.remove();
     };
   }, [isBottomNavigation]);
+  const _handleAppStateChange = (nextAppState) => {
+    setAppState(nextAppState);
+  };
   useEffect(() => {
-    updateExpo(dispatch);
+    AppState.addEventListener("change", _handleAppStateChange);
     Keyboard.addListener("keyboardDidShow", _keyboardDidShow);
     Keyboard.addListener("keyboardDidHide", _keyboardDidHide);
 
     // cleanup function
     return () => {
-      updateExpo(dispatch);
+      AppState.removeEventListener("change", _handleAppStateChange);
       Keyboard.removeListener("keyboardDidShow", _keyboardDidShow);
       Keyboard.removeListener("keyboardDidHide", _keyboardDidHide);
     };
   }, []);
+  useEffect(() => {
+    if (appState == "active") updateExpo(dispatch);
+  }, [appState]);
 
   const _keyboardDidShow = () => {
     setIsKeyboardOn(true);
