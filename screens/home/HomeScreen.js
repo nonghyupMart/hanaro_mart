@@ -8,7 +8,6 @@ import {
   Dimensions,
   AsyncStorage,
   BackHandler,
-  AppState,
 } from "react-native";
 import {
   createStackNavigator,
@@ -62,17 +61,16 @@ const HomeScreen = (props) => {
 
   initNotificationReceiver(routeName);
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
-        // console.warn(JSON.stringify(userInfo, null, "\t"));
-        updateUserInfo(dispatch, userInfo);
-      }
-    });
+    if (!isFocused) return;
+    if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
+      // console.warn(JSON.stringify(userInfo, null, "\t"));
+      updateUserInfo(dispatch, userInfo);
+    }
+
     return () => {
       dispatch(setIsLoading(false));
-      unsubscribe;
     };
-  }, [navigation]);
+  }, [isFocused]);
   useEffect(() => {
     (async () => {
       let data = await Util.getStorageItem("notificationData");
@@ -191,12 +189,13 @@ const initNotificationReceiver = (routeName) => {
   }, [notification, isLoading]);
 };
 export const updateUserInfo = async (dispatch, userInfo) => {
-  if (AppState.currentState != "active") return;
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
   const token = (await Notifications.getExpoPushTokenAsync()).data;
   if (token && token != "") {
     action = authActions.updateLoginLog({
       token: token,
+      user_cd: userInfo.user_cd,
+      recommend: userInfo.recommend,
     });
   } else {
     action = authActions.updateLoginLogV1({
