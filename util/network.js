@@ -3,6 +3,7 @@ import { setAlert } from "@actions/common";
 import { BackHandler } from "react-native";
 import { withdrawalFinish } from "@actions/auth";
 import axios from "@util/axios-instance";
+import * as Updates from "expo-updates";
 
 // FIXME: 네트워크 공통화..
 // export const get = async (url) => {
@@ -35,7 +36,8 @@ export const getResponse = async (response, dispatch, url, query) => {
 
   if (resData.code == "USE-0000") {
     //회원정보가 없는 경우 자동로그인 해제
-    dispatch(withdrawalFinish());
+    await dispatch(withdrawalFinish());
+    Updates.reloadAsync();
     return resData;
   }
   if (resData.code != "200" && resData.code != "201") {
