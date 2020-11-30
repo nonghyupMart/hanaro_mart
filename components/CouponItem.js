@@ -45,8 +45,11 @@ const CouponItem = (props) => {
         </Button>
       )}
       {props.item.status == "20" && (
-        <Button onPress={props.onPress}>
-          <ButtonText style={{ color: colors.silver }}>사용완료</ButtonText>
+        <Button
+          onPress={props.onPress}
+          style={{ backgroundColor: colors.silver }}
+        >
+          <ButtonText>사용완료</ButtonText>
           <Icon source={require("@images/ic_timer_24px.png")} />
         </Button>
       )}
