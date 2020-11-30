@@ -8,6 +8,7 @@ import {
   Dimensions,
   AsyncStorage,
   BackHandler,
+  AppState,
 } from "react-native";
 import {
   createStackNavigator,
@@ -190,21 +191,22 @@ const initNotificationReceiver = (routeName) => {
   }, [notification, isLoading]);
 };
 export const updateUserInfo = async (dispatch, userInfo) => {
+  if (AppState.currentState != "active") return;
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
   const token = (await Notifications.getExpoPushTokenAsync()).data;
-  return dispatch(
-    authActions.updateLoginLog({
+  if (token && token != "") {
+    action = authActions.updateLoginLog({
       token: token,
-    })
-  ).then(async (data) => {
+    });
+  } else {
+    action = authActions.updateLoginLogV1({
+      user_cd: userInfo.user_cd,
+      recommend: userInfo.recommend,
+    });
+  }
+
+  return dispatch(action).then(async (data) => {
     if (!_.isEmpty(data.userInfo)) {
-      // if user_cd is different from apps' -> logout
-      // if (userInfo.user_cd != data.userInfo.user_cd) {
-      //   await dispatch(authActions.setUserInfo(null));
-      //   await dispatch(authActions.saveUserStore(null));
-      //   await dispatch(authActions.withdrawalFinish());
-      //   return Updates.reloadAsync();
-      // }
       dispatch(authActions.setUserInfo(data.userInfo));
       authActions.saveUserInfoToStorage(data.userInfo);
     }

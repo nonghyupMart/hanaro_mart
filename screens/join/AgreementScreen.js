@@ -244,19 +244,6 @@ const AgreementScreen = (props) => {
         }
         return statusObj;
       })
-      .then((statusObj) => {
-        if (statusObj.status !== "granted") {
-          dispatch(
-            setAlert({
-              message: "권한이 거부되었습니다.",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-              },
-            })
-          );
-          return statusObj;
-        }
-      })
       .then(() => {
         return Notifications.getExpoPushTokenAsync();
       })
