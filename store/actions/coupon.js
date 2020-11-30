@@ -142,10 +142,13 @@ export const useCoupon = (query) => {
 
 export const fetchCouponDetail = (query) => {
   // store_cd , user_cd
+  const cou_cd = query.cou_cd;
+  delete query.cou_cd;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon/${query.cou_cd}?user_cd=${query.user_cd}`,
+    url: `${API_URL}/coupon/${cou_cd}`,
+    query: query,
   });
-  // Util.log(url);
+
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
