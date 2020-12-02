@@ -8,6 +8,7 @@ import * as CommonActions from "@actions/common";
 import moment from "moment";
 import * as Util from "@util";
 import _ from "lodash";
+import * as SplashScreen from "expo-splash-screen";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const StartupScreen = (props) => {
       );
 
       dispatch(authActions.setDidTryAL());
+      await SplashScreen.hideAsync();
     })();
   }, [dispatch]);
   return <Splash />;

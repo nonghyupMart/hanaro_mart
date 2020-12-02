@@ -34,6 +34,9 @@ import { WITHDRAWAL } from "@actions/auth";
 import * as Notifications from "expo-notifications";
 import * as CommonActions from "@actions/common";
 
+// Prevent native splash screen from autohiding before App component declaration
+SplashScreen.preventAutoHideAsync();
+
 let globalInitialNotificationResponse;
 
 let globalSubscription = Notifications.addNotificationResponseReceivedListener(
