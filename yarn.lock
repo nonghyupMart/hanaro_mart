@@ -1072,7 +1072,7 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.0", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.8.4":
   version "7.11.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.11.2.tgz#f549c13c754cc40b87644b9fa9f09a6a95fe0736"
   integrity sha512-TeWkU52so0mPtDcaCTxNBI/IHiz0pZgr8VEFqXFtZWpYD08ZB6FaSwVAS8MKRQAP3bYKiVjwysOJgMFY28o6Tw==
@@ -3112,7 +3112,7 @@ cli-cursor@^2.1.0:
   dependencies:
     restore-cursor "^2.0.0"
 
-cli-spinners@^2.0.0, cli-spinners@^2.2.0:
+cli-spinners@^2.0.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-2.4.0.tgz#c6256db216b878cfba4720e719cec7cf72685d7f"
   integrity sha512-sJAofoarcm76ZGpuooaO0eDy8saEy+YoZBLjC4h8srt4jeBnkYeOgqxgsJQTpyt2LjI5PTfLJHSL+41Yu4fEJA==
@@ -3399,7 +3399,7 @@ cosmiconfig@^5.0.5, cosmiconfig@^5.1.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-create-react-class@^15.6.2, create-react-class@^15.6.3:
+create-react-class@^15.6.2:
   version "15.6.3"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.3.tgz#2d73237fb3f970ae6ebe011a9e66f46dbca80036"
   integrity sha512-M+/3Q6E6DLO6Yx3OwrWjwHBnvfXXYA7W+dFjt/ZDBemHO1DDZhsalX/NUtnTYclN6GfnBDRh4qRHjcDHmlJBJg==
@@ -3823,7 +3823,7 @@ entities@^2.0.0:
   resolved "https://registry.yarnpkg.com/entities/-/entities-2.0.3.tgz#5c487e5742ab93c15abb5da22759b8590ec03b7f"
   integrity sha512-MyoZ0jgnLvB2X3Lg5HqpFmn1kybDiIfEQmKzTb5apr51Rb+T3KdmMiqa70T+bhGnyv7bQ6WMj2QMHpGMmlrUYQ==
 
-envinfo@^7.5.0, envinfo@^7.7.2:
+envinfo@^7.7.2:
   version "7.7.2"
   resolved "https://registry.yarnpkg.com/envinfo/-/envinfo-7.7.2.tgz#098f97a0e902f8141f9150553c92dbb282c4cabe"
   integrity sha512-k3Eh5bKuQnZjm49/L7H4cHzs2FlL5QjbTB3JrPxoTI8aJG7hVMe4uKyJxSYH4ahseby2waUwk5OaKX/nAsaYgg==
@@ -4270,7 +4270,7 @@ expo-sms@~8.3.1:
   resolved "https://registry.yarnpkg.com/expo-sms/-/expo-sms-8.3.1.tgz#2731a3b2eaad01d1f793f7011488e1501c715b68"
   integrity sha512-VdA0FMV5pJ4HikiFSWqcYy0VRW544KKkksPTU7js7HfqqSwKZNVzNQZhCgRC+MiWXy/LhyR4mAQ2d302k+LOUg==
 
-expo-splash-screen@^0.6.2, expo-splash-screen@~0.6.2:
+expo-splash-screen@~0.6.2:
   version "0.6.2"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.6.2.tgz#2be7fc28ad62549e870c69f1fe133ebe756c524f"
   integrity sha512-Rvi+aiVDztFyLh5fYJYcZxVuQNDCy6ATSTfxuch5uVQ1jA9/vjVzUKG4iZCoChaSCnMV56aFftHBWSDNWPvLFQ==
@@ -6541,7 +6541,7 @@ mdn-data@2.0.6:
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.6.tgz#852dc60fcaa5daa2e8cf6c9189c440ed3e042978"
   integrity sha512-rQvjv71olwNHgiTbfPZFkJtjNMciWgswYeciZhtvWLO8bmX3TnhyA62I6sTWOyZssWHJJjY6/KiWwqQsWWsqOA==
 
-mem@^4.0.0, mem@^4.3.0:
+mem@^4.0.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-4.3.0.tgz#461af497bc4ae09608cdb2e60eefb69bff744178"
   integrity sha512-qX2bG48pTqYRVmDB37rn/6PT7LcR8T7oAX3bf99u1Tt1nzxYfxkgqDwUwolPlXweM0XzBOBFzSx4kfp7KP1s/w==
@@ -8152,25 +8152,6 @@ react-native-webview@10.7.0:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
 
-react-native-windows@^0.61.15:
-  version "0.61.15"
-  resolved "https://registry.yarnpkg.com/react-native-windows/-/react-native-windows-0.61.15.tgz#523c904245ae764fa0e2c6b56b259e0ef0be6d3f"
-  integrity sha512-LSjUoNoLC1z76FsyRnKpEQQWupjsie918mryfHYddhWuZrdkKrqye043sgx1S/QayBbBH+1vMRNmwGtRqNxt0w==
-  dependencies:
-    "@babel/runtime" "^7.4.0"
-    cli-spinners "^2.2.0"
-    create-react-class "^15.6.3"
-    envinfo "^7.5.0"
-    fbjs "^1.0.0"
-    glob "^7.1.1"
-    ora "^3.4.0"
-    prop-types "^15.7.2"
-    regenerator-runtime "^0.13.2"
-    shelljs "^0.7.8"
-    username "^5.1.0"
-    uuid "^3.3.2"
-    xml-parser "^1.2.1"
-
 "react-native@https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz":
   version "0.63.2"
   resolved "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz#481924772788f0c04373b2bc2512d92fa264867d"
@@ -8240,10 +8221,10 @@ react-refresh@^0.4.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.4.3.tgz#966f1750c191672e76e16c2efa569150cc73ab53"
   integrity sha512-Hwln1VNuGl/6bVwnd0Xdn1e84gT/8T9aYNL+HAKDArLCS7LWjwr7StE30IEYbIkx0Vi3vs+coQxe+SQDbGbbpA==
 
-react-refresh@^0.8.2:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
-  integrity sha512-X8jZHc7nCMjaCqoU+V2I0cOhNW+QMBwSUkeXnTi8IPe6zaRWfn60ZzvFDZqWPfmSJfjub7dDW1SP0jaHWLu/hg==
+react-refresh@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.9.0.tgz#71863337adc3e5c2f8a6bfddd12ae3bfe32aafbf"
+  integrity sha512-Gvzk7OZpiqKSkxsQvO/mbTN1poglhmAV7gR/DdIrRrSMXraRQQlfikRJOr3Nb9GTMPC5kof948Zy6jJZIFtDvQ==
 
 react-timer-mixin@^0.13.3, react-timer-mixin@^0.13.4:
   version "0.13.4"
@@ -8759,15 +8740,6 @@ shell-quote@^1.6.1:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
-
-shelljs@^0.7.8:
-  version "0.7.8"
-  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.7.8.tgz#decbcf874b0d1e5fb72e14b164a9683048e9acb3"
-  integrity sha1-3svPh0sNHl+3LhSxZKloMEjprLM=
-  dependencies:
-    glob "^7.0.0"
-    interpret "^1.0.0"
-    rechoir "^0.6.2"
 
 shelljs@^0.8.4:
   version "0.8.4"
@@ -9679,14 +9651,6 @@ use@^3.1.0:
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
 
-username@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/username/-/username-5.1.0.tgz#a7f9325adce2d0166448cdd55d4985b1360f2508"
-  integrity sha512-PCKbdWw85JsYMvmCv5GH3kXmM66rCd9m1hBEDutPNv94b/pqCMT4NtcKyeWYvLFiE8b+ha1Jdl8XAaUdPn5QTg==
-  dependencies:
-    execa "^1.0.0"
-    mem "^4.3.0"
-
 util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
@@ -9985,13 +9949,6 @@ xml-name-validator@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/xml-name-validator/-/xml-name-validator-3.0.0.tgz#6ae73e06de4d8c6e47f9fb181f78d648ad457c6a"
   integrity sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==
-
-xml-parser@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/xml-parser/-/xml-parser-1.2.1.tgz#c31f4c34f2975db82ad013222120592736156fcd"
-  integrity sha1-wx9MNPKXXbgq0BMiISBZJzYVb80=
-  dependencies:
-    debug "^2.2.0"
 
 xml2js@^0.4.23:
   version "0.4.23"

@@ -43,7 +43,7 @@ expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api
 iOS
 
 ```bash
-expo upload:ios --latest
+expo upload:ios --latest EXPO_NO_KEYCHAIN=1
 ```
 
 # 계정정보

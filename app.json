@@ -61,6 +61,7 @@
     },
     "web": {
       "favicon": "./assets/9696.png"
-    }
+    },
+    "developmentClient": { "silentLaunch": true }
   }
 }
