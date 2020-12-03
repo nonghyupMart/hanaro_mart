@@ -70,6 +70,7 @@ const ProductPopup = (props) => {
         );
     });
   };
+  if (_.isEmpty(productDetail)) return <></>;
 
   return (
     <Modal
