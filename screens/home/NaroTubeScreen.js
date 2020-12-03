@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import queryString from "query-string";
-
-import { View, Text, StyleSheet } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+import { View, Text, StyleSheet, AppState } from "react-native";
 import { BackButton, TextTitle } from "@UI/header";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import { SERVER_URL, API_URL } from "@constants/settings";
@@ -9,22 +9,24 @@ import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "@components/BaseScreen";
 import _ from "lodash";
 const NaroTubeScreen = (props) => {
+  const isFocused = useIsFocused();
   const navigation = props.navigation;
   const userStore = useSelector((state) => state.auth.userStore);
   const [url, setUrl] = useState();
   const [key, setKey] = useState();
+  const [appState, setAppState] = useState(AppState.currentState);
+  const _handleAppStateChange = (nextAppState) => {
+    setAppState(nextAppState);
+  };
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      setKey(Math.random());
-    });
-    const blur = navigation.addListener("blur", () => {
-      setKey(Math.random());
-    });
+    AppState.addEventListener("change", _handleAppStateChange);
     return () => {
-      unsubscribe;
-      blur;
+      AppState.removeEventListener("change", _handleAppStateChange);
     };
   }, []);
+  useEffect(() => {
+    setKey(Math.random());
+  }, [isFocused, appState]);
   useEffect(() => {
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({

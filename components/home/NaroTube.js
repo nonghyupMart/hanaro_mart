@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  AppState,
+} from "react-native";
 import Carousel from "@UI/Carousel";
 import { ExtendedWebView } from "@UI/ExtendedWebView";
 import {
@@ -16,12 +22,22 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "@actions/common";
 
 const NaroTube = (props) => {
+  const [appState, setAppState] = useState(AppState.currentState);
   const dispatch = useDispatch();
   const [key, setKey] = useState();
   const homeNaro = useSelector((state) => state.home.homeNaro);
   useEffect(() => {
+    AppState.addEventListener("change", _handleAppStateChange);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
+  }, []);
+  const _handleAppStateChange = (nextAppState) => {
+    setAppState(nextAppState);
+  };
+  useEffect(() => {
     setKey("_" + Math.random().toString(36).substr(2, 9));
-  }, [props.isFocused]);
+  }, [props.isFocused, appState]);
   useLayoutEffect(() => {
     const fetchHomeNaro = dispatch(homeActions.fetchHomeNaro());
     Promise.all([fetchHomeNaro]).then((result) => {
