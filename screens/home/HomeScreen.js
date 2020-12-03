@@ -191,13 +191,12 @@ const initNotificationReceiver = (routeName) => {
 export const updateUserInfo = async (dispatch, userInfo) => {
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
   const token = (await Notifications.getExpoPushTokenAsync()).data;
-  if (token && token != "") {
-    action = authActions.updateLoginLog({
-      token: token,
-      user_cd: userInfo.user_cd,
-      recommend: userInfo.recommend,
-    });
-  } else {
+  let action = authActions.updateLoginLog({
+    token: token,
+    user_cd: userInfo.user_cd,
+    recommend: userInfo.recommend,
+  });
+  if (!token || token == "") {
     action = authActions.updateLoginLogV1({
       user_cd: userInfo.user_cd,
       recommend: userInfo.recommend,
@@ -208,6 +207,7 @@ export const updateUserInfo = async (dispatch, userInfo) => {
     if (!_.isEmpty(data.userInfo)) {
       dispatch(authActions.setUserInfo(data.userInfo));
       authActions.saveUserInfoToStorage(data.userInfo);
+      authActions.saveUserTelToStorage(data.userInfo.tel);
     }
     let obj;
     if (!_.isEmpty(data.storeInfo)) {

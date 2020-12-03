@@ -160,11 +160,20 @@ export const withdrawal = (query) => {
   };
 };
 export const withdrawalFinish = () => {
-  clearAllData();
-  return { type: WITHDRAWAL };
+  return async (dispatch) => {
+    await clearAllData();
+    dispatch({ type: WITHDRAWAL });
+  };
 };
 export const saveUserInfoToStorage = (userInfo) => {
   Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
+};
+export const saveUserTelToStorage = async (tel) => {
+  const telData = await Util.getStorageItem("telData");
+  const telParsed = await JSON.parse(telData);
+  if (!tel) return telParsed;
+  if (telParsed) return;
+  await Util.setStorageItem("telData", JSON.stringify(tel));
 };
 export const saveUserStoreToStorage = (store) => {
   if (_.isEmpty(store)) {
@@ -182,7 +191,7 @@ export const saveIsJoinToStorage = (status) => {
 };
 
 const clearAllData = () => {
-  AsyncStorage.getAllKeys().then((keys) => {
+  return AsyncStorage.getAllKeys().then((keys) => {
     if (_.isEmpty(keys)) return;
     AsyncStorage.multiRemove(keys);
   });

@@ -46,7 +46,7 @@ const MyADAgreementScreen = (props) => {
       });
     }
   }, []);
-  const onPress = () => {
+  const onPress = async () => {
     const prevPush = userInfo.push_agree == "Y";
     const prevSms = userInfo.sms_agree == "Y";
     if (push == prevPush && sms == prevSms) {
@@ -64,6 +64,7 @@ const MyADAgreementScreen = (props) => {
       user_cd: userInfo.user_cd,
       push_agree: push ? "Y" : "N",
       sms_agree: sms ? "Y" : "N",
+      user_id: await authActions.saveUserTelToStorage(),
     };
     dispatch(authActions.signup(query)).then((userInfo) => {
       dispatch(setIsLoading(false));

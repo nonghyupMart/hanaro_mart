@@ -291,6 +291,7 @@ const JoinStep2Screen = ({ navigation }) => {
 export const signup = (query, dispatch, agreedStatus) => {
   return dispatch(authActions.signup(query)).then(async (userInfo) => {
     if (!_.isEmpty(userInfo)) {
+      await authActions.saveUserTelToStorage(query.user_id);
       if (userInfo.store_cd) {
         dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
           async (storeData) => {

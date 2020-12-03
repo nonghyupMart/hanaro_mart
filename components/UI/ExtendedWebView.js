@@ -53,7 +53,7 @@ export const ExtendedWebView = (props) => {
     // return false to prevent webview navigate to the location of e.url
     return false;
   };
-  const parseMethod = (message) => {
+  const parseMethod = async (message) => {
     switch (message.method) {
       case "openURL":
         Linking.openURL(message.value);
@@ -87,6 +87,7 @@ export const ExtendedWebView = (props) => {
         if (!_.isEmpty(userInfo)) {
           query.user_cd = userInfo.user_cd;
           query.recommend = userInfo.recommend;
+          query.user_id = await authActions.saveUserTelToStorage();
         }
         signup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {
