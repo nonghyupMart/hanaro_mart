@@ -21,6 +21,7 @@ import * as Util from "@util";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { setAlert } from "@actions/common";
 import _ from "lodash";
+import { SET_PRODUCT_DETAIL } from "@actions/flyer";
 
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
@@ -36,6 +37,10 @@ const ProductPopup = (props) => {
 
   useEffect(() => {
     if (!props.isVisible) return;
+    dispatch({
+      type: SET_PRODUCT_DETAIL,
+      productDetail: null,
+    });
     setItem_amount(1);
     dispatch(
       flyerActions.fetchProductDetail({ product_cd: props.item.product_cd })
