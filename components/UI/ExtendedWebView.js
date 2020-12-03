@@ -86,6 +86,7 @@ export const ExtendedWebView = (props) => {
         }
         if (!_.isEmpty(userInfo)) {
           query.user_cd = userInfo.user_cd;
+          query.recommend = userInfo.recommend;
         }
         signup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {

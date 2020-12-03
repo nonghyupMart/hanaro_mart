@@ -68,7 +68,7 @@ const CouponScreen = (props) => {
     return unsubscribe;
   }, [userStore]);
   const onCouponItemPressed = (item, type = "B") => {
-    if (!__DEV__ && !userInfo.ci) return navigation.navigate("Empty");
+    if (!userInfo.ci) return navigation.navigate("Empty");
     dispatch(setIsLoading(true));
     let couponList;
     switch (type) {

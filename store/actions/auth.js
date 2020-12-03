@@ -36,11 +36,16 @@ export const sendSMS = (query) => {
   };
 };
 export const signup = (query) => {
-  const url = `${API_URL}/users`;
+  let url = `${API_URL}/v1/user_add`;
+  let method = "POST";
+  if (query.user_cd) {
+    url = `${API_URL}/v1/user_modify`;
+    method = "PATCH";
+  }
 
   return async (dispatch) => {
     const response = await fetch(url, {
-      method: "POST",
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
