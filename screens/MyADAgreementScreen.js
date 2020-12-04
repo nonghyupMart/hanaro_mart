@@ -34,11 +34,12 @@ const MyADAgreementScreen = (props) => {
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
   const [marketing_date, setMarketing_date] = useState();
+  const pushToken = useSelector((state) => state.auth.pushToken);
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       dispatch(setIsLoading(true));
-      updateUserInfo(dispatch, userInfo).then((data) => {
+      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
         dispatch(setIsLoading(false));
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
         setPush(data.userInfo.push_agree == "Y" ? true : false);

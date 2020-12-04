@@ -9,12 +9,15 @@ import moment from "moment";
 import * as Util from "@util";
 import _ from "lodash";
 import * as SplashScreen from "expo-splash-screen";
+import * as Notifications from "expo-notifications";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
+      const token = (await Notifications.getExpoPushTokenAsync()).data;
+      if (token) await dispatch(authActions.setPushToken(token));
       const userStoreData = await Util.getStorageItem("userStoreData");
       await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 
@@ -22,12 +25,12 @@ const StartupScreen = (props) => {
       const parsedUserData = await JSON.parse(userInfoData);
       await dispatch(authActions.setUserInfo(parsedUserData));
       if (parsedUserData && parsedUserData.user_id) {
-        dispatch(authActions.setPreview(false));
-        dispatch(authActions.setIsJoin(true));
-      } else dispatch(authActions.setIsJoin(false));
+        await dispatch(authActions.setPreview(false));
+        await dispatch(authActions.setIsJoin(true));
+      } else await dispatch(authActions.setIsJoin(false));
 
       const agreedStatusData = await Util.getStorageItem("agreedStatusData");
-      dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
+      await dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
 
       await getIsStorePopup(userStoreData, dispatch);
 
@@ -36,14 +39,13 @@ const StartupScreen = (props) => {
       if (dateForAppPopup) setDate = moment(dateForAppPopup);
 
       //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
-      dispatch(
+      await dispatch(
         CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
       );
-
-      dispatch(authActions.setDidTryAL());
       await SplashScreen.hideAsync();
+      await dispatch(authActions.setDidTryAL());
     })();
-  }, [dispatch]);
+  }, []);
   return <Splash />;
 };
 

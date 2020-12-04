@@ -34,10 +34,12 @@ const MyInfoScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
   const [recommend, setRecommend] = useState();
+  const pushToken = useSelector((state) => state.auth.pushToken);
+
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       dispatch(setIsLoading(true));
-      updateUserInfo(dispatch, userInfo).then((data) => {
+      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
         dispatch(setIsLoading(false));
       });
     }
@@ -74,7 +76,7 @@ const MyInfoScreen = (props) => {
               onPressConfirm: () => {
                 dispatch(setAlert(null));
                 dispatch(setIsLoading(true));
-                updateUserInfo(dispatch, userInfo).then((data) => {
+                updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
                   dispatch(setIsLoading(false));
                 });
               },

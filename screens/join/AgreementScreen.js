@@ -54,6 +54,7 @@ import AutoHeightWebView from "react-native-autoheight-webview";
 import { BackButton, TextTitle } from "@UI/header";
 
 const AgreementScreen = (props) => {
+  const pushToken = useSelector((state) => state.auth.pushToken);
   const params = props.route.params;
   const navigation = props.navigation;
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
@@ -249,7 +250,6 @@ const AgreementScreen = (props) => {
       })
       .then((response) => {
         const token = response.data;
-        dispatch(setPushToken(token));
         return token;
       })
       .catch((err) => {
@@ -296,8 +296,21 @@ const AgreementScreen = (props) => {
       dispatch(setIsLoading(true));
       getPermissions().then(async (token) => {
         await dispatch(setIsLoading(false));
+        token = `${token}`.trim();
+        if (!token || token == "") {
+          return dispatch(
+            setAlert({
+              message:
+                "서버통신지연으로 인하여 잠시 후 다시 실행해주시기 바랍니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+        }
         if (token && !isLoading) {
           setTimeout(async () => {
+            await dispatch(setPushToken(token));
             await dispatch(setAgreedStatus(cks));
             await saveAgreedStatusToStorage(cks);
             await navigation.navigate(params.nextPage);

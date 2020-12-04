@@ -26,6 +26,7 @@ import {
 } from "@UI/BaseUI";
 import { formatPhoneNumber } from "@util";
 import moment from "moment";
+import * as Notifications from "expo-notifications";
 
 import { setAlert, setIsLoading } from "@actions/common";
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
@@ -94,8 +95,12 @@ const JoinStep2Screen = ({ navigation }) => {
       os: Platform.OS === "ios" ? "I" : "A",
       marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
     };
-    await signup(query, dispatch, agreedStatus);
-    setIsRequestedJoin(true);
+    try {
+      await signup(query, dispatch, agreedStatus);
+      setIsRequestedJoin(true);
+    } catch (error) {
+      setIsRequestedJoin(false);
+    }
   };
   const pad = (num = 0) => {
     while (num.length < 2) num = "0" + num;
@@ -288,7 +293,27 @@ const JoinStep2Screen = ({ navigation }) => {
   );
 };
 
-export const signup = (query, dispatch, agreedStatus) => {
+export const signup = async (query, dispatch, agreedStatus) => {
+  query.token = `${query.token}`.trim();
+  if (!query.token || query.token == "") {
+    query.token = (await Notifications.getExpoPushTokenAsync()).data;
+  }
+  query.token = `${query.token}`.trim();
+  if (!query.token || query.token == "") {
+    return new Promise((resolve, reject) => {
+      dispatch(
+        setAlert({
+          message:
+            "서버통신지연으로 인하여 잠시 후 다시 실행해주시기 바랍니다.",
+          onPressConfirm: async () => {
+            await dispatch(setIsLoading(false));
+            await dispatch(setAlert(null));
+            reject(false);
+          },
+        })
+      );
+    });
+  }
   return dispatch(authActions.signup(query)).then(async (userInfo) => {
     if (!_.isEmpty(userInfo)) {
       await authActions.saveUserTelToStorage(query.user_id);

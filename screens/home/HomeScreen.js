@@ -58,13 +58,14 @@ const HomeScreen = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const pushToken = useSelector((state) => state.auth.pushToken);
 
   initNotificationReceiver(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));
-      updateUserInfo(dispatch, userInfo);
+      updateUserInfo(dispatch, userInfo, pushToken);
     }
 
     return () => {
@@ -188,15 +189,20 @@ const initNotificationReceiver = (routeName) => {
     }
   }, [notification, isLoading]);
 };
-export const updateUserInfo = async (dispatch, userInfo) => {
+export const updateUserInfo = async (dispatch, userInfo, token) => {
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
-  const token = (await Notifications.getExpoPushTokenAsync()).data;
-  let action = authActions.updateLoginLog({
-    token: token,
-    user_cd: userInfo.user_cd,
-    recommend: userInfo.recommend,
-  });
-  if (!token || token == "") {
+  let tk = `${token}`.trim();
+  if (!tk || tk == "") tk = (await Notifications.getExpoPushTokenAsync()).data;
+  let action;
+  tk = `${tk}`.trim();
+  if (tk && tk != "") {
+    action = authActions.updateLoginLog({
+      token: token,
+      user_cd: userInfo.user_cd,
+      recommend: userInfo.recommend,
+    });
+    await dispatch(authActions.setPushToken(tk));
+  } else {
     action = authActions.updateLoginLogV1({
       user_cd: userInfo.user_cd,
       recommend: userInfo.recommend,
