@@ -42,11 +42,11 @@ const StartupScreen = (props) => {
       await dispatch(
         CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
       );
-      await SplashScreen.hideAsync();
       await dispatch(authActions.setDidTryAL());
+      await SplashScreen.hideAsync();
     })();
   }, []);
-  return <Splash />;
+  return <></>;
 };
 
 export const getIsStorePopup = async (userStore, dispatch) => {
