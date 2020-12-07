@@ -46,7 +46,7 @@ const StartupScreen = (props) => {
       await SplashScreen.hideAsync();
     })();
   }, []);
-  return <></>;
+  return <Splash />;
 };
 
 export const getIsStorePopup = async (userStore, dispatch) => {
