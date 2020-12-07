@@ -447,29 +447,34 @@ import { HeaderButton } from "@UI/header/elements/HeaderButton";
 const UseButton = (props) => {
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Text
-        style={{
-          alignItems: "center",
-          color: colors.appleGreen,
-          fontSize: 15,
-          justifyContent: "center",
-          fontFamily: "CustomFont-Bold",
-          textAlignVertical: "center",
-          textAlign: "center",
-        }}
-      >
-        직원확인
-      </Text>
-      <Item
-        IconComponent={FontAwesome5}
-        iconSize={24}
-        title="back"
-        iconName="users-cog"
-        color={colors.appleGreen}
+      <TouchableOpacity
         onPress={() => {
           if (props.onPress) props.onPress();
         }}
-      />
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Text
+          style={{
+            alignItems: "center",
+            color: colors.appleGreen,
+            fontSize: 15,
+            justifyContent: "center",
+            fontFamily: "CustomFont-Bold",
+            textAlignVertical: "center",
+            textAlign: "center",
+          }}
+        >
+          직원확인
+        </Text>
+
+        <Image
+          source={require("@images/admin_ic.png")}
+          style={{ marginLeft: 8, marginRight: 8 }}
+        />
+      </TouchableOpacity>
     </HeaderButtons>
   );
 };
