@@ -42,9 +42,10 @@
         "hdpi": "./assets/splash/and/img480x800.png",
         "xhdpi": "./assets/splash/and/img720x1280.png",
         "xxhdpi": "./assets/splash/and/img960x1600.png",
-        "xxxhdpi": "./assets/splash/and/img1080x1920.png",
+        "xxxhdpi": "./assets/splash/ios/img1242x2436.png",
         "hideExponentText": true,
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "resizeMode": "cover"
       },
       "googleServicesFile": "./google-services.json",
       "package": "com.hanaroPlus.hanaroPlus",
