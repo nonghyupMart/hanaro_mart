@@ -88,6 +88,10 @@ export const ExtendedWebView = (props) => {
           query.user_cd = userInfo.user_cd;
           query.recommend = userInfo.recommend;
         }
+        const user_id = await authActions.saveUserTelToStorage();
+        if (query.user_id != user_id) {
+          delete query.user_cd;
+        }
         signup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {
             dispatch(CommonActions.setBottomNavigation(true));
