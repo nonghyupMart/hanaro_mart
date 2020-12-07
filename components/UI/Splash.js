@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image, View, ActivityIndicator } from "react-native";
+import Loading from "@UI/Loading";
 
 const Splash = (props) => {
   return (
-    <Container>
-      <BgImage
-        onLoad={props.onLoad}
-        source={require("@images/img1242x2436.png")}
-        resizeMode="cover"
-      />
-    </Container>
+    <BgImage
+      source={require("@assets/splash/ios/img1242x2436.png")}
+      resizeMode="cover"
+    />
   );
 };
 const BgImage = styled.Image({ width: "100%", height: "100%" });
