@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  PixelRatio,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -33,6 +34,7 @@ import LoginButtons from "@UI/drawer/LoginButtons";
 const { width, height } = Dimensions.get("window");
 
 export const CustomDrawerContent = (props, dispatch, menuList) => {
+  console.log(PixelRatio.get());
   return (
     <View style={{ width: "100%", height: "100%" }}>
       <View
@@ -44,7 +46,7 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
         }}
       >
         <DrawerContentScrollView {...props}>
-          <View style={{ height: screenHeight - screenHeight * 0.22 }}>
+          <View style={{ minHeight: screenHeight - screenHeight * 0.26 }}>
             <MemberInfo {...props} />
             <GrayButtons {...props} menuList={menuList} />
             <MenuList {...props} menuList={menuList} />
