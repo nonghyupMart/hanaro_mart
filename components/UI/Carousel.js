@@ -459,6 +459,7 @@ export default class Carousel extends Component {
           ref={(c) => {
             this.scrollView = c;
           }}
+          scrollEventThrottle={60}
           onScrollBeginDrag={this._onScrollBegin}
           onMomentumScrollEnd={this._onScrollEnd}
           onScroll={this._onScroll}

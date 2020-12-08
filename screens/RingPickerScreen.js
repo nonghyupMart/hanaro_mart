@@ -33,9 +33,9 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const [init, setInit] = useState(() => {
     dispatch(setIsLoading(false));
-    dispatch(CommonActions.setBottomNavigation(false));
   });
   useEffect(() => {
+    dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
     };
