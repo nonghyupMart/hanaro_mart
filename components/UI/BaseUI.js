@@ -90,7 +90,9 @@ export const BaseTextInput = styled(TextInput)({
 });
 const ExtendedImage = (props) => {
   const [source, setSource] = useState(props.source);
-  const [color, setColor] = useState(colors.white);
+  const [color, setColor] = useState(
+    Platform.OS == "android" ? colors.white : "transparent"
+  );
   const onError = () => {
     setSource(require("@images/m_img499.png"));
   };
