@@ -210,11 +210,13 @@ export const updateUserInfo = async (dispatch, userInfo, token) => {
   }
 
   return dispatch(action).then(async (data) => {
-    if (!_.isEmpty(data.userInfo)) {
-      dispatch(authActions.setUserInfo(data.userInfo));
-      authActions.saveUserInfoToStorage(data.userInfo);
-      authActions.saveUserTelToStorage(data.userInfo.tel);
-    }
+    if (_.isEmpty(data.userInfo) || data.userInfo.user_cd != userInfo.user_cd)
+      return;
+
+    dispatch(authActions.setUserInfo(data.userInfo));
+    authActions.saveUserInfoToStorage(data.userInfo);
+    authActions.saveUserTelToStorage(data.userInfo.tel);
+
     let obj;
     if (!_.isEmpty(data.storeInfo)) {
       obj = { storeInfo: data.storeInfo, menuList: data.menuList };
