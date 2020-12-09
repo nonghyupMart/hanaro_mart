@@ -17,6 +17,7 @@ import {
   ScaledImage,
   screenWidth,
 } from "@UI/BaseUI";
+import _ from "lodash";
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
 import { StoreBox, BottomCover } from "@components/store/InfoBox";
@@ -90,6 +91,11 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       })
     );
   };
+  useEffect(() => {
+    if (_.isEmpty(userInfo)) {
+      navigation.navigate("Home");
+    }
+  }, [userInfo]);
   const onPressRadio = () => {};
   return (
     <BaseScreen
