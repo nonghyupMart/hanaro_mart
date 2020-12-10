@@ -29,16 +29,12 @@ const EventScreen = (props) => {
   } else {
     event = useSelector((state) => state.event.event);
   }
-
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (userStore) {
-        setPage(1);
-        fetchEvent();
-      }
-    });
-    return unsubscribe;
-  }, [userStore]);
+    if (isFocused && !_.isEmpty(userStore)) {
+      setPage(1);
+      fetchEvent();
+    }
+  }, [isFocused, userStore]);
 
   const fetchEvent = (p = page) => {
     dispatch(setIsLoading(true));

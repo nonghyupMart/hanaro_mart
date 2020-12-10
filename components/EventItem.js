@@ -10,7 +10,6 @@ const EventItem = (props) => {
         source={props.item.title_img}
         style={{
           height: screenWidth * 0.316,
-
           borderWidth: 1,
           borderColor: colors.pinkishGrey,
         }}
@@ -21,7 +20,7 @@ const EventItem = (props) => {
             <>
               <Image
                 source={require("@images/stopwatch.png")}
-                resizeMode="contain"
+                style={{ height: 20 }}
               />
               <Status>진행중</Status>
             </>
@@ -30,7 +29,7 @@ const EventItem = (props) => {
             <>
               <Image
                 source={require("@images/stopwatchgray.png")}
-                resizeMode="contain"
+                style={{ height: 20 }}
               />
               <Status style={{ color: colors.greyishThree }}>종료</Status>
             </>
@@ -43,6 +42,7 @@ const EventItem = (props) => {
     </Container>
   );
 };
+
 const Status = styled(BaseText)({
   fontSize: 13,
   fontWeight: "500",
