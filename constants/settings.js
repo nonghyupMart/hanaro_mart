@@ -8,7 +8,7 @@ export const { SERVER_URL } = getEnvVars();
 export const API_URL = `${SERVER_URL}/api`;
 export const IMAGE_URL = `${SERVER_URL}`;
 
-export const INTERNAL_APP_VERSION = "1.2.1";
+export const INTERNAL_APP_VERSION = "1.2.2";
 
 /*
 링크 카테고리
