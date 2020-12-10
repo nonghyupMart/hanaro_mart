@@ -27,6 +27,7 @@ import * as CommonActions from "@actions/common";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
 import { SET_COUPON_DETAIL } from "@actions/coupon";
+import Barcode from "@components/Barcode";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;
@@ -49,6 +50,10 @@ const CouponDetailScreen = (props) => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
+      dispatch({
+        type: SET_COUPON_DETAIL,
+        couponDetail: null,
+      });
     };
   }, []);
   useEffect(() => {
@@ -130,6 +135,17 @@ const CouponDetailScreen = (props) => {
       );
     }
   };
+  const onError = () => {
+    dispatch(
+      setAlert({
+        message: "바코드번호가 정확하지 않습니다. 고객센터에 문의해주세요.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+          props.navigation.pop();
+        },
+      })
+    );
+  };
   useEffect(() => {
     if (couponDetail) {
       props.navigation.setOptions({
@@ -139,12 +155,13 @@ const CouponDetailScreen = (props) => {
         },
         headerLeft: () => <BackButton />,
         headerTitle: (props) => <TextTitle {...props} />,
-        headerRight: (props) => <UseButton onPress={onPress} />,
+        headerRight: (props) =>
+          couponDetail.limit_yn == "N" ? null : <UseButton onPress={onPress} />,
       });
     }
   }, [couponDetail]);
 
-  if (!couponDetail || isLoading) return <></>;
+  if (_.isEmpty(couponDetail) || isLoading) return <></>;
   return (
     <BaseScreen
       style={{ paddingLeft: 0, paddingRight: 0 }}
@@ -220,6 +237,17 @@ const CouponDetailScreen = (props) => {
             }}
             resizeMode="contain"
           />
+          {couponDetail.barcode && couponDetail.limit_yn == "N" && (
+            <Barcode
+              width={3}
+              height={100}
+              value={couponDetail.barcode}
+              format="EAN13"
+              flat
+              text={couponDetail.barcode}
+              onError={onError}
+            />
+          )}
           {/* <Discount>
             {couponDetail.price}
             {couponDetail.price_gbn == "A" ? "원 " : "% "}
