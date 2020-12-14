@@ -117,6 +117,18 @@ const HomeScreen = (props) => {
             style={{ width: "100%" }}
           />
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{ width: "100%" }}
+          onPress={() => {
+            if (!isJoin) return navigation.navigate("Empty");
+            navigation.navigate("StoreChange");
+          }}
+        >
+          <Image
+            source={require("@images/mystore.png")}
+            style={{ width: "100%" }}
+          />
+        </TouchableOpacity>
         {/* <Space /> */}
         <NaroTube isFocused={isFocused} />
         <HomeNotice isFocused={isFocused} />
