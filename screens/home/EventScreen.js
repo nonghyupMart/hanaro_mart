@@ -65,6 +65,7 @@ const EventScreen = (props) => {
       <NoList
         source={require("@images/megaphone.png")}
         text={"응모한 이벤트"}
+        infoText="응모한 이벤트 내역이 없습니다."
       />
     );
   if (routeName == "Event" && _.size(event.eventList) === 0)
