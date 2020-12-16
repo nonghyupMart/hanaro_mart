@@ -141,6 +141,7 @@ const StoreChangeScreen = (props) => {
           mname={mname}
           setStore_nm={setStore_nm}
           fetchBranches={fetchBranches}
+          setPage={setPage}
         />
 
         <PickerViews
@@ -154,6 +155,7 @@ const StoreChangeScreen = (props) => {
           setLname={setLname}
           setMname={setMname}
           fetchBranches={fetchBranches}
+          setPage={setPage}
         />
 
         {branches && (

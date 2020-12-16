@@ -22,6 +22,7 @@ const SearchBar = (props) => {
       mname: props.mname,
       store_nm: props.store_nm,
     };
+    props.setPage(1);
     props
       .fetchBranches(props.lname, props.mname, props.store_nm, 1)
       .then(() => {
