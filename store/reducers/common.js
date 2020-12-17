@@ -7,6 +7,7 @@ import {
   SET_HEADER_HEIGHT,
   SET_DID_TRY_POPUP,
   SET_NOTIFICATION,
+  SET_BRIGHTNESS,
 } from "@actions/common";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   headerHeight: 0,
   didTryPopup: false,
   notification: null,
+  brightness: null,
 };
 
 export default (state = initialState, action) => {
@@ -62,6 +64,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         isLoading: !!action.isLoading,
+      };
+    case SET_BRIGHTNESS:
+      return {
+        ...state,
+        brightness: action.brightness,
       };
     default:
       return state;

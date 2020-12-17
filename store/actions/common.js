@@ -10,7 +10,14 @@ export const SET_IS_LOADING = "SET_IS_LOADING";
 export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
 export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
+export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
 
+export const setBrightness = (brightness) => {
+  return {
+    type: SET_BRIGHTNESS,
+    brightness: brightness,
+  };
+};
 export const setNotification = (notification) => {
   return {
     type: SET_NOTIFICATION,

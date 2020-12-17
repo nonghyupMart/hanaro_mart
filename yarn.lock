@@ -4150,6 +4150,11 @@ expo-blur@~8.2.0:
   resolved "https://registry.yarnpkg.com/expo-blur/-/expo-blur-8.2.0.tgz#4f586b5019c70f93c9914b2ff6ecadda4a382d51"
   integrity sha512-LXx8tyVMk1pE4Ug9fHNTIsZnUPewmWXyFhiEwUkeP5SKlg92CgWGbTiGkdhFiU5X0vDxgFKsVVilLcNQxWYSfQ==
 
+expo-brightness@~8.3.0:
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/expo-brightness/-/expo-brightness-8.3.0.tgz#7bda6272ce7e2ecefa0196919a964841ce2834c9"
+  integrity sha512-HIZqQhVVJmkYrDt4mcJ3cpdzQoxdHYLQsD1My/YQUaSCTNQwNulezSQ2a7zFQ2eu1W76uxAEgvTb/oVT4REpsQ==
+
 expo-camera@~9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/expo-camera/-/expo-camera-9.0.0.tgz#544fed30b64c80718602fa86e6313982ace49e51"

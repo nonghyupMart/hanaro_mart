@@ -3,14 +3,7 @@ import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, TouchableOpacity, Text } from "react-native";
 import * as Util from "@util";
-import {
-  SafeAreaView,
-  View,
-  Text as TextView,
-  StyleSheet,
-  FlatList,
-  BackHandler,
-} from "react-native";
+import { View, Text as TextView, StyleSheet, Platform } from "react-native";
 import {
   DetailContainer,
   BaseImage,
@@ -28,6 +21,7 @@ import _ from "lodash";
 import { setAlert, setIsLoading } from "@actions/common";
 import { SET_COUPON_DETAIL } from "@actions/coupon";
 import Barcode from "@components/Barcode";
+import * as Brightness from "expo-brightness";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;
@@ -37,6 +31,7 @@ const CouponDetailScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const [isUsed, setIsUsed] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const brightness = useSelector((state) => state.common.brightness);
   // useEffect(() => {
   //   return () => {
   //     dispatch({
@@ -48,14 +43,30 @@ const CouponDetailScreen = (props) => {
 
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
-    return () => {
+    return async () => {
       dispatch(CommonActions.setBottomNavigation(true));
       dispatch({
         type: SET_COUPON_DETAIL,
         couponDetail: null,
       });
+      if (brightness && Platform.OS == "ios")
+        await Brightness.setBrightnessAsync(brightness);
+      await Brightness.useSystemBrightnessAsync();
     };
   }, []);
+  useEffect(() => {
+    (async () => {
+      if (
+        !couponDetail ||
+        !couponDetail.barcode ||
+        couponDetail.limit_yn != "N"
+      )
+        return;
+      const currentBrightLevel = await Brightness.getBrightnessAsync();
+      await dispatch(CommonActions.setBrightness(currentBrightLevel));
+      await Brightness.setBrightnessAsync(1);
+    })();
+  }, [couponDetail]);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(

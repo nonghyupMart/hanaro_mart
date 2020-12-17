@@ -2,20 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import JsBarcode from "jsbarcode";
+import * as Brightness from "expo-brightness";
 
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
 
 // import Barcode from "react-native-jsbarcode";
-import {
-  SafeAreaView,
-  View,
-  Text as TextView,
-  StyleSheet,
-  FlatList,
-  BackHandler,
-  Image,
-} from "react-native";
+import { Text as TextView, StyleSheet, Platform, Image } from "react-native";
 
 import BaseScreen from "@components/BaseScreen";
 import { BackButton, TextTitle } from "@UI/header";
@@ -26,6 +19,7 @@ import * as CommonActions from "@actions/common";
 const BarcodeScreen = (props) => {
   const params = props.route.params;
   const dispatch = useDispatch();
+  const brightness = useSelector((state) => state.common.brightness);
   const isLoading = useSelector((state) => state.common.isLoading);
   const [isBarcodeSafe, setIsBarcodeSafe] = useState(false);
   const [svgBarcode, setSvgBarcode] = useState();
@@ -42,9 +36,17 @@ const BarcodeScreen = (props) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [barContainerWidth, setBarContainerWidth] = useState(0);
   useEffect(() => {
+    (async () => {
+      const currentBrightLevel = await Brightness.getBrightnessAsync();
+      await dispatch(CommonActions.setBrightness(currentBrightLevel));
+      await Brightness.setBrightnessAsync(1);
+    })();
     dispatch(CommonActions.setBottomNavigation(false));
-    return () => {
+    return async () => {
       dispatch(CommonActions.setBottomNavigation(true));
+      if (brightness && Platform.OS == "ios")
+        await Brightness.setBrightnessAsync(brightness);
+      await Brightness.useSystemBrightnessAsync();
     };
   }, []);
   useEffect(() => {
@@ -77,7 +79,6 @@ const BarcodeScreen = (props) => {
   };
   return (
     <BaseScreen
-
       style={{ paddingLeft: 0, paddingRight: 0 }}
       contentStyle={{ paddingTop: 0 }}
     >
