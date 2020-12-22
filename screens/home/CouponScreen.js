@@ -67,9 +67,9 @@ const CouponScreen = (props) => {
     });
     return unsubscribe;
   }, [userStore]);
-  const onCouponItemPressed = (item, type = "B") => {
+  const onCouponItemPressed = async (item, type = "B") => {
     if (!userInfo.ci) return navigation.navigate("Empty");
-    dispatch(setIsLoading(true));
+
     let couponList;
     switch (type) {
       case "A":
@@ -82,6 +82,7 @@ const CouponScreen = (props) => {
     const index = couponList.indexOf(item);
     switch (item.status) {
       case "00": // 미발급
+        await dispatch(setIsLoading(true));
         dispatch(
           couponActions.downloadCoupon({
             store_cd: userStore.storeInfo.store_cd,
@@ -91,7 +92,8 @@ const CouponScreen = (props) => {
             index: index,
             type,
           })
-        ).then((data) => {
+        ).then(async (data) => {
+          await dispatch(setIsLoading(false));
           if (data.result == "success") {
             navigation.navigate("CouponDetail", {
               store_cd: userStore.storeInfo.store_cd,
@@ -119,7 +121,6 @@ const CouponScreen = (props) => {
       case "20": // 사용완료
         break;
     }
-    dispatch(setIsLoading(false));
   };
   const loadMore = () => {
     if (!isLoading && page + 1 <= coupon.finalPage) {
