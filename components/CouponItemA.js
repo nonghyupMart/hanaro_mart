@@ -10,9 +10,7 @@ const CouponItemA = (props) => {
       <CouponImgA source={props.item.title_img} />
       <TextContainer>
         <TitleContainer>
-          <Title numberOfLines={1}>
-            {props.item.title}
-          </Title>
+          <Title numberOfLines={1}>{props.item.title}</Title>
           <Title>
             [{Util.formatNumber(props.item.price)}
             {props.item.price_gbn == "A" ? "원 " : "% "}
@@ -38,6 +36,12 @@ const CouponItemA = (props) => {
           <IconContainer2 onPress={props.onPress}>
             <Image source={require("@images/timer25.png")} />
             <IconText style={{ color: colors.silver }}>사용완료</IconText>
+          </IconContainer2>
+        )}
+        {props.item.status == "30" && (
+          <IconContainer2 onPress={props.onPress}>
+            <Image source={require("@images/timer25.png")} />
+            <IconText style={{ color: colors.silver }}>쿠폰소진완료</IconText>
           </IconContainer2>
         )}
       </TextContainer>

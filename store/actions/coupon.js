@@ -81,7 +81,16 @@ export const downloadCoupon = (query) => {
         body: JSON.stringify(query),
       });
       const resData = await Network.getResponse(response, dispatch, url, query);
-      coupon.couponList[index].status = "10";
+      switch (resData.code) {
+        case "200":
+          coupon.couponList[index].status = "10";
+          break;
+        case "COU-0004": //COU-0004 - 수량이 없을때 오류 메세지
+          coupon.couponList[index].status = "30";
+        default:
+          break;
+      }
+
       switch (type) {
         case "A":
           dispatch({ type: SET_COUPON_A, coupon: coupon });
