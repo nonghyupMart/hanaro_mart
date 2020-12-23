@@ -64,11 +64,6 @@ const HomeScreen = (props) => {
 
   initNotificationReceiver(routeName);
   useEffect(() => {
-    if (Platform.OS == "ios") {
-      setTimeout(() => {
-        StatusBar.setBarStyle("dark-content");
-      }, 1000);
-    }
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));
@@ -81,6 +76,11 @@ const HomeScreen = (props) => {
   }, [isFocused]);
   useEffect(() => {
     (async () => {
+      if (Platform.OS == "ios") {
+        setTimeout(() => {
+          StatusBar.setBarStyle("dark-content");
+        }, 1000);
+      }
       let data = await Util.getStorageItem("notificationData");
       let jsonData = await JSON.parse(data);
       if (_.isEmpty(jsonData)) return;
