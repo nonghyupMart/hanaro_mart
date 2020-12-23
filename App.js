@@ -98,13 +98,12 @@ export default function App() {
 
   useEffect(() => {
     if (Platform.OS == "android") return;
-    setStatusBarStyle("dark-content");
-    setTimeout(() => {
-      setStatusBarStyle("dark-content");
-    }, 1000);
-    return () => {
-      setStatusBarStyle("dark-content");
-    };
+    (async () => {
+      await setStatusBarStyle("dark");
+    })();
+     setTimeout(() => {
+       setStatusBarStyle("dark");
+     }, 1000);
   }, []);
 
   if (!fontLoaded) {

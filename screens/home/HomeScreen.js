@@ -48,6 +48,7 @@ import { CATEGORY } from "@constants/settings";
 import { SET_NOTIFICATION } from "@actions/common";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { TabMenus } from "@constants/menu";
+import { StatusBar, setStatusBarStyle } from "expo-status-bar";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -62,6 +63,7 @@ const HomeScreen = (props) => {
 
   initNotificationReceiver(routeName);
   useEffect(() => {
+    if (Platform.OS == "ios") setStatusBarStyle("dark");
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));

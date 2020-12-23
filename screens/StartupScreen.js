@@ -10,14 +10,17 @@ import * as Util from "@util";
 import _ from "lodash";
 import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";
+import Constants from "expo-constants";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
-      const token = (await Notifications.getExpoPushTokenAsync()).data;
-      if (token) await dispatch(authActions.setPushToken(token));
+      if (Constants.isDevice) {
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        if (token) await dispatch(authActions.setPushToken(token));
+      }
       const userStoreData = await Util.getStorageItem("userStoreData");
       await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
 
