@@ -7,11 +7,8 @@ import * as exhibitionActions from "@actions/exhibition";
 import * as exclusiveActions from "@actions/exclusive";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
-import AutoHeightImage from "react-native-auto-height-image";
-import ImageViewer from "react-native-image-zoom-viewer";
-import Modal from "react-native-modal";
 import AutoHeightWebView from "react-native-autoheight-webview";
-
+import { SET_EXHIBITION_DETAIL } from "@actions/exhibition";
 import {
   DetailContainer,
   BaseImage,
@@ -23,7 +20,6 @@ import {
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
 import { TabMenus } from "@constants/menu";
-import { PinchGestureHandler } from "react-native-gesture-handler";
 
 const ExhibitionDetailScreen = (props, { navigation }) => {
   const routeName = props.route.name;
@@ -43,11 +39,14 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
 
   const params = props.route.params;
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(eventActions.clearEventDetail());
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      dispatch({
+        type: SET_EXHIBITION_DETAIL,
+        exhibitionDetail: null,
+      });
+    };
+  }, []);
   useEffect(() => {
     const currentTab = TabMenus.filter(
       (tab) => tab.name == routeName.split("Detail")[0]
