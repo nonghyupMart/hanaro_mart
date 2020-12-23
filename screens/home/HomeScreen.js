@@ -8,6 +8,8 @@ import {
   Dimensions,
   AsyncStorage,
   BackHandler,
+  StatusBar,
+  Platform,
 } from "react-native";
 import {
   createStackNavigator,
@@ -62,6 +64,11 @@ const HomeScreen = (props) => {
 
   initNotificationReceiver(routeName);
   useEffect(() => {
+    if (Platform.OS == "ios") {
+      setTimeout(() => {
+        StatusBar.setBarStyle("dark-content");
+      }, 1000);
+    }
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));

@@ -104,7 +104,7 @@ export default function App() {
     })();
     setTimeout(() => {
       StatusBar.setBarStyle("dark-content");
-    }, 1000);
+    }, 3000);
   }, []);
 
   if (!fontLoaded) {
