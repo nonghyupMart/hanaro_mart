@@ -97,6 +97,16 @@ export default function App() {
     usePreventScreenCapture();
   }
 
+  useEffect(() => {
+    if (Platform.OS == "android") return;
+    (async () => {
+      await StatusBar.setBarStyle("dark-content");
+    })();
+    setTimeout(() => {
+      StatusBar.setBarStyle("dark-content");
+    }, 1000);
+  }, []);
+
   if (!fontLoaded) {
     return (
       <AppLoading
@@ -109,10 +119,7 @@ export default function App() {
   }
   return (
     <Provider store={store}>
-      <StatusBar
-        barStyle={Platform.OS == "ios" ? "default" : "dark-content"}
-        backgroundColor="white"
-      />
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
       <AppNavigator />
     </Provider>
   );
