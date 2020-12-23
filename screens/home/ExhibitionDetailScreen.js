@@ -10,6 +10,7 @@ import { IMAGE_URL } from "@constants/settings";
 import AutoHeightImage from "react-native-auto-height-image";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Modal from "react-native-modal";
+import AutoHeightWebView from "react-native-autoheight-webview";
 
 import {
   DetailContainer,
@@ -95,6 +96,7 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
   if (!detail) return <></>;
   return (
     <BaseScreen
+      isScroll={false}
       setScrollRef={setScrollRef}
       style={{ backgroundColor: colors.trueWhite }}
       isPadding={false}
@@ -113,39 +115,15 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
             paddingBottom: 0,
           }}
         >
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setIsZoom(true)}
-            style={{ width: "100%" }}
-          >
-            <PinchGestureHandler onGestureEvent={() => setIsZoom(true)}>
-              <ScaledImage
-                key={detail.detail_img}
-                source={detail.detail_img}
-                style={{}}
-                width={screenWidth}
-              />
-            </PinchGestureHandler>
-          </TouchableOpacity>
-          <Modal
-            style={{
-              marginLeft: 0,
-              marginRight: 0,
-              marginTop: 0,
-              marginBottom: 0,
+          <AutoHeightWebView
+            scalesPageToFit={false}
+            source={{
+              html: require("../../image.js")(IMAGE_URL + detail.detail_img),
             }}
-            visible={isZoom}
-            transparent={true}
-            useNativeDriver={true}
-            hideModalContentWhileAnimating={true}
-            onRequestClose={() => setIsZoom(false)}
-          >
-            <ImageViewer
-              onClick={() => setIsZoom(false)}
-              renderIndicator={() => null}
-              imageUrls={[{ url: IMAGE_URL + detail.detail_img }]}
-            />
-          </Modal>
+            style={{
+              flex: 1,
+            }}
+          />
         </DetailContainer>
       )}
     </BaseScreen>
