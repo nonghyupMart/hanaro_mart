@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as exhibitionActions from "@actions/exhibition";
@@ -8,6 +8,8 @@ import * as exclusiveActions from "@actions/exclusive";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
 import AutoHeightImage from "react-native-auto-height-image";
+import ImageViewer from "react-native-image-zoom-viewer";
+import Modal from "react-native-modal";
 
 import {
   DetailContainer,
@@ -20,9 +22,11 @@ import {
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
 import { TabMenus } from "@constants/menu";
+import { PinchGestureHandler } from "react-native-gesture-handler";
 
 const ExhibitionDetailScreen = (props, { navigation }) => {
   const routeName = props.route.name;
+  const [isZoom, setIsZoom] = useState(false);
   const dispatch = useDispatch();
   const [scrollRef, setScrollRef] = useState();
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -109,12 +113,39 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
             paddingBottom: 0,
           }}
         >
-          <ScaledImage
-            key={detail.detail_img}
-            source={detail.detail_img}
-            style={{}}
-            width={screenWidth}
-          />
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => setIsZoom(true)}
+            style={{ width: "100%" }}
+          >
+            <PinchGestureHandler onGestureEvent={() => setIsZoom(true)}>
+              <ScaledImage
+                key={detail.detail_img}
+                source={detail.detail_img}
+                style={{}}
+                width={screenWidth}
+              />
+            </PinchGestureHandler>
+          </TouchableOpacity>
+          <Modal
+            style={{
+              marginLeft: 0,
+              marginRight: 0,
+              marginTop: 0,
+              marginBottom: 0,
+            }}
+            visible={isZoom}
+            transparent={true}
+            useNativeDriver={true}
+            hideModalContentWhileAnimating={true}
+            onRequestClose={() => setIsZoom(false)}
+          >
+            <ImageViewer
+              onClick={() => setIsZoom(false)}
+              renderIndicator={() => null}
+              imageUrls={[{ url: IMAGE_URL + detail.detail_img }]}
+            />
+          </Modal>
         </DetailContainer>
       )}
     </BaseScreen>

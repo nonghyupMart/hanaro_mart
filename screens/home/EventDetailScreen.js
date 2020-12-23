@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import BaseScreen from "@components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "@actions/event";
 import { BackButton, TextTitle } from "@UI/header";
 import { IMAGE_URL } from "@constants/settings";
+import ImageViewer from "react-native-image-zoom-viewer";
+import Modal from "react-native-modal";
 
 import {
   DetailContainer,
@@ -21,12 +23,13 @@ import B from "@screens/home/EventDetail/B";
 import C from "@screens/home/EventDetail/C";
 import { setAlert, setIsLoading } from "@actions/common";
 import * as CommonActions from "@actions/common";
+import { PinchGestureHandler } from "react-native-gesture-handler";
 
 const EventDetailScreen = (props, { navigation }) => {
   const dispatch = useDispatch();
   const [scrollRef, setScrollRef] = useState();
   const isLoading = useSelector((state) => state.common.isLoading);
-
+  const [isZoom, setIsZoom] = useState(false);
   const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
@@ -211,15 +214,43 @@ const EventDetailScreen = (props, { navigation }) => {
             marginBottom: 0,
           }}
         >
-          <ScaledImage
-            onLoad={onLoad}
-            onError={onLoad}
-            onLoadEnd={onLoad}
-            key={eventDetail.detail_img}
-            source={eventDetail.detail_img}
-            style={{}}
-            width={screenWidth}
-          />
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => setIsZoom(true)}
+            style={{ width: "100%" }}
+          >
+            <PinchGestureHandler onGestureEvent={() => setIsZoom(true)}>
+              <ScaledImage
+                onLoad={onLoad}
+                onError={onLoad}
+                onLoadEnd={onLoad}
+                key={eventDetail.detail_img}
+                source={eventDetail.detail_img}
+                style={{}}
+                width={screenWidth}
+              />
+            </PinchGestureHandler>
+          </TouchableOpacity>
+
+          <Modal
+            style={{
+              marginLeft: 0,
+              marginRight: 0,
+              marginTop: 0,
+              marginBottom: 0,
+            }}
+            visible={isZoom}
+            transparent={true}
+            useNativeDriver={true}
+            hideModalContentWhileAnimating={true}
+            onRequestClose={() => setIsZoom(false)}
+          >
+            <ImageViewer
+              onClick={() => setIsZoom(false)}
+              renderIndicator={() => null}
+              imageUrls={[{ url: IMAGE_URL + eventDetail.detail_img }]}
+            />
+          </Modal>
           {eventDetail.entry &&
             eventDetail.entry_yn == "Y" &&
             eventDetail.gbn == "A" && (
