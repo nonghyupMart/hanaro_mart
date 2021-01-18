@@ -230,16 +230,11 @@ const AgreementScreen = (props) => {
   };
 
   const getPermissions = () => {
-    return Permissions.getAsync(
-      Permissions.NOTIFICATIONS,
-      Permissions.LOCATION,
-      Permissions.CAMERA
-    )
+    return Permissions.getAsync(Permissions.NOTIFICATIONS, Permissions.CAMERA)
       .then((statusObj) => {
         if (statusObj.status !== "granted") {
           return Permissions.askAsync(
             Permissions.NOTIFICATIONS,
-            Permissions.LOCATION,
             Permissions.CAMERA
           );
         }
