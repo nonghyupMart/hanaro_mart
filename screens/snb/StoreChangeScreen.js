@@ -77,7 +77,9 @@ const StoreChangeScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    const fetchStoreMark = dispatch(branchesActions.fetchStoreMark(query));
+    const fetchStoreMark = isJoin
+      ? dispatch(branchesActions.fetchStoreMark(query))
+      : null;
     fetchBranches();
 
     Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
@@ -123,7 +125,8 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      {!_.isEmpty(userStore) &&
+      {isJoin &&
+        !_.isEmpty(userStore) &&
         !_.isEmpty(storeMark) &&
         _.size(storeMark.storeList) > 0 && (
           <HistoryList

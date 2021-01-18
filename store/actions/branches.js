@@ -86,6 +86,24 @@ export const fetchBranch = (store_cd) => {
   };
 };
 
+export const fetchBranchNear = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/store-near`,
+    query,
+  });
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url);
+      const resData = await Network.getResponse(response, dispatch, url, query);
+
+      dispatch({ type: SET_BRANCH, branch: resData.data });
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
 export const fetchStoreMark = (query) => {
   const url = queryString.stringifyUrl({
     url: `${API_URL}/store-mark`,

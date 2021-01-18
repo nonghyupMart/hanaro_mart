@@ -10,6 +10,7 @@ import {
   BackHandler,
   StatusBar,
   Platform,
+  AppState,
 } from "react-native";
 import {
   createStackNavigator,
@@ -50,6 +51,8 @@ import { CATEGORY } from "@constants/settings";
 import { SET_NOTIFICATION } from "@actions/common";
 import * as RootNavigation from "@navigation/RootNavigation";
 import { TabMenus } from "@constants/menu";
+import * as Location from "expo-location";
+import * as branchesActions from "@actions/branches";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -61,6 +64,71 @@ const HomeScreen = (props) => {
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
+  const branch = useSelector((state) => state.branches.branch);
+  const [location, setLocation] = useState(null);
+  const [permissionStatus, setPermissionStatus] = useState();
+
+  useEffect(() => {
+    (async () => {
+      if (AppState.currentState != "active") return;
+      let { status } = await Location.requestPermissionsAsync();
+      setPermissionStatus(status);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      // 비가입시에만 실행
+      if (!permissionStatus || isJoin) return;
+      if (permissionStatus !== "granted") {
+        // 매장을 선택해주세요. 매장 설정 화면으로 ...
+        dispatch(
+          setAlert({
+            message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
+            onPressConfirm: async () => {
+              await dispatch(setAlert(null));
+              RootNavigation.navigate("StoreChange");
+            },
+            onPressCancel: async () => {
+              await dispatch(setAlert(null));
+              await dispatch(setDidTryPopup(true));
+            },
+            confirmText: "매장선택",
+            cancelText: "취소",
+          })
+        );
+        return;
+      }
+      let provider = await Location.getProviderStatusAsync();
+      if (location == null) {
+        let location = await Location.getCurrentPositionAsync({
+          maximumAge: 60000, // only for Android
+          accuracy: Platform.Android
+            ? Location.Accuracy.Low
+            : Location.Accuracy.Lowest,
+        });
+        setLocation(location);
+      }
+    })();
+  }, [permissionStatus]);
+
+  useEffect(() => {
+    (async () => {
+      // 비가입시에만 실행
+      // 가장 가까운 매장 상세정보 호출 후 세팅
+      if (!location || isJoin) return;
+      let query = {};
+      if (location) {
+        query.lat = location.coords.latitude;
+        query.lng = location.coords.longitude;
+      }
+      const fetchBranchNear = dispatch(branchesActions.fetchBranchNear(query));
+      fetchBranchNear.then((data) => {
+        if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
+        dispatch(authActions.saveUserStore(data));
+      });
+    })();
+  }, [location]);
 
   initNotificationReceiver(routeName);
   useEffect(() => {
@@ -127,7 +195,6 @@ const HomeScreen = (props) => {
         <TouchableOpacity
           style={{ width: "100%" }}
           onPress={() => {
-            if (!isJoin) return navigation.navigate("Empty");
             navigation.navigate("StoreChange");
           }}
         >

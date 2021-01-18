@@ -20,7 +20,6 @@ const MenuList = (props) => {
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
-            if (!isJoin) return props.navigation.navigate("Empty");
             props.navigation.navigate("StoreChange");
           }}
         >
