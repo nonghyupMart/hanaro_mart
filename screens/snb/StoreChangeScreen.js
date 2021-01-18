@@ -52,7 +52,7 @@ const StoreChangeScreen = (props) => {
       if (AppState.currentState != "active") return;
       let { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        // setErrorMsg("Permission to access location was denied");
       }
 
       let provider = await Location.getProviderStatusAsync();
