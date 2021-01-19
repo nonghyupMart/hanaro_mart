@@ -1,7 +1,6 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
-import { clearStorePopup } from "@actions/home";
 import * as Util from "@util";
 import * as Network from "@util/network";
 import _ from "lodash";
