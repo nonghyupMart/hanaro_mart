@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import Splash from "@UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
-import { AppLoading } from "expo";
+import AppLoading from 'expo-app-loading';
 // import { StatusBar, setStatusBarStyle } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
