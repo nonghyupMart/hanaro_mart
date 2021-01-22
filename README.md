@@ -47,7 +47,7 @@ expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api
 iOS
 
 ```bash
-expo upload:ios --latest
+transporter 사용
 ```
 
 # 계정정보
