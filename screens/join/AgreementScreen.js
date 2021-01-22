@@ -285,7 +285,7 @@ const AgreementScreen = (props) => {
       if (!Constants.isDevice) {
         dispatch(setAgreedStatus(cks));
         saveAgreedStatusToStorage(cks);
-        navigation.navigate(params.nextPage);
+        navigation.navigate("CI");
         return;
       }
       dispatch(setIsLoading(true));
@@ -308,7 +308,7 @@ const AgreementScreen = (props) => {
             await dispatch(setPushToken(token));
             await dispatch(setAgreedStatus(cks));
             await saveAgreedStatusToStorage(cks);
-            await navigation.navigate(params.nextPage);
+            await navigation.navigate("CI");
           }, 0);
         }
       });
@@ -558,6 +558,7 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
+    animationEnabled: false,
   };
 };
 export default AgreementScreen;

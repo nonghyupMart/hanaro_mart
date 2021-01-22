@@ -5,9 +5,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import AgreementScreen, {
   screenOptions as AgreementScreenOptions,
 } from "../screens/join/AgreementScreen";
-import JoinStep1Screen, {
-  screenOptions as JoinStep1ScreenOptions,
-} from "../screens/join/JoinStep1Screen";
 import CIScreen, {
   screenOptions as CIScreenOptions,
 } from "../screens/join/CIScreen";
@@ -30,11 +27,6 @@ export const JoinNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
-      <JoinStackNavigator.Screen
-        name="JoinStep1"
-        component={JoinStep1Screen}
-        options={JoinStep1ScreenOptions}
-      />
       <JoinStackNavigator.Screen
         name="Agreement"
         component={AgreementScreen}
