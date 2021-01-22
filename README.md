@@ -1,3 +1,7 @@
+# 배포전 수정 파일 
+- app.json -> version , buildNumber , versionCode
+- settings.js -> INTERNAL_APP_VERSION
+
 # Expo 배포
 
 Expo 운영서버 확인용
