@@ -36,7 +36,7 @@
       }
     },
     "android": {
-      "versionCode": 17,
+      "versionCode": 18,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",
@@ -52,6 +52,9 @@
       "useNextNotificationsApi": true,
       "permissions": [
         "CAMERA",
+        "FOREGROUND_SERVICE",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",
         "READ_INTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
