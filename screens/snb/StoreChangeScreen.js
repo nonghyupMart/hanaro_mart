@@ -54,15 +54,8 @@ const StoreChangeScreen = (props) => {
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
       }
-
-      let provider = await Location.getProviderStatusAsync();
       if (location == null) {
-        let location = await Location.getCurrentPositionAsync({
-          maximumAge: 60000, // only for Android
-          accuracy: Platform.Android
-            ? Location.Accuracy.Low
-            : Location.Accuracy.Lowest,
-        });
+        let location = await Location.getLastKnownPositionAsync();
         setLocation(location);
       }
     })();

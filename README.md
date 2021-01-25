@@ -1,3 +1,6 @@
+# 명령어 메뉴얼
+- https://docs.expo.io/workflow/expo-cli/#commands
+
 # 배포전 수정 파일 
 - app.json -> version , buildNumber , versionCode
 - settings.js -> INTERNAL_APP_VERSION

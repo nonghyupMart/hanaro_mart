@@ -52,9 +52,7 @@
       "useNextNotificationsApi": true,
       "permissions": [
         "CAMERA",
-        "FOREGROUND_SERVICE",
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",
         "READ_INTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
