@@ -152,16 +152,6 @@ export const updateExpo = (dispatch) => {
       } catch (e) {
         // handle or log error
         Util.log("update error=>", e);
-        dispatch(
-          setAlert({
-            message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-            confirmText: "업데이트",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-              Updates.reloadAsync();
-            },
-          })
-        );
       }
     })();
   }

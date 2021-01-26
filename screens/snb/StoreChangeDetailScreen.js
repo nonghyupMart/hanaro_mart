@@ -22,10 +22,11 @@ import BaseScreen from "@components/BaseScreen";
 import * as homeActions from "@actions/home";
 
 import * as branchesActions from "@actions/branches";
-import { setUserStore } from "@actions/auth";
+import { setUserStore, saveUserStore } from "@actions/auth";
 import { setAlert, setIsLoading } from "@actions/common";
 import { SET_BRANCH } from "@actions/branches";
 import * as CommonActions from "@actions/common";
+import * as RootNavigation from "@navigation/RootNavigation";
 
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
@@ -33,7 +34,7 @@ const StoreChangeDetailScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.common.isLoading);
-
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
@@ -44,8 +45,8 @@ const StoreChangeDetailScreen = (props) => {
   // }, []);
   useEffect(() => {
     // console.warn("didTryPopup2", didTryPopup);
-    if (!didTryPopup) {
-      navigation.popToTop();
+    if (!didTryPopup && isJoin) {
+      RootNavigation.popToTop();
     }
   }, [didTryPopup]);
   useEffect(() => {
@@ -80,6 +81,12 @@ const StoreChangeDetailScreen = (props) => {
   const saveStore = () => {
     if (!branch || !branch.storeInfo) return;
     dispatch(setIsLoading(true));
+    if (!isJoin) {
+      dispatch(saveUserStore(branch));
+      props.navigation.navigate("Home");
+      dispatch(setIsLoading(false));
+      return;
+    }
     let msg;
     dispatch(
       setUserStore(

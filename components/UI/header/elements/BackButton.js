@@ -23,7 +23,7 @@ const BackButton = (props) => {
         title="back"
         iconName="chevron-thin-left"
         onPress={() => {
-          if (navigationState.routes[index].name == "JoinStep1") {
+          if (navigationState.routes[index].name == "Agreement") {
             return dispatch(setPreview(true));
           }
 

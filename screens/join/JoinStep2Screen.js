@@ -39,6 +39,7 @@ import * as Util from "@util";
 const TEST_PHONE_NUMBER = "01999999999";
 
 const JoinStep2Screen = ({ navigation }) => {
+  const userStore = useSelector((state) => state.auth.userStore);
   const [joinStep, setJoinStep] = useState([false, false]);
   const [selectedValue, setSelectedValue] = useState("010");
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -95,6 +96,9 @@ const JoinStep2Screen = ({ navigation }) => {
       os: Platform.OS === "ios" ? "I" : "A",
       marketing_agree: agreedStatus[3].isChecked ? "Y" : "N",
     };
+    if (!_.isEmpty(userStore)) {
+      query.store_cd = userStore.storeInfo.store_cd;
+    }
     try {
       await signup(query, dispatch, agreedStatus);
       setIsRequestedJoin(true);

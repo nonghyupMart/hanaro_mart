@@ -1,3 +1,10 @@
+# 명령어 메뉴얼
+- https://docs.expo.io/workflow/expo-cli/#commands
+
+# 배포전 수정 파일 
+- app.json -> version , buildNumber , versionCode
+- settings.js -> INTERNAL_APP_VERSION
+
 # Expo 배포
 
 Expo 운영서버 확인용
@@ -43,7 +50,7 @@ expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api
 iOS
 
 ```bash
-expo upload:ios --latest
+transporter 사용
 ```
 
 # 계정정보

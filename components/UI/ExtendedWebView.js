@@ -23,7 +23,7 @@ export const ExtendedWebView = (props) => {
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
-
+  const userStore = useSelector((state) => state.auth.userStore);
   const [isLoaded, setIsLoaded] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
@@ -91,6 +91,9 @@ export const ExtendedWebView = (props) => {
         const user_id = await authActions.saveUserTelToStorage();
         if (query.user_id != user_id) {
           delete query.user_cd;
+        }
+        if (!_.isEmpty(userStore)) {
+          query.store_cd = userStore.storeInfo.store_cd;
         }
         signup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {

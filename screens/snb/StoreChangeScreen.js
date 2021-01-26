@@ -52,17 +52,10 @@ const StoreChangeScreen = (props) => {
       if (AppState.currentState != "active") return;
       let { status } = await Location.requestPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
+        // setErrorMsg("Permission to access location was denied");
       }
-
-      let provider = await Location.getProviderStatusAsync();
       if (location == null) {
-        let location = await Location.getCurrentPositionAsync({
-          maximumAge: 60000, // only for Android
-          accuracy: Platform.Android
-            ? Location.Accuracy.Low
-            : Location.Accuracy.Lowest,
-        });
+        let location = await Location.getLastKnownPositionAsync();
         setLocation(location);
       }
     })();
@@ -77,7 +70,9 @@ const StoreChangeScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    const fetchStoreMark = dispatch(branchesActions.fetchStoreMark(query));
+    const fetchStoreMark = isJoin
+      ? dispatch(branchesActions.fetchStoreMark(query))
+      : null;
     fetchBranches();
 
     Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
@@ -123,7 +118,8 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      {!_.isEmpty(userStore) &&
+      {isJoin &&
+        !_.isEmpty(userStore) &&
         !_.isEmpty(storeMark) &&
         _.size(storeMark.storeList) > 0 && (
           <HistoryList

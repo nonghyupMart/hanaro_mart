@@ -161,7 +161,7 @@ export const withdrawal = (query) => {
 export const withdrawalFinish = () => {
   return async (dispatch) => {
     await clearAllData();
-    dispatch({ type: WITHDRAWAL });
+    await dispatch({ type: WITHDRAWAL });
   };
 };
 export const saveUserInfoToStorage = (userInfo) => {
