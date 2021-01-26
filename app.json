@@ -2,7 +2,7 @@
   "expo": {
     "name": "하나로마트앱",
     "slug": "hanaro-plus",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "orientation": "portrait",
     "privacy": "public",
     "platforms": ["ios", "android"],
@@ -16,7 +16,7 @@
       "color": "#b2b2b2"
     },
     "ios": {
-      "buildNumber": "1.5.0",
+      "buildNumber": "1.6.0",
       "icon": "./assets/icon.png",
       "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": false,
@@ -36,7 +36,7 @@
       }
     },
     "android": {
-      "versionCode": 18,
+      "versionCode": 19,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",
@@ -53,6 +53,7 @@
       "permissions": [
         "CAMERA",
         "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
         "READ_EXTERNAL_STORAGE",
         "READ_INTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
