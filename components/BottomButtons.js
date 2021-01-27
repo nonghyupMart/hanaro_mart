@@ -38,7 +38,8 @@ const BottomButtons = (props) => {
         <TouchableOpacity
           style={styles.icons}
           onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
+            if (_.isEmpty(userStore) || !isJoin)
+              return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyCoupon");
           }}
         >
@@ -63,7 +64,8 @@ const BottomButtons = (props) => {
         <TouchableOpacity
           style={styles.icons}
           onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
+            if (_.isEmpty(userStore) || !isJoin)
+              return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyPage");
           }}
         >
