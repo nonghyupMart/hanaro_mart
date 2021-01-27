@@ -46,7 +46,7 @@ const MenuList = (props) => {
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {
-            if (_.isEmpty(userStore) || !userStore.storeInfo)
+            if (_.isEmpty(userStore) || !userStore.storeInfo || !isJoin)
               return props.navigation.navigate("Empty");
             props.navigation.navigate("Inquiry");
           }}
@@ -60,7 +60,7 @@ const MenuList = (props) => {
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={() => {
-            if (_.isEmpty(userStore) || !userStore.storeInfo)
+            if (_.isEmpty(userStore) || !userStore.storeInfo || !isJoin)
               return props.navigation.navigate("Empty");
             props.navigation.navigate("MyPage");
           }}
