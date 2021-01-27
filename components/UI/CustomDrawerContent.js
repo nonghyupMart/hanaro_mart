@@ -23,14 +23,14 @@ import {
   screenWidth,
   BaseButtonContainer,
   screenHeight,
-} from "@UI/BaseUI";
-import { setPreview } from "@actions/auth";
-import colors from "@constants/colors";
-import { TabMenus } from "@constants/menu";
-import MemberInfo from "@UI/drawer/MemberInfo";
-import GrayButtons from "@UI/drawer/GrayButtons";
-import MenuList from "@UI/drawer/MenuList";
-import LoginButtons from "@UI/drawer/LoginButtons";
+} from "./BaseUI";
+import { setPreview } from "../../store/actions/auth";
+import colors from "../../constants/colors";
+import { TabMenus } from "../../constants/menu";
+import MemberInfo from "./drawer/MemberInfo";
+import GrayButtons from "./drawer/GrayButtons";
+import MenuList from "./drawer/MenuList";
+import LoginButtons from "./drawer/LoginButtons";
 const { width, height } = Dimensions.get("window");
 
 export const CustomDrawerContent = (props, dispatch, menuList) => {

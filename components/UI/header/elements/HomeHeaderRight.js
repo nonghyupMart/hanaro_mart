@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import * as RootNavigation from "../../../../navigation/RootNavigation";
+import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 
 import { MaterialIcons } from "@expo/vector-icons";

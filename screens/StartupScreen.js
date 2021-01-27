@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 
-import * as authActions from "@actions/auth";
-import Splash from "@UI/Splash";
-import * as CommonActions from "@actions/common";
+import * as authActions from "../store/actions/auth";
+import Splash from "../components/UI/Splash";
+import * as CommonActions from "../store/actions/common";
 import moment from "moment";
-import * as Util from "@util";
+import * as Util from "../util";
 import _ from "lodash";
 import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";

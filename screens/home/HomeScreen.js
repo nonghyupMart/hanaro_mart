@@ -18,14 +18,18 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import { DrawerActions } from "@react-navigation/native";
-import colors from "@constants/colors";
+import colors from "../../constants/colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderButton, LogoTitle, HomeHeaderRight } from "@UI/header";
+import {
+  HeaderButton,
+  LogoTitle,
+  HomeHeaderRight,
+} from "../../components/UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Updates from "expo-updates";
 import * as Permissions from "expo-permissions";
@@ -36,23 +40,23 @@ import {
   BaseImage,
   BaseTouchable,
   screenWidth,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import _ from "lodash";
-import HomeNotice from "@components/home/HomeNotice";
-import HomeBanner from "@components/home/HomeBanner";
-import NaroTube from "@components/home/NaroTube";
-import StorePopup from "@components/home/StorePopup";
-import AppPopup from "@components/home/AppPopup";
-import * as Util from "@util";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as CommonActions from "@actions/common";
-import * as authActions from "@actions/auth";
-import { CATEGORY } from "@constants/settings";
-import { SET_NOTIFICATION } from "@actions/common";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { TabMenus } from "@constants/menu";
+import HomeNotice from "../../components/home/HomeNotice";
+import HomeBanner from "../../components/home/HomeBanner";
+import NaroTube from "../../components/home/NaroTube";
+import StorePopup from "../../components/home/StorePopup";
+import AppPopup from "../../components/home/AppPopup";
+import * as Util from "../../util";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
+import * as authActions from "../../store/actions/auth";
+import { CATEGORY } from "../../constants/settings";
+import { SET_NOTIFICATION } from "../../store/actions/common";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import { TabMenus } from "../../constants/menu";
 import * as Location from "expo-location";
-import * as branchesActions from "@actions/branches";
+import * as branchesActions from "../../store/actions/branches";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -182,7 +186,7 @@ const HomeScreen = (props) => {
           onPress={() => Util.sendShareLink(userInfo.recommend)}
         >
           <Image
-            source={require("@images/in730.png")}
+            source={require("../../assets/images/in730.png")}
             style={{ width: "100%" }}
           />
         </TouchableOpacity>
@@ -193,7 +197,7 @@ const HomeScreen = (props) => {
           }}
         >
           <Image
-            source={require("@images/mystore.png")}
+            source={require("../../assets/images/mystore.png")}
             style={{ width: "100%" }}
           />
         </TouchableOpacity>

@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import barcodes from "jsbarcode/src/barcodes";
 
 import Svg, { Path } from "react-native-svg";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../components/UI/BaseUI";
 
 export default class Barcode extends PureComponent {
   static propTypes = {

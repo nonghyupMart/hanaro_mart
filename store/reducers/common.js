@@ -8,7 +8,7 @@ import {
   SET_DID_TRY_POPUP,
   SET_NOTIFICATION,
   SET_BRIGHTNESS,
-} from "@actions/common";
+} from "../actions/common";
 
 const initialState = {
   isBottomNavigation: true,

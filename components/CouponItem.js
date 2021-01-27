@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
-import * as Util from "@util";
+import {
+  BaseImage,
+  screenWidth,
+  BaseTouchable,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as Util from "../util";
 
 const CouponItem = (props) => {
   return (
@@ -20,7 +25,7 @@ const CouponItem = (props) => {
           alignSelf: "center",
         }}
         resizeMode="contain"
-        defaultSource={require("@images/n_img501.png")}
+        defaultSource={require("../assets/images/n_img501.png")}
       />
       <Title numberOfLines={2}>{props.item.title}</Title>
       <Date>
@@ -32,7 +37,9 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.blueyGreen }}
         >
           <ButtonText>쿠폰 다운로드</ButtonText>
-          <Icon source={require("@images/ic_file_download_24px.png")} />
+          <Icon
+            source={require("../assets/images/ic_file_download_24px.png")}
+          />
         </Button>
       )}
       {props.item.status == "10" && (
@@ -41,7 +48,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.booger }}
         >
           <ButtonText>사용하기</ButtonText>
-          <Icon source={require("@images/ic_rotate_right_24px.png")} />
+          <Icon source={require("../assets/images/ic_rotate_right_24px.png")} />
         </Button>
       )}
       {props.item.status == "20" && (
@@ -50,7 +57,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.silver }}
         >
           <ButtonText>사용완료</ButtonText>
-          <Icon source={require("@images/ic_timer_24px.png")} />
+          <Icon source={require("../assets/images/ic_timer_24px.png")} />
         </Button>
       )}
       {props.item.status == "30" && (
@@ -59,7 +66,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.silver }}
         >
           <ButtonText>쿠폰소진완료</ButtonText>
-          <Icon source={require("@images/ic_timer_24px.png")} />
+          <Icon source={require("../assets/images/ic_timer_24px.png")} />
         </Button>
       )}
     </Container>

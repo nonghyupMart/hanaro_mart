@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import ApplyBox from "@components/event/ApplyBox";
-import ScanBox from "@components/event/ScanBox";
+import ApplyBox from "../../../components/event/ApplyBox";
+import ScanBox from "../../../components/event/ScanBox";
 
 const B = (props) => {
   return (

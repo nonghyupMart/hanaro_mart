@@ -1,6 +1,6 @@
 
 import moment from "moment";
-import * as Util from "@util";
+import * as Util from "../../util";
 
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
 export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";

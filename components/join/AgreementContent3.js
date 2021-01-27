@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
-import * as AgreementStyle from "@components/join/styles";
-import { styles } from "@components/join/styles";
+import * as AgreementStyle from "../../components/join/styles";
+import { styles } from "../../components/join/styles";
 const AgreementContent3 = (props) => {
   return (
     <AgreementStyle.ExtraBox {...props}>

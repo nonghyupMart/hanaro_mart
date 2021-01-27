@@ -7,19 +7,19 @@ import {
   TouchableOpacity,
   AppState,
 } from "react-native";
-import Carousel from "@UI/Carousel";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+import Carousel from "../../components/UI/Carousel";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import {
   StyleConstants,
   BaseImage,
   BaseTouchable,
   screenWidth,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import URI from "urijs";
-import * as homeActions from "@actions/home";
+import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const NaroTube = (props) => {
   const [appState, setAppState] = useState(AppState.currentState);

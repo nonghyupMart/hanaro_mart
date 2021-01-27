@@ -2,7 +2,7 @@ import {
   SET_EXHIBITION,
   SET_EXHIBITION_MORE,
   SET_EXHIBITION_DETAIL,
-} from "@actions/exhibition";
+} from "../actions/exhibition";
 
 const initialState = {
   exhibition: null,

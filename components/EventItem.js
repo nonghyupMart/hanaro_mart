@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
+import {
+  BaseImage,
+  screenWidth,
+  BaseTouchable,
+  BaseText,
+} from "../components/UI/BaseUI";
 
 const EventItem = (props) => {
   return (
@@ -19,7 +24,7 @@ const EventItem = (props) => {
           {props.item.status == "O" && (
             <>
               <Image
-                source={require("@images/stopwatch.png")}
+                source={require("../assets/images/stopwatch.png")}
                 style={{ height: 20 }}
               />
               <Status>진행중</Status>
@@ -28,7 +33,7 @@ const EventItem = (props) => {
           {props.item.status == "C" && (
             <>
               <Image
-                source={require("@images/stopwatchgray.png")}
+                source={require("../assets/images/stopwatchgray.png")}
                 style={{ height: 20 }}
               />
               <Status style={{ color: colors.greyishThree }}>종료</Status>

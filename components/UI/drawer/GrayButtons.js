@@ -8,9 +8,9 @@ import {
   BaseButtonContainer,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../UI/BaseUI";
 import _ from "lodash";
-import { TabMenus } from "@constants/menu";
+import { TabMenus } from "../../../constants/menu";
 
 const GrayButtons = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -46,7 +46,7 @@ const GrayButtons = (props) => {
           })}
       </GrayContainer>
       <Image
-        source={require("@images/menubar.png")}
+        source={require("../../../assets/images/menubar.png")}
         style={{ marginTop: -1 }}
       />
     </>

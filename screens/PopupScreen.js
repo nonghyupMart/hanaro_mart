@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "@UI/Carousel";
+import Carousel from "../components/UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
@@ -10,23 +10,23 @@ import {
   screenWidth,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
+} from "../components/UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
-import * as CommonActions from "@actions/common";
-import * as homeActions from "@actions/home";
+import * as CommonActions from "../store/actions/common";
+import * as homeActions from "../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "@actions/home";
+import { SET_STORE_POPUP } from "../store/actions/home";
 import moment from "moment";
 import {
   createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import * as RootNavigation from "@navigation/RootNavigation";
+import * as RootNavigation from "../navigation/RootNavigation";
 import { useNavigation } from "@react-navigation/native";
-import { getIsStorePopup } from "@screens/StartupScreen";
+import { getIsStorePopup } from "../screens/StartupScreen";
 
 const PopupScreen = (props) => {
   const dispatch = useDispatch();

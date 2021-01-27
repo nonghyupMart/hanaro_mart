@@ -2,7 +2,7 @@ import {
   SET_EXCLUSIVE,
   SET_EXCLUSIVE_MORE,
   SET_EXCLUSIVE_DETAIL,
-} from "@actions/exclusive";
+} from "../actions/exclusive";
 
 const initialState = {
   exclusive: null,

@@ -12,28 +12,25 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import Splash from "@UI/Splash";
+import Splash from "./components/UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 // import { StatusBar, setStatusBarStyle } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Asset } from "expo-asset";
-import { Ionicons } from "@expo/vector-icons";
-import { Icon } from "react-native-elements";
-import authReducer from "@reducers/auth";
-import branchesReducer from "@reducers/branches";
-import homeReducer from "@reducers/home";
-import flyerReducer from "@reducers/flyer";
-import eventReducer from "@reducers/event";
-import couponReducer from "@reducers/coupon";
-import commonReducer from "@reducers/common";
-import exhibitionReducer from "@reducers/exhibition";
-import exclusiveReducer from "@reducers/exclusive";
-import { WITHDRAWAL } from "@actions/auth";
+import authReducer from "./store/reducers/auth";
+import branchesReducer from "./store/reducers/branches";
+import homeReducer from "./store/reducers/home";
+import flyerReducer from "./store/reducers/flyer";
+import eventReducer from "./store/reducers/event";
+import couponReducer from "./store/reducers/coupon";
+import commonReducer from "./store/reducers/common";
+import exhibitionReducer from "./store/reducers/exhibition";
+import exclusiveReducer from "./store/reducers/exclusive";
+import { WITHDRAWAL } from "./store/actions/auth";
 import * as Notifications from "expo-notifications";
-import * as CommonActions from "@actions/common";
+import * as CommonActions from "./store/actions/common";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 // Prevent native splash screen from autohiding before App component declaration
@@ -115,6 +112,7 @@ export default function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
+        onError={console.warn}
       />
     );
   }

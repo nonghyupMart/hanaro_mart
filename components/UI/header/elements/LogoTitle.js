@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import * as RootNavigation from "../../../../navigation/RootNavigation";
+import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 
 const LogoTitle = (props, { navigation }) => {
@@ -11,7 +11,7 @@ const LogoTitle = (props, { navigation }) => {
   return (
     <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
       <Container>
-        <Image source={require("@images/hanalogo_off.png")} />
+        <Image source={require("../../../../assets/images/hanalogo_off.png")} />
         {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
           <BranchName>{userStore.storeInfo.store_nm}</BranchName>
         )}

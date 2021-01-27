@@ -1,8 +1,8 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
-import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
-import * as Util from "@util";
-import * as Network from "@util/network";
+import { API_URL, PRODUCT_SERVER_URL } from "../../constants/settings";
+import * as Util from "../../util";
+import * as Network from "../../util/network";
 import _ from "lodash";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";

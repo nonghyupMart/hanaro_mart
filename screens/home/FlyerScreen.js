@@ -8,24 +8,27 @@ import {
   Dimensions,
   StyleSheet,
 } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import { BaseTouchable, BaseImage, screenHeight } from "@UI/BaseUI";
+import BaseScreen from "../../components/BaseScreen";
+import {
+  BaseTouchable,
+  BaseImage,
+  screenHeight,
+} from "../../components/UI/BaseUI";
 
-import * as RootNavigation from "@navigation/RootNavigation";
+import * as RootNavigation from "../../navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "@actions/flyer";
-import FlyerItem from "@components/FlyerItem";
-import ProductPopup from "@components/ProductPopup";
+import * as flyerActions from "../../store/actions/flyer";
+import FlyerItem from "../../components/FlyerItem";
+import ProductPopup from "../../components/ProductPopup";
 import { useFocusEffect } from "@react-navigation/native";
-import { IMAGE_URL } from "@constants/settings";
-import Carousel from "@UI/Carousel";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { SET_PRODUCT, SET_LEAFLET } from "@actions/flyer";
+import { IMAGE_URL } from "../../constants/settings";
+import Carousel from "../../components/UI/Carousel";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/flyer";
 import _ from "lodash";
-import { setIsLoading } from "@actions/common";
-import NoList from "@UI/NoList";
+import { setIsLoading } from "../../store/actions/common";
+import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
-import * as Util from "@util";
 
 const { width } = Dimensions.get("window");
 
@@ -124,7 +127,12 @@ const FlyerScreen = (props) => {
   };
   if (!leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
-    return <NoList source={require("@images/files.png")} text={"행사전단"} />;
+    return (
+      <NoList
+        source={require("../../assets/images/files.png")}
+        text={"행사전단"}
+      />
+    );
   return (
     <BaseScreen
       style={{
@@ -223,7 +231,7 @@ const FlyerScreen = (props) => {
             backgroundColor: colors.trueWhite,
             height: screenHeight - (width * 0.283 + 250),
           }}
-          source={require("@images/box.png")}
+          source={require("../../assets/images/box.png")}
           text={"행사상품"}
         />
       )}

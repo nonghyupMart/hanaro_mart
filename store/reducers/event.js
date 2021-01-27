@@ -4,7 +4,7 @@ import {
   SET_EVENT_MORE,
   SET_MY_EVENT_MORE,
   SET_EVENT_DETAIL,
-} from "@actions/event";
+} from "../actions/event";
 
 const initialState = {
   event: null,

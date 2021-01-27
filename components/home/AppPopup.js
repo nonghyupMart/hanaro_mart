@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "@UI/Carousel";
+import Carousel from "../../components/UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
@@ -9,14 +9,14 @@ import {
   BaseTouchable,
   screenWidth,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
-import * as CommonActions from "@actions/common";
-import * as homeActions from "@actions/home";
+import * as CommonActions from "../../store/actions/common";
+import * as homeActions from "../../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const AppPopup = (props) => {
   const dispatch = useDispatch();

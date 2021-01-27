@@ -8,13 +8,13 @@ import {
   BaseButtonContainer,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../UI/BaseUI";
 import Constants from "expo-constants";
 import _ from "lodash";
 
 import { LinearGradient } from "expo-linear-gradient";
-import UserName from "@UI/UserName";
-import UserPhoneNumber from "@UI/UserPhoneNumber";
+import UserName from "../../UI/UserName";
+import UserPhoneNumber from "../../UI/UserPhoneNumber";
 const MemberInfo = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   return (
@@ -23,7 +23,7 @@ const MemberInfo = (props) => {
         <MemberContainer>
           {/* <Text1>회원번호</Text1> */}
           <MemberID style={{ flexDirection: "row" }}>
-            <Image source={require("@images/user.png")} />
+            <Image source={require("../../../assets/images/user.png")} />
             <Text2>
               <UserName />
             </Text2>
@@ -34,7 +34,7 @@ const MemberInfo = (props) => {
           </Text4>
         </MemberContainer>
         <BaseTouchable onPress={() => props.navigation.closeDrawer()}>
-          <Image source={require("@images/ic_close_24px.png")} />
+          <Image source={require("../../../assets/images/ic_close_24px.png")} />
         </BaseTouchable>
       </MemberInfoContainer>
       <GradientBar></GradientBar>

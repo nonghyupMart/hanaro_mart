@@ -8,7 +8,7 @@ import {
   BaseButtonContainer,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import Constants from "expo-constants";
 import _ from "lodash";
 const NoList = (props) => {

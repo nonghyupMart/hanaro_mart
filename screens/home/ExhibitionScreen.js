@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
+import BaseScreen from "../../components/BaseScreen";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as exhibitionActions from "@actions/exhibition";
-import * as exclusiveActions from "@actions/exclusive";
-import { StyleConstants, screenWidth } from "@UI/BaseUI";
-import EventItem from "@components/EventItem";
+import * as exhibitionActions from "../../store/actions/exhibition";
+import * as exclusiveActions from "../../store/actions/exclusive";
+import { StyleConstants, screenWidth } from "../../components/UI/BaseUI";
+import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
-import { setIsLoading } from "@actions/common";
-import { TabMenus } from "@constants/menu";
-import NoList from "@UI/NoList";
+import { setIsLoading } from "../../store/actions/common";
+import { TabMenus } from "../../constants/menu";
+import NoList from "../../components/UI/NoList";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -93,8 +93,8 @@ const ExhibitionScreen = (props) => {
       <NoList
         source={
           routeName == "Exhibition"
-            ? require("@images/diamond.png")
-            : require("@images/shopwhite.png")
+            ? require("../../assets/images/diamond.png")
+            : require("../../assets/images/shopwhite.png")
         }
         text={tabInfo && tabInfo.menu_nm}
       />

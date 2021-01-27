@@ -5,7 +5,7 @@ import {
   SET_HOME_NARO,
   SET_APP_POPUP,
   SET_STORE_POPUP,
-} from "@actions/home";
+} from "../actions/home";
 
 const initialState = {
   homeBanner: null,

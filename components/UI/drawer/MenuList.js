@@ -8,9 +8,9 @@ import {
   BaseButtonContainer,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../UI/BaseUI";
 import _ from "lodash";
-import * as Util from "@util";
+import * as Util from "../../../util";
 const MenuList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
@@ -24,7 +24,7 @@ const MenuList = (props) => {
           }}
         >
           <Icon>
-            <Image source={require("@images/position.png")} />
+            <Image source={require("../../../assets/images/position.png")} />
           </Icon>
           <MenuText>매장설정</MenuText>
         </MenuButton>
@@ -38,7 +38,9 @@ const MenuList = (props) => {
           }}
         >
           <Icon>
-            <Image source={require("@images/loudspeaker-announce.png")} />
+            <Image
+              source={require("../../../assets/images/loudspeaker-announce.png")}
+            />
           </Icon>
           <MenuText>매장공지사항</MenuText>
         </MenuButton>
@@ -52,7 +54,9 @@ const MenuList = (props) => {
           }}
         >
           <Icon>
-            <Image source={require("@images/dialogue-balloon.png")} />
+            <Image
+              source={require("../../../assets/images/dialogue-balloon.png")}
+            />
           </Icon>
           <MenuText>1:1 문의</MenuText>
         </MenuButton>
@@ -66,13 +70,15 @@ const MenuList = (props) => {
           }}
         >
           <Icon>
-            <Image source={require("@images/messenger-user-avatar.png")} />
+            <Image
+              source={require("../../../assets/images/messenger-user-avatar.png")}
+            />
           </Icon>
           <MenuText>마이페이지</MenuText>
         </MenuButton>
       </MenuButtonContainer>
       <ShareBtn onPress={() => Util.sendShareLink(userInfo.recommend)}>
-        <Image source={require("@images/plusapp.png")} />
+        <Image source={require("../../../assets/images/plusapp.png")} />
       </ShareBtn>
     </MenuContainer>
   );

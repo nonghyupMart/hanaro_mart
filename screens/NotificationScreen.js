@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { ExtendedWebView } from "../components/UI/ExtendedWebView";
+import { SERVER_URL, API_URL } from "../constants/settings";
 import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "@components/BaseScreen";
-import * as CommonActions from "@actions/common";
+import BaseScreen from "../components/BaseScreen";
 import _ from "lodash";
 const NotificationScreen = (props) => {
   const dispatch = useDispatch();

@@ -430,13 +430,13 @@ export default class Carousel extends Component {
             onPress={this._animatePreviousPage}
             style={this.props.arrowStyle}
           >
-            <Image source={require("@images/l_off.png")} />
+            <Image source={require("../../assets/images/l_off.png")} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this._animateNextPage}
             style={this.props.arrowStyle}
           >
-            <Image source={require("@images/r_off.png")} />
+            <Image source={require("../../assets/images/r_off.png")} />
           </TouchableOpacity>
         </View>
       </View>

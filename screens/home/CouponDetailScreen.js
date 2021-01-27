@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, TouchableOpacity, Text } from "react-native";
-import * as Util from "@util";
+import * as Util from "../../util";
 import { View, Text as TextView, StyleSheet, Platform } from "react-native";
 import {
   DetailContainer,
@@ -12,15 +12,15 @@ import {
   BlueButton,
   BlueButtonText,
   BaseText,
-} from "@UI/BaseUI";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import * as couponActions from "@actions/coupon";
-import * as CommonActions from "@actions/common";
+} from "../../components/UI/BaseUI";
+import BaseScreen from "../../components/BaseScreen";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import * as couponActions from "../../store/actions/coupon";
+import * as CommonActions from "../../store/actions/common";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "@actions/common";
-import { SET_COUPON_DETAIL } from "@actions/coupon";
-import Barcode from "@components/Barcode";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import { SET_COUPON_DETAIL } from "../../store/actions/coupon";
+import Barcode from "../../components/Barcode";
 import * as Brightness from "expo-brightness";
 
 const CouponDetailScreen = (props) => {
@@ -194,7 +194,7 @@ const CouponDetailScreen = (props) => {
                   본쿠폰을 직원에게 제시하여 주시기 바랍니다.
                 </TopText>
                 <Image
-                  source={require("@images/num_128.png")}
+                  source={require("../../assets/images/num_128.png")}
                   resizeMode="cover"
                   style={{
                     width: screenWidth + screenWidth * 0.1,
@@ -208,7 +208,7 @@ const CouponDetailScreen = (props) => {
               <>
                 <TopText>쿠폰이 발급 되었습니다.</TopText>
                 <Image
-                  source={require("@images/nums_128.png")}
+                  source={require("../../assets/images/nums_128.png")}
                   resizeMode="cover"
                   style={{
                     width: screenWidth + screenWidth * 0.1,
@@ -224,7 +224,7 @@ const CouponDetailScreen = (props) => {
                   쿠폰을 사용하셨습니다.
                 </TopText>
                 <Image
-                  source={require("@images/nums99.png")}
+                  source={require("../../assets/images/nums99.png")}
                   resizeMode="cover"
                   style={{
                     width: screenWidth + screenWidth * 0.1,
@@ -304,7 +304,7 @@ const CouponDetailScreen = (props) => {
                 props.navigation.pop();
               }}
             >
-              {/* <Image source={require("@images/resize3.png")} /> */}
+              {/* <Image source={require("../../assets/images/resize3.png")} /> */}
               <BlueButtonText style={{ color: colors.greyishBrown }}>
                 닫기
               </BlueButtonText>
@@ -322,7 +322,7 @@ const CouponDetailScreen = (props) => {
                 }}
                 style={{ backgroundColor: colors.greyishThree }}
               >
-                {/* <Image source={require("@images/resize3.png")} /> */}
+                {/* <Image source={require("../../assets/images/resize3.png")} /> */}
                 <BlueButtonText>사용완료</BlueButtonText>
               </BlueButton>
             </>
@@ -330,12 +330,12 @@ const CouponDetailScreen = (props) => {
         </DetailContainer>
       )}
       <Image
-        source={require("@images/pannel_n3.png")}
+        source={require("../../assets/images/pannel_n3.png")}
         style={{ width: "110%", marginLeft: "-5%", marginTop: -3 }}
         resizeMode="cover"
       />
       <DescContainer>
-        <Image source={require("@images/qrcode.png")} />
+        <Image source={require("../../assets/images/qrcode.png")} />
         <DescText>쿠폰사용시 유의사항</DescText>
       </DescContainer>
       <Desc>
@@ -442,7 +442,7 @@ const Price = (props) => {
   return (
     <>
       <PriceContainer>
-        <Image source={require("@images/greendot3.png")} />
+        <Image source={require("../../assets/images/greendot3.png")} />
         <PriceText>{props.children}</PriceText>
       </PriceContainer>
     </>
@@ -482,7 +482,7 @@ export const screenOptions = ({ navigation }) => {
 };
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { HeaderButton } from "@UI/header/elements/HeaderButton";
+import { HeaderButton } from "../../components/UI/header/elements/HeaderButton";
 const UseButton = (props) => {
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>
@@ -510,7 +510,7 @@ const UseButton = (props) => {
         </Text>
 
         <Image
-          source={require("@images/admin_ic.png")}
+          source={require("../../assets/images/admin_ic.png")}
           style={{ marginLeft: 8, marginRight: 8 }}
         />
       </TouchableOpacity>

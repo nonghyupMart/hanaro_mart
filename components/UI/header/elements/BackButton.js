@@ -3,12 +3,12 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 // import { HeaderButton } from "react-navigation-header-buttons";
-import { HeaderButton } from "@UI/header/elements/HeaderButton";
-import * as CommonActions from "@actions/common";
-import colors from "@constants/colors";
+import { HeaderButton } from "../../../../components/UI/header/elements/HeaderButton";
+import * as CommonActions from "../../../../store/actions/common";
+import colors from "../../../../constants/colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigationState } from "@react-navigation/native";
-import { setPreview } from "@actions/auth";
+import { setPreview } from "../../../../store/actions/auth";
 
 const BackButton = (props) => {
   const navigation = useNavigation();

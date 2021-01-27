@@ -8,11 +8,11 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { BaseImage, BaseText } from "@UI/BaseUI";
+import { BaseImage, BaseText } from "../components/UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "@constants/settings";
-import * as Util from "@util";
+import { IMAGE_URL } from "../constants/settings";
+import * as Util from "../util";
 import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
@@ -41,7 +41,7 @@ const FlyerItem = (props) => {
             aspectRatio: 100 / 103.797,
           }}
           source={props.item.title_img}
-          defaultSource={require("@images/p_img503.png")}
+          defaultSource={require("../assets/images/p_img503.png")}
         />
         {props.item.card_price != 0 && (
           <BadgeContainer>

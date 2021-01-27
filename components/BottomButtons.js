@@ -11,9 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
-import * as RootNavigation from "@navigation/RootNavigation";
+import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "./UI/BaseUI";
 
 const BottomButtons = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -59,7 +59,7 @@ const BottomButtons = (props) => {
             RootNavigation.navigate("RingPicker");
           }}
         >
-          <Image source={require("@images/hana_logo.png")} />
+          <Image source={require("../assets/images/hana_logo.png")} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.icons}

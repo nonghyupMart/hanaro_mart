@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import * as branchesActions from "@actions/branches";
+import * as branchesActions from "../../store/actions/branches";
 import {
   View,
   TouchableOpacity,
@@ -15,9 +15,9 @@ import {
   KeyboardAvoidingView,
   ActionSheetIOS,
 } from "react-native";
-import { setIsLoading } from "@actions/common";
+import { setIsLoading } from "../../store/actions/common";
 import _ from "lodash";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../../components/UI/BaseUI";
 
 const PickerViews = (props) => {
   let lnameItems = [];

@@ -1,15 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import Gallery from "react-native-image-gallery";
 
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "@actions/flyer";
-import { IMAGE_URL } from "@constants/settings";
-import { setIsLoading } from "@actions/common";
-import * as CommonActions from "@actions/common";
+import * as flyerActions from "../../store/actions/flyer";
+import { IMAGE_URL } from "../../constants/settings";
+import { setIsLoading } from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
 
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
@@ -81,19 +81,19 @@ const FlyerDetailScreen = (props, { navigation }) => {
         }}
       >
         <Btn onPress={() => goFirst()}>
-          <Image source={require("@images/bef11.png")} />
+          <Image source={require("../../assets/images/bef11.png")} />
         </Btn>
         <Btn onPress={() => prev(page)}>
-          <Image source={require("@images/bef1.png")} />
+          <Image source={require("../../assets/images/bef1.png")} />
         </Btn>
         <Text style={{ width: 100, textAlign: "center" }}>
           {page + 1}/{images.length}
         </Text>
         <Btn onPress={() => next(page)}>
-          <Image source={require("@images/next1.png")} />
+          <Image source={require("../../assets/images/next1.png")} />
         </Btn>
         <Btn onPress={() => goLast()}>
-          <Image source={require("@images/next11.png")} />
+          <Image source={require("../../assets/images/next11.png")} />
         </Btn>
       </View>
       <Gallery

@@ -9,19 +9,24 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
-import { BaseImage, screenWidth, screenHeight, BaseText } from "@UI/BaseUI";
-import * as flyerActions from "@actions/flyer";
+import {
+  BaseImage,
+  screenWidth,
+  screenHeight,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as flyerActions from "../store/actions/flyer";
 import {
   BaseTouchable,
   BaseSquareButtonContainer,
   ButtonText,
   BaseTextInput,
 } from "./UI/BaseUI";
-import * as Util from "@util";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { setAlert } from "@actions/common";
+import * as Util from "../util";
+import * as RootNavigation from "../navigation/RootNavigation";
+import { setAlert } from "../store/actions/common";
 import _ from "lodash";
-import { SET_PRODUCT_DETAIL } from "@actions/flyer";
+import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
 
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
@@ -90,7 +95,7 @@ const ProductPopup = (props) => {
         <CloseBtnContainer
           onPress={props.setIsVisible.bind(this, !props.isVisible)}
         >
-          <Image source={require("@images/cross0104.png")} />
+          <Image source={require("../assets/images/cross0104.png")} />
         </CloseBtnContainer>
         <Body contentContainerStyle={{ alignItems: "center" }}>
           <BaseImage
@@ -114,14 +119,14 @@ const ProductPopup = (props) => {
           )}
           {/* <QuantityContainer>
               <QContainer>
-                <Image source={require("@images/clipboard02.png")} />
+                <Image source={require("../assets/images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
               </QContainer>
               <QButtonContainer>
                 <TouchableOpacity
                   onPress={() => setItem_amount(parseInt(item_amount) + 1)}
                 >
-                  <Image source={require("@images/sp107.png")} />
+                  <Image source={require("../assets/images/sp107.png")} />
                 </TouchableOpacity>
                 <QInput
                   keyboardType="numeric"
@@ -133,7 +138,7 @@ const ProductPopup = (props) => {
                     item_amount > 1 ? setItem_amount(item_amount - 1) : null
                   }
                 >
-                  <Image source={require("@images/sp108.png")} />
+                  <Image source={require("../assets/images/sp108.png")} />
                 </TouchableOpacity>
               </QButtonContainer>
             </QuantityContainer>
@@ -299,13 +304,13 @@ const ProductPopup = (props) => {
           <BtnContainer style={{}}>
             {/* <BlueBtn onPress={onAddCart}>
                 <Image
-                  source={require("@images/baseline-shopping_cart-24px.png")}
+                  source={require("../assets/images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
               </BlueBtn> */}
             <GrayBtn onPress={props.setIsVisible.bind(this, !props.isVisible)}>
               {/* <Image
-                  source={require("@images/whiteback.png")}
+                  source={require("../assets/images/whiteback.png")}
                 /> */}
               <BtnText>닫기</BtnText>
             </GrayBtn>

@@ -17,12 +17,12 @@ import {
   useLinkBuilder,
 } from "@react-navigation/native";
 import { useSafeArea } from "react-native-safe-area-context";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../BaseUI";
 
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
-import ConstantsColors from "@constants/colors";
+import ConstantsColors from "../../../constants/colors";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";

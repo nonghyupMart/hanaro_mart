@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { ExtendedWebView } from "../components/UI/ExtendedWebView";
+import { SERVER_URL, API_URL } from "../constants/settings";
 import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../components/BaseScreen";
 import _ from "lodash";
 const CartScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -26,11 +26,7 @@ const CartScreen = (props) => {
     setUrl(stringifyUrl);
   }, []);
   return (
-    <BaseScreen
-      style={styles.screen}
-      isScroll={false}
-  
-    >
+    <BaseScreen style={styles.screen} isScroll={false}>
       <ExtendedWebView
         source={{
           // uri: `https://www.naver.com`,

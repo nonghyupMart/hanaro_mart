@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import colors from "@constants/colors";
+import colors from "../../constants/colors";
 import { Image } from "react-native-expo-image-cache";
-import { IMAGE_URL } from "@constants/settings";
-import * as Util from "@util";
+import { IMAGE_URL } from "../../constants/settings";
+import * as Util from "../../util";
 import {
   Dimensions,
   TouchableOpacity,
@@ -15,17 +15,17 @@ import {
   ImageBackground,
 } from "react-native";
 import _ from "lodash";
-// import ScaledImage from "@UI/ScaledImage";
-export { default as ScaledImage } from "@UI/ScaledImage";
+// import ScaledImage from "../../components/UI/ScaledImage";
+export { default as ScaledImage } from "./ScaledImage";
 export const { width: screenWidth, height: screenHeight } = Dimensions.get(
   "window"
 );
 export const StyleConstants = {
   defaultPadding: 16,
-  //  defaultImageLarge: require("@images/m_img499.png"),
-  //  defaultImage: require("@images/b_img500.png"),
-  //  defaultImage: require("@images/b_img500.png"),
-  //  defaultImage: require("@images/b_img500.png"),
+  //  defaultImageLarge: require("../../assets/images/m_img499.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
 };
 const CustomText = ({ style, children, ...rest }) => {
   let baseStyle = styles.medium;
@@ -94,7 +94,7 @@ const ExtendedImage = (props) => {
     Platform.OS == "android" ? colors.white : "transparent"
   );
   const onError = () => {
-    setSource(require("@images/m_img499.png"));
+    setSource(require("../../assets/images/m_img499.png"));
   };
   const onLoad = () => {
     setColor("transparent");
@@ -107,7 +107,7 @@ const ExtendedImage = (props) => {
       source={source}
       resizeMode={props.resizeMode ? props.resizeMode : "cover"}
       style={[{ backgroundColor: color }, props.style]}
-      defaultSource={require("@images/m_img499.png")}
+      defaultSource={require("../../assets/images/m_img499.png")}
     />
   );
 };
@@ -130,7 +130,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
 });
 
 BaseImage.defaultProps = {
-  defaultSource: require("@images/b_img500.png"),
+  defaultSource: require("../../assets/images/b_img500.png"),
   resizeMode: "cover",
 };
 const BaseTouchbaleOpacity = (props) => {

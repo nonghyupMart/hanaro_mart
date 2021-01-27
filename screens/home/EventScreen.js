@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
+import BaseScreen from "../../components/BaseScreen";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "@actions/event";
-import { StyleConstants, screenWidth } from "@UI/BaseUI";
-import EventItem from "@components/EventItem";
+import * as eventActions from "../../store/actions/event";
+import { StyleConstants, screenWidth } from "../../components/UI/BaseUI";
+import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
-import { setIsLoading } from "@actions/common";
-import NoList from "@UI/NoList";
+import { setIsLoading } from "../../store/actions/common";
+import NoList from "../../components/UI/NoList";
 
 const EventScreen = (props) => {
   const routeName = props.route.name;
@@ -63,13 +63,18 @@ const EventScreen = (props) => {
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
       <NoList
-        source={require("@images/megaphone.png")}
+        source={require("../../assets/images/megaphone.png")}
         text={"응모한 이벤트"}
         infoText="응모한 이벤트 내역이 없습니다."
       />
     );
   if (routeName == "Event" && _.size(event.eventList) === 0)
-    return <NoList source={require("@images/megaphone.png")} text={"이벤트"} />;
+    return (
+      <NoList
+        source={require("../../assets/images/megaphone.png")}
+        text={"이벤트"}
+      />
+    );
   return (
     <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
       {event && (

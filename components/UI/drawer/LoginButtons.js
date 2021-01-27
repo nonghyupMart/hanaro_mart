@@ -8,11 +8,11 @@ import {
   BaseButtonContainer,
   screenHeight,
   BaseText,
-} from "@UI/BaseUI";
-import { setPreview } from "@actions/auth";
-import * as Util from "@util";
+} from "../../UI/BaseUI";
+import { setPreview } from "../../../store/actions/auth";
+import * as Util from "../../../util";
 import _ from "lodash";
-import { INTERNAL_APP_VERSION } from "@constants/settings";
+import { INTERNAL_APP_VERSION } from "../../../constants/settings";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();

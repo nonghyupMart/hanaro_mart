@@ -8,22 +8,23 @@ import {
   Dimensions,
   Keyboard,
 } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import { BaseTouchable, BaseImage, BaseTextInput, BaseText } from "@UI/BaseUI";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import * as RootNavigation from "@navigation/RootNavigation";
+import BaseScreen from "../components/BaseScreen";
+import {
+  BaseTouchable,
+  BaseImage,
+  BaseTextInput,
+  BaseText,
+} from "../components/UI/BaseUI";
+import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "@actions/flyer";
-import FlyerItem from "@components/FlyerItem";
-import ProductPopup from "@components/ProductPopup";
-import { useFocusEffect } from "@react-navigation/native";
-import { IMAGE_URL } from "@constants/settings";
-import { BackButton, TextTitle } from "@UI/header";
-const { width } = Dimensions.get("window");
-import { SET_SEARCHED_PRODUCT } from "@actions/flyer";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as CommonActions from "@actions/common";
-import { styles } from "@screens/home/FlyerScreen";
+import * as flyerActions from "../store/actions/flyer";
+import FlyerItem from "../components/FlyerItem";
+import ProductPopup from "../components/ProductPopup";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { SET_SEARCHED_PRODUCT } from "../store/actions/flyer";
+import { setAlert, setIsLoading } from "../store/actions/common";
+import * as CommonActions from "../store/actions/common";
+import { styles } from "../screens/home/FlyerScreen";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -195,7 +196,7 @@ const SearchBtn = styled(BaseTouchable)({
 });
 const SearchIcon = styled.Image({});
 SearchIcon.defaultProps = {
-  source: require("@images/search-24_1.png"),
+  source: require("../assets/images/search-24_1.png"),
 };
 const SearchContainer = styled.View({
   width: "100%",

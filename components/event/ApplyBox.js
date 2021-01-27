@@ -2,17 +2,17 @@ import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import * as AgreementScreen from "@screens/join/AgreementScreen";
+import * as AgreementScreen from "../../screens/join/AgreementScreen";
 
-import AgreementContent3 from "@components/join/AgreementContent3";
-import { styles } from "@components/join/styles";
+import AgreementContent3 from "../../components/join/AgreementContent3";
+import { styles } from "../../components/join/styles";
 import {
   BlueButton,
   BlueButtonText,
   BaseText,
   BaseTextInput,
-} from "@UI/BaseUI";
-import { setAlert } from "@actions/common";
+} from "../../components/UI/BaseUI";
+import { setAlert } from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 import { CheckBox } from "react-native-elements";
 
@@ -101,9 +101,11 @@ const ApplyBox = (props) => {
                 containerStyle={[styles.checkbox]}
                 checked={checkItem.isOpen}
                 onPress={() => handleOpen(checkItem)}
-                checkedIcon={<Image source={require("@images/close_m.png")} />}
+                checkedIcon={
+                  <Image source={require("../../assets/images/close_m.png")} />
+                }
                 uncheckedIcon={
-                  <Image source={require("@images/close_p.png")} />
+                  <Image source={require("../../assets/images/close_p.png")} />
                 }
                 style={{ opacity: 0 }}
               />
@@ -152,13 +154,13 @@ const ApplyBox = (props) => {
         )}
       {props.isShowApplyButton && props.eventDetail.entry.status === "10" && (
         <BlueButton onPress={onPress} style={{ marginTop: 40 }}>
-          <Image source={require("@images/forward.png")} />
+          <Image source={require("../../assets/images/forward.png")} />
           <BlueButtonText>응모하기</BlueButtonText>
         </BlueButton>
       )}
       {props.isShowApplyButton && props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
-          <Image source={require("@images/forward.png")} />
+          <Image source={require("../../assets/images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
       )}

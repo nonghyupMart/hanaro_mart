@@ -8,8 +8,8 @@ import {
   SafeAreaView,
   Platform,
 } from "react-native";
-import { screenHeight, screenWidth } from "@UI/BaseUI";
-import { setAlert, setIsLoading } from "@actions/common";
+import { screenHeight, screenWidth } from "./BaseUI";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 const Loading = (props) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);

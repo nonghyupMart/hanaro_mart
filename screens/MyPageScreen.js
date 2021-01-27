@@ -9,12 +9,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { StoreBox, BottomCover } from "@components/store/InfoBox";
-import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
-import MemberInfo from "@components/myPage/MemberInfo";
+import { BaseTouchable, BaseText } from "../components/UI/BaseUI";
+import BaseScreen from "../components/BaseScreen";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { StoreBox, BottomCover } from "../components/store/InfoBox";
+import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
+import MemberInfo from "../components/myPage/MemberInfo";
 
 const MyPageScreen = ({ navigation }) => {
   return (
@@ -30,38 +30,38 @@ const MyPageScreen = ({ navigation }) => {
       <MemberInfo />
       <WhiteContainer>
         <BtnContainer onPress={() => navigation.navigate("MyInfo")}>
-          <Icon source={require("@images/tools.png")} />
+          <Icon source={require("../assets/images/tools.png")} />
           <BtnText>내정보확인</BtnText>
         </BtnContainer>
         <BtnContainer onPress={() => navigation.navigate("MyADAgreement")}>
-          <Icon source={require("@images/adicon.png")} />
+          <Icon source={require("../assets/images/adicon.png")} />
           <BtnText>광고성 정보 수신동의</BtnText>
         </BtnContainer>
         <BtnContainer onPress={() => navigation.navigate("MyReviews")}>
-          <Icon source={require("@images/chat3.png")} />
+          <Icon source={require("../assets/images/chat3.png")} />
           <BtnText>나의리뷰</BtnText>
         </BtnContainer>
         {/* <BtnContainer onPress={() => navigation.navigate("MyOrder")}>
-          <Icon source={require("@images/calculator.png")} />
+          <Icon source={require("../assets/images/calculator.png")} />
           <BtnText>상품주문내역</BtnText>
         </BtnContainer> */}
         <BtnContainer onPress={() => navigation.navigate("MyEvent")}>
-          <Icon source={require("@images/barcode.png")} />
+          <Icon source={require("../assets/images/barcode.png")} />
           <BtnText>이벤트 응모내역</BtnText>
         </BtnContainer>
         <BtnContainer onPress={() => navigation.navigate("Inquiry")}>
-          <Icon source={require("@images/clipboard.png")} />
+          <Icon source={require("../assets/images/clipboard.png")} />
           <BtnText>나의 문의내역</BtnText>
         </BtnContainer>
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
           onPress={() => navigation.navigate("Withdrawal")}
         >
-          <Icon source={require("@images/unlocked2.png")} />
+          <Icon source={require("../assets/images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
         </BtnContainer>
         <BlackBox>
-          <Image source={require("@images/cogs.png")} />
+          <Image source={require("../assets/images/cogs.png")} />
           <Buttons>
             <GrayBtn onPress={() => navigation.navigate("Terms")}>
               <GrayText>이용약관</GrayText>

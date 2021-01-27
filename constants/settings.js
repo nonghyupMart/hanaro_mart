@@ -2,7 +2,7 @@
 // export const SERVER_URL = "http://www.hanaromartapp.com";
 import Constants from "expo-constants";
 export const PRODUCT_SERVER_URL = "http://www.hanaromartapp.com";
-import getEnvVars from "@constants/environment";
+import getEnvVars from "./environment";
 export const { SERVER_URL } = getEnvVars();
 
 export const API_URL = `${SERVER_URL}/api`;

@@ -13,9 +13,9 @@ import {
   Image,
 } from "react-native";
 import Constants from "expo-constants";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseSquareButtonContainer,
   ButtonText,
@@ -23,18 +23,18 @@ import {
   StyleConstants,
   BaseText,
   BaseTextInput,
-} from "@UI/BaseUI";
-import { formatPhoneNumber } from "@util";
+} from "../../components/UI/BaseUI";
+import { formatPhoneNumber } from "../../util";
 import moment from "moment";
 import * as Notifications from "expo-notifications";
 
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
-import * as authActions from "@actions/auth";
-import * as branchesActions from "@actions/branches";
-import * as CommonActions from "@actions/common";
+import * as authActions from "../../store/actions/auth";
+import * as branchesActions from "../../store/actions/branches";
+import * as CommonActions from "../../store/actions/common";
 import _ from "lodash";
-import * as Util from "@util";
+import * as Util from "../../util";
 
 const TEST_PHONE_NUMBER = "01999999999";
 
@@ -188,7 +188,9 @@ const JoinStep2Screen = ({ navigation }) => {
       <ScrollContainer keyboardShouldPersistTaps="handled">
         <DescText>{`아래의 휴대폰번호로 SMS 인증번호 6자리를\n보내드립니다.`}</DescText>
         <TextInputContainer style={{ marginBottom: 7 }}>
-          <Image source={require("@images/ic_phone_iphone_24px.png")} />
+          <Image
+            source={require("../../assets/images/ic_phone_iphone_24px.png")}
+          />
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
           <InputText
             // ref={(ref) => setPhoneNumberRef(ref)}
@@ -225,7 +227,7 @@ const JoinStep2Screen = ({ navigation }) => {
             <DescText>{`통신사의 사정에 따라 SMS 전송시간이 다소 지연될 수 있습니다.`}</DescText>
             <View style={{ flexDirection: "row" }}>
               <TextInputContainer style={{ marginRight: 8 }}>
-                <Image source={require("@images/help.png")} />
+                <Image source={require("../../assets/images/help.png")} />
                 <Label
                   style={{ marginLeft: 10, marginRight: 10 }}
                   onPress={() => {
@@ -435,7 +437,7 @@ export const popupConetnt = (agreedStatus, userInfo) => {
                   //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
                 }}
               >
-                <Icon source={require("@images/checkmark.png")} />
+                <Icon source={require("../../assets/images/checkmark.png")} />
                 <SmallText>{agreedStatus[item].title}</SmallText>
               </Line>
             );

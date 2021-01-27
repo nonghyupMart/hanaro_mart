@@ -6,7 +6,7 @@ import {
   CheckButton,
   TitleContainer,
   TextView,
-} from "@screens/join/AgreementScreen";
+} from "../../screens/join/AgreementScreen";
 
 import {
   BlueButton,
@@ -15,7 +15,7 @@ import {
   BaseTextInput,
   BaseImage,
   screenWidth,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 const StampBox = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;
   const stamp_history_cnt = props.eventDetail.entry.stamp_history_cnt;
@@ -23,7 +23,7 @@ const StampBox = (props) => {
   for (let i = 0; i < stamp_history_cnt; i++) {
     stamps.push(
       <StampImage
-        source={require("@images/on_nara192.png")}
+        source={require("../../assets/images/on_nara192.png")}
         key={Math.random()}
       />
     );
@@ -31,7 +31,7 @@ const StampBox = (props) => {
   for (let i = 0; i < stamp_cnt - stamp_history_cnt; i++) {
     stamps.push(
       <StampImage
-        source={require("@images/off_nara191.png")}
+        source={require("../../assets/images/off_nara191.png")}
         key={Math.random()}
       />
     );
@@ -53,7 +53,7 @@ const StampBox = (props) => {
         stamp_cnt - stamp_history_cnt <= 0 && (
           <BtnContainer>
             <BlueButton onPress={onPress}>
-              <Image source={require("@images/ticket3.png")} />
+              <Image source={require("../../assets/images/ticket3.png")} />
               <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
             </BlueButton>
           </BtnContainer>
@@ -61,7 +61,7 @@ const StampBox = (props) => {
       {props.eventDetail.entry.status === "20" && (
         <BtnContainer>
           <BlueButton style={{ backgroundColor: colors.greyishThree }}>
-            <Image source={require("@images/ticket3.png")} />
+            <Image source={require("../../assets/images/ticket3.png")} />
             <BlueButtonText>교환완료</BlueButtonText>
           </BlueButton>
         </BtnContainer>

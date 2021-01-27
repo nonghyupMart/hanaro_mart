@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import Carousel from "@UI/Carousel";
+import Carousel from "../../components/UI/Carousel";
 import {
   View,
   StyleSheet,
@@ -13,12 +13,12 @@ import {
   BaseImage,
   BaseTouchable,
   screenWidth,
-} from "@UI/BaseUI";
-import colors from "@constants/colors";
+} from "../../components/UI/BaseUI";
+import colors from "../../constants/colors";
 import * as Linking from "expo-linking";
-import * as homeActions from "@actions/home";
+import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
@@ -83,9 +83,9 @@ const BannerItem = (props) => {
         height: screenWidth * 0.608,
         width: screenWidth,
       }}
-      defaultSource={require("@images/m_img499.png")}
+      defaultSource={require("../../assets/images/m_img499.png")}
       resizeMode="cover"
-      // loadingIndicatorSource={require("@images/m_img499.png")}
+      // loadingIndicatorSource={require("../../assets/images/m_img499.png")}
       source={props.item.display_img}
     />
   );

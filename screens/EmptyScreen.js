@@ -2,27 +2,27 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { ExtendedWebView } from "../components/UI/ExtendedWebView";
 
 import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "@components/BaseScreen";
-import Alert from "@UI/Alert";
-import * as RootNavigation from "@navigation/RootNavigation";
+import BaseScreen from "../components/BaseScreen";
+import Alert from "../components/UI/Alert";
+import * as RootNavigation from "../navigation/RootNavigation";
 import {
   createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import { DrawerActions } from "@react-navigation/native";
-import colors from "@constants/colors";
+import colors from "../constants/colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderButton, LogoTitle } from "@UI/header";
+import { HeaderButton, LogoTitle } from "../components/UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { setPreview } from "@actions/auth";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setPreview } from "../store/actions/auth";
+import { setAlert, setIsLoading } from "../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
 
 import _ from "lodash";

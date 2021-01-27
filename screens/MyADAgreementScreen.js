@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
-import * as MyInfoScreen from "@screens/MyInfoScreen";
-import MemberInfoB from "@components/myPage/MemberInfoB";
+import {
+  screenWidth,
+  BaseButtonContainer,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as MyInfoScreen from "../screens/MyInfoScreen";
+import MemberInfoB from "../components/myPage/MemberInfoB";
 import { CheckBox } from "react-native-elements";
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -17,13 +21,12 @@ import {
   Switch,
 } from "react-native";
 import _ from "lodash";
-import * as Util from "@util";
 
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as authActions from "@actions/auth";
-import { updateUserInfo } from "@screens/home/HomeScreen";
+import BaseScreen from "../components/BaseScreen";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { setAlert, setIsLoading } from "../store/actions/common";
+import * as authActions from "../store/actions/auth";
+import { updateUserInfo } from "../screens/home/HomeScreen";
 
 const MyADAgreementScreen = (props) => {
   const params = props.route.params;
@@ -125,8 +128,12 @@ const MyADAgreementScreen = (props) => {
             <CheckBox
               activeOpacity={0.8}
               onPress={() => setSms(!sms)}
-              checkedIcon={<Image source={require("@images/ckon.png")} />}
-              uncheckedIcon={<Image source={require("@images/ckoff.png")} />}
+              checkedIcon={
+                <Image source={require("../assets/images/ckon.png")} />
+              }
+              uncheckedIcon={
+                <Image source={require("../assets/images/ckoff.png")} />
+              }
               checked={sms}
               containerStyle={[
                 {
@@ -147,8 +154,12 @@ const MyADAgreementScreen = (props) => {
             <CheckBox
               activeOpacity={0.8}
               onPress={() => setPush(!push)}
-              checkedIcon={<Image source={require("@images/ckon.png")} />}
-              uncheckedIcon={<Image source={require("@images/ckoff.png")} />}
+              checkedIcon={
+                <Image source={require("../assets/images/ckon.png")} />
+              }
+              uncheckedIcon={
+                <Image source={require("../assets/images/ckoff.png")} />
+              }
               checked={push}
               containerStyle={[
                 {

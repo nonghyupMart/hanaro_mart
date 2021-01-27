@@ -5,16 +5,20 @@ import JsBarcode from "jsbarcode";
 import * as Brightness from "expo-brightness";
 
 import { DOMImplementation, XMLSerializer } from "xmldom";
-import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
+import {
+  screenWidth,
+  BaseButtonContainer,
+  BaseText,
+} from "../../components/UI/BaseUI";
 
 // import Barcode from "react-native-jsbarcode";
 import { Text as TextView, StyleSheet, Platform, Image } from "react-native";
 
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import Barcode from "@components/Barcode";
-import { setAlert } from "@actions/common";
-import * as CommonActions from "@actions/common";
+import BaseScreen from "../../components/BaseScreen";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import Barcode from "../../components/Barcode";
+import { setAlert } from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
 
 const BarcodeScreen = (props) => {
   const params = props.route.params;
@@ -108,7 +112,7 @@ const BarcodeScreen = (props) => {
         />
       </Container>
       <WarnContainer>
-        <Image source={require("@images/icon60px.png")} />
+        <Image source={require("../../assets/images/icon60px.png")} />
         <Warn>
           해당되는 쿠폰이 사용 되었습니다.{"\n"}궁금하신 사항은 1:1
           문의/고객센터로 문의 하시기 바랍니다.
@@ -119,7 +123,7 @@ const BarcodeScreen = (props) => {
           props.navigation.pop();
         }}
       >
-        <Image source={require("@images/ic_gps_off_24px.png")} />
+        <Image source={require("../../assets/images/ic_gps_off_24px.png")} />
         <BlueButtonText>쿠폰확인 닫기</BlueButtonText>
       </BlueButton>
     </BaseScreen>

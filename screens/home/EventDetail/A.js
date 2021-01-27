@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import ApplyBox from "@components/event/ApplyBox";
+import ApplyBox from "../../../components/event/ApplyBox";
 const A = (props) => {
   return (
     <Container>

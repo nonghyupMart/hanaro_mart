@@ -11,25 +11,25 @@ import {
   Image,
   AppState,
 } from "react-native";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { BackButton, TextTitle } from "@UI/header";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseButtonContainer,
   BaseTouchable,
   screenWidth,
   StyleConstants,
-} from "@UI/BaseUI";
-import colors from "@constants/colors";
+} from "../../components/UI/BaseUI";
+import colors from "../../constants/colors";
 import * as Location from "expo-location";
-import StoreItem from "@components/store/StoreItem";
-import BaseScreen from "@components/BaseScreen";
-import PickerViews from "@components/store/PickerViews";
-import SearchBar from "@components/store/SearchBar";
-import InfoBox from "@components/store/InfoBox";
-import HistoryList from "@components/store/HistoryList";
+import StoreItem from "../../components/store/StoreItem";
+import BaseScreen from "../../components/BaseScreen";
+import PickerViews from "../../components/store/PickerViews";
+import SearchBar from "../../components/store/SearchBar";
+import InfoBox from "../../components/store/InfoBox";
+import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
-import * as branchesActions from "@actions/branches";
-import { setIsLoading } from "@actions/common";
+import * as branchesActions from "../../store/actions/branches";
+import { setIsLoading } from "../../store/actions/common";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();

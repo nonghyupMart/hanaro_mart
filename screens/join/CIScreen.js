@@ -8,12 +8,12 @@ import {
   screenHeight,
   BaseTouchable,
   BaseText,
-} from "@UI/BaseUI";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+} from "../../components/UI/BaseUI";
+import BaseScreen from "../../components/BaseScreen";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import _ from "lodash";
-import * as CommonActions from "@actions/common";
+import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
 const CIScreen = ({ navigation }) => {

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Image } from "react-native";
 import { Image as CacheImage } from "react-native-expo-image-cache";
-import { IMAGE_URL } from "@constants/settings";
+import { IMAGE_URL } from "../../constants/settings";
 
-// import { BaseImage } from "@UI/BaseUI";
+// import { BaseImage } from "../../components/UI/BaseUI";
 
 export default class ScaledImage extends Component {
   constructor(props) {

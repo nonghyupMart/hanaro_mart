@@ -1,7 +1,7 @@
 import queryString from "query-string";
-import { API_URL } from "@constants/settings";
-import * as Util from "@util";
-import * as Network from "@util/network";
+import { API_URL } from "../../constants/settings";
+import * as Util from "../../util";
+import * as Network from "../../util/network";
 
 export const SET_EVENT = "SET_EVENT";
 export const SET_MY_EVENT = "SET_MY_EVENT";
