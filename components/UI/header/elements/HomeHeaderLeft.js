@@ -9,27 +9,32 @@ import _ from "lodash";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const HomeHeaderRight = (props) => {
+const HomeHeaderLeft = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   if (_.isEmpty(userStore)) return <></>;
   return (
     <BtnContainer>
-      <Btn
-        onPress={() => RootNavigation.navigate("SearchProduct")}
-        style={{ paddingRight: 21 }}
-      >
-        <Image source={require("../../../../assets/images/search.png")} />
-      </Btn>
-      {/* <Btn
-        onPress={() => RootNavigation.navigate("Notification")}
-        style={{ paddingRight: 10 }}
-      >
-        <MaterialIcons
-          name="notifications-none"
-          size={24}
+      {/* <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          iconSize={30}
+          IconComponent={MaterialIcons}
+          title="메뉴"
+          iconName="menu"
+          onPress={() => {
+            props.navigator.dispatch(DrawerActions.toggleDrawer());
+          }}
           color={colors.pine}
         />
-      </Btn> */}
+      </HeaderButtons> */}
+      <Btn
+        onPress={() => RootNavigation.toggleDrawer()}
+        style={{ paddingLeft: 23 }}
+      >
+        <Image source={require("../../../../assets/images/menu.png")} />
+      </Btn>
+      <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
+        <Image source={require("../../../../assets/images/bell.png")} />
+      </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
@@ -65,4 +70,4 @@ const BranchName = styled(BaseText)({
 BranchName.defaultProps = {
   numberOfLines: 1,
 };
-export default HomeHeaderRight;
+export default HomeHeaderLeft;

@@ -245,7 +245,7 @@ export const screenOptions = ({ navigation }) => {
     title: "나의 쿠폰",
     cardStyle: {
       backgroundColor: colors.trueWhite,
-      paddingBottom: 65,
+      paddingBottom: 50,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

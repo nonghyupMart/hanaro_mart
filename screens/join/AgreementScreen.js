@@ -29,7 +29,7 @@ import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 import { getPermissionsAsync } from "expo-notifications";
 import * as Animatable from "react-native-animatable";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 
 import BaseScreen from "../../components/BaseScreen";
 import {

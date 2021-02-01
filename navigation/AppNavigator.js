@@ -8,7 +8,7 @@ import StartupScreen from "../screens/StartupScreen";
 import PopupScreen from "../screens/PopupScreen";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/Loading";
-import colors from "../constants/colors";
+import colors from "../constants/Colors";
 import * as CommonActions from "../store/actions/common";
 import * as Notifications from "expo-notifications";
 import { BackHandler } from "react-native";

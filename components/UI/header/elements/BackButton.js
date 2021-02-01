@@ -5,7 +5,7 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 // import { HeaderButton } from "react-navigation-header-buttons";
 import { HeaderButton } from "../../../../components/UI/header/elements/HeaderButton";
 import * as CommonActions from "../../../../store/actions/common";
-import colors from "../../../../constants/colors";
+import colors from "../../../../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigationState } from "@react-navigation/native";
 import { setPreview } from "../../../../store/actions/auth";

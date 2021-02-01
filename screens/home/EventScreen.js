@@ -12,11 +12,13 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
-
+let isMoved = false;
 const EventScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const isFocused = useIsFocused();
+  const params = props.route.params;
+
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const [page, setPage] = useState(1);
@@ -30,6 +32,11 @@ const EventScreen = (props) => {
     event = useSelector((state) => state.event.event);
   }
   useEffect(() => {
+    if (params && params.event_cd && !isMoved) {
+      moveToDetail(params.event_cd);
+      isMoved = true;
+    }
+
     if (isFocused && !_.isEmpty(userStore)) {
       setPage(1);
       fetchEvent();
@@ -54,10 +61,13 @@ const EventScreen = (props) => {
     }
   };
 
-  const onPress = (item) => {
+  const moveToDetail = (event_cd) => {
     if (!userInfo.ci) return navigation.navigate("Empty");
     dispatch(setIsLoading(true));
-    navigation.navigate("EventDetail", { event_cd: item.event_cd });
+    navigation.navigate("EventDetail", { event_cd });
+  };
+  const onPress = (item) => {
+    moveToDetail(item.event_cd);
   };
   if (!event) return <></>;
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)

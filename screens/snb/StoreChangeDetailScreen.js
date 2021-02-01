@@ -15,7 +15,7 @@ import {
 } from "../../components/UI/BaseUI";
 import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import * as Util from "../../util";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 
 import StoreItem from "../../components/store/StoreItem";
 import BaseScreen from "../../components/BaseScreen";

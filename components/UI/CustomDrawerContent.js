@@ -25,7 +25,7 @@ import {
   screenHeight,
 } from "./BaseUI";
 import { setPreview } from "../../store/actions/auth";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 import { TabMenus } from "../../constants/menu";
 import MemberInfo from "./drawer/MemberInfo";
 import GrayButtons from "./drawer/GrayButtons";

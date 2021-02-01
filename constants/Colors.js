@@ -31,5 +31,7 @@ export default colors = {
   silver: "#c9cacc",
   blueyGreen: "#27a486",
   lipstickTwo: "#e11d39",
+  nastyGreen: "#85bf3f",
+  emerald: "#00a64d",
 };
 

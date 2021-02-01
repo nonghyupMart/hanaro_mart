@@ -1,7 +1,7 @@
 import React from "react";
 import { HeaderButton } from "react-navigation-header-buttons";
 import { Ionicons, Entypo } from "@expo/vector-icons";
-import colors from "../../../../constants/colors";
+import colors from "../../../../constants/Colors";
 
 const CustomHeaderButton = (props) => {
   return (

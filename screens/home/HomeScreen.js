@@ -1,51 +1,26 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
+import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
 import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  AsyncStorage,
-  BackHandler,
-  StatusBar,
-  Platform,
-  AppState,
-} from "react-native";
-import {
-  createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { DrawerActions } from "@react-navigation/native";
-import colors from "../../constants/colors";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import colors from "../../constants/Colors";
 import {
   HeaderButton,
   LogoTitle,
+  HomeHeaderLeft,
   HomeHeaderRight,
 } from "../../components/UI/header";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as Updates from "expo-updates";
-import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
-
-import {
-  StyleConstants,
-  BaseImage,
-  BaseTouchable,
-  screenWidth,
-} from "../../components/UI/BaseUI";
+import { screenWidth } from "../../components/UI/BaseUI";
 import _ from "lodash";
-import HomeNotice from "../../components/home/HomeNotice";
 import HomeBanner from "../../components/home/HomeBanner";
-import NaroTube from "../../components/home/NaroTube";
-import StorePopup from "../../components/home/StorePopup";
+import HomeEvent from "../../components/home/HomeEvent";
+import HomeProducts from "../../components/home/HomeProducts";
 import AppPopup from "../../components/home/AppPopup";
 import * as Util from "../../util";
 import { setAlert, setIsLoading } from "../../store/actions/common";
@@ -181,29 +156,8 @@ const HomeScreen = (props) => {
           {...props}
         />
         <HomeBanner isFocused={isFocused} />
-        <TouchableOpacity
-          style={{ width: "100%" }}
-          onPress={() => Util.sendShareLink(userInfo.recommend)}
-        >
-          <Image
-            source={require("../../assets/images/in730.png")}
-            style={{ width: "100%" }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ width: "100%" }}
-          onPress={() => {
-            navigation.navigate("StoreChange");
-          }}
-        >
-          <Image
-            source={require("../../assets/images/mystore.png")}
-            style={{ width: "100%" }}
-          />
-        </TouchableOpacity>
-        {/* <Space /> */}
-        <NaroTube isFocused={isFocused} />
-        <HomeNotice isFocused={isFocused} />
+        <HomeEvent isFocused={isFocused} />
+        <HomeProducts isFocused={isFocused} />
       </BaseScreen>
     </>
   );
@@ -324,32 +278,16 @@ const Space = styled.View({
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 50 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
     headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
-    headerLeft: (props) => <HeaderMenu {...props} navigator={navigation} />,
+    headerLeft: (props) => <HomeHeaderLeft {...props} navigator={navigation} />,
     headerRight: (props) => (
       <HomeHeaderRight {...props} navigator={navigation} />
     ),
   };
-};
-const HeaderMenu = (props) => {
-  return (
-    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item
-        iconSize={30}
-        IconComponent={MaterialIcons}
-        title="메뉴"
-        iconName="menu"
-        onPress={() => {
-          props.navigator.dispatch(DrawerActions.toggleDrawer());
-        }}
-        color={colors.pine}
-      />
-    </HeaderButtons>
-  );
 };
 
 const styles = StyleSheet.create({

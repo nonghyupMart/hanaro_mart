@@ -71,6 +71,8 @@ export default class Carousel extends Component {
     bulletStyle: undefined,
     arrowsContainerStyle: undefined,
     arrowStyle: undefined,
+    arrowLeft: undefined,
+    arrowRight: undefined,
     leftArrowStyle: undefined,
     rightArrowStyle: undefined,
     leftArrowText: "",
@@ -430,13 +432,21 @@ export default class Carousel extends Component {
             onPress={this._animatePreviousPage}
             style={this.props.arrowStyle}
           >
-            <Image source={require("../../assets/images/l_off.png")} />
+            {this.props.arrowLeft ? (
+              this.props.arrowLeft
+            ) : (
+              <Image source={require("../../assets/images/l_off.png")} />
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this._animateNextPage}
             style={this.props.arrowStyle}
           >
-            <Image source={require("../../assets/images/r_off.png")} />
+            {this.props.arrowRight ? (
+              this.props.arrowRight
+            ) : (
+              <Image source={require("../../assets/images/r_off.png")} />
+            )}
           </TouchableOpacity>
         </View>
       </View>

@@ -14,7 +14,7 @@ import {
   BaseTouchable,
   screenWidth,
 } from "../../components/UI/BaseUI";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
 import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -34,25 +34,44 @@ const HomeBanner = (props) => {
   if (!homeBanner || !homeBanner.bannerList || homeBanner.bannerCnt == 0)
     return <></>;
   return (
-    <>
+    <RoundedContainer>
       <Carousel
         delay={3000}
-        style={{ height: screenWidth * 0.608, width: "100%" }}
+        style={{
+          height: (screenWidth - 48) * 0.608,
+          width: screenWidth - 48,
+          borderRadius: 10,
+          overflow: "hidden",
+        }}
+        arrows={true}
+        arrowLeft={
+          <Image source={require("../../assets/images/left_button.png")} />
+        }
+        arrowRight={
+          <Image source={require("../../assets/images/right_button.png")} />
+        }
+        arrowStyle={{
+          paddingLeft: 5.5,
+          paddingRight: 5.5,
+        }}
         autoplay
         pageInfo={true}
         // bullets={true}
         pageInfoBottomContainerStyle={{
           left: null,
-          right: 18,
-          bottom: 13,
-          width: 50,
-          backgroundColor: "rgba(0, 0, 0, 0.25)",
+          right: 8.5,
+          bottom: 5.5,
+          width: 35,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
           borderRadius: 20,
           paddingTop: 2,
           paddingBottom: 2,
+          height: 15,
+          paddingTop: 0,
+          paddingBottom: 4,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
         {homeBanner.bannerList.map((item, index) => {
@@ -64,8 +83,8 @@ const HomeBanner = (props) => {
                 if (item.link_url != "") Linking.openURL(item.link_url);
               }}
               style={{
-                height: screenWidth * 0.608,
-                width: screenWidth,
+                height: (screenWidth - 48) * 0.608,
+                width: screenWidth - 48,
               }}
             >
               <BannerItem item={item} />
@@ -73,18 +92,28 @@ const HomeBanner = (props) => {
           );
         })}
       </Carousel>
-    </>
+    </RoundedContainer>
   );
 };
+const RoundedContainer = styled.View({
+  flex: 1,
+  width: "100%",
+  paddingLeft: 24,
+  paddingRight: 24,
+  borderRadius: 10,
+  overflow: "hidden",
+});
 const BannerItem = (props) => {
   return (
     <BaseImage
       style={{
-        height: screenWidth * 0.608,
-        width: screenWidth,
+        height: (screenWidth - 48) * 0.608,
+        width: screenWidth - 48,
+        borderRadius: 10,
+        overflow: "hidden",
       }}
       defaultSource={require("../../assets/images/m_img499.png")}
-      resizeMode="cover"
+      resizeMode="stretch"
       // loadingIndicatorSource={require("../../assets/images/m_img499.png")}
       source={props.item.display_img}
     />

@@ -19,7 +19,7 @@ import {
   screenWidth,
   StyleConstants,
 } from "../../components/UI/BaseUI";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 import * as Location from "expo-location";
 import StoreItem from "../../components/store/StoreItem";
 import BaseScreen from "../../components/BaseScreen";

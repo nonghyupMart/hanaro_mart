@@ -191,7 +191,7 @@ const FlyerScreen = (props) => {
                       })
                     : null
                 }
-                style={{ height: width * 0.283, flex: 1, width: "100%" }}
+                style={{ height: width * 0.608, flex: 1, width: "100%" }}
               >
                 <BaseImage
                   style={{

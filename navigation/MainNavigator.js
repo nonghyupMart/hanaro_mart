@@ -33,7 +33,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { Input } from "react-native-elements";
 import * as RootNavigation from "../navigation/RootNavigation";
-import colors from "../constants/colors";
+import colors from "../constants/Colors";
 import { TabMenus } from "../constants/menu";
 
 import BottomButtons from "../components/BottomButtons";
@@ -233,7 +233,7 @@ export const HomeNavigator = ({ navigation, route }) => {
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {
-            paddingBottom: 65,
+            paddingBottom: 50,
             backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",

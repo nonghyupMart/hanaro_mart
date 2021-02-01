@@ -15,7 +15,7 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import { DrawerActions } from "@react-navigation/native";
-import colors from "../constants/colors";
+import colors from "../constants/Colors";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { HeaderButton, LogoTitle } from "../components/UI/header";
 

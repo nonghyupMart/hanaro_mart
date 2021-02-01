@@ -22,7 +22,7 @@ import { BaseText } from "../BaseUI";
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
-import ConstantsColors from "../../../constants/colors";
+import ConstantsColors from "../../../constants/Colors";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";
@@ -168,7 +168,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
         },
         indicatorStyle,
       ]}
-      style={[{ backgroundColor: colors.card }, style]}
+      style={[{ backgroundColor: colors.card, elevation: 0 }, style]}
       pressColor={ConstantsColors.trueWhite}
       getAccessibilityLabel={({ route }) =>
         descriptors[route.key].options.tabBarAccessibilityLabel
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     borderTopWidth: StyleSheet.hairlineWidth,
-    elevation: 8,
+    elevation: 0,
   },
   content: {
     flex: 1,

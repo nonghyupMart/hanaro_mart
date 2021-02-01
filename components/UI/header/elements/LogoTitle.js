@@ -9,18 +9,16 @@ import _ from "lodash";
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   return (
-    <TouchableOpacity onPress={() => RootNavigation.navigate("Home")}>
-      <Container>
-        <Image source={require("../../../../assets/images/hanalogo_off.png")} />
-        {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
-          <BranchName>{userStore.storeInfo.store_nm}</BranchName>
-        )}
-      </Container>
-    </TouchableOpacity>
+    <Container onPress={() => RootNavigation.navigate("Home")}>
+      <Image source={require("../../../../assets/images/HANAlogo.png")} />
+      {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
+        <BranchName>{userStore.storeInfo.store_nm}</BranchName>
+      )}
+    </Container>
   );
 };
 
-const Container = styled.View({
+const Container = styled.TouchableOpacity({
   alignSelf: "center",
   alignItems: "center",
   justifyContent: "center",
@@ -31,7 +29,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.nastyGreen,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

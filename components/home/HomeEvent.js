@@ -1,0 +1,182 @@
+import React, { useState, useEffect } from "react";
+import styled from "styled-components/native";
+import Carousel from "../../components/UI/Carousel";
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import {
+  StyleConstants,
+  BaseImage,
+  BaseText,
+  screenWidth,
+} from "../../components/UI/BaseUI";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import colors from "../../constants/Colors";
+import * as Linking from "expo-linking";
+import * as eventActions from "../../store/actions/event";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as Util from "../../util";
+import _ from "lodash";
+import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
+
+const HomeEvent = (props) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const event = useSelector((state) => state.event.event);
+  const eventTitle1 = "하나로마트 앱 지인추천 이벤트";
+  const [evTitle, setEvTitle] = useState(eventTitle1);
+  const [evDate, setEvDate] = useState("");
+  useEffect(() => {
+    if (!props.isFocused || _.isEmpty(userStore)) return;
+    dispatch(setIsLoading(true));
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      page: 1,
+    };
+    dispatch(eventActions.fetchEvent(query)).then(() => {
+      dispatch(setIsLoading(false));
+    });
+  }, [props.isFocused, userStore]);
+  const onPageBeingChanged = (index) => {
+    if (index == 0) {
+      setEvDate(null);
+      return setEvTitle(eventTitle1);
+    }
+    if (event && event.eventList) {
+      setEvTitle(event.eventList[index - 1].title);
+      setEvDate(
+        `헹사기간 : ${event.eventList[index - 1].start_date} ~ ${
+          event.eventList[index - 1].end_date
+        }`
+      );
+    }
+  };
+  if (!event || !event.eventList) return <></>;
+  return (
+    <RoundedContainer>
+      <TitleContainer>
+        <Title>이벤트</Title>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => RootNavigation.navigate("Event")}
+        >
+          <MoreContainer>
+            <MoreText>더보기</MoreText>
+          </MoreContainer>
+        </TouchableOpacity>
+      </TitleContainer>
+      <Carousel
+        onPageBeingChanged={onPageBeingChanged}
+        delay={3000}
+        style={{
+          // height: (screenWidth - 48) * 0.439,
+          width: screenWidth - 48,
+          borderRadius: 10,
+          overflow: "hidden",
+          aspectRatio: 1 / 0.34756097560976,
+        }}
+        arrows={true}
+        arrowLeft={
+          <Image source={require("../../assets/images/left_button.png")} />
+        }
+        arrowRight={
+          <Image source={require("../../assets/images/right_button.png")} />
+        }
+        arrowStyle={{
+          paddingLeft: 5.5,
+          paddingRight: 5.5,
+        }}
+        autoplay
+        pageInfo={false}
+        // bullets={true}
+        pageInfoBottomContainerStyle={{
+          left: null,
+          right: 8.5,
+          bottom: 5.5,
+          width: 35,
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          borderRadius: 20,
+          paddingTop: 2,
+          paddingBottom: 2,
+          height: 15,
+          paddingTop: 0,
+          paddingBottom: 4,
+        }}
+        pageInfoBackgroundColor={"transparent"}
+        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
+        pageInfoTextSeparator="/"
+      >
+        <TouchableOpacity
+          key="inviteFriends"
+          activeOpacity={0.8}
+          onPress={() => Util.sendShareLink(userInfo.recommend)}
+        >
+          <Image
+            source={require("../../assets/images/event_banner.png")}
+            style={{ width: "100%", height: "100%" }}
+            resizeMode="stretch"
+          />
+        </TouchableOpacity>
+        {event.eventList.map((item, index) => {
+          return (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              key={item.event_cd}
+              onPress={() =>
+                RootNavigation.navigate("Event", { event_cd: item.event_cd })
+              }
+              style={{
+                aspectRatio: 1 / 0.34756097560976,
+                width: screenWidth - 48,
+              }}
+            >
+              <BannerItem item={item} />
+            </TouchableOpacity>
+          );
+        })}
+      </Carousel>
+      <EventTitle>{evTitle}</EventTitle>
+      <EventDate>{evDate}</EventDate>
+    </RoundedContainer>
+  );
+};
+const EventDate = styled(BaseText)({
+  fontSize: 11,
+});
+const EventTitle = styled(BaseText)({
+  marginTop: 3.5,
+  fontSize: 15,
+  lineHeight: 22.5,
+  fontFamily: "CustomFont-Bold",
+});
+
+const RoundedContainer = styled.View({
+  flex: 1,
+  width: "100%",
+  paddingLeft: 24,
+  paddingRight: 24,
+  borderRadius: 10,
+  overflow: "hidden",
+});
+const BannerItem = (props) => {
+  return (
+    <BaseImage
+      style={{
+        aspectRatio: 1 / 0.34756097560976,
+        width: screenWidth - 48,
+        borderRadius: 10,
+        overflow: "hidden",
+      }}
+      resizeMode="stretch"
+      source={props.item.title_img}
+    />
+  );
+};
+
+export default HomeEvent;

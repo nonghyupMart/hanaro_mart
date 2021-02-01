@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import colors from "../../constants/colors";
+import colors from "../../constants/Colors";
 import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "../../constants/settings";
 import * as Util from "../../util";
