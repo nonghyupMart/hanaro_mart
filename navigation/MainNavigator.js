@@ -42,6 +42,7 @@ import {
   drawerStyle,
 } from "../components/UI/CustomDrawerContent";
 import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";
+// import TabbarIndicator from "../components/UI/tabBarIndicator/TabBarIndicator";
 
 import HomeScreen, {
   screenOptions as HomeScreenOptions,
@@ -151,6 +152,14 @@ const getTabBarVisible = (route) => {
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
+const TabIndicator = styled.View({
+  width: 100,
+  height: 2,
+  backgroundColor: colors.emerald,
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+});
 export const HomeTabNavigator = ({ navigation, route }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -167,9 +176,19 @@ export const HomeTabNavigator = ({ navigation, route }) => {
       initialRouteName="Home"
       swipeEnabled={false}
       tabBarOptions={{
+        renderIndicator: (props) => {
+          return <></>;
+        },
         scrollEnabled: true,
-        tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
-        style: { marginLeft: -83 },
+        tabStyle: {
+          width: "auto",
+          padding: 0,
+          margin: 0,
+          height: 45,
+          paddingLeft: 10,
+          paddingRight: 10,
+        },
+        style: { marginLeft: -22 },
       }}
     >
       <HomeTopTabNavigator.Screen

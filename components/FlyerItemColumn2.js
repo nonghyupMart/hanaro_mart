@@ -18,14 +18,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
 
 const defaultImage = require("../assets/icon.png");
-const FlyerItem = (props) => {
+const FlyerItemColumn2 = (props) => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
       style={{
-        flex: 0.333,
+        flex: 0.5,
         width: "100%",
-        maxWidth: "33.3333%",
+        maxWidth: "50%",
+
+        alignItems: "center",
       }}
     >
       <Container>
@@ -37,9 +39,9 @@ const FlyerItem = (props) => {
           )}
           <BaseImage
             style={{
-              width: width * 0.285,
+              width: width * 0.316,
               // height: width * 0.227,
-              aspectRatio: 100 / 103.797,
+              aspectRatio: 1 / 1,
             }}
             source={props.item.title_img}
             defaultSource={require("../assets/images/p_img503.png")}
@@ -59,6 +61,7 @@ const FlyerItem = (props) => {
             </OriginalPrice>
           </>
         )}
+        <View style={{ height: 2.8 }} />
         {props.item.card_price != 0 && (
           <BadgeContainer>
             <Badge1>카드할인</Badge1>
@@ -102,10 +105,10 @@ const FlyerItem = (props) => {
 };
 const ImageContainer = styled.View({});
 const BogoText = styled(BaseText)({
-  fontSize: 12,
+  fontSize: 17,
   fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
-  lineHeight: 17,
+  lineHeight: 19.5,
   letterSpacing: 0,
   textAlign: "right",
   color: colors.trueWhite,
@@ -129,10 +132,11 @@ const BadgeContainer = styled.View({
   width: "100%",
 });
 const Badge1 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: 12,
+  letterSpacing: -0.24,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 13,
+  lineHeight: 18,
   letterSpacing: 0,
   textAlign: "right",
   color: colors.trueWhite,
@@ -141,14 +145,16 @@ const Badge1 = styled(BaseText)({
   paddingRight: 3,
 });
 const Badge2 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: 12,
+  letterSpacing: -0.24,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 13,
+  lineHeight: 18,
   letterSpacing: 0,
-  textAlign: "center",
+  textAlign: "left",
   color: colors.black,
-
+  // backgroundColor: colors.black,
+  paddingLeft: 11,
   flex: 1,
 });
 const Container = styled.View({
@@ -159,7 +165,7 @@ const Container = styled.View({
   // padding: 10,
   paddingTop: 10,
   paddingBottom: 10,
-  width: width * 0.285,
+  width: width * 0.398,
 
   // backgroundColor: "white",
 
@@ -168,10 +174,10 @@ const Container = styled.View({
   alignItems: "center",
 });
 const SalePrice = styled(BaseText)({
-  fontSize: 14,
+  fontSize: 16,
+  letterSpacing: -0.32,
   fontStyle: "normal",
-  lineHeight: 20.5,
-  letterSpacing: -0.28,
+
   letterSpacing: 0,
   textAlign: "left",
   width: "100%",
@@ -190,17 +196,17 @@ const OriginalPrice = styled(BaseText)({
 });
 const Title = styled(BaseText)({
   marginTop: 4,
-  fontSize: 16,
+  fontSize: 20,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 23.5,
-  letterSpacing: 0,
+  lineHeight: 29.5,
+  letterSpacing: -0.4,
   textAlign: "left",
-  letterSpacing: -0.32,
   color: colors.greyishBrown,
 
   width: "100%",
-  height: 23.5,
+  height: 29.5,
+  fontFamily: "CustomFont-Bold",
 });
 Title.defaultProps = {
   numberOfLines: 1,
@@ -232,4 +238,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlyerItem;
+export default FlyerItemColumn2;

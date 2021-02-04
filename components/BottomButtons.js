@@ -102,6 +102,12 @@ const Container = styled.View({
   // justifyContent: "center",
   alignItems: "center",
   elevation: 10,
+
+  // for IOS
+  zIndex: 10,
+  shadowColor: colors.black16,
+  shadowRadius: 6,
+  shadowOpacity: 0.5,
 });
 const styles = StyleSheet.create({
   icons: {

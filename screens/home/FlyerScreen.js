@@ -13,12 +13,15 @@ import {
   BaseTouchable,
   BaseImage,
   screenHeight,
+  BaseText,
+  screenWidth,
 } from "../../components/UI/BaseUI";
 
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
-import FlyerItem from "../../components/FlyerItem";
+import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
+import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import { useFocusEffect } from "@react-navigation/native";
 import { IMAGE_URL } from "../../constants/settings";
@@ -43,10 +46,12 @@ const FlyerScreen = (props) => {
   const product = useSelector((state) => state.flyer.product);
   const [page, setPage] = useState(1);
   const [carouselKey, setCarouselKey] = useState();
-
+  const [currentFlyer, setCurrentFlyer] = useState();
+  const [type_val, setType_val] = useState("");
   const clearData = () => {
     dispatch({ type: SET_PRODUCT, product: null });
     setPage(1);
+    setType_val("");
   };
   const init = async () => {
     clearData();
@@ -81,12 +86,23 @@ const FlyerScreen = (props) => {
     };
   }, [isFocused]);
 
+  useEffect(() => {
+    if (!isFocused) return;
+    if (pageforCarousel == null || pageforCarousel == undefined) return;
+    dispatch(setIsLoading(true));
+    setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
+    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
+      dispatch(setIsLoading(false));
+    });
+  }, [type_val]);
+
   const fetchProduct = (leaf_cd, p = page) => {
     return dispatch(
       flyerActions.fetchProduct({
         store_cd: userStore.storeInfo.store_cd,
         leaf_cd: leaf_cd,
         page: p,
+        type_val: type_val,
       })
     );
   };
@@ -97,6 +113,7 @@ const FlyerScreen = (props) => {
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       dispatch(setIsLoading(true));
+      setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
         dispatch(setIsLoading(false));
       });
@@ -143,26 +160,38 @@ const FlyerScreen = (props) => {
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
-        paddingTop: Platform.OS == "ios" ? 19 : 19,
+        paddingTop: Platform.OS == "ios" ? 17 : 17,
         // paddingLeft: Platform.OS == "ios" ? 16 : 0,
         // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <View style={{ paddingLeft: 16, paddingRight: 16, width: "100%" }}>
+      <View style={{ paddingLeft: 24, paddingRight: 24, width: "100%" }}>
         <Carousel
           key={`${carouselKey}`}
           style={{
-            height: width * 0.283,
+            height: (width - 48) * 0.608,
             flex: 1,
             width: "100%",
-            marginBottom: 30,
+            marginBottom: 0,
           }}
           autoplay={false}
           pageInfo={false}
-          bullets={true}
-          arrows={true}
+          bullets={false}
+          arrows={_.size(leaflet.leafletList) == 0 ? false : true}
+          arrowLeft={
+            <Image
+              source={require("../../assets/images/left_button.png")}
+              style={{ marginLeft: 4 }}
+            />
+          }
+          arrowRight={
+            <Image
+              source={require("../../assets/images/right_button.png")}
+              style={{ marginRight: 4 }}
+            />
+          }
           pageInfoBackgroundColor={"transparent"}
           pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
           pageInfoTextSeparator="/"
@@ -205,20 +234,59 @@ const FlyerScreen = (props) => {
           })}
         </Carousel>
       </View>
+      {currentFlyer && currentFlyer.detail_img_cnt > 0 && (
+        <FlyerDetailButton
+          onPress={() =>
+            RootNavigation.navigate("FlyerDetail", {
+              leaf_cd: currentFlyer.leaf_cd,
+            })
+          }
+        >
+          <DetailText>전단 전체보기</DetailText>
+          <Image source={require("../../assets/images/icon.png")} />
+        </FlyerDetailButton>
+      )}
+      {currentFlyer && currentFlyer.type_list && (
+        <ExtendedFlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          style={{
+            marginTop: 22.5,
+            marginLeft: 24,
+            marginRight: 24,
+            width: screenWidth - 48,
+          }}
+          data={currentFlyer.type_list}
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.type_val}`
+          }
+          renderItem={(itemData) => (
+            <CategoryButton
+              item={itemData.item}
+              type_val={type_val}
+              onPress={() => setType_val(itemData.item.type_val)}
+            />
+          )}
+        />
+      )}
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
           listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          numColumns={3}
+          numColumns={2}
           style={styles.flyerListStyle}
           data={product.productList}
           keyExtractor={(item) =>
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
-            <FlyerItem
+            <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
             />
@@ -246,6 +314,27 @@ const FlyerScreen = (props) => {
   );
 };
 
+const FlyerDetailButton = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8,
+})({
+  justifyContent: "center",
+  alignItems: "center",
+  width: "100%",
+  // shadowRadius: 4,
+  // shadowOpacity: 0.2,
+  // backgroundColor: colors.trueWhite,
+  // elevation: 10,
+  paddingTop: 5,
+  paddingBottom: 5,
+  flexDirection: "row",
+});
+const DetailText = styled(BaseText)({
+  fontSize: 16,
+  letterSpacing: -0.32,
+  color: colors.emerald,
+  fontFamily: "CustomFont-Bold",
+  marginRight: 2,
+});
 export const styles = StyleSheet.create({
   flyerListColumnWrapperStyle: {
     justifyContent: "flex-start",

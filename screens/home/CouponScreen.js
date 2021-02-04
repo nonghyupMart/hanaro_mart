@@ -160,7 +160,7 @@ const CouponScreen = (props) => {
     return (
       <NoList
         source={require("../../assets/images/ticketWhite.png")}
-        text={"나로쿠폰"}
+        text={"쿠폰"}
       />
     );
   return (

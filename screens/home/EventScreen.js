@@ -12,7 +12,9 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
-let isMoved = false;
+
+// let isMoved = false;
+
 const EventScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
@@ -24,6 +26,7 @@ const EventScreen = (props) => {
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
+  const event_cd = useSelector((state) => state.event.event_cd);
   let event;
   if (routeName == "MyEvent") {
     //이벤트응모내역 일 경우..
@@ -31,15 +34,23 @@ const EventScreen = (props) => {
   } else {
     event = useSelector((state) => state.event.event);
   }
-  useEffect(() => {
-    if (params && params.event_cd && !isMoved) {
-      moveToDetail(params.event_cd);
-      isMoved = true;
-    }
 
+  useEffect(() => {
+    if (event_cd) {
+      setTimeout(() => {
+        moveToDetail(event_cd);
+      }, 0);
+    }
+  }, [event_cd]);
+
+  useEffect(() => {
     if (isFocused && !_.isEmpty(userStore)) {
       setPage(1);
       fetchEvent();
+    }
+
+    if (!isFocused) {
+      dispatch(eventActions.setEventCd(null));
     }
   }, [isFocused, userStore]);
 
@@ -64,7 +75,7 @@ const EventScreen = (props) => {
   const moveToDetail = (event_cd) => {
     if (!userInfo.ci) return navigation.navigate("Empty");
     dispatch(setIsLoading(true));
-    navigation.navigate("EventDetail", { event_cd });
+    navigation.navigate("EventDetail", { event_cd: event_cd });
   };
   const onPress = (item) => {
     moveToDetail(item.event_cd);

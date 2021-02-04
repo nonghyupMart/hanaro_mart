@@ -33,5 +33,8 @@ export default colors = {
   lipstickTwo: "#e11d39",
   nastyGreen: "#85bf3f",
   emerald: "#00a64d",
+  brightBlue: "#006fff",
+  grapefruit: "#ff4d4d",
+  tealish: "#27bdbe",
 };
 

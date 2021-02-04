@@ -32,7 +32,7 @@ export const TabMenus = [
     components: CouponScreen,
     subComponents: EmptyScreen,
     name: "Coupon",
-    title: "나로쿠폰",
+    title: "쿠폰",
     icon: require("../assets/images/ticket2.png"),
   },
   {

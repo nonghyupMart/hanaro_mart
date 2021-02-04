@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 import {
   StyleConstants,
   BaseImage,
@@ -18,6 +18,7 @@ import FlyerItem from "../../components/FlyerItem";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
+import * as RootNavigation from "../../navigation/RootNavigation";
 
 const HomeProducts = (props) => {
   const dispatch = useDispatch();
@@ -37,7 +38,6 @@ const HomeProducts = (props) => {
     };
     dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
       dispatch(setIsLoading(false));
-      //   console.log(homeProducts);
     });
   }, [props.isFocused, userStore]);
 
@@ -69,9 +69,13 @@ const HomeProducts = (props) => {
       <RoundedContainer>
         <TitleContainer style={{ marginBottom: 0 }}>
           <Title>인기상품</Title>
-          <TouchableOpacity activeOpacity={0.8}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => RootNavigation.navigate("Flyer")}
+          >
             <MoreContainer>
               <MoreText>더보기</MoreText>
+              <Image source={require("../../assets/images/path2.png")} />
             </MoreContainer>
           </TouchableOpacity>
         </TitleContainer>
@@ -108,8 +112,15 @@ const HomeProducts = (props) => {
 export const MoreText = styled(BaseText)({
   fontSize: 11,
   color: colors.emerald,
+  marginRight: 3,
 });
-export const MoreContainer = styled.View({});
+export const MoreContainer = styled.View({
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingTop: 5,
+  paddingBottom: 5,
+});
 
 export const Title = styled(BaseText)({
   fontSize: 19,

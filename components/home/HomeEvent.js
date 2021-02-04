@@ -43,7 +43,7 @@ const HomeEvent = (props) => {
       dispatch(setIsLoading(false));
     });
   }, [props.isFocused, userStore]);
-  const onPageBeingChanged = (index) => {
+  const onAnimateNextPage = (index) => {
     if (index == 0) {
       setEvDate(null);
       return setEvTitle(eventTitle1);
@@ -68,11 +68,12 @@ const HomeEvent = (props) => {
         >
           <MoreContainer>
             <MoreText>더보기</MoreText>
+            <Image source={require("../../assets/images/path2.png")} />
           </MoreContainer>
         </TouchableOpacity>
       </TitleContainer>
       <Carousel
-        onPageBeingChanged={onPageBeingChanged}
+        onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{
           // height: (screenWidth - 48) * 0.439,
@@ -83,10 +84,10 @@ const HomeEvent = (props) => {
         }}
         arrows={true}
         arrowLeft={
-          <Image source={require("../../assets/images/left_button.png")} />
+          <Image source={require("../../assets/images/left_button2.png")} />
         }
         arrowRight={
-          <Image source={require("../../assets/images/right_button.png")} />
+          <Image source={require("../../assets/images/right_button2.png")} />
         }
         arrowStyle={{
           paddingLeft: 5.5,
@@ -128,9 +129,12 @@ const HomeEvent = (props) => {
             <TouchableOpacity
               activeOpacity={0.8}
               key={item.event_cd}
-              onPress={() =>
-                RootNavigation.navigate("Event", { event_cd: item.event_cd })
-              }
+              onPress={async () => {
+                await dispatch(eventActions.setEventCd(item.event_cd));
+                await RootNavigation.navigate("Event", {
+                  event_cd: item.event_cd,
+                });
+              }}
               style={{
                 aspectRatio: 1 / 0.34756097560976,
                 width: screenWidth - 48,

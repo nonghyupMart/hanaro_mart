@@ -60,7 +60,6 @@ export const fetchProduct = (query) => {
     try {
       const response = await fetch(url);
       const resData = await Network.getResponse(response, dispatch, url, query);
-
       let type = SET_PRODUCT;
       if (query.product_nm) {
         if (query.page > 1) type = SET_SEARCHED_PRODUCT_MORE;
