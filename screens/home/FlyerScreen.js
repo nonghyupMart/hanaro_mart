@@ -179,7 +179,7 @@ const FlyerScreen = (props) => {
           autoplay={false}
           pageInfo={false}
           bullets={false}
-          arrows={_.size(leaflet.leafletList) == 0 ? false : true}
+          arrows={_.size(leaflet.leafletList) <= 1 ? false : true}
           arrowLeft={
             <Image
               source={require("../../assets/images/left_button.png")}
@@ -257,8 +257,8 @@ const FlyerScreen = (props) => {
           style={{
             marginTop: 22.5,
             marginLeft: 24,
-            marginRight: 24,
-            width: screenWidth - 48,
+            marginRight: 0,
+            width: screenWidth - 24,
           }}
           data={currentFlyer.type_list}
           keyExtractor={(item) =>
