@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { BaseText } from "./BaseUI";
+import * as Util from "../../util";
 
 const CategoryButton = (props) => {
   if (props.type_val == props.item.type_val)
@@ -29,7 +30,7 @@ const Button = styled.TouchableOpacity({
   alignItems: "center",
 });
 const ButtonText = styled(BaseText)({
-  fontSize: 17,
+  fontSize: Util.normalize(14),
   letterSpacing: -0.34,
   textAlign: "center",
   color: colors.emerald,

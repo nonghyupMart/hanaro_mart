@@ -66,20 +66,22 @@ const HomeProducts = (props) => {
   if (!homeProducts || !homeProducts.productList) return <></>;
   return (
     <>
-      <RoundedContainer>
-        <TitleContainer style={{ marginBottom: 0 }}>
-          <Title>인기상품</Title>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => RootNavigation.navigate("Flyer")}
-          >
-            <MoreContainer>
-              <MoreText>더보기</MoreText>
-              <Image source={require("../../assets/images/path2.png")} />
-            </MoreContainer>
-          </TouchableOpacity>
-        </TitleContainer>
-      </RoundedContainer>
+      {_.size(homeProducts.productList) > 0 && (
+        <RoundedContainer>
+          <TitleContainer style={{ marginBottom: 0 }}>
+            <Title>인기상품</Title>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => RootNavigation.navigate("Flyer")}
+            >
+              <MoreContainer>
+                <MoreText>더보기</MoreText>
+                <Image source={require("../../assets/images/path2.png")} />
+              </MoreContainer>
+            </TouchableOpacity>
+          </TitleContainer>
+        </RoundedContainer>
+      )}
       {homeProducts && (
         <ExtendedFlatList
           listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
@@ -110,7 +112,7 @@ const HomeProducts = (props) => {
   );
 };
 export const MoreText = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(9),
   color: colors.emerald,
   marginRight: 3,
 });
@@ -123,7 +125,7 @@ export const MoreContainer = styled.View({
 });
 
 export const Title = styled(BaseText)({
-  fontSize: 19,
+  fontSize: Util.normalize(15.5),
   fontWeight: "500",
   fontStyle: "normal",
   lineHeight: 28,

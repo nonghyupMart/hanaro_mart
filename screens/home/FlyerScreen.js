@@ -16,6 +16,7 @@ import {
   BaseText,
   screenWidth,
 } from "../../components/UI/BaseUI";
+import * as Util from "../../util";
 
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
@@ -320,16 +321,16 @@ const FlyerDetailButton = styled.TouchableOpacity.attrs({
   justifyContent: "center",
   alignItems: "center",
   width: "100%",
-  // shadowRadius: 4,
-  // shadowOpacity: 0.2,
-  // backgroundColor: colors.trueWhite,
-  // elevation: 10,
+  shadowRadius: 4,
+  shadowOpacity: 0.1,
+  backgroundColor: colors.trueWhite,
+  elevation: 0,
   paddingTop: 5,
   paddingBottom: 5,
   flexDirection: "row",
 });
 const DetailText = styled(BaseText)({
-  fontSize: 16,
+  fontSize: Util.normalize(16),
   letterSpacing: -0.32,
   color: colors.emerald,
   fontFamily: "CustomFont-Bold",

@@ -82,7 +82,7 @@ const HomeEvent = (props) => {
           overflow: "hidden",
           aspectRatio: 1 / 0.34756097560976,
         }}
-        arrows={true}
+        arrows={_.size(event.eventList) <= 1 ? false : true}
         arrowLeft={
           <Image source={require("../../assets/images/left_button2.png")} />
         }
@@ -151,11 +151,11 @@ const HomeEvent = (props) => {
   );
 };
 const EventDate = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
 });
 const EventTitle = styled(BaseText)({
-  marginTop: 3.5,
-  fontSize: 15,
+  marginTop: 8.5,
+  fontSize: Util.normalize(13),
   lineHeight: 22.5,
   fontFamily: "CustomFont-Bold",
 });

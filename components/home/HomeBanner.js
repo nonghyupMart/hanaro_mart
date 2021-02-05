@@ -19,6 +19,7 @@ import * as Linking from "expo-linking";
 import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
+import _ from "lodash"
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const HomeBanner = (props) => {
           borderRadius: 10,
           overflow: "hidden",
         }}
-        arrows={true}
+        arrows={_.size(homeBanner.bannerList) <= 1 ? false : true}
         arrowLeft={
           <Image source={require("../../assets/images/left_button.png")} />
         }

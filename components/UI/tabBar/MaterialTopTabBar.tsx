@@ -24,6 +24,7 @@ import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
 import ConstantsColors from "../../../constants/Colors";
+import * as Util from "../../../util";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
 
     backgroundColor: "transparent",
-    fontSize: 15,
+    fontSize: Util.normalize(13),
     fontWeight: "500",
     fontStyle: "normal",
 

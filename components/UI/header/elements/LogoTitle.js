@@ -5,12 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
+import * as Util from "../../../../util";
 
 const LogoTitle = (props, { navigation }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   return (
     <Container onPress={() => RootNavigation.navigate("Home")}>
-      <Image source={require("../../../../assets/images/HANAlogo.png")} />
+      <Image
+        source={require("../../../../assets/images/HANAlogo.png")}
+        style={{
+          width: Util.normalize(100),
+          // height: Util.normalize(21),
+          // aspectRatio: 1 / 0.194,
+          resizeMode: "contain",
+        }}
+      />
       {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
         <BranchName>{userStore.storeInfo.store_nm}</BranchName>
       )}
@@ -24,7 +33,7 @@ const Container = styled.TouchableOpacity({
   justifyContent: "center",
 });
 const BranchName = styled(BaseText)({
-  fontSize: 15,
+  fontSize: Util.normalize(13),
   fontFamily: "CustomFont-Bold",
   lineHeight: 22,
   letterSpacing: 0,

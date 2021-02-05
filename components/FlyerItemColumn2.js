@@ -132,8 +132,8 @@ const BadgeContainer = styled.View({
   width: "100%",
 });
 const Badge1 = styled(BaseText)({
-  fontSize: 12,
-  letterSpacing: -0.24,
+  fontSize: Util.normalize(9),
+  letterSpacing: -0.28,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 18,
@@ -145,8 +145,8 @@ const Badge1 = styled(BaseText)({
   paddingRight: 3,
 });
 const Badge2 = styled(BaseText)({
-  fontSize: 12,
-  letterSpacing: -0.24,
+  fontSize: Util.normalize(9),
+  letterSpacing: -0.28,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 18,
@@ -154,7 +154,7 @@ const Badge2 = styled(BaseText)({
   textAlign: "left",
   color: colors.black,
   // backgroundColor: colors.black,
-  paddingLeft: 11,
+  paddingLeft: 5,
   flex: 1,
 });
 const Container = styled.View({
@@ -174,7 +174,7 @@ const Container = styled.View({
   alignItems: "center",
 });
 const SalePrice = styled(BaseText)({
-  fontSize: 16,
+  fontSize: Util.normalize(13),
   letterSpacing: -0.32,
   fontStyle: "normal",
 
@@ -184,7 +184,7 @@ const SalePrice = styled(BaseText)({
   color: colors.black,
 });
 const OriginalPrice = styled(BaseText)({
-  fontSize: 12,
+  fontSize: Util.normalize(10),
   letterSpacing: -0.24,
   fontStyle: "normal",
   textDecorationLine: "line-through",
@@ -196,14 +196,13 @@ const OriginalPrice = styled(BaseText)({
 });
 const Title = styled(BaseText)({
   marginTop: 4,
-  fontSize: 20,
+  fontSize: Util.normalize(16),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 29.5,
   letterSpacing: -0.4,
   textAlign: "left",
   color: colors.greyishBrown,
-
   width: "100%",
   height: 29.5,
   fontFamily: "CustomFont-Bold",
@@ -216,9 +215,7 @@ const styles = StyleSheet.create({
     flexBasis: 0,
     flex: 0.333,
     padding: 10,
-
     // backgroundColor: "white",
-
     marginHorizontal: 20,
   },
   itemData: {

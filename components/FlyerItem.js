@@ -139,6 +139,7 @@ const Badge1 = styled(BaseText)({
   backgroundColor: colors.brightBlue,
   paddingLeft: 3,
   paddingRight: 3,
+  letterSpacing: -0.28,
 });
 const Badge2 = styled(BaseText)({
   fontSize: 9,
@@ -148,7 +149,7 @@ const Badge2 = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.black,
-
+  letterSpacing: -0.28,
   flex: 1,
 });
 const Container = styled.View({
