@@ -89,7 +89,8 @@ const HomeScreen = (props) => {
     (async () => {
       // 비가입시에만 실행
       // 가장 가까운 매장 상세정보 호출 후 세팅
-      if (!location || isJoin) return;
+
+      if ((!location && permissionStatus == "granted") || isJoin) return;
       let query = {};
       if (location) {
         query.lat = location.coords.latitude;
