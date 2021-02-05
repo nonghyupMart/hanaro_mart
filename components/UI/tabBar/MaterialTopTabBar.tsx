@@ -272,6 +272,8 @@ const styles = StyleSheet.create({
     width: 24,
   },
   label: {
+    paddingLeft: 10,
+    paddingRight: 10,
     textTransform: "uppercase",
 
     backgroundColor: "transparent",

@@ -185,8 +185,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           padding: 0,
           margin: 0,
           height: 45,
-          paddingLeft: 10,
-          paddingRight: 10,
         },
         style: { marginLeft: -22 },
       }}

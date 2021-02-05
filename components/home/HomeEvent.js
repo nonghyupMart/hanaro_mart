@@ -177,7 +177,7 @@ const BannerItem = (props) => {
         borderRadius: 10,
         overflow: "hidden",
       }}
-      resizeMode="stretch"
+      resizeMode="cover"
       source={props.item.title_img}
     />
   );

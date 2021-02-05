@@ -113,7 +113,6 @@ const BannerItem = (props) => {
         overflow: "hidden",
       }}
       defaultSource={require("../../assets/images/m_img499.png")}
-      resizeMode="stretch"
       // loadingIndicatorSource={require("../../assets/images/m_img499.png")}
       source={props.item.display_img}
     />
