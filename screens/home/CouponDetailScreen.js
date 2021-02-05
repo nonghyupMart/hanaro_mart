@@ -167,7 +167,11 @@ const CouponDetailScreen = (props) => {
         headerLeft: () => <BackButton />,
         headerTitle: (props) => <TextTitle {...props} />,
         headerRight: (props) =>
-          couponDetail.limit_yn == "N" ? null : <UseButton onPress={onPress} />,
+          couponDetail.limit_yn == "N" ? (
+            <></>
+          ) : (
+            <UseButton onPress={onPress} />
+          ),
       });
     }
   }, [couponDetail]);
