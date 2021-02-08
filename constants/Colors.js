@@ -36,5 +36,9 @@ export default colors = {
   brightBlue: "#006fff",
   grapefruit: "#ff4d4d",
   tealish: "#27bdbe",
+  greyishBrownTwo: "#4a4a4a",
+  white2: "#f2f2f2",
+  greyishBrownThree: "#585858",
+  warmGrey: "#7b7b7b",
 };
 

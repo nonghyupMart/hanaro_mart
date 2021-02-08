@@ -330,10 +330,10 @@ const FlyerDetailButton = styled.TouchableOpacity.attrs({
   flexDirection: "row",
 });
 const DetailText = styled(BaseText)({
-  fontSize: Util.normalize(16),
+  fontSize: Util.normalize(14),
   letterSpacing: -0.32,
   color: colors.emerald,
-  fontFamily: "CustomFont-Bold",
+  // fontFamily: "CustomFont-Bold",
   marginRight: 2,
 });
 export const styles = StyleSheet.create({

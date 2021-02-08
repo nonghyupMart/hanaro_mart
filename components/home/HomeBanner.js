@@ -19,7 +19,7 @@ import * as Linking from "expo-linking";
 import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import _ from "lodash"
+import _ from "lodash";
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
@@ -113,8 +113,6 @@ const BannerItem = (props) => {
         borderRadius: 10,
         overflow: "hidden",
       }}
-      defaultSource={require("../../assets/images/m_img499.png")}
-      // loadingIndicatorSource={require("../../assets/images/m_img499.png")}
       source={props.item.display_img}
     />
   );

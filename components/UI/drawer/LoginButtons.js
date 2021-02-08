@@ -27,17 +27,6 @@ const LoginButtons = (props) => {
   };
   return (
     <BottomContainer>
-      <ButtonContainer>
-        {/* <GreenButton>
-          <ButtonText>로그인</ButtonText>
-        </GreenButton> */}
-        {!isJoin && (
-          <BlueButton onPress={() => onPressJoin()}>
-            <ButtonText>회원가입</ButtonText>
-          </BlueButton>
-        )}
-      </ButtonContainer>
-
       <GrayContainer>
         <Text1>
           사업자명 : {Util.emptyPrint(storeInfo && storeInfo.store_nm)}
@@ -83,24 +72,24 @@ const TextArea = styled.View({
   flexDirection: "row",
 });
 const Text3 = styled(BaseText)({
-  fontSize: 12,
+  fontSize: 11.5,
   fontWeight: "300",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.greyishBrownThree,
 });
 const Text2 = styled(BaseText)({
-  marginTop: 2,
-  marginBottom: 4,
+  marginTop: 6,
+  marginBottom: 20,
   fontSize: 10,
   fontWeight: "500",
   fontStyle: "normal",
-  lineHeight: 12,
+  lineHeight: 14.5,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.greyishBrownThree,
 });
 const Text1 = styled(BaseText)({
   fontSize: 14,
@@ -109,13 +98,13 @@ const Text1 = styled(BaseText)({
 
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.greyishBrownThree,
 });
 const GrayContainer = styled.View({
-  backgroundColor: colors.white,
-  paddingLeft: 21,
-  paddingRight: 21,
-  paddingTop: 10,
+  backgroundColor: colors.white2,
+  paddingLeft: 24,
+  paddingRight: 24,
+  paddingTop: 16,
   paddingBottom: 10,
   width: "100%",
 });

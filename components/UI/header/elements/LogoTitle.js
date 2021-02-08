@@ -33,7 +33,7 @@ const Container = styled.TouchableOpacity({
   justifyContent: "center",
 });
 const BranchName = styled(BaseText)({
-  fontSize: Util.normalize(13),
+  fontSize: Util.normalize(12),
   fontFamily: "CustomFont-Bold",
   lineHeight: 22,
   letterSpacing: 0,
