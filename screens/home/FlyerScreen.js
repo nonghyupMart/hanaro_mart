@@ -12,9 +12,9 @@ import BaseScreen from "../../components/BaseScreen";
 import {
   BaseTouchable,
   BaseImage,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import * as Util from "../../util";
 
@@ -259,7 +259,7 @@ const FlyerScreen = (props) => {
             marginTop: 22.5,
             marginLeft: 24,
             marginRight: 0,
-            width: screenWidth - 24,
+            width: SCREEN_WIDTH - 24,
           }}
           data={currentFlyer.type_list}
           keyExtractor={(item) =>
@@ -298,7 +298,7 @@ const FlyerScreen = (props) => {
         <NoList
           style={{
             backgroundColor: colors.trueWhite,
-            height: screenHeight - (width * 0.283 + 250),
+            height: SCREEN_HEIGHT - (width * 0.283 + 250),
           }}
           source={require("../../assets/images/box.png")}
           text={"행사상품"}
@@ -345,7 +345,7 @@ export const styles = StyleSheet.create({
   flyerListStyle: {
     // flexGrow: 1,
     // flex: 1,
-    // height: screenHeight,
+    // height: SCREEN_HEIGHT,
     width: "97%",
     marginTop: 10,
     alignSelf: "center",

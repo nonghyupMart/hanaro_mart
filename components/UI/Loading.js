@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Platform,
 } from "react-native";
-import { screenHeight, screenWidth } from "./BaseUI";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 const Loading = (props) => {
   const dispatch = useDispatch();
@@ -68,8 +68,8 @@ const Loading = (props) => {
               justifyContent: "center",
               alignItems: "center",
               flex: 1,
-              width: screenWidth,
-              height: screenHeight,
+              width: SCREEN_WIDTH,
+              height: SCREEN_HEIGHT,
               backgroundColor: "rgba(0, 0, 0, 0.0)",
               left: 0,
               right: 0,

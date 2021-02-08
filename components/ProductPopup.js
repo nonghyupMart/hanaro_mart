@@ -11,8 +11,8 @@ import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
 import {
   BaseImage,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../components/UI/BaseUI";
 import * as flyerActions from "../store/actions/flyer";
@@ -100,8 +100,8 @@ const ProductPopup = (props) => {
         <Body contentContainerStyle={{ alignItems: "center" }}>
           <BaseImage
             style={{
-              width: screenWidth * 0.566,
-              height: screenWidth * 0.566,
+              width: SCREEN_WIDTH * 0.566,
+              height: SCREEN_WIDTH * 0.566,
               aspectRatio: 1 / 1,
               marginTop: 18,
             }}
@@ -449,11 +449,11 @@ const Notice = styled(BaseText)({
 });
 const NoticeContainer = styled.View({
   marginTop: 0,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
 });
 const BorderLine = styled.View({
   marginTop: 6.5,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
   height: 1,
   backgroundColor: colors.white,
 });
@@ -469,10 +469,10 @@ const BtnText = styled(BaseText)({
 });
 const BlueBtn = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.cerulean,
-  height: screenWidth * 0.1,
+  height: SCREEN_WIDTH * 0.1,
   flexDirection: "row",
   flexGrow: 0,
-  width: screenWidth * 0.333,
+  width: SCREEN_WIDTH * 0.333,
   marginLeft: 2.5,
   marginRight: 2.5,
 });
@@ -488,7 +488,7 @@ const BtnContainer = styled.View({
   flexDirection: "row",
   alignItems: "flex-end",
   marginBottom: 0,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
@@ -634,7 +634,7 @@ const Container = styled.View({
   width: "100%",
   paddingBottom: 15,
 
-  // height: screenHeight * 0.784,
+  // height: SCREEN_HEIGHT * 0.784,
   // aspectRatio: 54.86 / 105,
 });
 const styles = StyleSheet.create({});

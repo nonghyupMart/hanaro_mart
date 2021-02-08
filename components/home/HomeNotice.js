@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import {
   StyleConstants,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseText,
 } from "../../components/UI/BaseUI";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
@@ -67,7 +67,7 @@ const HomeNotice = (props) => {
             numColumns={1}
             style={{
               backgroundColor: colors.trueWhite,
-              width: screenWidth,
+              width: SCREEN_WIDTH,
               flexGrow: 1,
             }}
             data={homeNotice.noticeList}

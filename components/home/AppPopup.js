@@ -7,7 +7,7 @@ import {
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseText,
 } from "../../components/UI/BaseUI";
 import _ from "lodash";
@@ -75,7 +75,7 @@ const AppPopup = (props) => {
       <Container>
         <Carousel
           delay={3000}
-          style={{ height: screenWidth - 24 - 24, width: "100%" }}
+          style={{ height: SCREEN_WIDTH - 24 - 24, width: "100%" }}
           autoplay
           pageInfo={true}
           // bullets={true}
@@ -107,7 +107,7 @@ const AppPopup = (props) => {
                   style={{
                     resizeMode: "cover",
                     width: "100%",
-                    height: screenWidth - 19 - 19 - 2,
+                    height: SCREEN_WIDTH - 19 - 19 - 2,
                   }}
                 />
               </TouchableOpacity>

@@ -13,7 +13,7 @@ import {
   DetailContainer,
   BaseImage,
   ScaledImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
   BaseText,
 } from "../../components/UI/BaseUI";
@@ -227,7 +227,7 @@ const EventDetailScreen = (props, { navigation }) => {
                 key={eventDetail.detail_img}
                 source={eventDetail.detail_img}
                 style={{}}
-                width={screenWidth}
+                width={SCREEN_WIDTH}
               />
             </PinchGestureHandler>
           </TouchableOpacity>
@@ -308,7 +308,7 @@ const EventDetailScreen = (props, { navigation }) => {
                 key={eventDetail.winner_img}
                 source={eventDetail.winner_img}
                 style={{}}
-                width={screenWidth}
+                width={SCREEN_WIDTH}
               />
             </View>
           )}

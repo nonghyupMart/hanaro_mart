@@ -15,9 +15,9 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../components/UI/BaseUI";
 import * as CommonActions from "../store/actions/common";

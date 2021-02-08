@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import {
   BlueButton,
   BlueButtonText,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
 } from "../../components/UI/BaseUI";
@@ -93,7 +93,7 @@ const Text1 = styled(BaseText)({
 });
 const Line = styled.View({
   height: 1,
-  width: screenWidth - 18 - 18,
+  width: SCREEN_WIDTH - 18 - 18,
   margin: 12.5,
   marginLeft: StyleConstants.defaultPadding,
   marginRight: StyleConstants.defaultPadding,

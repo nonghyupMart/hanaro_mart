@@ -1,20 +1,27 @@
 import React from "react";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
 import { View, Image } from "react-native";
-import { BaseText } from "../../UI/BaseUI";
+import { BaseText, SCREEN_WIDTH } from "../../UI/BaseUI";
 import _ from "lodash";
 import { LinearGradient } from "expo-linear-gradient";
 import UserName from "../../UI/UserName";
 import UserPhoneNumber from "../../UI/UserPhoneNumber";
+import * as Util from "../../../util";
+
 const MemberInfo = (props) => {
   return (
     <MemberInfoContainer>
       <MemberContainer>
         {/* <Text1>회원번호</Text1> */}
         <MemberID style={{ flexDirection: "row" }}>
-          <Image source={require("../../../assets/images/ic_user.png")} />
-          <View style={{ marginLeft: 17 }}>
+          <Image
+            source={require("../../../assets/images/ic_user.png")}
+            style={{
+              width: Util.normalize(33.6),
+              resizeMode: "contain",
+            }}
+          />
+          <View style={{ marginLeft: 12.7 }}>
             <View style={{ flexDirection: "row", alignItems: "baseline" }}>
               <Text2>
                 <UserName />
@@ -32,18 +39,16 @@ const MemberInfo = (props) => {
 };
 const MemberID = styled.View({
   alignItems: "center",
-  marginTop: 56,
+  marginTop: Util.normalize(46),
 });
 const Text1 = styled(BaseText)({
   fontSize: 12,
-
   color: "#b5b5b5",
   lineHeight: 14,
 });
 const Text2 = styled(BaseText)({
   fontSize: 21,
   color: colors.black,
-
   marginRight: 5,
   height: 28,
   lineHeight: 28,
@@ -65,7 +70,7 @@ const MemberInfoContainer = styled.View({
   backgroundColor: colors.trueWhite,
   paddingRight: 16,
   paddingLeft: 21,
-  paddingBottom: 10,
+  // paddingBottom: 10,
   paddingTop: 0,
   flexDirection: "row",
   justifyContent: "space-between",

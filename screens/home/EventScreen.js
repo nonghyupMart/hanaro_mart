@@ -5,7 +5,7 @@ import BaseScreen from "../../components/BaseScreen";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
-import { StyleConstants, screenWidth } from "../../components/UI/BaseUI";
+import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
 import { BackButton, TextTitle } from "../../components/UI/header";

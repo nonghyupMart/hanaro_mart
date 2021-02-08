@@ -1,17 +1,23 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { Animated, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  Animated,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from "react-native";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../../UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../util";
-import * as Animatable from "react-native-animatable";
 
 const MenuList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -28,9 +34,8 @@ const MenuList = (props) => {
             props.navigation.navigate("StoreChange");
           }}
         >
-          <Icon>
-            <Image source={require("../../../assets/images/g2.png")} />
-          </Icon>
+          <IconImage source={require("../../../assets/images/g2.png")} />
+
           <MenuText>매장설정</MenuText>
         </MenuButton>
       </MenuButtonContainer>
@@ -53,16 +58,19 @@ const MenuList = (props) => {
           }}
           activeOpacity={1}
         >
-          <Icon>
-            <Image source={require("../../../assets/images/g4.png")} />
-          </Icon>
+          <IconImage source={require("../../../assets/images/g4.png")} />
+
           <MenuText>공지사항</MenuText>
           <OpenButton>
             {!isShow && (
-              <Image source={require("../../../assets/images/ic_next.png")} />
+              <IconImage
+                source={require("../../../assets/images/ic_next.png")}
+              />
             )}
             {isShow && (
-              <Image source={require("../../../assets/images/ic_next2.png")} />
+              <IconImage
+                source={require("../../../assets/images/ic_next2.png")}
+              />
             )}
           </OpenButton>
         </MenuButton>
@@ -77,7 +85,10 @@ const MenuList = (props) => {
             }}
           >
             <AnimatableView ref={aniView}>
-              <Image source={require("../../../assets/images/line1.png")} />
+              <Image
+                source={require("../../../assets/images/line1.png")}
+                style={{ width: Util.normalize(7) }}
+              />
               <SubMenuText>통합 공지사항</SubMenuText>
             </AnimatableView>
           </SubMenu>
@@ -89,7 +100,10 @@ const MenuList = (props) => {
             }}
           >
             <AnimatableView animation="slideInDown">
-              <Image source={require("../../../assets/images/line1.png")} />
+              <Image
+                source={require("../../../assets/images/line1.png")}
+                style={{ width: Util.normalize(7) }}
+              />
               <SubMenuText>매장 공지사항</SubMenuText>
             </AnimatableView>
           </SubMenu>
@@ -103,9 +117,8 @@ const MenuList = (props) => {
             props.navigation.navigate("Inquiry");
           }}
         >
-          <Icon>
-            <Image source={require("../../../assets/images/g11.png")} />
-          </Icon>
+          <IconImage source={require("../../../assets/images/g11.png")} />
+
           <MenuText>1:1 문의</MenuText>
         </MenuButton>
       </MenuButtonContainer>
@@ -117,9 +130,8 @@ const MenuList = (props) => {
             props.navigation.navigate("MyPage");
           }}
         >
-          <Icon>
-            <Image source={require("../../../assets/images/g12.png")} />
-          </Icon>
+          <IconImage source={require("../../../assets/images/g12.png")} />
+
           <MenuText>마이페이지</MenuText>
         </MenuButton>
       </MenuButtonContainer>
@@ -131,11 +143,10 @@ const MenuList = (props) => {
             props.navigation.navigate("MyPage");
           }}
         >
-          <Icon>
-            <Image
-              source={require("../../../assets/images/local_phone_off.png")}
-            />
-          </Icon>
+          <IconImage
+            source={require("../../../assets/images/local_phone_off.png")}
+          />
+
           <MenuText>매장 전화</MenuText>
         </MenuButton>
       </MenuButtonContainer>
@@ -143,6 +154,9 @@ const MenuList = (props) => {
         <Image
           source={require("../../../assets/images/bt_heart.png")}
           resizeMode="contain"
+          style={{
+            width: Util.normalize(190),
+          }}
         />
       </ShareBtn>
     </MenuContainer>
@@ -155,12 +169,12 @@ const AnimatableView = styled(Animated.View)({
 const SubMenu = styled(TouchableOpacity).attrs({ activeOpacity: 0.8 })({
   flexDirection: "row",
   alignItems: "center",
-  marginLeft: 75.5,
+  marginLeft: Util.normalize(62.5),
   marginBottom: 6.5,
   marginTop: 4.5,
 });
 const SubMenuText = styled(BaseText)({
-  fontSize: 14,
+  fontSize: Util.normalize(11.5),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 15.5,
@@ -173,15 +187,15 @@ const OpenButton = styled.View({
   marginRight: 27,
 });
 const ShareBtn = styled.TouchableOpacity({
-  marginTop: 43.5,
-  marginBottom: 22.5,
+  marginTop: Util.normalize(37.5),
+  marginBottom: Util.normalize(19.9),
   justifyContent: "center",
   marginLeft: -2,
 
   alignItems: "center",
 });
 const MenuContainer = styled.View({
-  paddingTop: 23.15,
+  paddingTop: Util.normalize(28.9),
   backgroundColor: colors.trueWhite,
 });
 const MenuButtonContainer = styled.View({
@@ -189,25 +203,27 @@ const MenuButtonContainer = styled.View({
   alignItems: "center",
 });
 const MenuText = styled(BaseText)({
-  fontSize: 17,
+  fontSize: Util.normalize(14),
   fontWeight: "normal",
   fontStyle: "normal",
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrownTwo,
-  marginLeft: 19,
+  marginLeft: Util.normalize(15),
   flex: 1,
 });
 const MenuButton = styled(BaseTouchable)({
   flexDirection: "row",
   alignItems: "center",
-  marginTop: 11.75,
-  marginBottom: 11.75,
+  marginTop: Util.normalize(9.0),
+  marginBottom: Util.normalize(9.0),
   flex: 1,
   paddingLeft: 24,
 });
-const Icon = styled.View({
-  width: 30,
+
+const IconImage = styled.Image({
+  width: Util.normalize(25),
+  resizeMode: Platform.OS == "ios" ? "contain" : "cover",
 });
 
 export default MenuList;

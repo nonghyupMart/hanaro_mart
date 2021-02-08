@@ -35,8 +35,8 @@ import BaseScreen from "../../components/BaseScreen";
 import {
   BaseButtonContainer,
   ButtonText,
-  screenHeight,
-  screenWidth,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
   BaseText,
 } from "../../components/UI/BaseUI";
 
@@ -73,7 +73,7 @@ const AgreementScreen = (props) => {
             uri: `${SERVER_URL}/web/about/terms.do`,
           }}
           style={{
-            width: screenWidth - 18 - 18 - 2,
+            width: SCREEN_WIDTH - 18 - 18 - 2,
             flex: 1,
           }}
         />
@@ -326,7 +326,7 @@ const AgreementScreen = (props) => {
       scrollEnabled={canScroll}
       // style={{ width: "100%", height: "100%" }}
       contentStyle={{ paddingTop: 16 }}
-      // scrollListStyle={{ width: "100%", height: screenHeight }}
+      // scrollListStyle={{ width: "100%", height: SCREEN_HEIGHT }}
     >
       <CheckBox
         activeOpacity={0.8}

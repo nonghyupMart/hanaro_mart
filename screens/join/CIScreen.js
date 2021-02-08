@@ -4,8 +4,8 @@ import styled from "styled-components/native";
 import {
   BaseButtonContainer,
   ButtonText,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseTouchable,
   BaseText,
 } from "../../components/UI/BaseUI";
@@ -40,9 +40,9 @@ const CIScreen = ({ navigation }) => {
         key={Math.random()}
         cacheMode="LOAD_NO_CACHE"
         style={{
-          height: screenHeight,
+          height: SCREEN_HEIGHT,
           opacity: 0.99,
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
         source={{
           uri:
@@ -89,8 +89,8 @@ const UpperContainer = styled.View({
 });
 
 const Info = styled(BaseText)({
-  // marginTop: screenHeight *  0.029,
-  // marginBottom: screenHeight * 0.030,
+  // marginTop: SCREEN_HEIGHT *  0.029,
+  // marginBottom: SCREEN_HEIGHT * 0.030,
   // marginLeft: "12%",
   // marginRight: "12%",
   fontSize: 13,
@@ -126,10 +126,10 @@ const Box = styled(BaseTouchable)({
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: colors.pinkishGrey,
-  paddingLeft: screenHeight * 0.083,
-  paddingRight: screenHeight * 0.083,
-  // paddingBottom:screenHeight *0.027,
-  // paddingTop:screenHeight *0.027,
+  paddingLeft: SCREEN_HEIGHT * 0.083,
+  paddingRight: SCREEN_HEIGHT * 0.083,
+  // paddingBottom:SCREEN_HEIGHT *0.027,
+  // paddingTop:SCREEN_HEIGHT *0.027,
   // overflow:"hidden"
 });
 

@@ -13,7 +13,7 @@ import {
   DetailContainer,
   BaseImage,
   ScaledImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
 } from "../../components/UI/BaseUI";
 

@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Platform, View, StyleSheet } from "react-native";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../../components/UI/BaseUI";
 import Constants from "expo-constants";

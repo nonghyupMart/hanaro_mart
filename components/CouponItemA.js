@@ -3,7 +3,7 @@ import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseTouchable,
   BaseText,
 } from "../components/UI/BaseUI";
@@ -101,7 +101,7 @@ const TextContainer = styled.View({
 });
 const CouponImgA = styled(BaseImage)({
   // flex: 0.375,
-  width: screenWidth * 0.311,
+  width: SCREEN_WIDTH * 0.311,
   // flex: 1,
   marginRight: 15,
   // height: 100,
@@ -116,6 +116,6 @@ const CouponContainer = styled.View({
   borderWidth: 1,
   borderColor: colors.white,
   padding: 15,
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
+  marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });
 export default CouponItemA;

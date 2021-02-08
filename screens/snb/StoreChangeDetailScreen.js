@@ -9,7 +9,7 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
 } from "../../components/UI/BaseUI";
@@ -130,10 +130,10 @@ const StoreChangeDetailScreen = (props) => {
     >
       <StoreBox
         style={{
-          height: screenWidth - 30,
+          height: SCREEN_WIDTH - 30,
           flexDirection: "row",
           overflow: "hidden",
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
       >
         <ExtendedWebView

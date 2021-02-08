@@ -18,7 +18,7 @@ import * as Animatable from "react-native-animatable";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
 } from "../components/UI/BaseUI";
 import {
@@ -426,7 +426,7 @@ export const MainNavigator = (props) => {
       drawerStyle={[
         drawerStyle,
         {
-          width: isInitialRender ? null : screenWidth * 0.791,
+          width: isInitialRender ? null : SCREEN_WIDTH * 0.791,
         },
       ]}
       drawerContent={(props) =>

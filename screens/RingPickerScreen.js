@@ -17,8 +17,8 @@ import {
   StyleConstants,
   BaseImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
 } from "../components/UI/BaseUI";
 import BaseScreen from "../components/BaseScreen";
 import {
@@ -45,9 +45,9 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
     <BaseScreen isPadding={false} isScroll={false}>
       <ExtendedWebView
         style={{
-          height: screenHeight,
+          height: SCREEN_HEIGHT,
           opacity: 0.99,
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
         cacheMode="LOAD_CACHE_ELSE_NETWORK"
         source={{

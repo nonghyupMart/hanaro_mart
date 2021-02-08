@@ -7,8 +7,8 @@ import {
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../components/UI/BaseUI";
 import _ from "lodash";
@@ -171,7 +171,7 @@ const PopupScreen = (props) => {
               <Image
                 resizeMode="contain"
                 source={item.display_img}
-                width={screenWidth}
+                width={SCREEN_WIDTH}
                 style={{ height: "100%", backgroundColor: "black" }}
               />
             </TouchableOpacity>
@@ -213,8 +213,8 @@ const Screen = styled.View({
 });
 const Image = styled(BaseImage)({
   resizeMode: "cover",
-  width: screenWidth,
-  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+  width: SCREEN_WIDTH,
+  height: () => (Platform.OS == "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
 });
 const BtnContainer = styled.View({
   flexDirection: "row",

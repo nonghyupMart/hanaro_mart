@@ -12,7 +12,7 @@ import {
   StyleConstants,
   BaseImage,
   BaseText,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import colors from "../../constants/Colors";
@@ -76,8 +76,8 @@ const HomeEvent = (props) => {
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{
-          // height: (screenWidth - 48) * 0.439,
-          width: screenWidth - 48,
+          // height: (SCREEN_WIDTH - 48) * 0.439,
+          width: SCREEN_WIDTH - 48,
           borderRadius: 10,
           overflow: "hidden",
           aspectRatio: 1 / 0.34756097560976,
@@ -137,7 +137,7 @@ const HomeEvent = (props) => {
               }}
               style={{
                 aspectRatio: 1 / 0.34756097560976,
-                width: screenWidth - 48,
+                width: SCREEN_WIDTH - 48,
               }}
             >
               <BannerItem item={item} />
@@ -173,7 +173,7 @@ const BannerItem = (props) => {
     <BaseImage
       style={{
         aspectRatio: 1 / 0.34756097560976,
-        width: screenWidth - 48,
+        width: SCREEN_WIDTH - 48,
         borderRadius: 10,
         overflow: "hidden",
       }}

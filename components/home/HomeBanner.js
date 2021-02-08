@@ -12,7 +12,7 @@ import {
   StyleConstants,
   BaseImage,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
@@ -39,8 +39,8 @@ const HomeBanner = (props) => {
       <Carousel
         delay={3000}
         style={{
-          height: (screenWidth - 48) * 0.608,
-          width: screenWidth - 48,
+          height: (SCREEN_WIDTH - 48) * 0.608,
+          width: SCREEN_WIDTH - 48,
           borderRadius: 10,
           overflow: "hidden",
         }}
@@ -84,8 +84,8 @@ const HomeBanner = (props) => {
                 if (item.link_url != "") Linking.openURL(item.link_url);
               }}
               style={{
-                height: (screenWidth - 48) * 0.608,
-                width: screenWidth - 48,
+                height: (SCREEN_WIDTH - 48) * 0.608,
+                width: SCREEN_WIDTH - 48,
               }}
             >
               <BannerItem item={item} />
@@ -108,8 +108,8 @@ const BannerItem = (props) => {
   return (
     <BaseImage
       style={{
-        height: (screenWidth - 48) * 0.608,
-        width: screenWidth - 48,
+        height: (SCREEN_WIDTH - 48) * 0.608,
+        width: SCREEN_WIDTH - 48,
         borderRadius: 10,
         overflow: "hidden",
       }}

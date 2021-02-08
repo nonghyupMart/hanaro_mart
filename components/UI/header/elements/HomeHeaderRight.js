@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { IconImage } from "./HomeHeaderLeft";
 
 const HomeHeaderRight = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -18,18 +16,8 @@ const HomeHeaderRight = (props) => {
         onPress={() => RootNavigation.navigate("SearchProduct")}
         style={{ paddingRight: 21 }}
       >
-        <Image source={require("../../../../assets/images/search.png")} />
+        <IconImage source={require("../../../../assets/images/search.png")} />
       </Btn>
-      {/* <Btn
-        onPress={() => RootNavigation.navigate("Notification")}
-        style={{ paddingRight: 10 }}
-      >
-        <MaterialIcons
-          name="notifications-none"
-          size={24}
-          color={colors.pine}
-        />
-      </Btn> */}
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}

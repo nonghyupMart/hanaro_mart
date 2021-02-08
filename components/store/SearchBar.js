@@ -6,7 +6,7 @@ import { Text, Image, KeyboardAvoidingView } from "react-native";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
   BaseTextInput,

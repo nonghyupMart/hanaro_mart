@@ -4,9 +4,9 @@ import { Platform, Text, View, StyleSheet, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../../UI/BaseUI";
 import _ from "lodash";
@@ -65,7 +65,7 @@ const WhiteButtonContainer = styled(BaseTouchable)({
   borderWidth: 1,
   borderColor: colors.whiteTwo,
   maxWidth: 133,
-  width: screenWidth * 0.369,
+  width: SCREEN_WIDTH * 0.369,
   backgroundColor: colors.trueWhite,
   flexDirection: "row",
   marginTop: 3,

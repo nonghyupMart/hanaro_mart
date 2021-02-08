@@ -5,7 +5,7 @@ import {
   StyleConstants,
   BaseImage,
   BaseText,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";

@@ -15,7 +15,7 @@ import {
   BlueButtonText,
   BaseText,
   ScaledImage,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import _ from "lodash";
 import BaseScreen from "../../components/BaseScreen";
@@ -112,7 +112,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       <WhiteContainer style={{ padding: 23, paddingTop: 12, flex: 1 }}>
         <ScaledImage
           source={require("../../assets/images/mem_out01.png")}
-          width={screenWidth - 48}
+          width={SCREEN_WIDTH - 48}
         />
 
         <BorderContainer2>

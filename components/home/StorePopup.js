@@ -7,8 +7,8 @@ import {
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../../components/UI/BaseUI";
 import _ from "lodash";
@@ -143,7 +143,7 @@ const StorePopup = (props) => {
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >
-                <Image source={item.display_img} width={screenWidth} />
+                <Image source={item.display_img} width={SCREEN_WIDTH} />
               </TouchableOpacity>
             );
           })}
@@ -163,8 +163,8 @@ const StorePopup = (props) => {
 };
 const Image = styled(BaseImage)({
   resizeMode: "cover",
-  width: screenWidth,
-  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+  width: SCREEN_WIDTH,
+  height: () => (Platform.OS == "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
 });
 const BtnContainer = styled.View({ flexDirection: "row" });
 const BtnText = styled(BaseText)({

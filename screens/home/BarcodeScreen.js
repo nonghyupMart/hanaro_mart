@@ -6,7 +6,7 @@ import * as Brightness from "expo-brightness";
 
 import { DOMImplementation, XMLSerializer } from "xmldom";
 import {
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
   BaseText,
 } from "../../components/UI/BaseUI";
@@ -148,7 +148,7 @@ const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: screenWidth - 18 * 2,
+  width: SCREEN_WIDTH - 18 * 2,
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
@@ -202,7 +202,7 @@ const TimerBarContainer = styled.View({
   overflow: "hidden",
 
   marginBottom: 70,
-  width: screenWidth - 50,
+  width: SCREEN_WIDTH - 50,
   aspectRatio: 100 / 7.042,
   backgroundColor: colors.pinkishGrey,
   borderRadius: 20,

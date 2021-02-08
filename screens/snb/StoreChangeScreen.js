@@ -16,7 +16,7 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
 } from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";

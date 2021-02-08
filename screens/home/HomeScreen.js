@@ -16,7 +16,7 @@ import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Notifications from "expo-notifications";
-import { screenWidth } from "../../components/UI/BaseUI";
+import { SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import _ from "lodash";
 import HomeBanner from "../../components/home/HomeBanner";
 import HomeEvent from "../../components/home/HomeEvent";
@@ -271,7 +271,7 @@ export const updateUserInfo = async (dispatch, userInfo, token) => {
 const Space = styled.View({
   width: "100%",
   height: 10,
-  width: screenWidth,
+  width: SCREEN_WIDTH,
   backgroundColor: colors.white,
   borderBottomWidth: 1,
   borderColor: colors.pinkishGrey,

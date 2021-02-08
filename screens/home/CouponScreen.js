@@ -8,7 +8,7 @@ import CouponItem from "../../components/CouponItem";
 import CouponItemA from "../../components/CouponItemA";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import { BaseImage, screenWidth } from "../../components/UI/BaseUI";
+import { BaseImage, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";

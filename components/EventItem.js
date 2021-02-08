@@ -3,7 +3,7 @@ import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseTouchable,
   BaseText,
 } from "../components/UI/BaseUI";
@@ -14,7 +14,7 @@ const EventItem = (props) => {
       <BaseImage
         source={props.item.title_img}
         style={{
-          height: screenWidth * 0.316,
+          height: SCREEN_WIDTH * 0.316,
           borderWidth: 1,
           borderColor: colors.pinkishGrey,
         }}

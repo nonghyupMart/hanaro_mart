@@ -14,7 +14,7 @@ import {
   BaseText,
   BaseTextInput,
   BaseImage,
-  screenWidth,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 const StampBox = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;

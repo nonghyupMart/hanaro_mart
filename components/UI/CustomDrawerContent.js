@@ -21,9 +21,9 @@ import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "./BaseUI";
 import { setPreview } from "../../store/actions/auth";
@@ -48,7 +48,7 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
         }}
       >
         <DrawerContentScrollView {...props}>
-          <View style={{ minHeight: screenHeight - screenHeight * 0.24 }}>
+          <View style={{ minHeight: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.24 }}>
             <Logo {...props} />
             <MemberInfo {...props} />
             <MenuList {...props} menuList={menuList} />

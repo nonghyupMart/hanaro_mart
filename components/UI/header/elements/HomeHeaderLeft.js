@@ -5,35 +5,21 @@ import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Util from "../../../../util";
 
 const HomeHeaderLeft = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   if (_.isEmpty(userStore)) return <></>;
   return (
     <BtnContainer>
-      {/* <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item
-          iconSize={30}
-          IconComponent={MaterialIcons}
-          title="메뉴"
-          iconName="menu"
-          onPress={() => {
-            props.navigator.dispatch(DrawerActions.toggleDrawer());
-          }}
-          color={colors.pine}
-        />
-      </HeaderButtons> */}
       <Btn
         onPress={() => RootNavigation.toggleDrawer()}
         style={{ paddingLeft: 23 }}
       >
-        <Image source={require("../../../../assets/images/menu.png")} />
+        <IconImage source={require("../../../../assets/images/menu.png")} />
       </Btn>
       <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
-        <Image source={require("../../../../assets/images/bell.png")} />
+        <IconImage source={require("../../../../assets/images/bell.png")} />
       </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
@@ -48,6 +34,10 @@ const HomeHeaderLeft = (props) => {
     </BtnContainer>
   );
 };
+export const IconImage = styled.Image({
+  width: Util.normalize(22),
+  resizeMode: "contain",
+});
 const Btn = styled.TouchableOpacity({
   padding: 6,
 });

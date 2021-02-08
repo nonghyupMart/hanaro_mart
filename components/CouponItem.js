@@ -3,7 +3,7 @@ import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseTouchable,
   BaseText,
 } from "../components/UI/BaseUI";
@@ -20,7 +20,7 @@ const CouponItem = (props) => {
       <BaseImage
         source={props.item.title_img}
         style={{
-          height: screenWidth * 0.277,
+          height: SCREEN_WIDTH * 0.277,
           aspectRatio: 1 / 1,
           alignSelf: "center",
         }}
@@ -95,7 +95,7 @@ const Button = styled(BaseTouchable).attrs({
   borderWidth: 0,
   borderColor: colors.pinkishGrey,
   minHeight: 26,
-  height: screenWidth * 0.072,
+  height: SCREEN_WIDTH * 0.072,
 });
 const Title = styled(BaseText)({
   marginTop: 3,
@@ -145,7 +145,7 @@ const Container = styled.View({
   padding: 10,
 
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
+  marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });
 
 export default CouponItem;

@@ -4,9 +4,9 @@ import { TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
 } from "../../UI/BaseUI";
 import { setPreview } from "../../../store/actions/auth";
@@ -109,7 +109,7 @@ const GrayContainer = styled.View({
   width: "100%",
 });
 const BaseButton = styled(BaseButtonContainer)({
-  width: screenWidth * 0.333,
+  width: SCREEN_WIDTH * 0.333,
   maxWidth: 120,
   marginLeft: 3,
   marginRight: 3,

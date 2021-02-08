@@ -7,7 +7,7 @@ import { View, Text as TextView, StyleSheet, Platform } from "react-native";
 import {
   DetailContainer,
   BaseImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
   BlueButton,
   BlueButtonText,
@@ -201,7 +201,7 @@ const CouponDetailScreen = (props) => {
                   source={require("../../assets/images/num_128.png")}
                   resizeMode="cover"
                   style={{
-                    width: screenWidth + screenWidth * 0.1,
+                    width: SCREEN_WIDTH + SCREEN_WIDTH * 0.1,
                     marginLeft: "-5%",
                     marginTop: -2,
                   }}
@@ -215,7 +215,7 @@ const CouponDetailScreen = (props) => {
                   source={require("../../assets/images/nums_128.png")}
                   resizeMode="cover"
                   style={{
-                    width: screenWidth + screenWidth * 0.1,
+                    width: SCREEN_WIDTH + SCREEN_WIDTH * 0.1,
                     marginLeft: "-5%",
                     marginTop: -2,
                   }}
@@ -231,7 +231,7 @@ const CouponDetailScreen = (props) => {
                   source={require("../../assets/images/nums99.png")}
                   resizeMode="cover"
                   style={{
-                    width: screenWidth + screenWidth * 0.1,
+                    width: SCREEN_WIDTH + SCREEN_WIDTH * 0.1,
                     marginLeft: "-5%",
                     marginTop: -2,
                   }}
@@ -244,7 +244,7 @@ const CouponDetailScreen = (props) => {
             source={couponDetail.title_img}
             // resizeMode="stretch"
             style={{
-              width: screenWidth * 0.561,
+              width: SCREEN_WIDTH * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
               resizeMode: "contain",
