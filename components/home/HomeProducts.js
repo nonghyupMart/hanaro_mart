@@ -69,7 +69,7 @@ const HomeProducts = (props) => {
       {_.size(homeProducts.productList) > 0 && (
         <RoundedContainer>
           <TitleContainer style={{ marginBottom: 0 }}>
-            <Title>인기상품</Title>
+            <Title>전체상품</Title>
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => RootNavigation.navigate("Flyer")}
