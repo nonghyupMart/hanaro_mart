@@ -420,13 +420,15 @@ export const MainNavigator = (props) => {
     setTimeout(() => setIsInitialRender(false), 1);
   }
   // return <></>;
+  const drawerWidth =
+    SCREEN_WIDTH > 320 ? SCREEN_WIDTH * 0.7066 : SCREEN_WIDTH * 0.711;
   return (
     <Drawer.Navigator
       edgeWidth={0}
       drawerStyle={[
         drawerStyle,
         {
-          width: isInitialRender ? null : SCREEN_WIDTH * 0.791,
+          width: isInitialRender ? null : drawerWidth,
         },
       ]}
       drawerContent={(props) =>
