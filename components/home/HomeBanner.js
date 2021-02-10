@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from "react-native";
 import {
   StyleConstants,
@@ -103,6 +104,7 @@ const RoundedContainer = styled.View({
   paddingRight: 24,
   borderRadius: 10,
   overflow: "hidden",
+  marginTop: 15,
 });
 const BannerItem = (props) => {
   return (

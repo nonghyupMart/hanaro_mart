@@ -184,9 +184,9 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           width: "auto",
           padding: 0,
           margin: 0,
-          height: 45,
+          height: 40,
         },
-        style: { marginLeft: -22 },
+        style: { marginLeft: SCREEN_WIDTH > 320 ? -18 : -14 },
       }}
     >
       <HomeTopTabNavigator.Screen

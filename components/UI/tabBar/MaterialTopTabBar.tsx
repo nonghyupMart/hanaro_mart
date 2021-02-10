@@ -18,7 +18,7 @@ import {
   useLinkBuilder,
 } from "@react-navigation/native";
 import { useSafeArea } from "react-native-safe-area-context";
-import { BaseText } from "../BaseUI";
+import { BaseText, SCREEN_WIDTH } from "../BaseUI";
 
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
@@ -273,12 +273,12 @@ const styles = StyleSheet.create({
     width: 24,
   },
   label: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: SCREEN_WIDTH > 320 ? 9 : 7,
+    paddingRight: SCREEN_WIDTH > 320 ? 9 : 7,
     textTransform: "uppercase",
 
     backgroundColor: "transparent",
-    fontSize: Util.normalize(13),
+    fontSize: SCREEN_WIDTH > 320 ? 15 : 14,
     fontWeight: "500",
     fontStyle: "normal",
 
