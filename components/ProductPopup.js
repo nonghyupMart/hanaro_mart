@@ -333,7 +333,7 @@ const NoticeRight = styled.View({
   flex: 1,
 });
 const Notice0 = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 16,
@@ -349,7 +349,7 @@ const Notice0 = styled(BaseText)({
   width: "25%",
 });
 const Notice1 = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 16,
@@ -361,7 +361,7 @@ const Notice1 = styled(BaseText)({
   flex: 1,
 });
 const Notice2 = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
   fontFamily: "CustomFont-Bold",
   lineHeight: 16,
   letterSpacing: 0,
@@ -449,7 +449,10 @@ const Notice = styled(BaseText)({
 });
 const NoticeContainer = styled.View({
   marginTop: 0,
-  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
+  width:
+    SCREEN_WIDTH > 320
+      ? SCREEN_WIDTH - 20.5 - 20.5 - 50
+      : SCREEN_WIDTH - 20.5 - 20.5 - 35,
 });
 const BorderLine = styled.View({
   marginTop: 6.5,
