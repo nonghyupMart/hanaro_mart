@@ -103,7 +103,9 @@ const FlyerItemColumn2 = (props) => {
     </TouchableOpacity>
   );
 };
-const ImageContainer = styled.View({});
+const ImageContainer = styled.View({
+  alignSelf: "center",
+});
 const BogoText = styled(BaseText)({
   fontSize: 17,
   fontFamily: "CustomFont-Bold",
@@ -128,34 +130,33 @@ const BogoIcon = styled.View({
 
 const BadgeContainer = styled.View({
   flexDirection: "row",
-  marginBottom: 1,
-  width: "100%",
+  marginBottom: 2.5,
 });
 const Badge1 = styled(BaseText)({
-  fontSize: Util.normalize(9),
+  fontSize: Util.normalize(10),
   letterSpacing: -0.28,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 18,
   letterSpacing: 0,
   textAlign: "right",
   color: colors.trueWhite,
   backgroundColor: colors.brightBlue,
   paddingLeft: 3,
   paddingRight: 3,
+  letterSpacing: -0.24,
 });
 const Badge2 = styled(BaseText)({
-  fontSize: Util.normalize(9),
+  fontSize: Util.normalize(10),
   letterSpacing: -0.28,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 18,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
-  // backgroundColor: colors.black,
-  paddingLeft: 5,
-  flex: 1,
+  color: colors.trueWhite,
+  backgroundColor: colors.brownishGrey,
+  paddingLeft: 7.5,
+  paddingRight: 7.5,
+  letterSpacing: -0.24,
 });
 const Container = styled.View({
   // backgroundColor: colors.black,
@@ -171,7 +172,7 @@ const Container = styled.View({
 
   marginHorizontal: 5,
   justifyContent: "flex-start",
-  alignItems: "center",
+  alignItems: "flex-start",
 });
 const SalePrice = styled(BaseText)({
   fontSize: Util.normalize(13),

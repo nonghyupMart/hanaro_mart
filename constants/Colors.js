@@ -40,5 +40,6 @@ export default colors = {
   white2: "#f2f2f2",
   greyishBrownThree: "#585858",
   warmGrey: "#7b7b7b",
+  brownishGrey: "#6b6b6b",
 };
 

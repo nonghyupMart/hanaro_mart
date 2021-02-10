@@ -301,7 +301,7 @@ const FlyerScreen = (props) => {
             height: SCREEN_HEIGHT - (width * 0.283 + 250),
           }}
           source={require("../../assets/images/box.png")}
-          text={"행사상품"}
+          text={"행사전단"}
         />
       )}
       {currentItem && (

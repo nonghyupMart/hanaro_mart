@@ -20,20 +20,20 @@ const CategoryButton = (props) => {
 const Button = styled.TouchableOpacity({
   borderWidth: 1,
   borderColor: colors.emerald,
-  borderRadius: 20,
-  padding: 5,
+  borderRadius: 30,
   paddingLeft: 12,
   paddingRight: 12,
   marginRight: 6,
-  aspectRatio: 1 / 0.556,
   justifyContent: "center",
   alignItems: "center",
+  height: Util.normalize(28.5),
 });
 const ButtonText = styled(BaseText)({
   fontSize: Util.normalize(14),
   letterSpacing: -0.34,
   textAlign: "center",
   color: colors.emerald,
+  fontFamily: "CustomFont-Bold",
 });
 const SelectedButton = styled(Button)({
   backgroundColor: colors.emerald,

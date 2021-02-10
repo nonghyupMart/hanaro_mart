@@ -14,7 +14,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { styles } from "../../screens/home/FlyerScreen";
-import FlyerItem from "../../components/FlyerItem";
+import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
@@ -87,14 +87,14 @@ const HomeProducts = (props) => {
           listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          numColumns={3}
+          numColumns={2}
           style={[styles.flyerListStyle, { marginTop: 0 }]}
           data={homeProducts.productList}
           keyExtractor={(item) =>
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
-            <FlyerItem
+            <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
             />

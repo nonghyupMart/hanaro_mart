@@ -125,7 +125,7 @@ const BogoIcon = styled.View({
 
 const BadgeContainer = styled.View({
   flexDirection: "row",
-  marginBottom: 1,
+  marginBottom: 2.5,
   width: "100%",
 });
 const Badge1 = styled(BaseText)({
@@ -148,7 +148,8 @@ const Badge2 = styled(BaseText)({
   lineHeight: 13,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.trueWhite,
+  backgroundColor: colors.brownishGrey,
   letterSpacing: -0.28,
   flex: 1,
 });
