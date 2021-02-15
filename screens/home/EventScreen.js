@@ -44,13 +44,13 @@ const EventScreen = (props) => {
   }, [event_cd]);
 
   useEffect(() => {
-    if (isFocused && !_.isEmpty(userStore)) {
-      setPage(1);
-      fetchEvent();
-    }
-
     if (!isFocused) {
       dispatch(eventActions.setEventCd(null));
+      return;
+    }
+    if (!_.isEmpty(userStore)) {
+      setPage(1);
+      fetchEvent();
     }
   }, [isFocused, userStore]);
 
@@ -120,7 +120,6 @@ const EventScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "이벤트 응모내역",
-
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
