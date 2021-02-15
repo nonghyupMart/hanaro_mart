@@ -23,6 +23,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
+import { SET_EVENT } from "../../store/actions/event";
 
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
@@ -32,9 +33,15 @@ const HomeEvent = (props) => {
   const eventTitle1 = "하나로마트 앱 지인추천 이벤트";
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
+  const [carouselKey, setCarouselKey] = useState();
+  const clearData = () => {
+    dispatch({ type: SET_EVENT, event: null });
+  };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(userStore)) return;
     dispatch(setIsLoading(true));
+    clearData();
+    setCarouselKey(Math.random());
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: 1,
@@ -62,17 +69,20 @@ const HomeEvent = (props) => {
     <RoundedContainer>
       <TitleContainer>
         <Title>이벤트</Title>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => RootNavigation.navigate("Event")}
-        >
-          <MoreContainer>
-            <MoreText>더보기</MoreText>
-            <Image source={require("../../assets/images/path2.png")} />
-          </MoreContainer>
-        </TouchableOpacity>
+        {_.size(event.eventList) > 0 && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => RootNavigation.navigate("Event")}
+          >
+            <MoreContainer>
+              <MoreText>더보기</MoreText>
+              <Image source={require("../../assets/images/path2.png")} />
+            </MoreContainer>
+          </TouchableOpacity>
+        )}
       </TitleContainer>
       <Carousel
+        key={`${carouselKey}`}
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{
