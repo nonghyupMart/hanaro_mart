@@ -26,12 +26,9 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Ionicons } from "@expo/vector-icons";
-
-import { Input } from "react-native-elements";
+import { PADDING_BOTTOM_MENU } from "../constants/settings";
 import * as RootNavigation from "../navigation/RootNavigation";
 import colors from "../constants/Colors";
 import { TabMenus } from "../constants/menu";
@@ -250,7 +247,7 @@ export const HomeNavigator = ({ navigation, route }) => {
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {
-            paddingBottom: 50,
+            paddingBottom: PADDING_BOTTOM_MENU,
             backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",

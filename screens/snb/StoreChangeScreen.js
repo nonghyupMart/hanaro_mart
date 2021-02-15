@@ -30,6 +30,7 @@ import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
 import { setIsLoading } from "../../store/actions/common";
+import { PADDING_BOTTOM_MENU } from "../../constants/settings";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
@@ -175,7 +176,10 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
+    cardStyle: {
+      backgroundColor: colors.trueWhite,
+      paddingBottom: PADDING_BOTTOM_MENU,
+    },
   };
 };
 // const SearchButton = styled(BaseButtonContainer)({});

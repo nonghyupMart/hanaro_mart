@@ -10,6 +10,8 @@ export const IMAGE_URL = `${SERVER_URL}`;
 
 export const INTERNAL_APP_VERSION = "1.7.0";
 
+export const PADDING_BOTTOM_MENU = 50;
+
 /*
 링크 카테고리
   . 행사전단 : G
