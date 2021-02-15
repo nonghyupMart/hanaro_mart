@@ -29,9 +29,13 @@ const HomeProducts = (props) => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(1);
+  const clearData = () => {
+    dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
+  };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(userStore)) return;
     dispatch(setIsLoading(true));
+    clearData();
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: 1,

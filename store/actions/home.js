@@ -54,6 +54,7 @@ export const fetchHomeNotice = (query = {}) => {
 };
 
 export const fetchHomeProducts = (query = {}) => {
+  query.limit = 45;
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({
     url: `${API_URL}/home-product`,

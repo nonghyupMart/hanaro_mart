@@ -23,7 +23,6 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
-import { SET_EVENT } from "../../store/actions/event";
 
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
@@ -33,15 +32,13 @@ const HomeEvent = (props) => {
   const eventTitle1 = "하나로마트 앱 지인추천 이벤트";
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
-  const [carouselKey, setCarouselKey] = useState();
   const clearData = () => {
-    dispatch({ type: SET_EVENT, event: null });
+    dispatch({ type: eventActions.SET_EVENT, event: null });
   };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(userStore)) return;
     dispatch(setIsLoading(true));
     clearData();
-    setCarouselKey(Math.random());
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: 1,
@@ -82,7 +79,7 @@ const HomeEvent = (props) => {
         )}
       </TitleContainer>
       <Carousel
-        key={`${carouselKey}`}
+        key={`carousel-${userStore.storeInfo.store_cd}`}
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{
