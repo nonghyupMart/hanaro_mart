@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Dimensions,
 } from "react-native";
 import {
   StyleConstants,
@@ -27,7 +26,6 @@ import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
   const event = useSelector((state) => state.event.event);
   const eventTitle1 = "하나로마트 앱 지인추천 이벤트";
   const [evTitle, setEvTitle] = useState(eventTitle1);
@@ -36,11 +34,11 @@ const HomeEvent = (props) => {
     dispatch({ type: eventActions.SET_EVENT, event: null });
   };
   useEffect(() => {
-    if (!props.isFocused || _.isEmpty(userStore)) return;
+    if (!props.isFocused || _.isEmpty(props.userStore)) return;
     dispatch(setIsLoading(true));
     clearData();
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: props.userStore.storeInfo.store_cd,
       page: 1,
     };
     dispatch(eventActions.fetchEvent(query)).then(() => {
@@ -79,7 +77,7 @@ const HomeEvent = (props) => {
         )}
       </TitleContainer>
       <Carousel
-        key={`carousel-${userStore.storeInfo.store_cd}`}
+        key={`carousel-${props.userStore.storeInfo.store_cd}`}
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{

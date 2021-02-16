@@ -24,8 +24,6 @@ const HomeProducts = (props) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const homeProducts = useSelector((state) => state.home.homeProducts);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
   const [isVisible, setIsVisible] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(1);
@@ -33,11 +31,11 @@ const HomeProducts = (props) => {
     dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
   };
   useEffect(() => {
-    if (!props.isFocused || _.isEmpty(userStore)) return;
+    if (!props.isFocused || _.isEmpty(props.userStore)) return;
     dispatch(setIsLoading(true));
     clearData();
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: props.userStore.storeInfo.store_cd,
       page: 1,
     };
     dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
@@ -55,7 +53,7 @@ const HomeProducts = (props) => {
       dispatch(setIsLoading(true));
       setPage(page + 1);
       let query = {
-        store_cd: userStore.storeInfo.store_cd,
+        store_cd: props.userStore.storeInfo.store_cd,
         page: page + 1,
       };
       dispatch(homeActions.fetchHomeProducts(query)).then(() => {
@@ -88,14 +86,14 @@ const HomeProducts = (props) => {
       )}
       {homeProducts && (
         <ExtendedFlatList
-          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
+          listKey={`FlyerList-${props.userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={2}
           style={[styles.flyerListStyle, { marginTop: 0 }]}
           data={homeProducts.productList}
           keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.product_cd}`
+            `${props.userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
             <FlyerItemColumn2

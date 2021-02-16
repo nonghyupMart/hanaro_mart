@@ -157,8 +157,12 @@ const HomeScreen = (props) => {
           {...props}
         />
         <HomeBanner isFocused={isFocused} />
-        <HomeEvent isFocused={isFocused} />
-        <HomeProducts isFocused={isFocused} />
+        {!_.isEmpty(userStore) && (
+          <HomeEvent isFocused={isFocused} userStore={userStore} />
+        )}
+        {!_.isEmpty(userStore) && (
+          <HomeProducts isFocused={isFocused} userStore={userStore} />
+        )}
       </BaseScreen>
     </>
   );
