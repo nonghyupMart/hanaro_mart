@@ -15,9 +15,6 @@
       "icon": "./assets/9696.png",
       "color": "#b2b2b2"
     },
-    "androidNavigationBar": {
-      "barStyle": "dark-content"
-    },
     "userInterfaceStyle": "light",
     "primaryColor": "#ffffff",
     "backgroundColor": "#ffffff",

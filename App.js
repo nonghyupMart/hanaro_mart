@@ -32,6 +32,7 @@ import { WITHDRAWAL } from "./store/actions/auth";
 import * as Notifications from "expo-notifications";
 import * as CommonActions from "./store/actions/common";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync();
@@ -119,11 +120,13 @@ export default function App() {
     );
   }
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
-        <AppNavigator />
-      </Provider>
-    </SafeAreaProvider>
+    <AppearanceProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar barStyle="dark-content" backgroundColor="white" />
+          <AppNavigator />
+        </Provider>
+      </SafeAreaProvider>
+    </AppearanceProvider>
   );
 }
