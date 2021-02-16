@@ -164,7 +164,7 @@ const EventTitle = styled(BaseText)({
   marginTop: 8.5,
   fontSize: Util.normalize(13),
   lineHeight: 22.5,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Medium",
 });
 
 const RoundedContainer = styled.View({

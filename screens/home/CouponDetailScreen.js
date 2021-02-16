@@ -464,7 +464,7 @@ const Title = styled(BaseText)({
 });
 const Discount = styled(BaseText)({
   fontSize: 30,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 44,
   letterSpacing: -0.75,
@@ -505,7 +505,7 @@ const UseButton = (props) => {
             color: colors.appleGreen,
             fontSize: 15,
             justifyContent: "center",
-            fontFamily: "CustomFont-Bold",
+            fontFamily: "Roboto-Bold",
             textAlignVertical: "center",
             textAlign: "center",
           }}

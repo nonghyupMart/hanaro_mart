@@ -544,11 +544,11 @@ export const TextView = styled(BaseText)({
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   flexShrink: 0,
 });
 export const BoldText = styled(BaseText).attrs({})({
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   lineHeight: 20,
 });
 

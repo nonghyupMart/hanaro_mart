@@ -39,7 +39,7 @@ const IconImage = styled.Image({
 });
 const BranchName = styled(BaseText)({
   fontSize: Util.normalize(13),
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 
   color: colors.nastyGreen,
   marginTop: Util.normalize(4.5),

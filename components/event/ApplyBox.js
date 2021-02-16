@@ -86,7 +86,7 @@ const ApplyBox = (props) => {
                     color: props.item.isRequired
                       ? colors.cerulean
                       : colors.viridian,
-                    fontFamily: "CustomFont-Bold",
+                    fontFamily: "Roboto-Bold",
                   }}
                 >
                   {props.item.isRequired ? "[필수] " : "[선택] "}

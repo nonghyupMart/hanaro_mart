@@ -33,7 +33,7 @@ const ButtonText = styled(BaseText)({
   letterSpacing: -0.34,
   textAlign: "center",
   color: colors.emerald,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 });
 const SelectedButton = styled(Button)({
   backgroundColor: colors.emerald,

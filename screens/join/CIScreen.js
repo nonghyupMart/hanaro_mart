@@ -66,7 +66,7 @@ export const screenOptions = ({ navigation }) => {
     // },
     // headerTintColor: "#fff",
     // headerTitleStyle: {
-    //   fontFamily:"CustomFont-Bold",
+    //   fontFamily:"Roboto-Bold",
     // },
   };
 };

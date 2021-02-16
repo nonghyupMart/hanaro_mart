@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "black",
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
   },
   deleteButton: {

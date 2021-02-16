@@ -41,5 +41,6 @@ export default colors = {
   greyishBrownThree: "#585858",
   warmGrey: "#7b7b7b",
   brownishGrey: "#6b6b6b",
+  orangeRed80: "rgba(255, 46, 46, 0.8)",
 };
 

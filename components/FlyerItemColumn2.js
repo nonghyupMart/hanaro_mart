@@ -108,7 +108,7 @@ const ImageContainer = styled.View({
 });
 const BogoText = styled(BaseText)({
   fontSize: 17,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 19.5,
   letterSpacing: 0,
@@ -125,7 +125,7 @@ const BogoIcon = styled.View({
   top: 0,
   zIndex: 10,
   elevation: 1,
-  backgroundColor: "rgba(255, 46, 46, 0.8)",
+  backgroundColor: colors.orangeRed80,
 });
 
 const BadgeContainer = styled.View({
@@ -206,7 +206,7 @@ const Title = styled(BaseText)({
   color: colors.greyishBrown,
   width: "100%",
   height: 29.5,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Medium",
 });
 Title.defaultProps = {
   numberOfLines: 1,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "black",
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
   },
   deleteButton: {

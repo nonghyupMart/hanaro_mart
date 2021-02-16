@@ -80,7 +80,7 @@ const Text2 = styled(BaseText)({
 });
 const Text1 = styled(BaseText)({
   fontSize: 16,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,

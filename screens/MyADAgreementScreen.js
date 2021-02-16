@@ -244,7 +244,7 @@ const BaseTextStyle = styled(BaseText)({
 const Text1 = styled(BaseTextStyle)({
   width: "30%",
   flexShrink: 0,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 });
 const Text2 = styled(BaseTextStyle)({
   width: "70%",

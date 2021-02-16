@@ -362,7 +362,7 @@ const Notice1 = styled(BaseText)({
 });
 const Notice2 = styled(BaseText)({
   fontSize: Util.normalize(10),
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   lineHeight: 16,
   letterSpacing: 0,
 
@@ -513,7 +513,7 @@ const TotalUnit = styled(BaseText)({
 });
 const Total = styled(BaseText)({
   fontSize: 22,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 32,
   letterSpacing: 0,
@@ -587,7 +587,7 @@ const SalePrice = styled(BaseText)({
 });
 const Price = styled(BaseText)({
   fontSize: 18,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 
   lineHeight: 24,
   letterSpacing: 0,

@@ -52,12 +52,12 @@ const Text2 = styled(BaseText)({
   marginRight: 5,
   height: 28,
   lineHeight: 28,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Medium",
 });
 const Text3 = styled(BaseText)({
   fontSize: 12,
   color: colors.black,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 });
 const Text4 = styled(BaseText)({
   fontSize: 16,

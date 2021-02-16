@@ -47,10 +47,10 @@ const CustomText = ({ style, children, ...rest }) => {
 
 const styles = StyleSheet.create({
   bold: {
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
   },
   regular: {
-    fontFamily: "CustomFont",
+    fontFamily: "Roboto-Regular",
   },
 });
 Text.defaultProps = { allowFontScaling: false };
@@ -60,9 +60,9 @@ export const BaseText = styled(Text)({
     // var isFontWeight = _.some(rules, _.method("includes", "bold"));
     // console.warn(isFontWeight, props);
     // if (isFontWeight || (props.style && props.style.fontWeight == "bold")) {
-    //   return "CustomFont-Bold";
+    //   return "Roboto-Bold";
     // }
-    return "CustomFont";
+    return "Roboto-Regular";
   },
 
   //  ...Platform.select({
@@ -85,7 +85,7 @@ TextInput.defaultProps = {
   underlineColorAndroid: "transparent",
 };
 export const BaseTextInput = styled(TextInput)({
-  fontFamily: "CustomFont",
+  fontFamily: "Roboto-Regular",
   borderWidth: 0,
 });
 const ExtendedImage = (props) => {

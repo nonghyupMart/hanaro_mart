@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryBaseText: {
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 18,
   },
   amount: {

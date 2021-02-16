@@ -83,8 +83,10 @@ const rootReducer = (state, action) => {
 };
 const fetchFonts = () => {
   return Font.loadAsync({
-    CustomFont: require("./assets/fonts/Roboto-Regular.ttf"),
-    "CustomFont-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"), //400
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"), //900
+    "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"), //300
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"), //500
   });
 };
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));

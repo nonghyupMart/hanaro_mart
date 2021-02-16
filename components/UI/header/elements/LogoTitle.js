@@ -34,7 +34,7 @@ const Container = styled.TouchableOpacity({
 });
 const BranchName = styled(BaseText)({
   fontSize: Util.normalize(12),
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",

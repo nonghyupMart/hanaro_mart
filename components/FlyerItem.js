@@ -103,7 +103,7 @@ const FlyerItem = (props) => {
 const ImageContainer = styled.View({});
 const BogoText = styled(BaseText)({
   fontSize: 12,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "black",
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
   },
   deleteButton: {

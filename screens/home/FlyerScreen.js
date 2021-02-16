@@ -333,7 +333,7 @@ const DetailText = styled(BaseText)({
   fontSize: Util.normalize(14),
   letterSpacing: -0.32,
   color: colors.emerald,
-  // fontFamily: "CustomFont-Bold",
+  // fontFamily: "Roboto-Bold",
   marginRight: 2,
 });
 export const styles = StyleSheet.create({

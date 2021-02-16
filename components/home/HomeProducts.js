@@ -86,7 +86,7 @@ const HomeProducts = (props) => {
           </TitleContainer>
         </RoundedContainer>
       )}
-      {homeProducts && (
+    {homeProducts && (
         <ExtendedFlatList
           listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
@@ -130,11 +130,10 @@ export const MoreContainer = styled.View({
 
 export const Title = styled(BaseText)({
   fontSize: Util.normalize(15.5),
-  fontWeight: "500",
   fontStyle: "normal",
   lineHeight: 28,
   letterSpacing: -0.38,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Medium",
   flex: 1,
 });
 export const TitleContainer = styled.View({

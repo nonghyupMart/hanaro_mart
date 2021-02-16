@@ -36,7 +36,7 @@ export const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   marginLeft: 13,
 });
 

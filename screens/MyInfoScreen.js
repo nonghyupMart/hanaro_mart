@@ -279,7 +279,7 @@ export const BtnText = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.trueWhite,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   paddingTop: 6,
   paddingBottom: 6,
 });
