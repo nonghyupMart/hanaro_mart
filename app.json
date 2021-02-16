@@ -15,6 +15,11 @@
       "icon": "./assets/9696.png",
       "color": "#b2b2b2"
     },
+    "androidNavigationBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#f0f0f0"
+    },
+    "userInterfaceStyle": "light",
     "ios": {
       "buildNumber": "1.7.0",
       "icon": "./assets/icon.png",
@@ -33,7 +38,8 @@
         "NSLocationUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
         "NSLocationWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다."
-      }
+      },
+      "userInterfaceStyle": "light"
     },
     "android": {
       "versionCode": 20,
@@ -57,7 +63,9 @@
         "READ_EXTERNAL_STORAGE",
         "READ_INTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "userInterfaceStyle": "light",
+      "backgroundColor": "#ffffff"
     },
     "web": {
       "favicon": "./assets/9696.png"
