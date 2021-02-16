@@ -18,6 +18,7 @@ import {
 } from "../../UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../util";
+import * as Linking from "expo-linking";
 
 const MenuList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -138,9 +139,8 @@ const MenuList = (props) => {
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={() => {
-            if (_.isEmpty(userStore) || !userStore.storeInfo || !isJoin)
-              return props.navigation.navigate("Empty");
-            props.navigation.navigate("MyPage");
+            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
+            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
           }}
         >
           <IconImage
