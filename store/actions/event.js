@@ -65,11 +65,11 @@ export const updateEventDetail = (eventDetail) => {
 };
 
 export const setEventCd = (event_cd) => {
-   return {
-     type: SET_EVENT_CD,
-     event_cd: event_cd,
-   };
-}
+  return {
+    type: SET_EVENT_CD,
+    event_cd: event_cd,
+  };
+};
 
 export const applyEvent = (query) => {
   const url = queryString.stringifyUrl({

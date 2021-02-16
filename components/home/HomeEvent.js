@@ -46,7 +46,7 @@ const HomeEvent = (props) => {
     dispatch(eventActions.fetchEvent(query)).then(() => {
       dispatch(setIsLoading(false));
     });
-  }, [props.isFocused, userStore]);
+  }, [props.isFocused]);
   const onAnimateNextPage = (index) => {
     if (index == 0) {
       setEvDate(null);

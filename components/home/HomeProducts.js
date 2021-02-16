@@ -43,7 +43,7 @@ const HomeProducts = (props) => {
     dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
       dispatch(setIsLoading(false));
     });
-  }, [props.isFocused, userStore]);
+  }, [props.isFocused]);
 
   const loadMore = () => {
     if (
@@ -86,7 +86,7 @@ const HomeProducts = (props) => {
           </TitleContainer>
         </RoundedContainer>
       )}
-    {homeProducts && (
+      {homeProducts && (
         <ExtendedFlatList
           listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
