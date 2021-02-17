@@ -17,12 +17,18 @@ const NoticeScreen = (props) => {
     (async () => {
       let stringifyUrl;
       if (!query && userStore && userStore.storeInfo) {
+        props.navigation.setOptions({
+          title: "매장 공지사항",
+        });
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
           query: { type: "C", store_cd: userStore.storeInfo.store_cd },
         });
         setUrl(stringifyUrl);
       } else {
+        props.navigation.setOptions({
+          title: "통합 공지사항",
+        });
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
           query: props.route.params,
