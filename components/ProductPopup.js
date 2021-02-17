@@ -157,7 +157,13 @@ const ProductPopup = (props) => {
                   카드할인
                 </Notice0>
                 <NoticeRight>
-                  <Notice2 style={{ color: colors.cerulean, paddingLeft: 15 }}>
+                  <Notice2
+                    style={{
+                      color: colors.cerulean,
+                      paddingLeft: 15,
+                      flexGrow: 0.4,
+                    }}
+                  >
                     {Util.formatNumber(props.item.card_price)}원
                   </Notice2>
                   <Notice2
@@ -165,6 +171,7 @@ const ProductPopup = (props) => {
                       textAlign: "right",
                       color: colors.cerulean,
                       paddingRight: 4,
+                      flexShrink: 0,
                     }}
                   >
                     {`카드할인가 ${Util.formatNumber(
