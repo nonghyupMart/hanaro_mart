@@ -48,7 +48,7 @@ const FlyerItemColumn2 = (props) => {
           />
         </ImageContainer>
 
-        <View style={{ height: 2.8 }} />
+        <View style={{ height: 10 }} />
         {props.item.card_price != 0 && (
           <BadgeContainer>
             <Badge1Container>
@@ -114,7 +114,7 @@ const FlyerItemColumn2 = (props) => {
         )}
         {props.item.sale_price <= 0 && (
           <>
-            <PriceTitle>행사가</PriceTitle>
+            <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
             <SalePriceContainer>
               <SalePrice>{Util.formatNumber(props.item.price)}</SalePrice>
               <SalePriceUnit>원</SalePriceUnit>
@@ -145,7 +145,6 @@ const PriceTitle = styled(BaseText)({
   lineHeight: 12.5,
   color: colors.blackish,
   marginRight: 2.5,
-
 });
 const ImageContainer = styled.View({
   alignSelf: "center",
@@ -216,8 +215,8 @@ const Container = styled.View({
 
   // flex: 1,
   // padding: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
+  paddingTop: 12.5,
+  paddingBottom: 12.5,
   width: width * 0.398,
 
   // backgroundColor: "white",
