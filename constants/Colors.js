@@ -42,5 +42,8 @@ export default colors = {
   warmGrey: "#7b7b7b",
   brownishGrey: "#6b6b6b",
   orangeRed80: "rgba(255, 46, 46, 0.8)",
+  blackish: "#231815",
+  blackish2: "#2f2725",
+  peacockBlue: "#004e9d",
 };
 
