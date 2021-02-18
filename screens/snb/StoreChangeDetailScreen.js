@@ -225,7 +225,9 @@ const StoreChangeDetailScreen = (props) => {
             </View>
             <BaseTouchable
               onPress={() =>
-                !_.isEmpty(userStore) ? storeChangeHandler() : saveStore()
+                _.isEmpty(userStore) || !isJoin
+                  ? saveStore()
+                  : storeChangeHandler()
               }
             >
               <View
