@@ -97,7 +97,7 @@ const FlyerItemColumn2 = (props) => {
         {props.item.sale_price > 0 && (
           <>
             <OriginalPriceContainer>
-              <PriceTitle>행사가</PriceTitle>
+              <PriceTitle>최종행사가</PriceTitle>
               <OriginalPrice>
                 {Util.formatNumber(props.item.price)}원
               </OriginalPrice>
