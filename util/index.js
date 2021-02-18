@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "./barcode";
 import { Share, Dimensions, PixelRatio } from "react-native";
-import { SERVER_URL } from "../constants/settings";
+import { SERVER_URL } from "../constants";
 
 import AesUtil from "./aes_util";
 var g_keySize = 128;

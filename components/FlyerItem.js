@@ -11,7 +11,7 @@ import {
 import { BaseImage, BaseText } from "../components/UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "../constants/settings";
+import { IMAGE_URL } from "../constants";
 import * as Util from "../util";
 import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";

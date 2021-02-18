@@ -11,6 +11,15 @@ export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
 export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
+export const SET_LINK_CODE = "SET_LINK_CODE";
+
+
+export const setLinkCode = (link_code) => {
+  return {
+    type: SET_LINK_CODE,
+    link_code: link_code,
+  };
+};
 
 export const setBrightness = (brightness) => {
   return {

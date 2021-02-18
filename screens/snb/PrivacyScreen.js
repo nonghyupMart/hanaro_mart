@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet } from "react-native";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "../../constants/settings";
+import { SERVER_URL, API_URL } from "../../constants";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const PrivacyScreen = (props) => {

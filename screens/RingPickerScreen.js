@@ -9,7 +9,7 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { SERVER_URL } from "../constants/settings";
+import { SERVER_URL } from "../constants";
 
 import * as CommonActions from "../store/actions/common";
 import { ExtendedWebView } from "../components/UI/ExtendedWebView";

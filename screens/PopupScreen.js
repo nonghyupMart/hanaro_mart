@@ -24,8 +24,6 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import * as RootNavigation from "../navigation/RootNavigation";
-import { useNavigation } from "@react-navigation/native";
 import { getIsStorePopup } from "../screens/StartupScreen";
 
 const PopupScreen = (props) => {
@@ -50,12 +48,6 @@ const PopupScreen = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isPreview) {
-      dispatch(CommonActions.setDidTryPopup(true));
-      return;
-    }
-  }, [isPreview]);
   useEffect(() => {
     (async () => {
       if (
@@ -128,13 +120,7 @@ const PopupScreen = (props) => {
       await dispatch(CommonActions.setDidTryPopup(true));
     })();
   };
-
-  if (
-    _.isEmpty(storePopup) ||
-    _.isEmpty(userStore) ||
-    !isJoin ||
-    storePopup.popupCnt == 0
-  )
+  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt == 0)
     //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
@@ -165,7 +151,10 @@ const PopupScreen = (props) => {
               activeOpacity={0.8}
               key={item.pop_cd}
               onPress={() => {
-                if (item.link_url != "") Linking.openURL(item.link_url);
+                if (item.link_url) Linking.openURL(item.link_url);
+                else if (item.link_gbn) {
+                  dispatch(CommonActions.setDidTryPopup(item));
+                }
               }}
             >
               <Image

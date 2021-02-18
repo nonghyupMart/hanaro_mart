@@ -30,7 +30,7 @@ import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
 import { setIsLoading } from "../../store/actions/common";
-import { PADDING_BOTTOM_MENU } from "../../constants/settings";
+import { PADDING_BOTTOM_MENU } from "../../constants";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();

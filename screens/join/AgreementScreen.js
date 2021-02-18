@@ -45,7 +45,7 @@ import {
   setAgreedStatus,
   saveAgreedStatusToStorage,
 } from "../../store/actions/auth";
-import { SERVER_URL, API_URL } from "../../constants/settings";
+import { SERVER_URL, API_URL } from "../../constants";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import AutoHeightWebView from "react-native-autoheight-webview";

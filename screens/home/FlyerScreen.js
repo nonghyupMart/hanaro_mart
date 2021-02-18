@@ -25,7 +25,7 @@ import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import { useFocusEffect } from "@react-navigation/native";
-import { IMAGE_URL } from "../../constants/settings";
+import { IMAGE_URL } from "../../constants";
 import Carousel from "../../components/UI/Carousel";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/flyer";
@@ -226,8 +226,8 @@ const FlyerScreen = (props) => {
                 <BaseImage
                   style={{
                     flex: 1,
-                    resizeMode: "cover",
                   }}
+                  resizeMode="stretch"
                   source={item.title_img}
                 />
               </BaseTouchable>

@@ -7,7 +7,7 @@ import Gallery from "react-native-image-gallery";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
-import { IMAGE_URL } from "../../constants/settings";
+import { IMAGE_URL } from "../../constants";
 import { setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 

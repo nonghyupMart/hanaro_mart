@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
-import { API_URL, PRODUCT_SERVER_URL } from "../../constants/settings";
+import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Network from "../../util/network";
 import _ from "lodash";
@@ -81,7 +81,9 @@ export const setCI = (ci) => {
   return { type: SET_CI, ci: ci };
 };
 export const saveUserStore = (userStore) => {
-  return { type: SET_USER_STORE, userStore: userStore };
+  return async (dispatch) => {
+    dispatch({ type: SET_USER_STORE, userStore: userStore });
+  };
 };
 
 export const updateLoginLog = (query) => {

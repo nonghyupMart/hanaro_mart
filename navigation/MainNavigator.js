@@ -28,7 +28,7 @@ import {
 } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { PADDING_BOTTOM_MENU } from "../constants/settings";
+import { PADDING_BOTTOM_MENU } from "../constants";
 import * as RootNavigation from "../navigation/RootNavigation";
 import colors from "../constants/Colors";
 import { TabMenus } from "../constants/menu";

@@ -4,7 +4,6 @@ import {
   SET_EVENT_MORE,
   SET_MY_EVENT_MORE,
   SET_EVENT_DETAIL,
-  SET_EVENT_CD,
 } from "../actions/event";
 
 const initialState = {
@@ -17,11 +16,6 @@ const initialState = {
 export default (state = initialState, action) => {
   let newEvent, updatedEventList;
   switch (action.type) {
-    case SET_EVENT_CD:
-      return {
-        ...state,
-        event_cd: action.event_cd,
-      };
     case SET_EVENT:
       return {
         ...state,

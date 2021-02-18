@@ -1,5 +1,5 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants/settings";
+import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Network from "../../util/network";
 
@@ -8,7 +8,6 @@ export const SET_MY_EVENT = "SET_MY_EVENT";
 export const SET_EVENT_MORE = "SET_EVENT_MORE";
 export const SET_MY_EVENT_MORE = "SET_MY_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
-export const SET_EVENT_CD = "SET_EVENT_CD";
 
 export const fetchEvent = (query) => {
   if (!query.page) query.page = "1";
@@ -61,13 +60,6 @@ export const updateEventDetail = (eventDetail) => {
   return {
     type: SET_EVENT_DETAIL,
     eventDetail: eventDetail,
-  };
-};
-
-export const setEventCd = (event_cd) => {
-  return {
-    type: SET_EVENT_CD,
-    event_cd: event_cd,
   };
 };
 

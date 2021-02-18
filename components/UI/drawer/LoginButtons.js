@@ -9,10 +9,11 @@ import {
   SCREEN_HEIGHT,
   BaseText,
 } from "../../UI/BaseUI";
-import { setPreview } from "../../../store/actions/auth";
+import { setPreview, withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../util";
 import _ from "lodash";
-import { INTERNAL_APP_VERSION } from "../../../constants/settings";
+import { INTERNAL_APP_VERSION } from "../../../constants";
+import Constants from "expo-constants";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
@@ -54,6 +55,11 @@ const LoginButtons = (props) => {
           </TouchableOpacity>
         </TextArea>
         <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
+        {(!Constants.isDevice || __DEV__) && (
+          <TouchableOpacity onPress={() => dispatch(withdrawalFinish())}>
+            <Text3>Clear Chache</Text3>
+          </TouchableOpacity>
+        )}
       </GrayContainer>
     </BottomContainer>
   );

@@ -37,8 +37,7 @@ const AppNavigator = (props) => {
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
   const currentScreen = () => {
-    if (!isPreview && isJoin && didTryAutoLogin && !didTryPopup)
-      return <PopupScreen />;
+    if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
     else if (isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
       return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;

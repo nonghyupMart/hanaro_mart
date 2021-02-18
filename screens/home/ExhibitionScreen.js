@@ -25,12 +25,32 @@ const ExhibitionScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const [tabInfo, setTabInfo] = useState();
+  const link_code = useSelector((state) => state.common.link_code);
+
   let data;
   if (routeName == "Exhibition") {
     data = useSelector((state) => state.exhibition.exhibition);
   } else {
     data = useSelector((state) => state.exclusive.exclusive);
   }
+
+  useEffect(() => {
+    if (link_code) {
+      setTimeout(() => {
+        moveToDetail(link_code);
+      }, 0);
+    }
+  }, [link_code]);
+
+  const moveToDetail = (event_cd) => {
+    dispatch(setIsLoading(true));
+    if (routeName == "Exhibition") {
+      navigation.navigate("ExhibitionDetail", { event_cd: event_cd });
+    } else {
+      navigation.navigate("ForStoreDetail", { event_cd: event_cd });
+    }
+  };
+
   useEffect(() => {
     const currentTab = TabMenus.filter((tab) => tab.name == routeName);
 

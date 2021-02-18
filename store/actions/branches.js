@@ -1,5 +1,5 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants/settings";
+import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Network from "../../util/network";
 export const SET_ADDRESS1 = "SET_ADDRESS1";

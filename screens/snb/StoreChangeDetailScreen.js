@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { SERVER_URL } from "../../constants/settings";
+import { SERVER_URL } from "../../constants";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as Updates from "expo-updates";

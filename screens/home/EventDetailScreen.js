@@ -5,7 +5,7 @@ import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import { IMAGE_URL } from "../../constants/settings";
+import { IMAGE_URL } from "../../constants";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Modal from "react-native-modal";
 

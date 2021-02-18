@@ -5,6 +5,7 @@ import BaseScreen from "../../components/BaseScreen";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
+import * as commonActions from "../../store/actions/common";
 import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
@@ -26,7 +27,7 @@ const EventScreen = (props) => {
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
-  const event_cd = useSelector((state) => state.event.event_cd);
+  const link_code = useSelector((state) => state.common.link_code);
   let event;
   if (routeName == "MyEvent") {
     //이벤트응모내역 일 경우..
@@ -36,16 +37,16 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    if (event_cd) {
+    if (link_code) {
       setTimeout(() => {
-        moveToDetail(event_cd);
+        moveToDetail(link_code);
       }, 0);
     }
-  }, [event_cd]);
+  }, [link_code]);
 
   useEffect(() => {
     if (!isFocused) {
-      dispatch(eventActions.setEventCd(null));
+      dispatch(commonActions.setLinkCode(null));
       return;
     }
     if (!_.isEmpty(userStore)) {

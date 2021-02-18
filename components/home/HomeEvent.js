@@ -17,11 +17,13 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
 import * as eventActions from "../../store/actions/event";
+import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
+
 
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
@@ -135,7 +137,7 @@ const HomeEvent = (props) => {
               activeOpacity={0.8}
               key={item.event_cd}
               onPress={async () => {
-                await dispatch(eventActions.setEventCd(item.event_cd));
+                await dispatch(CommonActions.setLinkCode(item.event_cd));
                 await RootNavigation.navigate("Event", {
                   event_cd: item.event_cd,
                 });
