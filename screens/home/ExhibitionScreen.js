@@ -14,6 +14,7 @@ import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
 import NoList from "../../components/UI/NoList";
+import * as commonActions from "../../store/actions/common";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -33,7 +34,12 @@ const ExhibitionScreen = (props) => {
   } else {
     data = useSelector((state) => state.exclusive.exclusive);
   }
-
+  useEffect(() => {
+    if (!isFocused) {
+      dispatch(commonActions.setLinkCode(null));
+      return;
+    }
+  }, [isFocused]);
   useEffect(() => {
     if (link_code) {
       setTimeout(() => {

@@ -100,9 +100,8 @@ const StartupScreen = (props) => {
       }
       if (!location) {
         timer = setTimeout(() => {
-          console.log("dddd");
           fetchBranchNear();
-        }, 10000);
+        }, 1000 * 10);
         return;
       }
       clearTimeout(timer);
