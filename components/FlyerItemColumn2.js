@@ -42,7 +42,6 @@ const FlyerItemColumn2 = (props) => {
               width: width * 0.316,
               // height: width * 0.227,
               aspectRatio: 1 / 1,
-              borderRadius: 20,
             }}
             source={props.item.title_img}
             defaultSource={require("../assets/images/p_img503.png")}
