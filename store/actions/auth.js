@@ -190,10 +190,10 @@ export const saveIsJoinToStorage = (status) => {
   Util.setStorageItem("isJoinData", true);
 };
 
-const clearAllData = () => {
-  return AsyncStorage.getAllKeys().then((keys) => {
+const clearAllData = async () => {
+  return await AsyncStorage.getAllKeys().then(async (keys) => {
     if (_.isEmpty(keys)) return;
-    AsyncStorage.multiRemove(keys);
+    await AsyncStorage.multiRemove(keys);
   });
   // .then(() => alert('success'));
 };
