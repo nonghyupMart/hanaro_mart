@@ -14,6 +14,7 @@ import * as Util from "../../../util";
 import _ from "lodash";
 import { INTERNAL_APP_VERSION } from "../../../constants";
 import Constants from "expo-constants";
+import * as Updates from "expo-updates";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
@@ -56,7 +57,13 @@ const LoginButtons = (props) => {
         </TextArea>
         <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
         {(Constants.manifest.releaseChannel != "prod" || __DEV__) && (
-          <TouchableOpacity onPress={() => dispatch(withdrawalFinish())}>
+          <TouchableOpacity
+            onPress={() =>
+              dispatch(withdrawalFinish()).then(() => {
+                Updates.reloadAsync();
+              })
+            }
+          >
             <Text3>Clear Chache</Text3>
           </TouchableOpacity>
         )}
