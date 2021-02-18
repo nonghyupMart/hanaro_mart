@@ -55,7 +55,7 @@ const LoginButtons = (props) => {
           </TouchableOpacity>
         </TextArea>
         <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
-        {(!Constants.isDevice || __DEV__) && (
+        {(Constants.manifest.releaseChannel != "prod" || __DEV__) && (
           <TouchableOpacity onPress={() => dispatch(withdrawalFinish())}>
             <Text3>Clear Chache</Text3>
           </TouchableOpacity>
