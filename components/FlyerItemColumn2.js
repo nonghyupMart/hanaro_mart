@@ -42,6 +42,7 @@ const FlyerItemColumn2 = (props) => {
               width: width * 0.316,
               // height: width * 0.227,
               aspectRatio: 1 / 1,
+              borderRadius: 20,
             }}
             source={props.item.title_img}
             defaultSource={require("../assets/images/p_img503.png")}
@@ -150,17 +151,16 @@ const ImageContainer = styled.View({
   alignSelf: "center",
 });
 const BogoText = styled(BaseText)({
-  fontSize: 17,
+  fontSize: 13.5,
   fontFamily: "Roboto-Bold",
-  fontStyle: "normal",
-  lineHeight: 19.5,
+  lineHeight: 17,
   letterSpacing: 0,
-  textAlign: "right",
+  textAlign: "center",
   color: colors.trueWhite,
 });
 const BogoIcon = styled.View({
-  width: 43,
-  height: 21.5,
+  width: 30,
+  height: 30,
   justifyContent: "center",
   alignItems: "center",
   position: "absolute",
@@ -168,7 +168,10 @@ const BogoIcon = styled.View({
   top: 0,
   zIndex: 10,
   elevation: 1,
-  backgroundColor: colors.orangeRed80,
+  backgroundColor: colors.brightRed,
+  borderWidth: 1,
+  borderColor: colors.trueWhite,
+  borderRadius: 100,
 });
 
 const BadgeContainer = styled.View({
@@ -180,13 +183,13 @@ const Badge1Container = styled.View({
   height: Util.normalize(12),
   backgroundColor: colors.peacockBlue,
   justifyContent: "center",
+  paddingLeft: 3,
+  paddingRight: 3,
+  width: Util.normalize(35),
 });
 const Badge1 = styled(BaseText)({
   fontSize: Util.normalize(7),
   color: colors.trueWhite,
-
-  paddingLeft: 3,
-  paddingRight: 3,
 });
 const Badge2Container = styled.View({
   borderStyle: "solid",
