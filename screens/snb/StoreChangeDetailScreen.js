@@ -78,13 +78,14 @@ const StoreChangeDetailScreen = (props) => {
       })
     );
   };
-  const saveStore = () => {
+  const saveStore = async () => {
     if (!branch || !branch.storeInfo) return;
-    dispatch(setIsLoading(true));
+    await dispatch(setIsLoading(true));
     if (!isJoin) {
-      dispatch(saveUserStore(branch));
-      props.navigation.navigate("Home");
-      dispatch(setIsLoading(false));
+      await dispatch(saveUserStore(branch));
+      await props.navigation.navigate("Home");
+      await dispatch(CommonActions.setDidTryPopup(false));
+      await dispatch(setIsLoading(false));
       return;
     }
     let msg;
