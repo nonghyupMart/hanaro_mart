@@ -13,7 +13,7 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as branchesActions from "../store/actions/branches";
-let timer;
+
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -21,6 +21,7 @@ const StartupScreen = (props) => {
   const [location, setLocation] = useState(null);
   const userStore = useSelector((state) => state.auth.userStore);
   const [isLocationReady, setIsLocationReady] = useState(false);
+  let timer;
 
   useEffect(() => {
     dispatch(CommonActions.setIsLoading(true));
@@ -100,6 +101,7 @@ const StartupScreen = (props) => {
       }
       if (!location) {
         timer = setTimeout(() => {
+          console.log("no location");
           fetchBranchNear();
         }, 1000 * 10);
         return;
