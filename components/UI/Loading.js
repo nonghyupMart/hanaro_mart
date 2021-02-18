@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -13,16 +13,17 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 const Loading = (props) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  let timer;
+  const timerRef = useRef(null);
+
   useEffect(() => {
     if (!isLoading) return;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
       dispatch(setIsLoading(false));
     }, 1000 * 15);
     return () => {
-      clearTimeout(timer);
-      timer;
+      clearTimeout(timerRef.current);
+      timerRef.current;
     };
   }, [isLoading]);
   if (Platform.OS == "android")

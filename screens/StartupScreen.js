@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,7 +21,7 @@ const StartupScreen = (props) => {
   const [location, setLocation] = useState(null);
   const userStore = useSelector((state) => state.auth.userStore);
   const [isLocationReady, setIsLocationReady] = useState(false);
-  let timer;
+  const timerRef = useRef(null);
 
   useEffect(() => {
     dispatch(CommonActions.setIsLoading(true));
@@ -100,13 +100,13 @@ const StartupScreen = (props) => {
         await dispatch(CommonActions.setIsLoading(false));
       }
       if (!location) {
-        timer = setTimeout(() => {
+        timerRef.current = setTimeout(() => {
           console.log("no location");
           fetchBranchNear();
         }, 1000 * 10);
         return;
       }
-      clearTimeout(timer);
+      if (timerRef.current) clearTimeout(timerRef.current);
       fetchBranchNear();
     })();
   }, [location]);
@@ -121,7 +121,7 @@ const StartupScreen = (props) => {
     fetchBranchNear.then(async (data) => {
       if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
       dispatch(authActions.saveUserStore(data)).then(async (d) => {
-        clearTimeout(timer);
+        if (timerRef.current) clearTimeout(timerRef.current);
         await dispatch(CommonActions.setIsLoading(false));
         await dispatch(authActions.setDidTryAL());
         await SplashScreen.hideAsync();

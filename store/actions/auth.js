@@ -16,8 +16,6 @@ export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const WITHDRAWAL = "WITHDRAWAL";
 export const SET_CI = "SET_CI";
 
-let timer;
-
 export const setDidTryAL = () => {
   return { type: SET_DID_TRY_AL };
 };
