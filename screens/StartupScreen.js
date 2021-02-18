@@ -101,7 +101,6 @@ const StartupScreen = (props) => {
       }
       if (!location) {
         timerRef.current = setTimeout(() => {
-          console.log("no location");
           fetchBranchNear();
         }, 1000 * 10);
         return;

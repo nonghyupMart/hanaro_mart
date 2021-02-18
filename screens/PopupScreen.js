@@ -39,7 +39,6 @@ const PopupScreen = (props) => {
     isPopupStoreFromStorage = await getIsStorePopup(userStore, dispatch);
   })();
   useEffect(() => {
-    console.log("매장팝업 화면", didTryAutoLogin);
     return () => {
       dispatch(CommonActions.setIsLoading(false));
 
