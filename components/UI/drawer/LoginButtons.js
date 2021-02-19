@@ -55,7 +55,11 @@ const LoginButtons = (props) => {
             <Text3>개인정보처리방침</Text3>
           </TouchableOpacity>
         </TextArea>
-        <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
+        <Text3>
+          Version : {INTERNAL_APP_VERSION} /
+          {(Constants.manifest.releaseChannel != "prod" || __DEV__) &&
+            Constants.manifest.releaseChannel}
+        </Text3>
         {(Constants.manifest.releaseChannel != "prod" || __DEV__) && (
           <TouchableOpacity
             onPress={() =>
