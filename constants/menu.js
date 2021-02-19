@@ -36,6 +36,13 @@ export const TabMenus = [
     icon: require("../assets/images/ticket2.png"),
   },
   {
+    components: CouponScreen,
+    subComponents: EmptyScreen,
+    name: "Coupon",
+    title: "나로쿠폰",
+    icon: require("../assets/images/ticket2.png"),
+  },
+  {
     components: ExhibitionScreen,
     subComponents: EmptyScreen,
     name: "Exhibition",
