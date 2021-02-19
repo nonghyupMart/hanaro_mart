@@ -69,8 +69,6 @@ const AppPopup = (props) => {
       isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={false}
-      onBackdropPress={() => setIsVisible(false)}
-      onRequestClose={() => setIsVisible(false)}
     >
       <Container>
         <Carousel
