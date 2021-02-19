@@ -55,22 +55,21 @@ const LoginButtons = (props) => {
             <Text3>개인정보처리방침</Text3>
           </TouchableOpacity>
         </TextArea>
-        <Text3>
-          Version : {INTERNAL_APP_VERSION} /
-          {(Constants.manifest.releaseChannel != "prod" || __DEV__) &&
-            Constants.manifest.releaseChannel}
-        </Text3>
-        {(Constants.manifest.releaseChannel != "prod" || __DEV__) && (
-          <TouchableOpacity
-            onPress={() =>
-              dispatch(withdrawalFinish()).then(() => {
-                Updates.reloadAsync();
-              })
-            }
-          >
-            <Text3>Clear Chache</Text3>
-          </TouchableOpacity>
-        )}
+
+        <TouchableOpacity
+          delayLongPress={3000}
+          onLongPress={() =>
+            dispatch(withdrawalFinish()).then(() => {
+              Updates.reloadAsync();
+            })
+          }
+        >
+          <Text3>
+            Version : {INTERNAL_APP_VERSION}
+            {Constants.manifest.releaseChannel &&
+              ` / ${Constants.manifest.releaseChannel}`}
+          </Text3>
+        </TouchableOpacity>
       </GrayContainer>
     </BottomContainer>
   );
