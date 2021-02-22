@@ -33,6 +33,7 @@ import * as Notifications from "expo-notifications";
 import * as CommonActions from "./store/actions/common";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import Constants from "expo-constants";
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync();
@@ -94,7 +95,7 @@ const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
-  if (!__DEV__) {
+  if (Constants.manifest.releaseChannel == "prod") {
     usePreventScreenCapture();
   }
 
