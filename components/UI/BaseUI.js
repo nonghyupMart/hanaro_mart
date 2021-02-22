@@ -90,30 +90,43 @@ export const BaseTextInput = styled(TextInput)({
 });
 const ExtendedImage = (props) => {
   const [source, setSource] = useState(props.source);
+  const [resizeMode, setResizeMode] = useState(
+    props.initResizeMode ? props.initResizeMode : "cover"
+  );
   const [color, setColor] = useState(
     Platform.OS == "android" ? colors.white : "transparent"
   );
   const onError = () => {
-    setSource(require("../../assets/images/m_img499.png"));
+    setSource(
+      props.defaultSource
+        ? props.defaultSource
+        : require("../../assets/images/m_img499.png")
+    );
   };
-  const onLoad = () => {
+  const onLoadEnd = () => {
+    setResizeMode(props.resizeMode);
     setColor("transparent");
   };
   return (
     <ImageBackground
       {...props}
-      onLoad={onLoad}
+      onLoadEnd={onLoadEnd}
       onError={onError}
       source={source}
-      resizeMode={props.resizeMode ? props.resizeMode : "cover"}
+      resizeMode={resizeMode}
       style={[{ backgroundColor: color }, props.style]}
-      defaultSource={require("../../assets/images/m_img499.png")}
     />
   );
 };
 
 BaseTextInput.defaultProps = { allowFontScaling: false };
 export const BaseImage = styled(ExtendedImage).attrs((props) => {
+  if (!props.source || props.source == " ")
+    return {
+      source: props.defaultSource
+        ? props.defaultSource
+        : require("../../assets/images/b_img500.png"),
+    };
   let source;
   if (typeof props.source == "string")
     source = {
@@ -122,6 +135,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
   else source = props.source;
   return {
     source: source,
+    defaultSource: props.defaultSource,
   };
 })((props) => {
   return {

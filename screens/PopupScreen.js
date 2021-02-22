@@ -159,6 +159,8 @@ const PopupScreen = (props) => {
               }}
             >
               <Image
+                initResizeMode="contain"
+                defaultSource={require("../assets/images/p_img503.png")}
                 resizeMode="contain"
                 source={item.display_img}
                 width={SCREEN_WIDTH}

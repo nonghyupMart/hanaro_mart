@@ -18,6 +18,8 @@ const EventItem = (props) => {
           borderWidth: 1,
           borderColor: colors.pinkishGrey,
         }}
+        resizeModede="stretch"
+        defaultSource={require("../assets/images/b_img500.png")}
       />
       <TitleContainer>
         <StatusContainer>

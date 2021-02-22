@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import styled from "styled-components/native";
 import {
   View,
@@ -212,25 +212,37 @@ const FlyerScreen = (props) => {
         >
           {leaflet.leafletList.map((item, index) => {
             return (
-              <BaseTouchable
-                key={item.leaf_cd}
-                onPress={() =>
-                  item.detail_img_cnt > 0
-                    ? RootNavigation.navigate("FlyerDetail", {
+              <Fragment key={item.leaf_cd}>
+                {item.detail_img_cnt <= 0 && (
+                  <BaseImage
+                    style={{
+                      flex: 1,
+                    }}
+                    resizeMode="stretch"
+                    source={item.title_img}
+                    defaultSource={require("../../assets/images/m_img499.png")}
+                  />
+                )}
+                {item.detail_img_cnt > 0 && (
+                  <BaseTouchable
+                    onPress={() =>
+                      RootNavigation.navigate("FlyerDetail", {
                         leaf_cd: item.leaf_cd,
                       })
-                    : null
-                }
-                style={{ height: width * 0.608, flex: 1, width: "100%" }}
-              >
-                <BaseImage
-                  style={{
-                    flex: 1,
-                  }}
-                  resizeMode="stretch"
-                  source={item.title_img}
-                />
-              </BaseTouchable>
+                    }
+                    style={{ height: width * 0.608, flex: 1, width: "100%" }}
+                  >
+                    <BaseImage
+                      style={{
+                        flex: 1,
+                      }}
+                      resizeMode="stretch"
+                      source={item.title_img}
+                      defaultSource={require("../../assets/images/m_img499.png")}
+                    />
+                  </BaseTouchable>
+                )}
+              </Fragment>
             );
           })}
         </Carousel>

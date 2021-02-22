@@ -44,7 +44,7 @@ const FlyerItemColumn2 = (props) => {
               aspectRatio: 1 / 1,
             }}
             source={props.item.title_img}
-            defaultSource={require("../assets/images/p_img503.png")}
+            defaultSource={require("../assets/images/n_img501.png")}
           />
         </ImageContainer>
 

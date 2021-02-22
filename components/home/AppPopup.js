@@ -103,10 +103,10 @@ const AppPopup = (props) => {
                 <BaseImage
                   source={item.display_img}
                   style={{
-                    resizeMode: "cover",
                     width: "100%",
                     height: SCREEN_WIDTH - 19 - 19 - 2,
                   }}
+                  defaultSource={require("../../assets/images/p_img503.png")}
                 />
               </TouchableOpacity>
             );
