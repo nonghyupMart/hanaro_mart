@@ -14,6 +14,7 @@ import { signup } from "../../screens/join/JoinStep2Screen";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as CommonActions from "../../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -66,6 +67,7 @@ export const ExtendedWebView = (props) => {
         );
         break;
       case "auth":
+        dispatch(setIsLoading(true));
         let query = {
           user_sex: message.value.sex,
           user_id: message.value.tel,
@@ -98,6 +100,7 @@ export const ExtendedWebView = (props) => {
             if (index > 0) RootNavigation.pop();
             else RootNavigation.navigate("Home");
           }
+          dispatch(setIsLoading(false));
         });
 
         // message.value
