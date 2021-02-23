@@ -21,6 +21,7 @@ import {
   Switch,
 } from "react-native";
 import _ from "lodash";
+import moment from "moment";
 
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
@@ -71,10 +72,14 @@ const MyADAgreementScreen = (props) => {
       user_id: await authActions.saveUserTelToStorage(),
     };
     dispatch(authActions.signup(query)).then((userInfo) => {
+      console.log("수정된후=>", userInfo);
       dispatch(setIsLoading(false));
+      let yn = push || sms ? "동의" : "거부";
       dispatch(
         setAlert({
-          message: "수정되었습니다.",
+          message: `하나로마트앱 변경일자(${moment().format(
+            "YYYY년 MM월 DD일"
+          )})\n수신${yn} 처리 되었습니다.`,
           onPressConfirm: () => {
             dispatch(setAlert(null));
             setSms(userInfo.sms_agree == "Y" ? true : false);
