@@ -50,7 +50,6 @@ const HomeScreen = (props) => {
     })();
   }, []);
 
-
   initNotificationReceiver(routeName);
   useEffect(() => {
     if (!isFocused) return;
@@ -197,7 +196,6 @@ const initNotificationReceiver = (routeName) => {
   }, [notification, isLoading]);
 };
 export const updateUserInfo = async (dispatch, userInfo, token) => {
-  if (!Constants.isDevice) return;
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
 
   let tk = `${token}`.trim();
@@ -205,6 +203,8 @@ export const updateUserInfo = async (dispatch, userInfo, token) => {
   if (!tk || tk == "") tk = (await Notifications.getExpoPushTokenAsync()).data;
   let action;
   tk = `${tk}`.trim();
+
+  if (!Constants.isDevice) tk = "";
 
   if (tk && tk != "") {
     action = authActions.updateLoginLog({

@@ -8,8 +8,7 @@ import _ from "lodash";
 import * as Util from "../../../../util";
 
 const HomeHeaderLeft = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
-  if (_.isEmpty(userStore)) return <></>;
+  const userInfo = useSelector((state) => state.auth.userInfo);
   return (
     <BtnContainer>
       <Btn
@@ -20,6 +19,12 @@ const HomeHeaderLeft = (props) => {
       </Btn>
       <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
         <IconImage source={require("../../../../assets/images/bell.png")} />
+        {!_.isEmpty(userInfo) && userInfo.push_cnt > 0 && (
+          <Image
+            source={require("../../../../assets/images/N.png")}
+            style={{ position: "absolute", top: 6, right: 6 }}
+          />
+        )}
       </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
