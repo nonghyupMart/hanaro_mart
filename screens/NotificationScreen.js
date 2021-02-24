@@ -28,6 +28,7 @@ const NotificationScreen = (props) => {
   return (
     <BaseScreen style={styles.screen} isScroll={false}>
       <ExtendedWebView
+        startInLoadingState={true}
         source={{
           // uri: `https://www.naver.com`,
           uri: url,

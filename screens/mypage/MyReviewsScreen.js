@@ -32,6 +32,7 @@ const MyReviewScreen = (props) => {
       // isBottomNavigation={false}
     >
       <ExtendedWebView
+        startInLoadingState={true}
         source={{
           // uri: `https://www.naver.com`,
           uri: url,

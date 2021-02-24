@@ -138,6 +138,7 @@ const StoreChangeDetailScreen = (props) => {
         }}
       >
         <ExtendedWebView
+          startInLoadingState={true}
           indicatorSize="small"
           key={location}
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=

@@ -37,6 +37,7 @@ const CIScreen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView
+        startInLoadingState={true}
         key={Math.random()}
         cacheMode="LOAD_NO_CACHE"
         style={{

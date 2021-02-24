@@ -44,6 +44,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
   return (
     <BaseScreen isPadding={false} isScroll={false}>
       <ExtendedWebView
+        startInLoadingState={true}
         style={{
           height: SCREEN_HEIGHT,
           opacity: 0.99,
