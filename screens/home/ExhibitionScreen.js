@@ -133,7 +133,9 @@ const ExhibitionScreen = (props) => {
         <ScrollList
           numColumns={1}
           data={data.list}
-          keyExtractor={(item, index) => `${index}`}
+          keyExtractor={(item, index) =>
+            `${userStore.storeInfo.store_cd}-${index}`
+          }
           onEndReached={loadMore}
           renderItem={(itemData) => {
             return (

@@ -101,7 +101,9 @@ const EventScreen = (props) => {
         <ScrollList
           numColumns={1}
           data={event.eventList}
-          keyExtractor={(item) => `${item.event_cd}`}
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.event_cd}`
+          }
           onEndReached={loadMore}
           renderItem={(itemData) => {
             return (
