@@ -57,6 +57,11 @@ const StartupScreen = (props) => {
       await dispatch(
         CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
       );
+
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        fetchBranchNear();
+      }, 1500 * 10);
     })();
   }, []);
 
@@ -100,6 +105,7 @@ const StartupScreen = (props) => {
         await dispatch(CommonActions.setIsLoading(false));
       }
       if (!location) {
+        if (timerRef.current) clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => {
           fetchBranchNear();
         }, 1000 * 10);
@@ -116,8 +122,7 @@ const StartupScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    const fetchBranchNear = dispatch(branchesActions.fetchBranchNear(query));
-    fetchBranchNear.then(async (data) => {
+    dispatch(branchesActions.fetchBranchNear(query)).then(async (data) => {
       if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
       dispatch(authActions.saveUserStore(data)).then(async (d) => {
         if (timerRef.current) clearTimeout(timerRef.current);
