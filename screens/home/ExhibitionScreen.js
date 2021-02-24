@@ -37,8 +37,8 @@ const ExhibitionScreen = (props) => {
   useEffect(() => {
     if (!isFocused || !link_code) {
       dispatch(commonActions.setLinkCode(null));
-      return;
     }
+    if (!isFocused) return;
 
     if (link_code) {
       setTimeout(() => {

@@ -39,8 +39,9 @@ const EventScreen = (props) => {
   useEffect(() => {
     if (!isFocused || !link_code) {
       dispatch(commonActions.setLinkCode(null));
-      return;
     }
+    if (!isFocused) return;
+
     if (!_.isEmpty(userStore)) {
       setPage(1);
       fetchEvent();
