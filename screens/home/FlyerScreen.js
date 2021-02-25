@@ -218,7 +218,6 @@ const FlyerScreen = (props) => {
                     style={{
                       flex: 1,
                     }}
-                    resizeMode="stretch"
                     source={item.title_img}
                     defaultSource={require("../../assets/images/m_img499.png")}
                   />
@@ -236,7 +235,6 @@ const FlyerScreen = (props) => {
                       style={{
                         flex: 1,
                       }}
-                      resizeMode="stretch"
                       source={item.title_img}
                       defaultSource={require("../../assets/images/m_img499.png")}
                     />
