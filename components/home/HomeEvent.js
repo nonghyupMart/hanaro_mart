@@ -18,6 +18,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
+import { CATEGORY } from "../../constants";
 
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
@@ -131,7 +132,12 @@ const HomeEvent = (props) => {
               activeOpacity={0.8}
               key={item.event_cd}
               onPress={async () => {
-                await dispatch(CommonActions.setLinkCode(item.event_cd));
+                await dispatch(
+                  CommonActions.setLink({
+                    category: CATEGORY["E"],
+                    link_code: item.event_cd,
+                  })
+                );
                 await RootNavigation.navigate("Event", {
                   event_cd: item.event_cd,
                 });

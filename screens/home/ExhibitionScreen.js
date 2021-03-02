@@ -14,7 +14,7 @@ import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
 import NoList from "../../components/UI/NoList";
-import * as commonActions from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -26,7 +26,7 @@ const ExhibitionScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const [tabInfo, setTabInfo] = useState();
-  const link_code = useSelector((state) => state.common.link_code);
+  const link = useSelector((state) => state.common.link);
 
   let data;
   if (routeName == "Exhibition") {
@@ -34,17 +34,15 @@ const ExhibitionScreen = (props) => {
   } else {
     data = useSelector((state) => state.exclusive.exclusive);
   }
+
   useEffect(() => {
-    if (link_code) {
-      setTimeout(() => {
-        moveToDetail(link_code);
+    if (link && link.category == routeName) {
+      setTimeout(async () => {
+        await moveToDetail(link.link_code);
+        await dispatch(CommonActions.setLink(null));
       }, 0);
     }
-    if (!isFocused) {
-      dispatch(commonActions.setLinkCode(null));
-    }
-    if (!isFocused) return;
-  }, [isFocused, link_code]);
+  }, [link]);
 
   const moveToDetail = (event_cd) => {
     dispatch(setIsLoading(true));

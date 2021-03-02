@@ -8,7 +8,7 @@ import {
   SET_DID_TRY_POPUP,
   SET_NOTIFICATION,
   SET_BRIGHTNESS,
-  SET_LINK_CODE,
+  SET_LINK,
 } from "../actions/common";
 
 const initialState = {
@@ -21,15 +21,15 @@ const initialState = {
   didTryPopup: false,
   notification: null,
   brightness: null,
-  link_code: null,
+  link: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_LINK_CODE:
+    case SET_LINK:
       return {
         ...state,
-        link_code: action.link_code,
+        link: action.link,
       };
     case SET_DID_TRY_POPUP:
       return {

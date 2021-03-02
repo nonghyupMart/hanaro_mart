@@ -91,9 +91,14 @@ const HomeScreen = (props) => {
           navigation.navigate(didTryPopup);
           break;
         case "object":
-          dispatch(CommonActions.setLinkCode(null));
+          dispatch(CommonActions.setLink(null));
           if (didTryPopup.link_code) {
-            dispatch(CommonActions.setLinkCode(didTryPopup.link_code));
+            dispatch(
+              CommonActions.setLink({
+                category: CATEGORY[didTryPopup.link_gbn],
+                link_code: didTryPopup.link_code,
+              })
+            );
           }
           navigation.navigate(CATEGORY[didTryPopup.link_gbn]);
           break;

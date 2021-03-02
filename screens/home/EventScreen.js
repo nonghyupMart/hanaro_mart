@@ -5,7 +5,7 @@ import BaseScreen from "../../components/BaseScreen";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
-import * as commonActions from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
 import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
@@ -27,7 +27,7 @@ const EventScreen = (props) => {
   const [page, setPage] = useState(1);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
-  const link_code = useSelector((state) => state.common.link_code);
+  const link = useSelector((state) => state.common.link);
   let event;
   if (routeName == "MyEvent") {
     //이벤트응모내역 일 경우..
@@ -37,20 +37,23 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    if (link_code) {
-      setTimeout(() => {
-        moveToDetail(link_code);
+    if (link && link.category == routeName) {
+      setTimeout(async () => {
+        await moveToDetail(link.link_code);
+        await dispatch(CommonActions.setLink(null));
       }, 0);
     }
+  }, [link]);
+
+  useEffect(() => {
     if (!isFocused) {
-      dispatch(commonActions.setLinkCode(null));
       return;
     }
     if (!_.isEmpty(userStore)) {
       setPage(1);
       fetchEvent();
     }
-  }, [isFocused, userStore, link_code]);
+  }, [isFocused, userStore]);
 
   const fetchEvent = (p = page) => {
     dispatch(setIsLoading(true));
@@ -70,10 +73,10 @@ const EventScreen = (props) => {
     }
   };
 
-  const moveToDetail = (event_cd) => {
+  const moveToDetail = async (event_cd) => {
     if (!userInfo.ci) return navigation.navigate("Empty");
-    dispatch(setIsLoading(true));
-    navigation.navigate("EventDetail", { event_cd: event_cd });
+    await dispatch(setIsLoading(true));
+    await navigation.navigate("EventDetail", { event_cd: event_cd });
   };
   const onPress = (item) => {
     moveToDetail(item.event_cd);
