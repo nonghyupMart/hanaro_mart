@@ -58,6 +58,13 @@ const StartupScreen = (props) => {
         CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
       );
 
+      if (!_.isEmpty(userStore) && isJoin) {
+        //가입을 했고 매장이 있는경우 근처매장 api 호출 않함
+        await dispatch(authActions.setDidTryAL());
+        await SplashScreen.hideAsync();
+        await dispatch(CommonActions.setIsLoading(false));
+        return;
+      }
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => {
         fetchBranchNear();
