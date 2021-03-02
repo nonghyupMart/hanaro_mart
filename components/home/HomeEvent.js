@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Carousel from "../../components/UI/Carousel";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import {
   StyleConstants,
   BaseImage,
@@ -23,7 +18,6 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../util";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
-
 
 const HomeEvent = (props) => {
   const dispatch = useDispatch();
@@ -43,7 +37,7 @@ const HomeEvent = (props) => {
       store_cd: props.userStore.storeInfo.store_cd,
       page: 1,
     };
-    dispatch(eventActions.fetchEvent(query)).then(() => {
+    dispatch(eventActions.fetchEvent(query)).then((data) => {
       dispatch(setIsLoading(false));
     });
   }, [props.isFocused]);

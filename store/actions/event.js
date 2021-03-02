@@ -28,6 +28,7 @@ export const fetchEvent = (query) => {
         else type = SET_EVENT;
       }
       dispatch({ type: type, event: resData.data });
+      return resData.data;
     } catch (err) {
       throw err;
     }
