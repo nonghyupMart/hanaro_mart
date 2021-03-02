@@ -39,6 +39,7 @@ const StartupScreen = (props) => {
         if (versionCheck < 0) {
           //버전이 낮을때만 업데이트 팝업 페이지로 이동
           dispatch(CommonActions.setIsUpdated(false));
+          dispatch(CommonActions.setIsLoading(false));
           return;
         }
       });
