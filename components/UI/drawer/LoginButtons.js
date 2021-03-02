@@ -4,15 +4,17 @@ import { TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
-} from "@UI/BaseUI";
-import { setPreview } from "@actions/auth";
-import * as Util from "@util";
+} from "../../UI/BaseUI";
+import { setPreview, withdrawalFinish } from "../../../store/actions/auth";
+import * as Util from "../../../util";
 import _ from "lodash";
-import { INTERNAL_APP_VERSION } from "@constants/settings";
+import { INTERNAL_APP_VERSION } from "../../../constants";
+import Constants from "expo-constants";
+import * as Updates from "expo-updates";
 
 const LoginButtons = (props) => {
   const dispatch = useDispatch();
@@ -27,17 +29,6 @@ const LoginButtons = (props) => {
   };
   return (
     <BottomContainer>
-      <ButtonContainer>
-        {/* <GreenButton>
-          <ButtonText>로그인</ButtonText>
-        </GreenButton> */}
-        {!isJoin && (
-          <BlueButton onPress={() => onPressJoin()}>
-            <ButtonText>회원가입</ButtonText>
-          </BlueButton>
-        )}
-      </ButtonContainer>
-
       <GrayContainer>
         <Text1>
           사업자명 : {Util.emptyPrint(storeInfo && storeInfo.store_nm)}
@@ -64,7 +55,21 @@ const LoginButtons = (props) => {
             <Text3>개인정보처리방침</Text3>
           </TouchableOpacity>
         </TextArea>
-        <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
+
+        <TouchableOpacity
+          delayLongPress={3000}
+          onLongPress={() =>
+            dispatch(withdrawalFinish()).then(() => {
+              Updates.reloadAsync();
+            })
+          }
+        >
+          <Text3>
+            Version : {INTERNAL_APP_VERSION}
+            {Constants.manifest.releaseChannel &&
+              ` / ${Constants.manifest.releaseChannel}`}
+          </Text3>
+        </TouchableOpacity>
       </GrayContainer>
     </BottomContainer>
   );
@@ -83,24 +88,24 @@ const TextArea = styled.View({
   flexDirection: "row",
 });
 const Text3 = styled(BaseText)({
-  fontSize: 12,
+  fontSize: 11.5,
   fontWeight: "300",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.greyishBrownThree,
 });
 const Text2 = styled(BaseText)({
-  marginTop: 2,
-  marginBottom: 4,
+  marginTop: 6,
+  marginBottom: 20,
   fontSize: 10,
   fontWeight: "500",
   fontStyle: "normal",
-  lineHeight: 12,
+  lineHeight: 14.5,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.greyishBrownThree,
 });
 const Text1 = styled(BaseText)({
   fontSize: 14,
@@ -109,18 +114,18 @@ const Text1 = styled(BaseText)({
 
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.greyishBrownThree,
 });
 const GrayContainer = styled.View({
-  backgroundColor: colors.white,
-  paddingLeft: 21,
-  paddingRight: 21,
-  paddingTop: 10,
+  backgroundColor: colors.white2,
+  paddingLeft: 24,
+  paddingRight: 24,
+  paddingTop: 16,
   paddingBottom: 10,
   width: "100%",
 });
 const BaseButton = styled(BaseButtonContainer)({
-  width: screenWidth * 0.333,
+  width: SCREEN_WIDTH * 0.333,
   maxWidth: 120,
   marginLeft: 3,
   marginRight: 3,

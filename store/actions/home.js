@@ -1,11 +1,13 @@
 import queryString from "query-string";
-import { API_URL } from "@constants/settings";
-import * as Util from "@util";
-import * as Network from "@util/network";
+import { API_URL } from "../../constants";
+import * as Util from "../../util";
+import * as Network from "../../util/network";
 
 export const SET_HOME_BANNER = "SET_HOME_BANNER";
 export const SET_HOME_NOTICE = "SET_HOME_NOTICE";
 export const SET_HOME_NOTICE_MORE = "SET_HOME_NOTICE_MORE";
+export const SET_HOME_PRODUCTS = "SET_HOME_PRODUCTS";
+export const SET_HOME_PRODUCTS_MORE = "SET_HOME_PRODUCTS_MORE";
 export const SET_HOME_NARO = "SET_HOME_NARO";
 export const SET_STORE_POPUP = "SET_STORE_POPUP";
 export const SET_APP_POPUP = "SET_APP_POPUP";
@@ -45,6 +47,32 @@ export const fetchHomeNotice = (query = {}) => {
         type = SET_HOME_NOTICE;
       }
       dispatch({ type: type, homeNotice: resData.data });
+    } catch (err) {
+      throw err;
+    }
+  };
+};
+
+export const fetchHomeProducts = (query = {}) => {
+  query.limit = 45;
+  if (!query.page) query.page = "1";
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/home-product`,
+    query: query,
+  });
+
+  return async (dispatch, getState) => {
+    try {
+      const response = await fetch(url);
+      const resData = await Network.getResponse(response, dispatch, url, query);
+      let type = SET_HOME_PRODUCTS;
+      if (query.page > 1) {
+        type = SET_HOME_PRODUCTS_MORE;
+      } else {
+        type = SET_HOME_PRODUCTS;
+      }
+      dispatch({ type: type, homeProducts: resData.data });
+      return resData.data;
     } catch (err) {
       throw err;
     }

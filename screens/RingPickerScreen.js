@@ -9,24 +9,24 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { SERVER_URL } from "@constants/settings";
+import { SERVER_URL } from "../constants";
 
-import * as CommonActions from "@actions/common";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+import * as CommonActions from "../store/actions/common";
+import { ExtendedWebView } from "../components/UI/ExtendedWebView";
 import {
   StyleConstants,
   BaseImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
-} from "@UI/BaseUI";
-import BaseScreen from "@components/BaseScreen";
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+} from "../components/UI/BaseUI";
+import BaseScreen from "../components/BaseScreen";
 import {
   createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../store/actions/common";
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -44,10 +44,11 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
   return (
     <BaseScreen isPadding={false} isScroll={false}>
       <ExtendedWebView
+        startInLoadingState={true}
         style={{
-          height: screenHeight,
+          height: SCREEN_HEIGHT,
           opacity: 0.99,
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
         cacheMode="LOAD_CACHE_ELSE_NETWORK"
         source={{

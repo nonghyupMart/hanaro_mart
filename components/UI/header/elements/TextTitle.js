@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../../../../components/UI/BaseUI";
 
 const TextTitle = (props) => {
   return (

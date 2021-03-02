@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import { useIsFocused } from "@react-navigation/native";
 import { View, Text, StyleSheet, AppState } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { SERVER_URL, API_URL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import _ from "lodash";
 const NaroTubeScreen = (props) => {
   const isFocused = useIsFocused();
@@ -42,6 +42,7 @@ const NaroTubeScreen = (props) => {
       // isBottomNavigation={false}
     >
       <ExtendedWebView
+        startInLoadingState={true}
         source={{
           // uri: `https://www.naver.com`,
           uri: url,

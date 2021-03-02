@@ -15,16 +15,16 @@ import {
   BlueButtonText,
   BaseText,
   ScaledImage,
-  screenWidth,
-} from "@UI/BaseUI";
+  SCREEN_WIDTH,
+} from "../../components/UI/BaseUI";
 import _ from "lodash";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { StoreBox, BottomCover } from "@components/store/InfoBox";
-import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
-import MemberInfo from "@components/myPage/MemberInfo";
-import * as authActions from "@actions/auth";
-import { setAlert, setIsLoading } from "@actions/common";
+import BaseScreen from "../../components/BaseScreen";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { StoreBox, BottomCover } from "../../components/store/InfoBox";
+import { WhiteContainer } from "../../screens/snb/StoreChangeScreen";
+import MemberInfo from "../../components/myPage/MemberInfo";
+import * as authActions from "../../store/actions/auth";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 import { ButtonGroup } from "react-native-elements";
 import * as Updates from "expo-updates";
 
@@ -111,8 +111,8 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       <MemberInfo />
       <WhiteContainer style={{ padding: 23, paddingTop: 12, flex: 1 }}>
         <ScaledImage
-          source={require("@images/mem_out01.png")}
-          width={screenWidth - 48}
+          source={require("../../assets/images/mem_out01.png")}
+          width={SCREEN_WIDTH - 48}
         />
 
         <BorderContainer2>
@@ -181,10 +181,14 @@ const Radio = (props) => {
     <View>
       <View style={{ flexDirection: "row", marginLeft: 23 }}>
         {props.selectedIndex == props.index && (
-          <Image source={require("@images/check_circle_on_3.png")} />
+          <Image
+            source={require("../../assets/images/check_circle_on_3.png")}
+          />
         )}
         {props.selectedIndex != props.index && (
-          <Image source={require("@images/check_circle_off_3.png")} />
+          <Image
+            source={require("../../assets/images/check_circle_off_3.png")}
+          />
         )}
 
         <BtnText>{props.text}</BtnText>

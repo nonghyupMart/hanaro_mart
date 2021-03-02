@@ -9,19 +9,24 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
-import { BaseImage, screenWidth, screenHeight, BaseText } from "@UI/BaseUI";
-import * as flyerActions from "@actions/flyer";
+import {
+  BaseImage,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as flyerActions from "../store/actions/flyer";
 import {
   BaseTouchable,
   BaseSquareButtonContainer,
   ButtonText,
   BaseTextInput,
 } from "./UI/BaseUI";
-import * as Util from "@util";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { setAlert } from "@actions/common";
+import * as Util from "../util";
+import * as RootNavigation from "../navigation/RootNavigation";
+import { setAlert } from "../store/actions/common";
 import _ from "lodash";
-import { SET_PRODUCT_DETAIL } from "@actions/flyer";
+import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
 
 const ProductPopup = (props) => {
   if (!props.item) return <></>;
@@ -90,13 +95,13 @@ const ProductPopup = (props) => {
         <CloseBtnContainer
           onPress={props.setIsVisible.bind(this, !props.isVisible)}
         >
-          <Image source={require("@images/cross0104.png")} />
+          <Image source={require("../assets/images/cross0104.png")} />
         </CloseBtnContainer>
         <Body contentContainerStyle={{ alignItems: "center" }}>
           <BaseImage
             style={{
-              width: screenWidth * 0.566,
-              height: screenWidth * 0.566,
+              width: SCREEN_WIDTH * 0.566,
+              height: SCREEN_WIDTH * 0.566,
               aspectRatio: 1 / 1,
               marginTop: 18,
             }}
@@ -114,14 +119,14 @@ const ProductPopup = (props) => {
           )}
           {/* <QuantityContainer>
               <QContainer>
-                <Image source={require("@images/clipboard02.png")} />
+                <Image source={require("../assets/images/clipboard02.png")} />
                 <QuantityTitle>수량</QuantityTitle>
               </QContainer>
               <QButtonContainer>
                 <TouchableOpacity
                   onPress={() => setItem_amount(parseInt(item_amount) + 1)}
                 >
-                  <Image source={require("@images/sp107.png")} />
+                  <Image source={require("../assets/images/sp107.png")} />
                 </TouchableOpacity>
                 <QInput
                   keyboardType="numeric"
@@ -133,7 +138,7 @@ const ProductPopup = (props) => {
                     item_amount > 1 ? setItem_amount(item_amount - 1) : null
                   }
                 >
-                  <Image source={require("@images/sp108.png")} />
+                  <Image source={require("../assets/images/sp108.png")} />
                 </TouchableOpacity>
               </QButtonContainer>
             </QuantityContainer>
@@ -152,7 +157,13 @@ const ProductPopup = (props) => {
                   카드할인
                 </Notice0>
                 <NoticeRight>
-                  <Notice2 style={{ color: colors.cerulean, paddingLeft: 15 }}>
+                  <Notice2
+                    style={{
+                      color: colors.cerulean,
+                      paddingLeft: 15,
+                      flexGrow: 0.4,
+                    }}
+                  >
                     {Util.formatNumber(props.item.card_price)}원
                   </Notice2>
                   <Notice2
@@ -160,6 +171,7 @@ const ProductPopup = (props) => {
                       textAlign: "right",
                       color: colors.cerulean,
                       paddingRight: 4,
+                      flexShrink: 0,
                     }}
                   >
                     {`카드할인가 ${Util.formatNumber(
@@ -299,13 +311,13 @@ const ProductPopup = (props) => {
           <BtnContainer style={{}}>
             {/* <BlueBtn onPress={onAddCart}>
                 <Image
-                  source={require("@images/baseline-shopping_cart-24px.png")}
+                  source={require("../assets/images/baseline-shopping_cart-24px.png")}
                 />
                 <BtnText>장바구니</BtnText>
               </BlueBtn> */}
             <GrayBtn onPress={props.setIsVisible.bind(this, !props.isVisible)}>
               {/* <Image
-                  source={require("@images/whiteback.png")}
+                  source={require("../assets/images/whiteback.png")}
                 /> */}
               <BtnText>닫기</BtnText>
             </GrayBtn>
@@ -328,7 +340,7 @@ const NoticeRight = styled.View({
   flex: 1,
 });
 const Notice0 = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 16,
@@ -344,7 +356,7 @@ const Notice0 = styled(BaseText)({
   width: "25%",
 });
 const Notice1 = styled(BaseText)({
-  fontSize: 11,
+  fontSize: Util.normalize(10),
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 16,
@@ -356,8 +368,8 @@ const Notice1 = styled(BaseText)({
   flex: 1,
 });
 const Notice2 = styled(BaseText)({
-  fontSize: 11,
-  fontFamily: "CustomFont-Bold",
+  fontSize: Util.normalize(10),
+  fontFamily: "Roboto-Bold",
   lineHeight: 16,
   letterSpacing: 0,
 
@@ -444,11 +456,14 @@ const Notice = styled(BaseText)({
 });
 const NoticeContainer = styled.View({
   marginTop: 0,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width:
+    SCREEN_WIDTH > 320
+      ? SCREEN_WIDTH - 20.5 - 20.5 - 50
+      : SCREEN_WIDTH - 20.5 - 20.5 - 35,
 });
 const BorderLine = styled.View({
   marginTop: 6.5,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
   height: 1,
   backgroundColor: colors.white,
 });
@@ -464,10 +479,10 @@ const BtnText = styled(BaseText)({
 });
 const BlueBtn = styled(BaseSquareButtonContainer)({
   backgroundColor: colors.cerulean,
-  height: screenWidth * 0.1,
+  height: SCREEN_WIDTH * 0.1,
   flexDirection: "row",
   flexGrow: 0,
-  width: screenWidth * 0.333,
+  width: SCREEN_WIDTH * 0.333,
   marginLeft: 2.5,
   marginRight: 2.5,
 });
@@ -483,7 +498,7 @@ const BtnContainer = styled.View({
   flexDirection: "row",
   alignItems: "flex-end",
   marginBottom: 0,
-  width: screenWidth - 20.5 - 20.5 - 50,
+  width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
@@ -505,7 +520,7 @@ const TotalUnit = styled(BaseText)({
 });
 const Total = styled(BaseText)({
   fontSize: 22,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 32,
   letterSpacing: 0,
@@ -579,7 +594,7 @@ const SalePrice = styled(BaseText)({
 });
 const Price = styled(BaseText)({
   fontSize: 18,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 
   lineHeight: 24,
   letterSpacing: 0,
@@ -629,7 +644,7 @@ const Container = styled.View({
   width: "100%",
   paddingBottom: 15,
 
-  // height: screenHeight * 0.784,
+  // height: SCREEN_HEIGHT * 0.784,
   // aspectRatio: 54.86 / 105,
 });
 const styles = StyleSheet.create({});

@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "@UI/Carousel";
+import Carousel from "../../components/UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
-import * as CommonActions from "@actions/common";
-import * as homeActions from "@actions/home";
+import * as CommonActions from "../../store/actions/common";
+import * as homeActions from "../../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "@actions/home";
+import { SET_STORE_POPUP } from "../../store/actions/home";
 import moment from "moment";
 
 const StorePopup = (props) => {
@@ -143,7 +143,7 @@ const StorePopup = (props) => {
                   if (item.link_url != "") Linking.openURL(item.link_url);
                 }}
               >
-                <Image source={item.display_img} width={screenWidth} />
+                <Image source={item.display_img} width={SCREEN_WIDTH} />
               </TouchableOpacity>
             );
           })}
@@ -163,8 +163,8 @@ const StorePopup = (props) => {
 };
 const Image = styled(BaseImage)({
   resizeMode: "cover",
-  width: screenWidth,
-  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+  width: SCREEN_WIDTH,
+  height: () => (Platform.OS == "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
 });
 const BtnContainer = styled.View({ flexDirection: "row" });
 const BtnText = styled(BaseText)({

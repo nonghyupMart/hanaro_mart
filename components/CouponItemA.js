@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
-import * as Util from "@util";
+import {
+  BaseImage,
+  SCREEN_WIDTH,
+  BaseTouchable,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as Util from "../util";
 
 const CouponItemA = (props) => {
   return (
@@ -22,25 +27,25 @@ const CouponItemA = (props) => {
         </TitleContainer>
         {props.item.status == "00" && (
           <IconContainer onPress={props.onPress}>
-            <Image source={require("@images/download25.png")} />
+            <Image source={require("../assets/images/download25.png")} />
             <IconText style={{ color: colors.blueyGreen }}>쿠폰받기</IconText>
           </IconContainer>
         )}
         {props.item.status == "10" && (
           <IconContainer onPress={props.onPress}>
-            <Image source={require("@images/use25.png")} />
+            <Image source={require("../assets/images/use25.png")} />
             <IconText style={{ color: colors.booger }}>사용하기</IconText>
           </IconContainer>
         )}
         {props.item.status == "20" && (
           <IconContainer2 onPress={props.onPress}>
-            <Image source={require("@images/timer25.png")} />
+            <Image source={require("../assets/images/timer25.png")} />
             <IconText style={{ color: colors.silver }}>사용완료</IconText>
           </IconContainer2>
         )}
         {props.item.status == "30" && (
           <IconContainer2 onPress={props.onPress}>
-            <Image source={require("@images/timer25.png")} />
+            <Image source={require("../assets/images/timer25.png")} />
             <IconText style={{ color: colors.silver }}>쿠폰소진완료</IconText>
           </IconContainer2>
         )}
@@ -96,7 +101,7 @@ const TextContainer = styled.View({
 });
 const CouponImgA = styled(BaseImage)({
   // flex: 0.375,
-  width: screenWidth * 0.311,
+  width: SCREEN_WIDTH * 0.311,
   // flex: 1,
   marginRight: 15,
   // height: 100,
@@ -111,6 +116,6 @@ const CouponContainer = styled.View({
   borderWidth: 1,
   borderColor: colors.white,
   padding: 15,
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
+  marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });
 export default CouponItemA;

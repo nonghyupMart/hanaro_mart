@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { debounce } from "lodash"; // 4.0.8
-import Barcoder from "@util/barcode";
-import { Share } from "react-native";
-import { SERVER_URL } from "@constants/settings";
+import Barcoder from "./barcode";
+import { Share, Dimensions, PixelRatio } from "react-native";
+import { SERVER_URL } from "../constants";
 
-import AesUtil from "@util/aes_util";
+import AesUtil from "./aes_util";
 var g_keySize = 128;
 var g_iterationCount = 10000;
 var g_salt = "79752f1d3fd2432043c48e45b35b24645eb826a25c6f1804e9152665c345a552";
@@ -113,3 +113,13 @@ export const sendShareLink = async (reference) => {
 export const pad = (n, number) => {
   return new Array(n).join("0").slice((n || 2) * -1) + number;
 };
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+
+// based on iphone 5s's scale
+const scale = SCREEN_WIDTH / 320;
+
+export function normalize(size) {
+  const newSize = size * scale;
+  return Math.round(PixelRatio.roundToNearestPixel(newSize));
+}

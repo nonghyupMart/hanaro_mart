@@ -1,32 +1,32 @@
 import React, { useEffect, useState, Fragment } from "react";
-import { SERVER_URL } from "@constants/settings";
+import { SERVER_URL } from "../../constants";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as Updates from "expo-updates";
 import { View, StyleSheet, Image } from "react-native";
 import _ from "lodash";
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
-} from "@UI/BaseUI";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import * as Util from "@util";
-import colors from "@constants/colors";
+} from "../../components/UI/BaseUI";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import * as Util from "../../util";
+import colors from "../../constants/Colors";
 
-import StoreItem from "@components/store/StoreItem";
-import BaseScreen from "@components/BaseScreen";
-import * as homeActions from "@actions/home";
+import StoreItem from "../../components/store/StoreItem";
+import BaseScreen from "../../components/BaseScreen";
+import * as homeActions from "../../store/actions/home";
 
-import * as branchesActions from "@actions/branches";
-import { setUserStore, saveUserStore } from "@actions/auth";
-import { setAlert, setIsLoading } from "@actions/common";
-import { SET_BRANCH } from "@actions/branches";
-import * as CommonActions from "@actions/common";
-import * as RootNavigation from "@navigation/RootNavigation";
+import * as branchesActions from "../../store/actions/branches";
+import { setUserStore, saveUserStore } from "../../store/actions/auth";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import { SET_BRANCH } from "../../store/actions/branches";
+import * as CommonActions from "../../store/actions/common";
+import * as RootNavigation from "../../navigation/RootNavigation";
 
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
@@ -78,13 +78,14 @@ const StoreChangeDetailScreen = (props) => {
       })
     );
   };
-  const saveStore = () => {
+  const saveStore = async () => {
     if (!branch || !branch.storeInfo) return;
-    dispatch(setIsLoading(true));
+    await dispatch(setIsLoading(true));
     if (!isJoin) {
-      dispatch(saveUserStore(branch));
-      props.navigation.navigate("Home");
-      dispatch(setIsLoading(false));
+      await dispatch(saveUserStore(branch));
+      await props.navigation.navigate("Home");
+      await dispatch(CommonActions.setDidTryPopup(false));
+      await dispatch(setIsLoading(false));
       return;
     }
     let msg;
@@ -130,13 +131,14 @@ const StoreChangeDetailScreen = (props) => {
     >
       <StoreBox
         style={{
-          height: screenWidth - 30,
+          height: SCREEN_WIDTH - 30,
           flexDirection: "row",
           overflow: "hidden",
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
       >
         <ExtendedWebView
+          startInLoadingState={true}
           indicatorSize="small"
           key={location}
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
@@ -193,7 +195,7 @@ const StoreChangeDetailScreen = (props) => {
               flex: 1,
             }}
           >
-            <Image source={require("@images/num407.png")} />
+            <Image source={require("../../assets/images/num407.png")} />
             <View style={{ flex: 1 }}>
               <BaseText
                 style={{
@@ -224,7 +226,9 @@ const StoreChangeDetailScreen = (props) => {
             </View>
             <BaseTouchable
               onPress={() =>
-                !_.isEmpty(userStore) ? storeChangeHandler() : saveStore()
+                _.isEmpty(userStore) || !isJoin
+                  ? saveStore()
+                  : storeChangeHandler()
               }
             >
               <View
@@ -237,7 +241,9 @@ const StoreChangeDetailScreen = (props) => {
                   alignItems: "center",
                 }}
               >
-                <Image source={require("@images/locationwhite.png")} />
+                <Image
+                  source={require("../../assets/images/locationwhite.png")}
+                />
                 <BaseText
                   style={{
                     marginTop: 2,
@@ -322,7 +328,7 @@ const BottomCover = styled.ImageBackground({
   flex: 1,
 });
 BottomCover.defaultProps = {
-  source: require("@images/num_m.png"),
+  source: require("../../assets/images/num_m.png"),
   resizeMode: "cover",
 };
 const BlueBaseText = styled(BaseText)({
@@ -338,7 +344,7 @@ const BlueBaseText = styled(BaseText)({
 const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
 Plus.defaultProps = {
-  source: require("@images/plusblue.png"),
+  source: require("../../assets/images/plusblue.png"),
 };
 const StoreBox = styled.View({
   flex: 1,
@@ -369,7 +375,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryBaseText: {
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 18,
   },
   amount: {

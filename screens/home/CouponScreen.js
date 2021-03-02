@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as couponActions from "@actions/coupon";
-import CouponItem from "@components/CouponItem";
-import CouponItemA from "@components/CouponItemA";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { BackButton, TextTitle } from "@UI/header";
-import { BaseImage, screenWidth } from "@UI/BaseUI";
+import * as couponActions from "../../store/actions/coupon";
+import CouponItem from "../../components/CouponItem";
+import CouponItemA from "../../components/CouponItemA";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { BaseImage, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import { useFocusEffect } from "@react-navigation/native";
 // import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "@actions/common";
-import NoList from "@UI/NoList";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import NoList from "../../components/UI/NoList";
 
 const CouponScreen = (props) => {
   const routeName = props.route.name;
@@ -147,7 +147,7 @@ const CouponScreen = (props) => {
   )
     return (
       <NoList
-        source={require("@images/wallet.png")}
+        source={require("../../assets/images/wallet.png")}
         text={"나의 쿠폰"}
         infoText="나의 쿠폰이 없습니다."
       />
@@ -158,7 +158,10 @@ const CouponScreen = (props) => {
     _.size(coupon.couponList) === 0
   )
     return (
-      <NoList source={require("@images/ticketWhite.png")} text={"나로쿠폰"} />
+      <NoList
+        source={require("../../assets/images/ticketWhite.png")}
+        text={"쿠폰"}
+      />
     );
   return (
     <BaseScreen
@@ -242,7 +245,7 @@ export const screenOptions = ({ navigation }) => {
     title: "나의 쿠폰",
     cardStyle: {
       backgroundColor: colors.trueWhite,
-      paddingBottom: 65,
+      paddingBottom: 50,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

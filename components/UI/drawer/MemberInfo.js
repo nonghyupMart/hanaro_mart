@@ -1,66 +1,63 @@
 import React from "react";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import { Platform, Text, View, StyleSheet, Image } from "react-native";
-import {
-  BaseTouchable,
-  screenWidth,
-  BaseButtonContainer,
-  screenHeight,
-  BaseText,
-} from "@UI/BaseUI";
-import Constants from "expo-constants";
+import { View, Image } from "react-native";
+import { BaseText, SCREEN_WIDTH } from "../../UI/BaseUI";
 import _ from "lodash";
-
 import { LinearGradient } from "expo-linear-gradient";
-import UserName from "@UI/UserName";
-import UserPhoneNumber from "@UI/UserPhoneNumber";
+import UserName from "../../UI/UserName";
+import UserPhoneNumber from "../../UI/UserPhoneNumber";
+import * as Util from "../../../util";
+
 const MemberInfo = (props) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
   return (
-    <>
-      <MemberInfoContainer>
-        <MemberContainer>
-          {/* <Text1>회원번호</Text1> */}
-          <MemberID style={{ flexDirection: "row" }}>
-            <Image source={require("@images/user.png")} />
-            <Text2>
-              <UserName />
-            </Text2>
-            <Text3>님</Text3>
-          </MemberID>
-          <Text4>
-            <UserPhoneNumber />
-          </Text4>
-        </MemberContainer>
-        <BaseTouchable onPress={() => props.navigation.closeDrawer()}>
-          <Image source={require("@images/ic_close_24px.png")} />
-        </BaseTouchable>
-      </MemberInfoContainer>
-      <GradientBar></GradientBar>
-    </>
+    <MemberInfoContainer>
+      <MemberContainer>
+        {/* <Text1>회원번호</Text1> */}
+        <MemberID style={{ flexDirection: "row" }}>
+          <Image
+            source={require("../../../assets/images/ic_user.png")}
+            style={{
+              width: Util.normalize(33.6),
+              resizeMode: "contain",
+            }}
+          />
+          <View style={{ marginLeft: 12.7 }}>
+            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+              <Text2>
+                <UserName />
+              </Text2>
+              <Text3>님</Text3>
+            </View>
+            <Text4>
+              <UserPhoneNumber />
+            </Text4>
+          </View>
+        </MemberID>
+      </MemberContainer>
+    </MemberInfoContainer>
   );
 };
 const MemberID = styled.View({
   alignItems: "center",
+  marginTop: Util.normalize(46),
 });
 const Text1 = styled(BaseText)({
   fontSize: 12,
-
   color: "#b5b5b5",
   lineHeight: 14,
 });
 const Text2 = styled(BaseText)({
-  fontSize: 24,
+  fontSize: 21,
   color: colors.black,
-  marginLeft: 6,
-  marginRight: 9,
+  marginRight: 5,
   height: 28,
   lineHeight: 28,
+  fontFamily: "Roboto-Medium",
 });
 const Text3 = styled(BaseText)({
-  fontSize: 14,
+  fontSize: 12,
   color: colors.black,
+  fontFamily: "Roboto-Bold",
 });
 const Text4 = styled(BaseText)({
   fontSize: 16,
@@ -73,8 +70,8 @@ const MemberInfoContainer = styled.View({
   backgroundColor: colors.trueWhite,
   paddingRight: 16,
   paddingLeft: 21,
-  paddingBottom: 10,
-  paddingTop: 5,
+  // paddingBottom: 10,
+  paddingTop: 0,
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",

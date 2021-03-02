@@ -13,9 +13,9 @@ import {
   Image,
 } from "react-native";
 import Constants from "expo-constants";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseSquareButtonContainer,
   ButtonText,
@@ -23,18 +23,19 @@ import {
   StyleConstants,
   BaseText,
   BaseTextInput,
-} from "@UI/BaseUI";
-import { formatPhoneNumber } from "@util";
+} from "../../components/UI/BaseUI";
+
 import moment from "moment";
 import * as Notifications from "expo-notifications";
 
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 import { setIsJoin, saveIsJoinToStorage } from "../../store/actions/auth";
-import * as authActions from "@actions/auth";
-import * as branchesActions from "@actions/branches";
-import * as CommonActions from "@actions/common";
+import * as authActions from "../../store/actions/auth";
+import * as branchesActions from "../../store/actions/branches";
+import * as CommonActions from "../../store/actions/common";
 import _ from "lodash";
-import * as Util from "@util";
+import * as Util from "../../util";
+import JoinPopupContent from "./JoinPopupContent";
 
 const TEST_PHONE_NUMBER = "01999999999";
 
@@ -51,7 +52,7 @@ const JoinStep2Screen = ({ navigation }) => {
   const [isRequestedJoin, setIsRequestedJoin] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [timer, setTimer] = useState();
@@ -188,7 +189,9 @@ const JoinStep2Screen = ({ navigation }) => {
       <ScrollContainer keyboardShouldPersistTaps="handled">
         <DescText>{`아래의 휴대폰번호로 SMS 인증번호 6자리를\n보내드립니다.`}</DescText>
         <TextInputContainer style={{ marginBottom: 7 }}>
-          <Image source={require("@images/ic_phone_iphone_24px.png")} />
+          <Image
+            source={require("../../assets/images/ic_phone_iphone_24px.png")}
+          />
           <Label style={{ marginLeft: 10, marginRight: 10 }}>휴대폰번호</Label>
           <InputText
             // ref={(ref) => setPhoneNumberRef(ref)}
@@ -225,7 +228,7 @@ const JoinStep2Screen = ({ navigation }) => {
             <DescText>{`통신사의 사정에 따라 SMS 전송시간이 다소 지연될 수 있습니다.`}</DescText>
             <View style={{ flexDirection: "row" }}>
               <TextInputContainer style={{ marginRight: 8 }}>
-                <Image source={require("@images/help.png")} />
+                <Image source={require("../../assets/images/help.png")} />
                 <Label
                   style={{ marginLeft: 10, marginRight: 10 }}
                   onPress={() => {
@@ -329,7 +332,7 @@ export const signup = async (query, dispatch, agreedStatus) => {
             await dispatch(authActions.saveUserStore(storeData));
             dispatch(
               setAlert({
-                content: await popupConetnt(agreedStatus, userInfo),
+                content: <JoinPopupContent />,
                 onPressConfirm: async () => {
                   await dispatch(setAlert(null));
                   await dispatch(CommonActions.setDidTryPopup(false));
@@ -343,7 +346,7 @@ export const signup = async (query, dispatch, agreedStatus) => {
         await dispatch(setIsLoading(false));
         dispatch(
           setAlert({
-            content: await popupConetnt(agreedStatus, userInfo),
+            content: <JoinPopupContent />,
             onPressConfirm: async () => {
               await dispatch(setAlert(null));
               await dispatch(CommonActions.setDidTryPopup(false));
@@ -373,92 +376,7 @@ const ScrollContainer = styled.ScrollView({
   paddingLeft: StyleConstants.defaultPadding,
   marginTop: 20,
 });
-const GreenText = styled(BaseText)({
-  fontSize: 18,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 28,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.appleGreen,
-});
-const WhiteText = styled(BaseText)({
-  fontSize: 24,
-  color: colors.trueWhite,
-  textAlign: "center",
-});
-const Container = styled.View({
-  marginTop: 0,
-  paddingBottom: 30,
-});
-const Line = styled.View({
-  flexDirection: "row",
-  marginLeft: 50,
-  marginRight: 50,
-  flexShrink: 1,
-});
-const SmallText = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 25,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.trueWhite,
-  marginLeft: 10,
-  flexShrink: 1,
-});
-const Icon = styled.Image({ marginTop: 5 });
-export const popupConetnt = (agreedStatus, userInfo) => {
-  const date = moment();
-  return (
-    <Container>
-      <GreenText>전화번호 인증이 완료되었습니다.</GreenText>
-      <WhiteText>
-        {userInfo && userInfo.user_id
-          ? formatPhoneNumber(userInfo.user_id)
-          : ""}
-      </WhiteText>
-      <Text6>{`고객님께서는 ${date.format("YYYY")}년 ${date.format(
-        "MM"
-      )}월 ${date.format("DD")}일\n아래항목에 동의하셨습니다.`}</Text6>
-      <List
-        data={Object.keys(agreedStatus)}
-        keyExtractor={(item, index) => `${index}`}
-        renderItem={({ item, index, separators }) => {
-          if (agreedStatus[item].isChecked)
-            return (
-              <Line
-                style={{
-                  marginTop: index == 0 ? 20 : 0,
-                  // marginBottom:
-                  //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
-                }}
-              >
-                <Icon source={require("@images/checkmark.png")} />
-                <SmallText>{agreedStatus[item].title}</SmallText>
-              </Line>
-            );
-        }}
-      />
-    </Container>
-  );
-};
-export const Text6 = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 20,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.trueWhite,
-  // marginLeft: 10,
-  flexShrink: 1,
-  marginRight: 20,
-  marginTop: 10,
-  marginBottom: 0,
-});
-export const List = styled.FlatList({ marginTop: -10 });
+
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",

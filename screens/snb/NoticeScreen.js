@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { SERVER_URL, API_URL } from "../../constants";
 import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 
 const NoticeScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -17,12 +17,18 @@ const NoticeScreen = (props) => {
     (async () => {
       let stringifyUrl;
       if (!query && userStore && userStore.storeInfo) {
+        props.navigation.setOptions({
+          title: "매장 공지사항",
+        });
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
           query: { type: "C", store_cd: userStore.storeInfo.store_cd },
         });
         setUrl(stringifyUrl);
       } else {
+        props.navigation.setOptions({
+          title: "통합 공지사항",
+        });
         stringifyUrl = queryString.stringifyUrl({
           url: `${SERVER_URL}/web/community/notice.do`,
           query: props.route.params,
@@ -39,6 +45,7 @@ const NoticeScreen = (props) => {
       // isBottomNavigation={false}
     >
       <ExtendedWebView
+        startInLoadingState={true}
         source={{
           // uri: `https://www.naver.com`,
           uri: url,

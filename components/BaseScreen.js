@@ -14,12 +14,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { useHeaderHeight } from "@react-navigation/stack";
-import * as CommonActions from "@actions/common";
+import * as CommonActions from "../store/actions/common";
 import Constants from "expo-constants";
-import { StyleConstants } from "@UI/BaseUI";
+import { StyleConstants } from "../components/UI/BaseUI";
 import _ from "lodash";
-import * as Util from "@util";
-import { setAlert, setIsLoading } from "@actions/common";
+import * as Util from "../util";
+import { setAlert, setIsLoading } from "../store/actions/common";
 
 const Contents = (props) => {
   return <>{props.children}</>;

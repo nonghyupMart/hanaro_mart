@@ -7,19 +7,19 @@ import {
   TouchableOpacity,
   AppState,
 } from "react-native";
-import Carousel from "@UI/Carousel";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+import Carousel from "../../components/UI/Carousel";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import {
   StyleConstants,
   BaseImage,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import URI from "urijs";
-import * as homeActions from "@actions/home";
+import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const NaroTube = (props) => {
   const [appState, setAppState] = useState(AppState.currentState);
@@ -50,7 +50,7 @@ const NaroTube = (props) => {
       <NaroTubeContainer>
         {/* <Carousel
           delay={3000}
-          style={{ height: screenWidth * 0.555, width: "100%" }}
+          style={{ height: SCREEN_WIDTH * 0.555, width: "100%" }}
           autoplay={false}
           pageInfo={true}
           bullets={false}
@@ -81,9 +81,9 @@ const NaroTube = (props) => {
               bounces={false}
               key={`${key}${item.naro_cd}`}
               style={{
-                height: screenWidth * 0.555,
+                height: SCREEN_WIDTH * 0.555,
                 opacity: 0.99,
-                width: screenWidth - 10,
+                width: SCREEN_WIDTH - 10,
                 marginLeft: 5,
                 marginRight: 5,
                 marginTop: 5,
@@ -137,6 +137,6 @@ const NaroTubeContainer = styled.View({
   // marginTop: 10,
   backgroundColor: colors.trueWhite,
   width: "100%",
-  // height: screenWidth * 0.555,
+  // height: SCREEN_WIDTH * 0.555,
 });
 export default NaroTube;

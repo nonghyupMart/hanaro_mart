@@ -2,30 +2,21 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import * as RootNavigation from "../../../../navigation/RootNavigation";
+import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { IconImage } from "./HomeHeaderLeft";
 
 const HomeHeaderRight = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   if (_.isEmpty(userStore)) return <></>;
   return (
     <BtnContainer>
-      <Btn onPress={() => RootNavigation.navigate("SearchProduct")}>
-        <MaterialIcons name="search" size={24} color={colors.pine} />
-      </Btn>
       <Btn
-        onPress={() => RootNavigation.navigate("Notification")}
-        style={{ paddingRight: 10 }}
+        onPress={() => RootNavigation.navigate("SearchProduct")}
+        style={{ paddingRight: 21 }}
       >
-        <MaterialIcons
-          name="notifications-none"
-          size={24}
-          color={colors.pine}
-        />
+        <IconImage source={require("../../../../assets/images/search.png")} />
       </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
@@ -53,7 +44,7 @@ const Container = styled.View({
 });
 const BranchName = styled(BaseText)({
   fontSize: 15,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",

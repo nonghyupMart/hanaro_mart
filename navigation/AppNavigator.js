@@ -4,12 +4,12 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
 import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
-import StartupScreen from "@screens/StartupScreen";
-import PopupScreen from "@screens/PopupScreen";
-import Alert from "@UI/Alert";
-import Loading from "@UI/Loading";
-import colors from "@constants/colors";
-import * as CommonActions from "@actions/common";
+import StartupScreen from "../screens/StartupScreen";
+import PopupScreen from "../screens/PopupScreen";
+import Alert from "../components/UI/Alert";
+import Loading from "../components/UI/Loading";
+import colors from "../constants/Colors";
+import * as CommonActions from "../store/actions/common";
 import * as Notifications from "expo-notifications";
 import { BackHandler } from "react-native";
 import * as Device from "expo-device";
@@ -37,10 +37,8 @@ const AppNavigator = (props) => {
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
 
   const currentScreen = () => {
-    if (!isPreview && isJoin && didTryAutoLogin && !didTryPopup)
-      return <PopupScreen />;
-    else if (isPreview && !isJoin && !didTryAutoLogin && !didTryPopup)
-      return <StartupScreen />;
+    if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
+    else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
     else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
       return <MainNavigator />;

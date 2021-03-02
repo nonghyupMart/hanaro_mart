@@ -1,9 +1,8 @@
 import queryString from "query-string";
 import { AsyncStorage } from "react-native";
-import { API_URL, PRODUCT_SERVER_URL } from "@constants/settings";
-import { clearStorePopup } from "@actions/home";
-import * as Util from "@util";
-import * as Network from "@util/network";
+import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
+import * as Util from "../../util";
+import * as Network from "../../util/network";
 import _ from "lodash";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
@@ -16,8 +15,6 @@ export const SET_IS_JOIN = "SET_IS_JOIN";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const WITHDRAWAL = "WITHDRAWAL";
 export const SET_CI = "SET_CI";
-
-let timer;
 
 export const setDidTryAL = () => {
   return { type: SET_DID_TRY_AL };
@@ -53,7 +50,8 @@ export const signup = (query) => {
     });
     const resData = await Network.getResponse(response, dispatch, url, query);
 
-    if (!resData.data.userInfo.user_cd) return resData.data.userInfo;
+    if (resData.data.userInfo && !resData.data.userInfo.user_cd)
+      return resData.data.userInfo;
     dispatch(setUserInfo(resData.data.userInfo));
     saveUserInfoToStorage(resData.data.userInfo);
     return resData.data.userInfo;
@@ -81,7 +79,9 @@ export const setCI = (ci) => {
   return { type: SET_CI, ci: ci };
 };
 export const saveUserStore = (userStore) => {
-  return { type: SET_USER_STORE, userStore: userStore };
+  return async (dispatch) => {
+    dispatch({ type: SET_USER_STORE, userStore: userStore });
+  };
 };
 
 export const updateLoginLog = (query) => {
@@ -190,10 +190,10 @@ export const saveIsJoinToStorage = (status) => {
   Util.setStorageItem("isJoinData", true);
 };
 
-const clearAllData = () => {
-  return AsyncStorage.getAllKeys().then((keys) => {
+const clearAllData = async () => {
+  return await AsyncStorage.getAllKeys().then(async (keys) => {
     if (_.isEmpty(keys)) return;
-    AsyncStorage.multiRemove(keys);
+    await AsyncStorage.multiRemove(keys);
   });
   // .then(() => alert('success'));
 };

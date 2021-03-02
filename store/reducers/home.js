@@ -2,14 +2,17 @@ import {
   SET_HOME_BANNER,
   SET_HOME_NOTICE,
   SET_HOME_NOTICE_MORE,
+  SET_HOME_PRODUCTS,
+  SET_HOME_PRODUCTS_MORE,
   SET_HOME_NARO,
   SET_APP_POPUP,
   SET_STORE_POPUP,
-} from "@actions/home";
+} from "../actions/home";
 
 const initialState = {
   homeBanner: null,
   homeNotice: null,
+  homeProducts: null,
   homeNaro: null,
   storePopup: null,
   appPopup: null,
@@ -39,6 +42,24 @@ export default (state = initialState, action) => {
       return {
         ...state,
         homeNotice: homeNotice,
+      };
+    case SET_HOME_PRODUCTS:
+      return {
+        ...state,
+        homeProducts: { ...action.homeProducts },
+      };
+    case SET_HOME_PRODUCTS_MORE:
+      let homeProducts = { ...state.homeProducts };
+      let newHomeProducts = { ...action.homeProducts };
+
+      let updatedProductList = homeProducts.productList.concat(
+        newHomeProducts.productList
+      );
+      homeProducts.productList = updatedProductList;
+
+      return {
+        ...state,
+        homeProducts: homeProducts,
       };
     case SET_HOME_NARO:
       return {

@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
-import * as exhibitionActions from "@actions/exhibition";
-import * as exclusiveActions from "@actions/exclusive";
-import { BackButton, TextTitle } from "@UI/header";
-import { IMAGE_URL } from "@constants/settings";
+import * as exhibitionActions from "../../store/actions/exhibition";
+import * as exclusiveActions from "../../store/actions/exclusive";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { IMAGE_URL } from "../../constants";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { SET_EXHIBITION_DETAIL } from "@actions/exhibition";
+import { SET_EXHIBITION_DETAIL } from "../../store/actions/exhibition";
 import {
   DetailContainer,
   BaseImage,
   ScaledImage,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 
-import { setAlert, setIsLoading } from "@actions/common";
-import * as CommonActions from "@actions/common";
-import { TabMenus } from "@constants/menu";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
+import { TabMenus } from "../../constants/menu";
 
 const ExhibitionDetailScreen = (props, { navigation }) => {
   const routeName = props.route.name;

@@ -9,18 +9,18 @@ import {
   View,
   ImageBackground,
 } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
+import BaseScreen from "../components/BaseScreen";
+import { BackButton, TextTitle } from "../components/UI/header";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
+  SCREEN_HEIGHT,
   BaseText,
-} from "@UI/BaseUI";
-import * as CommonActions from "@actions/common";
+} from "../components/UI/BaseUI";
+import * as CommonActions from "../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
 const BarCodeScannerScreen = (props) => {
@@ -96,7 +96,7 @@ const BarCodeScannerScreen = (props) => {
         }}
       >
         <ImageBackground
-          source={require("@images/scannerBg.png")}
+          source={require("../assets/images/scannerBg.png")}
           style={{
             width: 300,
             height: 50,
@@ -107,7 +107,7 @@ const BarCodeScannerScreen = (props) => {
             alignItems: "center",
           }}
         >
-          <Image source={require("@images/barcodeWhite.png")} />
+          <Image source={require("../assets/images/barcodeWhite.png")} />
           <Text1>영수증QR코드</Text1>
         </ImageBackground>
       </View>
@@ -128,7 +128,7 @@ const BarCodeScannerScreen = (props) => {
           paddingRight: 35,
         }}
       >
-        <Image source={require("@images/logo1pic478.png")} />
+        <Image source={require("../assets/images/logo1pic478.png")} />
         <Text2>
           {`하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
         </Text2>

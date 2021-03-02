@@ -8,12 +8,16 @@ import {
   TouchableOpacity,
   TouchableNativeFeedback,
 } from "react-native";
-import { StyleConstants, screenWidth, BaseText } from "@UI/BaseUI";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import * as RootNavigation from "@navigation/RootNavigation";
-import * as homeActions from "@actions/home";
+import {
+  StyleConstants,
+  SCREEN_WIDTH,
+  BaseText,
+} from "../../components/UI/BaseUI";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const HomeNotice = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -50,7 +54,7 @@ const HomeNotice = (props) => {
             }}
           >
             <Image
-              source={require("@images/total_n711.png")}
+              source={require("../../assets/images/total_n711.png")}
               style={{ width: "100%", marginTop: 6 }}
             />
           </TouchableOpacity>
@@ -63,7 +67,7 @@ const HomeNotice = (props) => {
             numColumns={1}
             style={{
               backgroundColor: colors.trueWhite,
-              width: screenWidth,
+              width: SCREEN_WIDTH,
               flexGrow: 1,
             }}
             data={homeNotice.noticeList}
@@ -83,8 +87,8 @@ const HomeNotice = (props) => {
                       <Image
                         source={
                           itemData.item.today_yn == "Y"
-                            ? require("@images/newicon640.png")
-                            : require("@images/ic_message_24px.png")
+                            ? require("../../assets/images/newicon640.png")
+                            : require("../../assets/images/ic_message_24px.png")
                         }
                       />
                       <NoticeTitle

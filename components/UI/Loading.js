@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-native-modal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,21 +8,22 @@ import {
   SafeAreaView,
   Platform,
 } from "react-native";
-import { screenHeight, screenWidth } from "@UI/BaseUI";
-import { setAlert, setIsLoading } from "@actions/common";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 const Loading = (props) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  let timer;
+  const timerRef = useRef(null);
+
   useEffect(() => {
     if (!isLoading) return;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
       dispatch(setIsLoading(false));
     }, 1000 * 15);
     return () => {
-      clearTimeout(timer);
-      timer;
+      clearTimeout(timerRef.current);
+      timerRef.current;
     };
   }, [isLoading]);
   if (Platform.OS == "android")
@@ -68,8 +69,8 @@ const Loading = (props) => {
               justifyContent: "center",
               alignItems: "center",
               flex: 1,
-              width: screenWidth,
-              height: screenHeight,
+              width: SCREEN_WIDTH,
+              height: SCREEN_HEIGHT,
               backgroundColor: "rgba(0, 0, 0, 0.0)",
               left: 0,
               right: 0,

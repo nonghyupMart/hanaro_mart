@@ -1,9 +1,9 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import colors from "@constants/colors";
+import colors from "../../constants/Colors";
 import { Image } from "react-native-expo-image-cache";
-import { IMAGE_URL } from "@constants/settings";
-import * as Util from "@util";
+import { IMAGE_URL } from "../../constants";
+import * as Util from "../../util";
 import {
   Dimensions,
   TouchableOpacity,
@@ -15,17 +15,17 @@ import {
   ImageBackground,
 } from "react-native";
 import _ from "lodash";
-// import ScaledImage from "@UI/ScaledImage";
-export { default as ScaledImage } from "@UI/ScaledImage";
-export const { width: screenWidth, height: screenHeight } = Dimensions.get(
+// import ScaledImage from "../../components/UI/ScaledImage";
+export { default as ScaledImage } from "./ScaledImage";
+export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   "window"
 );
 export const StyleConstants = {
   defaultPadding: 16,
-  //  defaultImageLarge: require("@images/m_img499.png"),
-  //  defaultImage: require("@images/b_img500.png"),
-  //  defaultImage: require("@images/b_img500.png"),
-  //  defaultImage: require("@images/b_img500.png"),
+  //  defaultImageLarge: require("../../assets/images/m_img499.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
+  //  defaultImage: require("../../assets/images/b_img500.png"),
 };
 const CustomText = ({ style, children, ...rest }) => {
   let baseStyle = styles.medium;
@@ -47,10 +47,10 @@ const CustomText = ({ style, children, ...rest }) => {
 
 const styles = StyleSheet.create({
   bold: {
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
   },
   regular: {
-    fontFamily: "CustomFont",
+    fontFamily: "Roboto-Regular",
   },
 });
 Text.defaultProps = { allowFontScaling: false };
@@ -60,9 +60,9 @@ export const BaseText = styled(Text)({
     // var isFontWeight = _.some(rules, _.method("includes", "bold"));
     // console.warn(isFontWeight, props);
     // if (isFontWeight || (props.style && props.style.fontWeight == "bold")) {
-    //   return "CustomFont-Bold";
+    //   return "Roboto-Bold";
     // }
-    return "CustomFont";
+    return "Roboto-Regular";
   },
 
   //  ...Platform.select({
@@ -85,35 +85,48 @@ TextInput.defaultProps = {
   underlineColorAndroid: "transparent",
 };
 export const BaseTextInput = styled(TextInput)({
-  fontFamily: "CustomFont",
+  fontFamily: "Roboto-Regular",
   borderWidth: 0,
 });
 const ExtendedImage = (props) => {
   const [source, setSource] = useState(props.source);
+  const [resizeMode, setResizeMode] = useState(
+    props.initResizeMode ? props.initResizeMode : "cover"
+  );
   const [color, setColor] = useState(
     Platform.OS == "android" ? colors.white : "transparent"
   );
   const onError = () => {
-    setSource(require("@images/m_img499.png"));
+    setSource(
+      props.defaultSource
+        ? props.defaultSource
+        : require("../../assets/images/m_img499.png")
+    );
   };
-  const onLoad = () => {
+  const onLoadEnd = () => {
+    setResizeMode(props.resizeMode);
     setColor("transparent");
   };
   return (
     <ImageBackground
       {...props}
-      onLoad={onLoad}
+      onLoadEnd={onLoadEnd}
       onError={onError}
       source={source}
-      resizeMode={props.resizeMode ? props.resizeMode : "cover"}
+      resizeMode={resizeMode}
       style={[{ backgroundColor: color }, props.style]}
-      defaultSource={require("@images/m_img499.png")}
     />
   );
 };
 
 BaseTextInput.defaultProps = { allowFontScaling: false };
 export const BaseImage = styled(ExtendedImage).attrs((props) => {
+  if (!props.source || props.source == " ")
+    return {
+      source: props.defaultSource
+        ? props.defaultSource
+        : require("../../assets/images/b_img500.png"),
+    };
   let source;
   if (typeof props.source == "string")
     source = {
@@ -122,6 +135,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
   else source = props.source;
   return {
     source: source,
+    defaultSource: props.defaultSource,
   };
 })((props) => {
   return {
@@ -130,7 +144,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
 });
 
 BaseImage.defaultProps = {
-  defaultSource: require("@images/b_img500.png"),
+  defaultSource: require("../../assets/images/b_img500.png"),
   resizeMode: "cover",
 };
 const BaseTouchbaleOpacity = (props) => {
@@ -146,8 +160,8 @@ export const BaseTouchable = (props) => {
   return <Touchbale {...props}>{props.children}</Touchbale>;
 };
 export const BaseButtonContainer = styled.TouchableOpacity({
-  width: screenWidth * 0.44,
-  minHeight: screenHeight * 0.058,
+  width: SCREEN_WIDTH * 0.44,
+  minHeight: SCREEN_HEIGHT * 0.058,
   height: undefined,
   borderRadius: 21,
   justifyContent: "center",
@@ -208,7 +222,7 @@ export const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: screenWidth - 18 * 2,
+  width: SCREEN_WIDTH - 18 * 2,
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
   borderRadius: 25,

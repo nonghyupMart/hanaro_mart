@@ -4,7 +4,7 @@ import { Button, StyleSheet, View, Image, Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import Modal from "react-native-modal";
 const { width, height } = Dimensions.get("window");
-import { BaseTouchable, BaseText } from "@UI/BaseUI";
+import { BaseTouchable, BaseText } from "./BaseUI";
 import { useSelector, useDispatch } from "react-redux";
 
 const Alert = (props) => {
@@ -25,7 +25,9 @@ const Alert = (props) => {
       <Container>
         <TitleContainer message={alert.message}>
           <Icon>
-            <Image source={require("@images/ic_error_outline_24px.png")} />
+            <Image
+              source={require("../../assets/images/ic_error_outline_24px.png")}
+            />
           </Icon>
           {alert.message && <Message>{alert.message}</Message>}
         </TitleContainer>

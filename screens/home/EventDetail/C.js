@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import StampBox from "@components/event/StampBox";
-import ScanBox from "@components/event/ScanBox";
-import ApplyBox from "@components/event/ApplyBox";
+import StampBox from "../../../components/event/StampBox";
+import ScanBox from "../../../components/event/ScanBox";
+import ApplyBox from "../../../components/event/ApplyBox";
 
 const C = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;

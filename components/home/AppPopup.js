@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "@UI/Carousel";
+import Carousel from "../../components/UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
-import * as CommonActions from "@actions/common";
-import * as homeActions from "@actions/home";
+import * as CommonActions from "../../store/actions/common";
+import * as homeActions from "../../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
-import { setAlert, setIsLoading } from "@actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const AppPopup = (props) => {
   const dispatch = useDispatch();
@@ -69,13 +69,11 @@ const AppPopup = (props) => {
       isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={false}
-      onBackdropPress={() => setIsVisible(false)}
-      onRequestClose={() => setIsVisible(false)}
     >
       <Container>
         <Carousel
           delay={3000}
-          style={{ height: screenWidth - 24 - 24, width: "100%" }}
+          style={{ height: SCREEN_WIDTH - 24 - 24, width: "100%" }}
           autoplay
           pageInfo={true}
           // bullets={true}
@@ -105,10 +103,10 @@ const AppPopup = (props) => {
                 <BaseImage
                   source={item.display_img}
                   style={{
-                    resizeMode: "cover",
                     width: "100%",
-                    height: screenWidth - 19 - 19 - 2,
+                    height: SCREEN_WIDTH - 19 - 19 - 2,
                   }}
+                  defaultSource={require("../../assets/images/p_img503.png")}
                 />
               </TouchableOpacity>
             );

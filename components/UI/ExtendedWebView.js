@@ -3,20 +3,18 @@ import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
 import { ActivityIndicator } from "react-native";
-import Alert from "@UI/Alert";
+import Alert from "../../components/UI/Alert";
 import { useSelector, useDispatch } from "react-redux";
-import * as authActions from "@actions/auth";
+import * as authActions from "../../store/actions/auth";
 import { Platform } from "react-native";
-import { popupConetnt } from "@screens/join/JoinStep2Screen";
+import { popupConetnt } from "../../screens/join/JoinStep2Screen";
 import _ from "lodash";
-import * as branchesActions from "@actions/branches";
-import { signup } from "@screens/join/JoinStep2Screen";
-import * as RootNavigation from "@navigation/RootNavigation";
-import * as CommonActions from "@actions/common";
-import queryString from "query-string";
-import * as Util from "@util";
-import Constants from "expo-constants";
+import * as branchesActions from "../../store/actions/branches";
+import { signup } from "../../screens/join/JoinStep2Screen";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import * as CommonActions from "../../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -69,6 +67,7 @@ export const ExtendedWebView = (props) => {
         );
         break;
       case "auth":
+        dispatch(setIsLoading(true));
         let query = {
           user_sex: message.value.sex,
           user_id: message.value.tel,
@@ -101,6 +100,7 @@ export const ExtendedWebView = (props) => {
             if (index > 0) RootNavigation.pop();
             else RootNavigation.navigate("Home");
           }
+          dispatch(setIsLoading(false));
         });
 
         // message.value

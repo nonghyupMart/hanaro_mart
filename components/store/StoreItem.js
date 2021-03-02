@@ -8,13 +8,13 @@ import {
   Platform,
   Image,
 } from "react-native";
-import { BaseText, BaseTouchable } from "@UI/BaseUI";
-import * as RootNavigation from "@navigation/RootNavigation";
-import * as branchesActions from "@actions/branches";
-import { setIsLoading } from "@actions/common";
+import { BaseText, BaseTouchable } from "../../components/UI/BaseUI";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import * as branchesActions from "../../store/actions/branches";
+import { setIsLoading } from "../../store/actions/common";
 import { findLastKey } from "lodash";
-import * as CommonActions from "@actions/common";
-import { setUserStore } from "@actions/auth";
+import * as CommonActions from "../../store/actions/common";
+import { setUserStore } from "../../store/actions/auth";
 
 const StoreItem = (props) => {
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const StoreItem = (props) => {
       <Container>
         {isMark && (
           <StarContainer>
-            <Image source={require("@images/star2.png")} />
+            <Image source={require("../../assets/images/star2.png")} />
           </StarContainer>
         )}
         <TitleContainer>
@@ -72,12 +72,14 @@ const StoreItem = (props) => {
           <Tel>Tel. {props.item.tel}</Tel>
         </TitleContainer>
         <IconContainer>
-          <Image source={require("@images/location-pin.png")} />
+          <Image source={require("../../assets/images/location-pin.png")} />
           <BlueText>{props.item.dist}km</BlueText>
-          {!isMark && <Image source={require("@images/circle-right.png")} />}
+          {!isMark && (
+            <Image source={require("../../assets/images/circle-right.png")} />
+          )}
           {isMark && (
             <Btn onPress={onDelete}>
-              <Image source={require("@images/close_x646.png")} />
+              <Image source={require("../../assets/images/close_x646.png")} />
             </Btn>
           )}
         </IconContainer>
@@ -170,7 +172,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "black",
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
   },
   deleteButton: {

@@ -4,16 +4,16 @@ import styled from "styled-components/native";
 import {
   BaseButtonContainer,
   ButtonText,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseTouchable,
   BaseText,
-} from "@UI/BaseUI";
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+} from "../../components/UI/BaseUI";
+import BaseScreen from "../../components/BaseScreen";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import _ from "lodash";
-import * as CommonActions from "@actions/common";
+import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
 const CIScreen = ({ navigation }) => {
@@ -37,12 +37,13 @@ const CIScreen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView
+        startInLoadingState={true}
         key={Math.random()}
         cacheMode="LOAD_NO_CACHE"
         style={{
-          height: screenHeight,
+          height: SCREEN_HEIGHT,
           opacity: 0.99,
-          width: screenWidth,
+          width: SCREEN_WIDTH,
         }}
         source={{
           uri:
@@ -66,7 +67,7 @@ export const screenOptions = ({ navigation }) => {
     // },
     // headerTintColor: "#fff",
     // headerTitleStyle: {
-    //   fontFamily:"CustomFont-Bold",
+    //   fontFamily:"Roboto-Bold",
     // },
   };
 };
@@ -89,8 +90,8 @@ const UpperContainer = styled.View({
 });
 
 const Info = styled(BaseText)({
-  // marginTop: screenHeight *  0.029,
-  // marginBottom: screenHeight * 0.030,
+  // marginTop: SCREEN_HEIGHT *  0.029,
+  // marginBottom: SCREEN_HEIGHT * 0.030,
   // marginLeft: "12%",
   // marginRight: "12%",
   fontSize: 13,
@@ -126,10 +127,10 @@ const Box = styled(BaseTouchable)({
   borderStyle: "solid",
   borderWidth: 1,
   borderColor: colors.pinkishGrey,
-  paddingLeft: screenHeight * 0.083,
-  paddingRight: screenHeight * 0.083,
-  // paddingBottom:screenHeight *0.027,
-  // paddingTop:screenHeight *0.027,
+  paddingLeft: SCREEN_HEIGHT * 0.083,
+  paddingRight: SCREEN_HEIGHT * 0.083,
+  // paddingBottom:SCREEN_HEIGHT *0.027,
+  // paddingTop:SCREEN_HEIGHT *0.027,
   // overflow:"hidden"
 });
 

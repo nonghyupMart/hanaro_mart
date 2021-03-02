@@ -8,7 +8,8 @@ import {
   SET_DID_TRY_POPUP,
   SET_NOTIFICATION,
   SET_BRIGHTNESS,
-} from "@actions/common";
+  SET_LINK_CODE,
+} from "../actions/common";
 
 const initialState = {
   isBottomNavigation: true,
@@ -20,10 +21,16 @@ const initialState = {
   didTryPopup: false,
   notification: null,
   brightness: null,
+  link_code: null,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_LINK_CODE:
+      return {
+        ...state,
+        link_code: action.link_code,
+      };
     case SET_DID_TRY_POPUP:
       return {
         ...state,

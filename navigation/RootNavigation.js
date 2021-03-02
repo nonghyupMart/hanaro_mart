@@ -3,6 +3,7 @@ import { StackActions } from "@react-navigation/native";
 
 export const isReadyRef = React.createRef();
 export const navigationRef = React.createRef();
+import { DrawerActions } from "@react-navigation/native";
 
 export const navigate = (name, params) => {
   if (isReadyRef.current && navigationRef.current) {
@@ -25,5 +26,11 @@ export const popToTop = () => {
 export const pop = () => {
   if (isReadyRef.current && navigationRef.current) {
     navigationRef.current?.dispatch(StackActions.pop());
+  }
+};
+
+export const toggleDrawer = () => {
+  if (isReadyRef.current && navigationRef.current) {
+    navigationRef.current?.dispatch(DrawerActions.toggleDrawer());
   }
 };

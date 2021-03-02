@@ -16,42 +16,40 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import Constants from "expo-constants";
-import { styles } from "@components/join/styles";
-import AgreementContent1 from "@components/join/AgreementContent1";
-import AgreementContent3 from "@components/join/AgreementContent3";
-import AgreementContent4 from "@components/join/AgreementContent4";
+import { styles } from "../../components/join/styles";
+import AgreementContent1 from "../../components/join/AgreementContent1";
+import AgreementContent3 from "../../components/join/AgreementContent3";
+import AgreementContent4 from "../../components/join/AgreementContent4";
 
 import { CheckBox } from "react-native-elements";
 
-import { setPreview } from "@actions/auth";
+import { setPreview } from "../../store/actions/auth";
 import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Location from "expo-location";
 import { getPermissionsAsync } from "expo-notifications";
 import * as Animatable from "react-native-animatable";
-import colors from "@constants/colors";
+import colors from "../../constants/Colors";
 
-import BaseScreen from "@components/BaseScreen";
+import BaseScreen from "../../components/BaseScreen";
 import {
   BaseButtonContainer,
   ButtonText,
-  screenHeight,
-  screenWidth,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 
 import {
   setPushToken,
   setAgreedStatus,
   saveAgreedStatusToStorage,
-} from "@actions/auth";
-import { SERVER_URL, API_URL } from "@constants/settings";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
+} from "../../store/actions/auth";
+import { SERVER_URL, API_URL } from "../../constants";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as Util from "@util";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 
 const AgreementScreen = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
@@ -75,7 +73,7 @@ const AgreementScreen = (props) => {
             uri: `${SERVER_URL}/web/about/terms.do`,
           }}
           style={{
-            width: screenWidth - 18 - 18 - 2,
+            width: SCREEN_WIDTH - 18 - 18 - 2,
             flex: 1,
           }}
         />
@@ -328,7 +326,7 @@ const AgreementScreen = (props) => {
       scrollEnabled={canScroll}
       // style={{ width: "100%", height: "100%" }}
       contentStyle={{ paddingTop: 16 }}
-      // scrollListStyle={{ width: "100%", height: screenHeight }}
+      // scrollListStyle={{ width: "100%", height: SCREEN_HEIGHT }}
     >
       <CheckBox
         activeOpacity={0.8}
@@ -344,13 +342,13 @@ const AgreementScreen = (props) => {
         containerStyle={[styles.btnBlack, { marginLeft: -1 }]}
         checkedIcon={
           <Image
-            source={require("@images/check_circle-24on.png")}
+            source={require("../../assets/images/check_circle-24on.png")}
             style={{ marginLeft: -10 }}
           />
         }
         uncheckedIcon={
           <Image
-            source={require("@images/check_circle-24off.png")}
+            source={require("../../assets/images/check_circle-24off.png")}
             style={{ marginLeft: -10 }}
           />
         }
@@ -383,9 +381,11 @@ const AgreementScreen = (props) => {
                 containerStyle={[styles.checkbox]}
                 checked={item.isOpen}
                 onPress={() => handleOpen(item)}
-                checkedIcon={<Image source={require("@images/close_m.png")} />}
+                checkedIcon={
+                  <Image source={require("../../assets/images/close_m.png")} />
+                }
                 uncheckedIcon={
-                  <Image source={require("@images/close_p.png")} />
+                  <Image source={require("../../assets/images/close_p.png")} />
                 }
               />
             )}
@@ -423,8 +423,8 @@ const AgreementScreen = (props) => {
   );
 };
 export const CircleCheckButton = (props) => {
-  const checkedIcon = require("@images/checkcircleon.png");
-  const uncheckedIcon = require("@images/checkcircleoff.png");
+  const checkedIcon = require("../../assets/images/checkcircleon.png");
+  const uncheckedIcon = require("../../assets/images/checkcircleoff.png");
 
   return (
     <CheckBox
@@ -437,11 +437,11 @@ export const CircleCheckButton = (props) => {
 };
 export const CheckButton = (props) => {
   const checkedIcon = props.value.isRequired
-    ? require("@images/check_box-2404.png")
-    : require("@images/check_box-2402.png");
+    ? require("../../assets/images/check_box-2404.png")
+    : require("../../assets/images/check_box-2402.png");
   const uncheckedIcon = props.value.isRequired
-    ? require("@images/check_box-2403.png")
-    : require("@images/check_box-2401.png");
+    ? require("../../assets/images/check_box-2403.png")
+    : require("../../assets/images/check_box-2401.png");
   return (
     <CheckBox
       {...props}
@@ -455,7 +455,7 @@ export const CheckButton = (props) => {
 
 const BulletIcon = styled(Image)({ marginTop: 3 });
 BulletIcon.defaultProps = {
-  source: require("@images/checkmark2.png"),
+  source: require("../../assets/images/checkmark2.png"),
 };
 
 export const GrayDesc = styled(BaseText)({
@@ -544,11 +544,11 @@ export const TextView = styled(BaseText)({
   lineHeight: 20,
   fontSize: 12,
   color: colors.greyishBrown,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   flexShrink: 0,
 });
 export const BoldText = styled(BaseText).attrs({})({
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   lineHeight: 20,
 });
 

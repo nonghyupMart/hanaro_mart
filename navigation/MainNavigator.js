@@ -16,121 +16,126 @@ import _ from "lodash";
 
 import * as Animatable from "react-native-animatable";
 import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { BaseTouchable, screenWidth, BaseButtonContainer } from "@UI/BaseUI";
+import {
+  BaseTouchable,
+  SCREEN_WIDTH,
+  BaseButtonContainer,
+} from "../components/UI/BaseUI";
 import {
   createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { Ionicons } from "@expo/vector-icons";
-
-import { Input } from "react-native-elements";
+import { PADDING_BOTTOM_MENU } from "../constants";
 import * as RootNavigation from "../navigation/RootNavigation";
-import colors from "@constants/colors";
-import { TabMenus } from "@constants/menu";
+import colors from "../constants/Colors";
+import { TabMenus } from "../constants/menu";
 
-import BottomButtons from "@components/BottomButtons";
-import { CustomDrawerContent, drawerStyle } from "@UI/CustomDrawerContent";
-import MeterialTopTabBar from "@UI/tabBar/MaterialTopTabBar";
+import BottomButtons from "../components/BottomButtons";
+import {
+  CustomDrawerContent,
+  drawerStyle,
+} from "../components/UI/CustomDrawerContent";
+import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";
+// import TabbarIndicator from "../components/UI/tabBarIndicator/TabBarIndicator";
 
 import HomeScreen, {
   screenOptions as HomeScreenOptions,
-} from "@screens/home/HomeScreen";
+} from "../screens/home/HomeScreen";
 
 import FlyerDetailScreen, {
   screenOptions as FlyerDetailScreenOptions,
-} from "@screens/home/FlyerDetailScreen";
+} from "../screens/home/FlyerDetailScreen";
 
-import NaroTubeScreen from "@screens/home/NaroTubeScreen";
+import NaroTubeScreen from "../screens/home/NaroTubeScreen";
 import ExhibitionDetailScreen, {
   screenOptions as ExhibitionDetailScreenOptions,
-} from "@screens/home/ExhibitionDetailScreen";
+} from "../screens/home/ExhibitionDetailScreen";
 import EventScreen, {
   screenOptions as EventScreenOptions,
-} from "@screens/home/EventScreen";
+} from "../screens/home/EventScreen";
 import EventDetailScreen, {
   screenOptions as EventDetailScreenOptions,
-} from "@screens/home/EventDetailScreen";
+} from "../screens/home/EventDetailScreen";
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
-} from "@screens/snb/StoreChangeScreen";
+} from "../screens/snb/StoreChangeScreen";
 import StoreChangeDetailScreen, {
   screenOptions as StoreChangeDetailScreenOptions,
-} from "@screens/snb/StoreChangeDetailScreen";
+} from "../screens/snb/StoreChangeDetailScreen";
 import CouponScreen, {
   screenOptions as CouponScreenOptions,
-} from "@screens/home/CouponScreen";
+} from "../screens/home/CouponScreen";
 import CouponDetailScreen, {
   screenOptions as CouponDetailScreenOptions,
-} from "@screens/home/CouponDetailScreen";
+} from "../screens/home/CouponDetailScreen";
 import BarcodeScreen, {
   screenOptions as BarcodeScreenOptions,
-} from "@screens/home/BarcodeScreen";
+} from "../screens/home/BarcodeScreen";
 import BarCodeScannerScreen, {
   screenOptions as BarCodeScannerScreenOptions,
-} from "@screens/BarCodeScannerScreen";
+} from "../screens/BarCodeScannerScreen";
 import RingPickerScreen, {
   screenOptions as RingPickerScreenOptions,
-} from "@screens/RingPickerScreen";
+} from "../screens/RingPickerScreen";
 import NoticeScreen, {
   screenOptions as NoticeScreenOptions,
-} from "@screens/snb/NoticeScreen";
+} from "../screens/snb/NoticeScreen";
 import InquiryScreen, {
   screenOptions as InquiryScreenOptions,
-} from "@screens/snb/InquiryScreen";
+} from "../screens/snb/InquiryScreen";
 import PrivacyScreen, {
   screenOptions as PrivacyScreenOptions,
-} from "@screens/snb/PrivacyScreen";
+} from "../screens/snb/PrivacyScreen";
 import TermsScreen, {
   screenOptions as TermsScreenOptions,
-} from "@screens/snb/TermsScreen";
+} from "../screens/snb/TermsScreen";
 
 import MyPageScreen, {
   screenOptions as MyPageScreenOptions,
-} from "@screens/MyPageScreen";
+} from "../screens/MyPageScreen";
 import MyReviewsScreen, {
   screenOptions as MyReviewsScreenOptions,
-} from "@screens/myPage/MyReviewsScreen";
+} from "../screens/myPage/MyReviewsScreen";
 import EmptyScreen, {
   screenOptions as EmptyScreenOptions,
-} from "@screens/EmptyScreen";
+} from "../screens/EmptyScreen";
 import WithdrawalMembershipScreen, {
   screenOptions as WithdrawalMembershipScreenOptions,
-} from "@screens/myPage/WithdrawalMembershipScreen";
+} from "../screens/myPage/WithdrawalMembershipScreen";
 
 import NotificationScreen, {
   screenOptions as NotificationScreenOptions,
-} from "@screens/NotificationScreen";
+} from "../screens/NotificationScreen";
 import CartScreen, {
   screenOptions as CartScreenOptions,
-} from "@screens/CartScreen";
+} from "../screens/CartScreen";
 
 import SearchProductScreen, {
   screenOptions as SearchProductScreenOptions,
-} from "@screens/SearchProductScreen";
+} from "../screens/SearchProductScreen";
 
 import MyOrderScreen, {
   screenOptions as MyOrderScreenOptions,
-} from "@screens/MyOrderScreen";
+} from "../screens/MyOrderScreen";
 
 import MyInfoScreen, {
   screenOptions as MyInfoScreenOptions,
-} from "@screens/MyInfoScreen";
+} from "../screens/MyInfoScreen";
 
 import MyADAgreementScreen, {
   screenOptions as MyADAgreementScreenOptions,
-} from "@screens/MyADAgreementScreen";
+} from "../screens/MyADAgreementScreen";
 
 import PopupScreen, {
   screenOptions as PopupScreenOptions,
-} from "@screens/PopupScreen";
+} from "../screens/PopupScreen";
 
 import CIScreen, {
   screenOptions as CIScreenOptions,
-} from "@screens/join/CIScreen";
+} from "../screens/join/CIScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -144,6 +149,14 @@ const getTabBarVisible = (route) => {
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
+const TabIndicator = styled.View({
+  width: 100,
+  height: 2,
+  backgroundColor: colors.emerald,
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+});
 export const HomeTabNavigator = ({ navigation, route }) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -160,9 +173,17 @@ export const HomeTabNavigator = ({ navigation, route }) => {
       initialRouteName="Home"
       swipeEnabled={false}
       tabBarOptions={{
+        renderIndicator: (props) => {
+          return <></>;
+        },
         scrollEnabled: true,
-        tabStyle: { width: 83, padding: 0, margin: 0, height: 45 },
-        style: { marginLeft: -83 },
+        tabStyle: {
+          width: "auto",
+          padding: 0,
+          margin: 0,
+          height: 40,
+        },
+        style: { marginLeft: SCREEN_WIDTH > 320 ? -18 : -14 },
       }}
     >
       <HomeTopTabNavigator.Screen
@@ -226,7 +247,7 @@ export const HomeNavigator = ({ navigation, route }) => {
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {
-            paddingBottom: 65,
+            paddingBottom: PADDING_BOTTOM_MENU,
             backgroundColor: colors.trueWhite,
           },
           headerBackTitle: " ",
@@ -396,13 +417,15 @@ export const MainNavigator = (props) => {
     setTimeout(() => setIsInitialRender(false), 1);
   }
   // return <></>;
+  const drawerWidth =
+    SCREEN_WIDTH > 320 ? SCREEN_WIDTH * 0.7066 : SCREEN_WIDTH * 0.711;
   return (
     <Drawer.Navigator
       edgeWidth={0}
       drawerStyle={[
         drawerStyle,
         {
-          width: isInitialRender ? null : screenWidth * 0.791,
+          width: isInitialRender ? null : drawerWidth,
         },
       ]}
       drawerContent={(props) =>

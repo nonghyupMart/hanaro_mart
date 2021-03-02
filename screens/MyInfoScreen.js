@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
-import { WhiteContainer } from "@screens/snb/StoreChangeScreen";
-import MemberInfoB from "@components/myPage/MemberInfoB";
+import {
+  SCREEN_WIDTH,
+  BaseButtonContainer,
+  BaseText,
+} from "../components/UI/BaseUI";
+import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
+import MemberInfoB from "../components/myPage/MemberInfoB";
 import QRCode from "react-native-qrcode-svg";
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -16,15 +20,15 @@ import {
   Image,
 } from "react-native";
 import _ from "lodash";
-import * as Util from "@util";
+import * as Util from "../util";
 
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import Barcode from "@components/Barcode";
-import { setAlert, setIsLoading } from "@actions/common";
+import BaseScreen from "../components/BaseScreen";
+import { BackButton, TextTitle } from "../components/UI/header";
+import Barcode from "../components/Barcode";
+import { setAlert, setIsLoading } from "../store/actions/common";
 import Modal from "react-native-modal";
-import { setReference } from "@actions/auth";
-import { updateUserInfo } from "@screens/home/HomeScreen";
+import { setReference } from "../store/actions/auth";
+import { updateUserInfo } from "../screens/home/HomeScreen";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;
@@ -102,12 +106,12 @@ const MyInfoScreen = (props) => {
       <MemberInfoB />
       <MarginContainer>
         <TextContainer>
-          <TitleIcon source={require("@images/shop1black.png")} />
+          <TitleIcon source={require("../assets/images/shop1black.png")} />
           <Text1>주매장</Text1>
           <Text2>{userStore.storeInfo.store_nm}</Text2>
         </TextContainer>
         <TextContainer>
-          <TitleIcon source={require("@images/heart2black.png")} />
+          <TitleIcon source={require("../assets/images/heart2black.png")} />
           <Text1>추천인코드</Text1>
           <Text2>{userInfo.recommend}</Text2>
         </TextContainer>
@@ -123,7 +127,7 @@ const MyInfoScreen = (props) => {
             }}
           >
             <ReferenceContainer>
-              <Image source={require("@images/heart2green.png")} />
+              <Image source={require("../assets/images/heart2green.png")} />
               <ReferenceTitle>추천인코드 입력하기</ReferenceTitle>
             </ReferenceContainer>
             <ReferenceInput
@@ -148,7 +152,7 @@ const MyInfoScreen = (props) => {
         </BarcodeContainer>
         {!!userInfo.mana_qr && (
           <MangerQRCodeContainer onPress={() => setIsVisible(true)}>
-            <Image source={require("@images/adminqr.png")} />
+            <Image source={require("../assets/images/adminqr.png")} />
           </MangerQRCodeContainer>
         )}
 
@@ -177,7 +181,7 @@ const MyInfoScreen = (props) => {
               <QRCode value={userInfo.mana_qr} />
             </QRCodeContainer>
             <ModalCloseButton onPress={() => setIsVisible(false)}>
-              <Image source={require("@images/closeBtn10.png")} />
+              <Image source={require("../assets/images/closeBtn10.png")} />
               <ModalCloseText>닫기</ModalCloseText>
             </ModalCloseButton>
           </ModalContainer>
@@ -275,7 +279,7 @@ export const BtnText = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.trueWhite,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   paddingTop: 6,
   paddingBottom: 6,
 });
@@ -350,7 +354,7 @@ const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: screenWidth - 18 * 2,
+  width: SCREEN_WIDTH - 18 * 2,
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
@@ -404,7 +408,7 @@ const TimerBarContainer = styled.View({
   overflow: "hidden",
 
   marginBottom: 70,
-  width: screenWidth - 50,
+  width: SCREEN_WIDTH - 50,
   aspectRatio: 100 / 7.042,
   backgroundColor: colors.pinkishGrey,
   borderRadius: 20,

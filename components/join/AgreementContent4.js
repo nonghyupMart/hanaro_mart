@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
-import * as AgreementStyle from "@components/join/styles";
-import {styles} from "@components/join/styles";
+import * as AgreementStyle from "../../components/join/styles";
+import { styles } from "../../components/join/styles";
 const AgreementContent4 = (props) => {
   return (
     <AgreementStyle.ExtraBox>
       <AgreementStyle.SmallTextBold>이용목적</AgreementStyle.SmallTextBold>
-      <AgreementStyle.SmallText>가까운 위치에 있는 매장찾기 서비스 제공</AgreementStyle.SmallText>
+      <AgreementStyle.SmallText>
+        가까운 위치에 있는 매장찾기 서비스 제공
+      </AgreementStyle.SmallText>
       <AgreementStyle.SmallTextBold>수집항목</AgreementStyle.SmallTextBold>
       <AgreementStyle.SmallText>위치정보 (위도, 경도)</AgreementStyle.SmallText>
-      <AgreementStyle.SmallTextBold>보유 및 이용기간</AgreementStyle.SmallTextBold>
+      <AgreementStyle.SmallTextBold>
+        보유 및 이용기간
+      </AgreementStyle.SmallTextBold>
       <AgreementStyle.SmallText style={styles.underline}>
         서버에 전송되거나 저장되지 않음
       </AgreementStyle.SmallText>

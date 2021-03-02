@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import BaseScreen from "@components/BaseScreen";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
+import BaseScreen from "../../components/BaseScreen";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as exhibitionActions from "@actions/exhibition";
-import * as exclusiveActions from "@actions/exclusive";
-import { StyleConstants, screenWidth } from "@UI/BaseUI";
-import EventItem from "@components/EventItem";
+import * as exhibitionActions from "../../store/actions/exhibition";
+import * as exclusiveActions from "../../store/actions/exclusive";
+import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import EventItem from "../../components/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { BackButton, TextTitle } from "@UI/header";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
-import { setIsLoading } from "@actions/common";
-import { TabMenus } from "@constants/menu";
-import NoList from "@UI/NoList";
+import { setIsLoading } from "../../store/actions/common";
+import { TabMenus } from "../../constants/menu";
+import NoList from "../../components/UI/NoList";
+import * as commonActions from "../../store/actions/common";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -25,12 +26,35 @@ const ExhibitionScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const [tabInfo, setTabInfo] = useState();
+  const link_code = useSelector((state) => state.common.link_code);
+
   let data;
   if (routeName == "Exhibition") {
     data = useSelector((state) => state.exhibition.exhibition);
   } else {
     data = useSelector((state) => state.exclusive.exclusive);
   }
+  useEffect(() => {
+    if (link_code) {
+      setTimeout(() => {
+        moveToDetail(link_code);
+      }, 0);
+    }
+    if (!isFocused) {
+      dispatch(commonActions.setLinkCode(null));
+    }
+    if (!isFocused) return;
+  }, [isFocused, link_code]);
+
+  const moveToDetail = (event_cd) => {
+    dispatch(setIsLoading(true));
+    if (routeName == "Exhibition") {
+      navigation.navigate("ExhibitionDetail", { event_cd: event_cd });
+    } else {
+      navigation.navigate("ForStoreDetail", { event_cd: event_cd });
+    }
+  };
+
   useEffect(() => {
     const currentTab = TabMenus.filter((tab) => tab.name == routeName);
 
@@ -93,8 +117,8 @@ const ExhibitionScreen = (props) => {
       <NoList
         source={
           routeName == "Exhibition"
-            ? require("@images/diamond.png")
-            : require("@images/shopwhite.png")
+            ? require("../../assets/images/diamond.png")
+            : require("../../assets/images/shopwhite.png")
         }
         text={tabInfo && tabInfo.menu_nm}
       />
@@ -108,7 +132,9 @@ const ExhibitionScreen = (props) => {
         <ScrollList
           numColumns={1}
           data={data.list}
-          keyExtractor={(item, index) => `${index}`}
+          keyExtractor={(item, index) =>
+            `${userStore.storeInfo.store_cd}-${index}`
+          }
           onEndReached={loadMore}
           renderItem={(itemData) => {
             return (

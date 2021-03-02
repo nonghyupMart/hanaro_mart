@@ -6,7 +6,7 @@ import {
   SET_SEARCHED_PRODUCT_MORE,
   SET_LEAFLET_DETAIL,
   SET_PRODUCT_DETAIL,
-} from "@actions/flyer";
+} from "../actions/flyer";
 
 const initialState = {
   leaflet: null,

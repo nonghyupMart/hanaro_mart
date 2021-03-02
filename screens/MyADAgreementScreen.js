@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-import { screenWidth, BaseButtonContainer, BaseText } from "@UI/BaseUI";
-import * as MyInfoScreen from "@screens/MyInfoScreen";
-import MemberInfoB from "@components/myPage/MemberInfoB";
+import {
+  SCREEN_WIDTH,
+  BaseButtonContainer,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as MyInfoScreen from "../screens/MyInfoScreen";
+import MemberInfoB from "../components/myPage/MemberInfoB";
 import { CheckBox } from "react-native-elements";
 // import Barcode from "react-native-jsbarcode";
 import {
@@ -17,13 +21,13 @@ import {
   Switch,
 } from "react-native";
 import _ from "lodash";
-import * as Util from "@util";
+import moment from "moment";
 
-import BaseScreen from "@components/BaseScreen";
-import { BackButton, TextTitle } from "@UI/header";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as authActions from "@actions/auth";
-import { updateUserInfo } from "@screens/home/HomeScreen";
+import BaseScreen from "../components/BaseScreen";
+import { BackButton, TextTitle } from "../components/UI/header";
+import { setAlert, setIsLoading } from "../store/actions/common";
+import * as authActions from "../store/actions/auth";
+import { updateUserInfo } from "../screens/home/HomeScreen";
 
 const MyADAgreementScreen = (props) => {
   const params = props.route.params;
@@ -68,10 +72,14 @@ const MyADAgreementScreen = (props) => {
       user_id: await authActions.saveUserTelToStorage(),
     };
     dispatch(authActions.signup(query)).then((userInfo) => {
+      console.log("수정된후=>", userInfo);
       dispatch(setIsLoading(false));
+      let yn = push || sms ? "동의" : "거부";
       dispatch(
         setAlert({
-          message: "수정되었습니다.",
+          message: `하나로마트앱 변경일자(${moment().format(
+            "YYYY년 MM월 DD일"
+          )})\n수신${yn} 처리 되었습니다.`,
           onPressConfirm: () => {
             dispatch(setAlert(null));
             setSms(userInfo.sms_agree == "Y" ? true : false);
@@ -125,8 +133,12 @@ const MyADAgreementScreen = (props) => {
             <CheckBox
               activeOpacity={0.8}
               onPress={() => setSms(!sms)}
-              checkedIcon={<Image source={require("@images/ckon.png")} />}
-              uncheckedIcon={<Image source={require("@images/ckoff.png")} />}
+              checkedIcon={
+                <Image source={require("../assets/images/ckon.png")} />
+              }
+              uncheckedIcon={
+                <Image source={require("../assets/images/ckoff.png")} />
+              }
               checked={sms}
               containerStyle={[
                 {
@@ -147,8 +159,12 @@ const MyADAgreementScreen = (props) => {
             <CheckBox
               activeOpacity={0.8}
               onPress={() => setPush(!push)}
-              checkedIcon={<Image source={require("@images/ckon.png")} />}
-              uncheckedIcon={<Image source={require("@images/ckoff.png")} />}
+              checkedIcon={
+                <Image source={require("../assets/images/ckon.png")} />
+              }
+              uncheckedIcon={
+                <Image source={require("../assets/images/ckoff.png")} />
+              }
               checked={push}
               containerStyle={[
                 {
@@ -233,7 +249,7 @@ const BaseTextStyle = styled(BaseText)({
 const Text1 = styled(BaseTextStyle)({
   width: "30%",
   flexShrink: 0,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
 });
 const Text2 = styled(BaseTextStyle)({
   width: "70%",
@@ -279,7 +295,7 @@ const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: screenWidth - 18 * 2,
+  width: SCREEN_WIDTH - 18 * 2,
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
@@ -333,7 +349,7 @@ const TimerBarContainer = styled.View({
   overflow: "hidden",
 
   marginBottom: 70,
-  width: screenWidth - 50,
+  width: SCREEN_WIDTH - 50,
   aspectRatio: 100 / 7.042,
   backgroundColor: colors.pinkishGrey,
   borderRadius: 20,

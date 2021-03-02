@@ -6,7 +6,7 @@ import {
   SET_COUPON_DETAIL,
   SET_COUPON_MORE,
   SET_MY_COUPON_MORE,
-} from "@actions/coupon";
+} from "../actions/coupon";
 
 const initialState = {
   coupon: null,

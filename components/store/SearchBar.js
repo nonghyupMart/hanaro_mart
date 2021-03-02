@@ -1,17 +1,17 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import * as branchesActions from "@actions/branches";
+import * as branchesActions from "../../store/actions/branches";
 import { Text, Image, KeyboardAvoidingView } from "react-native";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
   BaseTextInput,
-} from "@UI/BaseUI";
-import { setIsLoading, setBottomNavigation } from "@actions/common";
+} from "../../components/UI/BaseUI";
+import { setIsLoading, setBottomNavigation } from "../../store/actions/common";
 
 const SearchBar = (props) => {
   const dispatch = useDispatch();
@@ -38,7 +38,9 @@ const SearchBar = (props) => {
   return (
     <SearchBarContainer>
       <BlueRoundView>
-        <Image source={require("@images/ic_store_mall_directory_24px.png")} />
+        <Image
+          source={require("../../assets/images/ic_store_mall_directory_24px.png")}
+        />
         <StoreName>매장명검색</StoreName>
       </BlueRoundView>
       <TextInputContainer>
@@ -54,7 +56,7 @@ const SearchBar = (props) => {
           onPress={onPressSearch}
           style={{ justifyContent: "center", paddingRight: 10 }}
         >
-          <Image source={require("@images/search-24px.png")} />
+          <Image source={require("../../assets/images/search-24px.png")} />
         </BaseTouchable>
       </TextInputContainer>
     </SearchBarContainer>

@@ -1,58 +1,38 @@
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
+import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
 import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  AsyncStorage,
-  BackHandler,
-  StatusBar,
-  Platform,
-  AppState,
-} from "react-native";
-import {
-  createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { DrawerActions } from "@react-navigation/native";
-import colors from "@constants/colors";
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { HeaderButton, LogoTitle, HomeHeaderRight } from "@UI/header";
-
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useIsFocused } from "@react-navigation/native";
-import BaseScreen from "@components/BaseScreen";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as Updates from "expo-updates";
-import * as Permissions from "expo-permissions";
-import * as Notifications from "expo-notifications";
-
+import colors from "../../constants/Colors";
 import {
-  StyleConstants,
-  BaseImage,
-  BaseTouchable,
-  screenWidth,
-} from "@UI/BaseUI";
+  HeaderButton,
+  LogoTitle,
+  HomeHeaderLeft,
+  HomeHeaderRight,
+} from "../../components/UI/header";
+import { useIsFocused } from "@react-navigation/native";
+import BaseScreen from "../../components/BaseScreen";
+import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import * as Notifications from "expo-notifications";
+import { SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import _ from "lodash";
-import HomeNotice from "@components/home/HomeNotice";
-import HomeBanner from "@components/home/HomeBanner";
-import NaroTube from "@components/home/NaroTube";
-import StorePopup from "@components/home/StorePopup";
-import AppPopup from "@components/home/AppPopup";
-import * as Util from "@util";
-import { setAlert, setIsLoading } from "@actions/common";
-import * as CommonActions from "@actions/common";
-import * as authActions from "@actions/auth";
-import { CATEGORY } from "@constants/settings";
-import { SET_NOTIFICATION } from "@actions/common";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { TabMenus } from "@constants/menu";
+import HomeBanner from "../../components/home/HomeBanner";
+import HomeEvent from "../../components/home/HomeEvent";
+import HomeProducts from "../../components/home/HomeProducts";
+import AppPopup from "../../components/home/AppPopup";
+import * as Util from "../../util";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as CommonActions from "../../store/actions/common";
+import * as authActions from "../../store/actions/auth";
+import { CATEGORY } from "../../constants";
+import { SET_NOTIFICATION } from "../../store/actions/common";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import { TabMenus } from "../../constants/menu";
 import * as Location from "expo-location";
-import * as branchesActions from "@actions/branches";
+import * as branchesActions from "../../store/actions/branches";
+import Constants from "expo-constants";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -60,69 +40,15 @@ const HomeScreen = (props) => {
   const dispatch = useDispatch();
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
   const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
-  const branch = useSelector((state) => state.branches.branch);
-  const [location, setLocation] = useState(null);
-  const [permissionStatus, setPermissionStatus] = useState();
 
   useEffect(() => {
     (async () => {
       if (AppState.currentState != "active") return;
-      let { status } = await Location.requestPermissionsAsync();
-      setPermissionStatus(status);
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      // 비가입시에만 실행
-      if (!permissionStatus || isJoin) return;
-      if (permissionStatus !== "granted") {
-        // 매장을 선택해주세요. 매장 설정 화면으로 ...
-        dispatch(
-          setAlert({
-            message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-            onPressConfirm: async () => {
-              await dispatch(setAlert(null));
-              RootNavigation.navigate("StoreChange");
-            },
-            onPressCancel: async () => {
-              await dispatch(setAlert(null));
-              await dispatch(setDidTryPopup(true));
-            },
-            confirmText: "매장선택",
-            cancelText: "취소",
-          })
-        );
-        return;
-      }
-      if (location == null) {
-        let location = await Location.getLastKnownPositionAsync();
-        setLocation(location);
-      }
-    })();
-  }, [permissionStatus]);
-
-  useEffect(() => {
-    (async () => {
-      // 비가입시에만 실행
-      // 가장 가까운 매장 상세정보 호출 후 세팅
-      if (!location || isJoin) return;
-      let query = {};
-      if (location) {
-        query.lat = location.coords.latitude;
-        query.lng = location.coords.longitude;
-      }
-      const fetchBranchNear = dispatch(branchesActions.fetchBranchNear(query));
-      fetchBranchNear.then((data) => {
-        if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
-        dispatch(authActions.saveUserStore(data));
-      });
-    })();
-  }, [location]);
 
   initNotificationReceiver(routeName);
   useEffect(() => {
@@ -156,10 +82,27 @@ const HomeScreen = (props) => {
   }, []);
 
   useEffect(() => {
-    if (typeof didTryPopup != "string") return;
+    if (typeof didTryPopup != "string" && typeof didTryPopup != "object")
+      return;
+    dispatch(setIsLoading(true));
     setTimeout(() => {
-      navigation.navigate(didTryPopup);
-    }, 0);
+      switch (typeof didTryPopup) {
+        case "string":
+          navigation.navigate(didTryPopup);
+          break;
+        case "object":
+          dispatch(CommonActions.setLinkCode(null));
+          if (didTryPopup.link_code) {
+            dispatch(CommonActions.setLinkCode(didTryPopup.link_code));
+          }
+          navigation.navigate(CATEGORY[didTryPopup.link_gbn]);
+          break;
+
+        default:
+          break;
+      }
+      dispatch(setIsLoading(false));
+    }, 500);
     dispatch(CommonActions.setDidTryPopup(true));
   }, [didTryPopup]);
 
@@ -177,29 +120,12 @@ const HomeScreen = (props) => {
           {...props}
         />
         <HomeBanner isFocused={isFocused} />
-        <TouchableOpacity
-          style={{ width: "100%" }}
-          onPress={() => Util.sendShareLink(userInfo.recommend)}
-        >
-          <Image
-            source={require("@images/in730.png")}
-            style={{ width: "100%" }}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{ width: "100%" }}
-          onPress={() => {
-            navigation.navigate("StoreChange");
-          }}
-        >
-          <Image
-            source={require("@images/mystore.png")}
-            style={{ width: "100%" }}
-          />
-        </TouchableOpacity>
-        {/* <Space /> */}
-        <NaroTube isFocused={isFocused} />
-        <HomeNotice isFocused={isFocused} />
+        {!_.isEmpty(userStore) && (
+          <HomeEvent isFocused={isFocused} userStore={userStore} />
+        )}
+        {!_.isEmpty(userStore) && (
+          <HomeProducts isFocused={isFocused} userStore={userStore} />
+        )}
       </BaseScreen>
     </>
   );
@@ -235,10 +161,10 @@ const initNotificationReceiver = (routeName) => {
           let param = {};
           if (!!cd) param.notice_cd = cd;
           switch (category) {
-            case "A":
+            case "A": //매장공지
               param.type = "C";
               break;
-            case "H":
+            case "H": //통합공지
               param.type = "H";
               break;
             default:
@@ -271,10 +197,15 @@ const initNotificationReceiver = (routeName) => {
 };
 export const updateUserInfo = async (dispatch, userInfo, token) => {
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
+
   let tk = `${token}`.trim();
+
   if (!tk || tk == "") tk = (await Notifications.getExpoPushTokenAsync()).data;
   let action;
   tk = `${tk}`.trim();
+
+  if (!Constants.isDevice) tk = "";
+
   if (tk && tk != "") {
     action = authActions.updateLoginLog({
       token: token,
@@ -312,7 +243,7 @@ export const updateUserInfo = async (dispatch, userInfo, token) => {
 const Space = styled.View({
   width: "100%",
   height: 10,
-  width: screenWidth,
+  width: SCREEN_WIDTH,
   backgroundColor: colors.white,
   borderBottomWidth: 1,
   borderColor: colors.pinkishGrey,
@@ -320,32 +251,16 @@ const Space = styled.View({
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
+    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 50 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
     headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
-    headerLeft: (props) => <HeaderMenu {...props} navigator={navigation} />,
+    headerLeft: (props) => <HomeHeaderLeft {...props} navigator={navigation} />,
     headerRight: (props) => (
       <HomeHeaderRight {...props} navigator={navigation} />
     ),
   };
-};
-const HeaderMenu = (props) => {
-  return (
-    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item
-        iconSize={30}
-        IconComponent={MaterialIcons}
-        title="메뉴"
-        iconName="menu"
-        onPress={() => {
-          props.navigator.dispatch(DrawerActions.toggleDrawer());
-        }}
-        color={colors.pine}
-      />
-    </HeaderButtons>
-  );
 };
 
 const styles = StyleSheet.create({

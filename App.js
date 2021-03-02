@@ -12,29 +12,28 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
-import Splash from "@UI/Splash";
+import Splash from "./components/UI/Splash";
 import AppNavigator from "./navigation/AppNavigator";
-import { AppLoading } from "expo";
+import AppLoading from "expo-app-loading";
 // import { StatusBar, setStatusBarStyle } from "expo-status-bar";
 import ReduxThunk from "redux-thunk";
 import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { Asset } from "expo-asset";
-import { Ionicons } from "@expo/vector-icons";
-import { Icon } from "react-native-elements";
-import authReducer from "@reducers/auth";
-import branchesReducer from "@reducers/branches";
-import homeReducer from "@reducers/home";
-import flyerReducer from "@reducers/flyer";
-import eventReducer from "@reducers/event";
-import couponReducer from "@reducers/coupon";
-import commonReducer from "@reducers/common";
-import exhibitionReducer from "@reducers/exhibition";
-import exclusiveReducer from "@reducers/exclusive";
-import { WITHDRAWAL } from "@actions/auth";
+import authReducer from "./store/reducers/auth";
+import branchesReducer from "./store/reducers/branches";
+import homeReducer from "./store/reducers/home";
+import flyerReducer from "./store/reducers/flyer";
+import eventReducer from "./store/reducers/event";
+import couponReducer from "./store/reducers/coupon";
+import commonReducer from "./store/reducers/common";
+import exhibitionReducer from "./store/reducers/exhibition";
+import exclusiveReducer from "./store/reducers/exclusive";
+import { WITHDRAWAL } from "./store/actions/auth";
 import * as Notifications from "expo-notifications";
-import * as CommonActions from "@actions/common";
+import * as CommonActions from "./store/actions/common";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import Constants from "expo-constants";
 
 // Prevent native splash screen from autohiding before App component declaration
 SplashScreen.preventAutoHideAsync();
@@ -86,20 +85,23 @@ const rootReducer = (state, action) => {
 };
 const fetchFonts = () => {
   return Font.loadAsync({
-    CustomFont: require("./assets/fonts/Roboto-Regular.ttf"),
-    "CustomFont-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"), //400
+    "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"), //900
+    "Roboto-Light": require("./assets/fonts/Roboto-Light.ttf"), //300
+    "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"), //500
   });
 };
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
-  if (!__DEV__) {
+  if (Constants.manifest.releaseChannel == "prod") {
     usePreventScreenCapture();
   }
 
   useEffect(() => {
-    if (Platform.OS == "android") return;
+    if (Platform.OS == "android")
+      return StatusBar.setBackgroundColor(colors.trueWhite);
     (async () => {
       await StatusBar.setBarStyle("dark-content");
     })();
@@ -115,15 +117,18 @@ export default function App() {
         onFinish={() => {
           setFontLoaded(true);
         }}
+        onError={console.warn}
       />
     );
   }
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
-        <AppNavigator />
-      </Provider>
-    </SafeAreaProvider>
+    <AppearanceProvider>
+      <SafeAreaProvider>
+        <Provider store={store}>
+          <StatusBar barStyle="dark-content" backgroundColor="white" />
+          <AppNavigator />
+        </Provider>
+      </SafeAreaProvider>
+    </AppearanceProvider>
   );
 }

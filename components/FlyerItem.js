@@ -8,11 +8,11 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { BaseImage, BaseText } from "@UI/BaseUI";
+import { BaseImage, BaseText } from "../components/UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "@constants/settings";
-import * as Util from "@util";
+import { IMAGE_URL } from "../constants";
+import * as Util from "../util";
 import moment from "moment";
 import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
@@ -28,21 +28,37 @@ const FlyerItem = (props) => {
         maxWidth: "33.3333%",
       }}
     >
-      {!_.isEmpty(props.item.bogo) && (
-        <BogoIcon>
-          <BogoText>{props.item.bogo}</BogoText>
-        </BogoIcon>
-      )}
       <Container>
-        <BaseImage
-          style={{
-            width: width * 0.285,
-            // height: width * 0.227,
-            aspectRatio: 100 / 103.797,
-          }}
-          source={props.item.title_img}
-          defaultSource={require("@images/p_img503.png")}
-        />
+        <ImageContainer>
+          {!_.isEmpty(props.item.bogo) && (
+            <BogoIcon>
+              <BogoText>{props.item.bogo}</BogoText>
+            </BogoIcon>
+          )}
+          <BaseImage
+            style={{
+              width: width * 0.285,
+              // height: width * 0.227,
+              aspectRatio: 100 / 103.797,
+            }}
+            source={props.item.title_img}
+            defaultSource={require("../assets/images/p_img503.png")}
+          />
+        </ImageContainer>
+        <Title>{props.item.title}</Title>
+        {props.item.sale_price <= 0 && (
+          <>
+            <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
+          </>
+        )}
+        {props.item.sale_price > 0 && (
+          <>
+            <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
+            <OriginalPrice>
+              {Util.formatNumber(props.item.price)}원
+            </OriginalPrice>
+          </>
+        )}
         {props.item.card_price != 0 && (
           <BadgeContainer>
             <Badge1>카드할인</Badge1>
@@ -56,7 +72,7 @@ const FlyerItem = (props) => {
         )}
         {props.item.coupon_price != 0 && (
           <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.appleGreen }}>
+            <Badge1 style={{ backgroundColor: colors.grapefruit }}>
               쿠폰할인
             </Badge1>
             {!_.isEmpty(props.item.coupon_sdate) && (
@@ -69,7 +85,7 @@ const FlyerItem = (props) => {
         )}
         {props.item.members_price != 0 && (
           <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.waterBlue }}>
+            <Badge1 style={{ backgroundColor: colors.tealish }}>
               NH멤버스
             </Badge1>
             {!_.isEmpty(props.item.members_sdate) && (
@@ -80,45 +96,36 @@ const FlyerItem = (props) => {
             )}
           </BadgeContainer>
         )}
-
-        <Title>{props.item.title}</Title>
-        <OriginalPrice>{Util.formatNumber(props.item.price)}원</OriginalPrice>
-        {props.item.sale_price > 0 && (
-          <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
-        )}
       </Container>
     </TouchableOpacity>
   );
 };
+const ImageContainer = styled.View({});
 const BogoText = styled(BaseText)({
   fontSize: 12,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "right",
   color: colors.trueWhite,
 });
-const BogoIcon = styled(LinearGradient)({
-  width: 27,
-  height: 27,
-  borderRadius: 100,
+const BogoIcon = styled.View({
+  width: 43,
+  height: 21.5,
   justifyContent: "center",
   alignItems: "center",
   position: "absolute",
-  right: -5,
-  top: -0,
+  left: 0,
+  top: 0,
   zIndex: 10,
   elevation: 1,
+  backgroundColor: "rgba(255, 46, 46, 0.8)",
 });
-BogoIcon.defaultProps = {
-  colors: [colors.cherry, colors.purplishRed, colors.wineRed],
-  start: { x: 0, y: -1 },
-  end: { x: 0, y: 1 },
-};
+
 const BadgeContainer = styled.View({
   flexDirection: "row",
-  marginBottom: 1,
+  marginBottom: 2.5,
   width: "100%",
 });
 const Badge1 = styled(BaseText)({
@@ -129,9 +136,10 @@ const Badge1 = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "right",
   color: colors.trueWhite,
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.brightBlue,
   paddingLeft: 3,
   paddingRight: 3,
+  letterSpacing: -0.28,
 });
 const Badge2 = styled(BaseText)({
   fontSize: 9,
@@ -141,7 +149,8 @@ const Badge2 = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "center",
   color: colors.trueWhite,
-  backgroundColor: colors.black,
+  backgroundColor: colors.brownishGrey,
+  letterSpacing: -0.28,
   flex: 1,
 });
 const Container = styled.View({
@@ -162,36 +171,38 @@ const Container = styled.View({
 });
 const SalePrice = styled(BaseText)({
   fontSize: 14,
-  fontFamily: "CustomFont-Bold",
   fontStyle: "normal",
-
-  letterSpacing: 0,
-  textAlign: "left",
-  width: "100%",
-  color: colors.cerulean,
-});
-const OriginalPrice = styled(BaseText)({
-  fontSize: 14,
-  fontFamily: "CustomFont-Bold",
-  fontStyle: "normal",
-
+  lineHeight: 20.5,
+  letterSpacing: -0.28,
   letterSpacing: 0,
   textAlign: "left",
   width: "100%",
   color: colors.black,
 });
-const Title = styled(BaseText)({
-  marginTop: 4,
+const OriginalPrice = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "normal",
+  letterSpacing: -0.24,
   fontStyle: "normal",
-  lineHeight: 14,
+  textDecorationLine: "line-through",
+  textDecorationStyle: "solid",
   letterSpacing: 0,
   textAlign: "left",
+  width: "100%",
+  color: colors.greyishBrown,
+});
+const Title = styled(BaseText)({
+  marginTop: 4,
+  fontSize: 16,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 23.5,
+  letterSpacing: 0,
+  textAlign: "left",
+  letterSpacing: -0.32,
   color: colors.greyishBrown,
 
   width: "100%",
-  height: 14,
+  height: 23.5,
 });
 Title.defaultProps = {
   numberOfLines: 1,
@@ -215,7 +226,7 @@ const styles = StyleSheet.create({
   },
   mainText: {
     color: "black",
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 16,
   },
   deleteButton: {

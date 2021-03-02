@@ -11,9 +11,9 @@ import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
-import * as RootNavigation from "@navigation/RootNavigation";
+import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "./UI/BaseUI";
 
 const BottomButtons = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -24,98 +24,76 @@ const BottomButtons = (props) => {
   if (isBottomNavigation)
     return (
       <Container>
-        <TouchableOpacity
-          style={styles.icons}
+        <ButtonContainer
           onPress={() => {
             RootNavigation.navigate("Home");
           }}
         >
-          <IconContainer>
-            <MaterialIcons name="home" size={26} color={colors.greyishTwo} />
-            <IconText style={styles.center}>홈</IconText>
-          </IconContainer>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.icons}
+          <Image source={require("../assets/images/home_icon.png")} />
+          <IconText>홈</IconText>
+        </ButtonContainer>
+        <ButtonContainer
           onPress={() => {
             if (_.isEmpty(userStore) || !isJoin)
               return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyCoupon");
           }}
         >
-          <IconContainer>
-            <Entypo
-              name="ticket"
-              size={26}
-              color="black"
-              color={colors.greyishTwo}
-            />
-            <IconText style={styles.center}>나의 쿠폰</IconText>
-          </IconContainer>
-        </TouchableOpacity>
+          <Image source={require("../assets/images/coupon_icon.png")} />
+          <IconText>나의 쿠폰</IconText>
+        </ButtonContainer>
         <TouchableOpacity
-          style={[styles.icons, { marginTop: 0, marginBottom: 5 }]}
+          style={[styles.icons, { marginTop: 0, marginBottom: 0 }]}
           onPress={() => {
             RootNavigation.navigate("RingPicker");
           }}
         >
-          <Image source={require("@images/hana_logo.png")} />
+          <Image source={require("../assets/images/HANA_icon.png")} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.icons}
+        <ButtonContainer
           onPress={() => {
             if (_.isEmpty(userStore) || !isJoin)
               return RootNavigation.navigate("Empty");
             RootNavigation.navigate("MyPage");
           }}
         >
-          <IconContainer>
-            <MaterialIcons name="person" size={26} color={colors.greyishTwo} />
-            <IconText style={styles.center}>마이페이지</IconText>
-          </IconContainer>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.icons}
+          <Image source={require("../assets/images/mypage_icon.png")} />
+          <IconText>마이페이지</IconText>
+        </ButtonContainer>
+        <ButtonContainer
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
             Linking.openURL("tel:" + userStore.storeInfo.support_tel);
           }}
         >
-          <IconContainer>
-            <MaterialIcons name="call" size={26} color={colors.greyishTwo} />
-            <IconText style={styles.center}>매장전화</IconText>
-          </IconContainer>
-        </TouchableOpacity>
+          <Image source={require("../assets/images/call_icon.png")} />
+          <IconText>매장전화</IconText>
+        </ButtonContainer>
       </Container>
     );
   else return <></>;
 };
 
-const IconContainer = styled.View({
+const ButtonContainer = styled.TouchableOpacity({
+  backgroundColor: colors.trueWhite,
+  height: 50,
   flex: 1,
-  alignItems: "center",
   justifyContent: "center",
+  alignItems: "center",
+  marginTop: 0,
 });
+
 const IconText = styled(BaseText)({
   fontSize: 12,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
   color: colors.greyishBrown,
 });
 const Container = styled.View({
-  flex: 1,
-  height: 66,
+  height: 50,
   backgroundColor: colors.trueWhite,
-  shadowColor: colors.black16,
-  // shadowOffset: {
-  //   width: 3,
-  //   height: 0,
-  // },
-  shadowRadius: 6,
-  shadowOpacity: 1,
   flexDirection: "row",
   position: "absolute",
   bottom: 0,
@@ -124,27 +102,22 @@ const Container = styled.View({
   // justifyContent: "center",
   alignItems: "center",
   elevation: 10,
+
+  // for IOS
+  zIndex: 10,
+  shadowColor: colors.black16,
+  shadowRadius: 6,
+  shadowOpacity: 0.5,
 });
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 0,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  hide: {
-    opacity: 0,
-  },
   icons: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    marginTop: 9,
     flexDirection: "column",
+    position: "relative",
+    top: -5,
   },
   center: {
     flex: 1,

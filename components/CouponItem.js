@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import { BaseImage, screenWidth, BaseTouchable, BaseText } from "@UI/BaseUI";
-import * as Util from "@util";
+import {
+  BaseImage,
+  SCREEN_WIDTH,
+  BaseTouchable,
+  BaseText,
+} from "../components/UI/BaseUI";
+import * as Util from "../util";
 
 const CouponItem = (props) => {
   return (
@@ -15,12 +20,12 @@ const CouponItem = (props) => {
       <BaseImage
         source={props.item.title_img}
         style={{
-          height: screenWidth * 0.277,
+          height: SCREEN_WIDTH * 0.277,
           aspectRatio: 1 / 1,
           alignSelf: "center",
         }}
         resizeMode="contain"
-        defaultSource={require("@images/n_img501.png")}
+        defaultSource={require("../assets/images/n_img501.png")}
       />
       <Title numberOfLines={2}>{props.item.title}</Title>
       <Date>
@@ -32,7 +37,9 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.blueyGreen }}
         >
           <ButtonText>쿠폰 다운로드</ButtonText>
-          <Icon source={require("@images/ic_file_download_24px.png")} />
+          <Icon
+            source={require("../assets/images/ic_file_download_24px.png")}
+          />
         </Button>
       )}
       {props.item.status == "10" && (
@@ -41,7 +48,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.booger }}
         >
           <ButtonText>사용하기</ButtonText>
-          <Icon source={require("@images/ic_rotate_right_24px.png")} />
+          <Icon source={require("../assets/images/ic_rotate_right_24px.png")} />
         </Button>
       )}
       {props.item.status == "20" && (
@@ -50,7 +57,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.silver }}
         >
           <ButtonText>사용완료</ButtonText>
-          <Icon source={require("@images/ic_timer_24px.png")} />
+          <Icon source={require("../assets/images/ic_timer_24px.png")} />
         </Button>
       )}
       {props.item.status == "30" && (
@@ -59,7 +66,7 @@ const CouponItem = (props) => {
           style={{ backgroundColor: colors.silver }}
         >
           <ButtonText>쿠폰소진완료</ButtonText>
-          <Icon source={require("@images/ic_timer_24px.png")} />
+          <Icon source={require("../assets/images/ic_timer_24px.png")} />
         </Button>
       )}
     </Container>
@@ -88,7 +95,7 @@ const Button = styled(BaseTouchable).attrs({
   borderWidth: 0,
   borderColor: colors.pinkishGrey,
   minHeight: 26,
-  height: screenWidth * 0.072,
+  height: SCREEN_WIDTH * 0.072,
 });
 const Title = styled(BaseText)({
   marginTop: 3,
@@ -104,7 +111,7 @@ const Title = styled(BaseText)({
 });
 const Discount = styled(BaseText)({
   fontSize: 18,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   fontStyle: "normal",
   lineHeight: 26,
   letterSpacing: -0.45,
@@ -138,7 +145,7 @@ const Container = styled.View({
   padding: 10,
 
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
-  marginTop: (props) => (screenWidth - 4 - 18 - 18) * 0.02,
+  marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });
 
 export default CouponItem;

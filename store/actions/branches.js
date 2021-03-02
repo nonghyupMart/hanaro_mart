@@ -1,7 +1,7 @@
 import queryString from "query-string";
-import { API_URL } from "@constants/settings";
-import * as Util from "@util";
-import * as Network from "@util/network";
+import { API_URL } from "../../constants";
+import * as Util from "../../util";
+import * as Network from "../../util/network";
 export const SET_ADDRESS1 = "SET_ADDRESS1";
 export const SET_ADDRESS2 = "SET_ADDRESS2";
 export const SET_BRANCHES = "SET_BRANCHES";

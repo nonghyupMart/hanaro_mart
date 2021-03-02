@@ -1,4 +1,5 @@
 import * as React from "react";
+import styled from "styled-components/native";
 import {
   View,
   Text,
@@ -17,12 +18,13 @@ import {
   useLinkBuilder,
 } from "@react-navigation/native";
 import { useSafeArea } from "react-native-safe-area-context";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText, SCREEN_WIDTH } from "../BaseUI";
 
 import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
-import ConstantsColors from "@constants/colors";
+import ConstantsColors from "../../../constants/Colors";
+import * as Util from "../../../util";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";
@@ -96,7 +98,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
       animation(visible, {
         toValue: 1,
         useNativeDriver,
-        duration: 250,
+        duration: 50,
         ...visibilityAnimationConfig?.show?.config,
       }).start(({ finished }) => {
         if (finished) {
@@ -153,96 +155,114 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
     0
   );
   return (
-    <TabBar
-      {...rest}
-      navigationState={state}
-      activeColor={activeTintColor}
-      inactiveColor={inactiveTintColor}
-      indicatorStyle={[
-        {
-          backgroundColor:
-            focusedRoute.name == "Home"
-              ? ConstantsColors.trueWhite
-              : ConstantsColors.pineGreen,
-          height: 4,
-        },
-        indicatorStyle,
-      ]}
-      style={[{ backgroundColor: colors.card }, style]}
-      pressColor={ConstantsColors.trueWhite}
-      getAccessibilityLabel={({ route }) =>
-        descriptors[route.key].options.tabBarAccessibilityLabel
-      }
-      getTestID={({ route }) => descriptors[route.key].options.tabBarTestID}
-      onTabPress={({ route, preventDefault }) => {
-        const event = navigation.emit({
-          type: "tabPress",
-          target: route.key,
-          canPreventDefault: true,
-        });
-
-        if (event.defaultPrevented) {
-          preventDefault();
+    <Container>
+      <TabBar
+        {...rest}
+        navigationState={state}
+        activeColor={activeTintColor}
+        inactiveColor={inactiveTintColor}
+        indicatorStyle={[
+          {
+            backgroundColor:
+              focusedRoute.name == "Home"
+                ? ConstantsColors.trueWhite
+                : ConstantsColors.emerald,
+            height: 2,
+          },
+          indicatorStyle,
+        ]}
+        style={[{ backgroundColor: colors.card, elevation: 0 }, style]}
+        pressColor={ConstantsColors.trueWhite}
+        getAccessibilityLabel={({ route }) =>
+          descriptors[route.key].options.tabBarAccessibilityLabel
         }
-      }}
-      onTabLongPress={({ route }) =>
-        navigation.emit({
-          type: "tabLongPress",
-          target: route.key,
-        })
-      }
-      renderIcon={({ route, focused, color }) => {
-        if (showIcon === false) {
+        getTestID={({ route }) => descriptors[route.key].options.tabBarTestID}
+        onTabPress={({ route, preventDefault }) => {
+          const event = navigation.emit({
+            type: "tabPress",
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (event.defaultPrevented) {
+            preventDefault();
+          }
+        }}
+        onTabLongPress={({ route }) =>
+          navigation.emit({
+            type: "tabLongPress",
+            target: route.key,
+          })
+        }
+        renderIcon={({ route, focused, color }) => {
+          if (showIcon === false) {
+            return null;
+          }
+
+          const { options } = descriptors[route.key];
+
+          if (options.tabBarIcon !== undefined) {
+            const icon = options.tabBarIcon({ focused, color });
+
+            return <View style={[styles.icon, iconStyle]}>{icon}</View>;
+          }
+
           return null;
-        }
+        }}
+        renderLabel={({ route, focused, color }) => {
+          if (showLabel === false) {
+            return null;
+          }
 
-        const { options } = descriptors[route.key];
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : (route as Route<string>).name;
 
-        if (options.tabBarIcon !== undefined) {
-          const icon = options.tabBarIcon({ focused, color });
+          if (typeof label === "string") {
+            return (
+              <>
+                <BarText
+                  focused={focused}
+                  style={[styles.label, { color }, labelStyle]}
+                  allowFontScaling={false}
+                >
+                  {label}
+                </BarText>
+                <Border focused={focused} />
+              </>
+            );
+          }
 
-          return <View style={[styles.icon, iconStyle]}>{icon}</View>;
-        }
-
-        return null;
-      }}
-      renderLabel={({ route, focused, color }) => {
-        if (showLabel === false) {
-          return null;
-        }
-
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : (route as Route<string>).name;
-
-        if (typeof label === "string") {
-          return (
-            <BaseText
-              style={[styles.label, { color }, labelStyle]}
-              allowFontScaling={false}
-            >
-              {label}
-            </BaseText>
-          );
-        }
-
-        return label({ focused, color });
-      }}
-    />
+          return label({ focused, color });
+        }}
+      />
+    </Container>
   );
 }
-
+const Border = styled.View({
+  marginTop: 2,
+  backgroundColor: (props) =>
+    props.focused ? ConstantsColors.emerald : ConstantsColors.trueWhite,
+  height: 2,
+});
+const BarText = styled(BaseText)({});
+const Container = styled.View({
+  width: "100%",
+  marginLeft: 18,
+  paddingRight: 18,
+  overflow: "hidden",
+});
 const styles = StyleSheet.create({
   tabBar: {
     left: 0,
     right: 0,
     bottom: 0,
     borderTopWidth: StyleSheet.hairlineWidth,
-    elevation: 8,
+    elevation: 0,
   },
   content: {
     flex: 1,
@@ -253,15 +273,17 @@ const styles = StyleSheet.create({
     width: 24,
   },
   label: {
+    paddingLeft: SCREEN_WIDTH > 320 ? 9 : 7,
+    paddingRight: SCREEN_WIDTH > 320 ? 9 : 7,
     textTransform: "uppercase",
 
     backgroundColor: "transparent",
-    fontSize: 16,
+    fontSize: SCREEN_WIDTH > 320 ? 15 : 14,
     fontWeight: "500",
     fontStyle: "normal",
 
     letterSpacing: 0,
     textAlign: "left",
-    color: ConstantsColors.black,
+    color: ConstantsColors.emerald,
   },
 });

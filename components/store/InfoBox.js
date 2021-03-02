@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../../components/UI/BaseUI";
 
 const InfoBox = (props) => {
   return (
@@ -9,10 +9,7 @@ const InfoBox = (props) => {
         <Plus />
         <BlueText>나의 매장을 설정해 주세요</BlueText>
       </TitleContainer>
-      <BottomCover
-        onLoadStart={() => {
-        }}
-      />
+      <BottomCover onLoadStart={() => {}} />
     </StoreBox>
   );
 };
@@ -34,7 +31,7 @@ export const BottomCover = styled.Image({
   //   flex: 1,
 });
 BottomCover.defaultProps = {
-  source: require("@images/num_m.png"),
+  source: require("../../assets/images/num_m.png"),
   resizeMode: "cover",
 };
 const BlueText = styled(BaseText)({
@@ -50,7 +47,7 @@ const BlueText = styled(BaseText)({
 const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
 Plus.defaultProps = {
-  source: require("@images/num4291.png"),
+  source: require("../../assets/images/num4291.png"),
 };
 export const StoreBox = styled.View({
   flex: 1,

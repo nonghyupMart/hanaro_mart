@@ -11,25 +11,26 @@ import {
   Image,
   AppState,
 } from "react-native";
-import ExtendedFlatList from "@UI/ExtendedFlatList";
-import { BackButton, TextTitle } from "@UI/header";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import {
   BaseButtonContainer,
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
-} from "@UI/BaseUI";
-import colors from "@constants/colors";
+} from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
 import * as Location from "expo-location";
-import StoreItem from "@components/store/StoreItem";
-import BaseScreen from "@components/BaseScreen";
-import PickerViews from "@components/store/PickerViews";
-import SearchBar from "@components/store/SearchBar";
-import InfoBox from "@components/store/InfoBox";
-import HistoryList from "@components/store/HistoryList";
+import StoreItem from "../../components/store/StoreItem";
+import BaseScreen from "../../components/BaseScreen";
+import PickerViews from "../../components/store/PickerViews";
+import SearchBar from "../../components/store/SearchBar";
+import InfoBox from "../../components/store/InfoBox";
+import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
-import * as branchesActions from "@actions/branches";
-import { setIsLoading } from "@actions/common";
+import * as branchesActions from "../../store/actions/branches";
+import { setIsLoading } from "../../store/actions/common";
+import { PADDING_BOTTOM_MENU } from "../../constants";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
@@ -175,7 +176,10 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 65 },
+    cardStyle: {
+      backgroundColor: colors.trueWhite,
+      paddingBottom: PADDING_BOTTOM_MENU,
+    },
   };
 };
 // const SearchButton = styled(BaseButtonContainer)({});
@@ -201,7 +205,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   summaryText: {
-    fontFamily: "CustomFont-Bold",
+    fontFamily: "Roboto-Bold",
     fontSize: 18,
   },
   amount: {

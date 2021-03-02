@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import queryString from "query-string";
 import { useSelector, useDispatch } from "react-redux";
 import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "@UI/header";
-import { ExtendedWebView } from "@UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "@constants/settings";
-import { setAlert, setIsLoading } from "@actions/common";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { SERVER_URL, API_URL } from "../../constants";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const PrivacyScreen = (props) => {
   const dispatch = useDispatch();

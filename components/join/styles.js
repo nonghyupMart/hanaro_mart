@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { StyleSheet } from "react-native";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../../components/UI/BaseUI";
 export const WarnText = styled(BaseText)({
   marginTop: 25,
   fontSize: 9,
@@ -36,7 +36,7 @@ export const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
   color: colors.greyishBrown,
-  fontFamily: "CustomFont-Bold",
+  fontFamily: "Roboto-Bold",
   marginLeft: 13,
 });
 

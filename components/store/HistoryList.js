@@ -4,16 +4,16 @@ import styled from "styled-components/native";
 import {
   BlueButton,
   BlueButtonText,
-  screenWidth,
+  SCREEN_WIDTH,
   StyleConstants,
   BaseText,
-} from "@UI/BaseUI";
+} from "../../components/UI/BaseUI";
 import { Image, FlatList } from "react-native";
-import StoreItem from "@components/store/StoreItem";
-import * as branchesActions from "@actions/branches";
-import { SET_STORE_MARK } from "@actions/branches";
+import StoreItem from "../../components/store/StoreItem";
+import * as branchesActions from "../../store/actions/branches";
+import { SET_STORE_MARK } from "../../store/actions/branches";
 import _ from "lodash";
-import { setIsLoading } from "@actions/common";
+import { setIsLoading } from "../../store/actions/common";
 
 const HistoryList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -50,11 +50,15 @@ const HistoryList = (props) => {
       <Container onPress={() => setIsVisible(!isVisible)}>
         <TextContainer>
           <TextContainer2>
-            <Image source={require("@images/ic_star_24px.png")} />
+            <Image source={require("../../assets/images/ic_star_24px.png")} />
             <Text1>회원님이 설정하셨던 매장</Text1>
           </TextContainer2>
-          {!isVisible && <Image source={require("@images/cross0101.png")} />}
-          {isVisible && <Image source={require("@images/cross0102.png")} />}
+          {!isVisible && (
+            <Image source={require("../../assets/images/cross0101.png")} />
+          )}
+          {isVisible && (
+            <Image source={require("../../assets/images/cross0102.png")} />
+          )}
         </TextContainer>
       </Container>
       <Line />
@@ -89,7 +93,7 @@ const Text1 = styled(BaseText)({
 });
 const Line = styled.View({
   height: 1,
-  width: screenWidth - 18 - 18,
+  width: SCREEN_WIDTH - 18 - 18,
   margin: 12.5,
   marginLeft: StyleConstants.defaultPadding,
   marginRight: StyleConstants.defaultPadding,

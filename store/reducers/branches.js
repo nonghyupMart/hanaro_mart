@@ -5,7 +5,7 @@ import {
   SET_BRANCHES_MORE,
   SET_BRANCH,
   SET_STORE_MARK,
-} from "@actions/branches";
+} from "../actions/branches";
 
 const initialState = {
   address1: null,

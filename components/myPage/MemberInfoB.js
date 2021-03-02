@@ -1,10 +1,10 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
-import { StoreBox, BottomCover } from "@components/store/InfoBox";
-import UserName from "@UI/UserName";
-import UserPhoneNumber from "@UI/UserPhoneNumber";
+import { StoreBox, BottomCover } from "../../components/store/InfoBox";
+import UserName from "../../components/UI/UserName";
+import UserPhoneNumber from "../../components/UI/UserPhoneNumber";
 import { Image, View } from "react-native";
-import { BaseText } from "@UI/BaseUI";
+import { BaseText } from "../../components/UI/BaseUI";
 const MemberInfoB = (props) => {
   return (
     <StoreBox style={{}}>
@@ -12,7 +12,7 @@ const MemberInfoB = (props) => {
         <View style={{}}>
           <View style={{ flexDirection: "row" }}>
             <Image
-              source={require("@images/user2.png")}
+              source={require("../../assets/images/user2.png")}
               style={{ alignSelf: "center" }}
             />
             <Name>

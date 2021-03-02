@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   PixelRatio,
+  Image,
 } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -20,17 +21,19 @@ import { EvilIcons, AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
   BaseTouchable,
-  screenWidth,
+  SCREEN_WIDTH,
   BaseButtonContainer,
-  screenHeight,
-} from "@UI/BaseUI";
-import { setPreview } from "@actions/auth";
-import colors from "@constants/colors";
-import { TabMenus } from "@constants/menu";
-import MemberInfo from "@UI/drawer/MemberInfo";
-import GrayButtons from "@UI/drawer/GrayButtons";
-import MenuList from "@UI/drawer/MenuList";
-import LoginButtons from "@UI/drawer/LoginButtons";
+  SCREEN_HEIGHT,
+  BaseText,
+} from "./BaseUI";
+import { setPreview } from "../../store/actions/auth";
+import colors from "../../constants/Colors";
+import { TabMenus } from "../../constants/menu";
+import MemberInfo from "./drawer/MemberInfo";
+import GrayButtons from "./drawer/GrayButtons";
+import MenuList from "./drawer/MenuList";
+import LoginButtons from "./drawer/LoginButtons";
+import Logo from "./drawer/Logo";
 const { width, height } = Dimensions.get("window");
 
 export const CustomDrawerContent = (props, dispatch, menuList) => {
@@ -45,9 +48,9 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
         }}
       >
         <DrawerContentScrollView {...props}>
-          <View style={{ minHeight: screenHeight - screenHeight * 0.24 }}>
+          <View style={{ minHeight: SCREEN_HEIGHT - SCREEN_HEIGHT * 0.24 }}>
+            <Logo {...props} />
             <MemberInfo {...props} />
-            <GrayButtons {...props} menuList={menuList} />
             <MenuList {...props} menuList={menuList} />
           </View>
           <LoginButtons {...props} {...dispatch} />

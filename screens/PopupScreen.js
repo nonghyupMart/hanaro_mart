@@ -1,32 +1,30 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import styled from "styled-components/native";
 import Modal from "react-native-modal";
-import Carousel from "@UI/Carousel";
+import Carousel from "../components/UI/Carousel";
 import {
   StyleConstants,
   BaseImage,
   ScaledImage,
   BaseTouchable,
-  screenWidth,
-  screenHeight,
+  SCREEN_WIDTH,
+  SCREEN_HEIGHT,
   BaseText,
-} from "@UI/BaseUI";
+} from "../components/UI/BaseUI";
 import _ from "lodash";
 import * as Linking from "expo-linking";
-import * as CommonActions from "@actions/common";
-import * as homeActions from "@actions/home";
+import * as CommonActions from "../store/actions/common";
+import * as homeActions from "../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "@actions/home";
+import { SET_STORE_POPUP } from "../store/actions/home";
 import moment from "moment";
 import {
   createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import * as RootNavigation from "@navigation/RootNavigation";
-import { useNavigation } from "@react-navigation/native";
-import { getIsStorePopup } from "@screens/StartupScreen";
+import { getIsStorePopup } from "../screens/StartupScreen";
 
 const PopupScreen = (props) => {
   const dispatch = useDispatch();
@@ -35,6 +33,7 @@ const PopupScreen = (props) => {
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const storePopup = useSelector((state) => state.home.storePopup);
   const isPreview = useSelector((state) => state.auth.isPreview);
+  const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   let isPopupStoreFromStorage;
   (async () => {
     isPopupStoreFromStorage = await getIsStorePopup(userStore, dispatch);
@@ -50,12 +49,6 @@ const PopupScreen = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (isPreview) {
-      dispatch(CommonActions.setDidTryPopup(true));
-      return;
-    }
-  }, [isPreview]);
   useEffect(() => {
     (async () => {
       if (
@@ -128,13 +121,7 @@ const PopupScreen = (props) => {
       await dispatch(CommonActions.setDidTryPopup(true));
     })();
   };
-
-  if (
-    _.isEmpty(storePopup) ||
-    _.isEmpty(userStore) ||
-    !isJoin ||
-    storePopup.popupCnt == 0
-  )
+  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt == 0)
     //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
@@ -165,13 +152,18 @@ const PopupScreen = (props) => {
               activeOpacity={0.8}
               key={item.pop_cd}
               onPress={() => {
-                if (item.link_url != "") Linking.openURL(item.link_url);
+                if (item.link_url) Linking.openURL(item.link_url);
+                else if (item.link_gbn) {
+                  dispatch(CommonActions.setDidTryPopup(item));
+                }
               }}
             >
               <Image
+                initResizeMode="contain"
+                defaultSource={require("../assets/images/p_img503.png")}
                 resizeMode="contain"
                 source={item.display_img}
-                width={screenWidth}
+                width={SCREEN_WIDTH}
                 style={{ height: "100%", backgroundColor: "black" }}
               />
             </TouchableOpacity>
@@ -213,8 +205,8 @@ const Screen = styled.View({
 });
 const Image = styled(BaseImage)({
   resizeMode: "cover",
-  width: screenWidth,
-  height: () => (Platform.OS == "android" ? screenHeight - 40 : screenHeight),
+  width: SCREEN_WIDTH,
+  height: () => (Platform.OS == "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
 });
 const BtnContainer = styled.View({
   flexDirection: "row",
