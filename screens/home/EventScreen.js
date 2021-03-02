@@ -37,19 +37,18 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    if (!isFocused || !link_code) {
-      dispatch(commonActions.setLinkCode(null));
-    }
-    if (!isFocused) return;
-
-    if (!_.isEmpty(userStore)) {
-      setPage(1);
-      fetchEvent();
-    }
     if (link_code) {
       setTimeout(() => {
         moveToDetail(link_code);
       }, 0);
+    }
+    if (!isFocused) {
+      dispatch(commonActions.setLinkCode(null));
+      return;
+    }
+    if (!_.isEmpty(userStore)) {
+      setPage(1);
+      fetchEvent();
     }
   }, [isFocused, userStore, link_code]);
 

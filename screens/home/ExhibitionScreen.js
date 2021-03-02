@@ -35,16 +35,15 @@ const ExhibitionScreen = (props) => {
     data = useSelector((state) => state.exclusive.exclusive);
   }
   useEffect(() => {
-    if (!isFocused || !link_code) {
-      dispatch(commonActions.setLinkCode(null));
-    }
-    if (!isFocused) return;
-
     if (link_code) {
       setTimeout(() => {
         moveToDetail(link_code);
       }, 0);
     }
+    if (!isFocused) {
+      dispatch(commonActions.setLinkCode(null));
+    }
+    if (!isFocused) return;
   }, [isFocused, link_code]);
 
   const moveToDetail = (event_cd) => {
