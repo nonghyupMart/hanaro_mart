@@ -72,7 +72,6 @@ const MyADAgreementScreen = (props) => {
       user_id: await authActions.saveUserTelToStorage(),
     };
     dispatch(authActions.signup(query)).then((userInfo) => {
-      console.log("수정된후=>", userInfo);
       dispatch(setIsLoading(false));
       let yn = push || sms ? "동의" : "거부";
       dispatch(
