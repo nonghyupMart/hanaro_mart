@@ -135,7 +135,7 @@ export const Title = styled(BaseText)({
   flex: 1,
 });
 export const TitleContainer = styled.View({
-  marginTop: 22.5,
+  marginTop: 17.5,
   marginBottom: 8.5,
   flexDirection: "row",
   alignItems: "center",

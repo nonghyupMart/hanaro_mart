@@ -64,7 +64,7 @@ const HomeBanner = (props) => {
           right: 8.5,
           bottom: 5.5,
           width: 35,
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
           borderRadius: 20,
           paddingTop: 2,
           paddingBottom: 2,
