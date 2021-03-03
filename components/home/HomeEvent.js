@@ -60,17 +60,21 @@ const HomeEvent = (props) => {
   return (
     <RoundedContainer>
       <TitleContainer>
-        <Title> </Title>
         {_.size(event.eventList) > 0 && (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => RootNavigation.navigate("Event")}
-          >
-            <MoreContainer>
-              <MoreText>더보기</MoreText>
-              <Image source={require("../../assets/images/path2.png")} />
-            </MoreContainer>
-          </TouchableOpacity>
+          <>
+            <Title style={{ fontSize: Util.normalize(9), lineHeight: null }}>
+              {" "}
+            </Title>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => RootNavigation.navigate("Event")}
+            >
+              <MoreContainer>
+                <MoreText>더보기</MoreText>
+                <Image source={require("../../assets/images/path2.png")} />
+              </MoreContainer>
+            </TouchableOpacity>
+          </>
         )}
       </TitleContainer>
       <Carousel
