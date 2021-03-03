@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity, Image, View } from "react-native";
 import {
   StyleConstants,
   BaseImage,
@@ -15,6 +15,7 @@ import * as Util from "../../util";
 import _ from "lodash";
 import { styles } from "../../screens/home/FlyerScreen";
 import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
+import { styles as FlyerItemColumn2Styles } from "../../components/FlyerItemColumn2";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
@@ -28,6 +29,7 @@ const HomeProducts = (props) => {
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(1);
   const clearData = () => {
+    setPage(1);
     dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
   };
   useEffect(() => {
