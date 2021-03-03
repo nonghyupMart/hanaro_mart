@@ -16,61 +16,58 @@ import * as Util from "../../util";
 import moment from "moment";
 import _ from "lodash";
 
-class Discounts extends PureComponent {
-  render() {
-    const props = this.props;
-    return (
-      <>
-        <View style={{ height: 10 }} />
-        {props.item.card_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container>
-              <Badge1>카드할인</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.card_sdate) && (
-              <Badge2Container>
-                <Badge2>
-                  {moment(props.item.card_sdate).format("MM.DD")}~
-                  {moment(props.item.card_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.coupon_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container style={{ backgroundColor: colors.emerald }}>
-              <Badge1>쿠폰할인</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.coupon_sdate) && (
-              <Badge2Container style={{ borderColor: colors.emerald }}>
-                <Badge2 style={{ color: colors.emerald }}>
-                  {moment(props.item.coupon_sdate).format("MM.DD")}~
-                  {moment(props.item.coupon_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.members_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container style={{ backgroundColor: colors.tealish }}>
-              <Badge1>NH멤버스</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.members_sdate) && (
-              <Badge2Container style={{ borderColor: colors.tealish }}>
-                <Badge2 style={{ color: colors.tealish }}>
-                  {moment(props.item.members_sdate).format("MM.DD")}~
-                  {moment(props.item.members_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-      </>
-    );
-  }
-}
+const Discounts = ({ item }) => {
+  return (
+    <>
+      <View style={{ height: 10 }} />
+      {item.card_price != 0 && (
+        <BadgeContainer>
+          <Badge1Container>
+            <Badge1>카드할인</Badge1>
+          </Badge1Container>
+          {!_.isEmpty(item.card_sdate) && (
+            <Badge2Container>
+              <Badge2>
+                {moment(item.card_sdate).format("MM.DD")}~
+                {moment(item.card_edate).format("MM.DD")}
+              </Badge2>
+            </Badge2Container>
+          )}
+        </BadgeContainer>
+      )}
+      {item.coupon_price != 0 && (
+        <BadgeContainer>
+          <Badge1Container style={{ backgroundColor: colors.emerald }}>
+            <Badge1>쿠폰할인</Badge1>
+          </Badge1Container>
+          {!_.isEmpty(item.coupon_sdate) && (
+            <Badge2Container style={{ borderColor: colors.emerald }}>
+              <Badge2 style={{ color: colors.emerald }}>
+                {moment(item.coupon_sdate).format("MM.DD")}~
+                {moment(item.coupon_edate).format("MM.DD")}
+              </Badge2>
+            </Badge2Container>
+          )}
+        </BadgeContainer>
+      )}
+      {item.members_price != 0 && (
+        <BadgeContainer>
+          <Badge1Container style={{ backgroundColor: colors.tealish }}>
+            <Badge1>NH멤버스</Badge1>
+          </Badge1Container>
+          {!_.isEmpty(item.members_sdate) && (
+            <Badge2Container style={{ borderColor: colors.tealish }}>
+              <Badge2 style={{ color: colors.tealish }}>
+                {moment(item.members_sdate).format("MM.DD")}~
+                {moment(item.members_edate).format("MM.DD")}
+              </Badge2>
+            </Badge2Container>
+          )}
+        </BadgeContainer>
+      )}
+    </>
+  );
+};
 
 const BadgeContainer = styled.View({
   flexDirection: "row",
@@ -111,4 +108,4 @@ const Badge2 = styled(BaseText)({
   paddingRight: 3.5,
 });
 
-export default Discounts;
+export default React.memo(Discounts);

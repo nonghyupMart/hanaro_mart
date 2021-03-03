@@ -1,4 +1,4 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import styled from "styled-components/native";
 import {
   View,
@@ -12,73 +12,65 @@ const { width, height } = Dimensions.get("window");
 import * as Util from "../util";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
-class FlyerItemColumn2 extends PureComponent {
-  // const FlyerItemColumn2 = (this.props) => {
-  render() {
-    return (
-      <View style={styles.containerStyle}>
-        <TouchableOpacity
-          onPress={this.props.onPress}
-          style={styles.containerStyle}
-        >
-          <Container>
-            <ImageContainer>
-              {!_.isEmpty(this.props.item.bogo) && (
-                <BogoIcon>
-                  <BogoText>{this.props.item.bogo}</BogoText>
-                </BogoIcon>
-              )}
-              <BaseImage
-                style={{
-                  width: width * 0.316,
-                  // height: width * 0.227,
-                  aspectRatio: 1 / 1,
-                }}
-                source={this.props.item.title_img}
-                defaultSource={require("../assets/images/n_img501.png")}
-              />
-            </ImageContainer>
-
-            <Discounts item={this.props.item} />
-            {this.props.item.sale_price > 0 && (
-              <>
-                <OriginalPriceContainer>
-                  <PriceTitle>최종행사가</PriceTitle>
-                  <OriginalPrice>
-                    {Util.formatNumber(this.props.item.price)}원
-                  </OriginalPrice>
-                  <Image
-                    source={require("../assets/images/ic_sale.png")}
-                    style={{ marginTop: 4 }}
-                  />
-                </OriginalPriceContainer>
-                <SalePriceContainer>
-                  <SalePrice>
-                    {Util.formatNumber(this.props.item.sale_price)}
-                  </SalePrice>
-                  <SalePriceUnit>원</SalePriceUnit>
-                </SalePriceContainer>
-              </>
+const FlyerItemColumn2 = ({item, onPress}) => {
+  return (
+    <View style={styles.containerStyle}>
+      <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
+        <Container>
+          <ImageContainer>
+            {!_.isEmpty(item.bogo) && (
+              <BogoIcon>
+                <BogoText>{item.bogo}</BogoText>
+              </BogoIcon>
             )}
-            {this.props.item.sale_price <= 0 && (
-              <>
-                <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
-                <SalePriceContainer>
-                  <SalePrice>
-                    {Util.formatNumber(this.props.item.price)}
-                  </SalePrice>
-                  <SalePriceUnit>원</SalePriceUnit>
-                </SalePriceContainer>
-              </>
-            )}
+            <BaseImage
+              style={{
+                width: width * 0.316,
+                // height: width * 0.227,
+                aspectRatio: 1 / 1,
+              }}
+              source={item.title_img}
+              defaultSource={require("../assets/images/n_img501.png")}
+            />
+          </ImageContainer>
 
-            <Title>{this.props.item.title}</Title>
-          </Container>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-}
+          <Discounts item={item} />
+          {item.sale_price > 0 && (
+            <>
+              <OriginalPriceContainer>
+                <PriceTitle>최종행사가</PriceTitle>
+                <OriginalPrice>
+                  {Util.formatNumber(item.price)}원
+                </OriginalPrice>
+                <Image
+                  source={require("../assets/images/ic_sale.png")}
+                  style={{ marginTop: 4 }}
+                />
+              </OriginalPriceContainer>
+              <SalePriceContainer>
+                <SalePrice>
+                  {Util.formatNumber(item.sale_price)}
+                </SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
+          )}
+          {item.sale_price <= 0 && (
+            <>
+              <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
+              <SalePriceContainer>
+                <SalePrice>{Util.formatNumber(item.price)}</SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
+          )}
+
+          <Title>{item.title}</Title>
+        </Container>
+      </TouchableOpacity>
+    </View>
+  );
+};
 const SalePriceUnit = styled(BaseText)({
   fontSize: 13,
   color: colors.blackish2,
@@ -236,4 +228,4 @@ export const styles = StyleSheet.create({
   },
 });
 
-export default FlyerItemColumn2;
+export default React.memo(FlyerItemColumn2);
