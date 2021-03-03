@@ -28,6 +28,7 @@ const HomeProducts = (props) => {
   const [currentItem, setCurrentItem] = useState(null);
   const [page, setPage] = useState(1);
   const clearData = () => {
+    setPage(1);
     dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
   };
   useEffect(() => {
