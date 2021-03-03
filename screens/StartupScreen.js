@@ -30,7 +30,7 @@ const StartupScreen = (props) => {
       dispatch(CommonActions.fetchUpdate()).then((data) => {
         if (data.popupCnt <= 0) return;
         let obj = data.popupList[0];
-
+        if (!obj.app_ver) return;
         let versionCheck = Util.versionCompare(
           INTERNAL_APP_VERSION.slice(0, 3),
           obj.app_ver
