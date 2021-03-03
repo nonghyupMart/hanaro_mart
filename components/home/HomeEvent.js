@@ -24,7 +24,7 @@ const HomeEvent = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const event = useSelector((state) => state.event.event);
-  const eventTitle1 = "하나로마트 앱 지인추천 이벤트";
+  const eventTitle1 = "하나로마트 앱 지인추천하기";
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
   const clearData = () => {
@@ -60,7 +60,7 @@ const HomeEvent = (props) => {
   return (
     <RoundedContainer>
       <TitleContainer>
-        <Title>이벤트</Title>
+        <Title> </Title>
         {_.size(event.eventList) > 0 && (
           <TouchableOpacity
             activeOpacity={0.8}
