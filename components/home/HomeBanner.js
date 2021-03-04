@@ -21,6 +21,7 @@ import * as homeActions from "../../store/actions/home";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import _ from "lodash";
+import * as CommonActions from "../../store/actions/common";
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
@@ -82,7 +83,10 @@ const HomeBanner = (props) => {
               activeOpacity={0.8}
               key={item.display_cd}
               onPress={() => {
-                if (item.link_url != "") Linking.openURL(item.link_url);
+                if (item.link_url) Linking.openURL(item.link_url);
+                else if (item.link_gbn) {
+                  dispatch(CommonActions.setDidTryPopup(item));
+                }
               }}
               style={{
                 height: (SCREEN_WIDTH - 48) * 0.608,
