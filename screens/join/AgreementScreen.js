@@ -413,7 +413,7 @@ const AgreementScreen = (props) => {
         <BlueButton
           style={{ marginLeft: 3 }}
           onPress={() => {
-            props.navigation.goBack();
+            dispatch(setPreview(true));
           }}
         >
           <ButtonText>취소</ButtonText>
