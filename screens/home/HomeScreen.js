@@ -262,13 +262,15 @@ const Space = styled.View({
   borderColor: colors.pinkishGrey,
 });
 
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = ({ route, navigation }) => {
   return {
     cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 50 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
-    headerTitle: (props) => <LogoTitle {...props} navigator={navigation} />,
+    headerTitle: (props) => (
+      <LogoTitle {...props} navigator={navigation} route={route} />
+    ),
     headerLeft: (props) => <HomeHeaderLeft {...props} navigator={navigation} />,
     headerRight: (props) => (
       <HomeHeaderRight {...props} navigator={navigation} />

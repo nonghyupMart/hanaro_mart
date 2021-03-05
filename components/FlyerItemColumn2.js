@@ -2,129 +2,73 @@ import React from "react";
 import styled from "styled-components/native";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
   Dimensions,
 } from "react-native";
 import { BaseImage, BaseText } from "../components/UI/BaseUI";
-import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "../constants";
 import * as Util from "../util";
-import moment from "moment";
-import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
-
-const defaultImage = require("../assets/icon.png");
-const FlyerItemColumn2 = (props) => {
+import Discounts from "../components/flyerItem/Discounts";
+const FlyerItemColumn2 = ({item, onPress}) => {
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-      style={{
-        flex: 0.5,
-        width: "100%",
-        maxWidth: "50%",
+    <View style={styles.containerStyle}>
+      <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
+        <Container>
+          <ImageContainer>
+            {!_.isEmpty(item.bogo) && (
+              <BogoIcon>
+                <BogoText>{item.bogo}</BogoText>
+              </BogoIcon>
+            )}
+            <BaseImage
+              style={{
+                width: width * 0.316,
+                // height: width * 0.227,
+                aspectRatio: 1 / 1,
+              }}
+              source={item.title_img}
+              defaultSource={require("../assets/images/n_img501.png")}
+            />
+          </ImageContainer>
 
-        alignItems: "center",
-      }}
-    >
-      <Container>
-        <ImageContainer>
-          {!_.isEmpty(props.item.bogo) && (
-            <BogoIcon>
-              <BogoText>{props.item.bogo}</BogoText>
-            </BogoIcon>
+          <Discounts item={item} />
+          {item.sale_price > 0 && (
+            <>
+              <OriginalPriceContainer>
+                <PriceTitle>최종행사가</PriceTitle>
+                <OriginalPrice>
+                  {Util.formatNumber(item.price)}원
+                </OriginalPrice>
+                <Image
+                  source={require("../assets/images/ic_sale.png")}
+                  style={{ marginTop: 4 }}
+                />
+              </OriginalPriceContainer>
+              <SalePriceContainer>
+                <SalePrice>
+                  {Util.formatNumber(item.sale_price)}
+                </SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
           )}
-          <BaseImage
-            style={{
-              width: width * 0.316,
-              // height: width * 0.227,
-              aspectRatio: 1 / 1,
-            }}
-            source={props.item.title_img}
-            defaultSource={require("../assets/images/n_img501.png")}
-          />
-        </ImageContainer>
+          {item.sale_price <= 0 && (
+            <>
+              <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
+              <SalePriceContainer>
+                <SalePrice>{Util.formatNumber(item.price)}</SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
+          )}
 
-        <View style={{ height: 10 }} />
-        {props.item.card_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container>
-              <Badge1>카드할인</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.card_sdate) && (
-              <Badge2Container>
-                <Badge2>
-                  {moment(props.item.card_sdate).format("MM.DD")}~
-                  {moment(props.item.card_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.coupon_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container style={{ backgroundColor: colors.emerald }}>
-              <Badge1>쿠폰할인</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.coupon_sdate) && (
-              <Badge2Container style={{ borderColor: colors.emerald }}>
-                <Badge2 style={{ color: colors.emerald }}>
-                  {moment(props.item.coupon_sdate).format("MM.DD")}~
-                  {moment(props.item.coupon_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.members_price != 0 && (
-          <BadgeContainer>
-            <Badge1Container style={{ backgroundColor: colors.tealish }}>
-              <Badge1>NH멤버스</Badge1>
-            </Badge1Container>
-            {!_.isEmpty(props.item.members_sdate) && (
-              <Badge2Container style={{ borderColor: colors.tealish }}>
-                <Badge2 style={{ color: colors.tealish }}>
-                  {moment(props.item.members_sdate).format("MM.DD")}~
-                  {moment(props.item.members_edate).format("MM.DD")}
-                </Badge2>
-              </Badge2Container>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.sale_price > 0 && (
-          <>
-            <OriginalPriceContainer>
-              <PriceTitle>최종행사가</PriceTitle>
-              <OriginalPrice>
-                {Util.formatNumber(props.item.price)}원
-              </OriginalPrice>
-              <Image
-                source={require("../assets/images/ic_sale.png")}
-                style={{ marginTop: 4 }}
-              />
-            </OriginalPriceContainer>
-            <SalePriceContainer>
-              <SalePrice>{Util.formatNumber(props.item.sale_price)}</SalePrice>
-              <SalePriceUnit>원</SalePriceUnit>
-            </SalePriceContainer>
-          </>
-        )}
-        {props.item.sale_price <= 0 && (
-          <>
-            <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
-            <SalePriceContainer>
-              <SalePrice>{Util.formatNumber(props.item.price)}</SalePrice>
-              <SalePriceUnit>원</SalePriceUnit>
-            </SalePriceContainer>
-          </>
-        )}
-
-        <Title>{props.item.title}</Title>
-      </Container>
-    </TouchableOpacity>
+          <Title>{item.title}</Title>
+        </Container>
+      </TouchableOpacity>
+    </View>
   );
 };
 const SalePriceUnit = styled(BaseText)({
@@ -253,7 +197,7 @@ const Title = styled(BaseText)({
 Title.defaultProps = {
   numberOfLines: 1,
 };
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   cartItem: {
     flexBasis: 0,
     flex: 0.333,
@@ -276,6 +220,12 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginLeft: 20,
   },
+  containerStyle: {
+    flex: 0.5,
+    width: "100%",
+    maxWidth: "50%",
+    alignItems: "center",
+  },
 });
 
-export default FlyerItemColumn2;
+export default React.memo(FlyerItemColumn2);

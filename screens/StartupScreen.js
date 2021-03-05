@@ -13,6 +13,7 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as branchesActions from "../store/actions/branches";
+import { INTERNAL_APP_VERSION } from "../constants";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
@@ -26,6 +27,22 @@ const StartupScreen = (props) => {
   useEffect(() => {
     dispatch(CommonActions.setIsLoading(true));
     (async () => {
+      dispatch(CommonActions.fetchUpdate()).then((data) => {
+        if (data.popupCnt <= 0) return;
+        let obj = data.popupList[0];
+        if (!obj.app_ver) return;
+        let versionCheck = Util.versionCompare(
+          INTERNAL_APP_VERSION.slice(0, 3),
+          obj.app_ver
+        );
+
+        if (versionCheck < 0) {
+          //버전이 낮을때만 업데이트 팝업 페이지로 이동
+          dispatch(CommonActions.setIsUpdated(false));
+          dispatch(CommonActions.setIsLoading(false));
+          return;
+        }
+      });
       if (Constants.isDevice) {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         if (token) await dispatch(authActions.setPushToken(token));

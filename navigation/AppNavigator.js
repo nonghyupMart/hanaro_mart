@@ -6,6 +6,7 @@ import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "../screens/StartupScreen";
 import PopupScreen from "../screens/PopupScreen";
+import UpdateScreen from "../screens/UpdateScreen";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/Loading";
 import colors from "../constants/Colors";
@@ -35,9 +36,11 @@ const AppNavigator = (props) => {
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
+  const isUpdated = useSelector((state) => state.common.isUpdated);
 
   const currentScreen = () => {
-    if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
+    if (!isUpdated) return <UpdateScreen />;
+    else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
     else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
     else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
     else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
