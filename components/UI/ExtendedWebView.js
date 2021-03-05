@@ -75,13 +75,14 @@ export const ExtendedWebView = (props) => {
           os: Platform.OS === "ios" ? "I" : "A",
           di: message.value.di,
           ci: message.value.ci,
-          user_age: message.value.birthday,
         };
 
         if (pushToken) query.token = pushToken;
         if (_.isEmpty(userInfo) && !_.isEmpty(agreedStatus)) {
           // Only when the first signup
           query.marketing_agree = agreedStatus[3].isChecked ? "Y" : "N";
+          if (agreedStatus[3].isChecked)
+            query.user_age = message.value.birthday;
         }
         if (!_.isEmpty(userInfo)) {
           query.user_cd = userInfo.user_cd;
