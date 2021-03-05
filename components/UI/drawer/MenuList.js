@@ -148,7 +148,9 @@ const MenuList = (props) => {
           <MenuText>매장 전화</MenuText>
         </MenuButton>
       </MenuButtonContainer>
-      <ShareBtn onPress={Util.sendShareLink.bind(this, userInfo.recommend)}>
+      <ShareBtn
+        onPress={Util.sendShareLink.bind(this, userInfo && userInfo.recommend)}
+      >
         <Image
           source={require("../../../assets/images/bt_heart.png")}
           resizeMode="contain"

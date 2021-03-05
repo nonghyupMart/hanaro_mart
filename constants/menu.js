@@ -1,10 +1,4 @@
-import HomeScreen, {
-  screenOptions as HomeScreenOptions,
-} from "../screens/home/HomeScreen";
 import FlyerScreen from "../screens/home/FlyerScreen";
-import FlyerDetailScreen, {
-  screenOptions as FlyerDetailScreenOptions,
-} from "../screens/home/FlyerDetailScreen";
 import EventScreen from "../screens/home/EventScreen";
 import ExhibitionScreen from "../screens/home/ExhibitionScreen";
 import NaroTubeScreen from "../screens/home/NaroTubeScreen";
