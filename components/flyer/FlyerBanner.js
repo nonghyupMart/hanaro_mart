@@ -77,11 +77,9 @@ const FlyerBanner = ({
                 )}
                 {item.detail_img_cnt > 0 && (
                   <BaseTouchable
-                    onPress={() =>
-                      RootNavigation.navigate("FlyerDetail", {
-                        leaf_cd: item.leaf_cd,
-                      })
-                    }
+                    onPress={RootNavigation.navigate.bind(this, "FlyerDetail", {
+                      leaf_cd: item.leaf_cd,
+                    })}
                     style={{
                       height: SCREEN_WIDTH * 0.608,
                       flex: 1,
@@ -104,11 +102,9 @@ const FlyerBanner = ({
       </View>
       {detail_img_cnt > 0 && (
         <FlyerDetailButton
-          onPress={() =>
-            RootNavigation.navigate("FlyerDetail", {
-              leaf_cd: leaf_cd,
-            })
-          }
+          onPress={RootNavigation.navigate.bind(this, "FlyerDetail", {
+            leaf_cd: leaf_cd,
+          })}
         >
           <DetailText>전단 전체보기</DetailText>
           <Image source={require("../../assets/images/icon.png")} />

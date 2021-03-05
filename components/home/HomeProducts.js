@@ -78,7 +78,7 @@ const HomeProducts = ({ isFocused, userStore }) => {
             <Title>전체상품</Title>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => RootNavigation.navigate("Flyer")}
+              onPress={RootNavigation.navigate.bind(this, "Flyer")}
             >
               <MoreContainer>
                 <MoreText>더보기</MoreText>

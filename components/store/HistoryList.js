@@ -47,7 +47,7 @@ const HistoryList = (props) => {
   const onPress = () => {};
   return (
     <>
-      <Container onPress={() => setIsVisible(!isVisible)}>
+      <Container onPress={setIsVisible.bind(this, !isVisible)}>
         <TextContainer>
           <TextContainer2>
             <Image source={require("../../assets/images/ic_star_24px.png")} />

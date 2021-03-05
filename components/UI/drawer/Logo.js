@@ -25,7 +25,7 @@ const Logo = (props) => {
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => props.navigation.closeDrawer()}
+        onPress={props.navigation.closeDrawer.bind(this)}
         style={{ marginRight: 17 }}
       >
         <IconImage source={require("../../../assets/images/ic_close.png")} />

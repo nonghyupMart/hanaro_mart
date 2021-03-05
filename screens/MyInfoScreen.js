@@ -151,15 +151,15 @@ const MyInfoScreen = (props) => {
           />
         </BarcodeContainer>
         {!!userInfo.mana_qr && (
-          <MangerQRCodeContainer onPress={() => setIsVisible(true)}>
+          <MangerQRCodeContainer onPress={setIsVisible.bind(this, true)}>
             <Image source={require("../assets/images/adminqr.png")} />
           </MangerQRCodeContainer>
         )}
 
         {/* <BlueButton
-          onPress={() => {
-            props.navigation.pop();
-          }}
+          onPress={
+            props.navigation.pop.bind(this);
+          }
         >
          
           <BlueButtonText>확인</BlueButtonText>
@@ -173,14 +173,14 @@ const MyInfoScreen = (props) => {
           isVisible={isVisible}
           useNativeDriver={true}
           hideModalContentWhileAnimating={true}
-          onRequestClose={() => setIsVisible(false)}
+          onRequestClose={setIsVisible.bind(this, false)}
         >
           <ModalContainer>
             <ModalTitle>관리자 QR코드</ModalTitle>
             <QRCodeContainer>
               <QRCode value={userInfo.mana_qr} />
             </QRCodeContainer>
-            <ModalCloseButton onPress={() => setIsVisible(false)}>
+            <ModalCloseButton onPress={setIsVisible.bind(this, false)}>
               <Image source={require("../assets/images/closeBtn10.png")} />
               <ModalCloseText>닫기</ModalCloseText>
             </ModalCloseButton>

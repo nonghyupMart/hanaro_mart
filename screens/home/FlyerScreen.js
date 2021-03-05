@@ -187,7 +187,7 @@ const FlyerScreen = (props) => {
             <CategoryButton
               item={itemData.item}
               type_val={type_val}
-              onPress={() => setType_val(itemData.item.type_val)}
+              onPress={setType_val.bind(this, itemData.item.type_val)}
             />
           )}
         />

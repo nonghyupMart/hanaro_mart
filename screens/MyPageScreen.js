@@ -29,33 +29,33 @@ const MyPageScreen = ({ navigation }) => {
     >
       <MemberInfo />
       <WhiteContainer>
-        <BtnContainer onPress={() => navigation.navigate("MyInfo")}>
+        <BtnContainer onPress={navigation.navigate.bind(this, "MyInfo")}>
           <Icon source={require("../assets/images/tools.png")} />
           <BtnText>내정보확인</BtnText>
         </BtnContainer>
-        <BtnContainer onPress={() => navigation.navigate("MyADAgreement")}>
+        <BtnContainer onPress={navigation.navigate.bind(this, "MyADAgreement")}>
           <Icon source={require("../assets/images/adicon.png")} />
           <BtnText>광고성 정보 수신동의</BtnText>
         </BtnContainer>
-        <BtnContainer onPress={() => navigation.navigate("MyReviews")}>
+        <BtnContainer onPress={navigation.navigate.bind(this, "MyReviews")}>
           <Icon source={require("../assets/images/chat3.png")} />
           <BtnText>나의리뷰</BtnText>
         </BtnContainer>
-        {/* <BtnContainer onPress={() => navigation.navigate("MyOrder")}>
+        {/* <BtnContainer onPress={navigation.navigate.bind(this,"MyOrder")}>
           <Icon source={require("../assets/images/calculator.png")} />
           <BtnText>상품주문내역</BtnText>
         </BtnContainer> */}
-        <BtnContainer onPress={() => navigation.navigate("MyEvent")}>
+        <BtnContainer onPress={navigation.navigate.bind(this, "MyEvent")}>
           <Icon source={require("../assets/images/barcode.png")} />
           <BtnText>이벤트 응모내역</BtnText>
         </BtnContainer>
-        <BtnContainer onPress={() => navigation.navigate("Inquiry")}>
+        <BtnContainer onPress={navigation.navigate.bind(this, "Inquiry")}>
           <Icon source={require("../assets/images/clipboard.png")} />
           <BtnText>나의 문의내역</BtnText>
         </BtnContainer>
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
-          onPress={() => navigation.navigate("Withdrawal")}
+          onPress={navigation.navigate.bind(this, "Withdrawal")}
         >
           <Icon source={require("../assets/images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
@@ -63,10 +63,10 @@ const MyPageScreen = ({ navigation }) => {
         <BlackBox>
           <Image source={require("../assets/images/cogs.png")} />
           <Buttons>
-            <GrayBtn onPress={() => navigation.navigate("Terms")}>
+            <GrayBtn onPress={navigation.navigate.bind(this, "Terms")}>
               <GrayText>이용약관</GrayText>
             </GrayBtn>
-            <GrayBtn onPress={() => navigation.navigate("Privacy")}>
+            <GrayBtn onPress={navigation.navigate.bind(this, "Privacy")}>
               <GrayText>개인정보처리방침</GrayText>
             </GrayBtn>
           </Buttons>

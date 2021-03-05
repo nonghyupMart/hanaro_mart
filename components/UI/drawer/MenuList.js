@@ -31,9 +31,7 @@ const MenuList = (props) => {
     <MenuContainer>
       <MenuButtonContainer>
         <MenuButton
-          onPress={() => {
-            props.navigation.navigate("StoreChange");
-          }}
+          onPress={props.navigation.navigate.bind(this, "StoreChange")}
         >
           <IconImage source={require("../../../assets/images/g2.png")} />
 
@@ -150,7 +148,7 @@ const MenuList = (props) => {
           <MenuText>매장 전화</MenuText>
         </MenuButton>
       </MenuButtonContainer>
-      <ShareBtn onPress={() => Util.sendShareLink(userInfo.recommend)}>
+      <ShareBtn onPress={Util.sendShareLink.bind(this, userInfo.recommend)}>
         <Image
           source={require("../../../assets/images/bt_heart.png")}
           resizeMode="contain"

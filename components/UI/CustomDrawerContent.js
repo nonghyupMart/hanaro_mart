@@ -1,36 +1,10 @@
 import React from "react";
-import styled from "styled-components/native";
-import {
-  Platform,
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  PixelRatio,
-  Image,
-} from "react-native";
+import { View, Dimensions } from "react-native";
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
-import { EvilIcons, AntDesign } from "@expo/vector-icons";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import {
-  BaseTouchable,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "./BaseUI";
-import { setPreview } from "../../store/actions/auth";
+import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { SCREEN_HEIGHT } from "./BaseUI";
 import colors from "../../constants/Colors";
-import { TabMenus } from "../../constants/menu";
 import MemberInfo from "./drawer/MemberInfo";
-import GrayButtons from "./drawer/GrayButtons";
 import MenuList from "./drawer/MenuList";
 import LoginButtons from "./drawer/LoginButtons";
 import Logo from "./drawer/Logo";

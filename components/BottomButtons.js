@@ -24,11 +24,7 @@ const BottomButtons = (props) => {
   if (isBottomNavigation)
     return (
       <Container>
-        <ButtonContainer
-          onPress={() => {
-            RootNavigation.navigate("Home");
-          }}
-        >
+        <ButtonContainer onPress={RootNavigation.navigate.bind(this, "Home")}>
           <Image source={require("../assets/images/home_icon.png")} />
           <IconText>홈</IconText>
         </ButtonContainer>
@@ -44,9 +40,7 @@ const BottomButtons = (props) => {
         </ButtonContainer>
         <TouchableOpacity
           style={[styles.icons, { marginTop: 0, marginBottom: 0 }]}
-          onPress={() => {
-            RootNavigation.navigate("RingPicker");
-          }}
+          onPress={RootNavigation.navigate.bind(this, "RingPicker")}
         >
           <Image source={require("../assets/images/HANA_icon.png")} />
         </TouchableOpacity>

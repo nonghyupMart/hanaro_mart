@@ -21,7 +21,7 @@ const CouponScreen = (props) => {
   const navigation = props.navigation;
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  const page = useRef(1)
+  const page = useRef(1);
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   let couponA, coupon;
@@ -202,7 +202,7 @@ const CouponScreen = (props) => {
                 <CouponItemA
                   item={item}
                   index={index}
-                  onPress={() => onCouponItemPressed(item, "A")}
+                  onPress={onCouponItemPressed.bind(this, item, "A")}
                 />
               );
             }}
@@ -228,7 +228,7 @@ const CouponScreen = (props) => {
                 <CouponItem
                   item={item}
                   index={index}
-                  onPress={() => onCouponItemPressed(item)}
+                  onPress={onCouponItemPressed.bind(this, item)}
                 />
               );
             }}

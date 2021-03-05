@@ -28,7 +28,7 @@ import { setAlert } from "../store/actions/common";
 import _ from "lodash";
 import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
 
-const ProductPopup = ({item}) => {
+const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item) return <></>;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -41,16 +41,14 @@ const ProductPopup = ({item}) => {
   }, [item.sale_price]);
 
   useEffect(() => {
-    if (!props.isVisible) return;
+    if (!isVisible) return;
     dispatch({
       type: SET_PRODUCT_DETAIL,
       productDetail: null,
     });
     setItem_amount(1);
-    dispatch(
-      flyerActions.fetchProductDetail({ product_cd: item.product_cd })
-    );
-  }, [props.isVisible]);
+    dispatch(flyerActions.fetchProductDetail({ product_cd: item.product_cd }));
+  }, [isVisible]);
 
   const onAddCart = () => {
     dispatch(
@@ -73,7 +71,7 @@ const ProductPopup = ({item}) => {
             },
             onPressCancel: () => {
               dispatch(setAlert(null));
-              props.setIsVisible(false);
+              setIsVisible(false);
               RootNavigation.navigate("Cart");
             },
           })
@@ -85,16 +83,14 @@ const ProductPopup = ({item}) => {
   return (
     <Modal
       // animationOutTiming={0}
-      // onBackdropPress={() => props.setIsVisible(false)}
-      onRequestClose={() => props.setIsVisible(false)}
-      isVisible={props.isVisible}
+      // onBackdropPress={setIsVisible.bind(this,false)}
+      onRequestClose={setIsVisible.bind(this, false)}
+      isVisible={isVisible}
       useNativeDriver={true}
       hideModalContentWhileAnimating={true}
     >
       <Container>
-        <CloseBtnContainer
-          onPress={props.setIsVisible.bind(this, !props.isVisible)}
-        >
+        <CloseBtnContainer onPress={setIsVisible.bind(this, !isVisible)}>
           <Image source={require("../assets/images/cross0104.png")} />
         </CloseBtnContainer>
         <Body contentContainerStyle={{ alignItems: "center" }}>
@@ -124,7 +120,7 @@ const ProductPopup = ({item}) => {
               </QContainer>
               <QButtonContainer>
                 <TouchableOpacity
-                  onPress={() => setItem_amount(parseInt(item_amount) + 1)}
+                  onPress={setItem_amount.bind(this,parseInt(item_amount) + 1)}
                 >
                   <Image source={require("../assets/images/sp107.png")} />
                 </TouchableOpacity>
@@ -315,7 +311,7 @@ const ProductPopup = ({item}) => {
                 />
                 <BtnText>장바구니</BtnText>
               </BlueBtn> */}
-            <GrayBtn onPress={props.setIsVisible.bind(this, !props.isVisible)}>
+            <GrayBtn onPress={setIsVisible.bind(this, !isVisible)}>
               {/* <Image
                   source={require("../assets/images/whiteback.png")}
                 /> */}

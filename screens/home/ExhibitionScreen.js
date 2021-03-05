@@ -138,7 +138,7 @@ const ExhibitionScreen = (props) => {
             return (
               <EventItem
                 item={itemData.item}
-                onPress={() => onPress(itemData.item)}
+                onPress={onPress.bind(this, itemData.item)}
               />
             );
           }}
