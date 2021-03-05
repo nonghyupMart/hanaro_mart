@@ -2,6 +2,8 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Network from "../../util/network";
+import _ from "lodash";
+import { INTERNAL_APP_VERSION } from "../../constants";
 
 export const SET_HOME_BANNER = "SET_HOME_BANNER";
 export const SET_HOME_NOTICE = "SET_HOME_NOTICE";
@@ -119,6 +121,17 @@ export const fetchPopup = (query) => {
           storePopup: resData.data,
         });
       } else {
+        //버전이 같거나 높으면 팝업 목록에서 제거
+        _.remove(resData.data.popupList, (currentObject) => {
+          if (currentObject.app_ver) {
+            let versionCheck = Util.versionCompare(
+              INTERNAL_APP_VERSION.slice(0, 3),
+              currentObject.app_ver
+            );
+            return versionCheck >= 0;
+          }
+        });
+        resData.data.popupCnt = resData.data.popupList.length;
         dispatch({ type: SET_APP_POPUP, appPopup: resData.data });
       }
       return resData.data;
