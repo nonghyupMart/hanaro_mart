@@ -12,7 +12,8 @@ const { width, height } = Dimensions.get("window");
 import * as Util from "../util";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
-const FlyerItemColumn2 = ({item, onPress}) => {
+const FlyerItemColumn2 = ({ item, onPress }) => {
+  // console.log(item.title + " FlyerItemColumn2 rendered");
   return (
     <View style={styles.containerStyle}>
       <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
@@ -39,18 +40,14 @@ const FlyerItemColumn2 = ({item, onPress}) => {
             <>
               <OriginalPriceContainer>
                 <PriceTitle>최종행사가</PriceTitle>
-                <OriginalPrice>
-                  {Util.formatNumber(item.price)}원
-                </OriginalPrice>
+                <OriginalPrice>{Util.formatNumber(item.price)}원</OriginalPrice>
                 <Image
                   source={require("../assets/images/ic_sale.png")}
                   style={{ marginTop: 4 }}
                 />
               </OriginalPriceContainer>
               <SalePriceContainer>
-                <SalePrice>
-                  {Util.formatNumber(item.sale_price)}
-                </SalePrice>
+                <SalePrice>{Util.formatNumber(item.sale_price)}</SalePrice>
                 <SalePriceUnit>원</SalePriceUnit>
               </SalePriceContainer>
             </>

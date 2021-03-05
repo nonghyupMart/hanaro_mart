@@ -26,7 +26,7 @@ const PickerViews = (props) => {
   const onLnameChange = async (lname) => {
     props.setLname(() => lname);
     props.setMname(() => null);
-    props.setPage(1);
+    props.pageNum.current = 1;
     const fetchBranches = props.fetchBranches(lname, null, "", 1);
     const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import {
   View,
@@ -31,7 +31,7 @@ const SearchProductScreen = (props) => {
   const [product_nm, setProduct_nm] = useState("");
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const [currentItem, setCurrentItem] = useState(null);
 
   const product = useSelector((state) => state.flyer.searchedProduct);
@@ -58,10 +58,10 @@ const SearchProductScreen = (props) => {
 
   const onSearch = () => {
     Keyboard.dismiss();
-    setPage(1);
+    page.current = 1;
     fetchProduct(null, 1);
   };
-  const fetchProduct = (e, p = page) => {
+  const fetchProduct = (e, p = page.current) => {
     if (product_nm.length < 1) {
       return dispatch(
         setAlert({
@@ -85,9 +85,9 @@ const SearchProductScreen = (props) => {
     });
   };
   const loadMore = () => {
-    if (!isLoading && page + 1 <= product.finalPage) {
-      setPage(page + 1);
-      fetchProduct(null, page + 1);
+    if (!isLoading && page.current + 1 <= product.finalPage) {
+      page.current++;
+      fetchProduct(null, page.current);
     }
   };
   const [isVisible, setIsVisible] = useState(false);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
@@ -21,7 +21,7 @@ const CouponScreen = (props) => {
   const navigation = props.navigation;
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  const [page, setPage] = useState(1);
+  const page = useRef(1)
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   let couponA, coupon;
@@ -41,7 +41,7 @@ const CouponScreen = (props) => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (userStore) {
         dispatch(setIsLoading(true));
-        setPage(1);
+        page.current = 1;
 
         const fetchCouponA = dispatch(
           couponActions.fetchCoupon({
@@ -123,20 +123,19 @@ const CouponScreen = (props) => {
     }
   };
   const loadMore = () => {
-    if (!isLoading && page + 1 <= coupon.finalPage) {
+    if (!isLoading && page.current + 1 <= coupon.finalPage) {
       dispatch(setIsLoading(true));
+      page.current++;
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
           user_cd: userInfo.user_cd,
-          page: page + 1,
+          page: page.current,
           gbn: "B",
         })
       ).then(() => {
         dispatch(setIsLoading(false));
       });
-
-      setPage(page + 1);
     }
   };
   if (!couponA || !coupon) return <></>;
