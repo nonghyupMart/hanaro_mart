@@ -32,7 +32,7 @@ const SearchProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
   const page = useRef(1);
-  const [currentItem, setCurrentItem] = useState(null);
+  const currentItem = useRef(null);
 
   const product = useSelector((state) => state.flyer.searchedProduct);
   useEffect(() => {
@@ -94,7 +94,7 @@ const SearchProductScreen = (props) => {
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
-    setCurrentItem(() => item);
+    currentItem.current = item;
   };
   return (
     <BaseScreen
@@ -151,9 +151,9 @@ const SearchProductScreen = (props) => {
           )}
         />
       )}
-      {currentItem && (
+      {currentItem.current && (
         <ProductPopup
-          item={currentItem}
+          item={currentItem.current}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
         />

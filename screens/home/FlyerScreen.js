@@ -28,7 +28,7 @@ const FlyerScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
-  const [currentItem, setCurrentItem] = useState(null);
+  const currentItem = useRef(null);
   const [pageforCarousel, setPageForCarousel] = useState();
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
@@ -129,7 +129,7 @@ const FlyerScreen = (props) => {
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
-    setCurrentItem(() => item);
+    currentItem.current = item;
   };
   if (!leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
@@ -222,9 +222,9 @@ const FlyerScreen = (props) => {
           text={"행사전단"}
         />
       )}
-      {currentItem && (
+      {currentItem.current && (
         <ProductPopup
-          item={currentItem}
+          item={currentItem.current}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
         />

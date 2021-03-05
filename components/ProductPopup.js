@@ -28,17 +28,17 @@ import { setAlert } from "../store/actions/common";
 import _ from "lodash";
 import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
 
-const ProductPopup = (props) => {
-  if (!props.item) return <></>;
+const ProductPopup = ({item}) => {
+  if (!item) return <></>;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const productDetail = useSelector((state) => state.flyer.productDetail);
   const [item_amount, setItem_amount] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(props.item.sale_price);
+  const [totalPrice, setTotalPrice] = useState(item.sale_price);
 
   useEffect(() => {
-    setTotalPrice(props.item.sale_price);
-  }, [props.item.sale_price]);
+    setTotalPrice(item.sale_price);
+  }, [item.sale_price]);
 
   useEffect(() => {
     if (!props.isVisible) return;
@@ -48,17 +48,17 @@ const ProductPopup = (props) => {
     });
     setItem_amount(1);
     dispatch(
-      flyerActions.fetchProductDetail({ product_cd: props.item.product_cd })
+      flyerActions.fetchProductDetail({ product_cd: item.product_cd })
     );
   }, [props.isVisible]);
 
   const onAddCart = () => {
     dispatch(
       flyerActions.addCart({
-        store_cd: props.item.store_cd,
+        store_cd: item.store_cd,
         user_cd: userInfo.user_cd,
-        product_cd: props.item.product_cd,
-        leaf_cd: props.item.leaf_cd,
+        product_cd: item.product_cd,
+        leaf_cd: item.leaf_cd,
         item_amount: item_amount ? item_amount : 1,
       })
     ).then((data) => {
@@ -105,16 +105,16 @@ const ProductPopup = (props) => {
               aspectRatio: 1 / 1,
               marginTop: 18,
             }}
-            source={props.item.title_img || productDetail.title_img}
+            source={item.title_img || productDetail.title_img}
             resizeMode="cover"
           />
           <BorderLine />
-          <Title>{props.item.title}</Title>
-          <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-          {props.item.sale_price > 0 && (
+          <Title>{item.title}</Title>
+          <SalePrice>{Util.formatNumber(item.price)}원</SalePrice>
+          {item.sale_price > 0 && (
             <PriceContainer style={{}}>
               <PriceUnit>최종혜택가 </PriceUnit>
-              <Price>{Util.formatNumber(props.item.sale_price)}원</Price>
+              <Price>{Util.formatNumber(item.sale_price)}원</Price>
             </PriceContainer>
           )}
           {/* <QuantityContainer>
@@ -151,7 +151,7 @@ const ProductPopup = (props) => {
               <NoticeIcon />
               <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
             </NoticeTitleContainer>
-            {props.item.card_price != 0 && (
+            {item.card_price != 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.cerulean }}>
                   카드할인
@@ -164,7 +164,7 @@ const ProductPopup = (props) => {
                       flexGrow: 0.4,
                     }}
                   >
-                    {Util.formatNumber(props.item.card_price)}원
+                    {Util.formatNumber(item.card_price)}원
                   </Notice2>
                   <Notice2
                     style={{
@@ -175,7 +175,7 @@ const ProductPopup = (props) => {
                     }}
                   >
                     {`카드할인가 ${Util.formatNumber(
-                      props.item.price - props.item.card_price
+                      item.price - item.card_price
                     )}원`}
                   </Notice2>
                 </NoticeRight>
@@ -191,7 +191,7 @@ const ProductPopup = (props) => {
                 </Notice1>
               </NoticeRow>
             )}
-            {props.item.coupon_price != 0 && (
+            {item.coupon_price != 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.appleGreen }}>
                   쿠폰할인
@@ -200,7 +200,7 @@ const ProductPopup = (props) => {
                   <Notice2
                     style={{ color: colors.appleGreen, paddingLeft: 15 }}
                   >
-                    {Util.formatNumber(props.item.coupon_price)}원
+                    {Util.formatNumber(item.coupon_price)}원
                   </Notice2>
                   <Notice2
                     style={{
@@ -210,13 +210,13 @@ const ProductPopup = (props) => {
                     }}
                   >
                     {`쿠폰할인가 ${Util.formatNumber(
-                      props.item.price - props.item.coupon_price
+                      item.price - item.coupon_price
                     )}원`}
                   </Notice2>
                 </NoticeRight>
               </NoticeRow>
             )}
-            {!_.isEmpty(props.item.bogo) && (
+            {!_.isEmpty(item.bogo) && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.cherry }}>
                   다다익선
@@ -230,7 +230,7 @@ const ProductPopup = (props) => {
                       flexShrink: 0,
                     }}
                   >
-                    {props.item.bogo}
+                    {item.bogo}
                   </Notice2>
                   <Notice2
                     style={{
@@ -245,7 +245,7 @@ const ProductPopup = (props) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {props.item.members_price != 0 && (
+            {item.members_price != 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.waterBlue }}>
                   NH멤버스
@@ -258,7 +258,7 @@ const ProductPopup = (props) => {
                       paddingLeft: 15,
                     }}
                   >
-                    {Util.formatNumber(props.item.members_price)}원
+                    {Util.formatNumber(item.members_price)}원
                   </Notice2>
                   <Notice2
                     style={{
@@ -269,7 +269,7 @@ const ProductPopup = (props) => {
                     }}
                   >
                     {`NH멤버스가 ${Util.formatNumber(
-                      props.item.price - props.item.members_price
+                      item.price - item.members_price
                     )}원`}
                   </Notice2>
                 </NoticeRight>
@@ -649,4 +649,4 @@ const Container = styled.View({
 });
 const styles = StyleSheet.create({});
 
-export default ProductPopup;
+export default React.memo(ProductPopup);
