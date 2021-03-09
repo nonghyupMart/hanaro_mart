@@ -1,27 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import {
-  Button,
-  StyleSheet,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Image } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  BaseImage,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "../components/UI/BaseUI";
+import { BaseImage, SCREEN_WIDTH, BaseText } from "../components/UI/BaseUI";
 import * as flyerActions from "../store/actions/flyer";
-import {
-  BaseTouchable,
-  BaseSquareButtonContainer,
-  ButtonText,
-  BaseTextInput,
-} from "./UI/BaseUI";
+import { BaseSquareButtonContainer, BaseTextInput } from "./UI/BaseUI";
 import * as Util from "../util";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { setAlert } from "../store/actions/common";
@@ -31,14 +15,14 @@ import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item) return <></>;
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  // const userInfo = useSelector((state) => state.auth.userInfo);
   const productDetail = useSelector((state) => state.flyer.productDetail);
-  const [item_amount, setItem_amount] = useState(1);
-  const [totalPrice, setTotalPrice] = useState(item.sale_price);
+  // const [item_amount, setItem_amount] = useState(1);
+  // const [totalPrice, setTotalPrice] = useState(item.sale_price);
 
-  useEffect(() => {
-    setTotalPrice(item.sale_price);
-  }, [item.sale_price]);
+  // useEffect(() => {
+  //   setTotalPrice(item.sale_price);
+  // }, [item.sale_price]);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -46,7 +30,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
       type: SET_PRODUCT_DETAIL,
       productDetail: null,
     });
-    setItem_amount(1);
+    // setItem_amount(1);
     dispatch(flyerActions.fetchProductDetail({ product_cd: item.product_cd }));
   }, [isVisible]);
 

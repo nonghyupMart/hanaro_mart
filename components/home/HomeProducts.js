@@ -107,7 +107,7 @@ const HomeProducts = ({ isFocused, userStore }) => {
           )}
         />
       )}
-      {currentItem.current && (
+      {currentItem.current && isVisible && (
         <ProductPopup
           item={currentItem.current}
           isVisible={isVisible}
@@ -154,10 +154,4 @@ const RoundedContainer = styled.View({
   overflow: "hidden",
 });
 
-function areEqual(prevProps, nextProps) {
-  // console.log("prev ==> ", prevProps.page);
-  // console.log("next ==> ", nextProps);
-  // // your logic here
-}
-
-export default React.memo(HomeProducts, areEqual);
+export default React.memo(HomeProducts);

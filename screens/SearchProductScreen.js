@@ -151,7 +151,7 @@ const SearchProductScreen = (props) => {
           )}
         />
       )}
-      {currentItem.current && (
+      {currentItem.current && isVisible && (
         <ProductPopup
           item={currentItem.current}
           isVisible={isVisible}
@@ -212,4 +212,4 @@ const SearchInput = styled(BaseTextInput)({
   marginRight: 15,
 });
 
-export default React.memo(SearchProductScreen);
+export default SearchProductScreen;
