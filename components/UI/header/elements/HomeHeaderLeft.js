@@ -12,12 +12,15 @@ const HomeHeaderLeft = (props) => {
   return (
     <BtnContainer>
       <Btn
-        onPress={() => RootNavigation.toggleDrawer()}
+        onPress={RootNavigation.toggleDrawer.bind(this)}
         style={{ paddingLeft: 23 }}
       >
         <IconImage source={require("../../../../assets/images/menu.png")} />
       </Btn>
-      <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
+      <Btn
+        onPress={RootNavigation.navigate.bind(this, "Notification")}
+        style={{}}
+      >
         <IconImage source={require("../../../../assets/images/bell.png")} />
         {!_.isEmpty(userInfo) && userInfo.push_cnt > 0 && (
           <Image
@@ -27,7 +30,7 @@ const HomeHeaderLeft = (props) => {
         )}
       </Btn>
       {/* <Btn
-        onPress={() => RootNavigation.navigate("Cart")}
+        onPress={RootNavigation.navigate.bind(this,"Cart")}
         style={{ paddingRight: 10 }}
       >
         <MaterialCommunityIcons

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components/native";
 import { TouchableOpacity, Image, View } from "react-native";
 import {
@@ -21,42 +21,42 @@ import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
 import * as RootNavigation from "../../navigation/RootNavigation";
 
-const HomeProducts = (props) => {
+const HomeProducts = ({ isFocused, userStore }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const homeProducts = useSelector((state) => state.home.homeProducts);
   const [isVisible, setIsVisible] = useState(false);
-  const [currentItem, setCurrentItem] = useState(null);
-  const [page, setPage] = useState(1);
+  const currentItem = useRef(null);
+  const page = useRef(1);
   const clearData = () => {
-    setPage(1);
+    page.current = 1;
     dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
   };
   useEffect(() => {
-    if (!props.isFocused || _.isEmpty(props.userStore)) return;
+    if (!isFocused || _.isEmpty(userStore)) return;
     dispatch(setIsLoading(true));
     clearData();
     let query = {
-      store_cd: props.userStore.storeInfo.store_cd,
+      store_cd: userStore.storeInfo.store_cd,
       page: 1,
     };
     dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
       dispatch(setIsLoading(false));
     });
-  }, [props.isFocused]);
+  }, [isFocused]);
 
   const loadMore = () => {
     if (
       !isLoading &&
-      page + 1 <= homeProducts.finalPage &&
+      page.current + 1 <= homeProducts.finalPage &&
       !_.isEmpty(homeProducts) &&
       _.size(homeProducts.productList) > 0
     ) {
       dispatch(setIsLoading(true));
-      setPage(page + 1);
+      page.current++;
       let query = {
-        store_cd: props.userStore.storeInfo.store_cd,
-        page: page + 1,
+        store_cd: userStore.storeInfo.store_cd,
+        page: page.current,
       };
       dispatch(homeActions.fetchHomeProducts(query)).then(() => {
         dispatch(setIsLoading(false));
@@ -65,9 +65,11 @@ const HomeProducts = (props) => {
   };
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
-    setCurrentItem(() => item);
+    currentItem.current = item;
   };
+
   if (!homeProducts || !homeProducts.productList) return <></>;
+  // console.log("================HomeProducts rendered================");
   return (
     <>
       {_.size(homeProducts.productList) > 0 && (
@@ -76,7 +78,7 @@ const HomeProducts = (props) => {
             <Title>전체상품</Title>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => RootNavigation.navigate("Flyer")}
+              onPress={RootNavigation.navigate.bind(this, "Flyer")}
             >
               <MoreContainer>
                 <MoreText>더보기</MoreText>
@@ -88,14 +90,14 @@ const HomeProducts = (props) => {
       )}
       {homeProducts && (
         <ExtendedFlatList
-          listKey={`FlyerList-${props.userStore.storeInfo.store_cd}`}
+          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={2}
           style={[styles.flyerListStyle, { marginTop: 0 }]}
           data={homeProducts.productList}
           keyExtractor={(item) =>
-            `${props.userStore.storeInfo.store_cd}-${item.product_cd}`
+            `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
             <FlyerItemColumn2
@@ -105,9 +107,9 @@ const HomeProducts = (props) => {
           )}
         />
       )}
-      {currentItem && (
+      {currentItem.current && (
         <ProductPopup
-          item={currentItem}
+          item={currentItem.current}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
         />
@@ -115,6 +117,7 @@ const HomeProducts = (props) => {
     </>
   );
 };
+
 export const MoreText = styled(BaseText)({
   fontSize: Util.normalize(9),
   color: colors.emerald,
@@ -151,4 +154,10 @@ const RoundedContainer = styled.View({
   overflow: "hidden",
 });
 
-export default HomeProducts;
+function areEqual(prevProps, nextProps) {
+  // console.log("prev ==> ", prevProps.page);
+  // console.log("next ==> ", nextProps);
+  // // your logic here
+}
+
+export default React.memo(HomeProducts, areEqual);

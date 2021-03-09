@@ -85,4 +85,4 @@ const Container = styled.View({
   width: "100%",
 });
 
-export default EventItem;
+export default React.memo(EventItem);

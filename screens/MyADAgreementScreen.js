@@ -131,7 +131,7 @@ const MyADAgreementScreen = (props) => {
             <SwitchText>SMS</SwitchText>
             <CheckBox
               activeOpacity={0.8}
-              onPress={() => setSms(!sms)}
+              onPress={setSms.bind(this,!sms)}
               checkedIcon={
                 <Image source={require("../assets/images/ckon.png")} />
               }
@@ -157,7 +157,7 @@ const MyADAgreementScreen = (props) => {
             <SwitchText>PUSH</SwitchText>
             <CheckBox
               activeOpacity={0.8}
-              onPress={() => setPush(!push)}
+              onPress={setPush.bind(this,!push)}
               checkedIcon={
                 <Image source={require("../assets/images/ckon.png")} />
               }

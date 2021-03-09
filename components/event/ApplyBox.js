@@ -74,7 +74,7 @@ const ApplyBox = (props) => {
               >
                 <AgreementScreen.CheckButton
                   value={checkItem}
-                  onPress={() => handleChecked(checkItem)}
+                  onPress={handleChecked.bind(this, checkItem)}
                   isRequired={true}
                 />
                 <AgreementScreen.TextView
@@ -100,7 +100,7 @@ const ApplyBox = (props) => {
               <CheckBox
                 containerStyle={[styles.checkbox]}
                 checked={checkItem.isOpen}
-                onPress={() => handleOpen(checkItem)}
+                onPress={handleOpen.bind(this, checkItem)}
                 checkedIcon={
                   <Image source={require("../../assets/images/close_m.png")} />
                 }
@@ -115,7 +115,7 @@ const ApplyBox = (props) => {
               <AgreementScreen.DescTextLine>
                 <AgreementScreen.CircleCheckButton
                   checked={checkItem.child[0].isChecked}
-                  onPress={() => setChecked(checkItem, checkItem.child[0])}
+                  onPress={setChecked.bind(this, checkItem, checkItem.child[0])}
                 />
                 <AgreementScreen.DescText1>
                   개인정보의 선택적 수집·이용 동의
@@ -124,7 +124,7 @@ const ApplyBox = (props) => {
               <AgreementScreen.DescTextLine>
                 <AgreementScreen.CircleCheckButton
                   checked={checkItem.child[1].isChecked}
-                  onPress={() => setChecked(checkItem, checkItem.child[1])}
+                  onPress={setChecked.bind(this, checkItem, checkItem.child[1])}
                 />
                 <AgreementScreen.DescText1>
                   개인정보의 선택적 제공동의

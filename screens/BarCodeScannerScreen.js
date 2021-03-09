@@ -135,7 +135,7 @@ const BarCodeScannerScreen = (props) => {
       </View>
       {/* </BarCodeScanner> */}
       {/* {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button title={"Tap to Scan Again"} onPress={setScanned.bind(this,false)} />
       )} */}
     </BaseScreen>
   );

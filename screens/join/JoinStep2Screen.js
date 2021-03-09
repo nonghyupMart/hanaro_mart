@@ -205,8 +205,8 @@ const JoinStep2Screen = ({ navigation }) => {
             onSubmitEditing={Keyboard.dismiss}
             placeholder="- 없이 입력하세요."
             secureTextEntry={secureTextEntry1}
-            onFocus={() => setSecureTextEntry1(false)}
-            onBlur={() => setSecureTextEntry1(true)}
+            onFocus={setSecureTextEntry1.bind(this, false)}
+            onBlur={setSecureTextEntry1.bind(this, true)}
           />
         </TextInputContainer>
         {(minutes > 0 || seconds > 0) && (
@@ -219,7 +219,10 @@ const JoinStep2Screen = ({ navigation }) => {
           </BlackButton>
         )}
         {minutes <= 0 && seconds <= 0 && (
-          <BlackButton onPress={() => requestOTP()} style={{ marginTop: 10 }}>
+          <BlackButton
+            onPress={requestOTP.bind(this)}
+            style={{ marginTop: 10 }}
+          >
             <ButtonText>인증번호 신청</ButtonText>
           </BlackButton>
         )}
@@ -231,9 +234,7 @@ const JoinStep2Screen = ({ navigation }) => {
                 <Image source={require("../../assets/images/help.png")} />
                 <Label
                   style={{ marginLeft: 10, marginRight: 10 }}
-                  onPress={() => {
-                    otpRef.focus();
-                  }}
+                  onPress={otpRef.focus.bind(this)}
                 >
                   인증번호
                 </Label>
@@ -259,13 +260,13 @@ const JoinStep2Screen = ({ navigation }) => {
                     onSubmitEditing={Keyboard.dismiss}
                     onChangeText={(text) => setAccessCode(text)}
                     secureTextEntry={secureTextEntry2}
-                    onFocus={() => setSecureTextEntry2(false)}
-                    onBlur={() => setSecureTextEntry2(true)}
+                    onFocus={setSecureTextEntry2.bind(this, false)}
+                    onBlur={setSecureTextEntry2.bind(this, true)}
                   />
                 </View>
               </TextInputContainer>
 
-              <BlueButton onPress={() => validateOTP()}>
+              <BlueButton onPress={validateOTP.bind(this)}>
                 <ButtonText>인증번호 확인</ButtonText>
               </BlueButton>
             </View>
@@ -287,9 +288,7 @@ const JoinStep2Screen = ({ navigation }) => {
             </TextInputContainer>
             <GreenButton
               style={{ width: "100%" }}
-              onPress={() => {
-                onPressJoin();
-              }}
+              onPress={onPressJoin.bind(this)}
             >
               <ButtonText>회원가입</ButtonText>
             </GreenButton>

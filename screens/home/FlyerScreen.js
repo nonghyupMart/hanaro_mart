@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useRef } from "react";
 import styled from "styled-components/native";
 import {
   View,
@@ -9,49 +9,36 @@ import {
   StyleSheet,
 } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import {
-  BaseTouchable,
-  BaseImage,
-  SCREEN_HEIGHT,
-  BaseText,
-  SCREEN_WIDTH,
-} from "../../components/UI/BaseUI";
-import * as Util from "../../util";
-
-import * as RootNavigation from "../../navigation/RootNavigation";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
 import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
-import { useFocusEffect } from "@react-navigation/native";
-import { IMAGE_URL } from "../../constants";
-import Carousel from "../../components/UI/Carousel";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/flyer";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
-
-const { width } = Dimensions.get("window");
+import FlyerBanner from "../../components/flyer/FlyerBanner";
 
 const FlyerScreen = (props) => {
   const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
   const dispatch = useDispatch();
-  const [currentItem, setCurrentItem] = useState(null);
+  const currentItem = useRef(null);
   const [pageforCarousel, setPageForCarousel] = useState();
   const leaflet = useSelector((state) => state.flyer.leaflet);
   const product = useSelector((state) => state.flyer.product);
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const [carouselKey, setCarouselKey] = useState();
   const [currentFlyer, setCurrentFlyer] = useState();
   const [type_val, setType_val] = useState("");
   const clearData = () => {
     dispatch({ type: SET_PRODUCT, product: null });
-    setPage(1);
+    page.current = 1;
     setType_val("");
   };
   const init = async () => {
@@ -97,7 +84,7 @@ const FlyerScreen = (props) => {
     });
   }, [type_val]);
 
-  const fetchProduct = (leaf_cd, p = page) => {
+  const fetchProduct = (leaf_cd, p = page.current) => {
     return dispatch(
       flyerActions.fetchProduct({
         store_cd: userStore.storeInfo.store_cd,
@@ -124,24 +111,25 @@ const FlyerScreen = (props) => {
   const loadMore = () => {
     if (
       !isLoading &&
-      page + 1 <= product.finalPage &&
+      page.current + 1 <= product.finalPage &&
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
       dispatch(setIsLoading(true));
-      setPage(page + 1);
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page + 1).then(
-        () => {
-          dispatch(setIsLoading(false));
-        }
-      );
+      page.current++;
+      fetchProduct(
+        leaflet.leafletList[pageforCarousel].leaf_cd,
+        page.current
+      ).then(() => {
+        dispatch(setIsLoading(false));
+      });
     }
   };
   const [isVisible, setIsVisible] = useState(false);
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
-    setCurrentItem(() => item);
+    currentItem.current = item;
   };
   if (!leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
@@ -168,94 +156,14 @@ const FlyerScreen = (props) => {
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       {/* <StoreListPopup isVisible={isVisible} /> */}
-      <View style={{ paddingLeft: 24, paddingRight: 24, width: "100%" }}>
-        <Carousel
-          key={`${carouselKey}`}
-          style={{
-            height: (width - 48) * 0.608,
-            flex: 1,
-            width: "100%",
-            marginBottom: 0,
-          }}
-          autoplay={false}
-          pageInfo={false}
-          bullets={false}
-          arrows={_.size(leaflet.leafletList) <= 1 ? false : true}
-          arrowLeft={
-            <Image
-              source={require("../../assets/images/left_button.png")}
-              style={{ marginLeft: 4 }}
-            />
-          }
-          arrowRight={
-            <Image
-              source={require("../../assets/images/right_button.png")}
-              style={{ marginRight: 4 }}
-            />
-          }
-          pageInfoBackgroundColor={"transparent"}
-          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
-          pageInfoTextSeparator="/"
-          onAnimateNextPage={(p) => setPageForCarousel(p)}
-          chosenBulletStyle={{
-            backgroundColor: colors.yellowOrange,
-            marginLeft: 3.5,
-            marginRight: 3.5,
-          }}
-          bulletStyle={{
-            backgroundColor: colors.white,
-            borderWidth: 0,
-            marginLeft: 3.5,
-            marginRight: 3.5,
-          }}
-          bulletsContainerStyle={{ bottom: -30 }}
-        >
-          {leaflet.leafletList.map((item, index) => {
-            return (
-              <Fragment key={item.leaf_cd}>
-                {item.detail_img_cnt <= 0 && (
-                  <BaseImage
-                    style={{
-                      flex: 1,
-                    }}
-                    source={item.title_img}
-                    defaultSource={require("../../assets/images/m_img499.png")}
-                  />
-                )}
-                {item.detail_img_cnt > 0 && (
-                  <BaseTouchable
-                    onPress={() =>
-                      RootNavigation.navigate("FlyerDetail", {
-                        leaf_cd: item.leaf_cd,
-                      })
-                    }
-                    style={{ height: width * 0.608, flex: 1, width: "100%" }}
-                  >
-                    <BaseImage
-                      style={{
-                        flex: 1,
-                      }}
-                      source={item.title_img}
-                      defaultSource={require("../../assets/images/m_img499.png")}
-                    />
-                  </BaseTouchable>
-                )}
-              </Fragment>
-            );
-          })}
-        </Carousel>
-      </View>
-      {currentFlyer && currentFlyer.detail_img_cnt > 0 && (
-        <FlyerDetailButton
-          onPress={() =>
-            RootNavigation.navigate("FlyerDetail", {
-              leaf_cd: currentFlyer.leaf_cd,
-            })
-          }
-        >
-          <DetailText>전단 전체보기</DetailText>
-          <Image source={require("../../assets/images/icon.png")} />
-        </FlyerDetailButton>
+      {currentFlyer && (
+        <FlyerBanner
+          leafletList={leaflet.leafletList}
+          carouselKey={carouselKey}
+          leaf_cd={currentFlyer.leaf_cd}
+          detail_img_cnt={currentFlyer.detail_img_cnt}
+          setPageForCarousel={setPageForCarousel}
+        />
       )}
       {currentFlyer && currentFlyer.type_list && (
         <ExtendedFlatList
@@ -279,7 +187,7 @@ const FlyerScreen = (props) => {
             <CategoryButton
               item={itemData.item}
               type_val={type_val}
-              onPress={() => setType_val(itemData.item.type_val)}
+              onPress={setType_val.bind(this, itemData.item.type_val)}
             />
           )}
         />
@@ -308,15 +216,15 @@ const FlyerScreen = (props) => {
         <NoList
           style={{
             backgroundColor: colors.trueWhite,
-            height: SCREEN_HEIGHT - (width * 0.283 + 250),
+            height: SCREEN_HEIGHT - (SCREEN_WIDTH * 0.283 + 250),
           }}
           source={require("../../assets/images/box.png")}
           text={"행사전단"}
         />
       )}
-      {currentItem && (
+      {currentItem.current && (
         <ProductPopup
-          item={currentItem}
+          item={currentItem.current}
           isVisible={isVisible}
           setIsVisible={setIsVisible}
         />
@@ -325,27 +233,6 @@ const FlyerScreen = (props) => {
   );
 };
 
-const FlyerDetailButton = styled.TouchableOpacity.attrs({
-  activeOpacity: 0.8,
-})({
-  justifyContent: "center",
-  alignItems: "center",
-  width: "100%",
-  shadowRadius: 4,
-  shadowOpacity: 0.1,
-  backgroundColor: colors.trueWhite,
-  elevation: 0,
-  paddingTop: 5,
-  paddingBottom: 5,
-  flexDirection: "row",
-});
-const DetailText = styled(BaseText)({
-  fontSize: Util.normalize(14),
-  letterSpacing: -0.32,
-  color: colors.emerald,
-  // fontFamily: "Roboto-Bold",
-  marginRight: 2,
-});
 export const styles = StyleSheet.create({
   flyerListColumnWrapperStyle: {
     justifyContent: "flex-start",

@@ -393,7 +393,7 @@ export default class Carousel extends Component {
       bullets.push(
         <TouchableOpacity
           activeOpacity={0}
-          onPress={() => this.animateToPage(i)}
+          onPress={this.animateToPage.bind(this, i)}
           key={`bullet${i}`}
         >
           <View

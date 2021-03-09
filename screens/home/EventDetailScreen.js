@@ -216,10 +216,10 @@ const EventDetailScreen = (props, { navigation }) => {
         >
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => setIsZoom(true)}
+            onPress={setIsZoom.bind(this, true)}
             style={{ width: "100%" }}
           >
-            <PinchGestureHandler onGestureEvent={() => setIsZoom(true)}>
+            <PinchGestureHandler onGestureEvent={setIsZoom.bind(this, true)}>
               <ScaledImage
                 onLoad={onLoad}
                 onError={onLoad}
@@ -243,10 +243,10 @@ const EventDetailScreen = (props, { navigation }) => {
             transparent={true}
             useNativeDriver={true}
             hideModalContentWhileAnimating={true}
-            onRequestClose={() => setIsZoom(false)}
+            onRequestClose={setIsZoom.bind(this, false)}
           >
             <ImageViewer
-              onClick={() => setIsZoom(false)}
+              onClick={setIsZoom.bind(this, false)}
               renderIndicator={() => null}
               imageUrls={[{ url: IMAGE_URL + eventDetail.detail_img }]}
             />

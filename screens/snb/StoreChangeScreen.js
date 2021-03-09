@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -41,7 +41,7 @@ const StoreChangeScreen = (props) => {
   const [lname, setLname] = useState(null);
   const [mname, setMname] = useState(null);
   const [store_nm, setStore_nm] = useState("");
-  const [pageNum, setPage] = useState(1);
+  const pageNum = useRef(1);
 
   const address1 = useSelector((state) => state.branches.address1);
   const address2 = useSelector((state) => state.branches.address2);
@@ -85,7 +85,7 @@ const StoreChangeScreen = (props) => {
     lname = lname,
     mname = mname,
     storeName = store_nm,
-    page = pageNum
+    page = pageNum.current
   ) => {
     let query = {
       lname,
@@ -100,12 +100,12 @@ const StoreChangeScreen = (props) => {
     return dispatch(branchesActions.fetchBranches(query));
   };
   const loadMore = async () => {
-    if (!isLoading && pageNum + 1 <= branches.finalPage) {
+    if (!isLoading && pageNum.current + 1 <= branches.finalPage) {
       dispatch(setIsLoading(true));
-      fetchBranches(lname, mname, store_nm, pageNum + 1).then((data) => {
+      pageNum.current++;
+      fetchBranches(lname, mname, store_nm, pageNum.current).then((data) => {
         dispatch(setIsLoading(false));
       });
-      setPage(pageNum + 1);
     }
   };
   return (
@@ -138,7 +138,7 @@ const StoreChangeScreen = (props) => {
           mname={mname}
           setStore_nm={setStore_nm}
           fetchBranches={fetchBranches}
-          setPage={setPage}
+          pageNum={pageNum}
         />
 
         <PickerViews
@@ -152,7 +152,7 @@ const StoreChangeScreen = (props) => {
           setLname={setLname}
           setMname={setMname}
           fetchBranches={fetchBranches}
-          setPage={setPage}
+          pageNum={pageNum}
         />
 
         {branches && (

@@ -52,8 +52,6 @@ import AutoHeightWebView from "react-native-autoheight-webview";
 import { BackButton, TextTitle } from "../../components/UI/header";
 
 const AgreementScreen = (props) => {
-  const pushToken = useSelector((state) => state.auth.pushToken);
-  const params = props.route.params;
   const navigation = props.navigation;
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -94,14 +92,22 @@ const AgreementScreen = (props) => {
           <DescTextLine>
             <CircleCheckButton
               checked={checkBoxes[1].child[0].isChecked}
-              onPress={() => setChecked(checkBoxes[1], checkBoxes[1].child[0])}
+              onPress={setChecked.bind(
+                this,
+                checkBoxes[1],
+                checkBoxes[1].child[0]
+              )}
             />
             <DescText1>개인정보의 필수적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
             <CircleCheckButton
               checked={checkBoxes[1].child[1].isChecked}
-              onPress={() => setChecked(checkBoxes[1], checkBoxes[1].child[1])}
+              onPress={setChecked.bind(
+                this,
+                checkBoxes[1],
+                checkBoxes[1].child[1]
+              )}
             />
             <DescText1>개인정보의 필수적 제3자 제공동의</DescText1>
           </DescTextLine>
@@ -132,14 +138,22 @@ const AgreementScreen = (props) => {
           <DescTextLine>
             <CircleCheckButton
               checked={checkBoxes[3].child[0].isChecked}
-              onPress={() => setChecked(checkBoxes[3], checkBoxes[3].child[0])}
+              onPress={setChecked.bind(
+                this,
+                checkBoxes[3],
+                checkBoxes[3].child[0]
+              )}
             />
             <DescText1>개인정보의 선택적 수집·이용 동의</DescText1>
           </DescTextLine>
           <DescTextLine>
             <CircleCheckButton
               checked={checkBoxes[3].child[1].isChecked}
-              onPress={() => setChecked(checkBoxes[3], checkBoxes[3].child[1])}
+              onPress={setChecked.bind(
+                this,
+                checkBoxes[3],
+                checkBoxes[3].child[1]
+              )}
             />
             <DescText1>개인정보의 선택적 제3자 제공동의</DescText1>
           </DescTextLine>
@@ -330,7 +344,7 @@ const AgreementScreen = (props) => {
     >
       <CheckBox
         activeOpacity={0.8}
-        onPress={() => handleAllChecked(!toggleAllheckBox)}
+        onPress={handleAllChecked.bind(this, !toggleAllheckBox)}
         title={
           <BaseText style={{ color: colors.trueWhite, marginLeft: 10 }}>
             전체동의
@@ -364,7 +378,7 @@ const AgreementScreen = (props) => {
             <TitleContainer>
               <CheckButton
                 value={item}
-                onPress={() => handleChecked(item)}
+                onPress={handleChecked.bind(this, item)}
                 isRequired={item.isRequired}
               />
               <TextView
@@ -380,7 +394,7 @@ const AgreementScreen = (props) => {
               <CheckBox
                 containerStyle={[styles.checkbox]}
                 checked={item.isOpen}
-                onPress={() => handleOpen(item)}
+                onPress={handleOpen.bind(this, item)}
                 checkedIcon={
                   <Image source={require("../../assets/images/close_m.png")} />
                 }
@@ -404,17 +418,13 @@ const AgreementScreen = (props) => {
       >
         <GreenButton
           style={{ marginRight: 3 }}
-          onPress={() => {
-            checkAgreed();
-          }}
+          onPress={checkAgreed.bind(this)}
         >
           <ButtonText>확인</ButtonText>
         </GreenButton>
         <BlueButton
           style={{ marginLeft: 3 }}
-          onPress={() => {
-            dispatch(setPreview(true));
-          }}
+          onPress={dispatch.bind(this, setPreview(true))}
         >
           <ButtonText>취소</ButtonText>
         </BlueButton>

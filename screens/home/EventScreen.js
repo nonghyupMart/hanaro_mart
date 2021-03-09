@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
@@ -24,7 +24,7 @@ const EventScreen = (props) => {
 
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const link = useSelector((state) => state.common.link);
@@ -50,12 +50,12 @@ const EventScreen = (props) => {
       return;
     }
     if (!_.isEmpty(userStore)) {
-      setPage(1);
+      page.current = 1;
       fetchEvent();
     }
   }, [isFocused, userStore]);
 
-  const fetchEvent = (p = page) => {
+  const fetchEvent = (p = page.current) => {
     dispatch(setIsLoading(true));
     let query = {
       store_cd: userStore.storeInfo.store_cd,
@@ -67,9 +67,9 @@ const EventScreen = (props) => {
     });
   };
   const loadMore = () => {
-    if (!isLoading && page + 1 <= event.finalPage) {
-      fetchEvent(page + 1);
-      setPage(page + 1);
+    if (!isLoading && page.current + 1 <= event.finalPage) {
+      page.current++;
+      fetchEvent(page.current);
     }
   };
 
@@ -111,7 +111,7 @@ const EventScreen = (props) => {
             return (
               <EventItem
                 item={itemData.item}
-                onPress={() => onPress(itemData.item)}
+                onPress={onPress.bind(this, itemData.item)}
               />
             );
           }}

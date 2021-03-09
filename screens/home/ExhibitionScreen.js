@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
@@ -22,7 +22,7 @@ const ExhibitionScreen = (props) => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
-  const [page, setPage] = useState(1);
+  const page = useRef(1);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const [tabInfo, setTabInfo] = useState();
@@ -68,14 +68,14 @@ const ExhibitionScreen = (props) => {
     }
     const unsubscribe = navigation.addListener("focus", () => {
       if (userStore) {
-        setPage(1);
+        page.current = 1;
         fetchExhibition();
       }
     });
     return unsubscribe;
   }, [userStore]);
 
-  const fetchExhibition = (p = page) => {
+  const fetchExhibition = (p = page.current) => {
     dispatch(setIsLoading(true));
     let query = {
       store_cd: userStore.storeInfo.store_cd,
@@ -92,9 +92,9 @@ const ExhibitionScreen = (props) => {
     }
   };
   const loadMore = () => {
-    if (!isLoading && page + 1 <= data.finalPage) {
-      fetchExhibition(page + 1);
-      setPage(page + 1);
+    if (!isLoading && page.current + 1 <= data.finalPage) {
+      page.current++;
+      fetchExhibition(page.current);
     }
   };
 
@@ -138,7 +138,7 @@ const ExhibitionScreen = (props) => {
             return (
               <EventItem
                 item={itemData.item}
-                onPress={() => onPress(itemData.item)}
+                onPress={onPress.bind(this, itemData.item)}
               />
             );
           }}

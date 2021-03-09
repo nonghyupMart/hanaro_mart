@@ -118,7 +118,7 @@ const AppPopup = (props) => {
         <BtnWarpper style={{ borderRightWidth: 0 }} onPress={setDisablePopup}>
           <BtnText>1일동안 보지 않기</BtnText>
         </BtnWarpper>
-        <BtnWarpper onPress={() => setIsVisible(false)}>
+        <BtnWarpper onPress={setIsVisible.bind(this, false)}>
           <BtnText>닫기</BtnText>
         </BtnWarpper>
       </BtnContainer>

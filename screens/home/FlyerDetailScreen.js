@@ -80,19 +80,19 @@ const FlyerDetailScreen = (props, { navigation }) => {
           alignItems: "center",
         }}
       >
-        <Btn onPress={() => goFirst()}>
+        <Btn onPress={goFirst.bind(this)}>
           <Image source={require("../../assets/images/bef11.png")} />
         </Btn>
-        <Btn onPress={() => prev(page)}>
+        <Btn onPress={prev.bind(this, page)}>
           <Image source={require("../../assets/images/bef1.png")} />
         </Btn>
         <Text style={{ width: 100, textAlign: "center" }}>
           {page + 1}/{images.length}
         </Text>
-        <Btn onPress={() => next(page)}>
+        <Btn onPress={next.bind(this, page)}>
           <Image source={require("../../assets/images/next1.png")} />
         </Btn>
-        <Btn onPress={() => goLast()}>
+        <Btn onPress={goLast.bind(this)}>
           <Image source={require("../../assets/images/next11.png")} />
         </Btn>
       </View>
