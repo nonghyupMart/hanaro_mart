@@ -8,7 +8,9 @@
 - settings.js -> INTERNAL_APP_VERSION
 
 # Expo 배포
+
 테스트용 전부 배포후 재시작
+
 ```bash
 expo publish --release-channel develop && expo publish --release-channel stage && expo start
 ```
@@ -16,19 +18,19 @@ expo publish --release-channel develop && expo publish --release-channel stage &
 Expo 운영서버 확인용
 
 ```bash
-expo publish --release-channel stage
+expo publish --release-channel stage && expo start
 ```
 
 개발서버
 
 ```bash
-expo publish --release-channel develop
+expo publish --release-channel develop && expo start
 ```
 
 운영서버
 
 ```bash
-expo publish --release-channel prod
+expo publish --release-channel prod && expo start
 ```
 
 # Expo 빌드
