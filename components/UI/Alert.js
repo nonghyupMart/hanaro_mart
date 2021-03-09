@@ -111,7 +111,7 @@ const Container = styled.View({
   paddingBottom: 25,
   justifyContent: "center",
 });
-export default Alert;
+export default React.memo(Alert);
 
 Alert.defaultProps = {
   useNativeDriver: false,
