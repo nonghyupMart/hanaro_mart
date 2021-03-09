@@ -83,7 +83,7 @@ const Badge1Container = styled.View({
   width: Util.normalize(35),
 });
 const Badge1 = styled(BaseText)({
-  fontSize: Util.normalize(7),
+  fontSize: 9,
   color: colors.trueWhite,
 });
 const Badge2Container = styled.View({
@@ -98,7 +98,7 @@ const Badge2Container = styled.View({
   justifyContent: "center",
 });
 const Badge2 = styled(BaseText)({
-  fontSize: Util.normalize(7),
+  fontSize: 9,
   fontWeight: "normal",
   fontStyle: "normal",
   letterSpacing: 0,

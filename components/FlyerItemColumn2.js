@@ -12,6 +12,8 @@ const { width, height } = Dimensions.get("window");
 import * as Util from "../util";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
+import moment from "moment";
+
 const FlyerItemColumn2 = ({ item, onPress }) => {
   // console.log(item.title + " FlyerItemColumn2 rendered");
   return (
@@ -63,11 +65,27 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
           )}
 
           <Title>{item.title}</Title>
+          <Period>
+            {moment(item.start_date).format("MM.DD")}~
+            {moment(item.end_date).format("MM.DD")}
+          </Period>
         </Container>
       </TouchableOpacity>
     </View>
   );
 };
+const Period = styled(BaseText)({
+  borderRadius: 5,
+  borderStyle: "solid",
+  borderWidth: 0.5,
+  borderColor: colors.warmGreyTwo,
+  fontSize: 9,
+  color: colors.warmGreyTwo,
+  paddingLeft: 5,
+  paddingRight: 5,
+  fontFamily: "Roboto-Bold",
+  marginTop: 4.5,
+});
 const SalePriceUnit = styled(BaseText)({
   fontSize: 13,
   color: colors.blackish2,
