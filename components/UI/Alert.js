@@ -7,8 +7,7 @@ const { width, height } = Dimensions.get("window");
 import { BaseTouchable, BaseText } from "./BaseUI";
 import { useSelector, useDispatch } from "react-redux";
 
-const Alert = (props) => {
-  const alert = useSelector((state) => state.common.alert);
+const Alert = ({ alert, confirmText, cancelText }) => {
   const onPressConfirm = () => {
     if (alert.onPressConfirm) alert.onPressConfirm();
     // else setIsVisible(() => false);
@@ -35,13 +34,13 @@ const Alert = (props) => {
         <ButtonContainer>
           <ConfirmButton onPress={onPressConfirm}>
             <ButtonText>
-              {alert.confirmText ? alert.confirmText : props.confirmText}
+              {alert.confirmText ? alert.confirmText : confirmText}
             </ButtonText>
           </ConfirmButton>
           {alert.onPressCancel && (
             <CancelButton onPress={alert.onPressCancel}>
               <ButtonText>
-                {alert.cancelText ? alert.cancelText : props.cancelText}
+                {alert.cancelText ? alert.cancelText : cancelText}
               </ButtonText>
             </CancelButton>
           )}
@@ -111,7 +110,7 @@ const Container = styled.View({
   paddingBottom: 25,
   justifyContent: "center",
 });
-export default Alert;
+export default React.memo(Alert);
 
 Alert.defaultProps = {
   useNativeDriver: false,

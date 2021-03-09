@@ -222,7 +222,7 @@ const FlyerScreen = (props) => {
           text={"행사전단"}
         />
       )}
-      {currentItem.current && (
+      {currentItem.current && isVisible && (
         <ProductPopup
           item={currentItem.current}
           isVisible={isVisible}
@@ -254,4 +254,4 @@ const ArrowBtn = styled.TouchableOpacity({
   marginTop: -16,
 });
 
-export default React.memo(FlyerScreen);
+export default FlyerScreen;

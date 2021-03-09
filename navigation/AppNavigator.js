@@ -32,6 +32,8 @@ Notifications.setNotificationHandler({
 
 const AppNavigator = (props) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.common.isLoading);
+  const alert = useSelector((state) => state.common.alert);
   const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -86,8 +88,8 @@ const AppNavigator = (props) => {
   }, []);
   return (
     <Fragment>
-      <Loading />
-      <Alert />
+      {isLoading && <Loading isLoading={isLoading} />}
+      {alert && <Alert alert={alert} />}
       <NavigationContainer
         theme={Theme}
         ref={navigationRef}

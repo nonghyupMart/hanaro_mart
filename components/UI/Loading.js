@@ -10,9 +10,8 @@ import {
 } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-const Loading = (props) => {
+const Loading = ({ isLoading }) => {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -99,4 +98,4 @@ const Loading = (props) => {
       </>
     );
 };
-export default Loading;
+export default React.memo(Loading);

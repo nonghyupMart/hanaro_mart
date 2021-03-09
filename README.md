@@ -1,28 +1,36 @@
 # 명령어 메뉴얼
+
 - https://docs.expo.io/workflow/expo-cli/#commands
 
-# 배포전 수정 파일 
+# 배포전 수정 파일
+
 - app.json -> version , buildNumber , versionCode
 - settings.js -> INTERNAL_APP_VERSION
 
 # Expo 배포
 
+테스트용 전부 배포후 재시작
+
+```bash
+expo publish --release-channel develop && expo publish --release-channel stage && expo start
+```
+
 Expo 운영서버 확인용
 
 ```bash
-expo publish --release-channel stage
+expo publish --release-channel stage && expo start
 ```
 
 개발서버
 
 ```bash
-expo publish --release-channel develop
+expo publish --release-channel develop && expo start
 ```
 
 운영서버
 
 ```bash
-expo publish --release-channel prod
+expo publish --release-channel prod && expo start
 ```
 
 # Expo 빌드

@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   screen: { backgroundColor: colors.trueWhite },
 });
 
-export default EventScreen;
+export default React.memo(EventScreen);

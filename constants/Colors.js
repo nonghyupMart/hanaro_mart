@@ -46,5 +46,6 @@ export default colors = {
   blackish2: "#2f2725",
   peacockBlue: "#004e9d",
   brightRed: "#e60012",
+  warmGreyTwo: "#898989",
 };
 
