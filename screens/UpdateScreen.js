@@ -27,7 +27,7 @@ import {
 
 const UpdateScreen = (props) => {
   const dispatch = useDispatch();
-  const updatePopup = useSelector((state) => state.common.updatePopup);
+  const updatePopup = useSelector((state) => state.auth.updatePopup);
 
   useEffect(() => {
     return () => {

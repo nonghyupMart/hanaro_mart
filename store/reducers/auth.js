@@ -10,6 +10,8 @@ import {
   SET_DID_TRY_AL,
   WITHDRAWAL,
   SET_CI,
+  SET_UPDATE_POPUP,
+  SET_IS_UPDATED,
 } from "../actions/auth";
 
 const initialState = {
@@ -22,10 +24,22 @@ const initialState = {
   userInfo: null,
   agreedStatus: null,
   ci: null,
+  updatePopup: null,
+  isUpdated: true,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_IS_UPDATED:
+      return {
+        ...state,
+        isUpdated: action.isUpdated,
+      };
+    case SET_UPDATE_POPUP:
+      return {
+        ...state,
+        updatePopup: action.updatePopup,
+      };
     case SET_PREVIEW: {
       return {
         ...state,

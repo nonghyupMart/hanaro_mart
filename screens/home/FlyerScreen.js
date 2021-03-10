@@ -131,7 +131,7 @@ const FlyerScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     currentItem.current = item;
   };
-  if (!leaflet || !leaflet.leafletList) return <></>;
+  if (!isFocused || !leaflet || !leaflet.leafletList) return <></>;
   if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
     return (
       <NoList

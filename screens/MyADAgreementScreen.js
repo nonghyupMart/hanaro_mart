@@ -41,17 +41,12 @@ const MyADAgreementScreen = (props) => {
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       dispatch(setIsLoading(true));
-      updateUserInfo(dispatch, userInfo, pushToken).then(
-        (data) => {
-          dispatch(setIsLoading(false));
-          setSms(data.userInfo.sms_agree == "Y" ? true : false);
-          setPush(data.userInfo.push_agree == "Y" ? true : false);
-          setMarketing_date(data.userInfo.marketing_date);
-        },
-        () => {
-          console.log("error");
-        }
-      );
+      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
+        dispatch(setIsLoading(false));
+        setSms(data.userInfo.sms_agree == "Y" ? true : false);
+        setPush(data.userInfo.push_agree == "Y" ? true : false);
+        setMarketing_date(data.userInfo.marketing_date);
+      });
     }
   }, []);
   const onPress = async () => {

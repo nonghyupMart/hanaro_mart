@@ -15,7 +15,6 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as Notifications from "expo-notifications";
 import { SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import _ from "lodash";
 import HomeBanner from "../../components/home/HomeBanner";
@@ -109,6 +108,8 @@ const HomeScreen = (props) => {
     navigation.navigate("Cart");
   };
 
+  if (!isFocused) return <></>;
+  // console.log("***************HomeScreen rendered***************");
   return (
     <>
       <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>

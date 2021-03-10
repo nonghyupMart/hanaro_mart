@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import { getResponse } from "../actions/common";
+import { getResponse } from "../actions/auth";
 import _ from "lodash";
 import { INTERNAL_APP_VERSION } from "../../constants";
 

@@ -81,7 +81,7 @@ const EventScreen = (props) => {
   const onPress = (item) => {
     moveToDetail(item.event_cd);
   };
-  if (!event) return <></>;
+  if (!isFocused || !event) return <></>;
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
       <NoList
@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   screen: { backgroundColor: colors.trueWhite },
 });
 
-export default React.memo(EventScreen);
+export default EventScreen;

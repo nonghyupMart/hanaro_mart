@@ -41,7 +41,7 @@ const AppNavigator = (props) => {
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
-  const isUpdated = useSelector((state) => state.common.isUpdated);
+  const isUpdated = useSelector((state) => state.auth.isUpdated);
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
   );

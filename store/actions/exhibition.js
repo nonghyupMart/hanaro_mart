@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import { getResponse } from "../actions/common";
+import { getResponse } from "../actions/auth";
 
 export const SET_EXHIBITION = "SET_EXHIBITION";
 export const SET_EXHIBITION_MORE = "SET_EXHIBITION_MORE";
