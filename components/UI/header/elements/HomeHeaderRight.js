@@ -13,13 +13,13 @@ const HomeHeaderRight = (props) => {
   return (
     <BtnContainer>
       <Btn
-        onPress={RootNavigation.navigate.bind(this, "SearchProduct")}
+        onPress={() => RootNavigation.navigate("SearchProduct")}
         style={{ paddingRight: 21 }}
       >
         <IconImage source={require("../../../../assets/images/search.png")} />
       </Btn>
       {/* <Btn
-        onPress={RootNavigation.navigate.bind(this,"Cart")}
+        onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
       >
         <MaterialCommunityIcons

@@ -26,14 +26,9 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { setAlert, setIsLoading } from "../store/actions/common";
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
-  const isLoading = useSelector((state) => state.common.isLoading);
   const dispatch = useDispatch();
-  const [init, setInit] = useState(() => {
-    dispatch(setIsLoading(false));
-  });
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {

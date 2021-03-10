@@ -67,7 +67,7 @@ const HomeEvent = (props) => {
             </Title>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={RootNavigation.navigate.bind(this, "Event")}
+              onPress={() => RootNavigation.navigate("Event")}
             >
               <MoreContainer>
                 <MoreText>더보기</MoreText>

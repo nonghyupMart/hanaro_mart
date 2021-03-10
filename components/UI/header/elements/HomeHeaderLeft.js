@@ -17,10 +17,7 @@ const HomeHeaderLeft = (props) => {
       >
         <IconImage source={require("../../../../assets/images/menu.png")} />
       </Btn>
-      <Btn
-        onPress={RootNavigation.navigate.bind(this, "Notification")}
-        style={{}}
-      >
+      <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
         <IconImage source={require("../../../../assets/images/bell.png")} />
         {!_.isEmpty(userInfo) && userInfo.push_cnt > 0 && (
           <Image
@@ -30,7 +27,7 @@ const HomeHeaderLeft = (props) => {
         )}
       </Btn>
       {/* <Btn
-        onPress={RootNavigation.navigate.bind(this,"Cart")}
+        onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
       >
         <MaterialCommunityIcons

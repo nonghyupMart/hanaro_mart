@@ -30,9 +30,7 @@ const MenuList = (props) => {
   return (
     <MenuContainer>
       <MenuButtonContainer>
-        <MenuButton
-          onPress={props.navigation.navigate.bind(this, "StoreChange")}
-        >
+        <MenuButton onPress={() => props.navigation.navigate("StoreChange")}>
           <IconImage source={require("../../../assets/images/g2.png")} />
 
           <MenuText>매장설정</MenuText>
