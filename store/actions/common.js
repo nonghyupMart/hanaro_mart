@@ -1,8 +1,9 @@
 import moment from "moment";
 import * as Util from "../../util";
 import queryString from "query-string";
-import * as Network from "../../util/network";
 import { API_URL } from "../../constants";
+import * as Updates from "expo-updates";
+
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
 export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
 export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
@@ -29,7 +30,7 @@ export const fetchUpdate = () => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url);
+      const resData = await getResponse(response, dispatch, url);
 
       dispatch({ type: SET_UPDATE_POPUP, updatePopup: resData.data });
       return resData.data;
@@ -124,4 +125,46 @@ export const setIsLoading = (isLoading) => {
 
 export const saveNotificationToStorage = (data) => {
   Util.setStorageItem("notificationData", JSON.stringify(data));
+};
+
+export const getResponse = async (response, dispatch, url, query) => {
+  const resData = await response.json();
+  //   console.warn(resData);
+
+  if (!response.ok) {
+    //response.status == 500, 400...
+    // console.warn(response);
+    Util.log("ERROR getResponse=> ", url, query);
+    Util.log("ERROR message ==>", resData.error.errorMsg);
+    dispatch(
+      setAlert({
+        message:
+          "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+        },
+      })
+    );
+    return resData;
+  }
+
+  if (resData.code == "USE-0000") {
+    //회원정보가 없는 경우 자동로그인 해제
+    await dispatch(withdrawalFinish());
+    Updates.reloadAsync();
+    return resData;
+  }
+  if (resData.code != "200" && resData.code != "201") {
+    dispatch(
+      setAlert({
+        message: resData.error.errorMsg,
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+        },
+      })
+    );
+    return resData;
+  }
+
+  return resData;
 };

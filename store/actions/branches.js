@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/common";
 export const SET_ADDRESS1 = "SET_ADDRESS1";
 export const SET_ADDRESS2 = "SET_ADDRESS2";
 export const SET_BRANCHES = "SET_BRANCHES";
@@ -16,7 +16,7 @@ export const fetchAddress1 = () => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url);
+      const resData = await getResponse(response, dispatch, url);
 
       dispatch({ type: SET_ADDRESS1, address1: resData.data });
     } catch (err) {
@@ -33,7 +33,7 @@ export const fetchAddress2 = (lname) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url);
+      const resData = await getResponse(response, dispatch, url);
 
       dispatch({ type: SET_ADDRESS2, address2: resData.data });
     } catch (err) {
@@ -51,7 +51,7 @@ export const fetchBranches = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       if (query.page > 1) {
         dispatch({ type: SET_BRANCHES_MORE, branches: resData.data });
@@ -71,12 +71,7 @@ export const fetchBranch = (store_cd) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(
-        response,
-        dispatch,
-        url,
-        store_cd
-      );
+      const resData = await getResponse(response, dispatch, url, store_cd);
 
       dispatch({ type: SET_BRANCH, branch: resData.data });
       return resData.data;
@@ -94,7 +89,7 @@ export const fetchBranchNear = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_BRANCH, branch: resData.data });
       return resData.data;
@@ -112,7 +107,7 @@ export const fetchStoreMark = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
     } catch (err) {
@@ -135,7 +130,7 @@ export const deleteMarkedStore = (query) => {
           "Content-Type": "application/json",
         },
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;

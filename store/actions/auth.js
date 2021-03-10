@@ -2,8 +2,9 @@ import queryString from "query-string";
 import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/common";
 import _ from "lodash";
+import Constants from "expo-constants";
 
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
@@ -27,7 +28,7 @@ export const sendSMS = (query) => {
   });
   return async (dispatch) => {
     const response = await fetch(url);
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
 
     return resData.data;
   };
@@ -48,7 +49,7 @@ export const signup = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
 
     if (resData.data.userInfo && !resData.data.userInfo.user_cd)
       return resData.data.userInfo;
@@ -96,7 +97,7 @@ export const updateLoginLog = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
     return resData.data;
   };
 };
@@ -112,7 +113,7 @@ export const updateLoginLogV1 = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
     return resData.data;
   };
 };
@@ -127,7 +128,7 @@ export const setUserStore = (query, userStore) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
 
     await dispatch(saveUserStore(userStore));
     await saveUserStoreToStorage(userStore);
@@ -153,7 +154,7 @@ export const withdrawal = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await Network.getResponse(response, dispatch, url, query);
+    const resData = await getResponse(response, dispatch, url, query);
 
     // Util.log(resData.data);
     return resData.data;
@@ -212,10 +213,56 @@ export const setReference = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;
     }
   };
+};
+
+export const updateUserInfo = async (dispatch, userInfo, token) => {
+  if (_.isEmpty(userInfo) || !userInfo.recommend) return;
+
+  let tk = `${token}`.trim();
+
+  if (!tk || tk == "") tk = (await Notifications.getExpoPushTokenAsync()).data;
+  let action;
+  tk = `${tk}`.trim();
+
+  if (!Constants.isDevice) tk = "";
+
+  if (tk && tk != "") {
+    action = updateLoginLog({
+      token: token,
+      user_cd: userInfo.user_cd,
+      recommend: userInfo.recommend,
+    });
+    await dispatch(setPushToken(tk));
+  } else {
+    action = updateLoginLogV1({
+      user_cd: userInfo.user_cd,
+      recommend: userInfo.recommend,
+    });
+  }
+
+  return dispatch(action).then(async (data) => {
+    if (_.isEmpty(data.userInfo) || data.userInfo.user_cd != userInfo.user_cd)
+      return;
+
+    dispatch(setUserInfo(data.userInfo));
+    saveUserInfoToStorage(data.userInfo);
+    saveUserTelToStorage(data.userInfo.tel);
+
+    let obj;
+    if (!_.isEmpty(data.storeInfo)) {
+      obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+    }
+    dispatch(saveUserStore(obj));
+    saveUserStoreToStorage(obj);
+    if (_.isEmpty(obj)) {
+      dispatch(CommonActions.setDidTryPopup(false));
+    }
+    return Promise.resolve(data);
+  });
 };

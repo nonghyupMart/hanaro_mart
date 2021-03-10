@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/common";
 
 export const SET_EXCLUSIVE = "SET_EXCLUSIVE";
 export const SET_EXCLUSIVE_MORE = "SET_EXCLUSIVE_MORE";
@@ -16,7 +16,7 @@ export const fetchExclusive = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       let type = SET_EXCLUSIVE;
       if (query.page > 1) {
         type = SET_EXCLUSIVE_MORE;
@@ -40,7 +40,7 @@ export const fetchExclusiveDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       dispatch({
         type: SET_EXCLUSIVE_DETAIL,
         exclusiveDetail: resData.data.info,

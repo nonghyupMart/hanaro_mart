@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/common";
 
 export const SET_COUPON_A = "SET_COUPON_A";
 export const SET_COUPON = "SET_COUPON";
@@ -24,7 +24,7 @@ export const fetchCoupon = (query) => {
     try {
       const response = await fetch(url);
 
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       let type = SET_COUPON;
 
       if (query.page > 1) {
@@ -80,7 +80,7 @@ export const downloadCoupon = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       switch (resData.code) {
         case "200":
           coupon.couponList[index].status = "10";
@@ -127,7 +127,7 @@ export const useCoupon = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       // return;
       coupon.couponList[index].status = "20";
       switch (type) {
@@ -161,7 +161,7 @@ export const fetchCouponDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       // Util.log("fetchCouponDetail", resData.data.couponInfo);
       dispatch({
         type: SET_COUPON_DETAIL,
