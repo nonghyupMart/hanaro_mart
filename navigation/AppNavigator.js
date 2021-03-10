@@ -15,6 +15,7 @@ import * as Notifications from "expo-notifications";
 import { BackHandler, AppState } from "react-native";
 import * as Device from "expo-device";
 import * as Updates from "expo-updates";
+import { updateUserInfo } from "../store/actions/auth";
 
 const Theme = {
   ...DefaultTheme,
@@ -44,6 +45,8 @@ const AppNavigator = (props) => {
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
   );
+  const pushToken = useSelector((state) => state.auth.pushToken);
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const currentScreen = () => {
     if (!isUpdated) return <UpdateScreen />;
@@ -64,6 +67,7 @@ const AppNavigator = (props) => {
       // console.log("App has come to the foreground!");
       updateExpo(dispatch);
       // TODO: 푸시 카운트 api호츌 필요
+      updateUserInfo(dispatch, userInfo, pushToken);
     }
     appState.current = nextAppState;
   };
@@ -111,6 +115,7 @@ const AppNavigator = (props) => {
         //  console.warn(notification.request.content.data);
         dispatch(CommonActions.setNotification(notification));
         // TODO: 푸시 카운트 api호츌 필요
+        updateUserInfo(dispatch, userInfo, pushToken);
       }
     );
 
