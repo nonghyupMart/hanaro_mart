@@ -55,6 +55,22 @@ const CouponDetailScreen = (props) => {
     };
   }, []);
   useEffect(() => {
+    if (!_.isEmpty(couponDetail)) {
+      props.navigation.setOptions({
+        title: "쿠폰",
+        cardStyle: {
+          marginBottom: 0,
+        },
+        headerLeft: () => <BackButton />,
+        headerTitle: (props) => <TextTitle {...props} />,
+        headerRight: (props) =>
+          couponDetail.limit_yn == "N" ? (
+            <></>
+          ) : (
+            <UseButton onPress={onPress} />
+          ),
+      });
+    }
     (async () => {
       if (
         !couponDetail ||
@@ -157,24 +173,6 @@ const CouponDetailScreen = (props) => {
       })
     );
   };
-  useEffect(() => {
-    if (couponDetail) {
-      props.navigation.setOptions({
-        title: "쿠폰",
-        cardStyle: {
-          marginBottom: 0,
-        },
-        headerLeft: () => <BackButton />,
-        headerTitle: (props) => <TextTitle {...props} />,
-        headerRight: (props) =>
-          couponDetail.limit_yn == "N" ? (
-            <></>
-          ) : (
-            <UseButton onPress={onPress} />
-          ),
-      });
-    }
-  }, [couponDetail]);
 
   if (_.isEmpty(couponDetail) || isLoading) return <></>;
   return (
@@ -481,7 +479,7 @@ export const screenOptions = ({ navigation }) => {
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <UseButton {...props} />,
+    headerRight: (props) => <></>,
   };
 };
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
