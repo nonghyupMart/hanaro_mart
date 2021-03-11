@@ -87,7 +87,9 @@ export const setIsJoin = (status) => {
 };
 export const setUserInfo = (userInfo) => {
   return async (dispatch) => {
-    await dispatch({ type: SET_PUSH_CNT, pushCnt: userInfo.push_cnt });
+    if (!_.isEmpty(userInfo)) {
+      await dispatch({ type: SET_PUSH_CNT, pushCnt: userInfo.push_cnt });
+    }
     dispatch({ type: SET_USER_INFO, userInfo: userInfo });
   };
 };
