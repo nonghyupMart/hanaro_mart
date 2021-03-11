@@ -86,13 +86,14 @@ const EmptyScreen = (props) => {
           setAlert({
             message: "휴대폰인증후 사용하실 수\n있는 메뉴입니다.",
             confirmText: "휴대폰인증",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-              dispatch(setPreview(false));
+            onPressConfirm: async () => {
+              await dispatch(setAlert(null));
+              await props.navigation.navigate("Home");
+              await dispatch(setPreview(false));
             },
-            onPressCancel: () => {
-              dispatch(setAlert(null));
-              props.navigation.navigate("Home");
+            onPressCancel: async () => {
+              await dispatch(setAlert(null));
+              await props.navigation.navigate("Home");
             },
           })
         );
