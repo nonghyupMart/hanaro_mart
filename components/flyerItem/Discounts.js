@@ -80,7 +80,7 @@ const Badge1Container = styled.View({
   justifyContent: "center",
   paddingLeft: 3,
   paddingRight: 3,
-  width: 41,
+  width: 43,
 });
 const Badge1 = styled(BaseText)({
   fontSize: 9,
