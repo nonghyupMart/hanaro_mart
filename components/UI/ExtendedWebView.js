@@ -7,14 +7,14 @@ import Alert from "../../components/UI/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/auth";
 import { Platform } from "react-native";
-import { popupConetnt } from "../../screens/join/JoinStep2Screen";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
-import { signup } from "../../screens/join/JoinStep2Screen";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as CommonActions from "../../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
 import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as Notifications from "expo-notifications";
+import JoinPopupContent from "../../screens/join/JoinPopupContent";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -95,7 +95,7 @@ export const ExtendedWebView = (props) => {
         if (!_.isEmpty(userStore)) {
           query.store_cd = userStore.storeInfo.store_cd;
         }
-        signup(query, dispatch, agreedStatus).then(() => {
+        requestSignup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {
             dispatch(CommonActions.setBottomNavigation(true));
             if (index > 0) RootNavigation.pop();
@@ -171,4 +171,63 @@ export const ExtendedWebView = (props) => {
       />
     </>
   );
+};
+
+export const requestSignup = async (query, dispatch, agreedStatus) => {
+  query.token = `${query.token}`.trim();
+  if (!query.token || query.token == "") {
+    query.token = (await Notifications.getExpoPushTokenAsync()).data;
+  }
+  query.token = `${query.token}`.trim();
+  if (!query.token || query.token == "") {
+    return new Promise((resolve, reject) => {
+      dispatch(
+        setAlert({
+          message:
+            "서버통신지연으로 인하여 잠시 후 다시 실행해주시기 바랍니다.",
+          onPressConfirm: async () => {
+            await dispatch(setIsLoading(false));
+            await dispatch(setAlert(null));
+            reject(false);
+          },
+        })
+      );
+    });
+  }
+  return dispatch(authActions.signup(query)).then(async (userInfo) => {
+    if (!_.isEmpty(userInfo)) {
+      await authActions.saveUserTelToStorage(query.user_id);
+      if (userInfo.store_cd) {
+        dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
+          async (storeData) => {
+            await dispatch(setIsLoading(false));
+            await authActions.saveUserStoreToStorage(storeData);
+            await dispatch(authActions.saveUserStore(storeData));
+            dispatch(
+              setAlert({
+                content: <JoinPopupContent />,
+                onPressConfirm: async () => {
+                  await dispatch(setAlert(null));
+                  await dispatch(CommonActions.setDidTryPopup(false));
+                  dispatch(authActions.setIsJoin(true));
+                },
+              })
+            );
+          }
+        );
+      } else {
+        await dispatch(setIsLoading(false));
+        dispatch(
+          setAlert({
+            content: <JoinPopupContent />,
+            onPressConfirm: async () => {
+              await dispatch(setAlert(null));
+              await dispatch(CommonActions.setDidTryPopup(false));
+              dispatch(authActions.setIsJoin(true));
+            },
+          })
+        );
+      }
+    }
+  });
 };

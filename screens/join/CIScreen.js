@@ -57,7 +57,7 @@ const CIScreen = ({ navigation }) => {
 };
 export const screenOptions = ({ navigation }) => {
   return {
-    title: "회원가입",
+    title: "휴대폰 본인인증",
 
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
