@@ -61,6 +61,7 @@ const MemberInfo = (props) => {
                 </View>
                 <Image
                   style={{ flexShrink: 0, width: Util.normalize(11.8) }}
+                  resizeMode="contain"
                   source={require("../../../assets/images/chevron-thin.png")}
                 />
               </BeforeJoinContainer>
