@@ -19,7 +19,7 @@ const HomeHeaderLeft = (props) => {
       </Btn>
       <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
         <IconImage source={require("../../../../assets/images/bell.png")} />
-        {pushCnt.push_cnt > 0 && (
+        {pushCnt > 0 && (
           <Image
             source={require("../../../../assets/images/N.png")}
             style={{ position: "absolute", top: 6, right: 6 }}
