@@ -15,7 +15,9 @@ import * as Notifications from "expo-notifications";
 import { BackHandler, AppState } from "react-native";
 import * as Device from "expo-device";
 import * as Updates from "expo-updates";
-import { updateUserInfo } from "../store/actions/auth";
+import { fetchPushCnt } from "../store/actions/auth";
+import _ from "lodash";
+import * as Util from "../util";
 
 const Theme = {
   ...DefaultTheme,
@@ -45,7 +47,6 @@ const AppNavigator = (props) => {
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
   );
-  const pushToken = useSelector((state) => state.auth.pushToken);
   const userInfo = useSelector((state) => state.auth.userInfo);
 
   const currentScreen = () => {
@@ -59,15 +60,19 @@ const AppNavigator = (props) => {
     return <StartupScreen />;
   };
 
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = async (nextAppState) => {
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
       // console.log("App has come to the foreground!");
       updateExpo(dispatch);
-      // TODO: 푸시 카운트 api호츌 필요
-      updateUserInfo(dispatch, userInfo, pushToken);
+
+      const userInfoData = await Util.getStorageItem("userInfoData");
+      const parsedUserData = await JSON.parse(userInfoData);
+      if (!_.isEmpty(parsedUserData)) {
+        dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+      }
     }
     appState.current = nextAppState;
   };
@@ -110,12 +115,15 @@ const AppNavigator = (props) => {
       }
     );
     const foregroundSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
+      async (notification) => {
         // console.warn(JSON.stringify(notification, null, "\t"));
         //  console.warn(notification.request.content.data);
         dispatch(CommonActions.setNotification(notification));
-        // TODO: 푸시 카운트 api호츌 필요
-        updateUserInfo(dispatch, userInfo, pushToken);
+        const userInfoData = await Util.getStorageItem("userInfoData");
+        const parsedUserData = await JSON.parse(userInfoData);
+        if (!_.isEmpty(parsedUserData)) {
+          dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+        }
       }
     );
 

@@ -12,6 +12,7 @@ import {
   SET_CI,
   SET_UPDATE_POPUP,
   SET_IS_UPDATED,
+  SET_PUSH_CNT,
 } from "../actions/auth";
 
 const initialState = {
@@ -26,10 +27,16 @@ const initialState = {
   ci: null,
   updatePopup: null,
   isUpdated: true,
+  pushCnt: 0,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_PUSH_CNT:
+      return {
+        ...state,
+        pushCnt: action.pushCnt,
+      };
     case SET_IS_UPDATED:
       return {
         ...state,

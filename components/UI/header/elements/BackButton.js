@@ -8,7 +8,8 @@ import * as CommonActions from "../../../../store/actions/common";
 import colors from "../../../../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigationState } from "@react-navigation/native";
-import { setPreview, updateUserInfo } from "../../../../store/actions/auth";
+import { setPreview, fetchPushCnt } from "../../../../store/actions/auth";
+import _ from "lodash";
 
 const BackButton = (props) => {
   const navigation = useNavigation();
@@ -30,8 +31,9 @@ const BackButton = (props) => {
               return dispatch(setPreview(true));
               break;
             case "Notification":
-              // TODO: 푸시 카운트만 호출하는 api로 교체 필요
-              updateUserInfo(dispatch, userInfo, pushToken);
+              if (!_.isEmpty(userInfo)) {
+                dispatch(fetchPushCnt({ user_cd: userInfo.user_cd }));
+              }
               break;
           }
 

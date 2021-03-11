@@ -20,6 +20,7 @@ export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const WITHDRAWAL = "WITHDRAWAL";
 export const SET_CI = "SET_CI";
 export const SET_IS_UPDATED = "SET_IS_UPDATED";
+export const SET_PUSH_CNT = "SET_PUSH_CNT";
 
 export const setIsUpdated = (isUpdated) => {
   return {
@@ -85,7 +86,10 @@ export const setIsJoin = (status) => {
   return { type: SET_IS_JOIN, isJoin: status };
 };
 export const setUserInfo = (userInfo) => {
-  return { type: SET_USER_INFO, userInfo: userInfo };
+  return async (dispatch) => {
+    await dispatch({ type: SET_PUSH_CNT, pushCnt: userInfo.push_cnt });
+    dispatch({ type: SET_USER_INFO, userInfo: userInfo });
+  };
 };
 export const setCI = (ci) => {
   return { type: SET_CI, ci: ci };
@@ -93,6 +97,24 @@ export const setCI = (ci) => {
 export const saveUserStore = (userStore) => {
   return async (dispatch) => {
     dispatch({ type: SET_USER_STORE, userStore: userStore });
+  };
+};
+
+export const fetchPushCnt = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `${API_URL}/push-cnt`,
+    query: query,
+  });
+  return async (dispatch) => {
+    try {
+      const response = await fetch(url);
+      const resData = await getResponse(response, dispatch, url, query);
+
+      dispatch({ type: SET_PUSH_CNT, pushCnt: resData.data.result });
+      return resData.data;
+    } catch (err) {
+      throw err;
+    }
   };
 };
 
