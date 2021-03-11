@@ -213,8 +213,8 @@ const MenuText = styled(BaseText)({
 const MenuButton = styled(BaseTouchable)({
   flexDirection: "row",
   alignItems: "center",
-  marginTop: Util.normalize(9.0),
-  marginBottom: Util.normalize(9.0),
+  marginTop: Util.normalize(9),
+  marginBottom: Util.normalize(9),
   flex: 1,
   paddingLeft: 24,
 });
