@@ -2,6 +2,7 @@ import moment from "moment";
 import * as Util from "../../util";
 import queryString from "query-string";
 import { API_URL } from "../../constants";
+import * as Updates from "expo-updates";
 
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
 export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
@@ -100,4 +101,32 @@ export const setIsLoading = (isLoading) => {
 
 export const saveNotificationToStorage = (data) => {
   Util.setStorageItem("notificationData", JSON.stringify(data));
+};
+
+export const updateExpo = (dispatch) => {
+  if (!__DEV__) {
+    return (async () => {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          // ... notify user of update ...
+          // Util.log("new update");
+          await dispatch(
+            setAlert({
+              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+              confirmText: "업데이트",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                Updates.reloadAsync();
+              },
+            })
+          );
+        }
+      } catch (e) {
+        // handle or log error
+        Util.log("update error=>", e);
+      }
+    })();
+  }
 };

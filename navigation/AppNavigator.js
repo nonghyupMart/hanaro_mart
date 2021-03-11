@@ -14,7 +14,6 @@ import * as CommonActions from "../store/actions/common";
 import * as Notifications from "expo-notifications";
 import { BackHandler, AppState } from "react-native";
 import * as Device from "expo-device";
-import * as Updates from "expo-updates";
 import { fetchPushCnt } from "../store/actions/auth";
 import _ from "lodash";
 import * as Util from "../util";
@@ -66,7 +65,7 @@ const AppNavigator = (props) => {
       nextAppState === "active"
     ) {
       // console.log("App has come to the foreground!");
-      updateExpo(dispatch);
+      CommonActions.updateExpo(dispatch);
 
       const userInfoData = await Util.getStorageItem("userInfoData");
       const parsedUserData = await JSON.parse(userInfoData);
@@ -150,31 +149,4 @@ const AppNavigator = (props) => {
   );
 };
 
-export const updateExpo = (dispatch) => {
-  if (!__DEV__ && !updateTimer) {
-    (async () => {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          // ... notify user of update ...
-          // Util.log("new update");
-          await dispatch(
-            setAlert({
-              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-              confirmText: "업데이트",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                Updates.reloadAsync();
-              },
-            })
-          );
-        }
-      } catch (e) {
-        // handle or log error
-        Util.log("update error=>", e);
-      }
-    })();
-  }
-};
 export default AppNavigator;
