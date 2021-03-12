@@ -27,7 +27,8 @@ const StartupScreen = (props) => {
   useEffect(() => {
     dispatch(CommonActions.setIsLoading(true));
     (async () => {
-      dispatch(authActions.fetchUpdate()).then((data) => {
+      await CommonActions.updateExpo(dispatch);
+      await dispatch(authActions.fetchUpdate()).then((data) => {
         if (data.popupCnt <= 0) return;
         let obj = data.popupList[0];
         if (!obj.app_ver) return;
@@ -43,7 +44,6 @@ const StartupScreen = (props) => {
           return;
         }
       });
-      await CommonActions.updateExpo(dispatch);
       if (Constants.isDevice) {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         if (token) await dispatch(authActions.setPushToken(token));
