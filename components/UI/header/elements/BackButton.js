@@ -36,7 +36,6 @@ const BackButton = (props) => {
               }
               break;
           }
-
           dispatch(CommonActions.setIsLoading(false));
           if (index > 0) navigation.goBack();
           else navigation.navigate("Home");

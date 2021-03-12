@@ -44,7 +44,10 @@ const MemberInfo = (props) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={{ flexGrow: 1 }}
-            onPress={() => dispatch(setPreview(false))}
+            onPress={async () => {
+              await props.navigation.closeDrawer();
+              await dispatch(setPreview(false));
+            }}
           >
             <MemberID style={{ flexDirection: "row" }}>
               <Image

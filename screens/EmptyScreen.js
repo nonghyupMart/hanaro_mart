@@ -88,12 +88,14 @@ const EmptyScreen = (props) => {
             confirmText: "휴대폰인증",
             onPressConfirm: async () => {
               await dispatch(setAlert(null));
-              await props.navigation.navigate("Home");
+              if (index > 0) await RootNavigation.pop();
+              else await props.navigation.navigate("Home");
               await dispatch(setPreview(false));
             },
             onPressCancel: async () => {
               await dispatch(setAlert(null));
-              await props.navigation.navigate("Home");
+              if (index > 0) await RootNavigation.pop();
+              else await props.navigation.navigate("Home");
             },
           })
         );
