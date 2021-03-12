@@ -2,16 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  View,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import { StyleConstants } from "../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../util";
+import { updateExpo } from "../store/actions/common";
 
 const Contents = (props) => {
   return <>{props.children}</>;
@@ -21,11 +18,13 @@ const BaseScreen = (props) => {
     props.isPadding == undefined ? true : props.isPadding
   );
   const dispatch = useDispatch();
-
-
   const [isScroll, setIsScroll] = useState(
     props.isScroll == undefined ? true : props.isScroll
   );
+
+  useEffect(() => {
+    updateExpo(dispatch);
+  }, []);
 
   return (
     <Screen
