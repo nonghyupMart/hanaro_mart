@@ -112,7 +112,7 @@ export const fetchPushCnt = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_PUSH_CNT, pushCnt: resData.data.result });
+      dispatch({ type: SET_PUSH_CNT, pushCnt: resData.data.result.push_cnt });
       return resData.data;
     } catch (err) {
       throw err;
