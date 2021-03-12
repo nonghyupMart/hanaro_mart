@@ -35,6 +35,12 @@ expo publish --release-channel prod && expo start
 
 # Expo 빌드
 
+둘다 빌드 
+
+```bash
+expo build:android --release-channel prod --no-wait -t app-bundle && expo build:ios --release-channel prod --no-wait -t archive
+```
+
 안드로이드
 
 ```bash
