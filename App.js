@@ -35,8 +35,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
 
-// Prevent native splash screen from autohiding before App component declaration
-SplashScreen.preventAutoHideAsync();
+try {
+  // Prevent native splash screen from autohiding before App component declaration
+  SplashScreen.preventAutoHideAsync();
+} catch (e) {
+  Util.log("SplashScreen error=>", e);
+}
 
 let globalInitialNotificationResponse;
 

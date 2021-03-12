@@ -45,14 +45,12 @@ const LoginButtons = (props) => {
           )}\n주소 : ${Util.emptyPrint(storeInfo && storeInfo.addr)}`}
         </Text2>
         <TextArea>
-          <TouchableOpacity
-            onPress={props.navigation.navigate.bind(this, "Terms")}
-          >
+          <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>
             <Text3>이용약관</Text3>
           </TouchableOpacity>
           <Text3> / </Text3>
           <TouchableOpacity
-            onPress={props.navigation.navigate.bind(this, "Privacy")}
+            onPress={() => props.navigation.navigate("Privacy")}
           >
             <Text3>개인정보처리방침</Text3>
           </TouchableOpacity>

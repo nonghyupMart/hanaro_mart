@@ -8,9 +8,6 @@ import AgreementScreen, {
 import CIScreen, {
   screenOptions as CIScreenOptions,
 } from "../screens/join/CIScreen";
-import JoinStep2Screen, {
-  screenOptions as JoinStep2ScreenOptions,
-} from "../screens/join/JoinStep2Screen";
 import StoreChangeScreen, {
   screenOptions as StoreChangeScreenOptions,
 } from "../screens/snb/StoreChangeScreen";
@@ -36,11 +33,6 @@ export const JoinNavigator = () => {
         name="CI"
         component={CIScreen}
         options={CIScreenOptions}
-      />
-      <JoinStackNavigator.Screen
-        name="JoinStep2"
-        component={JoinStep2Screen}
-        options={JoinStep2ScreenOptions}
       />
       <JoinStackNavigator.Screen
         name="StoreSetup"

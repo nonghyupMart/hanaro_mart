@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useLayoutEffect } from "react";
+import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
@@ -12,8 +12,11 @@ import Loading from "../components/UI/Loading";
 import colors from "../constants/Colors";
 import * as CommonActions from "../store/actions/common";
 import * as Notifications from "expo-notifications";
-import { BackHandler } from "react-native";
+import { BackHandler, AppState } from "react-native";
 import * as Device from "expo-device";
+import { fetchPushCnt } from "../store/actions/auth";
+import _ from "lodash";
+import * as Util from "../util";
 
 const Theme = {
   ...DefaultTheme,
@@ -31,6 +34,7 @@ Notifications.setNotificationHandler({
 });
 
 const AppNavigator = (props) => {
+  const appState = useRef(AppState.currentState);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const alert = useSelector((state) => state.common.alert);
@@ -38,7 +42,11 @@ const AppNavigator = (props) => {
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
-  const isUpdated = useSelector((state) => state.common.isUpdated);
+  const isUpdated = useSelector((state) => state.auth.isUpdated);
+  const isBottomNavigation = useSelector(
+    (state) => state.common.isBottomNavigation
+  );
+  const userInfo = useSelector((state) => state.auth.userInfo);
 
   const currentScreen = () => {
     if (!isUpdated) return <UpdateScreen />;
@@ -50,6 +58,38 @@ const AppNavigator = (props) => {
     else if (isPreview && didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
   };
+
+  const _handleAppStateChange = async (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      // console.log("App has come to the foreground!");
+      CommonActions.updateExpo(dispatch);
+
+      const userInfoData = await Util.getStorageItem("userInfoData");
+      const parsedUserData = await JSON.parse(userInfoData);
+      if (!_.isEmpty(parsedUserData)) {
+        dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+      }
+    }
+    appState.current = nextAppState;
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setIsLoading(false));
+      return false;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, [isBottomNavigation]);
 
   useEffect(() => {
     (async () => {
@@ -65,7 +105,7 @@ const AppNavigator = (props) => {
         );
       }
     })();
-
+    AppState.addEventListener("change", _handleAppStateChange);
     const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         // console.warn(JSON.stringify(response, null, "\t"));
@@ -74,14 +114,20 @@ const AppNavigator = (props) => {
       }
     );
     const foregroundSubscription = Notifications.addNotificationReceivedListener(
-      (notification) => {
+      async (notification) => {
         // console.warn(JSON.stringify(notification, null, "\t"));
         //  console.warn(notification.request.content.data);
         dispatch(CommonActions.setNotification(notification));
+        const userInfoData = await Util.getStorageItem("userInfoData");
+        const parsedUserData = await JSON.parse(userInfoData);
+        if (!_.isEmpty(parsedUserData)) {
+          dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+        }
       }
     );
 
     return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
       backgroundSubscription.remove();
       foregroundSubscription.remove();
     };

@@ -27,8 +27,7 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import Barcode from "../components/Barcode";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import Modal from "react-native-modal";
-import { setReference } from "../store/actions/auth";
-import { updateUserInfo } from "../screens/home/HomeScreen";
+import { setReference, updateUserInfo } from "../store/actions/auth";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;

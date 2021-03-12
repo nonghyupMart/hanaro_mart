@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import styled from "styled-components/native";
 import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
 import {
@@ -15,7 +15,6 @@ import {
 import { useIsFocused } from "@react-navigation/native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as Notifications from "expo-notifications";
 import { SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import _ from "lodash";
 import HomeBanner from "../../components/home/HomeBanner";
@@ -32,7 +31,6 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
 import * as Location from "expo-location";
 import * as branchesActions from "../../store/actions/branches";
-import Constants from "expo-constants";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -44,18 +42,12 @@ const HomeScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
 
-  useEffect(() => {
-    (async () => {
-      if (AppState.currentState != "active") return;
-    })();
-  }, []);
-
   initNotificationReceiver(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));
-      updateUserInfo(dispatch, userInfo, pushToken);
+      authActions.updateUserInfo(dispatch, userInfo, pushToken);
     }
 
     return () => {
@@ -116,6 +108,8 @@ const HomeScreen = (props) => {
     navigation.navigate("Cart");
   };
 
+  if (!isFocused) return <></>;
+  // console.log("***************HomeScreen rendered***************");
   return (
     <>
       <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
@@ -208,51 +202,7 @@ const initNotificationReceiver = (routeName) => {
     }
   }, [notification, isLoading]);
 };
-export const updateUserInfo = async (dispatch, userInfo, token) => {
-  if (_.isEmpty(userInfo) || !userInfo.recommend) return;
 
-  let tk = `${token}`.trim();
-
-  if (!tk || tk == "") tk = (await Notifications.getExpoPushTokenAsync()).data;
-  let action;
-  tk = `${tk}`.trim();
-
-  if (!Constants.isDevice) tk = "";
-
-  if (tk && tk != "") {
-    action = authActions.updateLoginLog({
-      token: token,
-      user_cd: userInfo.user_cd,
-      recommend: userInfo.recommend,
-    });
-    await dispatch(authActions.setPushToken(tk));
-  } else {
-    action = authActions.updateLoginLogV1({
-      user_cd: userInfo.user_cd,
-      recommend: userInfo.recommend,
-    });
-  }
-
-  return dispatch(action).then(async (data) => {
-    if (_.isEmpty(data.userInfo) || data.userInfo.user_cd != userInfo.user_cd)
-      return;
-
-    dispatch(authActions.setUserInfo(data.userInfo));
-    authActions.saveUserInfoToStorage(data.userInfo);
-    authActions.saveUserTelToStorage(data.userInfo.tel);
-
-    let obj;
-    if (!_.isEmpty(data.storeInfo)) {
-      obj = { storeInfo: data.storeInfo, menuList: data.menuList };
-    }
-    dispatch(authActions.saveUserStore(obj));
-    authActions.saveUserStoreToStorage(obj);
-    if (_.isEmpty(obj)) {
-      dispatch(CommonActions.setDidTryPopup(false));
-    }
-    return Promise.resolve(data);
-  });
-};
 const Space = styled.View({
   width: "100%",
   height: 10,

@@ -8,15 +8,13 @@ import CouponItem from "../../components/CouponItem";
 import CouponItemA from "../../components/CouponItemA";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import { BaseImage, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import { useFocusEffect } from "@react-navigation/native";
-// import { useScrollToTop } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 
 const CouponScreen = (props) => {
+  const isFocused = useIsFocused();
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
@@ -138,7 +136,7 @@ const CouponScreen = (props) => {
       });
     }
   };
-  if (!couponA || !coupon) return <></>;
+  if (!isFocused || !couponA || !coupon) return <></>;
   if (
     routeName == "MyCoupon" &&
     _.size(couponA.couponList) === 0 &&

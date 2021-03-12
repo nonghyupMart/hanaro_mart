@@ -8,7 +8,7 @@ import _ from "lodash";
 import * as Util from "../../../../util";
 
 const HomeHeaderLeft = (props) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const pushCnt = useSelector((state) => state.auth.pushCnt);
   return (
     <BtnContainer>
       <Btn
@@ -17,12 +17,9 @@ const HomeHeaderLeft = (props) => {
       >
         <IconImage source={require("../../../../assets/images/menu.png")} />
       </Btn>
-      <Btn
-        onPress={RootNavigation.navigate.bind(this, "Notification")}
-        style={{}}
-      >
+      <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
         <IconImage source={require("../../../../assets/images/bell.png")} />
-        {!_.isEmpty(userInfo) && userInfo.push_cnt > 0 && (
+        {pushCnt > 0 && (
           <Image
             source={require("../../../../assets/images/N.png")}
             style={{ position: "absolute", top: 6, right: 6 }}
@@ -30,7 +27,7 @@ const HomeHeaderLeft = (props) => {
         )}
       </Btn>
       {/* <Btn
-        onPress={RootNavigation.navigate.bind(this,"Cart")}
+        onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
       >
         <MaterialCommunityIcons

@@ -30,9 +30,7 @@ const MenuList = (props) => {
   return (
     <MenuContainer>
       <MenuButtonContainer>
-        <MenuButton
-          onPress={props.navigation.navigate.bind(this, "StoreChange")}
-        >
+        <MenuButton onPress={() => props.navigation.navigate("StoreChange")}>
           <IconImage source={require("../../../assets/images/g2.png")} />
 
           <MenuText>매장설정</MenuText>
@@ -215,8 +213,8 @@ const MenuText = styled(BaseText)({
 const MenuButton = styled(BaseTouchable)({
   flexDirection: "row",
   alignItems: "center",
-  marginTop: Util.normalize(9.0),
-  marginBottom: Util.normalize(9.0),
+  marginTop: Util.normalize(9),
+  marginBottom: Util.normalize(9),
   flex: 1,
   paddingLeft: 24,
 });

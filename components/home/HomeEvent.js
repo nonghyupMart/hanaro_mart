@@ -67,7 +67,7 @@ const HomeEvent = (props) => {
             </Title>
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={RootNavigation.navigate.bind(this, "Event")}
+              onPress={() => RootNavigation.navigate("Event")}
             >
               <MoreContainer>
                 <MoreText>더보기</MoreText>
@@ -122,7 +122,10 @@ const HomeEvent = (props) => {
         <TouchableOpacity
           key="inviteFriends"
           activeOpacity={0.8}
-          onPress={Util.sendShareLink.bind(this, userInfo.recommend)}
+          onPress={Util.sendShareLink.bind(
+            this,
+            userInfo ? userInfo.recommend : null
+          )}
         >
           <Image
             source={require("../../assets/images/event_banner.png")}

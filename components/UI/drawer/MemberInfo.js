@@ -7,36 +7,93 @@ import { LinearGradient } from "expo-linear-gradient";
 import UserName from "../../UI/UserName";
 import UserPhoneNumber from "../../UI/UserPhoneNumber";
 import * as Util from "../../../util";
+import { useDispatch, useSelector } from "react-redux";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { setPreview } from "../../../store/actions/auth";
 
 const MemberInfo = (props) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
   return (
     <MemberInfoContainer>
       <MemberContainer>
         {/* <Text1>회원번호</Text1> */}
-        <MemberID style={{ flexDirection: "row" }}>
-          <Image
-            source={require("../../../assets/images/ic_user.png")}
-            style={{
-              width: Util.normalize(33.6),
-              resizeMode: "contain",
-            }}
-          />
-          <View style={{ marginLeft: 12.7 }}>
-            <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-              <Text2>
-                <UserName />
-              </Text2>
-              <Text3>님</Text3>
+        {!_.isEmpty(userInfo) && (
+          <MemberID style={{ flexDirection: "row" }}>
+            <Image
+              source={require("../../../assets/images/ic_user.png")}
+              style={{
+                width: Util.normalize(33.6),
+                resizeMode: "contain",
+              }}
+            />
+            <View style={{ marginLeft: 12.7 }}>
+              <View style={{ flexDirection: "row", alignItems: "baseline" }}>
+                <Text2>
+                  <UserName />
+                </Text2>
+                <Text3>님</Text3>
+              </View>
+              <Text4>
+                <UserPhoneNumber />
+              </Text4>
             </View>
-            <Text4>
-              <UserPhoneNumber />
-            </Text4>
-          </View>
-        </MemberID>
+          </MemberID>
+        )}
+        {_.isEmpty(userInfo) && (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{ flexGrow: 1 }}
+            onPress={async () => {
+              await props.navigation.closeDrawer();
+              await dispatch(setPreview(false));
+            }}
+          >
+            <MemberID style={{ flexDirection: "row" }}>
+              <Image
+                source={require("../../../assets/images/ic_user.png")}
+                style={{
+                  width: Util.normalize(33.6),
+                  resizeMode: "contain",
+                }}
+              />
+              <BeforeJoinContainer>
+                <View>
+                  <Text5>로그인 및 회원가입</Text5>
+                  <Text6>더 많은 혜택을 받아가세요</Text6>
+                </View>
+                <Image
+                  style={{ flexShrink: 0, width: Util.normalize(11.8) }}
+                  resizeMode="contain"
+                  source={require("../../../assets/images/chevron-thin.png")}
+                />
+              </BeforeJoinContainer>
+            </MemberID>
+          </TouchableOpacity>
+        )}
       </MemberContainer>
     </MemberInfoContainer>
   );
 };
+const BeforeJoinContainer = styled.View({
+  flexDirection: "row",
+  marginLeft: 12.7,
+  alignItems: "center",
+  marginRight: 8,
+  flexShrink: 0,
+  flexGrow: 1,
+  justifyContent: "space-between",
+});
+const Text6 = styled(BaseText)({
+  letterSpacing: -0.23,
+  fontSize: Util.normalize(9),
+});
+const Text5 = styled(BaseText)({
+  letterSpacing: -0.51,
+  fontFamily: "Roboto-Medium",
+  fontSize: Util.normalize(14),
+  lineHeight: Util.normalize(23),
+});
 const MemberID = styled.View({
   alignItems: "center",
   marginTop: Util.normalize(46),
@@ -75,8 +132,9 @@ const MemberInfoContainer = styled.View({
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
+  width: "100%",
 });
-const MemberContainer = styled.View({});
+const MemberContainer = styled.View({ width: "100%" });
 const GradientBar = styled(LinearGradient)({
   height: 6,
 });

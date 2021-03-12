@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/auth";
 
 export const SET_LEAFLET = "SET_LEAFLET";
 export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
@@ -20,7 +20,7 @@ export const fetchLeaflet = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       dispatch({ type: SET_LEAFLET, leaflet: resData.data });
 
       return resData.data;
@@ -38,7 +38,7 @@ export const fetchLeafletDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({
         type: SET_LEAFLET_DETAIL,
@@ -59,7 +59,7 @@ export const fetchProduct = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       let type = SET_PRODUCT;
       if (query.product_nm) {
         if (query.page > 1) type = SET_SEARCHED_PRODUCT_MORE;
@@ -88,7 +88,7 @@ export const fetchProductDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({
         type: SET_PRODUCT_DETAIL,
@@ -114,7 +114,7 @@ export const addCart = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       return resData.data;
     } catch (err) {

@@ -1,8 +1,9 @@
 import moment from "moment";
 import * as Util from "../../util";
 import queryString from "query-string";
-import * as Network from "../../util/network";
 import { API_URL } from "../../constants";
+import * as Updates from "expo-updates";
+
 export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
 export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
 export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
@@ -13,31 +14,7 @@ export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
 export const SET_NOTIFICATION = "SET_NOTIFICATION";
 export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
 export const SET_LINK = "SET_LINK";
-export const SET_UPDATE_POPUP = "SET_UPDATE_POPUP";
-export const SET_IS_UPDATED = "SET_IS_UPDATED";
 
-export const setIsUpdated = (isUpdated) => {
-  return {
-    type: SET_IS_UPDATED,
-    isUpdated: isUpdated,
-  };
-};
-export const fetchUpdate = () => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/popup?update_yn=Y`,
-  });
-  return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url);
-
-      dispatch({ type: SET_UPDATE_POPUP, updatePopup: resData.data });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
-  };
-};
 export const setLink = (link) => {
   return {
     type: SET_LINK,
@@ -124,4 +101,32 @@ export const setIsLoading = (isLoading) => {
 
 export const saveNotificationToStorage = (data) => {
   Util.setStorageItem("notificationData", JSON.stringify(data));
+};
+
+export const updateExpo = (dispatch) => {
+  if (!__DEV__) {
+    return (async () => {
+      try {
+        const update = await Updates.checkForUpdateAsync();
+        if (update.isAvailable) {
+          await Updates.fetchUpdateAsync();
+          // ... notify user of update ...
+          // Util.log("new update");
+          await dispatch(
+            setAlert({
+              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
+              confirmText: "업데이트",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                Updates.reloadAsync();
+              },
+            })
+          );
+        }
+      } catch (e) {
+        // handle or log error
+        Util.log("update error=>", e);
+      }
+    })();
+  }
 };

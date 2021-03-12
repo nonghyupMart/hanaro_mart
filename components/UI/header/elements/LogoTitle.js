@@ -20,7 +20,7 @@ const LogoTitle = (props) => {
   // console.log(props.navigator.route);
   const userStore = useSelector((state) => state.auth.userStore);
   return (
-    <Container onPress={RootNavigation.navigate.bind(this, "Home")}>
+    <Container onPress={() => RootNavigation.navigate("Home")}>
       <Image
         source={require("../../../../assets/images/HANAlogo.png")}
         style={{

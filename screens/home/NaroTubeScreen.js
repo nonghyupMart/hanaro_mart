@@ -10,23 +10,8 @@ import BaseScreen from "../../components/BaseScreen";
 import _ from "lodash";
 const NaroTubeScreen = (props) => {
   const isFocused = useIsFocused();
-  const navigation = props.navigation;
-  const userStore = useSelector((state) => state.auth.userStore);
   const [url, setUrl] = useState();
-  const [key, setKey] = useState();
-  const [appState, setAppState] = useState(AppState.currentState);
-  const _handleAppStateChange = (nextAppState) => {
-    setAppState(nextAppState);
-  };
-  useEffect(() => {
-    AppState.addEventListener("change", _handleAppStateChange);
-    return () => {
-      AppState.removeEventListener("change", _handleAppStateChange);
-    };
-  }, []);
-  useEffect(() => {
-    setKey(Math.random());
-  }, [isFocused, appState]);
+
   useEffect(() => {
     let stringifyUrl;
     stringifyUrl = queryString.stringifyUrl({
@@ -34,9 +19,10 @@ const NaroTubeScreen = (props) => {
     });
     setUrl(stringifyUrl);
   }, []);
+
+  if (!isFocused) return <></>;
   return (
     <BaseScreen
-      key={key}
       style={styles.screen}
       isScroll={false}
       // isBottomNavigation={false}

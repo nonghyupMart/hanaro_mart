@@ -9,8 +9,6 @@ import {
   SET_NOTIFICATION,
   SET_BRIGHTNESS,
   SET_LINK,
-  SET_UPDATE_POPUP,
-  SET_IS_UPDATED,
 } from "../actions/common";
 
 const initialState = {
@@ -24,22 +22,10 @@ const initialState = {
   notification: null,
   brightness: null,
   link: null,
-  updatePopup: null,
-  isUpdated: true,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_IS_UPDATED:
-      return {
-        ...state,
-        isUpdated: action.isUpdated,
-      };
-    case SET_UPDATE_POPUP:
-      return {
-        ...state,
-        updatePopup: action.updatePopup,
-      };
     case SET_LINK:
       return {
         ...state,

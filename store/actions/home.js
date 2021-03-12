@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/auth";
 import _ from "lodash";
 import { INTERNAL_APP_VERSION } from "../../constants";
 
@@ -22,7 +22,7 @@ export const fetchHomeBanner = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_HOME_BANNER, homeBanner: resData.data });
     } catch (err) {
@@ -40,7 +40,7 @@ export const fetchHomeNotice = (query = {}) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       let type = SET_HOME_NOTICE;
       if (query.page > 1) {
@@ -66,7 +66,7 @@ export const fetchHomeProducts = (query = {}) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       let type = SET_HOME_PRODUCTS;
       if (query.page > 1) {
         type = SET_HOME_PRODUCTS_MORE;
@@ -89,7 +89,7 @@ export const fetchHomeNaro = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_HOME_NARO, homeNaro: resData.data });
     } catch (err) {
@@ -113,7 +113,7 @@ export const fetchPopup = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       if (query && query.store_cd) {
         dispatch({

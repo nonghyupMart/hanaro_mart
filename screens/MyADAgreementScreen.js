@@ -27,13 +27,11 @@ import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as authActions from "../store/actions/auth";
-import { updateUserInfo } from "../screens/home/HomeScreen";
+import { updateUserInfo } from "../store/actions/auth";
 
 const MyADAgreementScreen = (props) => {
-  const params = props.route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
@@ -131,7 +129,7 @@ const MyADAgreementScreen = (props) => {
             <SwitchText>SMS</SwitchText>
             <CheckBox
               activeOpacity={0.8}
-              onPress={setSms.bind(this,!sms)}
+              onPress={setSms.bind(this, !sms)}
               checkedIcon={
                 <Image source={require("../assets/images/ckon.png")} />
               }
@@ -157,7 +155,7 @@ const MyADAgreementScreen = (props) => {
             <SwitchText>PUSH</SwitchText>
             <CheckBox
               activeOpacity={0.8}
-              onPress={setPush.bind(this,!push)}
+              onPress={setPush.bind(this, !push)}
               checkedIcon={
                 <Image source={require("../assets/images/ckon.png")} />
               }

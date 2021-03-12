@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
-import * as Network from "../../util/network";
+import { getResponse } from "../actions/auth";
 
 export const SET_EVENT = "SET_EVENT";
 export const SET_MY_EVENT = "SET_MY_EVENT";
@@ -18,7 +18,7 @@ export const fetchEvent = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       let type = SET_EVENT;
       if (query.page > 1) {
         if (query.user_cd) type = SET_MY_EVENT_MORE;
@@ -45,7 +45,7 @@ export const fetchEventDetail = (query) => {
   return async (dispatch, getState) => {
     try {
       const response = await fetch(url);
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({ type: SET_EVENT_DETAIL, eventDetail: resData.data.eventInfo });
     } catch (err) {
@@ -78,7 +78,7 @@ export const applyEvent = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;
@@ -100,7 +100,7 @@ export const applyStamp = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;
@@ -122,7 +122,7 @@ export const exchangeStamp = (query) => {
         },
         body: JSON.stringify(query),
       });
-      const resData = await Network.getResponse(response, dispatch, url, query);
+      const resData = await getResponse(response, dispatch, url, query);
       return resData.data;
     } catch (err) {
       throw err;

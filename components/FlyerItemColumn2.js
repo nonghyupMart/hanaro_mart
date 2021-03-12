@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Platform,
 } from "react-native";
 import { BaseImage, BaseText } from "../components/UI/BaseUI";
 const { width, height } = Dimensions.get("window");
@@ -75,7 +76,7 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
   );
 };
 const Period = styled(BaseText)({
-  borderRadius: 5,
+  borderRadius: Platform.OS == "ios" ? 5 : 10,
   borderStyle: "solid",
   borderWidth: 0.5,
   borderColor: colors.warmGreyTwo,
