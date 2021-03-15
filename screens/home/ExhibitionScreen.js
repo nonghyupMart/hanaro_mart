@@ -106,7 +106,7 @@ const ExhibitionScreen = (props) => {
       navigation.navigate("ForStoreDetail", { event_cd: item.exclu_cd });
     }
   };
-  if (!isFocused || !data) return <></>;
+  if (!data) return <></>;
   if (
     (routeName == "Exhibition" && _.size(data.list) === 0) ||
     (routeName == "ForStore" && _.size(data.list) === 0)

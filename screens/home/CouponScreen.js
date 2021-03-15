@@ -136,7 +136,7 @@ const CouponScreen = (props) => {
       });
     }
   };
-  if (!isFocused || !couponA || !coupon) return <></>;
+  if (!couponA || !coupon) return <></>;
   if (
     routeName == "MyCoupon" &&
     _.size(couponA.couponList) === 0 &&

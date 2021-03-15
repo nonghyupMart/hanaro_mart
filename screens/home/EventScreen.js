@@ -81,7 +81,7 @@ const EventScreen = (props) => {
   const onPress = (item) => {
     moveToDetail(item.event_cd);
   };
-  if (!isFocused || !event) return <></>;
+  if (!event) return <></>;
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
       <NoList
