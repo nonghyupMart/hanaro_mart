@@ -118,7 +118,7 @@ const BarcodeScreen = (props) => {
           문의/고객센터로 문의 하시기 바랍니다.
         </Warn>
       </WarnContainer>
-      <BlueButton onPress={props.navigation.pop.bind(this)}>
+      <BlueButton onPress={() => props.navigation.pop()}>
         <Image source={require("../../assets/images/ic_gps_off_24px.png")} />
         <BlueButtonText>쿠폰확인 닫기</BlueButtonText>
       </BlueButton>
