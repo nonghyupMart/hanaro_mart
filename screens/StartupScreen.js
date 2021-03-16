@@ -25,8 +25,8 @@ const StartupScreen = (props) => {
   const timerRef = useRef(null);
 
   useEffect(() => {
+    dispatch(CommonActions.setIsLoading(true));
     (async () => {
-      await CommonActions.updateExpo(dispatch);
       await dispatch(authActions.fetchUpdate()).then((data) => {
         if (data.popupCnt <= 0) return;
         let obj = data.popupList[0];
