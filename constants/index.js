@@ -8,7 +8,7 @@ export const { SERVER_URL } = getEnvVars();
 export const API_URL = `${SERVER_URL}/api`;
 export const IMAGE_URL = `${SERVER_URL}`;
 
-export const INTERNAL_APP_VERSION = "1.8.2";
+export const INTERNAL_APP_VERSION = "1.9.0";
 
 export const PADDING_BOTTOM_MENU = 50;
 
