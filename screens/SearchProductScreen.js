@@ -21,7 +21,7 @@ import * as flyerActions from "../store/actions/flyer";
 import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_SEARCHED_PRODUCT } from "../store/actions/flyer";
+import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
 import { styles } from "../screens/home/FlyerScreen";

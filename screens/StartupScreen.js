@@ -23,7 +23,6 @@ const StartupScreen = (props) => {
   const timerRef = useRef(null);
 
   useEffect(() => {
-    dispatch(CommonActions.setIsLoading(true));
     (async () => {
       await dispatch(authActions.fetchUpdate()).then((data) => {
         if (data.popupCnt <= 0) return;
@@ -37,13 +36,16 @@ const StartupScreen = (props) => {
         if (versionCheck < 0) {
           //버전이 낮을때만 업데이트 팝업 페이지로 이동
           dispatch(authActions.setIsUpdated(false));
-          dispatch(CommonActions.setIsLoading(false));
           return;
         }
       });
       if (Constants.isDevice) {
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
-        if (token) await dispatch(authActions.setPushToken(token));
+        try {
+          const token = (await Notifications.getExpoPushTokenAsync()).data;
+          if (token) await dispatch(authActions.setPushToken(token));
+        } catch (error) {
+          console.log(" Notifications.getExpoPushTokenAsync error =>", error);
+        }
       }
       let { status } = await Location.requestPermissionsAsync();
       permissionStatus.current = status;

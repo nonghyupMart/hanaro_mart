@@ -2,10 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-
-export const SET_EXHIBITION = "SET_EXHIBITION";
-export const SET_EXHIBITION_MORE = "SET_EXHIBITION_MORE";
-export const SET_EXHIBITION_DETAIL = "SET_EXHIBITION_DETAIL";
+import * as actionTypes from "./actionTypes";
 
 export const fetchExhibition = (query) => {
   if (!query.page) query.page = "1";
@@ -17,11 +14,11 @@ export const fetchExhibition = (query) => {
     try {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_EXHIBITION;
+      let type = actionTypes.SET_EXHIBITION;
       if (query.page > 1) {
-        type = SET_EXHIBITION_MORE;
+        type = actionTypes.SET_EXHIBITION_MORE;
       } else {
-        type = SET_EXHIBITION;
+        type = actionTypes.SET_EXHIBITION;
       }
       dispatch({ type: type, exhibition: resData.data });
     } catch (err) {
@@ -43,7 +40,7 @@ export const fetchExhibitionDetail = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
       dispatch({
-        type: SET_EXHIBITION_DETAIL,
+        type: actionTypes.SET_EXHIBITION_DETAIL,
         exhibitionDetail: resData.data.info,
       });
     } catch (err) {

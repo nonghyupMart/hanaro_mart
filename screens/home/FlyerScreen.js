@@ -16,7 +16,7 @@ import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/flyer";
+import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/actionTypes";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";

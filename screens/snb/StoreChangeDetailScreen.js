@@ -24,7 +24,7 @@ import * as homeActions from "../../store/actions/home";
 import * as branchesActions from "../../store/actions/branches";
 import { setUserStore, saveUserStore } from "../../store/actions/auth";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import { SET_BRANCH } from "../../store/actions/branches";
+import { SET_BRANCH } from "../../store/actions/actionTypes";
 import * as CommonActions from "../../store/actions/common";
 import * as RootNavigation from "../../navigation/RootNavigation";
 

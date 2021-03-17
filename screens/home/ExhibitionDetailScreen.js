@@ -8,7 +8,7 @@ import * as exclusiveActions from "../../store/actions/exclusive";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { SET_EXHIBITION_DETAIL } from "../../store/actions/exhibition";
+import { SET_EXHIBITION_DETAIL } from "../../store/actions/actionTypes";
 import {
   DetailContainer,
   BaseImage,

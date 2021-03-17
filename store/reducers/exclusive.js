@@ -1,8 +1,4 @@
-import {
-  SET_EXCLUSIVE,
-  SET_EXCLUSIVE_MORE,
-  SET_EXCLUSIVE_DETAIL,
-} from "../actions/exclusive";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   exclusive: null,
@@ -12,12 +8,12 @@ const initialState = {
 export default (state = initialState, action) => {
   let newExclusive, updatedExcluList;
   switch (action.type) {
-    case SET_EXCLUSIVE:
+    case actionTypes.SET_EXCLUSIVE:
       return {
         ...state,
         exclusive: { ...action.exclusive },
       };
-    case SET_EXCLUSIVE_MORE:
+    case actionTypes.SET_EXCLUSIVE_MORE:
       let exclusive = { ...state.exclusive };
       newExclusive = { ...action.exclusive };
       updatedExcluList = exclusive.list.concat(newExclusive.list);
@@ -28,7 +24,7 @@ export default (state = initialState, action) => {
         exclusive: exclusive,
       };
 
-    case SET_EXCLUSIVE_DETAIL:
+    case actionTypes.SET_EXCLUSIVE_DETAIL:
       return {
         ...state,
         exclusiveDetail: { ...action.exclusiveDetail },

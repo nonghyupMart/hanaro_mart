@@ -2,10 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-
-export const SET_EXCLUSIVE = "SET_EXCLUSIVE";
-export const SET_EXCLUSIVE_MORE = "SET_EXCLUSIVE_MORE";
-export const SET_EXCLUSIVE_DETAIL = "SET_EXCLUSIVE_DETAIL";
+import * as actionTypes from "./actionTypes";
 
 export const fetchExclusive = (query) => {
   if (!query.page) query.page = "1";
@@ -17,11 +14,11 @@ export const fetchExclusive = (query) => {
     try {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_EXCLUSIVE;
+      let type = actionTypes.SET_EXCLUSIVE;
       if (query.page > 1) {
-        type = SET_EXCLUSIVE_MORE;
+        type = actionTypes.SET_EXCLUSIVE_MORE;
       } else {
-        type = SET_EXCLUSIVE;
+        type = actionTypes.SET_EXCLUSIVE;
       }
       dispatch({ type: type, exclusive: resData.data });
     } catch (err) {
@@ -42,7 +39,7 @@ export const fetchExclusiveDetail = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
       dispatch({
-        type: SET_EXCLUSIVE_DETAIL,
+        type: actionTypes.SET_EXCLUSIVE_DETAIL,
         exclusiveDetail: resData.data.info,
       });
     } catch (err) {

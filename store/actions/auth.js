@@ -7,30 +7,18 @@ import _ from "lodash";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { setAlert } from "../actions/common";
-
-export const SET_UPDATE_POPUP = "SET_UPDATE_POPUP";
-export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
-export const SET_LOCATION = "SET_LOCATION";
-export const SET_PREVIEW = "SET_PREVIEW";
-export const SET_USER_STORE = "SET_USER_STORE";
-export const SET_USER_INFO = "SET_USER_INFO";
-export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
-export const SET_IS_JOIN = "SET_IS_JOIN";
-export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
-export const WITHDRAWAL = "WITHDRAWAL";
-export const SET_CI = "SET_CI";
-export const SET_IS_UPDATED = "SET_IS_UPDATED";
-export const SET_PUSH_CNT = "SET_PUSH_CNT";
+import * as actionTypes from "./actionTypes";
+import http from "../../util/axios-instance";
 
 export const setIsUpdated = (isUpdated) => {
   return {
-    type: SET_IS_UPDATED,
+    type: actionTypes.SET_IS_UPDATED,
     isUpdated: isUpdated,
   };
 };
 
 export const setDidTryAL = () => {
-  return { type: SET_DID_TRY_AL };
+  return { type: actionTypes.SET_DID_TRY_AL };
 };
 
 export const sendSMS = (query) => {
@@ -72,33 +60,36 @@ export const signup = (query) => {
 };
 
 export const setPushToken = (pushToken) => {
-  return { type: SET_PUSH_TOKEN, pushToken: pushToken };
+  return { type: actionTypes.SET_PUSH_TOKEN, pushToken: pushToken };
 };
 
 export const setLocation = (location) => {
-  return { type: SET_LOCATION, location: location };
+  return { type: actionTypes.SET_LOCATION, location: location };
 };
 
 export const setPreview = (status) => {
-  return { type: SET_PREVIEW, isPreview: status };
+  return { type: actionTypes.SET_PREVIEW, isPreview: status };
 };
 export const setIsJoin = (status) => {
-  return { type: SET_IS_JOIN, isJoin: status };
+  return { type: actionTypes.SET_IS_JOIN, isJoin: status };
 };
 export const setUserInfo = (userInfo) => {
   return async (dispatch) => {
     if (!_.isEmpty(userInfo)) {
-      await dispatch({ type: SET_PUSH_CNT, pushCnt: userInfo.push_cnt });
+      await dispatch({
+        type: actionTypes.SET_PUSH_CNT,
+        pushCnt: userInfo.push_cnt,
+      });
     }
-    dispatch({ type: SET_USER_INFO, userInfo: userInfo });
+    dispatch({ type: actionTypes.SET_USER_INFO, userInfo: userInfo });
   };
 };
 export const setCI = (ci) => {
-  return { type: SET_CI, ci: ci };
+  return { type: actionTypes.SET_CI, ci: ci };
 };
 export const saveUserStore = (userStore) => {
   return async (dispatch) => {
-    dispatch({ type: SET_USER_STORE, userStore: userStore });
+    dispatch({ type: actionTypes.SET_USER_STORE, userStore: userStore });
   };
 };
 
@@ -112,7 +103,10 @@ export const fetchPushCnt = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_PUSH_CNT, pushCnt: resData.data.result.push_cnt });
+      dispatch({
+        type: actionTypes.SET_PUSH_CNT,
+        pushCnt: resData.data.result.push_cnt,
+      });
       return resData.data;
     } catch (err) {
       throw err;
@@ -173,7 +167,7 @@ export const setUserStore = (query, userStore) => {
 };
 
 export const setAgreedStatus = (status) => {
-  return { type: SET_AGREED_STATUS, agreedStatus: status };
+  return { type: actionTypes.SET_AGREED_STATUS, agreedStatus: status };
 };
 
 export const withdrawal = (query) => {
@@ -197,8 +191,8 @@ export const withdrawal = (query) => {
 };
 export const withdrawalFinish = () => {
   return async (dispatch) => {
-    await clearAllData();
-    await dispatch({ type: WITHDRAWAL });
+    await Util.clearAllData();
+    await dispatch({ type: actionTypes.WITHDRAWAL });
   };
 };
 export const saveUserInfoToStorage = (userInfo) => {
@@ -224,14 +218,6 @@ export const saveAgreedStatusToStorage = (status) => {
 
 export const saveIsJoinToStorage = (status) => {
   Util.setStorageItem("isJoinData", true);
-};
-
-const clearAllData = async () => {
-  return await AsyncStorage.getAllKeys().then(async (keys) => {
-    if (_.isEmpty(keys)) return;
-    await AsyncStorage.multiRemove(keys);
-  });
-  // .then(() => alert('success'));
 };
 
 export const setReference = (query) => {
@@ -345,16 +331,18 @@ export const getResponse = async (response, dispatch, url, query) => {
 };
 
 export const fetchUpdate = () => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/popup?update_yn=Y`,
-  });
   return async (dispatch, getState) => {
     try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url);
-
-      dispatch({ type: SET_UPDATE_POPUP, updatePopup: resData.data });
-      return resData.data;
+      return http
+        .init(dispatch)
+        .get("/popup?update_yn=Y")
+        .then(async (response) => {
+          dispatch({
+            type: actionTypes.SET_UPDATE_POPUP,
+            updatePopup: response.data,
+          });
+          return response.data;
+        });
     } catch (err) {
       throw err;
     }

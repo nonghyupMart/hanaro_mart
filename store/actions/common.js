@@ -3,60 +3,50 @@ import * as Util from "../../util";
 import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Updates from "expo-updates";
-
-export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
-export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
-export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
-export const SET_ALERT = "SET_ALERT";
-export const SET_IS_LOADING = "SET_IS_LOADING";
-export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
-export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
-export const SET_NOTIFICATION = "SET_NOTIFICATION";
-export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
-export const SET_LINK = "SET_LINK";
+import * as actionTypes from "./actionTypes";
 
 export const setLink = (link) => {
   return {
-    type: SET_LINK,
+    type: actionTypes.SET_LINK,
     link: link,
   };
 };
 
 export const setBrightness = (brightness) => {
   return {
-    type: SET_BRIGHTNESS,
+    type: actionTypes.SET_BRIGHTNESS,
     brightness: brightness,
   };
 };
 export const setNotification = (notification) => {
   return {
-    type: SET_NOTIFICATION,
+    type: actionTypes.SET_NOTIFICATION,
     notification: notification,
   };
 };
 export const setBottomNavigation = (isBottomNavigation) => {
   return {
-    type: SET_BOTTOM_NAVIGATION,
+    type: actionTypes.SET_BOTTOM_NAVIGATION,
     isBottomNavigation: isBottomNavigation,
   };
 };
 export const setDidTryPopup = (didTryPopup) => {
   return {
-    type: SET_DID_TRY_POPUP,
+    type: actionTypes.SET_DID_TRY_POPUP,
     didTryPopup: didTryPopup,
   };
 };
 
 export const setHeaderHeight = (headerHeight) => {
   return {
-    type: SET_HEADER_HEIGHT,
+    type: actionTypes.SET_HEADER_HEIGHT,
     headerHeight: headerHeight,
   };
 };
 
 export const setIsStorePopup = (isStorePopup) => {
   return {
-    type: SET_IS_STORE_POPUP,
+    type: actionTypes.SET_IS_STORE_POPUP,
     isStorePopup: isStorePopup,
   };
 };
@@ -80,7 +70,7 @@ export const saveDateForStorePopupToStorage = (
 
 export const setIsAppPopup = (isAppPopup) => {
   return {
-    type: SET_IS_APP_POPUP,
+    type: actionTypes.SET_IS_APP_POPUP,
     isAppPopup: isAppPopup,
   };
 };
@@ -91,12 +81,12 @@ export const saveDateForAppPopupToStorage = () => {
 };
 
 export const setAlert = (alert) => {
-  return { type: SET_ALERT, alert: alert };
+  return { type: actionTypes.SET_ALERT, alert: alert };
 };
 
 export const setIsLoading = (isLoading) => {
   return async (dispatch) =>
-    await dispatch({ type: SET_IS_LOADING, isLoading: isLoading });
+    await dispatch({ type: actionTypes.SET_IS_LOADING, isLoading: isLoading });
 };
 
 export const saveNotificationToStorage = (data) => {

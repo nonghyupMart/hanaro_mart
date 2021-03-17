@@ -17,7 +17,7 @@ import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "../store/actions/home";
+import { SET_STORE_POPUP } from "../store/actions/actionTypes";
 import moment from "moment";
 import {
   createStackNavigator,

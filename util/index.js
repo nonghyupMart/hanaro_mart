@@ -5,6 +5,7 @@ import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "./barcode";
 import { Share, Dimensions, PixelRatio } from "react-native";
 import { SERVER_URL } from "../constants";
+import _ from "lodash";
 
 import AesUtil from "./aes_util";
 var g_keySize = 128;
@@ -46,6 +47,12 @@ export const emptyPrint = (val) => {
 };
 
 export const log = (...val) => {
+  if (__DEV__) {
+    console.log(...val);
+    // console.warn(JSON.stringify(userStore, null, "\t"));
+  }
+};
+export const warn = (...val) => {
   if (__DEV__) {
     console.warn(...val);
     // console.warn(JSON.stringify(userStore, null, "\t"));
@@ -167,4 +174,12 @@ export const versionCompare = (v1, v2, options) => {
   }
 
   return 0;
+};
+
+export const clearAllData = async () => {
+  return await AsyncStorage.getAllKeys().then(async (keys) => {
+    if (_.isEmpty(keys)) return;
+    await AsyncStorage.multiRemove(keys);
+  });
+  // .then(() => alert('success'));
 };

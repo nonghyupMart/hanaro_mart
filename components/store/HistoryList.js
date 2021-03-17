@@ -11,7 +11,7 @@ import {
 import { Image, FlatList } from "react-native";
 import StoreItem from "../../components/store/StoreItem";
 import * as branchesActions from "../../store/actions/branches";
-import { SET_STORE_MARK } from "../../store/actions/branches";
+import { SET_STORE_MARK } from "../../store/actions/actionTypes";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 

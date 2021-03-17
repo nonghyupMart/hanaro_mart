@@ -19,7 +19,7 @@ import * as couponActions from "../../store/actions/coupon";
 import * as CommonActions from "../../store/actions/common";
 import _ from "lodash";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import { SET_COUPON_DETAIL } from "../../store/actions/coupon";
+import { SET_COUPON_DETAIL } from "../../store/actions/actionTypes";
 import Barcode from "../../components/Barcode";
 import * as Brightness from "expo-brightness";
 

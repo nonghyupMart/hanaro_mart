@@ -26,7 +26,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import * as authActions from "../../store/actions/auth";
 import { CATEGORY } from "../../constants";
-import { SET_NOTIFICATION } from "../../store/actions/common";
+import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
 import * as Location from "expo-location";

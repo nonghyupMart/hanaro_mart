@@ -2,12 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-export const SET_ADDRESS1 = "SET_ADDRESS1";
-export const SET_ADDRESS2 = "SET_ADDRESS2";
-export const SET_BRANCHES = "SET_BRANCHES";
-export const SET_BRANCHES_MORE = "SET_BRANCHES_MORE";
-export const SET_BRANCH = "SET_BRANCH";
-export const SET_STORE_MARK = "SET_STORE_MARK";
+import * as actionTypes from "./actionTypes";
 
 export const fetchAddress1 = () => {
   const url = queryString.stringifyUrl({
@@ -18,7 +13,7 @@ export const fetchAddress1 = () => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url);
 
-      dispatch({ type: SET_ADDRESS1, address1: resData.data });
+      dispatch({ type: actionTypes.SET_ADDRESS1, address1: resData.data });
     } catch (err) {
       throw err;
     }
@@ -35,7 +30,7 @@ export const fetchAddress2 = (lname) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url);
 
-      dispatch({ type: SET_ADDRESS2, address2: resData.data });
+      dispatch({ type: actionTypes.SET_ADDRESS2, address2: resData.data });
     } catch (err) {
       throw err;
     }
@@ -54,9 +49,9 @@ export const fetchBranches = (query) => {
       const resData = await getResponse(response, dispatch, url, query);
 
       if (query.page > 1) {
-        dispatch({ type: SET_BRANCHES_MORE, branches: resData.data });
+        dispatch({ type: actionTypes.SET_BRANCHES_MORE, branches: resData.data });
       } else {
-        dispatch({ type: SET_BRANCHES, branches: resData.data });
+        dispatch({ type: actionTypes.SET_BRANCHES, branches: resData.data });
       }
       return resData.data;
     } catch (err) {
@@ -73,7 +68,7 @@ export const fetchBranch = (store_cd) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, store_cd);
 
-      dispatch({ type: SET_BRANCH, branch: resData.data });
+      dispatch({ type: actionTypes.SET_BRANCH, branch: resData.data });
       return resData.data;
     } catch (err) {
       throw err;
@@ -91,7 +86,7 @@ export const fetchBranchNear = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_BRANCH, branch: resData.data });
+      dispatch({ type: actionTypes.SET_BRANCH, branch: resData.data });
       return resData.data;
     } catch (err) {
       throw err;
@@ -109,7 +104,7 @@ export const fetchStoreMark = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
+      dispatch({ type: actionTypes.SET_STORE_MARK, storeMark: resData.data });
     } catch (err) {
       throw err;
     }

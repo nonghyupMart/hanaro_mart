@@ -17,6 +17,7 @@ import { styles } from "../../screens/home/FlyerScreen";
 import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import { styles as FlyerItemColumn2Styles } from "../../components/FlyerItemColumn2";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import * as actionTypes from "../../store/actions/actionTypes";
 import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
 import * as RootNavigation from "../../navigation/RootNavigation";
@@ -30,7 +31,7 @@ const HomeProducts = ({ isFocused, userStore }) => {
   const page = useRef(1);
   const clearData = () => {
     page.current = 1;
-    dispatch({ type: homeActions.SET_HOME_PRODUCTS, homeProducts: null });
+    dispatch({ type: actionTypes.SET_HOME_PRODUCTS, homeProducts: null });
   };
   useEffect(() => {
     if (!isFocused || _.isEmpty(userStore)) return;

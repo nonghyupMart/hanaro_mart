@@ -2,14 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-
-export const SET_LEAFLET = "SET_LEAFLET";
-export const SET_LEAFLET_DETAIL = "SET_LEAFLET_DETAIL";
-export const SET_PRODUCT = "SET_PRODUCT";
-export const SET_PRODUCT_MORE = "SET_PRODUCT_MORE";
-export const SET_SEARCHED_PRODUCT = "SET_SEARCHED_PRODUCT";
-export const SET_SEARCHED_PRODUCT_MORE = "SET_SEARCHED_PRODUCT_MORE";
-export const SET_PRODUCT_DETAIL = "SET_PRODUCT_DETAIL";
+import * as actionTypes from "./actionTypes";
 
 export const fetchLeaflet = (query) => {
   const url = queryString.stringifyUrl({
@@ -21,7 +14,7 @@ export const fetchLeaflet = (query) => {
     try {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
-      dispatch({ type: SET_LEAFLET, leaflet: resData.data });
+      dispatch({ type: actionTypes.SET_LEAFLET, leaflet: resData.data });
 
       return resData.data;
     } catch (err) {
@@ -41,7 +34,7 @@ export const fetchLeafletDetail = (query) => {
       const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({
-        type: SET_LEAFLET_DETAIL,
+        type: actionTypes.SET_LEAFLET_DETAIL,
         leafletDetail: resData.data.leafletInfo,
       });
     } catch (err) {
@@ -60,13 +53,13 @@ export const fetchProduct = (query) => {
     try {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_PRODUCT;
+      let type = actionTypes.SET_PRODUCT;
       if (query.product_nm) {
-        if (query.page > 1) type = SET_SEARCHED_PRODUCT_MORE;
-        else type = SET_SEARCHED_PRODUCT;
+        if (query.page > 1) type = actionTypes.SET_SEARCHED_PRODUCT_MORE;
+        else type = actionTypes.SET_SEARCHED_PRODUCT;
       } else {
-        if (query.page > 1) type = SET_PRODUCT_MORE;
-        else type = SET_PRODUCT;
+        if (query.page > 1) type = actionTypes.SET_PRODUCT_MORE;
+        else type = actionTypes.SET_PRODUCT;
       }
       dispatch({ type, product: resData.data });
       return resData.data;
@@ -91,7 +84,7 @@ export const fetchProductDetail = (query) => {
       const resData = await getResponse(response, dispatch, url, query);
 
       dispatch({
-        type: SET_PRODUCT_DETAIL,
+        type: actionTypes.SET_PRODUCT_DETAIL,
         productDetail: resData.data.productInfo,
       });
     } catch (err) {

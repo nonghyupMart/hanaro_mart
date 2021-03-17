@@ -2,12 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-
-export const SET_EVENT = "SET_EVENT";
-export const SET_MY_EVENT = "SET_MY_EVENT";
-export const SET_EVENT_MORE = "SET_EVENT_MORE";
-export const SET_MY_EVENT_MORE = "SET_MY_EVENT_MORE";
-export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
+import * as actionTypes from "./actionTypes";
 
 export const fetchEvent = (query) => {
   if (!query.page) query.page = "1";
@@ -19,13 +14,13 @@ export const fetchEvent = (query) => {
     try {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_EVENT;
+      let type = actionTypes.SET_EVENT;
       if (query.page > 1) {
-        if (query.user_cd) type = SET_MY_EVENT_MORE;
-        else type = SET_EVENT_MORE;
+        if (query.user_cd) type = actionTypes.SET_MY_EVENT_MORE;
+        else type = actionTypes.SET_EVENT_MORE;
       } else {
-        if (query.user_cd) type = SET_MY_EVENT;
-        else type = SET_EVENT;
+        if (query.user_cd) type = actionTypes.SET_MY_EVENT;
+        else type = actionTypes.SET_EVENT;
       }
       dispatch({ type: type, event: resData.data });
       return resData.data;
@@ -47,19 +42,22 @@ export const fetchEventDetail = (query) => {
       const response = await fetch(url);
       const resData = await getResponse(response, dispatch, url, query);
 
-      dispatch({ type: SET_EVENT_DETAIL, eventDetail: resData.data.eventInfo });
+      dispatch({
+        type: actionTypes.SET_EVENT_DETAIL,
+        eventDetail: resData.data.eventInfo,
+      });
     } catch (err) {
       throw err;
     }
   };
 };
 export const clearEventDetail = () => {
-  return { type: SET_EVENT_DETAIL, eventDetail: null };
+  return { type: actionTypes.SET_EVENT_DETAIL, eventDetail: null };
 };
 
 export const updateEventDetail = (eventDetail) => {
   return {
-    type: SET_EVENT_DETAIL,
+    type: actionTypes.SET_EVENT_DETAIL,
     eventDetail: eventDetail,
   };
 };

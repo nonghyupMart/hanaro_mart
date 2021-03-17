@@ -10,7 +10,7 @@ import * as Util from "../util";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { setAlert } from "../store/actions/common";
 import _ from "lodash";
-import { SET_PRODUCT_DETAIL } from "../store/actions/flyer";
+import { SET_PRODUCT_DETAIL } from "../store/actions/actionTypes";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item) return <></>;

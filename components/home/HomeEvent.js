@@ -11,6 +11,7 @@ import {
 import * as RootNavigation from "../../navigation/RootNavigation";
 import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
+import * as actionTypes from "../../store/actions/actionTypes";
 import * as eventActions from "../../store/actions/event";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -28,7 +29,7 @@ const HomeEvent = (props) => {
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
   const clearData = () => {
-    dispatch({ type: eventActions.SET_EVENT, event: null });
+    dispatch({ type: actionTypes.SET_EVENT, event: null });
   };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(props.userStore)) return;

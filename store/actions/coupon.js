@@ -2,14 +2,7 @@ import queryString from "query-string";
 import { API_URL } from "../../constants";
 import * as Util from "../../util";
 import { getResponse } from "../actions/auth";
-
-export const SET_COUPON_A = "SET_COUPON_A";
-export const SET_COUPON = "SET_COUPON";
-export const SET_MY_COUPON_A = "SET_MY_COUPON_A";
-export const SET_MY_COUPON = "SET_MY_COUPON";
-export const SET_COUPON_MORE = "SET_COUPON_MORE";
-export const SET_MY_COUPON_MORE = "SET_MY_COUPON_MORE";
-export const SET_COUPON_DETAIL = "SET_COUPON_DETAIL";
+import * as actionTypes from "./actionTypes";
 
 export const fetchCoupon = (query) => {
   query.limit = 40;
@@ -31,24 +24,24 @@ export const fetchCoupon = (query) => {
         // 다음 페이지 로딩
         if (query.user_yn == "Y") {
           //마이쿠폰일 경우..
-          type = SET_MY_COUPON_MORE;
+          type = actionTypes.SET_MY_COUPON_MORE;
         } else {
-          type = SET_COUPON_MORE;
+          type = actionTypes.SET_COUPON_MORE;
         }
       } else {
         // 첫페이지 로딩
         if (query.user_yn == "Y") {
           //마이쿠폰일 경우..
           if (query.gbn == "A") {
-            type = SET_MY_COUPON_A;
+            type = actionTypes.SET_MY_COUPON_A;
           } else {
-            type = SET_MY_COUPON;
+            type = actionTypes.SET_MY_COUPON;
           }
         } else {
           if (query.gbn == "A") {
-            type = SET_COUPON_A;
+            type = actionTypes.SET_COUPON_A;
           } else {
-            type = SET_COUPON;
+            type = actionTypes.SET_COUPON;
           }
         }
       }
@@ -93,10 +86,10 @@ export const downloadCoupon = (query) => {
 
       switch (type) {
         case "A":
-          dispatch({ type: SET_COUPON_A, coupon: coupon });
+          dispatch({ type: actionTypes.SET_COUPON_A, coupon: coupon });
           break;
         case "B":
-          dispatch({ type: SET_COUPON, coupon: coupon });
+          dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
           break;
       }
       return resData.data;
@@ -133,13 +126,13 @@ export const useCoupon = (query) => {
       switch (type) {
         case "A":
           if (routeName === "MyCoupon")
-            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
-          else dispatch({ type: SET_COUPON_A, coupon: coupon });
+            dispatch({ type: actionTypes.SET_MY_COUPON_A, coupon: coupon });
+          else dispatch({ type: actionTypes.SET_COUPON_A, coupon: coupon });
           break;
         case "B":
           if (routeName === "MyCoupon")
-            dispatch({ type: SET_MY_COUPON, coupon: coupon });
-          else dispatch({ type: SET_COUPON, coupon: coupon });
+            dispatch({ type: actionTypes.SET_MY_COUPON, coupon: coupon });
+          else dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
           break;
       }
       return resData.data;
@@ -164,7 +157,7 @@ export const fetchCouponDetail = (query) => {
       const resData = await getResponse(response, dispatch, url, query);
       // Util.log("fetchCouponDetail", resData.data.couponInfo);
       dispatch({
-        type: SET_COUPON_DETAIL,
+        type: actionTypes.SET_COUPON_DETAIL,
         couponDetail: resData.data.couponInfo,
       });
     } catch (err) {
