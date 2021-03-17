@@ -37,7 +37,7 @@ const BackButton = (props) => {
               break;
           }
           dispatch(CommonActions.setIsLoading(false));
-          if (index > 0) navigation.goBack();
+          if (index > 0) navigation.pop();
           else navigation.navigate("Home");
         }}
       />
