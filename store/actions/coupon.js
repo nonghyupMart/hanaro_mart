@@ -18,7 +18,7 @@ export const fetchCoupon = (query) => {
       const response = await fetch(url);
 
       const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_COUPON;
+      let type = actionTypes.SET_COUPON;
 
       if (query.page > 1) {
         // 다음 페이지 로딩
