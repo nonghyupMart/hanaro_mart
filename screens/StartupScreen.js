@@ -28,8 +28,9 @@ const StartupScreen = (props) => {
         if (data.popupCnt <= 0) return;
         let obj = data.popupList[0];
         if (!obj.app_ver) return;
+        const index = INTERNAL_APP_VERSION.indexOf(".", 2);
         let versionCheck = Util.versionCompare(
-          INTERNAL_APP_VERSION.slice(0, 3),
+          INTERNAL_APP_VERSION.slice(0, index),
           obj.app_ver
         );
 
