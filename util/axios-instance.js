@@ -11,7 +11,7 @@ let http = (() => {
     baseURL: API_URL,
     timeout: 15000,
   });
-  let dispatch;
+  let dispatch, autoOff;
   const errorHandler = (error) => {
     Util.log("ERROR responseURL => ", error.request.responseURL);
     if (error.response) {
@@ -79,7 +79,9 @@ let http = (() => {
           })
         );
       }
-      dispatch(setIsLoading(false));
+      if (autoOff) {
+        dispatch(setIsLoading(false));
+      }
       if (response.data.code == "USE-0000") {
         //회원정보가 없는 경우 자동로그인 해제
         await Util.clearAllData();
@@ -99,8 +101,9 @@ let http = (() => {
   );
 
   return {
-    init: (d) => {
-      dispatch = d;
+    init: (_distance, _autoOff) => {
+      autoOff = _autoOff;
+      dispatch = _distance;
       return instance;
     },
     get: (...params) => {
