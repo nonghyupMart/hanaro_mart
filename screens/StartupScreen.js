@@ -18,10 +18,8 @@ import { INTERNAL_APP_VERSION } from "../constants";
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
-  const [permissionStatus, setPermissionStatus] = useState();
-  const [location, setLocation] = useState(null);
+  const permissionStatus = useRef(null);
   const userStore = useSelector((state) => state.auth.userStore);
-  const [isLocationReady, setIsLocationReady] = useState(false);
   const timerRef = useRef(null);
 
   useEffect(() => {
@@ -48,7 +46,7 @@ const StartupScreen = (props) => {
         if (token) await dispatch(authActions.setPushToken(token));
       }
       let { status } = await Location.requestPermissionsAsync();
-      setPermissionStatus(status);
+      permissionStatus.current = status;
 
       const userStoreData = await Util.getStorageItem("userStoreData");
       await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
@@ -74,77 +72,32 @@ const StartupScreen = (props) => {
       await dispatch(
         CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
       );
-
-      if (
-        !_.isEmpty(userStoreData) &&
-        parsedUserData &&
-        parsedUserData.user_id
-      ) {
-        //가입을 했고 매장이 있는경우 근처매장 api 호출 않함
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
-        await dispatch(CommonActions.setIsLoading(false));
-        return;
-      }
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        fetchBranchNear();
-      }, 1500 * 10);
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      // 비가입시에만 실행
-      if (!permissionStatus || isJoin) return;
-      if (permissionStatus !== "granted") {
-        // 매장을 선택해주세요. 매장 설정 화면으로 ...
-        dispatch(
-          setAlert({
-            message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-            onPressConfirm: async () => {
-              await dispatch(setAlert(null));
-              RootNavigation.navigate("StoreChange");
-            },
-            onPressCancel: async () => {
-              await dispatch(setAlert(null));
-              await dispatch(setDidTryPopup(true));
-            },
-            confirmText: "매장선택",
-            cancelText: "취소",
-          })
-        );
-        return;
-      }
-      if (location == null) {
-        let location = await Location.getLastKnownPositionAsync();
-        setLocation(location);
-      }
-    })();
-  }, [permissionStatus]);
-
-  useEffect(() => {
-    (async () => {
-      // 비가입시에만 실행
-      // 가장 가까운 매장 상세정보 호출 후 세팅
-      if ((!location && permissionStatus == "granted") || isJoin) {
+      if (isJoin == null) return;
+      if (isJoin) {
+        // 이미 가입한 경우 홈화면으로 이동
         await dispatch(authActions.setDidTryAL());
         await SplashScreen.hideAsync();
         await dispatch(CommonActions.setIsLoading(false));
-      }
-      if (!location) {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => {
-          fetchBranchNear();
-        }, 1000 * 10);
         return;
       }
-      if (timerRef.current) clearTimeout(timerRef.current);
-      fetchBranchNear();
-    })();
-  }, [location]);
 
-  const fetchBranchNear = async () => {
+      if (permissionStatus.current !== "granted") {
+        //권한 거부시 신촌점 호출
+        fetchBranchNear();
+        return;
+      }
+
+      let location = await Location.getLastKnownPositionAsync();
+      fetchBranchNear(location);
+    })();
+  }, [isJoin]);
+
+  const fetchBranchNear = async (location) => {
     let query = {};
     if (location) {
       query.lat = location.coords.latitude;
