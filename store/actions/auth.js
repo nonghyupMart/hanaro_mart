@@ -253,12 +253,8 @@ export const getResponse = async (response, dispatch, url, query) => {
         message:
           "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
         confirmText: "재실행",
-        cancelText: "닫기",
         onPressConfirm: async () => {
           Updates.reloadAsync();
-        },
-        onPressCancel: async () => {
-          dispatch(setAlert(null));
         },
       })
     );
