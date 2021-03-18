@@ -45,7 +45,7 @@ const StartupScreen = (props) => {
           const token = (await Notifications.getExpoPushTokenAsync()).data;
           if (token) await dispatch(authActions.setPushToken(token));
         } catch (error) {
-          console.log(" Notifications.getExpoPushTokenAsync error =>", error);
+          Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
         }
       }
       let { status } = await Location.requestPermissionsAsync();

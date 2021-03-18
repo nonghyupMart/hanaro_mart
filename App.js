@@ -2,6 +2,7 @@ import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import {
   View,
   StyleSheet,
@@ -95,7 +96,10 @@ const fetchFonts = () => {
     "Roboto-Medium": require("./assets/fonts/Roboto-Medium.ttf"), //500
   });
 };
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(ReduxThunk))
+);
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);

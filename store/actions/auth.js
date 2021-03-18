@@ -21,41 +21,27 @@ export const setDidTryAL = () => {
   return { type: actionTypes.SET_DID_TRY_AL };
 };
 
-export const sendSMS = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${PRODUCT_SERVER_URL}/api/sms`,
-    query: query,
-  });
-  return async (dispatch) => {
-    const response = await fetch(url);
-    const resData = await getResponse(response, dispatch, url, query);
-
-    return resData.data;
-  };
-};
 export const signup = (query) => {
-  let url = `${API_URL}/v1/user_add`;
-  let method = "POST";
-  if (query.user_cd) {
-    url = `${API_URL}/v1/user_modify`;
-    method = "PATCH";
-  }
-
+  let data = JSON.stringify(query);
   return async (dispatch) => {
-    const response = await fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(query),
-    });
-    const resData = await getResponse(response, dispatch, url, query);
-
-    if (resData.data.userInfo && !resData.data.userInfo.user_cd)
-      return resData.data.userInfo;
-    dispatch(setUserInfo(resData.data.userInfo));
-    saveUserInfoToStorage(resData.data.userInfo);
-    return resData.data.userInfo;
+    const setResponse = (response) => {
+      if (response.data.userInfo && !response.data.userInfo.user_cd)
+        return response.data.userInfo;
+      dispatch(setUserInfo(response.data.userInfo));
+      saveUserInfoToStorage(response.data.userInfo);
+      return response.data.userInfo;
+    };
+    if (!query.user_cd) {
+      return http
+        .setDispatch(dispatch)
+        .post("/v1/user_add", data)
+        .then(async (response) => setResponse(response));
+    } else {
+      return http
+        .setDispatch(dispatch)
+        .patch("/v1/user_modify", data)
+        .then(async (response) => setResponse(response));
+    }
   };
 };
 
@@ -332,19 +318,15 @@ export const getResponse = async (response, dispatch, url, query) => {
 
 export const fetchUpdate = () => {
   return async (dispatch, getState) => {
-    try {
-      return http
-        .init(dispatch)
-        .get("/popup?update_yn=Y")
-        .then(async (response) => {
-          dispatch({
-            type: actionTypes.SET_UPDATE_POPUP,
-            updatePopup: response.data,
-          });
-          return response.data;
+    return http
+      .setDispatch(dispatch)
+      .get("/popup?update_yn=Y")
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_UPDATE_POPUP,
+          updatePopup: response.data,
         });
-    } catch (err) {
-      throw err;
-    }
+        return response.data;
+      });
   };
 };

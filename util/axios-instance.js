@@ -10,10 +10,10 @@ let http = (() => {
   const instance = axios.create({
     baseURL: API_URL,
     timeout: 15000,
+    headers: { "content-type": "application/json" },
   });
   let dispatch, autoOff;
   const errorHandler = (error) => {
-    Util.log("ERROR responseURL => ", error.request.responseURL);
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
@@ -25,6 +25,7 @@ let http = (() => {
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
       // console.log(error.request);
+      Util.log("ERROR responseURL => ", error.request.responseURL);
     } else {
       // Something happened in setting up the request that triggered an Error
       // console.log("Error", error.message);
@@ -99,11 +100,13 @@ let http = (() => {
       return Promise.reject(error);
     }
   );
-
   return {
-    init: (_distance, _autoOff) => {
+    setDispatch: (_dispatch) => {
+      dispatch = _dispatch;
+      return instance;
+    },
+    setAutoOff: (_autoOff) => {
       autoOff = _autoOff;
-      dispatch = _distance;
       return instance;
     },
     get: (...params) => {
@@ -111,6 +114,13 @@ let http = (() => {
     },
     post: (...params) => {
       return instance.post(...params);
+    },
+    patch: (...params) => {
+      return instance.patch(...params);
+    },
+    setBaseURL: (url) => {
+      instance.defaults.baseURL = url;
+      return instance;
     },
   };
 })();

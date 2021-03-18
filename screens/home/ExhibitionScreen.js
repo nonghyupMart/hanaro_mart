@@ -15,6 +15,7 @@ import { setIsLoading } from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
 import NoList from "../../components/UI/NoList";
 import * as CommonActions from "../../store/actions/common";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -54,6 +55,9 @@ const ExhibitionScreen = (props) => {
   };
 
   useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
     const currentTab = TabMenus.filter((tab) => tab.name == routeName);
 
     const tab = userStore.menuList.filter(
@@ -66,14 +70,11 @@ const ExhibitionScreen = (props) => {
         title: tab[0].menu_nm,
       });
     }
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (userStore) {
-        page.current = 1;
-        fetchExhibition();
-      }
-    });
-    return unsubscribe;
-  }, [userStore]);
+    if (!_.isEmpty(userStore)) {
+      page.current = 1;
+      fetchExhibition();
+    }
+  }, [isFocused, userStore]);
 
   const fetchExhibition = (p = page.current) => {
     dispatch(setIsLoading(true));
@@ -128,10 +129,13 @@ const ExhibitionScreen = (props) => {
     >
       {data && (
         <ScrollList
+          listKey={`${userStore.storeInfo.store_cd}-${routeName}`}
           numColumns={1}
           data={data.list}
           keyExtractor={(item, index) =>
-            `${userStore.storeInfo.store_cd}-${index}`
+            `${userStore.storeInfo.store_cd}-${
+              routeName == "Exhibition" ? item.plan_cd : item.exclu_cd
+            }`
           }
           onEndReached={loadMore}
           renderItem={(itemData) => {

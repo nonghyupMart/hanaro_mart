@@ -101,6 +101,7 @@ const EventScreen = (props) => {
     <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
       {event && (
         <ScrollList
+          listKey={`${userStore.storeInfo.store_cd}-${routeName}`}
           numColumns={1}
           data={event.eventList}
           keyExtractor={(item) =>
