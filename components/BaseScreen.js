@@ -22,10 +22,6 @@ const BaseScreen = (props) => {
     props.isScroll == undefined ? true : props.isScroll
   );
 
-  useEffect(() => {
-    updateExpo(dispatch);
-  }, []);
-
   return (
     <Screen
       headerHeight={useHeaderHeight()}
