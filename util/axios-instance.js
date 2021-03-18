@@ -10,7 +10,7 @@ let http = (() => {
   const instance = axios.create({
     baseURL: API_URL,
     timeout: 15000,
-    headers: { "content-type": "application/json" },
+    headers: { "Content-Type": "application/json" },
   });
   let dispatch, autoOff;
   const errorHandler = (error) => {
@@ -24,7 +24,7 @@ let http = (() => {
       // The request was made but no response was received
       // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
       // http.ClientRequest in node.js
-      // console.log(error.request);
+      // Util.log(error.request);
       Util.log("ERROR responseURL => ", error.request.responseURL);
     } else {
       // Something happened in setting up the request that triggered an Error
@@ -36,13 +36,9 @@ let http = (() => {
       setAlert({
         message:
           "서비스 연결에\n오류가 발생하였습니다.\n잠시 후 다시 실행해 주십시오.",
-        confirmText: "재시도",
-        cancelText: "닫기",
+        confirmText: "재실행",
         onPressConfirm: async () => {
           Updates.reloadAsync();
-        },
-        onPressCancel: async () => {
-          BackHandler.exitApp();
         },
       })
     );
@@ -101,12 +97,10 @@ let http = (() => {
     }
   );
   return {
-    setDispatch: (_dispatch) => {
+    init: (_dispatch, _autoOff = false, url) => {
       dispatch = _dispatch;
-      return instance;
-    },
-    setAutoOff: (_autoOff) => {
       autoOff = _autoOff;
+      if (url) instance.defaults.baseURL = url;
       return instance;
     },
     get: (...params) => {
@@ -118,9 +112,8 @@ let http = (() => {
     patch: (...params) => {
       return instance.patch(...params);
     },
-    setBaseURL: (url) => {
-      instance.defaults.baseURL = url;
-      return instance;
+    delete: (...params) => {
+      return instance.delete(...params);
     },
   };
 })();

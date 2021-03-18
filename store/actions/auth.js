@@ -22,7 +22,7 @@ export const setDidTryAL = () => {
 };
 
 export const signup = (query) => {
-  let data = JSON.stringify(query);
+  const data = JSON.stringify(query);
   return async (dispatch) => {
     const setResponse = (response) => {
       if (response.data.userInfo && !response.data.userInfo.user_cd)
@@ -33,12 +33,12 @@ export const signup = (query) => {
     };
     if (!query.user_cd) {
       return http
-        .setDispatch(dispatch)
+        .init(dispatch)
         .post("/v1/user_add", data)
         .then(async (response) => setResponse(response));
     } else {
       return http
-        .setDispatch(dispatch)
+        .init(dispatch)
         .patch("/v1/user_modify", data)
         .then(async (response) => setResponse(response));
     }
@@ -80,75 +80,54 @@ export const saveUserStore = (userStore) => {
 };
 
 export const fetchPushCnt = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/push-cnt`,
-    query: query,
-  });
   return async (dispatch) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({
-        type: actionTypes.SET_PUSH_CNT,
-        pushCnt: resData.data.result.push_cnt,
+    return http
+      .init(dispatch, true)
+      .get("/push-cnt")
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_PUSH_CNT,
+          updatePopup: response.data.result.push_cnt,
+        });
+        return response.data;
       });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
 export const updateLoginLog = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/v2/user`,
-  });
+  const data = JSON.stringify(query);
   return async (dispatch) => {
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(query),
-    });
-    const resData = await getResponse(response, dispatch, url, query);
-    return resData.data;
+    return http
+      .init(dispatch)
+      .patch("/v2/user", data)
+      .then(async (response) => {
+        return response.data;
+      });
   };
 };
 export const updateLoginLogV1 = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/v1/user`,
-  });
+  const data = JSON.stringify(query);
   return async (dispatch) => {
-    const response = await fetch(url, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(query),
-    });
-    const resData = await getResponse(response, dispatch, url, query);
-    return resData.data;
+    return http
+      .init(dispatch)
+      .patch("/v1/user", data)
+      .then(async (response) => {
+        return response.data;
+      });
   };
 };
 export const setUserStore = (query, userStore) => {
-  const url = `${API_URL}/users`;
+  const data = JSON.stringify(query);
   return async (dispatch) => {
-    const method = "PATCH";
-    const response = await fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(query),
-    });
-    const resData = await getResponse(response, dispatch, url, query);
+    return http
+      .init(dispatch)
+      .patch("/users", data)
+      .then(async (response) => {
+        await dispatch(saveUserStore(userStore));
+        await saveUserStoreToStorage(userStore);
 
-    await dispatch(saveUserStore(userStore));
-    await saveUserStoreToStorage(userStore);
-
-    return resData.data;
+        return response.data;
+      });
   };
 };
 
@@ -169,10 +148,6 @@ export const withdrawal = (query) => {
       },
       body: JSON.stringify(query),
     });
-    const resData = await getResponse(response, dispatch, url, query);
-
-    // Util.log(resData.data);
-    return resData.data;
   };
 };
 export const withdrawalFinish = () => {
@@ -207,24 +182,14 @@ export const saveIsJoinToStorage = (status) => {
 };
 
 export const setReference = (query) => {
-  const url = queryString.stringifyUrl({
-    url: `${API_URL}/recommend`,
-  });
-
+  const data = JSON.stringify(query);
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init(dispatch, true)
+      .post("/recommend", data)
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
@@ -287,7 +252,12 @@ export const getResponse = async (response, dispatch, url, query) => {
       setAlert({
         message:
           "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
-        onPressConfirm: () => {
+        confirmText: "재실행",
+        cancelText: "닫기",
+        onPressConfirm: async () => {
+          Updates.reloadAsync();
+        },
+        onPressCancel: async () => {
           dispatch(setAlert(null));
         },
       })
@@ -319,7 +289,7 @@ export const getResponse = async (response, dispatch, url, query) => {
 export const fetchUpdate = () => {
   return async (dispatch, getState) => {
     return http
-      .setDispatch(dispatch)
+      .init(dispatch)
       .get("/popup?update_yn=Y")
       .then(async (response) => {
         dispatch({
