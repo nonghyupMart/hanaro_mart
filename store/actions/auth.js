@@ -148,6 +148,8 @@ export const withdrawal = (query) => {
       },
       body: JSON.stringify(query),
     });
+     const resData = await getResponse(response, dispatch, url, query);
+     return resData.data;
   };
 };
 export const withdrawalFinish = () => {
