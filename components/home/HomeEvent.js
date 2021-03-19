@@ -89,7 +89,7 @@ const HomeEvent = (props) => {
           overflow: "hidden",
           aspectRatio: 1 / 0.34756097560976,
         }}
-        arrows={_.size(event.eventList) <= 1 ? false : true}
+        arrows={_.size(event.eventList) > 0 ? true : false}
         arrowLeft={
           <Image source={require("../../assets/images/left_button2.png")} />
         }
