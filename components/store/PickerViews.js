@@ -36,7 +36,9 @@ const PickerViews = (props) => {
   };
   const onMnameChange = (lname, mname) => {
     props.setMname(() => mname);
-    props.fetchBranches(lname, mname, "", 1);
+    props.fetchBranches(lname, mname, "", 1).then(() => {
+      dispatch(setIsLoading(false));
+    });
   };
 
   props.address1 &&

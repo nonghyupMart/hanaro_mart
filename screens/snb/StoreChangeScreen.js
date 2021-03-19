@@ -62,7 +62,6 @@ const StoreChangeScreen = (props) => {
     })();
   }, []);
   useEffect(() => {
-    dispatch(setIsLoading(true));
     const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
     let query = {
       user_cd: userInfo.user_cd,
@@ -101,7 +100,6 @@ const StoreChangeScreen = (props) => {
   };
   const loadMore = async () => {
     if (!isLoading && pageNum.current + 1 <= branches.finalPage) {
-      dispatch(setIsLoading(true));
       pageNum.current++;
       fetchBranches(lname, mname, store_nm, pageNum.current).then((data) => {
         dispatch(setIsLoading(false));
