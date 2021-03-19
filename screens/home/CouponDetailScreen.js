@@ -84,7 +84,6 @@ const CouponDetailScreen = (props) => {
     })();
   }, [couponDetail]);
   useEffect(() => {
-    dispatch(setIsLoading(true));
     const fetchCouponDetail = dispatch(
       couponActions.fetchCouponDetail({
         cou_cd: params.cou_cd,

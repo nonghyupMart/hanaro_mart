@@ -38,7 +38,6 @@ const CouponScreen = (props) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       if (userStore) {
-        dispatch(setIsLoading(true));
         page.current = 1;
 
         const fetchCouponA = dispatch(
@@ -80,7 +79,6 @@ const CouponScreen = (props) => {
     const index = couponList.indexOf(item);
     switch (item.status) {
       case "00": // 미발급
-        await dispatch(setIsLoading(true));
         dispatch(
           couponActions.downloadCoupon({
             store_cd: userStore.storeInfo.store_cd,
@@ -122,7 +120,6 @@ const CouponScreen = (props) => {
   };
   const loadMore = () => {
     if (!isLoading && page.current + 1 <= coupon.finalPage) {
-      dispatch(setIsLoading(true));
       page.current++;
       dispatch(
         couponActions.fetchCoupon({
