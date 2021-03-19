@@ -22,7 +22,6 @@ export const setDidTryAL = () => {
 };
 
 export const signup = (query) => {
-  const data = JSON.stringify(query);
   return async (dispatch) => {
     const setResponse = (response) => {
       if (response.data.userInfo && !response.data.userInfo.user_cd)
@@ -34,7 +33,7 @@ export const signup = (query) => {
     if (!query.user_cd) {
       return http
         .init(dispatch)
-        .post("/v1/user_add", data)
+        .post("/v1/user_add", JSON.stringify(query))
         .then(async (response) => setResponse(response));
     } else {
       return http
@@ -95,33 +94,30 @@ export const fetchPushCnt = (query) => {
 };
 
 export const updateLoginLog = (query) => {
-  const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/v2/user", data)
+      .patch("/v2/user", JSON.stringify(query))
       .then(async (response) => {
         return response.data;
       });
   };
 };
 export const updateLoginLogV1 = (query) => {
-  const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/v1/user", data)
+      .patch("/v1/user", JSON.stringify(query))
       .then(async (response) => {
         return response.data;
       });
   };
 };
 export const setUserStore = (query, userStore) => {
-  const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/users", data)
+      .patch("/users", JSON.stringify(query))
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
         await saveUserStoreToStorage(userStore);
@@ -184,11 +180,10 @@ export const saveIsJoinToStorage = (status) => {
 };
 
 export const setReference = (query) => {
-  const data = JSON.stringify(query);
   return async (dispatch, getState) => {
     return http
       .init(dispatch, true)
-      .post("/recommend", data)
+      .post("/recommend", JSON.stringify(query))
       .then(async (response) => {
         return response.data;
       });
