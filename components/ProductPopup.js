@@ -170,7 +170,11 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </Notice0>
                 <NoticeRight>
                   <Notice2
-                    style={{ color: colors.appleGreen, paddingLeft: 15 }}
+                    style={{
+                      color: colors.appleGreen,
+                      paddingLeft: 15,
+                      flexGrow: 0.4,
+                    }}
                   >
                     {Util.formatNumber(item.coupon_price)}원
                   </Notice2>
@@ -179,6 +183,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                       textAlign: "right",
                       color: colors.appleGreen,
                       paddingRight: 4,
+                      flexShrink: 0,
                     }}
                   >
                     {`쿠폰할인가 ${Util.formatNumber(
