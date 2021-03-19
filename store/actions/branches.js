@@ -1,14 +1,15 @@
 import queryString from "query-string";
-import * as Util from "../../util";
-import { getResponse } from "../actions/auth";
 import * as actionTypes from "./actionTypes";
 import http from "../../util/axios-instance";
 
 export const fetchAddress1 = () => {
+  const url = queryString.stringifyUrl({
+    url: `/lname`,
+  });
   return async (dispatch, getState) => {
     return http
       .init(dispatch)
-      .get("/lname")
+      .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS1, address1: response.data });
         return response.data;
@@ -18,10 +19,13 @@ export const fetchAddress1 = () => {
 
 export const fetchAddress2 = (lname) => {
   if (!lname || lname == "") return async () => null;
+  const url = queryString.stringifyUrl({
+    url: `/${lname}/mname`,
+  });
   return async (dispatch, getState) => {
     return http
       .init(dispatch)
-      .get(`/${lname}/mname`)
+      .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS2, address2: response.data });
         return response.data;
@@ -53,10 +57,13 @@ export const fetchBranches = (query) => {
   };
 };
 export const fetchBranch = (store_cd) => {
+  const url = queryString.stringifyUrl({
+    url: `/store/${store_cd}`,
+  });
   return async (dispatch, getState) => {
     return http
       .init(dispatch)
-      .get(`/store/${store_cd}`)
+      .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
         return response.data;

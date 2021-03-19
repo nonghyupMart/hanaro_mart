@@ -1,32 +1,29 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants";
-import * as Util from "../../util";
-import { getResponse } from "../actions/auth";
 import * as actionTypes from "./actionTypes";
+import http from "../../util/axios-instance";
 
 export const fetchEvent = (query) => {
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/event`,
+    url: `/event`,
     query: query,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-      let type = actionTypes.SET_EVENT;
-      if (query.page > 1) {
-        if (query.user_cd) type = actionTypes.SET_MY_EVENT_MORE;
-        else type = actionTypes.SET_EVENT_MORE;
-      } else {
-        if (query.user_cd) type = actionTypes.SET_MY_EVENT;
-        else type = actionTypes.SET_EVENT;
-      }
-      dispatch({ type: type, event: resData.data });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init(dispatch, true)
+      .get(url)
+      .then(async (response) => {
+        let type = actionTypes.SET_EVENT;
+        if (query.page > 1) {
+          if (query.user_cd) type = actionTypes.SET_MY_EVENT_MORE;
+          else type = actionTypes.SET_EVENT_MORE;
+        } else {
+          if (query.user_cd) type = actionTypes.SET_MY_EVENT;
+          else type = actionTypes.SET_EVENT;
+        }
+        dispatch({ type: type, event: response.data });
+        return response.data;
+      });
   };
 };
 
@@ -34,21 +31,20 @@ export const fetchEventDetail = (query) => {
   const event_cd = query.event_cd;
   delete query.event_cd;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/event/${event_cd}`,
+    url: `/event/${event_cd}`,
     query: query,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({
-        type: actionTypes.SET_EVENT_DETAIL,
-        eventDetail: resData.data.eventInfo,
+    return http
+      .init(dispatch)
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_EVENT_DETAIL,
+          eventDetail: response.data.eventInfo,
+        });
+        return response.data;
       });
-    } catch (err) {
-      throw err;
-    }
   };
 };
 export const clearEventDetail = () => {
@@ -64,66 +60,45 @@ export const updateEventDetail = (eventDetail) => {
 
 export const applyEvent = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/event`,
+    url: `/event`,
   });
-
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init(dispatch)
+      .post(url, JSON.stringify(query))
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
 export const applyStamp = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/stamp`,
+    url: `/stamp`,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init(dispatch)
+      .post(url, JSON.stringify(query))
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
 export const exchangeStamp = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/stamp-trade`,
+    url: `/stamp-trade`,
   });
+  const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init(dispatch)
+      .post(url, data)
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };

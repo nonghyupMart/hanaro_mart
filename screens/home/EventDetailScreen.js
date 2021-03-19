@@ -221,9 +221,6 @@ const EventDetailScreen = (props, { navigation }) => {
           >
             <PinchGestureHandler onGestureEvent={setIsZoom.bind(this, true)}>
               <ScaledImage
-                onLoad={onLoad}
-                onError={onLoad}
-                onLoadEnd={onLoad}
                 key={eventDetail.detail_img}
                 source={eventDetail.detail_img}
                 style={{}}

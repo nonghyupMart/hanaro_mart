@@ -40,7 +40,6 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      dispatch(setIsLoading(true));
       updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
         dispatch(setIsLoading(false));
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
@@ -62,7 +61,6 @@ const MyADAgreementScreen = (props) => {
         })
       );
     }
-    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
       push_agree: push ? "Y" : "N",

@@ -1,6 +1,4 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants";
-import * as Util from "../../util";
 import * as actionTypes from "./actionTypes";
 import http from "../../util/axios-instance";
 
@@ -60,10 +58,15 @@ export const downloadCoupon = (query) => {
   delete query.index;
   delete query.type;
 
+  const url = queryString.stringifyUrl({
+    url: `/coupon`,
+  });
+  const data = JSON.stringify(query);
+
   return async (dispatch, getState) => {
     return http
       .init(dispatch)
-      .post("/coupon", JSON.stringify(query))
+      .post(url, data)
       .then(async (response) => {
         switch (response.code) {
           case "200":
@@ -98,12 +101,13 @@ export const useCoupon = (query) => {
   delete query.type;
   delete query.routeName;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon`,
+    url: `/coupon`,
   });
   return async (dispatch, getState) => {
+    const data = JSON.stringify(query);
     return http
       .init(dispatch, true)
-      .patch("/coupon", JSON.stringify(query))
+      .patch(url, data)
       .then(async (response) => {
         coupon.couponList[index].status = "20";
         switch (type) {
@@ -131,7 +135,7 @@ export const fetchCouponDetail = (query) => {
   const cou_cd = query.cou_cd;
   delete query.cou_cd;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon/${cou_cd}`,
+    url: `/coupon/${cou_cd}`,
     query: query,
   });
 

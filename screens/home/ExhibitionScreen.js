@@ -46,7 +46,6 @@ const ExhibitionScreen = (props) => {
   }, [link]);
 
   const moveToDetail = (event_cd) => {
-    dispatch(setIsLoading(true));
     if (routeName == "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: event_cd });
     } else {
@@ -77,19 +76,14 @@ const ExhibitionScreen = (props) => {
   }, [isFocused, userStore]);
 
   const fetchExhibition = (p = page.current) => {
-    dispatch(setIsLoading(true));
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: p,
     };
     if (routeName == "Exhibition") {
-      dispatch(exhibitionActions.fetchExhibition(query)).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      dispatch(exhibitionActions.fetchExhibition(query));
     } else {
-      dispatch(exclusiveActions.fetchExclusive(query)).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      dispatch(exclusiveActions.fetchExclusive(query));
     }
   };
   const loadMore = () => {
@@ -100,7 +94,6 @@ const ExhibitionScreen = (props) => {
   };
 
   const onPress = (item) => {
-    dispatch(setIsLoading(true));
     if (routeName == "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: item.plan_cd });
     } else {

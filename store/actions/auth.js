@@ -1,5 +1,4 @@
 import queryString from "query-string";
-import { AsyncStorage } from "react-native";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Updates from "expo-updates";
@@ -22,6 +21,9 @@ export const setDidTryAL = () => {
 };
 
 export const signup = (query) => {
+  let url;
+  const data = JSON.stringify(query);
+
   return async (dispatch) => {
     const setResponse = (response) => {
       if (response.data.userInfo && !response.data.userInfo.user_cd)
@@ -31,14 +33,20 @@ export const signup = (query) => {
       return response.data.userInfo;
     };
     if (!query.user_cd) {
+      url = queryString.stringifyUrl({
+        url: `/v1/user_add`,
+      });
       return http
         .init(dispatch)
-        .post("/v1/user_add", JSON.stringify(query))
+        .post(url, data)
         .then(async (response) => setResponse(response));
     } else {
+      url = queryString.stringifyUrl({
+        url: `/v1/user_modify`,
+      });
       return http
         .init(dispatch)
-        .patch("/v1/user_modify", data)
+        .patch(url, data)
         .then(async (response) => setResponse(response));
     }
   };
@@ -79,10 +87,13 @@ export const saveUserStore = (userStore) => {
 };
 
 export const fetchPushCnt = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `push-cnt`,
+  });
   return async (dispatch) => {
     return http
       .init(dispatch, true)
-      .get("/push-cnt")
+      .get(url)
       .then(async (response) => {
         dispatch({
           type: actionTypes.SET_PUSH_CNT,
@@ -94,30 +105,43 @@ export const fetchPushCnt = (query) => {
 };
 
 export const updateLoginLog = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `/v2/user`,
+  });
+  const data = JSON.stringify(query);
+
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/v2/user", JSON.stringify(query))
+      .patch(url, data)
       .then(async (response) => {
         return response.data;
       });
   };
 };
 export const updateLoginLogV1 = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `/v1/user`,
+  });
+  const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/v1/user", JSON.stringify(query))
+      .patch(url, data)
       .then(async (response) => {
         return response.data;
       });
   };
 };
 export const setUserStore = (query, userStore) => {
+  const url = queryString.stringifyUrl({
+    url: `/users`,
+  });
+  const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
       .init(dispatch)
-      .patch("/users", JSON.stringify(query))
+      .patch(url, data)
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
         await saveUserStoreToStorage(userStore);
@@ -144,8 +168,8 @@ export const withdrawal = (query) => {
       },
       body: JSON.stringify(query),
     });
-     const resData = await getResponse(response, dispatch, url, query);
-     return resData.data;
+    const resData = await getResponse(response, dispatch, url, query);
+    return resData.data;
   };
 };
 export const withdrawalFinish = () => {
@@ -180,10 +204,13 @@ export const saveIsJoinToStorage = (status) => {
 };
 
 export const setReference = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `/recommend`,
+  });
   return async (dispatch, getState) => {
     return http
       .init(dispatch, true)
-      .post("/recommend", JSON.stringify(query))
+      .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
       });
@@ -280,10 +307,13 @@ export const getResponse = async (response, dispatch, url, query) => {
 };
 
 export const fetchUpdate = () => {
+  const url = queryString.stringifyUrl({
+    url: `/popup?update_yn=Y`,
+  });
   return async (dispatch, getState) => {
     return http
       .init(dispatch)
-      .get("/popup?update_yn=Y")
+      .get(url)
       .then(async (response) => {
         dispatch({
           type: actionTypes.SET_UPDATE_POPUP,

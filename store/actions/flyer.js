@@ -1,71 +1,68 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants";
-import * as Util from "../../util";
-import { getResponse } from "../actions/auth";
 import * as actionTypes from "./actionTypes";
+import http from "../../util/axios-instance";
 
 export const fetchLeaflet = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/leaflet`,
+    url: `/leaflet`,
     query: query,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-      dispatch({ type: actionTypes.SET_LEAFLET, leaflet: resData.data });
-
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init(dispatch)
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_LEAFLET,
+          leaflet: response.data,
+        });
+        return response.data;
+      });
   };
 };
 
 export const fetchLeafletDetail = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/leaflet/${query.leaf_cd}`,
+    url: `/leaflet/${query.leaf_cd}`,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({
-        type: actionTypes.SET_LEAFLET_DETAIL,
-        leafletDetail: resData.data.leafletInfo,
+    return http
+      .init(dispatch)
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_LEAFLET_DETAIL,
+          leafletDetail: response.data.leafletInfo,
+        });
+        return response.data;
       });
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
 export const fetchProduct = (query) => {
   query.limit = 45;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/product`,
+    url: `/product`,
     query: query,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-      let type = actionTypes.SET_PRODUCT;
-      if (query.product_nm) {
-        if (query.page > 1) type = actionTypes.SET_SEARCHED_PRODUCT_MORE;
-        else type = actionTypes.SET_SEARCHED_PRODUCT;
-      } else {
-        if (query.page > 1) type = actionTypes.SET_PRODUCT_MORE;
-        else type = actionTypes.SET_PRODUCT;
-      }
-      dispatch({ type, product: resData.data });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init(dispatch, true)
+      .get(url)
+      .then(async (response) => {
+        let type = actionTypes.SET_PRODUCT;
+        if (query.product_nm) {
+          if (query.page > 1) type = actionTypes.SET_SEARCHED_PRODUCT_MORE;
+          else type = actionTypes.SET_SEARCHED_PRODUCT;
+        } else {
+          if (query.page > 1) type = actionTypes.SET_PRODUCT_MORE;
+          else type = actionTypes.SET_PRODUCT;
+        }
+        dispatch({ type, product: response.data });
+        return response.data;
+      });
   };
 };
 
@@ -74,44 +71,36 @@ export const fetchProductDetail = (query) => {
   delete query.product_cd;
 
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/product/${cd}`,
+    url: `/product/${cd}`,
     query: query,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({
-        type: actionTypes.SET_PRODUCT_DETAIL,
-        productDetail: resData.data.productInfo,
+    return http
+      .init(dispatch, true)
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_PRODUCT_DETAIL,
+          productDetail: response.data.productInfo,
+        });
+        return response.data;
       });
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
 export const addCart = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/basket`,
+    url: `/basket`,
   });
+  const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init(dispatch)
+      .post(url, data)
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };

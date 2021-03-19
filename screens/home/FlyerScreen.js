@@ -46,8 +46,6 @@ const FlyerScreen = (props) => {
     setCarouselKey(Math.random());
 
     if (userStore) {
-      dispatch(setIsLoading(true));
-
       dispatch(
         flyerActions.fetchLeaflet({
           store_cd: userStore.storeInfo.store_cd,
@@ -77,11 +75,9 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
-    dispatch(setIsLoading(true));
+    
     setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
-    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
   }, [type_val]);
 
   const fetchProduct = (leaf_cd, p = page.current) => {
@@ -100,11 +96,9 @@ const FlyerScreen = (props) => {
     if (pageforCarousel == null || pageforCarousel == undefined) return;
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-      dispatch(setIsLoading(true));
+      
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
     }
   }, [pageforCarousel, isFocused]);
 
@@ -115,14 +109,9 @@ const FlyerScreen = (props) => {
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
-      dispatch(setIsLoading(true));
+      
       page.current++;
-      fetchProduct(
-        leaflet.leafletList[pageforCarousel].leaf_cd,
-        page.current
-      ).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page.current);
     }
   };
   const [isVisible, setIsVisible] = useState(false);

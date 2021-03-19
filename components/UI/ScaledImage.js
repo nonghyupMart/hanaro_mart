@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from "react";
 import { Image } from "react-native";
 import { Image as CacheImage } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "../../constants";
+import colors from "../../constants/Colors";
 
 // import { BaseImage } from "../../components/UI/BaseUI";
 
@@ -20,8 +21,16 @@ export default class ScaledImage extends Component {
       sourceURI = this.props.source;
     }
 
-    this.state = { source: source, sourceURI: sourceURI };
+    this.state = {
+      source: source,
+      sourceURI: sourceURI,
+      color: colors.white,
+    };
   }
+
+  onLoadEnd = () => {
+    this.state.color = "transparent";
+  };
 
   componentDidMount() {
     if (typeof this.state.sourceURI == "string") {
@@ -75,10 +84,15 @@ export default class ScaledImage extends Component {
       <Image
         {...this.props}
         source={this.state.source}
-        style={{
-          height: this.state.height,
-          width: this.state.width,
-        }}
+        onLoadEnd={this.onLoadEnd}
+        style={[
+          { backgroundColor: this.state.color },
+          {
+            height: this.state.height,
+            width: this.state.width,
+          },
+          this.props.style,
+        ]}
       />
     );
   }

@@ -56,15 +56,12 @@ const EventScreen = (props) => {
   }, [isFocused, userStore]);
 
   const fetchEvent = (p = page.current) => {
-    dispatch(setIsLoading(true));
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: p,
     };
     if (routeName == "MyEvent") query.user_cd = userInfo.user_cd;
-    dispatch(eventActions.fetchEvent(query)).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    dispatch(eventActions.fetchEvent(query));
   };
   const loadMore = () => {
     if (!isLoading && page.current + 1 <= event.finalPage) {
@@ -75,7 +72,6 @@ const EventScreen = (props) => {
 
   const moveToDetail = async (event_cd) => {
     if (!userInfo.ci) return navigation.navigate("Empty");
-    await dispatch(setIsLoading(true));
     await navigation.navigate("EventDetail", { event_cd: event_cd });
   };
   const onPress = (item) => {

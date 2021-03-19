@@ -16,7 +16,6 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item) return <></>;
   const dispatch = useDispatch();
   // const userInfo = useSelector((state) => state.auth.userInfo);
-  const productDetail = useSelector((state) => state.flyer.productDetail);
   // const [item_amount, setItem_amount] = useState(1);
   // const [totalPrice, setTotalPrice] = useState(item.sale_price);
 
@@ -26,12 +25,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
 
   useEffect(() => {
     if (!isVisible) return;
-    dispatch({
-      type: SET_PRODUCT_DETAIL,
-      productDetail: null,
-    });
     // setItem_amount(1);
-    dispatch(flyerActions.fetchProductDetail({ product_cd: item.product_cd }));
   }, [isVisible]);
 
   const onAddCart = () => {
@@ -62,7 +56,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
         );
     });
   };
-  if (_.isEmpty(productDetail)) return <></>;
+  if (_.isEmpty(item)) return <></>;
 
   return (
     <Modal
@@ -85,7 +79,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
               aspectRatio: 1 / 1,
               marginTop: 18,
             }}
-            source={item.title_img || productDetail.title_img}
+            source={item.detail_img}
             resizeMode="cover"
           />
           <BorderLine />
@@ -161,13 +155,11 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {productDetail && !_.isEmpty(productDetail.card_info) && (
+            {item && !_.isEmpty(item.card_info) && (
               <NoticeRow>
                 <Notice1 style={{ textAlign: "center" }}>
-                  {productDetail.card_info}
-                  {productDetail.card_limit
-                    ? " / " + productDetail.card_limit
-                    : ""}
+                  {item.card_info}
+                  {item.card_limit ? " / " + item.card_limit : ""}
                 </Notice1>
               </NoticeRow>
             )}
@@ -220,7 +212,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                       paddingRight: 4,
                     }}
                   >
-                    {productDetail.bogo_info}
+                    {item.bogo_info}
                   </Notice2>
                 </NoticeRight>
               </NoticeRow>
