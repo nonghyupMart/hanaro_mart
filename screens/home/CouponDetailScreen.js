@@ -124,7 +124,6 @@ const CouponDetailScreen = (props) => {
             dispatch(
               couponActions.useCoupon({
                 index: params.index,
-                type: params.type,
                 coupon: params.coupon,
                 store_cd: params.store_cd,
                 user_cd: userInfo.user_cd,

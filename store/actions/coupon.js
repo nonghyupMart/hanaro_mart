@@ -13,7 +13,7 @@ export const fetchCoupon = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_COUPON;
@@ -30,17 +30,9 @@ export const fetchCoupon = (query) => {
           // 첫페이지 로딩
           if (query.user_yn == "Y") {
             //마이쿠폰일 경우..
-            if (query.gbn == "A") {
-              type = actionTypes.SET_MY_COUPON_A;
-            } else {
-              type = actionTypes.SET_MY_COUPON;
-            }
+            type = actionTypes.SET_MY_COUPON;
           } else {
-            if (query.gbn == "A") {
-              type = actionTypes.SET_COUPON_A;
-            } else {
-              type = actionTypes.SET_COUPON;
-            }
+            type = actionTypes.SET_COUPON;
           }
         }
 
@@ -53,10 +45,8 @@ export const fetchCoupon = (query) => {
 export const downloadCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
-  const type = query.type;
   delete query.coupon;
   delete query.index;
-  delete query.type;
 
   const url = queryString.stringifyUrl({
     url: `/coupon`,
@@ -77,15 +67,7 @@ export const downloadCoupon = (query) => {
           default:
             break;
         }
-
-        switch (type) {
-          case "A":
-            dispatch({ type: actionTypes.SET_COUPON_A, coupon: coupon });
-            break;
-          case "B":
-            dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
-            break;
-        }
+        dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
         return response.data;
       });
   };
@@ -110,21 +92,9 @@ export const useCoupon = (query) => {
       .patch(url, data)
       .then(async (response) => {
         coupon.couponList[index].status = "20";
-        switch (type) {
-          case "A":
-            if (routeName === "MyCoupon")
-              dispatch({
-                type: actionTypes.SET_MY_COUPON_A,
-                coupon: coupon,
-              });
-            else dispatch({ type: actionTypes.SET_COUPON_A, coupon: coupon });
-            break;
-          case "B":
-            if (routeName === "MyCoupon")
-              dispatch({ type: actionTypes.SET_MY_COUPON, coupon: coupon });
-            else dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
-            break;
-        }
+        if (routeName === "MyCoupon")
+          dispatch({ type: actionTypes.SET_MY_COUPON, coupon: coupon });
+        else dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
         return response.data;
       });
   };
