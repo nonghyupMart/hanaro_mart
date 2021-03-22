@@ -109,10 +109,17 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
       }}
     >
       <MemberInfo />
-      <WhiteContainer style={{ padding: 23, paddingTop: 12, flex: 1 }}>
+      <WhiteContainer
+        style={{
+          padding: 23,
+          paddingTop: 12,
+          flex: 1,
+        }}
+      >
         <ScaledImage
           source={require("../../assets/images/mem_out01.png")}
           width={SCREEN_WIDTH - 48}
+          style={{ backgroundColor: colors.trueWhite }}
         />
 
         <BorderContainer2>
