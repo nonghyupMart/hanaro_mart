@@ -5,7 +5,6 @@ import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as couponActions from "../../store/actions/coupon";
 import CouponItem from "../../components/CouponItem";
-import CouponItemA from "../../components/CouponItemA";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useIsFocused } from "@react-navigation/native";

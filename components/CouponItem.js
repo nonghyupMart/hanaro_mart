@@ -24,7 +24,7 @@ const CouponItem = (props) => {
           initResizeMode="contain"
           defaultSource={require("../assets/images/n_img501.png")}
         />
-        {props.item.current_remain > 0 && (
+        {props.item.remain_yn == "Y" && (
           <CountContainer>
             <Count>{props.item.current_remain}개 남음</Count>
           </CountContainer>
@@ -98,7 +98,7 @@ const CountContainer = styled.View({
   bottom: 0,
 });
 const Count = styled(BaseText)({
-  lineHeight: 9.5,
+  lineHeight: 12,
   letterSpacing: -0.27,
   textAlign: "center",
   fontSize: 9,
