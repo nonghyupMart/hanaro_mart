@@ -66,8 +66,8 @@ const CouponItem = (props) => {
       )}
       {props.item.status == "20" && (
         <Button
-          onPress={props.onPress}
           style={{ backgroundColor: colors.greyishTwo, borderWidth: 0 }}
+          activeOpacity={1}
         >
           <ButtonText style={{ color: colors.trueWhite, marginRight: 0 }}>
             쿠폰 사용완료
@@ -76,8 +76,8 @@ const CouponItem = (props) => {
       )}
       {props.item.status == "30" && (
         <Button
-          onPress={props.onPress}
           style={{ backgroundColor: colors.greyishTwo, borderWidth: 0 }}
+          activeOpacity={1}
         >
           <ButtonText style={{ color: colors.trueWhite, marginRight: 0 }}>
             쿠폰 소진완료
@@ -117,9 +117,7 @@ const ButtonText = styled(BaseText)({
   marginRight: 1,
   fontFamily: "Roboto-Medium",
 });
-const Button = styled(BaseTouchable).attrs({
-  activeOpacity: 0.5,
-})({
+const Button = styled(BaseTouchable)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
