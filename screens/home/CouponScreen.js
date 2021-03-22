@@ -161,30 +161,43 @@ const CouponScreen = (props) => {
       }}
       // isScroll={false}
     >
-      <ExtendedFlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+      <View
         style={{
+          height: 35,
+          overflow: "hidden",
           marginTop: 30,
-          marginLeft: 0,
-          marginRight: 0,
           marginBottom: 25,
           alignSelf: "center",
         }}
-        data={eventCategory}
-        keyExtractor={(item, index) => `${index}`}
-        renderItem={(itemData) => (
-          <CategoryButtonSmall
-            item={itemData.item}
-            type_val={gbn}
-            onPress={setGbn.bind(this, itemData.item.type_val)}
-          />
-        )}
-      />
+      >
+        <ExtendedFlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          contentContainerStyle={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: 35,
+          }}
+          style={{
+            alignSelf: "center",
+            marginTop: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 0,
+          }}
+          data={eventCategory}
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.type_val}`
+          }
+          renderItem={(itemData) => (
+            <CategoryButtonSmall
+              item={itemData.item}
+              type_val={gbn}
+              onPress={setGbn.bind(this, itemData.item.type_val)}
+            />
+          )}
+        />
+      </View>
       {coupon && (
         <>
           <ScrollList

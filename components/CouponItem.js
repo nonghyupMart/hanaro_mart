@@ -21,6 +21,7 @@ const CouponItem = (props) => {
             alignSelf: "center",
           }}
           resizeMode="contain"
+          initResizeMode="contain"
           defaultSource={require("../assets/images/n_img501.png")}
         />
         {props.item.current_remain > 0 && (
@@ -60,7 +61,7 @@ const CouponItem = (props) => {
           <ButtonText style={{ color: colors.trueWhite }}>
             쿠폰 사용하기
           </ButtonText>
-          <Icon source={require("../assets/images/ic_rotate_right_24px.png")} />
+          <Icon source={require("../assets/images/ic_file_download_2.png")} />
         </Button>
       )}
       {props.item.status == "20" && (
