@@ -67,7 +67,8 @@ const MyADAgreementScreen = (props) => {
       sms_agree: sms ? "Y" : "N",
       user_id: await authActions.saveUserTelToStorage(),
     };
-    dispatch(authActions.signup(query)).then((userInfo) => {
+    dispatch(authActions.signup(query)).then((data) => {
+      const userInfo = data.userInfo;
       dispatch(setIsLoading(false));
       let yn = push || sms ? "동의" : "거부";
       dispatch(

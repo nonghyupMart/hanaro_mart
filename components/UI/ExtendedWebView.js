@@ -194,26 +194,28 @@ export const requestSignup = async (query, dispatch, agreedStatus) => {
       );
     });
   }
-  return dispatch(authActions.signup(query)).then(async (userInfo) => {
+  return dispatch(authActions.signup(query)).then(async (data) => {
+    const userInfo = data.userInfo;
     if (!_.isEmpty(userInfo)) {
       await authActions.saveUserTelToStorage(query.user_id);
       if (userInfo.store_cd) {
-        dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
-          async (storeData) => {
-            await dispatch(setIsLoading(false));
-            await authActions.saveUserStoreToStorage(storeData);
-            await dispatch(authActions.saveUserStore(storeData));
-            dispatch(
-              setAlert({
-                content: <JoinPopupContent />,
-                onPressConfirm: async () => {
-                  await dispatch(setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup(false));
-                  dispatch(authActions.setIsJoin(true));
-                },
-              })
-            );
-          }
+        await dispatch(setIsLoading(false));
+
+        let obj;
+        if (!_.isEmpty(data.storeInfo)) {
+          obj = { storeInfo: data.storeInfo, menuList: data.menuList };
+        }
+        dispatch(authActions.saveUserStore(obj));
+        authActions.saveUserStoreToStorage(obj);
+        dispatch(
+          setAlert({
+            content: <JoinPopupContent />,
+            onPressConfirm: async () => {
+              await dispatch(setAlert(null));
+              await dispatch(CommonActions.setDidTryPopup(false));
+              dispatch(authActions.setIsJoin(true));
+            },
+          })
         );
       } else {
         await dispatch(setIsLoading(false));

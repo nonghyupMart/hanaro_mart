@@ -25,12 +25,12 @@ export const signup = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch) => {
-    const setResponse = (response) => {
+    const setResponse = async (response) => {
       if (response.data.userInfo && !response.data.userInfo.user_cd)
-        return response.data.userInfo;
-      dispatch(setUserInfo(response.data.userInfo));
-      saveUserInfoToStorage(response.data.userInfo);
-      return response.data.userInfo;
+        return response.data;
+      await dispatch(setUserInfo(response.data.userInfo));
+      await saveUserInfoToStorage(response.data.userInfo);
+      return response.data;
     };
     if (!query.user_cd) {
       url = queryString.stringifyUrl({
