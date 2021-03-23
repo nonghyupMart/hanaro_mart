@@ -12,7 +12,7 @@ import _ from "lodash";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import CategoryButtonSmall from "../../components/UI/CategoryButtonSmall";
+import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 
 const CouponScreen = (props) => {
   const eventCategory = [
@@ -129,18 +129,32 @@ const CouponScreen = (props) => {
   if (!coupon) return <></>;
   if (routeName == "MyCoupon" && _.size(coupon.couponList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/wallet.png")}
-        text={"나의 쿠폰"}
-        infoText="나의 쿠폰이 없습니다."
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/wallet.png")}
+          text={"나의 쿠폰"}
+          infoText="나의 쿠폰이 없습니다."
+        />
+      </>
     );
   if (routeName == "Coupon" && _.size(coupon.couponList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/ticketWhite.png")}
-        text={"쿠폰"}
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/ticketWhite.png")}
+          text={"쿠폰"}
+        />
+      </>
     );
   return (
     <BaseScreen
@@ -160,43 +174,11 @@ const CouponScreen = (props) => {
       }}
       // isScroll={false}
     >
-      <View
-        style={{
-          height: 35,
-          overflow: "hidden",
-          marginTop: 30,
-          marginBottom: 25,
-          alignSelf: "center",
-        }}
-      >
-        <ExtendedFlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          contentContainerStyle={{
-            justifyContent: "center",
-            alignItems: "center",
-            height: 35,
-          }}
-          style={{
-            alignSelf: "center",
-            marginTop: 0,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 0,
-          }}
-          data={eventCategory}
-          keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.type_val}`
-          }
-          renderItem={(itemData) => (
-            <CategoryButtonSmall
-              item={itemData.item}
-              type_val={gbn}
-              onPress={setGbn.bind(this, itemData.item.type_val)}
-            />
-          )}
-        />
-      </View>
+      <CategoryButtonSmallList
+        data={eventCategory}
+        value={gbn}
+        setValue={setGbn}
+      />
       {coupon && (
         <>
           <ScrollList
