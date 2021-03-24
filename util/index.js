@@ -80,15 +80,21 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   })`;
   return PreventDoubleClick;
 };
-
-const storagePrefix = Constants.manifest.releaseChannel
-  ? Constants.manifest.releaseChannel
-  : "dev" + "::";
+const storagePrefix =
+  (SERVER_URL.includes("http://dv-") ? "dev" : "prod") + "::";
 export const setStorageItem = (name, data) => {
-  return AsyncStorage.setItem(storagePrefix + name, data);
+  try {
+    return AsyncStorage.setItem(storagePrefix + name, data);
+  } catch (e) {
+    return null;
+  }
 };
 export const getStorageItem = (name) => {
-  return AsyncStorage.getItem(storagePrefix + name);
+  try {
+    return AsyncStorage.getItem(storagePrefix + name);
+  } catch (e) {
+    return null;
+  }
 };
 
 export const removeStorageItem = (name) => {
