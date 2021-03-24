@@ -243,10 +243,11 @@ const CouponDetailScreen = (props) => {
               width: SCREEN_WIDTH * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
-              resizeMode: "contain",
               backgroundColor: colors.trueWhite,
             }}
+            initResizeMode="contain"
             resizeMode="contain"
+            defaultSource={require("../../assets/images/p_img503.png")}
           />
           {couponDetail.barcode && couponDetail.limit_yn == "N" && (
             <Barcode
