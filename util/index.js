@@ -80,8 +80,7 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   })`;
   return PreventDoubleClick;
 };
-const storagePrefix =
-  (SERVER_URL.includes("http://dv-") ? "dev" : "prod") + "::";
+const storagePrefix = SERVER_URL.includes("http://dv-") ? "dev" : "prod";
 export const setStorageItem = (name, data) => {
   try {
     return AsyncStorage.setItem(storagePrefix + name, data);
