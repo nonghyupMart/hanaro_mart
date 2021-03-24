@@ -280,6 +280,7 @@ export const getResponse = async (response, dispatch, url, query) => {
         onPressConfirm: async () => {
           try {
             if (!__DEV__) {
+              await dispatch(setIsLoading(true));
               const update = await Updates.checkForUpdateAsync();
               if (update.isAvailable) {
                 await Updates.fetchUpdateAsync();
@@ -289,6 +290,7 @@ export const getResponse = async (response, dispatch, url, query) => {
             // handle or log error
             Util.log("update error=>", e);
           } finally {
+            await dispatch(setIsLoading(false));
             await Updates.reloadAsync();
           }
         },

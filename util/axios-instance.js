@@ -39,6 +39,7 @@ let http = (() => {
         onPressConfirm: async () => {
           try {
             if (!__DEV__) {
+              await dispatch(setIsLoading(true));
               const update = await Updates.checkForUpdateAsync();
               if (update.isAvailable) {
                 await Updates.fetchUpdateAsync();
@@ -48,6 +49,7 @@ let http = (() => {
             // handle or log error
             Util.log("update error=>", e);
           } finally {
+            await dispatch(setIsLoading(false));
             await Updates.reloadAsync();
           }
         },
