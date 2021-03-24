@@ -64,11 +64,7 @@ const LoginButtons = (props) => {
             })
           }
         >
-          <Text3>
-            Version : {INTERNAL_APP_VERSION}
-            {Constants.manifest.releaseChannel &&
-              ` / ${Constants.manifest.releaseChannel}`}
-          </Text3>
+          <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
         </TouchableOpacity>
       </GrayContainer>
     </BottomContainer>
