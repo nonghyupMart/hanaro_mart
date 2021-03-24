@@ -56,7 +56,7 @@ const CouponItem = (props) => {
       {props.item.status == "10" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.emerald }}
+          style={{ backgroundColor: colors.emerald, borderWidth: 0 }}
         >
           <ButtonText style={{ color: colors.trueWhite }}>
             쿠폰 사용하기
