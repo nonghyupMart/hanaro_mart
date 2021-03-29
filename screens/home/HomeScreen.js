@@ -85,7 +85,6 @@ const HomeScreen = (props) => {
   };
 
   const navigateToMyInfo = async (url) => {
-    alert(url);
     let { queryParams } = await Linking.parse(url);
     if (_.isEmpty(queryParams)) return;
     await dispatch(
