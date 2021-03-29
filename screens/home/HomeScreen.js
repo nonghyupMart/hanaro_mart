@@ -31,6 +31,7 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
 import * as Location from "expo-location";
 import * as branchesActions from "../../store/actions/branches";
+import * as Linking from "expo-linking";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -56,6 +57,9 @@ const HomeScreen = (props) => {
   }, [isFocused]);
   useEffect(() => {
     (async () => {
+      const schemeUrl = await Linking.getInitialURL();
+      navigateToMyInfo(schemeUrl);
+      Linking.addEventListener("url", _handleUrl);
       if (Platform.OS == "ios") {
         setTimeout(() => {
           StatusBar.setBarStyle("dark-content");
@@ -72,6 +76,33 @@ const HomeScreen = (props) => {
       dispatch(setIsLoading(false));
     };
   }, []);
+
+  const _handleUrl = async (data) => {
+    // this.setState({ url });
+    // console.log("ddddd", url);
+    if (!data.url) return;
+    navigateToMyInfo(data.url);
+  };
+
+  const navigateToMyInfo = async (url) => {
+    alert(url);
+    let { queryParams } = await Linking.parse(url);
+    if (_.isEmpty(queryParams)) return;
+    await dispatch(
+      CommonActions.setLink({
+        category: CATEGORY[queryParams.link_gbn],
+        link_code: queryParams.recommend,
+      })
+    );
+    setTimeout(async () => {
+      if (
+        queryParams.link_gbn == "I" &&
+        (_.isEmpty(userInfo) || _.isEmpty(userStore))
+      )
+        return;
+      await navigation.navigate(CATEGORY[queryParams.link_gbn]);
+    }, 500);
+  };
 
   useEffect(() => {
     if (typeof didTryPopup != "string" && typeof didTryPopup != "object")

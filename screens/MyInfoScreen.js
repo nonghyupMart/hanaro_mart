@@ -38,6 +38,17 @@ const MyInfoScreen = (props) => {
   const [barcode, setBarcode] = useState();
   const [recommend, setRecommend] = useState();
   const pushToken = useSelector((state) => state.auth.pushToken);
+  const link = useSelector((state) => state.common.link);
+  const routeName = props.route.name;
+
+  useEffect(() => {
+    if (link && link.category == routeName) {
+      setTimeout(async () => {
+        await setRecommend(link.link_code);
+        await dispatch(CommonActions.setLink(null));
+      }, 0);
+    }
+  }, [link]);
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
