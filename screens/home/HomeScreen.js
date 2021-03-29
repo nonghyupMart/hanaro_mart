@@ -58,7 +58,7 @@ const HomeScreen = (props) => {
   useEffect(() => {
     (async () => {
       const schemeUrl = await Linking.getInitialURL();
-      navigateToMyInfo(schemeUrl);
+      navigateByScheme(schemeUrl);
       Linking.addEventListener("url", _handleUrl);
       if (Platform.OS == "ios") {
         setTimeout(() => {
@@ -81,16 +81,16 @@ const HomeScreen = (props) => {
     // this.setState({ url });
     // console.log("ddddd", url);
     if (!data.url) return;
-    navigateToMyInfo(data.url);
+    navigateByScheme(data.url);
   };
 
-  const navigateToMyInfo = async (url) => {
+  const navigateByScheme = async (url) => {
     let { queryParams } = await Linking.parse(url);
     if (_.isEmpty(queryParams)) return;
     await dispatch(
       CommonActions.setLink({
         category: CATEGORY[queryParams.link_gbn],
-        link_code: queryParams.recommend,
+        link_code: queryParams.link_code, 
       })
     );
     setTimeout(async () => {
