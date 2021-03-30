@@ -90,10 +90,6 @@ const CouponDetailScreen = (props) => {
         user_cd: userInfo.user_cd,
       })
     );
-
-    Promise.all([fetchCouponDetail]).then(() => {
-      dispatch(setIsLoading(false));
-    });
   }, [dispatch]);
   const onPress = () => {
     let msg;

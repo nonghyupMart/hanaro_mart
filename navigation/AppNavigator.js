@@ -27,13 +27,9 @@ const Theme = {
   },
 };
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return { shouldShowAlert: true };
-  },
-});
-
 const AppNavigator = (props) => {
+  const notificationListener = useRef();
+  const responseListener = useRef();
   const appState = useRef(AppState.currentState);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -104,17 +100,25 @@ const AppNavigator = (props) => {
           })
         );
       }
+      // When App is not running set received Notification to redux
+      let data = await Util.getStorageItem("notificationData");
+      let jsonData = await JSON.parse(data);
+      if (_.isEmpty(jsonData)) return;
+      await dispatch(CommonActions.setNotification(jsonData));
+      await Util.removeStorageItem("notificationData");
     })();
     AppState.addEventListener("change", _handleAppStateChange);
-    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
+    notificationListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
+        // When App is running in the background.
         // console.warn(JSON.stringify(response, null, "\t"));
         // console.warn(response.notification.request.content.data);
         dispatch(CommonActions.setNotification(response.notification));
       }
     );
-    const foregroundSubscription = Notifications.addNotificationReceivedListener(
+    responseListener.current = Notifications.addNotificationReceivedListener(
       async (notification) => {
+        // When app is running in the foreground.
         // console.warn(JSON.stringify(notification, null, "\t"));
         //  console.warn(notification.request.content.data);
         dispatch(CommonActions.setNotification(notification));
@@ -128,8 +132,8 @@ const AppNavigator = (props) => {
 
     return () => {
       AppState.removeEventListener("change", _handleAppStateChange);
-      backgroundSubscription.remove();
-      foregroundSubscription.remove();
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
   return (

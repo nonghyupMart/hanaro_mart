@@ -37,7 +37,7 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    if (link && link.category == routeName) {
+    if (link && link.category == routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));

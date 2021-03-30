@@ -36,6 +36,10 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({ shouldShowAlert: true }),
+});
+
 try {
   // Prevent native splash screen from autohiding before App component declaration
   SplashScreen.preventAutoHideAsync();
@@ -47,6 +51,7 @@ let globalInitialNotificationResponse;
 
 let globalSubscription = Notifications.addNotificationResponseReceivedListener(
   (response) => {
+    // When App is not running.
     // global.alert(JSON.stringify(response, null, "\t"));
     // global.alert("Global scope listener triggered");
     CommonActions.saveNotificationToStorage(response.notification);

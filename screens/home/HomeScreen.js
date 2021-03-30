@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/native";
 import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
 import {
@@ -56,6 +56,7 @@ const HomeScreen = (props) => {
     };
   }, [isFocused]);
   useEffect(() => {
+    dispatch(setIsLoading(true));
     (async () => {
       const schemeUrl = await Linking.getInitialURL();
       navigateByScheme(schemeUrl);
@@ -65,11 +66,6 @@ const HomeScreen = (props) => {
           StatusBar.setBarStyle("dark-content");
         }, 1000);
       }
-      let data = await Util.getStorageItem("notificationData");
-      let jsonData = await JSON.parse(data);
-      if (_.isEmpty(jsonData)) return;
-      await dispatch(CommonActions.setNotification(jsonData));
-      await Util.removeStorageItem("notificationData");
     })();
 
     return () => {
@@ -90,7 +86,7 @@ const HomeScreen = (props) => {
     await dispatch(
       CommonActions.setLink({
         category: CATEGORY[queryParams.link_gbn],
-        link_code: queryParams.link_code, 
+        link_code: queryParams.link_code,
       })
     );
     setTimeout(async () => {
@@ -172,7 +168,7 @@ const initNotificationReceiver = (routeName) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isLoading = useSelector((state) => state.common.isLoading);
   const notification = useSelector((state) => state.common.notification);
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (
       !isLoading &&
       notification &&
@@ -180,55 +176,65 @@ const initNotificationReceiver = (routeName) => {
       notification.request.content &&
       notification.request.content.data
     ) {
-      const category = notification.request.content.data.category;
-      const store_cd = notification.request.content.data.store_cd;
-      const store_nm = notification.request.content.data.store_nm;
-      const cd = notification.request.content.data.cd;
+      (async () => {
+        const category = notification.request.content.data.category;
+        const store_cd = notification.request.content.data.store_cd;
+        const store_nm = notification.request.content.data.store_nm;
+        const cd = notification.request.content.data.cd;
 
-      if (category) {
-        if (userStore && userStore.storeInfo.store_cd == store_cd) {
-          const currentTab = TabMenus.filter(
-            (tab) => tab.name == CATEGORY[category]
-          );
-          const tab = userStore.menuList.filter(
-            (menu) => menu.r_menu_nm == currentTab[0].title
-          );
-          if (_.isEmpty(tab)) return;
+        if (category) {
+          if (userStore && userStore.storeInfo.store_cd == store_cd) {
+            const currentTab = TabMenus.filter(
+              (tab) => tab.name == CATEGORY[category]
+            );
+            const tab = userStore.menuList.filter(
+              (menu) => menu.r_menu_nm == currentTab[0].title
+            );
+            if (_.isEmpty(tab)) return;
 
-          let param = {};
-          if (!!cd) param.notice_cd = cd;
-          switch (category) {
-            case "A": //매장공지
-              param.type = "C";
-              break;
-            case "H": //통합공지
-              param.type = "H";
-              break;
-            default:
-              break;
+            let param = {};
+            if (!!cd) param.link_code = cd;
+            if (!!category) param.category = category;
+            switch (category) {
+              case "A": //매장공지
+                if (!!cd) param.notice_cd = cd;
+                param.type = "C";
+                break;
+              case "H": //통합공지
+                if (!!cd) param.notice_cd = cd;
+                param.type = "H";
+                break;
+              default:
+                break;
+            }
+            await dispatch(
+              CommonActions.setLink({
+                category: CATEGORY[param.category],
+                link_code: param.link_code,
+              })
+            );
+            setTimeout(() => {
+              RootNavigation.navigate(CATEGORY[param.category], param);
+            }, 500);
+          } else {
+            dispatch(
+              setAlert({
+                message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
+                confirmText: "매장설정",
+                onPressConfirm: () => {
+                  dispatch(setAlert(null));
+                  RootNavigation.navigate("Home");
+                  RootNavigation.navigate("StoreChange");
+                },
+                onPressCancel: () => {
+                  dispatch(setAlert(null));
+                },
+              })
+            );
           }
-
-          setTimeout(() => {
-            RootNavigation.navigate(CATEGORY[category], param);
-          }, 0);
-        } else {
-          dispatch(
-            setAlert({
-              message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
-              confirmText: "매장설정",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                RootNavigation.navigate("Home");
-                RootNavigation.navigate("StoreChange");
-              },
-              onPressCancel: () => {
-                dispatch(setAlert(null));
-              },
-            })
-          );
         }
-      }
-      dispatch({ type: SET_NOTIFICATION, notification: null });
+        dispatch({ type: SET_NOTIFICATION, notification: null });
+      })();
     }
   }, [notification, isLoading]);
 };

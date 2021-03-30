@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
@@ -9,7 +9,7 @@ import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import { setAlert, setIsLoading, setLink } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
@@ -22,6 +22,7 @@ const CouponScreen = (props) => {
   ];
   const [gbn, setGbn] = useState("");
   const isFocused = useIsFocused();
+  const link = useSelector((state) => state.common.link);
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
@@ -41,8 +42,21 @@ const CouponScreen = (props) => {
   // useScrollToTop(ref);
   // global.alert(1);
   useEffect(() => {
-    if (!isFocused) return;
+    if (_.isEmpty(coupon) || !coupon.couponList || !link) return;
+    if (link && link.category == routeName && link.link_code) {
+      setTimeout(async () => {
+        let item = _.filter(
+          coupon.couponList,
+          (o) => o.cou_cd == link.link_code
+        );
+        await dispatch(setLink(null));
+        await onCouponItemPressed(item[0]);
+      }, 500);
+    }
+  }, [coupon]);
 
+  useEffect(() => {
+    if (!isFocused || !userStore) return;
     if (userStore) {
       page.current = 1;
       dispatch(
@@ -54,19 +68,6 @@ const CouponScreen = (props) => {
         })
       );
     }
-  }, [isFocused, userStore]);
-
-  useEffect(() => {
-    if (!isFocused) return;
-
-    dispatch(
-      couponActions.fetchCoupon({
-        store_cd: userStore.storeInfo.store_cd,
-        user_cd: userInfo.user_cd,
-        user_yn: routeName == "MyCoupon" ? "Y" : "N",
-        gbn: gbn,
-      })
-    );
   }, [gbn]);
 
   const onCouponItemPressed = async (item, type = "B") => {
@@ -86,7 +87,6 @@ const CouponScreen = (props) => {
             index: index,
           })
         ).then(async (data) => {
-          await dispatch(setIsLoading(false));
           if (data.result == "success") {
             navigation.navigate("CouponDetail", {
               store_cd: userStore.storeInfo.store_cd,

@@ -42,7 +42,7 @@ const MyInfoScreen = (props) => {
   const routeName = props.route.name;
 
   useEffect(() => {
-    if (link && link.category == routeName) {
+    if (link && link.category == routeName && link.link_code) {
       setTimeout(async () => {
         await setRecommend(link.link_code);
         await dispatch(CommonActions.setLink(null));
