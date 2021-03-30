@@ -35,6 +35,7 @@ import * as CommonActions from "./store/actions/common";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
+import * as Util from "./util";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({ shouldShowAlert: true }),

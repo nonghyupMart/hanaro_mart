@@ -68,6 +68,9 @@ const AppNavigator = (props) => {
       if (!_.isEmpty(parsedUserData)) {
         dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
       }
+    } else {
+      // console.log("App has come to the background!");
+      Util.removeStorageItem("notificationData");
     }
     appState.current = nextAppState;
   };
@@ -121,7 +124,7 @@ const AppNavigator = (props) => {
         // When app is running in the foreground.
         // console.warn(JSON.stringify(notification, null, "\t"));
         //  console.warn(notification.request.content.data);
-        dispatch(CommonActions.setNotification(notification));
+        // dispatch(CommonActions.setNotification(notification));
         const userInfoData = await Util.getStorageItem("userInfoData");
         const parsedUserData = await JSON.parse(userInfoData);
         if (!_.isEmpty(parsedUserData)) {
@@ -130,7 +133,8 @@ const AppNavigator = (props) => {
       }
     );
 
-    return () => {
+    return async () => {
+      await Util.removeStorageItem("notificationData");
       AppState.removeEventListener("change", _handleAppStateChange);
       Notifications.removeNotificationSubscription(notificationListener);
       Notifications.removeNotificationSubscription(responseListener);
