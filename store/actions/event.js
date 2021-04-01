@@ -102,3 +102,19 @@ export const exchangeStamp = (query) => {
       });
   };
 };
+
+export const interimExchangeStamp = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `/stamp-exchange`,
+  });
+  const data = JSON.stringify(query);
+
+  return async (dispatch, getState) => {
+    return http
+      .init(dispatch)
+      .post(url, data)
+      .then(async (response) => {
+        return response.data;
+      });
+  };
+};

@@ -24,6 +24,7 @@ import C from "../../screens/home/EventDetail/C";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import { PinchGestureHandler } from "react-native-gesture-handler";
+import QRCode from "react-native-qrcode-svg";
 
 const EventDetailScreen = (props, { navigation }) => {
   const dispatch = useDispatch();
@@ -121,6 +122,21 @@ const EventDetailScreen = (props, { navigation }) => {
 
     dispatch(
       eventActions.exchangeStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        mana_qr: QRCode,
+      })
+    ).then((data) => {
+      if (data.result == "success") {
+        alertSusscess("교환처리 되었습니다.");
+      }
+    });
+  };
+
+  const onInterimExchangeStamp = (QRCode) => {
+    dispatch(
+      eventActions.interimExchangeStamp({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
         store_cd: userStore.storeInfo.store_cd,
@@ -281,24 +297,23 @@ const EventDetailScreen = (props, { navigation }) => {
                 setReg_num={setReg_num}
               />
             )}
-          {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
-            eventDetail.gbn == "C" && (
-              <C
-                {...props}
-                scrollRef={scrollRef}
-                key={scrollRef}
-                onApply={onApplyStamp}
-                setRcp_qr={setRcp_qr}
-                eventDetail={eventDetail}
-                setMana_qr={onExchangeStamp}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-              />
-            )}
+          {eventDetail.entry && eventDetail.gbn == "C" && (
+            <C
+              {...props}
+              scrollRef={scrollRef}
+              key={scrollRef}
+              onApply={onApplyStamp}
+              setRcp_qr={setRcp_qr}
+              eventDetail={eventDetail}
+              onExchangeStamp={onExchangeStamp}
+              onInterimExchangeStamp={onInterimExchangeStamp}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+            />
+          )}
           {!!eventDetail.winner_img && (
             <View style={{ marginTop: 30 }}>
               <ScaledImage
