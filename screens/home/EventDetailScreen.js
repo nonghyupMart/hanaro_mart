@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
+import * as authActions from "../../store/actions/auth";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -24,14 +25,12 @@ import C from "../../screens/home/EventDetail/C";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import { PinchGestureHandler } from "react-native-gesture-handler";
-import QRCode from "react-native-qrcode-svg";
 
-const EventDetailScreen = (props, { navigation }) => {
+const EventDetailScreen = (props) => {
   const dispatch = useDispatch();
   const [scrollRef, setScrollRef] = useState();
   const isLoading = useSelector((state) => state.common.isLoading);
   const [isZoom, setIsZoom] = useState(false);
-  const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const eventDetail = useSelector((state) => state.event.eventDetail);
@@ -47,72 +46,33 @@ const EventDetailScreen = (props, { navigation }) => {
       { id: 1, isChecked: false },
     ],
   });
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(eventActions.clearEventDetail());
-  //   };
-  // }, []);
+
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
     };
   }, []);
+
   useEffect(() => {
     requestEvent();
   }, [dispatch]);
-  const onLoad = () => {
-    dispatch(setIsLoading(false));
-  };
+
   const requestEvent = () => {
-    dispatch(setIsLoading(true));
-    dispatch(
+    return dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
       })
-    ).then(() => {
-      // if (__DEV__) {
-      dispatch(setIsLoading(false));
-      // }
-    });
+    );
   };
-  const checkQRLength = (val, length) => {
-    if (val.length !== length) {
-      dispatch(
-        setAlert({
-          message: "QR코드가 정확하지 않습니다.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return false;
-    }
-    return true;
-  };
-  const checkRequiredAmount = (val) => {
-    const price = val.substr(val.length - 10);
-    if (price < eventDetail.entry.entry_price) {
-      dispatch(
-        setAlert({
-          message: "영수증 금액이 부족합니다.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return false;
-    }
-    return true;
-  };
+
   const alertSusscess = (message = "응모 되었습니다.") => {
     dispatch(
       setAlert({
         message: message,
         onPressConfirm: () => {
           dispatch(setAlert(null));
-          requestEvent();
         },
       })
     );
@@ -128,9 +88,9 @@ const EventDetailScreen = (props, { navigation }) => {
         mana_qr: QRCode,
       })
     ).then((data) => {
-      if (data.result == "success") {
-        alertSusscess("교환처리 되었습니다.");
-      }
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess("교환처리 되었습니다.");
     });
   };
 
@@ -143,9 +103,9 @@ const EventDetailScreen = (props, { navigation }) => {
         mana_qr: QRCode,
       })
     ).then((data) => {
-      if (data.result == "success") {
-        alertSusscess("교환처리 되었습니다.");
-      }
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess("교환처리 되었습니다.");
     });
   };
   const onApplyStamp = (QRCode) => {
@@ -157,11 +117,17 @@ const EventDetailScreen = (props, { navigation }) => {
       store_cd: userStore.storeInfo.store_cd,
       rcp_qr: QRCode,
     };
+
     if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyStamp(query)).then((data) => {
-      if (data.result == "success") {
-        alertSusscess();
-      }
+      if (!data.eventInfo) return;
+      userInfo.marketing_agree = "Y";
+
+      dispatch(authActions.setUserInfo(userInfo));
+      authActions.saveUserInfoToStorage(userInfo);
+
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess();
     });
   };
   const validateAgree = () => {
@@ -265,7 +231,7 @@ const EventDetailScreen = (props, { navigation }) => {
             />
           </Modal>
           {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
+            eventDetail.entry.entry_date_yn == "Y" &&
             eventDetail.gbn == "A" && (
               <A
                 {...props}
@@ -280,7 +246,7 @@ const EventDetailScreen = (props, { navigation }) => {
               />
             )}
           {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
+            eventDetail.entry.entry_date_yn == "Y" &&
             eventDetail.gbn == "B" && (
               <B
                 {...props}

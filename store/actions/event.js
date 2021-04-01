@@ -36,7 +36,7 @@ export const fetchEventDetail = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -64,7 +64,7 @@ export const applyEvent = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -79,7 +79,7 @@ export const applyStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -95,7 +95,7 @@ export const exchangeStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -111,7 +111,7 @@ export const interimExchangeStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .post(url, data)
       .then(async (response) => {
         return response.data;

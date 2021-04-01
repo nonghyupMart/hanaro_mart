@@ -63,7 +63,7 @@ const ApplyBox = (props) => {
 
   return (
     <>
-      {props.eventDetail.entry.status == "10" &&
+      {props.eventDetail.entry.entry_date_yn == "Y" &&
         userInfo &&
         userInfo.marketing_agree == "N" && (
           <Container>
