@@ -46,7 +46,7 @@ const ScanBox = (props) => {
       </Text2> */}
 
       {(props.eventDetail.gbn == "C" ||
-        (props.eventDetail.gbn != "B" &&
+        (props.eventDetail.gbn != "C" &&
           props.eventDetail.entry.status === "10")) && (
         <>
           <Text3>영수증 확인 후 응모가 가능합니다.</Text3>
@@ -56,7 +56,7 @@ const ScanBox = (props) => {
           </GreenBtn>
         </>
       )}
-      {props.eventDetail.gbn != "B" && props.eventDetail.entry.status === "20" && (
+      {props.eventDetail.gbn != "C" && props.eventDetail.entry.status === "20" && (
         <GrayButton style={{ marginTop: 40 }}>
           <Image source={require("../../assets/images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>

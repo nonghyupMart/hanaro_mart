@@ -169,11 +169,9 @@ const EventDetailScreen = (props) => {
     if (QRCode) query.rcp_qr = QRCode;
     if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyEvent(query)).then((data) => {
-      if (data.result == "success") {
-        eventDetail.entry.status = "20";
-        dispatch(eventActions.updateEventDetail(eventDetail));
-        alertSusscess();
-      }
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess();
     });
   };
   if (!eventDetail || isLoading) return <></>;
