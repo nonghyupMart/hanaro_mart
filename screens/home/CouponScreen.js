@@ -68,7 +68,7 @@ const CouponScreen = (props) => {
         })
       );
     }
-  }, [gbn]);
+  }, [gbn, userStore, isFocused]);
 
   const onCouponItemPressed = async (item, type = "B") => {
     if (!userInfo.ci) return navigation.navigate("Empty");

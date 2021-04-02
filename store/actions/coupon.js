@@ -55,10 +55,10 @@ export const downloadCoupon = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .post(url, data)
       .then(async (response) => {
-        switch (response.code) {
+        switch (`${response.code}`) {
           case "200":
             coupon.couponList[index].status = "10";
             break;
