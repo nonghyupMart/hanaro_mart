@@ -50,11 +50,13 @@ const StampBox = (props) => {
   const onPress = () => {
     props.navigation.navigate("BarCodeScanner", {
       setRcp_qr: props.onExchangeStamp,
+      isForStaff: true,
     });
   };
   const onPressForInterim = () => {
     props.navigation.navigate("BarCodeScanner", {
       setRcp_qr: props.onInterimExchangeStamp,
+      isForStaff: true,
     });
   };
   return (

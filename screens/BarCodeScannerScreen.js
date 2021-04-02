@@ -108,7 +108,7 @@ const BarCodeScannerScreen = (props) => {
           }}
         >
           <Image source={require("../assets/images/barcodeWhite.png")} />
-          <Text1>영수증QR코드</Text1>
+          <Text1>{params.isForStaff ? "관리자QR코드" : "영수증QR코드"}</Text1>
         </ImageBackground>
       </View>
       <View
@@ -130,7 +130,9 @@ const BarCodeScannerScreen = (props) => {
       >
         <Image source={require("../assets/images/logo1pic478.png")} />
         <Text2>
-          {`하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
+          {params.isForStaff
+            ? `관리자 휴대폰에서 하나로마트앱 실행 -> 마이페이지 -> 내정보확인에 있는 관리자QR코드를 촬영해 주세요. `
+            : `하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
         </Text2>
       </View>
       {/* </BarCodeScanner> */}
