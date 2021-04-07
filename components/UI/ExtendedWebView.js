@@ -29,7 +29,6 @@ export const ExtendedWebView = (props) => {
   const index = useNavigationState((state) => state.index);
   const webref = useRef();
   const onMessage = (event) => {
-    // iOS용
     const message = JSON.parse(event.nativeEvent.data);
     parseMethod(message);
   };
