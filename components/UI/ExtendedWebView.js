@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
@@ -27,11 +27,22 @@ export const ExtendedWebView = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const index = useNavigationState((state) => state.index);
-  // const onMessage = (event) => {
-  //   // iOS용
-  //   const message = JSON.parse(event.nativeEvent.data);
-  //   parseMethod(message);
-  // };
+  const webref = useRef();
+  const onMessage = (event) => {
+    // iOS용
+    const message = JSON.parse(event.nativeEvent.data);
+    parseMethod(message);
+  };
+
+  // useEffect(() => {
+  //   webref.current.injectJavaScript(
+  //     `
+  //     var a = {method:"openURL", value:"http://m.nonghyupmall.com/MCAMARKETI/iapp.nh"};
+  //     var event =  JSON.stringify(a);
+  //     window.ReactNativeWebView.postMessage(event)
+  //     `
+  //   );
+  // }, []);
 
   const onShouldStartLoadWithRequest = (e) => {
     // android용
@@ -47,7 +58,6 @@ export const ExtendedWebView = (props) => {
       decodeURIComponent(e.url.replace("native://", ""))
     );
     parseMethod(message);
-
     // return false to prevent webview navigate to the location of e.url
     return false;
   };
@@ -119,6 +129,7 @@ export const ExtendedWebView = (props) => {
   return (
     <>
       <WebView
+        ref={(r) => (webref.current = r)}
         textZoom={100}
         onLoad={() => hideSpinner()}
         {...restProps}
@@ -135,7 +146,7 @@ export const ExtendedWebView = (props) => {
         mixedContentMode="always"
         sharedCookiesEnabled={true}
         thirdPartyCookiesEnabled={true}
-        // onMessage={(event) => onMessage(event)}
+        onMessage={(event) => onMessage(event)}
         // renderError={(error) => Util.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
           // const { nativeEvent } = syntheticEvent;
