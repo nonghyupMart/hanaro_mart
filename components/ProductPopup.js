@@ -193,22 +193,12 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {!_.isEmpty(item.bogo) && (
+            {!_.isEmpty(item.bogo_info) && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.cherry }}>
-                  다다익선
+                  추가정보
                 </Notice0>
                 <NoticeRight>
-                  <Notice2
-                    style={{
-                      color: colors.cherry,
-                      paddingLeft: 15,
-                      flexGrow: 0.3,
-                      flexShrink: 0,
-                    }}
-                  >
-                    {item.bogo}
-                  </Notice2>
                   <Notice2
                     style={{
                       flexShrink: 0,
