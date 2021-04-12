@@ -65,6 +65,19 @@ const Discounts = ({ item }) => {
           )}
         </BadgeContainer>
       )}
+      {!_.isEmpty(item.bogo_info) && (
+        <BadgeContainer>
+          <Badge1Container style={{ backgroundColor: colors.cherry }}>
+            <Badge1>추가정보</Badge1>
+          </Badge1Container>
+
+          <Badge2Container style={{ borderColor: colors.cherry }}>
+            <Badge2 style={{ color: colors.cherry }} numberOfLines={1}>
+              {item.bogo_info}
+            </Badge2>
+          </Badge2Container>
+        </BadgeContainer>
+      )}
     </>
   );
 };
@@ -106,6 +119,7 @@ const Badge2 = styled(BaseText)({
   color: colors.peacockBlue,
   paddingLeft: 3.5,
   paddingRight: 3.5,
+  maxWidth: Util.normalize(95),
 });
 
 export default React.memo(Discounts);
