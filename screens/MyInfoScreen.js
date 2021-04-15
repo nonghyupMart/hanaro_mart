@@ -115,6 +115,18 @@ const MyInfoScreen = (props) => {
     >
       <MemberInfoB />
       <MarginContainer>
+        <TextContainer
+          style={{
+            justifyContent: "flex-end",
+            marginLeft: 0,
+            paddingRight: 43,
+          }}
+        >
+          <EditButton>
+            <EditButtonText>내정보 수정</EditButtonText>
+            <Image source={require("../assets/images/create_white_24dp.png")} />
+          </EditButton>
+        </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/shop1black.png")} />
           <Text1>주매장</Text1>
@@ -200,6 +212,28 @@ const MyInfoScreen = (props) => {
     </BaseScreen>
   );
 };
+const EditButtonText = styled(BaseText)({
+  fontSize: 14.5,
+  letterSpacing: -0.29,
+  color: colors.trueWhite,
+  lineHeight: 22,
+  paddingRight: 3.5,
+});
+const EditButton = styled.TouchableOpacity({
+  backgroundColor: colors.CERULEAN_2,
+
+  flexDirection: "row",
+  paddingLeft: 11.5,
+  paddingRight: 6.7,
+  borderRadius: 10,
+  alignItems: "center",
+  justifyContent: "center",
+  height: 27,
+  aspectRatio: 100 / 25.9615,
+  alignSelf: "flex-end",
+  marginBottom: 14,
+});
+const EditButtonWrap = styled.View({});
 const ReferenceInput = styled.TextInput({
   fontSize: 12,
   fontWeight: "normal",
