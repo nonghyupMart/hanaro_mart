@@ -48,5 +48,5 @@ export default colors = {
   brightRed: "#e60012",
   warmGreyTwo: "#898989",
   greyishTwo: "#a5a5a5",
-  CERULEAN_2: "#006dbb",
 };
+
