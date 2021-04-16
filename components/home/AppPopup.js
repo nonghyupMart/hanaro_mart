@@ -97,7 +97,10 @@ const AppPopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  if (item.link_url != "") Linking.openURL(item.link_url);
+                  if (item.link_url) Linking.openURL(item.link_url);
+                  else if (item.link_gbn) {
+                    dispatch(CommonActions.setDidTryPopup(item));
+                  }
                 }}
               >
                 <BaseImage
