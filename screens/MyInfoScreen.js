@@ -122,7 +122,7 @@ const MyInfoScreen = (props) => {
             paddingRight: 43,
           }}
         >
-          <EditButton>
+          <EditButton onPress={() => props.navigation.navigate("CI")}>
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
