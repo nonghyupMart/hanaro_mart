@@ -101,7 +101,7 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPressShowQRCode = () => {};
-  if (!barcode || !userStore) return <></>;
+  if (!barcode || _.isEmpty(userStore)) return <></>;
   return (
     <BaseScreen
       isPadding={false}
