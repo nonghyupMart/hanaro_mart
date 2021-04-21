@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, Image } from "react-native";
@@ -9,7 +9,6 @@ import { BaseText } from "../../components/UI/BaseUI";
 
 const PickerViews = (props) => {
   const pickerRef = useRef();
-  const userStore = props.userStore;
   let pickerItems = [];
   const [selectedItem, setSelectedItem] = useState({
     label: props.currentFlyer.title,
@@ -37,7 +36,6 @@ const PickerViews = (props) => {
       pickerItems.push({
         label: item.title,
         value: item.leaf_cd,
-        key: item.leaf_cd,
       });
     });
 
