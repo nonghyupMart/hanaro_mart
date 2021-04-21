@@ -117,7 +117,7 @@ const ExhibitionScreen = (props) => {
     );
   return (
     <BaseScreen
-      style={styles.screen}
+      style={[styles.screen]}
       contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
     >
       {data && (
@@ -155,7 +155,7 @@ export const screenOptions = ({ navigation }) => {
 
 const ScrollList = styled(ExtendedFlatList)({
   flexGrow: 1,
-
+  marginTop: 30.5,
   width: "100%",
   // backgroundColor: colors.black,
 });

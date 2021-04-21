@@ -228,6 +228,7 @@ export const screenOptions = ({ navigation }) => {
 
 const ScrollList = styled(ExtendedFlatList)({
   width: "100%",
+  marginTop: 15.5,
 });
 const styles = StyleSheet.create({
   screen: { backgroundColor: colors.trueWhite, height: "100%", width: "100%" },

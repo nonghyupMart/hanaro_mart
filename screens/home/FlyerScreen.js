@@ -75,7 +75,7 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
-    
+
     setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
     fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
   }, [type_val]);
@@ -96,7 +96,6 @@ const FlyerScreen = (props) => {
     if (pageforCarousel == null || pageforCarousel == undefined) return;
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-      
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
     }
@@ -109,7 +108,6 @@ const FlyerScreen = (props) => {
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
-      
       page.current++;
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page.current);
     }
@@ -167,6 +165,7 @@ const FlyerScreen = (props) => {
             marginLeft: 24,
             marginRight: 0,
             width: SCREEN_WIDTH - 24,
+            marginBottom: 7,
           }}
           data={currentFlyer.type_list}
           keyExtractor={(item) =>

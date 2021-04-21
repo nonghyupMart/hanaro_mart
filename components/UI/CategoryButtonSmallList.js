@@ -13,7 +13,6 @@ const CategoryButtonSmallList = ({ data, value, setValue }) => {
         height: 35,
         overflow: "hidden",
         marginTop: 30,
-        marginBottom: 25,
         alignSelf: "center",
       }}
     >

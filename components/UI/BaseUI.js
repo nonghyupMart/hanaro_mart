@@ -21,7 +21,7 @@ export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   "window"
 );
 export const StyleConstants = {
-  defaultPadding: 16,
+  defaultPadding: 24,
   //  defaultImageLarge: require("../../assets/images/m_img499.png"),
   //  defaultImage: require("../../assets/images/b_img500.png"),
   //  defaultImage: require("../../assets/images/b_img500.png"),
