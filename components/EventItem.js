@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
+import moment from "moment";
+import "moment/min/locales";
 import {
   BaseImage,
   SCREEN_WIDTH,
@@ -9,48 +11,41 @@ import {
 } from "../components/UI/BaseUI";
 
 const EventItem = (props) => {
+  const startDate = moment(props.item.start_date)
+    .lang("ko")
+    .format("YYYY.MM.DD(dd)");
+  const endDate = moment(props.item.end_date)
+    .lang("ko")
+    .format("YYYY.MM.DD(dd)");
   return (
     <Container>
       <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
-        <BaseImage
-          source={props.item.title_img}
-          style={{
-            height: SCREEN_WIDTH * 0.316,
-            borderWidth: 1,
-            borderColor: colors.pinkishGrey,
-          }}
-          defaultSource={require("../assets/images/b_img500.png")}
-        />
+        <View style={{ borderRadius: 10, overflow: "hidden" }}>
+          <BaseImage
+            source={props.item.title_img}
+            style={{
+              height: SCREEN_WIDTH * 0.316,
+            }}
+            defaultSource={require("../assets/images/b_img500.png")}
+          />
+        </View>
+        <Title>{props.item.title}</Title>
         <TitleContainer>
-          <StatusContainer>
-            {props.item.status == "O" && (
-              <>
-                <Image
-                  source={require("../assets/images/stopwatch.png")}
-                  style={{ height: 20 }}
-                />
-                <Status>진행중</Status>
-              </>
-            )}
-            {props.item.status == "C" && (
-              <>
-                <Image
-                  source={require("../assets/images/stopwatchgray.png")}
-                  style={{ height: 20 }}
-                />
-                <Status style={{ color: colors.greyishThree }}>종료</Status>
-              </>
-            )}
-          </StatusContainer>
-          <Date>
-            {props.item.start_date} ~ {props.item.end_date}
-          </Date>
+          <Date>{` 행사기간 : ${startDate} ~ ${endDate}`}</Date>
         </TitleContainer>
       </TouchableOpacity>
     </Container>
   );
 };
 
+const Title = styled(BaseText)({
+  fontSize: 15,
+  fontFamily: "Roboto-Bold",
+  color: colors.black,
+  lineHeight: 22.5,
+  height: 25,
+  marginTop: 8.5,
+});
 const Status = styled(BaseText)({
   fontSize: 13,
   fontWeight: "500",
@@ -66,23 +61,19 @@ const StatusContainer = styled.View({
 });
 const TitleContainer = styled.View({
   flexDirection: "row",
-  marginLeft: 10,
-  marginTop: 5,
-  marginRight: 10,
 });
 const Date = styled(BaseText)({
-  marginLeft: 5,
-  fontSize: 13,
+  fontSize: 11,
   fontWeight: "500",
   fontStyle: "normal",
-  lineHeight: 19,
+  lineHeight: 16.5,
   letterSpacing: 0,
   textAlign: "left",
   color: colors.black,
 });
 const Container = styled.View({
-  marginTop: 20,
   width: "100%",
+  marginBottom: 20,
 });
 
 export default React.memo(EventItem);

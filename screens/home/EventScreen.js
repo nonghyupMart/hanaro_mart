@@ -13,10 +13,18 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
+import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 
 // let isMoved = false;
 
 const EventScreen = (props) => {
+  const eventCategory = [
+    { type_nm: "전체", type_val: "" },
+    { type_nm: "일반", type_val: "A" },
+    { type_nm: "경품", type_val: "B" },
+    { type_nm: "스탬프", type_val: "C" },
+  ];
+  const [gbn, setGbn] = useState("");
   const routeName = props.route.name;
   const navigation = props.navigation;
   const isFocused = useIsFocused();
@@ -53,12 +61,13 @@ const EventScreen = (props) => {
       page.current = 1;
       fetchEvent();
     }
-  }, [isFocused, userStore]);
+  }, [gbn, isFocused, userStore]);
 
   const fetchEvent = (p = page.current) => {
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: p,
+      gbn: gbn,
     };
     if (routeName == "MyEvent") query.user_cd = userInfo.user_cd;
     dispatch(eventActions.fetchEvent(query));
@@ -95,6 +104,11 @@ const EventScreen = (props) => {
     );
   return (
     <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
+      <CategoryButtonSmallList
+        data={eventCategory}
+        value={gbn}
+        setValue={setGbn}
+      />
       {event && (
         <ScrollList
           listKey={`${userStore.storeInfo.store_cd}-${routeName}`}
@@ -128,7 +142,7 @@ export const screenOptions = ({ navigation }) => {
 
 const ScrollList = styled(ExtendedFlatList)({
   flexGrow: 1,
-
+  marginTop: 30.5,
   width: "100%",
   // backgroundColor: colors.black,
 });
