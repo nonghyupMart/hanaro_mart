@@ -27,18 +27,6 @@ const PickerViews = (props) => {
   };
 
   useEffect(() => {
-    if (!selectedItem) return;
-
-    // dispatch(
-    //   flyerActions.fetchProduct({
-    //     store_cd: userStore.storeInfo.store_cd,
-    //     leaf_cd: selectedItem.value,
-    //     page: 1,
-    //   })
-    // );
-  }, [selectedItem]);
-
-  useEffect(() => {
     setSelectedItem({
       label: props.currentFlyer.title,
       value: props.currentFlyer.leaf_cd,
