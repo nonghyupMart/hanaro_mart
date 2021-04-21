@@ -6,12 +6,18 @@ const initialState = {
   product: null,
   productDetail: null,
   searchedProduct: null,
+  carousel: null,
 };
 
 export default (state = initialState, action) => {
   let product, newEvent, updatedProductList, searchedProduct;
 
   switch (action.type) {
+    case actionTypes.SET_CAROUSEL:
+      return {
+        ...state,
+        carousel: action.carousel,
+      };
     case actionTypes.SET_LEAFLET:
       return {
         ...state,

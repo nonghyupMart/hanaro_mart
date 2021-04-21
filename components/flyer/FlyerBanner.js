@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useRef, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Image } from "react-native";
 import Carousel from "../../components/UI/Carousel";
@@ -11,6 +11,10 @@ import {
 import * as Util from "../../util";
 import _ from "lodash";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import { useSelector, useDispatch } from "react-redux";
+import {  setCarousel } from "../../store/actions/flyer";
+
+let prevPage = 0;
 
 const FlyerBanner = ({
   leafletList,
@@ -19,10 +23,21 @@ const FlyerBanner = ({
   detail_img_cnt,
   setPageForCarousel,
 }) => {
+  const dispatch = useDispatch();
+  const carouselRef = useRef();
+  useEffect(() => {
+    return () => {
+      prevPage = 0;
+    };
+  }, []);
   return (
     <>
       <View style={{ paddingLeft: 24, paddingRight: 24, width: "100%" }}>
         <Carousel
+          ref={(ref) => {
+            dispatch(setCarousel(ref));
+            return (carouselRef.current = ref);
+          }}
           key={`${carouselKey}`}
           style={{
             height: (SCREEN_WIDTH - 48) * 0.608,
@@ -49,7 +64,11 @@ const FlyerBanner = ({
           pageInfoBackgroundColor={"transparent"}
           pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
           pageInfoTextSeparator="/"
-          onAnimateNextPage={(p) => setPageForCarousel(p)}
+          onAnimateNextPage={(p) => {
+            if (prevPage == p) return;
+            setPageForCarousel(p);
+            prevPage = p;
+          }}
           chosenBulletStyle={{
             backgroundColor: colors.yellowOrange,
             marginLeft: 3.5,

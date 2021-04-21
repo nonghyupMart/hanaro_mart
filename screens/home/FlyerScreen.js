@@ -22,6 +22,7 @@ import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
+import PickerViews from "../../components/flyer/PickerViews";
 
 const FlyerScreen = (props) => {
   const isFocused = useIsFocused();
@@ -61,24 +62,11 @@ const FlyerScreen = (props) => {
     if (isFocused) {
       init();
     } else {
+      clearData();
       setPageForCarousel(null);
       dispatch({ type: SET_LEAFLET, leaflet: null });
     }
-
-    return () => {
-      clearData();
-      dispatch({ type: SET_LEAFLET, leaflet: null });
-      setPageForCarousel(null);
-    };
   }, [isFocused]);
-
-  useEffect(() => {
-    if (!isFocused) return;
-    if (pageforCarousel == null || pageforCarousel == undefined) return;
-
-    setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
-    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
-  }, [type_val]);
 
   const fetchProduct = (leaf_cd, p = page.current) => {
     return dispatch(
@@ -94,6 +82,19 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
+
+    setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
+    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
+  }, [type_val]);
+
+  useEffect(() => {
+    if (!isFocused) return;
+    if (
+      pageforCarousel == null ||
+      pageforCarousel == undefined ||
+      JSON.stringify(pageforCarousel) === JSON.stringify({})
+    )
+      return;
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
@@ -142,6 +143,14 @@ const FlyerScreen = (props) => {
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
+      {currentFlyer && (
+        <PickerViews
+          leafletList={leaflet.leafletList}
+          userStore={userStore}
+          currentFlyer={currentFlyer}
+          setPageForCarousel={setPageForCarousel}
+        />
+      )}
       {/* <StoreListPopup isVisible={isVisible} /> */}
       {currentFlyer && (
         <FlyerBanner
