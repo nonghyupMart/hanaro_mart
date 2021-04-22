@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as branchesActions from "../../store/actions/branches";
@@ -18,25 +18,43 @@ import {
 import { setIsLoading } from "../../store/actions/common";
 import _ from "lodash";
 import { BaseText } from "../../components/UI/BaseUI";
+import RNPickerSelect from "react-native-picker-select";
 
 const PickerViews = (props) => {
+  const lnamePickerRef = useRef();
+  const mnamePickerRef = useRef();
   let lnameItems = [];
+  const [displayedLname, setDisplayedLname] = useState("시/도 선택");
   const [mnameItems, setMnameItems] = useState([]);
+  const [displayedMname, setDisplayedMname] = useState("선택");
   const dispatch = useDispatch();
+
   const onLnameChange = async (lname) => {
-    props.setLname(() => lname);
+    props.setLname(() => (lname ? lname : null));
+    if (Platform.OS == "android") onLnameDonePress();
+  };
+  const onLnameDonePress = () => {
     props.setMname(() => null);
+    setMnameItems([]);
+    setDisplayedLname(props.lname ? props.lname : "시/도 선택");
+    setDisplayedMname("선택");
     props.pageNum.current = 1;
-    const fetchBranches = props.fetchBranches(lname, null, "", 1);
-    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(lname));
+    const fetchBranches = props.fetchBranches(props.lname, null, "", 1);
+    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(props.lname));
 
     Promise.all([fetchBranches, fetchAddress2]).then(() => {
       dispatch(setIsLoading(false));
     });
   };
+
   const onMnameChange = (lname, mname) => {
-    props.setMname(() => mname);
-    props.fetchBranches(lname, mname, "", 1).then(() => {
+    props.setMname(() => (mname ? mname : null));
+    if (Platform.OS == "android") onMnameDonePress();
+  };
+
+  const onMnameDonePress = () => {
+    setDisplayedMname(props.mname ? props.mname : "선택");
+    props.fetchBranches(props.lname, props.mname, "", 1).then(() => {
       dispatch(setIsLoading(false));
     });
   };
@@ -44,112 +62,69 @@ const PickerViews = (props) => {
   props.address1 &&
     props.address1.lnameList &&
     props.address1.lnameList.map((item, index) => {
-      switch (Platform.OS) {
-        case "android":
-          lnameItems.push(
-            <Picker.Item label={item.lname} value={item.lname} key={index} />
-          );
-          break;
-        case "ios":
-          lnameItems.push(item.lname);
-          break;
-
-        default:
-          break;
-      }
+      lnameItems.push({
+        label: item.lname,
+        value: item.lname,
+      });
     });
   useEffect(() => {
     if (_.isEmpty(props.address2) || _.isEmpty(props.address2.mnameList))
       return;
+
     setMnameItems([]);
     let arr = [];
     props.address2.mnameList.map((item, index) => {
-      switch (Platform.OS) {
-        case "android":
-          arr.push(
-            <Picker.Item label={item.mname} value={item.mname} key={index} />
-          );
-          break;
-        case "ios":
-          arr.push(item.mname);
-          break;
-
-        default:
-          break;
-      }
-      setMnameItems(arr);
+      arr.push({
+        label: item.mname,
+        value: item.mname,
+      });
     });
+    setMnameItems(arr);
 
     return () => {};
   }, [props.address2]);
 
-  const onPress = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["취소", ...lnameItems],
-        // destructiveButtonIndex: 2,
-        cancelButtonIndex: 0,
-      },
-      (buttonIndex) => {
-        onLnameChange(lnameItems[buttonIndex - 1]);
-      }
-    );
-  const onPressMname = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["취소", ...mnameItems],
-        // destructiveButtonIndex: 2,
-        cancelButtonIndex: 0,
-      },
-      (buttonIndex) => {
-        onMnameChange(props.lname, mnameItems[buttonIndex - 1]);
-      }
-    );
-  if (Platform.OS == "ios") {
-    return (
-      <PickerContainer>
-        {/* <Text>{props.lname}</Text> */}
-        <PickerButton onPress={onPress}>
-          <PickerText>{props.lname ? props.lname : "시/도 선택"}</PickerText>
-          <PickerText>{`     ▾`}</PickerText>
-        </PickerButton>
-        {props.lname != null && props.address2 && props.address2.mnameList && (
-          <PickerButton onPress={onPressMname}>
-            <PickerText>{props.mname ? props.mname : "선택"}</PickerText>
-            <PickerText>{`     ▾`}</PickerText>
-          </PickerButton>
-        )}
-      </PickerContainer>
-    );
-  }
   return (
     <PickerContainer>
-      <Picker
-        style={styles.picker}
-        itemStyle={styles.pickerItem}
-        selectedValue={props.lname}
-        onValueChange={(itemValue, itemIndex) => onLnameChange(itemValue)}
+      <RNPickerSelect
+        doneText="확인"
+        fixAndroidTouchableBug={true}
+        InputAccessoryView={null}
+        ref={lnamePickerRef}
+        placeholder={{ label: "시/도 선택", value: "" }}
+        value={props.lname}
+        onValueChange={(value) => onLnameChange(value)}
+        items={lnameItems}
+        onDonePress={onLnameDonePress}
       >
-        <Picker.Item label="시/도 선택" value={null} key={-1} />
-        {lnameItems.map((item, index) => {
-          return item;
-        })}
-      </Picker>
+        <PickerContainer>
+          <PickerButton onPress={() => lnamePickerRef.togglePicker()}>
+            <PickerText>{displayedLname}</PickerText>
+            <Image source={require("../../assets/images/bt.png")} />
+          </PickerButton>
+        </PickerContainer>
+      </RNPickerSelect>
 
-      {props.lname != null && props.address2 && props.address2.mnameList && (
-        <Picker
-          style={styles.picker}
-          itemStyle={styles.pickerItem}
-          selectedValue={props.mname}
-          onValueChange={(itemValue, itemIndex) =>
-            onMnameChange(props.lname, itemValue)
-          }
+      {displayedLname != "시/도 선택" && props.address2 && props.address2.mnameList && (
+        <RNPickerSelect
+          doneText="확인"
+          fixAndroidTouchableBug={true}
+          InputAccessoryView={null}
+          ref={mnamePickerRef}
+          placeholder={{ label: "선택", value: "" }}
+          value={props.mname}
+          onValueChange={(value) => onMnameChange(props.lname, value)}
+          onDonePress={onMnameDonePress}
+          items={mnameItems}
+          key={displayedLname}
         >
-          <Picker.Item label="선택" value="" key={-1} />
-          {mnameItems.map((item, index) => {
-            return item;
-          })}
-        </Picker>
+          <PickerContainer>
+            <PickerButton onPress={() => mnamePickerRef.togglePicker()}>
+              <PickerText>{displayedMname}</PickerText>
+              <Image source={require("../../assets/images/bt.png")} />
+            </PickerButton>
+          </PickerContainer>
+        </RNPickerSelect>
       )}
     </PickerContainer>
   );
