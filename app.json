@@ -3,7 +3,7 @@
     "scheme": "hanaroplus",
     "name": "하나로마트앱",
     "slug": "hanaro-plus",
-    "version": "1.11.3",
+    "version": "1.11.4",
     "orientation": "portrait",
     "privacy": "unlisted",
     "platforms": ["ios", "android"],
@@ -20,7 +20,7 @@
     "primaryColor": "#ffffff",
     "backgroundColor": "#ffffff",
     "ios": {
-      "buildNumber": "1.11.3",
+      "buildNumber": "1.11.4",
       "icon": "./assets/icon.png",
       "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": false,
