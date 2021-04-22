@@ -105,27 +105,29 @@ const PickerViews = (props) => {
         </PickerContainer>
       </RNPickerSelect>
 
-      {displayedLname != "시/도 선택" && props.address2 && props.address2.mnameList && (
-        <RNPickerSelect
-          doneText="확인"
-          fixAndroidTouchableBug={true}
-          InputAccessoryView={null}
-          ref={mnamePickerRef}
-          placeholder={{ label: "선택", value: "" }}
-          value={props.mname}
-          onValueChange={(value) => onMnameChange(props.lname, value)}
-          onDonePress={onMnameDonePress}
-          items={mnameItems}
-          key={displayedLname}
-        >
-          <PickerContainer>
-            <PickerButton onPress={() => mnamePickerRef.togglePicker()}>
-              <PickerText>{displayedMname}</PickerText>
-              <Image source={require("../../assets/images/bt.png")} />
-            </PickerButton>
-          </PickerContainer>
-        </RNPickerSelect>
-      )}
+      {displayedLname != "시/도 선택" &&
+        props.address2 &&
+        props.address2.mnameList && (
+          <RNPickerSelect
+            doneText="확인"
+            fixAndroidTouchableBug={true}
+            InputAccessoryView={null}
+            ref={mnamePickerRef}
+            placeholder={{ label: "선택", value: "" }}
+            value={props.mname}
+            onValueChange={(value) => onMnameChange(props.lname, value)}
+            onDonePress={onMnameDonePress}
+            items={mnameItems}
+            key={displayedLname}
+          >
+            <PickerContainer>
+              <PickerButton onPress={() => mnamePickerRef.togglePicker()}>
+                <PickerText>{displayedMname}</PickerText>
+                <Image source={require("../../assets/images/bt.png")} />
+              </PickerButton>
+            </PickerContainer>
+          </RNPickerSelect>
+        )}
     </PickerContainer>
   );
 };
@@ -138,6 +140,7 @@ const PickerButton = styled.TouchableOpacity({
   paddingTop: 25,
   paddingBottom: 10,
   flexDirection: "row",
+  alignItems: "center",
 });
 const PickerContainer = styled.View({
   flexDirection: "row",
