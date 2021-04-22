@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, Platform } from "react-native";
 
 import RNPickerSelect from "react-native-picker-select";
 import _ from "lodash";
@@ -19,7 +19,14 @@ const PickerViews = (props) => {
     if (!value || value == selectedItem.value) return;
     const item = _.filter(pickerItems, (o) => o.value == value);
     setSelectedItem(item[0]);
-    const index = _.findIndex(pickerItems, (o) => o.value == value);
+    if (Platform.OS == "android") onItemSelected();
+  };
+
+  const onItemSelected = () => {
+    const index = _.findIndex(
+      pickerItems,
+      (o) => o.value == selectedItem.value
+    );
     props.setPageForCarousel(index);
     carousel.animateToPage(index);
   };
@@ -50,6 +57,7 @@ const PickerViews = (props) => {
         value={selectedItem.value}
         style={pickerSelectStyles}
         onValueChange={(value) => onItemChange(value)}
+        onDonePress={onItemSelected}
         items={pickerItems}
       >
         <PickerContainer>
