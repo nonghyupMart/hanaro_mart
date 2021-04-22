@@ -20,15 +20,14 @@ const PickerViews = (props) => {
     if (!value || value == selectedItem.value) return;
     const item = _.filter(pickerItems, (o) => o.value == value);
     setSelectedItem(item[0]);
-    if (Platform.OS == "android") onItemSelected();
+    if (Platform.OS == "android") onItemSelected(item[0]);
   };
 
-  const onItemSelected = async () => {
-    setTitle(selectedItem.label);
-    const index = _.findIndex(
-      pickerItems,
-      (o) => o.value == selectedItem.value
-    );
+  const onItemSelected = async (obj) => {
+    const val = Platform.OS == "android" ? obj.value : selectedItem.value;
+    const title = Platform.OS == "android" ? obj.label : selectedItem.label;
+    setTitle(title);
+    const index = _.findIndex(pickerItems, (o) => o.value == val);
     props.setPageForCarousel(index);
     carousel.animateToPage(index);
   };
