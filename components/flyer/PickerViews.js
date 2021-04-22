@@ -14,6 +14,7 @@ const PickerViews = (props) => {
     label: props.currentFlyer.title,
     value: props.currentFlyer.leaf_cd,
   });
+  const [title, setTitle] = useState(props.currentFlyer.title);
   const carousel = useSelector((state) => state.flyer.carousel);
   const onItemChange = async (value) => {
     if (!value || value == selectedItem.value) return;
@@ -22,7 +23,8 @@ const PickerViews = (props) => {
     if (Platform.OS == "android") onItemSelected();
   };
 
-  const onItemSelected = () => {
+  const onItemSelected = async () => {
+    setTitle(selectedItem.label);
     const index = _.findIndex(
       pickerItems,
       (o) => o.value == selectedItem.value
@@ -50,6 +52,7 @@ const PickerViews = (props) => {
   return (
     <PickerContainer>
       <RNPickerSelect
+        doneText="확인"
         fixAndroidTouchableBug={true}
         InputAccessoryView={null}
         ref={pickerRef}
@@ -62,7 +65,7 @@ const PickerViews = (props) => {
       >
         <PickerContainer>
           <PickerButton onPress={() => pickerRef.togglePicker()}>
-            <PickerText>{selectedItem.label}</PickerText>
+            <PickerText>{title}</PickerText>
             <Image source={require("../../assets/images/bt.png")} />
           </PickerButton>
         </PickerContainer>
