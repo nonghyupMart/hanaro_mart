@@ -37,6 +37,7 @@ const PickerViews = (props) => {
       label: props.currentFlyer.title,
       value: props.currentFlyer.leaf_cd,
     });
+    setTitle(props.currentFlyer.title);
   }, [props.currentFlyer]);
 
   props.leafletList &&
