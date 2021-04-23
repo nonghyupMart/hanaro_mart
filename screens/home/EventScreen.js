@@ -89,18 +89,32 @@ const EventScreen = (props) => {
   if (!event) return <></>;
   if (routeName == "MyEvent" && _.size(event.eventList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/megaphone.png")}
-        text={"응모한 이벤트"}
-        infoText="응모한 이벤트 내역이 없습니다."
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/megaphone.png")}
+          text={"응모한 이벤트"}
+          infoText="응모한 이벤트 내역이 없습니다."
+        />
+      </>
     );
   if (routeName == "Event" && _.size(event.eventList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/megaphone.png")}
-        text={"이벤트"}
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/megaphone.png")}
+          text={"이벤트"}
+        />
+      </>
     );
   return (
     <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
