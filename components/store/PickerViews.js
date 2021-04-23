@@ -87,6 +87,7 @@ const PickerViews = (props) => {
   return (
     <PickerContainer>
       <RNPickerSelect
+        useNativeAndroidPickerStyle={false}
         doneText="확인"
         fixAndroidTouchableBug={true}
         InputAccessoryView={null}

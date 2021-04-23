@@ -137,7 +137,7 @@ const FlyerScreen = (props) => {
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
-        paddingTop: Platform.OS == "ios" ? 17 : 17,
+        paddingTop: Platform.OS == "ios" ? 0 : 0,
         // paddingLeft: Platform.OS == "ios" ? 16 : 0,
         // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}

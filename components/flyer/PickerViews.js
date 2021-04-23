@@ -53,15 +53,16 @@ const PickerViews = (props) => {
     <PickerContainer>
       <RNPickerSelect
         doneText="확인"
+        useNativeAndroidPickerStyle={false}
         fixAndroidTouchableBug={true}
         InputAccessoryView={null}
         ref={pickerRef}
         placeholder={{ label: "행사전단 선택", value: "" }}
         value={selectedItem.value}
-        style={pickerSelectStyles}
         onValueChange={(value) => onItemChange(value)}
         onDonePress={onItemSelected}
         items={pickerItems}
+        key={title}
       >
         <PickerContainer>
           <PickerButton onPress={() => pickerRef.togglePicker()}>
@@ -81,36 +82,21 @@ const PickerText = styled(BaseText)({
   marginRight: 3.5,
 });
 const PickerButton = styled.TouchableOpacity({
+  paddingTop: 17,
   paddingBottom: 11.5,
   flexDirection: "row",
   alignItems: "center",
+  width: "100%",
+  justifyContent: "center",
 });
 const PickerContainer = styled.View({
   flexDirection: "row",
-  flex: 1,
+  width: "100%",
   justifyContent: "center",
   alignSelf: "center",
   backgroundColor: colors.trueWhite,
 });
 
-const pickerSelectStyles = StyleSheet.create({
-  inputIOS: {
-    fontSize: 15,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    color: colors.CERULEAN_2,
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    fontSize: 15,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    color: colors.CERULEAN_2,
-    paddingRight: 30, // to ensure the text is never behind the icon
-    width: 300,
-    height: 19,
-  },
-});
 const styles = StyleSheet.create({
   pickerItem: {
     fontSize: 14,
