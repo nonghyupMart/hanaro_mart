@@ -51,7 +51,7 @@ const StoreChangeScreen = (props) => {
   useEffect(() => {
     (async () => {
       if (AppState.currentState != "active") return;
-      let { status } = await Location.requestPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
       }

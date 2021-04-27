@@ -12,10 +12,10 @@ import {
 
 const EventItem = (props) => {
   const startDate = moment(props.item.start_date)
-    .lang("ko")
+    .locale("ko")
     .format("YYYY.MM.DD(dd)");
   const endDate = moment(props.item.end_date)
-    .lang("ko")
+    .locale("ko")
     .format("YYYY.MM.DD(dd)");
   return (
     <Container>
