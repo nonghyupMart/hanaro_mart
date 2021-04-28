@@ -5,7 +5,6 @@
 # 배포전 수정 파일
 
 - app.json -> version , buildNumber , versionCode
-- settings.js -> INTERNAL_APP_VERSION
 
 # Expo 배포
 

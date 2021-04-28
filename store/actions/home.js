@@ -1,7 +1,7 @@
 import queryString from "query-string";
 import * as Util from "../../util";
 import _ from "lodash";
-import { INTERNAL_APP_VERSION } from "../../constants";
+import Constants from "expo-constants";
 import * as actionTypes from "../actions/actionTypes";
 import http from "../../util/axios-instance";
 
@@ -114,9 +114,9 @@ export const fetchPopup = (query) => {
           //버전이 같거나 높으면 팝업 목록에서 제거
           _.remove(response.data.popupList, (currentObject) => {
             if (currentObject.app_ver) {
-              const index = INTERNAL_APP_VERSION.indexOf(".", 2);
+              const index = Constants.manifest.version.indexOf(".", 2);
               let versionCheck = Util.versionCompare(
-                INTERNAL_APP_VERSION.slice(0, index),
+                Constants.manifest.version.slice(0, index),
                 currentObject.app_ver
               );
               return versionCheck >= 0;

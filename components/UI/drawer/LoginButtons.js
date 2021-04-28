@@ -12,7 +12,6 @@ import {
 import { setPreview, withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../util";
 import _ from "lodash";
-import { INTERNAL_APP_VERSION } from "../../../constants";
 import Constants from "expo-constants";
 import * as Updates from "expo-updates";
 
@@ -64,7 +63,7 @@ const LoginButtons = (props) => {
             })
           }
         >
-          <Text3>Version : {INTERNAL_APP_VERSION}</Text3>
+          <Text3>Version : {Constants.manifest.version}</Text3>
         </TouchableOpacity>
       </GrayContainer>
     </BottomContainer>

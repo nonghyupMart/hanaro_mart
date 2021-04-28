@@ -13,7 +13,6 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as branchesActions from "../store/actions/branches";
-import { INTERNAL_APP_VERSION } from "../constants";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
@@ -28,9 +27,9 @@ const StartupScreen = (props) => {
         if (data.popupCnt <= 0) return;
         let obj = data.popupList[0];
         if (!obj.app_ver) return;
-        const index = INTERNAL_APP_VERSION.indexOf(".", 2);
+        const index = Constants.manifest.version.indexOf(".", 2);
         let versionCheck = Util.versionCompare(
-          INTERNAL_APP_VERSION.slice(0, index),
+          Constants.manifest.version.slice(0, index),
           obj.app_ver
         );
 
