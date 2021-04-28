@@ -31,7 +31,7 @@ const EventItem = (props) => {
         </View>
         <Title>{props.item.title}</Title>
         <TitleContainer>
-          <Date>{` 행사기간 : ${startDate} ~ ${endDate}`}</Date>
+          <Date>{`행사기간 : ${startDate} ~ ${endDate}`}</Date>
         </TitleContainer>
       </TouchableOpacity>
     </Container>
