@@ -41,7 +41,9 @@ const BarCodeScannerScreen = (props) => {
   }, []);
   useEffect(() => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      const {
+        status,
+      } = await BarCodeScanner.requestForegroundPermissionsAsync();
       setHasPermission(status === "granted");
     })();
   }, []);

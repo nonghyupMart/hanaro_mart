@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "./barcode";
 import { Share, Dimensions, PixelRatio } from "react-native";

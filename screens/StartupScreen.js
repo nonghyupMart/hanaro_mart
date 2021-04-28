@@ -48,7 +48,7 @@ const StartupScreen = (props) => {
           Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
         }
       }
-      let { status } = await Location.requestPermissionsAsync();
+      let { status } = await Location.requestForegroundPermissionsAsync();
       permissionStatus.current = status;
 
       const userStoreData = await Util.getStorageItem("userStoreData");
