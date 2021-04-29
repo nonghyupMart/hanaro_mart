@@ -13,7 +13,7 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
-import { BaseText } from "./UI/BaseUI";
+import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
 
 const BottomButtons = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -23,53 +23,75 @@ const BottomButtons = (props) => {
   );
   if (isBottomNavigation)
     return (
-      <Container>
-        <ButtonContainer onPress={() => RootNavigation.navigate("Home")}>
-          <Image source={require("../assets/images/home_icon.png")} />
-          <IconText>홈</IconText>
-        </ButtonContainer>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore) || !isJoin)
-              return RootNavigation.navigate("Empty");
-            RootNavigation.navigate("MyCoupon");
-          }}
-        >
-          <Image source={require("../assets/images/coupon_icon.png")} />
-          <IconText>나의 쿠폰</IconText>
-        </ButtonContainer>
+      <ExtraContainer>
+        <Container>
+          <ButtonContainer onPress={() => RootNavigation.navigate("Home")}>
+            <Image source={require("../assets/images/home_icon.png")} />
+            <IconText>홈</IconText>
+          </ButtonContainer>
+          <ButtonContainer
+            onPress={() => {
+              if (_.isEmpty(userStore) || !isJoin)
+                return RootNavigation.navigate("Empty");
+              RootNavigation.navigate("MyCoupon");
+            }}
+          >
+            <Image source={require("../assets/images/coupon_icon.png")} />
+            <IconText>나의 쿠폰</IconText>
+          </ButtonContainer>
+
+          <Image
+            source={require("../assets/images/HANA_icon.png")}
+            style={{ opacity: 0 }}
+          />
+
+          <ButtonContainer
+            onPress={() => {
+              if (_.isEmpty(userStore) || !isJoin)
+                return RootNavigation.navigate("Empty");
+              RootNavigation.navigate("MyPage");
+            }}
+          >
+            <Image source={require("../assets/images/mypage_icon.png")} />
+            <IconText>마이페이지</IconText>
+          </ButtonContainer>
+          <ButtonContainer
+            onPress={() => {
+              if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
+              Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+            }}
+          >
+            <Image source={require("../assets/images/call_icon.png")} />
+            <IconText>매장전화</IconText>
+          </ButtonContainer>
+        </Container>
         <TouchableOpacity
-          style={[styles.icons, { marginTop: 0, marginBottom: 0 }]}
+          style={[
+            styles.icons,
+            {
+              marginTop: 10,
+              marginBottom: 0,
+              zIndex: 110,
+              elevation: 110,
+              position: "absolute",
+              width: 50,
+              height: 50,
+              left: SCREEN_WIDTH / 2 - 25,
+            },
+          ]}
           onPress={() => RootNavigation.navigate("RingPicker")}
         >
-          <Image source={require("../assets/images/HANA_icon.png")} />
+          <Image
+            source={require("../assets/images/HANA_icon.png")}
+            style={{}}
+          />
         </TouchableOpacity>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore) || !isJoin)
-              return RootNavigation.navigate("Empty");
-            RootNavigation.navigate("MyPage");
-          }}
-        >
-          <Image source={require("../assets/images/mypage_icon.png")} />
-          <IconText>마이페이지</IconText>
-        </ButtonContainer>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
-          }}
-        >
-          <Image source={require("../assets/images/call_icon.png")} />
-          <IconText>매장전화</IconText>
-        </ButtonContainer>
-      </Container>
+      </ExtraContainer>
     );
   else return <></>;
 };
 
 const ButtonContainer = styled.TouchableOpacity({
-  backgroundColor: colors.trueWhite,
   height: 50,
   flex: 1,
   justifyContent: "center",
@@ -85,6 +107,15 @@ const IconText = styled(BaseText)({
   textAlign: "left",
   color: colors.greyishBrown,
 });
+const ExtraContainer = styled.View({
+  height: 60,
+  alignItems: "flex-end",
+  flexDirection: "row",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
+});
 const Container = styled.View({
   height: 50,
   backgroundColor: colors.trueWhite,
@@ -94,7 +125,7 @@ const Container = styled.View({
   left: 0,
   width: "100%",
   // justifyContent: "center",
-  alignItems: "center",
+  alignItems: "flex-end",
   elevation: 10,
 
   // for IOS
@@ -102,6 +133,7 @@ const Container = styled.View({
   shadowColor: colors.black16,
   shadowRadius: 6,
   shadowOpacity: 0.5,
+  overflow: "visible",
 });
 const styles = StyleSheet.create({
   icons: {
