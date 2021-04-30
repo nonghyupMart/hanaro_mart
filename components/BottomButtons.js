@@ -14,6 +14,7 @@ import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
+import * as Util from "../util";
 
 const BottomButtons = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -69,21 +70,21 @@ const BottomButtons = (props) => {
           style={[
             styles.icons,
             {
-              marginTop: 10,
+              marginTop: 0,
               marginBottom: 0,
               zIndex: 110,
               elevation: 110,
               position: "absolute",
-              width: 50,
-              height: 50,
-              left: SCREEN_WIDTH / 2 - 25,
+              width: Util.normalize(47),
+              height: Util.normalize(47),
+              left: SCREEN_WIDTH / 2 - Util.normalize(23.5),
             },
           ]}
           onPress={() => RootNavigation.navigate("RingPicker")}
         >
           <Image
             source={require("../assets/images/HANA_icon.png")}
-            style={{}}
+            style={{ width: Util.normalize(47), height: Util.normalize(47) }}
           />
         </TouchableOpacity>
       </ExtraContainer>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "column",
     position: "relative",
-    top: -5,
+    top: 0,
   },
   center: {
     flex: 1,
