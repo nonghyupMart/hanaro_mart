@@ -326,7 +326,7 @@ export const fetchUpdate = () => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init(dispatch, true)
       .get(url)
       .then(async (response) => {
         dispatch({
