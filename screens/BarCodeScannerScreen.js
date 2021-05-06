@@ -32,7 +32,7 @@ const BarCodeScannerScreen = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const camRef = useRef();
-  const [ratio, setRatio] = useState("16:9");
+  const [ratio, setRatio] = useState(DESIRED_RATIO);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
@@ -55,7 +55,7 @@ const BarCodeScannerScreen = (props) => {
         ratios.find((ratio) => ratio === DESIRED_RATIO) ||
         ratios[ratios.length - 1];
 
-      setState({ ratio });
+      setRatio(ratio);
     }
   };
 
