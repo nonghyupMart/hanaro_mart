@@ -192,6 +192,7 @@ const EventDetailScreen = (props) => {
             paddingLeft: 0,
             paddingRight: 0,
             marginBottom: 0,
+            paddingBottom: 50,
           }}
         >
           <TouchableOpacity
