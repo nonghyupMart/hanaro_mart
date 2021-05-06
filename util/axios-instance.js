@@ -8,7 +8,7 @@ import * as actionTypes from "../store/actions/actionTypes";
 let http = (() => {
   const instance = axios.create({
     baseURL: API_URL,
-    timeout: 15000,
+    timeout: 30000,
     headers: { "Content-Type": "application/json" },
   });
   let dispatch, autoOff;
