@@ -79,7 +79,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
               aspectRatio: 1 / 1,
               marginTop: 18,
             }}
-            source={item.detail_img}
+            source={item.detail_img || item.title_img}
             resizeMode="cover"
           />
           <BorderLine />
