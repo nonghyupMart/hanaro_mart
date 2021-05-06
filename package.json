@@ -43,7 +43,6 @@
     "expo-media-library": "~12.0.2",
     "expo-network": "~3.1.1",
     "expo-notifications": "~0.11.6",
-    "expo-permissions": "~12.0.1",
     "expo-screen-capture": "^1.1.1",
     "expo-sms": "~9.1.2",
     "expo-splash-screen": "~0.10.2",

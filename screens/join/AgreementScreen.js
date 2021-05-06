@@ -24,11 +24,7 @@ import AgreementContent4 from "../../components/join/AgreementContent4";
 import { CheckBox } from "react-native-elements";
 
 import { setPreview } from "../../store/actions/auth";
-import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
-import * as Location from "expo-location";
-import { getPermissionsAsync } from "expo-notifications";
-import * as Animatable from "react-native-animatable";
 import colors from "../../constants/Colors";
 
 import BaseScreen from "../../components/BaseScreen";
@@ -241,27 +237,26 @@ const AgreementScreen = (props) => {
     setCheckBoxes(() => cks);
   };
 
-  const getPermissions = () => {
-    return Permissions.getAsync(Permissions.NOTIFICATIONS, Permissions.CAMERA)
-      .then((statusObj) => {
-        if (statusObj.status !== "granted") {
-          return Permissions.askAsync(
-            Permissions.NOTIFICATIONS,
-            Permissions.CAMERA
-          );
-        }
-        return statusObj;
-      })
-      .then(() => {
-        return Notifications.getExpoPushTokenAsync();
-      })
-      .then((response) => {
-        const token = response.data;
-        return token;
-      })
-      .catch((err) => {
-        return err;
-      });
+  const getPermissions = async () => {
+    let token;
+    if (Constants.isDevice) {
+      const {
+        status: existingStatus,
+      } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== "granted") {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+      if (finalStatus !== "granted") {
+        // alert("Failed to get push token for push notification!");
+        // return;
+      }
+      token = (await Notifications.getExpoPushTokenAsync()).data;
+    } else {
+      // alert("Must use physical device for Push Notifications");
+    }
+    return token;
   };
   const checkAgreed = () => {
     if (
