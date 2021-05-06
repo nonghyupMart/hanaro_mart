@@ -100,18 +100,8 @@ export const updateExpo = (dispatch) => {
         const update = await Updates.checkForUpdateAsync();
         if (update.isAvailable) {
           await Updates.fetchUpdateAsync();
-          // ... notify user of update ...
-          // Util.log("new update");
-          await dispatch(
-            setAlert({
-              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-              confirmText: "업데이트",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                Updates.reloadAsync();
-              },
-            })
-          );
+          await dispatch(setAlert(null));
+          await Updates.reloadAsync();
         }
       } catch (e) {
         // handle or log error
