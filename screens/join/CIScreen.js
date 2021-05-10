@@ -16,7 +16,8 @@ import _ from "lodash";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
-const CIScreen = ({ navigation }) => {
+const CIScreen = ({ navigation, route }) => {
+  const params = route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   useEffect(() => {
@@ -37,6 +38,7 @@ const CIScreen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView
+        recommend={params ? params.recommend : null}
         startInLoadingState={true}
         key={Math.random()}
         cacheMode="LOAD_NO_CACHE"

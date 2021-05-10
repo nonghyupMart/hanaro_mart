@@ -86,6 +86,7 @@ export const ExtendedWebView = (props) => {
           ci: message.value.ci,
         };
 
+        if (props.recommend) query.to_recommend = props.recommend;
         if (pushToken) query.token = pushToken;
         if (_.isEmpty(userInfo) && !_.isEmpty(agreedStatus)) {
           // Only when the first signup

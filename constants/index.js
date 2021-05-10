@@ -30,5 +30,5 @@ export const CATEGORY = {
   A: "Notice",
   T: "NaroTube",
   H: "Notice",
-  I: "MyInfo",
+  I: "MyInfo", // 가입한 경우 MyInfo로 가입 않한경우 회원가입으로
 };

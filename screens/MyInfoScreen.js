@@ -25,7 +25,7 @@ import * as Util from "../util";
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import Barcode from "../components/Barcode";
-import { setAlert, setIsLoading } from "../store/actions/common";
+import { setAlert, setIsLoading, setLink } from "../store/actions/common";
 import Modal from "react-native-modal";
 import { setReference, updateUserInfo } from "../store/actions/auth";
 
@@ -45,7 +45,7 @@ const MyInfoScreen = (props) => {
     if (link && link.category == routeName && link.link_code) {
       setTimeout(async () => {
         await setRecommend(link.link_code);
-        await dispatch(CommonActions.setLink(null));
+        await dispatch(setLink(null));
       }, 0);
     }
   }, [link]);

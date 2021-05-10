@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "./barcode";
 import { Share, Dimensions, PixelRatio } from "react-native";
@@ -96,11 +96,12 @@ export const removeStorageItem = (name) => {
   AsyncStorage.removeItem(storagePrefix + name);
 };
 
-export const sendShareLink = async (reference) => {
+export const sendShareLink = async (recommend) => {
   try {
-    let message =
-      "모든 것을 하나로마트 - https://www.hanaromartapp.com/web/about/appStore.do";
-    if (reference) message += "\n\n추천인코드 : " + reference;
+    let message = `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore.do`;
+    if (recommend) {
+      message += `?recommend=${recommend}\n\n추천인코드: ${recommend}`;
+    }
     const result = await Share.share({
       message: message,
     });

@@ -1,9 +1,11 @@
 import moment from "moment";
 import * as Util from "../../util";
 import queryString from "query-string";
-import { API_URL } from "../../constants";
 import * as Updates from "expo-updates";
 import * as actionTypes from "./actionTypes";
+import * as Linking from "expo-linking";
+import { CATEGORY } from "../../constants";
+import _ from "lodash";
 
 export const setLink = (link) => {
   return {
@@ -109,4 +111,16 @@ export const updateExpo = (dispatch) => {
       }
     })();
   }
+};
+
+export const navigateByScheme = async (dispatch, url) => {
+  let { queryParams } = await Linking.parse(url);
+  if (_.isEmpty(queryParams)) return;
+  await dispatch(
+    setLink({
+      link_gbn: queryParams.link_gbn,
+      category: CATEGORY[queryParams.link_gbn],
+      link_code: queryParams.link_code,
+    })
+  );
 };

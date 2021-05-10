@@ -29,9 +29,7 @@ import { CATEGORY } from "../../constants";
 import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
-import * as Location from "expo-location";
-import * as branchesActions from "../../store/actions/branches";
-import * as Linking from "expo-linking";
+import { setPreview } from "../../store/actions/auth";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -42,6 +40,7 @@ const HomeScreen = (props) => {
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
+  const link = useSelector((state) => state.common.link);
 
   initNotificationReceiver(routeName);
   useEffect(() => {
@@ -58,9 +57,6 @@ const HomeScreen = (props) => {
   useEffect(() => {
     dispatch(setIsLoading(true));
     (async () => {
-      const schemeUrl = await Linking.getInitialURL();
-      navigateByScheme(schemeUrl);
-      Linking.addEventListener("url", _handleUrl);
       if (Platform.OS == "ios") {
         setTimeout(() => {
           StatusBar.setBarStyle("dark-content");
@@ -73,31 +69,19 @@ const HomeScreen = (props) => {
     };
   }, []);
 
-  const _handleUrl = async (data) => {
-    // this.setState({ url });
-    // console.log("ddddd", url);
-    if (!data.url) return;
-    navigateByScheme(data.url);
-  };
-
-  const navigateByScheme = async (url) => {
-    let { queryParams } = await Linking.parse(url);
-    if (_.isEmpty(queryParams)) return;
-    await dispatch(
-      CommonActions.setLink({
-        category: CATEGORY[queryParams.link_gbn],
-        link_code: queryParams.link_code,
-      })
-    );
+  useEffect(() => {
     setTimeout(async () => {
+      if (!link || _.isEmpty(link)) return;
+
       if (
-        queryParams.link_gbn == "I" &&
+        link.link_gbn == "I" &&
         (_.isEmpty(userInfo) || _.isEmpty(userStore))
-      )
-        return;
-      await navigation.navigate(CATEGORY[queryParams.link_gbn]);
+      ) {
+        return await dispatch(setPreview(false));
+      }
+      await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);
-  };
+  }, [link]);
 
   useEffect(() => {
     if (typeof didTryPopup != "string" && typeof didTryPopup != "object")

@@ -43,7 +43,7 @@ import {
 } from "../../store/actions/auth";
 import { SERVER_URL, API_URL } from "../../constants";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import { setAlert, setIsLoading, setLink } from "../../store/actions/common";
 import AutoHeightWebView from "react-native-autoheight-webview";
 import { BackButton, TextTitle } from "../../components/UI/header";
 
@@ -52,6 +52,9 @@ const AgreementScreen = (props) => {
   const [toggleAllheckBox, setToggleAllCheckBox] = useState(false);
   const isLoading = useSelector((state) => state.common.isLoading);
   const [canScroll, setCanScroll] = useState(true);
+  const link = useSelector((state) => state.common.link);
+  const [recommend, setRecommend] = useState();
+
   const [checkBoxes, setCheckBoxes] = useState([
     {
       id: 0,
@@ -172,6 +175,22 @@ const AgreementScreen = (props) => {
     },
   ]);
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (link && link.category == "MyInfo") {
+      setTimeout(async () => {
+        dispatch(
+          setAlert({
+            message: `본인인증을 진행하시면 추천인 코드 ${link.link_code}가 등록 됩니다. `,
+            onPressConfirm: async () => {
+              dispatch(setAlert(null));
+              await setRecommend(link.link_code);
+              await dispatch(setLink(null));
+            },
+          })
+        );
+      }, 0);
+    }
+  }, [link]);
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       setTimeout(() => {
@@ -315,7 +334,7 @@ const AgreementScreen = (props) => {
             await dispatch(setPushToken(token));
             await dispatch(setAgreedStatus(cks));
             await saveAgreedStatusToStorage(cks);
-            await navigation.navigate("CI");
+            await navigation.navigate("CI", { recommend: recommend });
           }, 0);
         }
       });
@@ -521,10 +540,14 @@ const NoticeText = styled(BaseText)({
   marginBottom: 48,
 });
 
-const GreenButton = styled(BaseButtonContainer)({
+const BottonBase = styled(BaseButtonContainer)({
+  borderRadius: 47,
+  width: SCREEN_WIDTH * 0.43,
+});
+const GreenButton = styled(BottonBase)({
   backgroundColor: colors.pine,
 });
-const BlueButton = styled(BaseButtonContainer)({
+const BlueButton = styled(BottonBase)({
   backgroundColor: colors.cerulean,
 });
 const TextBox = styled.View({

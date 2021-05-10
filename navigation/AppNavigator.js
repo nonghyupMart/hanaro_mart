@@ -17,6 +17,7 @@ import * as Device from "expo-device";
 import { fetchPushCnt } from "../store/actions/auth";
 import _ from "lodash";
 import * as Util from "../util";
+import * as Linking from "expo-linking";
 
 const Theme = {
   ...DefaultTheme,
@@ -53,6 +54,12 @@ const AppNavigator = (props) => {
       return <MainNavigator />;
     else if (isPreview && didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
+  };
+
+  const _handleUrl = async (data) => {
+    // this.setState({ url });
+    if (!data.url) return;
+    CommonActions.navigateByScheme(dispatch, data.url);
   };
 
   const _handleAppStateChange = async (nextAppState) => {
@@ -103,6 +110,10 @@ const AppNavigator = (props) => {
           })
         );
       }
+
+      const schemeUrl = await Linking.getInitialURL();
+      CommonActions.navigateByScheme(dispatch, schemeUrl);
+
       // When App is not running set received Notification to redux
       let data = await Util.getStorageItem("notificationData");
       let jsonData = await JSON.parse(data);
@@ -110,6 +121,7 @@ const AppNavigator = (props) => {
       await dispatch(CommonActions.setNotification(jsonData));
       await Util.removeStorageItem("notificationData");
     })();
+    Linking.addEventListener("url", _handleUrl);
     AppState.addEventListener("change", _handleAppStateChange);
     notificationListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
@@ -132,7 +144,6 @@ const AppNavigator = (props) => {
         }
       }
     );
-
     return async () => {
       await Util.removeStorageItem("notificationData");
       AppState.removeEventListener("change", _handleAppStateChange);
