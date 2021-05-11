@@ -99,6 +99,7 @@ const AppNavigator = (props) => {
 
   useEffect(() => {
     (async () => {
+      await Linking.addEventListener("url", _handleUrl);
       const isRooted = await Device.isRootedExperimentalAsync();
       if (isRooted) {
         return dispatch(
@@ -121,16 +122,15 @@ const AppNavigator = (props) => {
       await dispatch(CommonActions.setNotification(jsonData));
       await Util.removeStorageItem("notificationData");
     })();
-    Linking.addEventListener("url", _handleUrl);
+
     AppState.addEventListener("change", _handleAppStateChange);
-    notificationListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+    notificationListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
         // When App is running in the background.
         // console.warn(JSON.stringify(response, null, "\t"));
         // console.warn(response.notification.request.content.data);
         dispatch(CommonActions.setNotification(response.notification));
-      }
-    );
+      });
     responseListener.current = Notifications.addNotificationReceivedListener(
       async (notification) => {
         // When app is running in the foreground.
