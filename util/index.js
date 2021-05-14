@@ -98,7 +98,7 @@ export const removeStorageItem = (name) => {
 
 export const sendShareLink = async (recommend) => {
   try {
-    let message = `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore.do`;
+    let message = `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore2.do`;
     if (recommend) {
       message += `?recommend=${recommend}\n\n추천인코드: ${recommend}`;
     }
