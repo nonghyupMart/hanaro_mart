@@ -21,6 +21,7 @@ import {
 } from "react-native";
 import _ from "lodash";
 import * as Util from "../util";
+import moment from "moment";
 
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
@@ -136,6 +137,11 @@ const MyInfoScreen = (props) => {
           <TitleIcon source={require("../assets/images/heart2black.png")} />
           <Text1>추천인코드</Text1>
           <Text2>{userInfo.recommend}</Text2>
+        </TextContainer>
+        <TextContainer>
+          <TitleIcon source={require("../assets/images/mypage_bt_off.png")} />
+          <Text1>가입일자</Text1>
+          <Text2>{moment(userInfo.reg_date).format("YYYY.MM.DD")}</Text2>
         </TextContainer>
       </MarginContainer>
       <WhiteContainer style={{ marginTop: 10 }}>
