@@ -66,7 +66,7 @@ export const fetchHomeProducts = (query = {}) => {
         } else {
           type = actionTypes.SET_HOME_PRODUCTS;
         }
-        dispatch({ type: type, homeProducts: response.data });
+        dispatch({ type: type, data: response.data });
         return response.data;
       });
   };

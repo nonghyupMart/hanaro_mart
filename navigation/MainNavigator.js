@@ -117,6 +117,10 @@ import SearchProductScreen, {
   screenOptions as SearchProductScreenOptions,
 } from "../screens/SearchProductScreen";
 
+import WishProductScreen, {
+  screenOptions as WishProductScreenOptions,
+} from "../screens/WishProductScreen";
+
 import MyOrderScreen, {
   screenOptions as MyOrderScreenOptions,
 } from "../screens/MyOrderScreen";
@@ -363,6 +367,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="SearchProduct"
           component={SearchProductScreen}
           options={SearchProductScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="WishProduct"
+          component={WishProductScreen}
+          options={WishProductScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="MyOrder"

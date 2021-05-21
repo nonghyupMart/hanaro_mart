@@ -29,6 +29,7 @@ import couponReducer from "./store/reducers/coupon";
 import commonReducer from "./store/reducers/common";
 import exhibitionReducer from "./store/reducers/exhibition";
 import exclusiveReducer from "./store/reducers/exclusive";
+import wishReducer from "./store/reducers/wish";
 import { WITHDRAWAL } from "./store/actions/auth";
 import * as Notifications from "expo-notifications";
 import * as CommonActions from "./store/actions/common";
@@ -83,6 +84,7 @@ const appReducer = combineReducers({
   common: commonReducer,
   exhibition: exhibitionReducer,
   exclusive: exclusiveReducer,
+  wish: wishReducer,
 });
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {

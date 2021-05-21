@@ -36,11 +36,11 @@ export default (state = initialState, action) => {
     case actionTypes.SET_HOME_PRODUCTS:
       return {
         ...state,
-        homeProducts: { ...action.homeProducts },
+        homeProducts: { ...action.data },
       };
     case actionTypes.SET_HOME_PRODUCTS_MORE:
       let homeProducts = { ...state.homeProducts };
-      let newHomeProducts = { ...action.homeProducts };
+      let newHomeProducts = { ...action.data };
 
       let updatedProductList = homeProducts.productList.concat(
         newHomeProducts.productList

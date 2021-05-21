@@ -23,11 +23,13 @@ import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
+import { postWish } from "../../components/home/HomeProducts";
 
 const FlyerScreen = (props) => {
   const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
   const currentItem = useRef(null);
   const [pageforCarousel, setPageForCarousel] = useState();
@@ -69,14 +71,14 @@ const FlyerScreen = (props) => {
   }, [isFocused]);
 
   const fetchProduct = (leaf_cd, p = page.current) => {
-    return dispatch(
-      flyerActions.fetchProduct({
-        store_cd: userStore.storeInfo.store_cd,
-        leaf_cd: leaf_cd,
-        page: p,
-        type_val: type_val,
-      })
-    );
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      leaf_cd: leaf_cd,
+      page: p,
+      type_val: type_val,
+    };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    return dispatch(flyerActions.fetchProduct(query));
   };
 
   useEffect(() => {
@@ -114,6 +116,13 @@ const FlyerScreen = (props) => {
     }
   };
   const [isVisible, setIsVisible] = useState(false);
+
+  const afterAddWishItem = (item) => {
+    postWish(dispatch, product, item, SET_PRODUCT, "Y");
+  };
+  const afterDeleteWishItem = (item) => {
+    postWish(dispatch, product, item, SET_PRODUCT, "N");
+  };
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
@@ -205,6 +214,8 @@ const FlyerScreen = (props) => {
             <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
             />
           )}
         />

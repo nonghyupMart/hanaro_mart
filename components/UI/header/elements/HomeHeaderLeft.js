@@ -3,12 +3,17 @@ import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
+import {
+  BaseTouchable,
+  BaseText,
+  SCREEN_WIDTH,
+} from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../../util";
 
 const HomeHeaderLeft = (props) => {
   const pushCnt = useSelector((state) => state.auth.pushCnt);
+  const wishCnt = useSelector((state) => state.auth.wishCnt);
   return (
     <BtnContainer>
       <Btn
@@ -20,6 +25,17 @@ const HomeHeaderLeft = (props) => {
       <Btn onPress={() => RootNavigation.navigate("Notification")} style={{}}>
         <IconImage source={require("../../../../assets/images/bell.png")} />
         {pushCnt > 0 && (
+          <Image
+            source={require("../../../../assets/images/N.png")}
+            style={{ position: "absolute", top: 6, right: 6 }}
+          />
+        )}
+      </Btn>
+      <Btn onPress={() => RootNavigation.navigate("WishProduct")} style={{}}>
+        <IconImage
+          source={require("../../../../assets/images/ic_heart_black.png")}
+        />
+        {wishCnt > 0 && (
           <Image
             source={require("../../../../assets/images/N.png")}
             style={{ position: "absolute", top: 6, right: 6 }}
@@ -40,11 +56,10 @@ const HomeHeaderLeft = (props) => {
   );
 };
 export const IconImage = styled.Image({
-  width: Util.normalize(22),
   resizeMode: "contain",
 });
 const Btn = styled.TouchableOpacity({
-  padding: 6,
+  padding: SCREEN_WIDTH > 320 ? 5 : 0,
 });
 const BtnContainer = styled.View({
   flexDirection: "row",

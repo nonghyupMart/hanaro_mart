@@ -136,14 +136,14 @@ const MenuList = (props) => {
         <MenuButton
           onPress={() => {
             if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+            props.navigation.navigate("WishProduct");
           }}
         >
           <IconImage
-            source={require("../../../assets/images/local_phone_off.png")}
+            source={require("../../../assets/images/ic_heart_white.png")}
           />
 
-          <MenuText>매장 전화</MenuText>
+          <MenuText>찜한 상품 목록</MenuText>
         </MenuButton>
       </MenuButtonContainer>
       <ShareBtn

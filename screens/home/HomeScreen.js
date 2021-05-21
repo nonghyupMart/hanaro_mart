@@ -140,6 +140,7 @@ const HomeScreen = (props) => {
           <HomeProducts
             isFocused={isFocused}
             userStore={userStore}
+            userInfo={userInfo}
             key={`HomeProducts-${userStore.storeInfo.store_cd}`}
           />
         )}

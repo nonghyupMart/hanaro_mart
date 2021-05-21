@@ -14,8 +14,49 @@ import * as Util from "../util";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import * as wishActions from "../store/actions/wish";
+import { getWishCnt } from "../store/actions/auth";
 
-const FlyerItemColumn2 = ({ item, onPress }) => {
+const FlyerItemColumn2 = ({
+  item,
+  onPress,
+  afterAddWishItem,
+  afterDeleteWishItem,
+}) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const addWishItem = async (item) => {
+    await dispatch(
+      wishActions.addWishItem({
+        user_cd: userInfo.user_cd,
+        product_cd: item.product_cd,
+      })
+    );
+    if (afterAddWishItem) await afterAddWishItem(item);
+    await dispatch(
+      getWishCnt({
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+      })
+    );
+  };
+  const deleteWishItem = async (item) => {
+    await dispatch(
+      wishActions.deleteWishItem({
+        user_cd: userInfo.user_cd,
+        product_cd: item.product_cd,
+      })
+    );
+    if (afterDeleteWishItem) await afterDeleteWishItem(item);
+    await dispatch(
+      getWishCnt({
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+      })
+    );
+  };
   // console.log(item.title + " FlyerItemColumn2 rendered");
   return (
     <View style={styles.containerStyle}>
@@ -36,6 +77,16 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
               source={item.title_img}
               defaultSource={require("../assets/images/n_img501.png")}
             />
+            {item.wish_yn == "N" && (
+              <WishButton onPress={addWishItem.bind(this, item)}>
+                <Image source={require("../assets/images/bt_heart_w.png")} />
+              </WishButton>
+            )}
+            {item.wish_yn == "Y" && (
+              <WishButton onPress={deleteWishItem.bind(this, item)}>
+                <Image source={require("../assets/images/bt_heart_r.png")} />
+              </WishButton>
+            )}
           </ImageContainer>
 
           <Discounts item={item} />
@@ -75,6 +126,11 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
     </View>
   );
 };
+const WishButton = styled.TouchableOpacity({
+  position: "absolute",
+  right: 2,
+  bottom: 1,
+});
 const Period = styled(BaseText)({
   borderRadius: Platform.OS == "ios" ? 5 : 10,
   borderStyle: "solid",

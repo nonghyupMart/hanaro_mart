@@ -73,6 +73,10 @@ export const setUserInfo = (userInfo) => {
         type: actionTypes.SET_PUSH_CNT,
         pushCnt: userInfo.push_cnt,
       });
+      await dispatch({
+        type: actionTypes.SET_WISH_CNT,
+        wishCnt: userInfo.wish_cnt,
+      });
     }
     dispatch({ type: actionTypes.SET_USER_INFO, userInfo: userInfo });
   };
@@ -92,12 +96,32 @@ export const fetchPushCnt = (query) => {
   });
   return async (dispatch) => {
     return http
-      .init(dispatch, true)
+      .init(dispatch, true, true)
       .get(url)
       .then(async (response) => {
         dispatch({
           type: actionTypes.SET_PUSH_CNT,
           updatePopup: response.data.result.push_cnt,
+        });
+        return response.data;
+      });
+  };
+};
+
+export const getWishCnt = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `wish-cnt`,
+    query: query,
+  });
+
+  return async (dispatch) => {
+    return http
+      .init(dispatch, true, true)
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_WISH_CNT,
+          wishCnt: response.data.wish_cnt,
         });
         return response.data;
       });

@@ -7,6 +7,7 @@ import {
   FlatList,
   Dimensions,
   Keyboard,
+  _Image,
 } from "react-native";
 import BaseScreen from "../components/BaseScreen";
 import {
@@ -17,78 +18,43 @@ import {
 } from "../components/UI/BaseUI";
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "../store/actions/flyer";
+import * as wishActions from "../store/actions/wish";
 import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
+import { SET_WISH_ITEM } from "../store/actions/actionTypes";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
-import { styles } from "../screens/home/FlyerScreen";
+import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
-import { postWish } from "../components/home/HomeProducts";
 
-const SearchProductScreen = (props) => {
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const [product_nm, setProduct_nm] = useState("");
+const WishProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
   const page = useRef(1);
   const currentItem = useRef(null);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
-  const product = useSelector((state) => state.flyer.searchedProduct);
+  const wishItem = useSelector((state) => state.wish.wishItem);
+
   useEffect(() => {
-    dispatch(CommonActions.setBottomNavigation(false));
-    return () => {
-      dispatch(CommonActions.setBottomNavigation(true));
-    };
+    fetchWishItem(1);
   }, []);
-  useEffect(() => {
-    if (!userStore) return;
 
-    // alert(1);
-  }, [userStore]);
-
-  useEffect(() => {
-    return () => {
-      dispatch({ type: SET_SEARCHED_PRODUCT, product: null });
-    };
-  }, []);
-  // useEffect(() => {
-  //   if (page > 1) fetchProduct();
-  // }, [page]);
-
-  const onSearch = () => {
-    Keyboard.dismiss();
-    page.current = 1;
-    fetchProduct(null, 1);
-  };
-  const fetchProduct = (e, p = page.current) => {
-    if (product_nm.length < 1) {
-      return dispatch(
-        setAlert({
-          message: "상품명을 입력해주세요.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-    }
-
-    dispatch(setIsLoading(true));
-    let query = {
-      store_cd: userStore.storeInfo.store_cd,
-      product_nm: product_nm,
-      page: p,
-    };
-    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
-    dispatch(flyerActions.fetchProduct(query));
+  const fetchWishItem = (p = page.current) => {
+    dispatch(
+      wishActions.fetchWishItem({
+        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo.user_cd,
+        page: p,
+      })
+    );
   };
   const loadMore = () => {
-    if (!isLoading && page.current + 1 <= product.finalPage) {
+    if (!isLoading && page.current + 1 <= wishItem.finalPage) {
       page.current++;
-      fetchProduct(null, page.current);
+      fetchWishItem(page.current);
     }
   };
   const [isVisible, setIsVisible] = useState(false);
@@ -99,10 +65,10 @@ const SearchProductScreen = (props) => {
   };
 
   const afterAddWishItem = (item) => {
-    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "Y");
+    postWish(dispatch, wishItem, item, SET_WISH_ITEM);
   };
   const afterDeleteWishItem = (item) => {
-    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "N");
+    postWish(dispatch, wishItem, item, SET_WISH_ITEM);
   };
   return (
     <BaseScreen
@@ -121,33 +87,13 @@ const SearchProductScreen = (props) => {
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      <View style={{ paddingLeft: 16, paddingRight: 16 }}>
-        <SearchContainer>
-          <SearchInput
-            placeholder="검색하실 상품명을 입력해주세요."
-            autoFocus={true}
-            value={product_nm}
-            onSubmitEditing={onSearch}
-            onChangeText={(text) => setProduct_nm(text)}
-          />
-          <SearchBtn onPress={onSearch}>
-            <SearchIcon />
-          </SearchBtn>
-        </SearchContainer>
-      </View>
-      {product && product.productList && (
-        <ResultText>
-          '{product_nm}'의 검색결과 (총{product.allCnt})
-        </ResultText>
-      )}
-
-      {product && product.productList && (
+      {wishItem && wishItem.productList && (
         <ExtendedFlatList
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           style={[styles.flyerListStyle]}
           onEndReached={loadMore}
           numColumns={2}
-          data={product.productList}
+          data={wishItem.productList}
           keyExtractor={(item) =>
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
@@ -171,11 +117,18 @@ const SearchProductScreen = (props) => {
     </BaseScreen>
   );
 };
-
+const postWish = (dispatch, object, item, type) => {
+  const tempObject = { ...object };
+  const result = _.remove(tempObject.productList, item);
+  dispatch({
+    type: type,
+    data: tempObject,
+  });
+};
 export const screenOptions = ({ navigation }) => {
   return {
     cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
-    title: "상품검색",
+    title: "찜한 상품",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
@@ -222,4 +175,4 @@ const SearchInput = styled(BaseTextInput)({
   marginRight: 15,
 });
 
-export default SearchProductScreen;
+export default WishProductScreen;

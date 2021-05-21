@@ -12,6 +12,7 @@ export const WITHDRAWAL = "WITHDRAWAL";
 export const SET_CI = "SET_CI";
 export const SET_IS_UPDATED = "SET_IS_UPDATED";
 export const SET_PUSH_CNT = "SET_PUSH_CNT";
+export const SET_WISH_CNT = "SET_WISH_CNT";
 
 /* branches */
 export const SET_ADDRESS1 = "SET_ADDRESS1";
@@ -68,6 +69,10 @@ export const SET_SEARCHED_PRODUCT = "SET_SEARCHED_PRODUCT";
 export const SET_SEARCHED_PRODUCT_MORE = "SET_SEARCHED_PRODUCT_MORE";
 export const SET_PRODUCT_DETAIL = "SET_PRODUCT_DETAIL";
 export const SET_CAROUSEL = "SET_CAROUSEL";
+
+/* wish */
+export const SET_WISH_ITEM = "SET_WISH_ITEM";
+export const SET_WISH_ITEM_MORE = "SET_WISH_ITEM_MORE";
 
 /* home */
 export const SET_HOME_BANNER = "SET_HOME_BANNER";

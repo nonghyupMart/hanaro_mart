@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  let product, newEvent, updatedProductList, searchedProduct;
+  let product, newProduct, updatedProductList, searchedProduct;
 
   switch (action.type) {
     case actionTypes.SET_CAROUSEL:
@@ -31,13 +31,13 @@ export default (state = initialState, action) => {
     case actionTypes.SET_PRODUCT:
       return {
         ...state,
-        product: { ...action.product },
+        product: { ...action.data },
       };
 
     case actionTypes.SET_PRODUCT_MORE:
       product = { ...state.product };
-      newEvent = { ...action.product };
-      updatedProductList = product.productList.concat(newEvent.productList);
+      newProduct = { ...action.data };
+      updatedProductList = product.productList.concat(newProduct.productList);
 
       product.productList = updatedProductList;
       return {
@@ -48,13 +48,13 @@ export default (state = initialState, action) => {
     case actionTypes.SET_SEARCHED_PRODUCT:
       return {
         ...state,
-        searchedProduct: { ...action.product },
+        searchedProduct: { ...action.data },
       };
     case actionTypes.SET_SEARCHED_PRODUCT_MORE:
       searchedProduct = { ...state.searchedProduct };
-      newEvent = { ...action.product };
+      newProduct = { ...action.data };
       updatedProductList = searchedProduct.productList.concat(
-        newEvent.productList
+        newProduct.productList
       );
 
       searchedProduct.productList = updatedProductList;

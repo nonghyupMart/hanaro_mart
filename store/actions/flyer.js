@@ -60,7 +60,7 @@ export const fetchProduct = (query) => {
           if (query.page > 1) type = actionTypes.SET_PRODUCT_MORE;
           else type = actionTypes.SET_PRODUCT;
         }
-        dispatch({ type, product: response.data });
+        dispatch({ type, data: response.data });
         return response.data;
       });
   };

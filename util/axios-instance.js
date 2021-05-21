@@ -11,7 +11,7 @@ let http = (() => {
     timeout: 30000,
     headers: { "Content-Type": "application/json" },
   });
-  let dispatch, autoOff;
+  let dispatch, autoOff, noLoading;
   const errorHandler = (error) => {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -62,7 +62,7 @@ let http = (() => {
     function (config) {
       // Do something before request is sent
       // console.log(config);
-      dispatch(setIsLoading(true));
+      if (!noLoading) dispatch(setIsLoading(true));
       return config;
     },
     function (error) {
@@ -111,9 +111,10 @@ let http = (() => {
     }
   );
   return {
-    init: (_dispatch, _autoOff = false, url) => {
+    init: (_dispatch, _autoOff = false, _noLoading = false, url) => {
       dispatch = _dispatch;
       autoOff = _autoOff;
+      noLoading = _noLoading;
       if (url) instance.defaults.baseURL = url;
       return instance;
     },

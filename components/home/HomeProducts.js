@@ -22,7 +22,7 @@ import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
 import * as RootNavigation from "../../navigation/RootNavigation";
 
-const HomeProducts = ({ isFocused, userStore }) => {
+const HomeProducts = ({ isFocused, userStore, userInfo }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const homeProducts = useSelector((state) => state.home.homeProducts);
@@ -41,6 +41,7 @@ const HomeProducts = ({ isFocused, userStore }) => {
       store_cd: userStore.storeInfo.store_cd,
       page: 1,
     };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
     dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
       dispatch(setIsLoading(false));
     });
@@ -59,6 +60,7 @@ const HomeProducts = ({ isFocused, userStore }) => {
         store_cd: userStore.storeInfo.store_cd,
         page: page.current,
       };
+      if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
       dispatch(homeActions.fetchHomeProducts(query)).then(() => {
         dispatch(setIsLoading(false));
       });
@@ -69,6 +71,12 @@ const HomeProducts = ({ isFocused, userStore }) => {
     currentItem.current = item;
   };
 
+  const afterAddWishItem = (item) => {
+    postWish(dispatch, homeProducts, item, actionTypes.SET_HOME_PRODUCTS, "Y");
+  };
+  const afterDeleteWishItem = (item) => {
+    postWish(dispatch, homeProducts, item, actionTypes.SET_HOME_PRODUCTS, "N");
+  };
   if (!homeProducts || !homeProducts.productList) return <></>;
   // console.log("================HomeProducts rendered================");
   return (
@@ -104,6 +112,8 @@ const HomeProducts = ({ isFocused, userStore }) => {
             <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
             />
           )}
         />
@@ -118,7 +128,15 @@ const HomeProducts = ({ isFocused, userStore }) => {
     </>
   );
 };
-
+export const postWish = (dispatch, object, item, type, value = "Y") => {
+  const tempObject = { ...object };
+  const index = tempObject.productList.indexOf(item);
+  tempObject.productList[index].wish_yn = value;
+  dispatch({
+    type: type,
+    data: tempObject,
+  });
+};
 export const MoreText = styled(BaseText)({
   fontSize: Util.normalize(9),
   color: colors.emerald,

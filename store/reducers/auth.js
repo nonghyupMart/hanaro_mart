@@ -14,10 +14,16 @@ const initialState = {
   updatePopup: null,
   isUpdated: true,
   pushCnt: 0,
+  wishCnt: 0,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SET_WISH_CNT:
+      return {
+        ...state,
+        wishCnt: action.wishCnt,
+      };
     case actionTypes.SET_PUSH_CNT:
       return {
         ...state,
