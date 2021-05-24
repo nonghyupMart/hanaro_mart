@@ -30,12 +30,6 @@ const FlyerItemColumn2 = ({
   const userStore = useSelector((state) => state.auth.userStore);
   const addWishItem = async (item) => {
     if (await checkAuth(dispatch, isJoin)) {
-      await dispatch(
-        wishActions.addWishItem({
-          user_cd: userInfo.user_cd,
-          product_cd: item.product_cd,
-        })
-      );
       if (afterAddWishItem) await afterAddWishItem(item);
       await dispatch(
         getWishCnt({
@@ -43,21 +37,27 @@ const FlyerItemColumn2 = ({
           store_cd: userStore.storeInfo.store_cd,
         })
       );
-    }
-  };
-  const deleteWishItem = async (item) => {
-    if (await checkAuth(dispatch, isJoin)) {
       await dispatch(
-        wishActions.deleteWishItem({
+        wishActions.addWishItem({
           user_cd: userInfo.user_cd,
           product_cd: item.product_cd,
         })
       );
+    }
+  };
+  const deleteWishItem = async (item) => {
+    if (await checkAuth(dispatch, isJoin)) {
       if (afterDeleteWishItem) await afterDeleteWishItem(item);
       await dispatch(
         getWishCnt({
           user_cd: userInfo.user_cd,
           store_cd: userStore.storeInfo.store_cd,
+        })
+      );
+      await dispatch(
+        wishActions.deleteWishItem({
+          user_cd: userInfo.user_cd,
+          product_cd: item.product_cd,
         })
       );
     }
