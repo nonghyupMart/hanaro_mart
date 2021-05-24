@@ -70,7 +70,7 @@ const AgreementScreen = (props) => {
             uri: `${SERVER_URL}/web/about/terms.do`,
           }}
           style={{
-            width: SCREEN_WIDTH - 18 - 18 - 2,
+            width: SCREEN_WIDTH - 24 - 24 - 2,
             flex: 1,
           }}
         />
@@ -236,9 +236,8 @@ const AgreementScreen = (props) => {
   const setChecked = (checkBox, child) => {
     let cks = [...checkBoxes];
     // console.warn(cks[checkBox.id].child[cks[checkBox.id].child[child.id]].isChecked);
-    cks[checkBox.id].child[child.id].isChecked = !cks[checkBox.id].child[
-      child.id
-    ].isChecked;
+    cks[checkBox.id].child[child.id].isChecked =
+      !cks[checkBox.id].child[child.id].isChecked;
 
     if (cks[checkBox.id].child[child.id].isChecked == false) {
       setToggleAllCheckBox(false);
@@ -259,9 +258,8 @@ const AgreementScreen = (props) => {
   const getPermissions = async () => {
     let token;
     if (Constants.isDevice) {
-      const {
-        status: existingStatus,
-      } = await Notifications.getPermissionsAsync();
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();

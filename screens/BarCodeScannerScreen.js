@@ -145,7 +145,7 @@ const BarCodeScannerScreen = (props) => {
           flexDirection: "row",
           alignItems: "center",
           paddingLeft: 35,
-          padding: 18,
+          padding: 24,
           paddingRight: 35,
         }}
       >

@@ -9,8 +9,8 @@ const A = (props) => {
   );
 };
 const Container = styled.View({
-  paddingRight: 18,
-  paddingLeft: 18,
+  paddingRight: 24,
+  paddingLeft: 24,
   flex: 1,
   width: "100%",
 });

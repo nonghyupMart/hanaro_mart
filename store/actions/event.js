@@ -47,6 +47,7 @@ export const fetchEventDetail = (query) => {
       });
   };
 };
+
 export const clearEventDetail = () => {
   return { type: actionTypes.SET_EVENT_DETAIL, eventDetail: null };
 };
@@ -114,6 +115,25 @@ export const interimExchangeStamp = (query) => {
       .init(dispatch, true)
       .post(url, data)
       .then(async (response) => {
+        return response.data;
+      });
+  };
+};
+
+export const fetchStampHistory = (query) => {
+  if (!query.page) query.page = "1";
+  const url = queryString.stringifyUrl({
+    url: `/stamp-history`,
+    query: query,
+  });
+  return async (dispatch, getState) => {
+    return http
+      .init(dispatch, true)
+      .get(url)
+      .then(async (response) => {
+        let type = actionTypes.SET_STAMP_HISTORY;
+    
+        dispatch({ type: type, stampHistory: response.data });
         return response.data;
       });
   };

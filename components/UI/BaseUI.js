@@ -17,9 +17,8 @@ import {
 import _ from "lodash";
 // import ScaledImage from "../../components/UI/ScaledImage";
 export { default as ScaledImage } from "./ScaledImage";
-export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
-  "window"
-);
+export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+  Dimensions.get("window");
 export const StyleConstants = {
   defaultPadding: 24,
   //  defaultImageLarge: require("../../assets/images/m_img499.png"),
@@ -185,8 +184,8 @@ const DetailContainerBody = styled.View({
   flex: 1,
   backgroundColor: colors.trueWhite,
   // marginTop: 7,
-  paddingLeft: 18,
-  paddingRight: 18,
+  paddingLeft: 24,
+  paddingRight: 24,
   // paddingBottom: 65,
 });
 const DetailContainerMarginTop = styled.View({
@@ -222,8 +221,8 @@ export const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: SCREEN_WIDTH - 18 * 2,
+  width: SCREEN_WIDTH - 24 * 2,
   alignSelf: "center",
-  aspectRatio: 100 / 12.804,
+  aspectRatio: 100 / 12.844,
   borderRadius: 25,
 });

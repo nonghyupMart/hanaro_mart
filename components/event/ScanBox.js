@@ -4,6 +4,7 @@ import {
   BlueButton,
   BlueButtonText,
   BaseText,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import { Image } from "react-native";
 
@@ -68,14 +69,17 @@ const ScanBox = (props) => {
 
 const GreenBtn = styled(BlueButton)({
   backgroundColor: colors.appleGreen,
+  aspectRatio: 100 / 14.5,
+  height: 42,
 });
 const GrayButton = styled(GreenBtn).attrs({ activeOpacity: 0 })({
   backgroundColor: colors.greyishThree,
+  aspectRatio: 100 / 14.5,
+  height: 42,
 });
 const TextContainer1 = styled.View({
   margin: 4,
   marginTop: 18,
-  marginBottom: 42,
 });
 const Text3 = styled(BaseText)({
   fontSize: 20,

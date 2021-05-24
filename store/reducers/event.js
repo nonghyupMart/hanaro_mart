@@ -5,11 +5,18 @@ const initialState = {
   eventDetail: null,
   myEvent: null,
   event_cd: null,
+  stampHistory: null,
 };
 
 export default (state = initialState, action) => {
   let newEvent, updatedEventList;
   switch (action.type) {
+    case actionTypes.SET_STAMP_HISTORY:
+      return {
+        ...state,
+        stampHistory: { ...action.stampHistory },
+      };
+
     case actionTypes.SET_EVENT:
       return {
         ...state,

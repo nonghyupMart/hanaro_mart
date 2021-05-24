@@ -13,8 +13,8 @@ const B = (props) => {
 };
 
 const Container = styled.View({
-  paddingRight: 18,
-  paddingLeft: 18,
+  paddingRight: 24,
+  paddingLeft: 24,
 
   width: "100%",
 });

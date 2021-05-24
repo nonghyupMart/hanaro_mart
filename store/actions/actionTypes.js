@@ -49,6 +49,8 @@ export const SET_MY_EVENT = "SET_MY_EVENT";
 export const SET_EVENT_MORE = "SET_EVENT_MORE";
 export const SET_MY_EVENT_MORE = "SET_MY_EVENT_MORE";
 export const SET_EVENT_DETAIL = "SET_EVENT_DETAIL";
+export const SET_STAMP_HISTORY = "SET_STAMP_HISTORY";
+export const SET_STAMP_HISTORY_MORE = "SET_STAMP_HISTORY_MORE";
 
 /* exclusive */
 export const SET_EXCLUSIVE = "SET_EXCLUSIVE";

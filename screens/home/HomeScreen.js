@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components/native";
-import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
+import { StyleSheet, StatusBar, Platform, Text, TouchableOpacity } from "react-native";
 import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,

@@ -144,7 +144,7 @@ const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: SCREEN_WIDTH - 18 * 2,
+  width: SCREEN_WIDTH - 24 * 2,
   alignSelf: "center",
   aspectRatio: 100 / 12.804,
 });
@@ -209,8 +209,8 @@ const Container = styled.View({
   flex: 1,
   backgroundColor: colors.trueWhite,
   marginTop: 7,
-  paddingLeft: 18,
-  paddingRight: 18,
+  paddingLeft: 24,
+  paddingRight: 24,
   paddingBottom: 45,
 });
 export const screenOptions = ({ navigation }) => {

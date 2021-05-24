@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // backgroundColor: "black",
     height: "100%",
-    padding: 18,
+    padding: 24,
   },
   allCheck: {
     flexDirection: "row",

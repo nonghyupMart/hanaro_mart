@@ -141,6 +141,11 @@ import CIScreen, {
   screenOptions as CIScreenOptions,
 } from "../screens/join/CIScreen";
 
+import StampHistoryScreen, {
+  screenOptions as StampHistoryScreenOptions,
+} from "../screens/StampHistoryScreen";
+
+
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {
@@ -407,6 +412,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="CI"
           component={CIScreen}
           options={CIScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="StampHistory"
+          component={StampHistoryScreen}
+          options={StampHistoryScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />
