@@ -16,7 +16,7 @@ import Discounts from "../components/flyerItem/Discounts";
 import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import * as wishActions from "../store/actions/wish";
-import { getWishCnt } from "../store/actions/auth";
+import { getWishCnt, checkAuth } from "../store/actions/auth";
 
 const FlyerItemColumn2 = ({
   item,
@@ -24,40 +24,45 @@ const FlyerItemColumn2 = ({
   afterAddWishItem,
   afterDeleteWishItem,
 }) => {
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const addWishItem = async (item) => {
-    await dispatch(
-      wishActions.addWishItem({
-        user_cd: userInfo.user_cd,
-        product_cd: item.product_cd,
-      })
-    );
-    if (afterAddWishItem) await afterAddWishItem(item);
-    await dispatch(
-      getWishCnt({
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
-      })
-    );
+    if (await checkAuth(dispatch, isJoin)) {
+      await dispatch(
+        wishActions.addWishItem({
+          user_cd: userInfo.user_cd,
+          product_cd: item.product_cd,
+        })
+      );
+      if (afterAddWishItem) await afterAddWishItem(item);
+      await dispatch(
+        getWishCnt({
+          user_cd: userInfo.user_cd,
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      );
+    }
   };
   const deleteWishItem = async (item) => {
-    await dispatch(
-      wishActions.deleteWishItem({
-        user_cd: userInfo.user_cd,
-        product_cd: item.product_cd,
-      })
-    );
-    if (afterDeleteWishItem) await afterDeleteWishItem(item);
-    await dispatch(
-      getWishCnt({
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
-      })
-    );
+    if (await checkAuth(dispatch, isJoin)) {
+      await dispatch(
+        wishActions.deleteWishItem({
+          user_cd: userInfo.user_cd,
+          product_cd: item.product_cd,
+        })
+      );
+      if (afterDeleteWishItem) await afterDeleteWishItem(item);
+      await dispatch(
+        getWishCnt({
+          user_cd: userInfo.user_cd,
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      );
+    }
   };
-  // console.log(item.title + " FlyerItemColumn2 rendered");
+
   return (
     <View style={styles.containerStyle}>
       <TouchableOpacity onPress={onPress} style={styles.containerStyle}>

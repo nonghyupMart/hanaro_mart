@@ -19,8 +19,10 @@ import {
 import _ from "lodash";
 import * as Util from "../../../util";
 import * as Linking from "expo-linking";
+import { checkSetStore, checkAuth } from "../../../store/actions/auth";
 
 const MenuList = (props) => {
+  const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const isJoin = useSelector((state) => state.auth.isJoin);
@@ -76,8 +78,6 @@ const MenuList = (props) => {
         <Animated.View style={[{ transform: [{ translateY: bounceValue }] }]}>
           <SubMenu
             onPress={() => {
-              if (_.isEmpty(userStore) || !userStore.storeInfo)
-                return props.navigation.navigate("Empty");
               props.navigation.navigate("Notice", { type: "H" });
             }}
           >
@@ -90,10 +90,10 @@ const MenuList = (props) => {
             </AnimatableView>
           </SubMenu>
           <SubMenu
-            onPress={() => {
-              if (_.isEmpty(userStore) || !userStore.storeInfo)
-                return props.navigation.navigate("Empty");
-              props.navigation.navigate("Notice");
+            onPress={async () => {
+              if (await checkSetStore(dispatch, userStore)) {
+                props.navigation.navigate("Notice");
+              }
             }}
           >
             <AnimatableView animation="slideInDown">
@@ -108,10 +108,10 @@ const MenuList = (props) => {
       )}
       <MenuButtonContainer>
         <MenuButton
-          onPress={() => {
-            if (_.isEmpty(userStore) || !userStore.storeInfo || !isJoin)
-              return props.navigation.navigate("Empty");
-            props.navigation.navigate("Inquiry");
+          onPress={async () => {
+            if (await checkAuth(dispatch, isJoin)) {
+              props.navigation.navigate("Inquiry");
+            }
           }}
         >
           <IconImage source={require("../../../assets/images/g11.png")} />
@@ -121,10 +121,10 @@ const MenuList = (props) => {
       </MenuButtonContainer>
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
-          onPress={() => {
-            if (_.isEmpty(userStore) || !userStore.storeInfo || !isJoin)
-              return props.navigation.navigate("Empty");
-            props.navigation.navigate("MyPage");
+          onPress={async () => {
+            if (await checkAuth(dispatch, isJoin)) {
+              props.navigation.navigate("MyPage");
+            }
           }}
         >
           <IconImage source={require("../../../assets/images/g12.png")} />
@@ -134,9 +134,10 @@ const MenuList = (props) => {
       </MenuButtonContainer>
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
-          onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            props.navigation.navigate("WishProduct");
+          onPress={async () => {
+            if (await checkAuth(dispatch, isJoin)) {
+              props.navigation.navigate("WishProduct");
+            }
           }}
         >
           <IconImage

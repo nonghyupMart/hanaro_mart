@@ -15,8 +15,10 @@ import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
 import * as Util from "../util";
+import { checkAuth, checkSetStore } from "../store/actions/auth";
 
 const BottomButtons = (props) => {
+  const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
@@ -31,10 +33,10 @@ const BottomButtons = (props) => {
             <IconText>홈</IconText>
           </ButtonContainer>
           <ButtonContainer
-            onPress={() => {
-              if (_.isEmpty(userStore) || !isJoin)
-                return RootNavigation.navigate("Empty");
-              RootNavigation.navigate("MyCoupon");
+            onPress={async () => {
+              if (await checkAuth(dispatch, isJoin)) {
+                RootNavigation.navigate("MyCoupon");
+              }
             }}
           >
             <Image source={require("../assets/images/coupon_icon.png")} />
@@ -47,19 +49,20 @@ const BottomButtons = (props) => {
           />
 
           <ButtonContainer
-            onPress={() => {
-              if (_.isEmpty(userStore) || !isJoin)
-                return RootNavigation.navigate("Empty");
-              RootNavigation.navigate("MyPage");
+            onPress={async () => {
+              if (await checkAuth(dispatch, isJoin)) {
+                RootNavigation.navigate("MyPage");
+              }
             }}
           >
             <Image source={require("../assets/images/mypage_icon.png")} />
             <IconText>마이페이지</IconText>
           </ButtonContainer>
           <ButtonContainer
-            onPress={() => {
-              if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-              Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+            onPress={async() => {
+              if (await checkSetStore(dispatch, userStore)) {
+                Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+              }
             }}
           >
             <Image source={require("../assets/images/call_icon.png")} />

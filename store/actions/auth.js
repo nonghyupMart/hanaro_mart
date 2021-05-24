@@ -8,6 +8,7 @@ import * as Notifications from "expo-notifications";
 import { setAlert, setIsLoading } from "../actions/common";
 import * as actionTypes from "./actionTypes";
 import http from "../../util/axios-instance";
+import * as RootNavigation from "../../navigation/RootNavigation";
 
 export const setIsUpdated = (isUpdated) => {
   return {
@@ -360,4 +361,42 @@ export const fetchUpdate = () => {
         return response.data;
       });
   };
+};
+
+export const checkAuth = (dispatch, isJoin) => {
+  if (isJoin) return true;
+  dispatch(
+    setAlert({
+      message: "휴대폰인증후 사용하실 수\n있는 메뉴입니다.",
+      confirmText: "휴대폰인증",
+      onPressConfirm: async () => {
+        await dispatch(setAlert(null));
+        await dispatch(setPreview(false));
+      },
+      onPressCancel: async () => {
+        await dispatch(setAlert(null));
+      },
+    })
+  );
+  return false;
+};
+
+export const checkSetStore = (dispatch, userStore) => {
+  if (!_.isEmpty(userStore) && userStore.storeInfo) return true;
+  dispatch(
+    setAlert({
+      message: "매장을 설정하신 후에\n사용하실 수 있는 메뉴입니다.",
+      confirmText: "매장설정",
+      onPressConfirm: () => {
+        dispatch(setAlert(null));
+        RootNavigation.navigate("Home");
+        RootNavigation.navigate("StoreChange");
+      },
+      onPressCancel: () => {
+        dispatch(setAlert(null));
+        RootNavigation.navigate("Home");
+      },
+    })
+  );
+  return false;
 };

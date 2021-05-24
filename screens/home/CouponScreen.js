@@ -13,6 +13,7 @@ import { setAlert, setIsLoading, setLink } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
+import { checkAuth } from "../../store/actions/auth";
 
 const CouponScreen = (props) => {
   const eventCategory = [
@@ -71,7 +72,7 @@ const CouponScreen = (props) => {
   }, [gbn, userStore, isFocused]);
 
   const onCouponItemPressed = async (item, type = "B") => {
-    if (!userInfo.ci) return navigation.navigate("Empty");
+    if (!userInfo.ci) return checkAuth(dispatch, !!userInfo.ci);
 
     let couponList = coupon.couponList;
 

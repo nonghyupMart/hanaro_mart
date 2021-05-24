@@ -10,8 +10,13 @@ import {
 } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../../util";
+import { checkAuth } from "../../../../store/actions/auth";
 
 const HomeHeaderLeft = (props) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const pushCnt = useSelector((state) => state.auth.pushCnt);
   const wishCnt = useSelector((state) => state.auth.wishCnt);
   return (
@@ -31,7 +36,14 @@ const HomeHeaderLeft = (props) => {
           />
         )}
       </Btn>
-      <Btn onPress={() => RootNavigation.navigate("WishProduct")} style={{}}>
+      <Btn
+        onPress={async () => {
+          if (await checkAuth(dispatch, isJoin)) {
+            RootNavigation.navigate("WishProduct");
+          }
+        }}
+        style={{}}
+      >
         <IconImage
           source={require("../../../../assets/images/ic_heart_black.png")}
         />

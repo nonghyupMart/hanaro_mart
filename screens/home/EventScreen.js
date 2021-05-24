@@ -14,6 +14,7 @@ import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
+import { checkAuth } from "../../store/actions/auth";
 
 // let isMoved = false;
 
@@ -80,7 +81,7 @@ const EventScreen = (props) => {
   };
 
   const moveToDetail = async (event_cd) => {
-    if (!userInfo.ci) return navigation.navigate("Empty");
+    if (!userInfo.ci) return checkAuth(dispatch, !!userInfo.ci);
     await navigation.navigate("EventDetail", { event_cd: event_cd });
   };
   const onPress = (item) => {

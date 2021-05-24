@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import styled from "styled-components/native";
-import { StyleSheet, StatusBar, Platform, Text, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
@@ -112,11 +118,6 @@ const HomeScreen = (props) => {
     }, 500);
     dispatch(CommonActions.setDidTryPopup(true));
   }, [didTryPopup]);
-
-  const navigateToCart = () => {
-    if (_.isEmpty(userStore)) return navigation.navigate("Empty");
-    navigation.navigate("Cart");
-  };
 
   if (!isFocused) return <></>;
   // console.log("***************HomeScreen rendered***************");
