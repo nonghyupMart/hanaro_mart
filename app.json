@@ -41,7 +41,7 @@
       "userInterfaceStyle": "light"
     },
     "android": {
-      "versionCode": 26,
+      "versionCode": 28,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",
