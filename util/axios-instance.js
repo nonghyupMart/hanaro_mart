@@ -16,6 +16,7 @@ let http = (() => {
     if (error.response) {
       // The request was made and the server responded with a status code
       // that falls out of the range of 2xx
+      Util.log("error=>", error.response);
       Util.log("error.response.data=>", error.response.data);
       // Util.log("error.response.status=>", error.response.status);
       // Util.log("error.response.headers=>", error.response.headers);
