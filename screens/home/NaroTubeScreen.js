@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import queryString from "query-string";
 import { useIsFocused } from "@react-navigation/native";
 import { View, Text, StyleSheet, AppState } from "react-native";
@@ -11,6 +11,8 @@ import _ from "lodash";
 const NaroTubeScreen = (props) => {
   const isFocused = useIsFocused();
   const [url, setUrl] = useState();
+  const appState = useRef(AppState.currentState);
+  const [key, setKey] = useState(Math.random());
 
   useEffect(() => {
     let stringifyUrl;
@@ -18,7 +20,24 @@ const NaroTubeScreen = (props) => {
       url: `${SERVER_URL}/web/community/narotube.do`,
     });
     setUrl(stringifyUrl);
+    AppState.addEventListener("change", _handleAppStateChange);
+    return () => {
+      AppState.removeEventListener("change", _handleAppStateChange);
+    };
   }, []);
+
+  const _handleAppStateChange = async (nextAppState) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      // console.log("App has come to the foreground!");
+    } else {
+      console.log("App has come to the background!2");
+      setKey(Math.random());
+    }
+    appState.current = nextAppState;
+  };
 
   if (!isFocused) return <></>;
   return (
@@ -28,6 +47,7 @@ const NaroTubeScreen = (props) => {
       // isBottomNavigation={false}
     >
       <ExtendedWebView
+        key={key}
         startInLoadingState={true}
         source={{
           // uri: `https://www.naver.com`,
