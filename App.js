@@ -42,12 +42,12 @@ Notifications.setNotificationHandler({
   handleNotification: async () => ({ shouldShowAlert: true }),
 });
 
-try {
-  // Prevent native splash screen from autohiding before App component declaration
-  SplashScreen.preventAutoHideAsync();
-} catch (e) {
-  Util.log("SplashScreen error=>", e);
-}
+// try {
+//   // Prevent native splash screen from autohiding before App component declaration
+//   SplashScreen.preventAutoHideAsync();
+// } catch (e) {
+//   Util.log("SplashScreen error=>", e);
+// }
 
 let globalInitialNotificationResponse;
 
@@ -119,6 +119,7 @@ export default function App() {
     if (Platform.OS == "android")
       return StatusBar.setBackgroundColor(colors.trueWhite);
     (async () => {
+      await SplashScreen.preventAutoHideAsync();
       await StatusBar.setBarStyle("dark-content");
     })();
     setTimeout(() => {
