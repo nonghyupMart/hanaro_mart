@@ -23,7 +23,7 @@ import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
-import { postWish } from "../../components/home/HomeProducts";
+import { postWish } from "../../store/actions/common";
 
 const FlyerScreen = (props) => {
   const isFocused = useIsFocused();

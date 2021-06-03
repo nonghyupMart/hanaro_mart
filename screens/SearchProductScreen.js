@@ -26,7 +26,7 @@ import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
 import { styles } from "../screens/home/FlyerScreen";
 import _ from "lodash";
-import { postWish } from "../components/home/HomeProducts";
+import { postWish } from "../store/actions/common";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
