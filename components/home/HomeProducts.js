@@ -21,6 +21,7 @@ import * as actionTypes from "../../store/actions/actionTypes";
 import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import { postWish } from "../../store/actions/common";
 
 const HomeProducts = ({ isFocused, userStore, userInfo }) => {
   const dispatch = useDispatch();
@@ -128,15 +129,7 @@ const HomeProducts = ({ isFocused, userStore, userInfo }) => {
     </>
   );
 };
-export const postWish = (dispatch, object, item, type, value = "Y") => {
-  const tempObject = { ...object };
-  const index = tempObject.productList.indexOf(item);
-  tempObject.productList[index].wish_yn = value;
-  dispatch({
-    type: type,
-    data: tempObject,
-  });
-};
+
 export const MoreText = styled(BaseText)({
   fontSize: Util.normalize(9),
   color: colors.emerald,
