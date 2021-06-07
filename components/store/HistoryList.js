@@ -44,7 +44,6 @@ const HistoryList = (props) => {
     };
   }, []);
 
-  const onPress = () => {};
   return (
     <>
       <Container onPress={setIsVisible.bind(this, !isVisible)}>
