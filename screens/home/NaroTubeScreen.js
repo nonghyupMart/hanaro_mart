@@ -33,7 +33,7 @@ const NaroTubeScreen = (props) => {
     ) {
       // console.log("App has come to the foreground!");
     } else {
-      console.log("App has come to the background!2");
+      // console.log("App has come to the background!2");
       setKey(Math.random());
     }
     appState.current = nextAppState;
