@@ -2,20 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
 import * as branchesActions from "../../store/actions/branches";
-import {
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Button,
-  FlatList,
-  Platform,
-  Picker,
-  Image,
-  KeyboardAvoidingView,
-  ActionSheetIOS,
-} from "react-native";
-import { setIsLoading } from "../../store/actions/common";
+import { StyleSheet, Platform, Image } from "react-native";
 import _ from "lodash";
 import { BaseText } from "../../components/UI/BaseUI";
 import RNPickerSelect from "react-native-picker-select";
@@ -39,12 +26,8 @@ const PickerViews = (props) => {
     setDisplayedLname(props.lname ? props.lname : "시/도 선택");
     setDisplayedMname("선택");
     props.pageNum.current = 1;
-    const fetchBranches = props.fetchBranches(props.lname, null, "", 1);
-    const fetchAddress2 = dispatch(branchesActions.fetchAddress2(props.lname));
-
-    Promise.all([fetchBranches, fetchAddress2]).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    props.fetchBranches(props.lname, null, "", 1);
+    dispatch(branchesActions.fetchAddress2(props.lname));
   };
 
   const onMnameChange = (lname, mname) => {
@@ -54,9 +37,7 @@ const PickerViews = (props) => {
 
   const onMnameDonePress = () => {
     setDisplayedMname(props.mname ? props.mname : "선택");
-    props.fetchBranches(props.lname, props.mname, "", 1).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    props.fetchBranches(props.lname, props.mname, "", 1);
   };
 
   props.address1 &&

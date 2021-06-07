@@ -11,18 +11,15 @@ import {
 import { BaseText, BaseTouchable } from "../../components/UI/BaseUI";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as branchesActions from "../../store/actions/branches";
-import { setIsLoading } from "../../store/actions/common";
-import { findLastKey } from "lodash";
 import * as CommonActions from "../../store/actions/common";
 import { setUserStore } from "../../store/actions/auth";
 
-const StoreItem = ({isMark, item, fetchBranches, fetchMarkedStores}) => {
+const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const _isMark = isMark;
 
   const onPress = () => {
-    dispatch(setIsLoading(true));
     if (!_isMark) {
       return RootNavigation.navigate("StoreChangeDetail", { item: item });
     }
@@ -35,7 +32,6 @@ const StoreItem = ({isMark, item, fetchBranches, fetchMarkedStores}) => {
       ).then((data) => {
         if (data.result == "success") {
           (async () => {
-            await dispatch(setIsLoading(false));
             await dispatch(CommonActions.setDidTryPopup("Flyer"));
           })();
 

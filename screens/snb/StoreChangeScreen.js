@@ -1,24 +1,9 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Platform,
-  Image,
-  AppState,
-} from "react-native";
+import { StyleSheet, AppState } from "react-native";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import {
-  BaseButtonContainer,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  StyleConstants,
-} from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";
 import * as Location from "expo-location";
 import StoreItem from "../../components/store/StoreItem";
@@ -29,7 +14,6 @@ import InfoBox from "../../components/store/InfoBox";
 import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
-import { setIsLoading } from "../../store/actions/common";
 import { PADDING_BOTTOM_MENU } from "../../constants";
 
 const StoreChangeScreen = (props) => {
@@ -62,7 +46,7 @@ const StoreChangeScreen = (props) => {
     })();
   }, []);
   useEffect(() => {
-    const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
+    dispatch(branchesActions.fetchAddress1());
     let query = {
       user_cd: userInfo.user_cd,
     };
@@ -70,14 +54,8 @@ const StoreChangeScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    const fetchStoreMark = isJoin
-      ? dispatch(branchesActions.fetchStoreMark(query))
-      : null;
+    if (isJoin) dispatch(branchesActions.fetchStoreMark(query));
     fetchBranches();
-
-    Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
-      dispatch(setIsLoading(false));
-    });
   }, [location]);
 
   const fetchBranches = (
@@ -101,9 +79,7 @@ const StoreChangeScreen = (props) => {
   const loadMore = async () => {
     if (!isLoading && pageNum.current + 1 <= branches.finalPage) {
       pageNum.current++;
-      fetchBranches(lname, mname, store_nm, pageNum.current).then((data) => {
-        dispatch(setIsLoading(false));
-      });
+      fetchBranches(lname, mname, store_nm, pageNum.current);
     }
   };
   return (
@@ -159,7 +135,7 @@ const StoreChangeScreen = (props) => {
             listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}
-            keyExtractor={(item) => `stores-${item.store_cd}`}
+            keyExtractor={(item, index) => `stores-${item.store_cd}-${index}`}
             renderItem={(itemData) => <StoreItem item={itemData.item} />}
           />
         )}

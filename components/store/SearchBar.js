@@ -23,11 +23,7 @@ const SearchBar = (props) => {
       store_nm: props.store_nm,
     };
     props.pageNum.current = 1;
-    props
-      .fetchBranches(props.lname, props.mname, props.store_nm, 1)
-      .then(() => {
-        dispatch(setIsLoading(false));
-      });
+    props.fetchBranches(props.lname, props.mname, props.store_nm, 1);
   };
   const onFocus = () => {
     // dispatch(setBottomNavigation(false));

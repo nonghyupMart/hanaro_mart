@@ -26,7 +26,6 @@ const HistoryList = (props) => {
 
   const fetchMarkedStores = (isDel = false) => {
     if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
-    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
     };
@@ -34,9 +33,7 @@ const HistoryList = (props) => {
       query.lat = props.location.coords.latitude;
       query.lng = props.location.coords.longitude;
     }
-    dispatch(branchesActions.fetchStoreMark(query)).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    dispatch(branchesActions.fetchStoreMark(query));
   };
   useEffect(() => {
     return () => {
