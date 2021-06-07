@@ -32,3 +32,9 @@ export const CATEGORY = {
   H: "Notice",
   I: "MyInfo", // 가입한 경우 MyInfo로 가입 않한경우 회원가입으로
 };
+
+/*  이동 스키마
+행사전단 : hanaroplus://?link_gbn=G
+https://www.hanaromartapp.com/web/about/appStore2.do?link_gbn=G
+이벤트 : hanaroplus://?link_gbn=E
+*/
