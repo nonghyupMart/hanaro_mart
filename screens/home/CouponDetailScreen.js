@@ -373,9 +373,10 @@ const TopText = styled(BaseText)({
   fontSize: 24,
   backgroundColor: colors.appleGreen,
   textAlign: "center",
-  width: "100%",
+  width: "110%",
   paddingTop: 7,
   paddingBottom: 7,
+  marginLeft:"-5%"
 });
 const TopBox = styled.View({
   width: "110%",
