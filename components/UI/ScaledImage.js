@@ -30,6 +30,7 @@ export default class ScaledImage extends Component {
 
   onLoadEnd = () => {
     this.state.color = "transparent";
+    if (this.props.onLoadEnd) this.props.onLoadEnd();
   };
 
   componentDidMount() {

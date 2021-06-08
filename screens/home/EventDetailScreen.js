@@ -34,6 +34,7 @@ const EventDetailScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const eventDetail = useSelector((state) => state.event.eventDetail);
+  const [key, setKey] = useState(Math.random());
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
   const [reg_num, setReg_num] = useState();
@@ -174,6 +175,9 @@ const EventDetailScreen = (props) => {
       alertSusscess();
     });
   };
+  const onScaledImageEnd = () => {
+    setKey(Math.random());
+  };
   if (!eventDetail || isLoading) return <></>;
   return (
     <BaseScreen
@@ -206,6 +210,7 @@ const EventDetailScreen = (props) => {
                 source={eventDetail.detail_img}
                 style={{}}
                 width={SCREEN_WIDTH}
+                onLoadEnd={onScaledImageEnd}
               />
             </PinchGestureHandler>
           </TouchableOpacity>
@@ -266,7 +271,7 @@ const EventDetailScreen = (props) => {
             <C
               {...props}
               scrollRef={scrollRef}
-              key={scrollRef}
+              key={key}
               onApply={onApplyStamp}
               setRcp_qr={setRcp_qr}
               eventDetail={eventDetail}
