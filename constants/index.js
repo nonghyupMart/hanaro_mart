@@ -36,5 +36,6 @@ export const CATEGORY = {
 /*  이동 스키마
 행사전단 : hanaroplus://?link_gbn=G
 https://www.hanaromartapp.com/web/about/appStore2.do?link_gbn=G
+"intent://hanaroplus://?link_gbn=G#Intent;scheme=hanaroplus;package=com.hanaroPlus.hanaroPlus;end"
 이벤트 : hanaroplus://?link_gbn=E
 */
