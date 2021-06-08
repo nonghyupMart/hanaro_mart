@@ -52,6 +52,7 @@ const EventDetailScreen = (props) => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
+      dispatch(eventActions.clearEventDetail());
     };
   }, []);
 
@@ -178,7 +179,7 @@ const EventDetailScreen = (props) => {
   const onScaledImageEnd = () => {
     setKey(Math.random());
   };
-  if (!eventDetail || isLoading) return <></>;
+  if (!eventDetail) return <></>;
   return (
     <BaseScreen
       setScrollRef={setScrollRef}
@@ -208,7 +209,6 @@ const EventDetailScreen = (props) => {
               <ScaledImage
                 key={eventDetail.detail_img}
                 source={eventDetail.detail_img}
-                style={{}}
                 width={SCREEN_WIDTH}
                 onLoadEnd={onScaledImageEnd}
               />

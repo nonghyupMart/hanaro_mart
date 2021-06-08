@@ -25,12 +25,14 @@ export default class ScaledImage extends Component {
       source: source,
       sourceURI: sourceURI,
       color: colors.white,
+      minHeight: 400,
     };
   }
 
   onLoadEnd = () => {
     this.state.color = "transparent";
     if (this.props.onLoadEnd) this.props.onLoadEnd();
+    this.setState({ minHeight: 0 });
   };
 
   componentDidMount() {
@@ -89,6 +91,7 @@ export default class ScaledImage extends Component {
         style={[
           { backgroundColor: this.state.color },
           {
+            minHeight: this.state.minHeight,
             height: this.state.height,
             width: this.state.width,
           },
