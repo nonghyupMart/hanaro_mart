@@ -103,7 +103,6 @@ export const updateExpo = (dispatch) => {
         if (update.isAvailable) {
           await Updates.fetchUpdateAsync();
           await dispatch(setAlert(null));
-          await Updates.reloadAsync();
         }
       } catch (e) {
         // handle or log error
