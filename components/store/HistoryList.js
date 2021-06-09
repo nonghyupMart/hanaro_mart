@@ -119,4 +119,4 @@ const TextContainer = styled.View({
   justifyContent: "space-between",
   paddingRight: 13.5,
 });
-export default HistoryList;
+export default React.memo(HistoryList);

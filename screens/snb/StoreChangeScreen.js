@@ -38,24 +38,40 @@ const StoreChangeScreen = (props) => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
+        setLocation({
+          coords: {
+            latitude: "",
+            longitude: "",
+          },
+        });
       }
-      if (location == null) {
-        let location = await Location.getLastKnownPositionAsync();
-        setLocation(location);
+
+      let location = await Location.getLastKnownPositionAsync();
+      if (!location) {
+        location = {
+          coords: {
+            latitude: "",
+            longitude: "",
+          },
+        };
       }
+      setLocation(location);
     })();
   }, []);
   useEffect(() => {
+    if (!location) return;
     dispatch(branchesActions.fetchAddress1());
     let query = {
       user_cd: userInfo.user_cd,
+      lat: "",
+      lng: "",
     };
     if (location) {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
     if (isJoin) dispatch(branchesActions.fetchStoreMark(query));
-    fetchBranches();
+    fetchBranches(lname, mname, store_nm, pageNum.current);
   }, [location]);
 
   const fetchBranches = (
@@ -69,6 +85,8 @@ const StoreChangeScreen = (props) => {
       mname,
       store_nm: storeName,
       page: page,
+      lat: "",
+      lng: "",
     };
     if (location) {
       query.lat = location.coords.latitude;

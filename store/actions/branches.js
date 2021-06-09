@@ -40,7 +40,6 @@ export const fetchBranches = (query) => {
     url: `/store`,
     query: query,
   });
-  // console.log("prevUrl->");
   if (url == prevUrl) return async (dispatch, getState) => {};
   prevUrl = url;
   return async (dispatch, getState) => {
