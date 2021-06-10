@@ -12,10 +12,8 @@ import Modal from "react-native-modal";
 
 import {
   DetailContainer,
-  BaseImage,
   ScaledImage,
   SCREEN_WIDTH,
-  BaseButtonContainer,
   BaseText,
 } from "../../components/UI/BaseUI";
 
@@ -29,7 +27,6 @@ import { PinchGestureHandler } from "react-native-gesture-handler";
 const EventDetailScreen = (props) => {
   const dispatch = useDispatch();
   const [scrollRef, setScrollRef] = useState();
-  const isLoading = useSelector((state) => state.common.isLoading);
   const [isZoom, setIsZoom] = useState(false);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);

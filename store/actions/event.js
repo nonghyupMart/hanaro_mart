@@ -132,9 +132,13 @@ export const fetchStampHistory = (query) => {
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_STAMP_HISTORY;
-    
+
         dispatch({ type: type, stampHistory: response.data });
         return response.data;
       });
   };
+};
+
+export const clearStampHistory = () => {
+ return { type: actionTypes.SET_STAMP_HISTORY, stampHistory: null };
 };

@@ -17,8 +17,9 @@ import {
 import _ from "lodash";
 // import ScaledImage from "../../components/UI/ScaledImage";
 export { default as ScaledImage } from "./ScaledImage";
-export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
-  Dimensions.get("window");
+export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
+  "window"
+);
 export const StyleConstants = {
   defaultPadding: 24,
   //  defaultImageLarge: require("../../assets/images/m_img499.png"),
@@ -159,9 +160,8 @@ export const BaseTouchable = (props) => {
   return <Touchbale {...props}>{props.children}</Touchbale>;
 };
 export const BaseButtonContainer = styled.TouchableOpacity({
-  width: SCREEN_WIDTH * 0.44,
-  minHeight: SCREEN_HEIGHT * 0.058,
-  height: undefined,
+  width: SCREEN_WIDTH * 0.728,
+  aspectRatio: 100 / 12.8205,
   borderRadius: 21,
   justifyContent: "center",
   alignItems: "center",
@@ -210,7 +210,7 @@ export const BlueButtonText = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   color: colors.trueWhite,
-  marginLeft: 9,
+  marginLeft: 3,
 });
 export const BlueButton = styled(BaseButtonContainer)({
   marginTop: 5,
@@ -221,8 +221,5 @@ export const BlueButton = styled(BaseButtonContainer)({
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
-  width: SCREEN_WIDTH - 24 * 2,
   alignSelf: "center",
-  aspectRatio: 100 / 12.844,
-  borderRadius: 25,
 });

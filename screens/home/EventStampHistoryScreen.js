@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import {
-  View,
-  Platform,
-  Image,
-} from "react-native";
-import BaseScreen from "../components/BaseScreen";
+import { View, Platform, Image } from "react-native";
+import BaseScreen from "../../components/BaseScreen";
 import {
   BaseTouchable,
   BaseImage,
@@ -13,17 +9,17 @@ import {
   BaseText,
   BlueButton,
   BlueButtonText,
-} from "../components/UI/BaseUI";
-import ExtendedFlatList from "../components/UI/ExtendedFlatList";
+} from "../../components/UI/BaseUI";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "../store/actions/event";
-import BoardItem from "../components/board/BoardItem";
-import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_STAMP_HISTORY } from "../store/actions/actionTypes";
-import { styles } from "./home/FlyerScreen";
+import * as eventActions from "../../store/actions/event";
+import BoardItem from "../../components/board/BoardItem";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { SET_STAMP_HISTORY } from "../../store/actions/actionTypes";
+import { styles } from "./FlyerScreen";
 import _ from "lodash";
 
-const StampHistoryScreen = (props) => {
+const EventStampHistoryScreen = (props) => {
   const params = props.route.params;
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -34,10 +30,7 @@ const StampHistoryScreen = (props) => {
   useEffect(() => {
     fetchStampHistory();
     return () => {
-      dispatch({
-        type: SET_STAMP_HISTORY,
-        stampHistory: null,
-      });
+      dispatch(eventActions.clearStampHistory());
     };
   }, []);
 
@@ -65,10 +58,10 @@ const StampHistoryScreen = (props) => {
         stampHistory.history.length <= 0 && (
           <>
             <NoList>내역이 없습니다.</NoList>
-            <BackBtn onPress={() => props.navigation.pop()}>
-              <Image source={require("../assets/images/forward.png")} />
+            <BlueButton onPress={() => props.navigation.pop()}>
+              <Image source={require("../../assets/images/forward.png")} />
               <BlueButtonText>뒤로가기</BlueButtonText>
-            </BackBtn>
+            </BlueButton>
           </>
         )}
       {stampHistory && stampHistory.history && (
@@ -93,7 +86,7 @@ const NoList = styled(BaseText)({
   marginTop: 50,
   marginBottom: 70,
 });
-const BackBtn = styled(BlueButton)({ aspectRatio: 100 / 14.5, height: 42 });
+const BackBtn = styled(BlueButton)({});
 export const screenOptions = ({ navigation }) => {
   return {
     cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
@@ -104,44 +97,4 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const ScrollList = styled(ExtendedFlatList)({
-  flex: 1,
-
-  width: "100%",
-  // backgroundColor: colors.black,
-});
-const ResultText = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 28,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.black,
-  width: "100%",
-  marginTop: 15,
-  marginBottom: 15,
-});
-const SearchBtn = styled(BaseTouchable)({
-  padding: 10,
-  paddingRight: 15,
-});
-const SearchIcon = styled.Image({});
-SearchIcon.defaultProps = {
-  source: require("../assets/images/search-24_1.png"),
-};
-const SearchContainer = styled.View({
-  width: "100%",
-  backgroundColor: colors.white,
-  // height: 36,
-  aspectRatio: 100 / 10.975,
-  borderRadius: 25,
-  flexDirection: "row",
-});
-const SearchInput = styled(BaseTextInput)({
-  flex: 1,
-  marginLeft: 15,
-  marginRight: 15,
-});
-
-export default StampHistoryScreen;
+export default EventStampHistoryScreen;

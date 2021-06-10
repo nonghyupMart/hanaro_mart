@@ -58,7 +58,7 @@ const ScanBox = (props) => {
         </>
       )}
       {props.eventDetail.gbn != "C" && props.eventDetail.entry.status === "20" && (
-        <GrayButton style={{ marginTop: 40 }}>
+        <GrayButton style={{ marginTop: 40 }} activeOpacity={1}>
           <Image source={require("../../assets/images/barcode2.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
@@ -69,13 +69,9 @@ const ScanBox = (props) => {
 
 const GreenBtn = styled(BlueButton)({
   backgroundColor: colors.appleGreen,
-  aspectRatio: 100 / 14.5,
-  height: 42,
 });
-const GrayButton = styled(GreenBtn).attrs({ activeOpacity: 0 })({
+const GrayButton = styled(GreenBtn)({
   backgroundColor: colors.greyishThree,
-  aspectRatio: 100 / 14.5,
-  height: 42,
 });
 const TextContainer1 = styled.View({
   margin: 4,

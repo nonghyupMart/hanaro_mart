@@ -159,7 +159,7 @@ const ApplyBox = (props) => {
         </BlueButton>
       )}
       {props.isShowApplyButton && props.eventDetail.entry.status === "20" && (
-        <GrayButton style={{ marginTop: 40 }}>
+        <GrayButton style={{ marginTop: 40 }} activeOpacity={1}>
           <Image source={require("../../assets/images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
@@ -167,7 +167,7 @@ const ApplyBox = (props) => {
     </>
   );
 };
-const GrayButton = styled(BlueButton).attrs({ activeOpacity: 0 })({
+const GrayButton = styled(BlueButton)({
   backgroundColor: colors.greyishThree,
 });
 ApplyBox.defaultProps = {
