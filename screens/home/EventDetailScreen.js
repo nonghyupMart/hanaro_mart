@@ -244,6 +244,7 @@ const EventDetailScreen = (props) => {
                 validateAgree={validateAgree}
                 reg_num={reg_num}
                 setReg_num={setReg_num}
+                key={key}
               />
             )}
           {eventDetail.entry &&
@@ -252,7 +253,7 @@ const EventDetailScreen = (props) => {
               <B
                 {...props}
                 scrollRef={scrollRef}
-                key={scrollRef}
+                key={key}
                 onApply={onApply}
                 setRcp_qr={setRcp_qr}
                 rcp_qr={rcp_qr}
