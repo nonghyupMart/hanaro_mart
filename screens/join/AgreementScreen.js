@@ -236,8 +236,9 @@ const AgreementScreen = (props) => {
   const setChecked = (checkBox, child) => {
     let cks = [...checkBoxes];
     // console.warn(cks[checkBox.id].child[cks[checkBox.id].child[child.id]].isChecked);
-    cks[checkBox.id].child[child.id].isChecked =
-      !cks[checkBox.id].child[child.id].isChecked;
+    cks[checkBox.id].child[child.id].isChecked = !cks[checkBox.id].child[
+      child.id
+    ].isChecked;
 
     if (cks[checkBox.id].child[child.id].isChecked == false) {
       setToggleAllCheckBox(false);
@@ -258,8 +259,9 @@ const AgreementScreen = (props) => {
   const getPermissions = async () => {
     let token;
     if (Constants.isDevice) {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync();
+      const {
+        status: existingStatus,
+      } = await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
       if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
@@ -541,6 +543,7 @@ const NoticeText = styled(BaseText)({
 const BottonBase = styled(BaseButtonContainer)({
   borderRadius: 47,
   width: SCREEN_WIDTH * 0.43,
+  aspectRatio: 100 / 22,
 });
 const GreenButton = styled(BottonBase)({
   backgroundColor: colors.pine,
