@@ -68,8 +68,6 @@ const AppNavigator = (props) => {
       nextAppState === "active"
     ) {
       // console.log("App has come to the foreground!");
-      CommonActions.updateExpo(dispatch);
-
       const userInfoData = await Util.getStorageItem("userInfoData");
       const parsedUserData = await JSON.parse(userInfoData);
       if (!_.isEmpty(parsedUserData)) {
@@ -79,6 +77,7 @@ const AppNavigator = (props) => {
       // console.log("App has come to the background!");
       Util.removeStorageItem("notificationData");
     }
+    CommonActions.updateExpo(dispatch);
     appState.current = nextAppState;
   };
 
@@ -124,13 +123,14 @@ const AppNavigator = (props) => {
     })();
 
     AppState.addEventListener("change", _handleAppStateChange);
-    notificationListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
+    notificationListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
         // When App is running in the background.
         // console.warn(JSON.stringify(response, null, "\t"));
         // console.warn(response.notification.request.content.data);
         dispatch(CommonActions.setNotification(response.notification));
-      });
+      }
+    );
     responseListener.current = Notifications.addNotificationReceivedListener(
       async (notification) => {
         // When app is running in the foreground.
