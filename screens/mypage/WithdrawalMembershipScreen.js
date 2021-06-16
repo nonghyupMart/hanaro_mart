@@ -78,7 +78,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
                   onPressConfirm: async () => {
                     await dispatch(setAlert(null));
                     await dispatch(authActions.withdrawalFinish());
-                    await dispatch(setIsLoading(false));
+                    await Updates.reloadAsync();
                   },
                 })
               );

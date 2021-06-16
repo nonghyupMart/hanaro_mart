@@ -201,6 +201,7 @@ export const withdrawalFinish = () => {
   return async (dispatch) => {
     await Util.clearAllData();
     await dispatch({ type: actionTypes.WITHDRAWAL });
+    await dispatch(setIsLoading(false));
   };
 };
 export const saveUserInfoToStorage = (userInfo) => {
