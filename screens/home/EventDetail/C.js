@@ -11,12 +11,8 @@ const C = (props) => {
   return (
     <View>
       <Container>
-        {entry_date_yn == "Y" && (
-          <>
-            <ApplyBox {...props} />
-            <ScanBox {...props} />
-          </>
-        )}
+        <ApplyBox {...props} />
+        <ScanBox {...props} />
         <Btn
           onPress={() =>
             props.navigation.navigate("StampHistory", {

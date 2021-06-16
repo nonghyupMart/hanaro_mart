@@ -9,6 +9,7 @@ import {
 import { Image } from "react-native";
 
 const ScanBox = (props) => {
+  if (props.eventDetail.entry.entry_date_yn != "Y") return <></>;
   const validateAgree = props.validateAgree;
   const getBarcode = async (data) => {
     await props.setRcp_qr(data);

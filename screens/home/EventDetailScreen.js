@@ -231,40 +231,36 @@ const EventDetailScreen = (props) => {
               imageUrls={[{ url: IMAGE_URL + eventDetail.detail_img }]}
             />
           </Modal>
-          {eventDetail.entry &&
-            eventDetail.entry.entry_date_yn == "Y" &&
-            eventDetail.gbn == "A" && (
-              <A
-                {...props}
-                onApply={onApply}
-                eventDetail={eventDetail}
-                scrollRef={scrollRef}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-                key={key}
-              />
-            )}
-          {eventDetail.entry &&
-            eventDetail.entry.entry_date_yn == "Y" &&
-            eventDetail.gbn == "B" && (
-              <B
-                {...props}
-                scrollRef={scrollRef}
-                key={key}
-                onApply={onApply}
-                setRcp_qr={setRcp_qr}
-                rcp_qr={rcp_qr}
-                eventDetail={eventDetail}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-              />
-            )}
+          {eventDetail.entry && eventDetail.gbn == "A" && (
+            <A
+              {...props}
+              onApply={onApply}
+              eventDetail={eventDetail}
+              scrollRef={scrollRef}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+              key={key}
+            />
+          )}
+          {eventDetail.entry && eventDetail.gbn == "B" && (
+            <B
+              {...props}
+              scrollRef={scrollRef}
+              key={key}
+              onApply={onApply}
+              setRcp_qr={setRcp_qr}
+              rcp_qr={rcp_qr}
+              eventDetail={eventDetail}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+            />
+          )}
           {eventDetail.entry && eventDetail.gbn == "C" && (
             <C
               {...props}

@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { CheckBox } from "react-native-elements";
 
 const ApplyBox = (props) => {
+  if (props.eventDetail.entry.entry_date_yn != "Y") return <></>;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const checkItem = props.checkItem;
