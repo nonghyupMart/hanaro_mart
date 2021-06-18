@@ -10,7 +10,7 @@ export const fetchExhibition = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_EXHIBITION;
@@ -35,7 +35,7 @@ export const fetchExhibitionDetail = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         dispatch({

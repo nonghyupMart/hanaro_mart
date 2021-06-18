@@ -38,7 +38,7 @@ export const signup = (query) => {
         url: `/v1/user_add`,
       });
       return http
-        .init(dispatch)
+        .init({ dispatch: dispatch })
         .post(url, data)
         .then(async (response) => setResponse(response));
     } else {
@@ -46,7 +46,7 @@ export const signup = (query) => {
         url: `/v1/user_modify`,
       });
       return http
-        .init(dispatch)
+        .init({ dispatch: dispatch })
         .patch(url, data)
         .then(async (response) => setResponse(response));
     }
@@ -97,7 +97,7 @@ export const fetchPushCnt = (query) => {
   });
   return async (dispatch) => {
     return http
-      .init(dispatch, true, true)
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -117,7 +117,7 @@ export const getWishCnt = (query) => {
 
   return async (dispatch) => {
     return http
-      .init(dispatch, true, true)
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -137,7 +137,7 @@ export const updateLoginLog = (query) => {
 
   return async (dispatch) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .patch(url, data)
       .then(async (response) => {
         return response.data;
@@ -151,7 +151,7 @@ export const updateLoginLogV1 = (query) => {
   const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .patch(url, data)
       .then(async (response) => {
         return response.data;
@@ -165,7 +165,7 @@ export const setUserStore = (query, userStore) => {
   const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .patch(url, data)
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
@@ -235,7 +235,7 @@ export const setReference = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -352,7 +352,7 @@ export const fetchUpdate = () => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({

@@ -13,7 +13,7 @@ export const fetchWishItem = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_WISH_ITEM;
@@ -33,7 +33,7 @@ export const addWishItem = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true, true)
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;

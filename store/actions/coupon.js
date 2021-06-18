@@ -13,7 +13,7 @@ export const fetchCoupon = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_COUPON;
@@ -55,7 +55,7 @@ export const downloadCoupon = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         switch (`${response.code}`) {
@@ -88,7 +88,7 @@ export const useCoupon = (query) => {
   return async (dispatch, getState) => {
     const data = JSON.stringify(query);
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
         coupon.couponList[index].status = "20";
@@ -111,7 +111,7 @@ export const fetchCouponDetail = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({

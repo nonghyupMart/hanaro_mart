@@ -8,7 +8,7 @@ export const fetchAddress1 = () => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS1, address1: response.data });
@@ -24,7 +24,7 @@ export const fetchAddress2 = (lname) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS2, address2: response.data });
@@ -44,7 +44,7 @@ export const fetchBranches = (query) => {
   prevUrl = url;
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         if (query.page > 1) {
@@ -65,7 +65,7 @@ export const fetchBranch = (store_cd) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
@@ -81,7 +81,7 @@ export const fetchBranchNear = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
@@ -97,7 +97,7 @@ export const fetchStoreMark = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -117,7 +117,7 @@ export const deleteMarkedStore = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .delete(url)
       .then(async (response) => {
         return response.data;

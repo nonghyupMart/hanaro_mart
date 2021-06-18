@@ -10,7 +10,7 @@ export const fetchEvent = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_EVENT;
@@ -36,7 +36,7 @@ export const fetchEventDetail = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -65,7 +65,7 @@ export const applyEvent = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -80,7 +80,7 @@ export const applyStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -96,7 +96,7 @@ export const exchangeStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -112,7 +112,7 @@ export const interimExchangeStamp = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -128,7 +128,7 @@ export const fetchStampHistory = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch, true)
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_STAMP_HISTORY;
@@ -140,5 +140,5 @@ export const fetchStampHistory = (query) => {
 };
 
 export const clearStampHistory = () => {
- return { type: actionTypes.SET_STAMP_HISTORY, stampHistory: null };
+  return { type: actionTypes.SET_STAMP_HISTORY, stampHistory: null };
 };

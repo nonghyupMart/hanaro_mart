@@ -12,7 +12,7 @@ export const fetchHomeBanner = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -32,7 +32,7 @@ export const fetchHomeNotice = (query = {}) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_HOME_NOTICE;
@@ -57,7 +57,7 @@ export const fetchHomeProducts = (query = {}) => {
 
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_HOME_PRODUCTS;
@@ -79,7 +79,7 @@ export const fetchHomeNaro = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_HOME_NARO, homeNaro: response.data });
@@ -102,7 +102,7 @@ export const fetchPopup = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init(dispatch)
+      .init({ dispatch: dispatch })
       .get(url)
       .then(async (response) => {
         if (query && query.store_cd) {
