@@ -82,9 +82,7 @@ const StartupScreen = (props) => {
       if (isJoin == null) return;
       if (isJoin) {
         // 이미 가입한 경우 홈화면으로 이동
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
-        await dispatch(CommonActions.setIsLoading(false));
+        await finish();
         return;
       }
 
@@ -106,14 +104,18 @@ const StartupScreen = (props) => {
       query.lng = location.coords.longitude;
     }
     dispatch(branchesActions.fetchBranchNear(query)).then(async (data) => {
-      if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
+      if (!data || !data.storeInfo || !_.isEmpty(userStore)) return finish();
       dispatch(authActions.saveUserStore(data)).then(async (d) => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        await dispatch(CommonActions.setIsLoading(false));
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
+        finish();
       });
     });
+  };
+
+  const finish = async () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    await dispatch(CommonActions.setIsLoading(false));
+    await dispatch(authActions.setDidTryAL());
+    await SplashScreen.hideAsync();
   };
 
   return <Splash />;
