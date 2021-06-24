@@ -54,12 +54,12 @@ const FlyerItemColumn2 = ({
           product_cd: item.product_cd,
         })
       );
-       await dispatch(
-         getWishCnt({
-           user_cd: userInfo.user_cd,
-           store_cd: userStore.storeInfo.store_cd,
-         })
-       );
+      await dispatch(
+        getWishCnt({
+          user_cd: userInfo.user_cd,
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      );
     }
   };
 

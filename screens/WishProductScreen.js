@@ -16,9 +16,9 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import { SET_WISH_ITEM } from "../store/actions/actionTypes";
 import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
-import ProductList from "../components/ProductList";
 import Memo from "../components/wish/Memo";
 import { useIsFocused } from "@react-navigation/native";
+import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 
 const WishProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -81,16 +81,27 @@ const WishProductScreen = (props) => {
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
       <Memo />
-      <ProductList
-        products={wishItem}
-        userStore={userStore}
-        styles={styles}
-        loadMore={loadMore}
-        popupHandler={popupHandler}
-        afterAddWishItem={afterAddWishItem}
-        afterDeleteWishItem={afterDeleteWishItem}
-        name="wish"
-      />
+      {wishItem && (
+        <ExtendedFlatList
+          listKey={`WishList-${userStore.storeInfo.store_cd}`}
+          onEndReached={loadMore}
+          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
+          numColumns={2}
+          style={[styles.flyerListStyle, { marginTop: 0 }]}
+          data={wishItem.productList}
+          keyExtractor={(item) =>
+            `wish-${userStore.storeInfo.store_cd}-${item.product_cd}`
+          }
+          renderItem={(itemData) => (
+            <FlyerItemColumn2
+              onPress={popupHandler.bind(this, itemData.item)}
+              item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
+            />
+          )}
+        />
+      )}
 
       <ProductPopup
         item={currentItem.current}

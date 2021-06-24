@@ -22,7 +22,6 @@ import * as homeActions from "../../store/actions/home";
 import ProductPopup from "../../components/ProductPopup";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { postWish } from "../../store/actions/common";
-import ProductList from "../../components/ProductList";
 
 const HomeProducts = ({ isFocused, userStore, userInfo }) => {
   const dispatch = useDispatch();
@@ -99,16 +98,27 @@ const HomeProducts = ({ isFocused, userStore, userInfo }) => {
           </TitleContainer>
         </RoundedContainer>
       )}
-      <ProductList
-        products={homeProducts}
-        userStore={userStore}
-        styles={styles}
-        loadMore={loadMore}
-        popupHandler={popupHandler}
-        afterAddWishItem={afterAddWishItem}
-        afterDeleteWishItem={afterDeleteWishItem}
-        name="home"
-      />
+      {homeProducts && (
+        <ExtendedFlatList
+          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
+          onEndReached={loadMore}
+          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
+          numColumns={2}
+          style={[styles.flyerListStyle, { marginTop: 0 }]}
+          data={homeProducts.productList}
+          keyExtractor={(item) =>
+            `${userStore.storeInfo.store_cd}-${item.product_cd}`
+          }
+          renderItem={(itemData) => (
+            <FlyerItemColumn2
+              onPress={popupHandler.bind(this, itemData.item)}
+              item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
+            />
+          )}
+        />
+      )}
 
       <ProductPopup
         item={currentItem.current}
