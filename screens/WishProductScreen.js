@@ -1,14 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import {
-  View,
-  Platform,
-  Image,
-  FlatList,
-  Dimensions,
-  Keyboard,
-  _Image,
-} from "react-native";
+import { Platform, _Image } from "react-native";
 import BaseScreen from "../components/BaseScreen";
 import {
   BaseTouchable,
@@ -19,14 +11,14 @@ import {
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as wishActions from "../store/actions/wish";
-import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { SET_WISH_ITEM } from "../store/actions/actionTypes";
-import { setAlert, setIsLoading } from "../store/actions/common";
-import * as CommonActions from "../store/actions/common";
 import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
+import ProductList from "../components/ProductList";
+import Memo from "../components/wish/Memo";
+import { useIsFocused } from "@react-navigation/native";
 
 const WishProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -35,10 +27,11 @@ const WishProductScreen = (props) => {
   const page = useRef(1);
   const currentItem = useRef(null);
   const isLoading = useSelector((state) => state.common.isLoading);
-
+  const isFocused = useIsFocused();
   const wishItem = useSelector((state) => state.wish.wishItem);
 
   useEffect(() => {
+    if (!isFocused) return;
     fetchWishItem(1);
   }, []);
 
@@ -87,33 +80,23 @@ const WishProductScreen = (props) => {
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
-      {wishItem && wishItem.productList && (
-        <ExtendedFlatList
-          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          style={[styles.flyerListStyle]}
-          onEndReached={loadMore}
-          numColumns={2}
-          data={wishItem.productList}
-          keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.product_cd}`
-          }
-          renderItem={(itemData) => (
-            <FlyerItemColumn2
-              onPress={popupHandler.bind(this, itemData.item)}
-              item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
-            />
-          )}
-        />
-      )}
-      {currentItem.current && isVisible && (
-        <ProductPopup
-          item={currentItem.current}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      )}
+      <Memo />
+      <ProductList
+        products={wishItem}
+        userStore={userStore}
+        styles={styles}
+        loadMore={loadMore}
+        popupHandler={popupHandler}
+        afterAddWishItem={afterAddWishItem}
+        afterDeleteWishItem={afterDeleteWishItem}
+        name="wish"
+      />
+
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };

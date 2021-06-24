@@ -29,6 +29,7 @@ import couponReducer from "./store/reducers/coupon";
 import commonReducer from "./store/reducers/common";
 import exhibitionReducer from "./store/reducers/exhibition";
 import exclusiveReducer from "./store/reducers/exclusive";
+import memoReducer from "./store/reducers/memo";
 import wishReducer from "./store/reducers/wish";
 import { WITHDRAWAL } from "./store/actions/auth";
 import * as Notifications from "expo-notifications";
@@ -37,6 +38,16 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
 import * as Util from "./util";
+import { init } from "./helpers/db";
+
+init()
+  .then(() => {
+    Util.log("Initialized database");
+  })
+  .catch((err) => {
+    Util.log("Initializing db failed.");
+    Util.log(err);
+  });
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({ shouldShowAlert: true }),
@@ -85,6 +96,7 @@ const appReducer = combineReducers({
   exhibition: exhibitionReducer,
   exclusive: exclusiveReducer,
   wish: wishReducer,
+  memo: memoReducer,
 });
 const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
-import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "../../constants";
 import * as Util from "../../util";
 import {
@@ -13,6 +12,7 @@ import {
   TextInput,
   StyleSheet,
   ImageBackground,
+  Image,
 } from "react-native";
 import _ from "lodash";
 // import ScaledImage from "../../components/UI/ScaledImage";
@@ -158,6 +158,14 @@ const BaseTouchbaleOpacity = (props) => {
 export const BaseTouchable = (props) => {
   const Touchbale = Util.withPreventDoubleClick(TouchableOpacity);
   return <Touchbale {...props}>{props.children}</Touchbale>;
+};
+
+export const ImageButton = (props) => {
+  return (
+    <BaseTouchable style={props.style} onPress={props.onPress}>
+      <Image source={props.source} style={props.ImageStyle} />
+    </BaseTouchable>
+  );
 };
 export const BaseButtonContainer = styled.TouchableOpacity({
   width: SCREEN_WIDTH * 0.728,

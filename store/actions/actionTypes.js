@@ -85,3 +85,8 @@ export const SET_HOME_PRODUCTS_MORE = "SET_HOME_PRODUCTS_MORE";
 export const SET_HOME_NARO = "SET_HOME_NARO";
 export const SET_STORE_POPUP = "SET_STORE_POPUP";
 export const SET_APP_POPUP = "SET_APP_POPUP";
+
+/* SQLite */
+export const ADD_MEMO = "ADD_MEMO";
+export const DELETE_MEMO = "DELETE_MEMO";
+export const SET_MEMOS = "SET_MEMOS";
