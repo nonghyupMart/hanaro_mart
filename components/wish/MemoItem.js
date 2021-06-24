@@ -61,6 +61,7 @@ const CheckButton = (props) => {
 const styles = StyleSheet.create({
   checked: {
     textDecorationLine: "line-through",
+    color: colors.emerald,
   },
   checkbox: {
     justifyContent: "flex-start",
