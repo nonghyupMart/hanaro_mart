@@ -22,6 +22,8 @@ import _ from "lodash";
 import Memo from "../components/wish/Memo";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerItemColumn2 from "../components/FlyerItemColumn2";
+import colors from "../constants/Colors";
+import * as Util from "../util";
 
 const WishProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -38,8 +40,8 @@ const WishProductScreen = (props) => {
     fetchWishItem(1);
   }, []);
 
-  const fetchWishItem = (p = page.current) => {
-    dispatch(
+  const fetchWishItem = async (p = page.current) => {
+    await dispatch(
       wishActions.fetchWishItem({
         store_cd: userStore.storeInfo.store_cd,
         user_cd: userInfo.user_cd,
@@ -47,6 +49,7 @@ const WishProductScreen = (props) => {
       })
     );
   };
+
   const loadMore = () => {
     if (!isLoading && page.current + 1 <= wishItem.finalPage) {
       page.current++;
@@ -67,66 +70,103 @@ const WishProductScreen = (props) => {
     postWish(dispatch, wishItem, item, SET_WISH_ITEM);
   };
   return (
-    <BaseScreen
-      style={{
-        backgroundColor: colors.trueWhite,
-        paddingLeft: 0,
-        paddingRight: 0,
-      }}
-      isPadding={Platform.OS == "ios" ? false : true}
-      // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
-      contentStyle={{
-        backgroundColor: colors.trueWhite,
-        paddingTop: Platform.OS == "ios" ? 19 : 19,
-        // paddingLeft: Platform.OS == "ios" ? 16 : 0,
-        // paddingRight: Platform.OS == "ios" ? 16 : 0,
-      }}
-      scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
-    >
-      <Memo />
-      {wishItem && (
-        <ExtendedFlatList
-          listKey={`WishList-${userStore.storeInfo.store_cd}`}
-          onEndReached={loadMore}
-          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          numColumns={2}
-          style={[styles.flyerListStyle, { marginTop: 0 }]}
-          data={wishItem.productList}
-          keyExtractor={(item) =>
-            `wish-${userStore.storeInfo.store_cd}-${item.product_cd}`
-          }
-          renderItem={(itemData) => (
-            <FlyerItemColumn2
-              onPress={popupHandler.bind(this, itemData.item)}
-              item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
-            />
-          )}
-        />
-      )}
-      {wishItem && wishItem.productList.length <= 0 && (
-        <>
-          <NoListContainer>
-            <Image source={require("../assets/images/narocart.png")} />
-            <Text1>찜한 상품이 없어요</Text1>
-            <Text2>금주의 전단광고에서 찜해보세요.</Text2>
-          </NoListContainer>
-          <BackBtn onPress={() => props.navigation.navigate("Flyer")}>
-            <Image source={require("../assets/images/list_ic.png")} />
-            <BlueButtonText>전단광고 보러가기</BlueButtonText>
-          </BackBtn>
-        </>
-      )}
+    <>
+      <BaseScreen
+        style={{
+          backgroundColor: colors.trueWhite,
+          paddingLeft: 0,
+          paddingRight: 0,
+          marginBottom: 40,
+        }}
+        isPadding={Platform.OS == "ios" ? false : true}
+        // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
+        contentStyle={{
+          backgroundColor: colors.trueWhite,
+          paddingTop: Platform.OS == "ios" ? 19 : 19,
+          // paddingLeft: Platform.OS == "ios" ? 16 : 0,
+          // paddingRight: Platform.OS == "ios" ? 16 : 0,
+        }}
+        scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
+      >
+        <Memo />
+        {wishItem && (
+          <ExtendedFlatList
+            listKey={`WishList-${userStore.storeInfo.store_cd}`}
+            onEndReached={loadMore}
+            columnWrapperStyle={styles.flyerListColumnWrapperStyle}
+            numColumns={2}
+            style={[styles.flyerListStyle, { marginTop: 40 }]}
+            data={wishItem.productList}
+            keyExtractor={(item) =>
+              `wish-${userStore.storeInfo.store_cd}-${item.product_cd}`
+            }
+            renderItem={(itemData) => (
+              <FlyerItemColumn2
+                onPress={popupHandler.bind(this, itemData.item)}
+                item={itemData.item}
+                afterAddWishItem={afterAddWishItem}
+                afterDeleteWishItem={afterDeleteWishItem}
+              />
+            )}
+          />
+        )}
+        {wishItem && wishItem.productList.length <= 0 && (
+          <>
+            <NoListContainer>
+              <Image source={require("../assets/images/narocart.png")} />
+              <Text1>찜한 상품이 없어요</Text1>
+              <Text2>금주의 전단광고에서 찜해보세요.</Text2>
+            </NoListContainer>
+            <BackBtn onPress={() => props.navigation.navigate("Flyer")}>
+              <Image source={require("../assets/images/list_ic.png")} />
+              <BlueButtonText>전단광고 보러가기</BlueButtonText>
+            </BackBtn>
+          </>
+        )}
 
-      <ProductPopup
-        item={currentItem.current}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
-      />
-    </BaseScreen>
+        <ProductPopup
+          item={currentItem.current}
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+        />
+      </BaseScreen>
+      {wishItem && wishItem.productList.length > 0 && wishItem.wishInfo && (
+        <TotalContainer>
+          <Text3>총 합계({wishItem.wishInfo.wish_cnt}) : </Text3>
+          <Text4>{Util.formatNumber(wishItem.wishInfo.wish_price)}원</Text4>
+        </TotalContainer>
+      )}
+    </>
   );
 };
+
+const Text4 = styled(BaseTextBold)({
+  fontSize: 22.5,
+  color: colors.blackThree,
+  marginLeft: 10,
+  flex: 1,
+  textAlign: "right",
+  marginRight: 35,
+});
+const Text3 = styled(BaseText)({
+  fontSize: 17.5,
+  color: colors.WARM_GREY_THREE,
+  marginLeft: 35,
+  marginTop: 9,
+  marginBottom: 9,
+});
+const TotalContainer = styled.View({
+  borderColor: colors.greyishTwo,
+  borderTopWidth: 1,
+  borderBottomWidth: 1,
+  width: "100%",
+  backgroundColor: "#f5f5f5",
+  position: "absolute",
+  bottom: 50,
+  justifyContent: "center",
+  flexDirection: "row",
+  alignItems: "center",
+});
 const BackBtn = styled(BlueButton)({ marginBottom: 65.6 });
 const Text1 = styled(BaseTextBold)({
   letterSpacing: -0.32,
@@ -153,7 +193,10 @@ const NoListContainer = styled.View({
 
 const postWish = (dispatch, object, item, type) => {
   const tempObject = { ...object };
-  const result = _.remove(tempObject.productList, item);
+  _.remove(tempObject.productList, item);
+  tempObject.wishInfo.wish_cnt--;
+  tempObject.wishInfo.wish_price -=
+    item.sale_price > 0 ? item.sale_price : item.price;
   dispatch({
     type: type,
     data: tempObject,

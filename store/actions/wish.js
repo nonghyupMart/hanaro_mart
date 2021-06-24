@@ -5,7 +5,7 @@ import { API_URL } from "../../constants";
 import { getResponse } from "./auth";
 
 export const fetchWishItem = (query) => {
-  query.limit = 45;
+  query.limit = 99999;
   const url = queryString.stringifyUrl({
     url: `/wish`,
     query: query,

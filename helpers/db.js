@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import * as Util from "../util";
 
-const db = SQLite.openDatabase("HanaroPlus.db");
+const db = SQLite.openDatabase(Util.storagePrefix + "HanaroPlus.db");
 
 export const init = () => {
   const promise = new Promise((resolve, reject) => {

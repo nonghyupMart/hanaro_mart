@@ -1,8 +1,7 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
-    wishItem: null,
-    
+  wishItem: null,
 };
 
 export default (state = initialState, action) => {
@@ -18,9 +17,11 @@ export default (state = initialState, action) => {
     case actionTypes.SET_WISH_ITEM_MORE:
       wishItem = { ...state.wishItem };
       newWishItem = { ...action.data };
-      updatedWishItemList = wishItem.wishList.concat(newWishItem.wishList);
+      updatedWishItemList = wishItem.productList.concat(
+        newWishItem.productList
+      );
 
-      wishItem.wishList = updatedWishItemList;
+      wishItem.productList = updatedWishItemList;
       return {
         ...state,
         wishItem: wishItem,
