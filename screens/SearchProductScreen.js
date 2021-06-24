@@ -27,6 +27,7 @@ import * as CommonActions from "../store/actions/common";
 import { styles } from "../screens/home/FlyerScreen";
 import _ from "lodash";
 import { postWish } from "../store/actions/common";
+import ProductList from "../components/ProductList";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
@@ -141,33 +142,22 @@ const SearchProductScreen = (props) => {
         </ResultText>
       )}
 
-      {product && product.productList && (
-        <ExtendedFlatList
-          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          style={[styles.flyerListStyle]}
-          onEndReached={loadMore}
-          numColumns={2}
-          data={product.productList}
-          keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.product_cd}`
-          }
-          renderItem={(itemData) => (
-            <FlyerItemColumn2
-              onPress={popupHandler.bind(this, itemData.item)}
-              item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
-            />
-          )}
-        />
-      )}
-      {currentItem.current && isVisible && (
-        <ProductPopup
-          item={currentItem.current}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      )}
+      <ProductList
+        products={product}
+        userStore={userStore}
+        styles={styles}
+        loadMore={loadMore}
+        popupHandler={popupHandler}
+        afterAddWishItem={afterAddWishItem}
+        afterDeleteWishItem={afterDeleteWishItem}
+        name="search"
+      />
+
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };

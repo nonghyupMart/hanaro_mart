@@ -24,6 +24,7 @@ import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
 import { postWish } from "../../store/actions/common";
+import ProductList from "../../components/ProductList";
 
 const FlyerScreen = (props) => {
   const isFocused = useIsFocused();
@@ -198,28 +199,18 @@ const FlyerScreen = (props) => {
           )}
         />
       )}
-      {/* <Text>{props.number}</Text> */}
-      {product && (
-        <ExtendedFlatList
-          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
-          onEndReached={loadMore}
-          columnWrapperStyle={styles.flyerListColumnWrapperStyle}
-          numColumns={2}
-          style={styles.flyerListStyle}
-          data={product.productList}
-          keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.product_cd}`
-          }
-          renderItem={(itemData) => (
-            <FlyerItemColumn2
-              onPress={popupHandler.bind(this, itemData.item)}
-              item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
-            />
-          )}
-        />
-      )}
+
+      <ProductList
+        products={product}
+        userStore={userStore}
+        styles={styles}
+        loadMore={loadMore}
+        popupHandler={popupHandler}
+        afterAddWishItem={afterAddWishItem}
+        afterDeleteWishItem={afterDeleteWishItem}
+        name="flyer"
+      />
+
       {!_.isEmpty(product) && product.productList.length === 0 && (
         <NoList
           style={{
@@ -230,13 +221,12 @@ const FlyerScreen = (props) => {
           text={"행사전단"}
         />
       )}
-      {currentItem.current && isVisible && (
-        <ProductPopup
-          item={currentItem.current}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      )}
+
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };

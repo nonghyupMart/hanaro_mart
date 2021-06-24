@@ -4,59 +4,12 @@ import { StyleSheet, Image } from "react-native";
 import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
 import { BaseImage, SCREEN_WIDTH, BaseText } from "../components/UI/BaseUI";
-import * as flyerActions from "../store/actions/flyer";
 import { BaseSquareButtonContainer, BaseTextInput } from "./UI/BaseUI";
 import * as Util from "../util";
-import * as RootNavigation from "../navigation/RootNavigation";
-import { setAlert } from "../store/actions/common";
 import _ from "lodash";
-import { SET_PRODUCT_DETAIL } from "../store/actions/actionTypes";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
-  if (!item) return <></>;
-  const dispatch = useDispatch();
-  // const userInfo = useSelector((state) => state.auth.userInfo);
-  // const [item_amount, setItem_amount] = useState(1);
-  // const [totalPrice, setTotalPrice] = useState(item.sale_price);
-
-  // useEffect(() => {
-  //   setTotalPrice(item.sale_price);
-  // }, [item.sale_price]);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    // setItem_amount(1);
-  }, [isVisible]);
-
-  const onAddCart = () => {
-    dispatch(
-      flyerActions.addCart({
-        store_cd: item.store_cd,
-        user_cd: userInfo.user_cd,
-        product_cd: item.product_cd,
-        leaf_cd: item.leaf_cd,
-        item_amount: item_amount ? item_amount : 1,
-      })
-    ).then((data) => {
-      if (data.result == "success")
-        dispatch(
-          setAlert({
-            message: "장바구니에 추가되었습니다.",
-            confirmText: "확인",
-            cancelText: "장바구니로 이동",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-            },
-            onPressCancel: () => {
-              dispatch(setAlert(null));
-              setIsVisible(false);
-              RootNavigation.navigate("Cart");
-            },
-          })
-        );
-    });
-  };
-  if (_.isEmpty(item)) return <></>;
+  if (!item || !isVisible || _.isEmpty(item)) return <></>;
 
   return (
     <Modal
@@ -91,35 +44,6 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
               <Price>{Util.formatNumber(item.sale_price)}원</Price>
             </PriceContainer>
           )}
-          {/* <QuantityContainer>
-              <QContainer>
-                <Image source={require("../assets/images/clipboard02.png")} />
-                <QuantityTitle>수량</QuantityTitle>
-              </QContainer>
-              <QButtonContainer>
-                <TouchableOpacity
-                  onPress={setItem_amount.bind(this,parseInt(item_amount) + 1)}
-                >
-                  <Image source={require("../assets/images/sp107.png")} />
-                </TouchableOpacity>
-                <QInput
-                  keyboardType="numeric"
-                  value={`${item_amount}`}
-                  onChangeText={(val) => setItem_amount(val)}
-                />
-                <TouchableOpacity
-                  onPress={() =>
-                    item_amount > 1 ? setItem_amount(item_amount - 1) : null
-                  }
-                >
-                  <Image source={require("../assets/images/sp108.png")} />
-                </TouchableOpacity>
-              </QButtonContainer>
-            </QuantityContainer>
-            <TotalContainer>
-              <TotalUnit>합계 : </TotalUnit>
-              <Total>{Util.formatNumber(totalPrice * item_amount)}원</Total>
-            </TotalContainer> */}
           <NoticeContainer>
             <NoticeTitleContainer>
               <NoticeIcon />
@@ -276,16 +200,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
           </InfoContainer>
 
           <BtnContainer style={{}}>
-            {/* <BlueBtn onPress={onAddCart}>
-                <Image
-                  source={require("../assets/images/baseline-shopping_cart-24px.png")}
-                />
-                <BtnText>장바구니</BtnText>
-              </BlueBtn> */}
             <GrayBtn onPress={setIsVisible.bind(this, !isVisible)}>
-              {/* <Image
-                  source={require("../assets/images/whiteback.png")}
-                /> */}
               <BtnText>닫기</BtnText>
             </GrayBtn>
           </BtnContainer>

@@ -2,7 +2,7 @@ import queryString from "query-string";
 import * as Util from "../../util";
 import _ from "lodash";
 import Constants from "expo-constants";
-import * as actionTypes from "../actions/actionTypes";
+import * as actionTypes from "./actionTypes";
 import http from "../../util/axios-instance";
 
 export const fetchHomeBanner = (query) => {

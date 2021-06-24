@@ -5,7 +5,7 @@ import styled from "styled-components/native";
 const ExtendedFlatList = (props) => {
   // const [isScrolled, setIsScrolled] = useState(false);
   let isScrolled = false;
-  
+
   const onScroll = () => {
     if (!isScrolled) isScrolled = true;
   };
@@ -25,4 +25,4 @@ const ExtendedFlatList = (props) => {
   );
 };
 
-export default ExtendedFlatList;
+export default React.memo(ExtendedFlatList);

@@ -65,4 +65,4 @@ const Circle = styled.View({
   alignItems: "center",
   justifyContent: "center",
 });
-export default NoList;
+export default React.memo(NoList);
