@@ -80,6 +80,9 @@ export const BaseText = styled(Text)({
 });
 
 BaseText.defaultProps = { allowFontScaling: false };
+export const BaseTextBold = styled(BaseText)({
+  fontFamily: "Roboto-Bold",
+});
 TextInput.defaultProps = {
   allowFontScaling: false,
   underlineColorAndroid: "transparent",

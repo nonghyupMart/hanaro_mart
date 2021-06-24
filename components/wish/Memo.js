@@ -13,7 +13,7 @@ const Memo = (props) => {
 };
 
 const Container = styled.View({
-  width: "66.4%",
+  width: "78.13%",
   alignSelf: "center",
 });
 export default React.memo(Memo);

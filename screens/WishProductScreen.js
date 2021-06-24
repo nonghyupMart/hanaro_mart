@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
-import { Platform, _Image } from "react-native";
+import { Platform, Image } from "react-native";
 import BaseScreen from "../components/BaseScreen";
 import {
   BaseTouchable,
   BaseImage,
   BaseTextInput,
+  BaseTextBold,
   BaseText,
+  BlueButton,
+  BlueButtonText,
 } from "../components/UI/BaseUI";
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
@@ -102,6 +105,19 @@ const WishProductScreen = (props) => {
           )}
         />
       )}
+      {wishItem && wishItem.productList.length <= 0 && (
+        <>
+          <NoListContainer>
+            <Image source={require("../assets/images/narocart.png")} />
+            <Text1>찜한 상품이 없어요</Text1>
+            <Text2>금주의 전단광고에서 찜해보세요.</Text2>
+          </NoListContainer>
+          <BackBtn onPress={() => props.navigation.navigate("Flyer")}>
+            <Image source={require("../assets/images/list_ic.png")} />
+            <BlueButtonText>전단광고 보러가기</BlueButtonText>
+          </BackBtn>
+        </>
+      )}
 
       <ProductPopup
         item={currentItem.current}
@@ -111,6 +127,30 @@ const WishProductScreen = (props) => {
     </BaseScreen>
   );
 };
+const BackBtn = styled(BlueButton)({ marginBottom: 65.6 });
+const Text1 = styled(BaseTextBold)({
+  letterSpacing: -0.32,
+  fontSize: 21.5,
+  textAlign: "center",
+});
+const Text2 = styled(BaseText)({
+  marginTop: 5.5,
+  fontSize: 16,
+  color: colors.WARM_GREY_THREE,
+  lineHeight: 17.5,
+  letterSpacing: -0.24,
+  height: 23.5,
+  textAlign: "center",
+  marginBottom: 20.5,
+});
+const NoListContainer = styled.View({
+  alignSelf: "center",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 34.5,
+  width: "100%",
+});
+
 const postWish = (dispatch, object, item, type) => {
   const tempObject = { ...object };
   const result = _.remove(tempObject.productList, item);
