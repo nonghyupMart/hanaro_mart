@@ -65,7 +65,8 @@
         "WRITE_EXTERNAL_STORAGE"
       ],
       "userInterfaceStyle": "light",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/9696.png"
