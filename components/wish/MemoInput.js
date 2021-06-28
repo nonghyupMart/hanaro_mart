@@ -44,13 +44,13 @@ const MemoInput = (props) => {
 
 const Container = styled.View({
   flexDirection: "row",
-  flex: 1,
+  width: "100%",
   borderBottomWidth: 2,
   borderColor: colors.emerald,
   alignItems: "center",
 });
 
-const TextInput = styled(BaseTextInput)({ flexGrow: 1 });
+const TextInput = styled(BaseTextInput)({ flexGrow: 1, width: 0 });
 
 const styles = StyleSheet.create({
   ImageButton: {
