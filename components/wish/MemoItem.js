@@ -41,6 +41,7 @@ const MemoItem = (props) => {
 const Title = styled(BaseText)({
   flex: 1,
   color: colors.WARM_GREY_TWO,
+  flexShrink: 0,
 });
 const CheckButton = (props) => {
   const checkedIcon = require("../../assets/images/bt_checked.png");
@@ -58,7 +59,10 @@ const CheckButton = (props) => {
 
 const styles = StyleSheet.create({
   imageButton: {
-    paddingRight: 10,
+    width: 33,
+    justifyContent: "flex-end",
+    alignSelf: "stretch",
+    paddingTop: 19,
   },
   checked: {
     textDecorationLine: "line-through",
@@ -75,15 +79,17 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     marginTop: 0,
     marginBottom: 1,
-    paddingTop: 0,
+    paddingTop: 19,
     paddingBottom: 0,
+    width: 33,
+    justifyContent: "flex-end",
+    alignSelf: "stretch",
   },
 });
 const Container = styled.View({
   borderBottomWidth: 1,
   borderColor: colors.WARM_GREY_TWO,
   flexDirection: "row",
-  alignItems: "center",
-  marginTop: 19,
+  alignItems: "flex-end",
 });
 export default React.memo(MemoItem);
