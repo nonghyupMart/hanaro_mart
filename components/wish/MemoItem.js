@@ -25,7 +25,7 @@ const MemoItem = (props) => {
       <ImageButton
         onPress={onDeletePress.bind(this, props.item.id)}
         source={require("../../assets/images/bt_close.png")}
-        style={styles.ImageButton}
+        style={styles.imageButton}
       />
       <Title style={!!Number(props.item.isChecked) ? styles.checked : null}>
         {props.item.title}
@@ -40,8 +40,6 @@ const MemoItem = (props) => {
 
 const Title = styled(BaseText)({
   flex: 1,
-  marginLeft: 10,
-  marginRight: 10,
   color: colors.WARM_GREY_TWO,
 });
 const CheckButton = (props) => {
@@ -59,6 +57,9 @@ const CheckButton = (props) => {
 };
 
 const styles = StyleSheet.create({
+  imageButton: {
+    paddingRight: 10,
+  },
   checked: {
     textDecorationLine: "line-through",
     color: colors.emerald,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 0,
     paddingRight: 0,
-    paddingLeft: 0,
+    paddingLeft: 10,
     marginTop: 0,
     marginBottom: 1,
     paddingTop: 0,
