@@ -50,9 +50,12 @@ const Container = styled.View({
   alignItems: "center",
 });
 
-const TextInput = styled(BaseTextInput)({ flex: 1 });
+const TextInput = styled(BaseTextInput)({ flexGrow: 1 });
 
 const styles = StyleSheet.create({
-  ImageButton: {},
+  ImageButton: {
+    flexShrink: 0,
+    flexGrow: 0,
+  },
 });
 export default React.memo(MemoInput);
