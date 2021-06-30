@@ -15,6 +15,7 @@ import { useNavigationState } from "@react-navigation/native";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Notifications from "expo-notifications";
 import JoinPopupContent from "../../screens/join/JoinPopupContent";
+import moment from "moment";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -77,6 +78,18 @@ export const ExtendedWebView = (props) => {
         break;
       case "auth":
         dispatch(setIsLoading(true));
+        if (isUnderFourteen(message.value.birthday)) {
+          return dispatch(
+            setAlert({
+              message: "만 14세이상만 가입이 가능합니다.",
+              onPressConfirm: async () => {
+                await dispatch(setAlert(null));
+                await finish();
+              },
+            })
+          );
+        }
+
         let query = {
           user_sex: message.value.sex,
           user_id: message.value.tel,
@@ -107,9 +120,7 @@ export const ExtendedWebView = (props) => {
         }
         requestSignup(query, dispatch, agreedStatus).then(() => {
           if (!_.isEmpty(userInfo)) {
-            dispatch(CommonActions.setBottomNavigation(true));
-            if (index > 0) RootNavigation.pop();
-            else RootNavigation.navigate("Home");
+            finish();
           }
           dispatch(setIsLoading(false));
         });
@@ -117,11 +128,20 @@ export const ExtendedWebView = (props) => {
         // message.value
         break;
       case "close":
-        dispatch(CommonActions.setBottomNavigation(true));
-        if (index > 0) RootNavigation.pop();
-        else RootNavigation.navigate("Home");
+        finish();
         break;
     }
+  };
+
+  const isUnderFourteen = (birthday) => {
+    // block under age 14
+    var years = moment().diff(birthday, "years");
+    return years < 14;
+  };
+  const finish = async () => {
+    dispatch(CommonActions.setBottomNavigation(true));
+    if (index > 0) RootNavigation.pop();
+    else RootNavigation.navigate("Home");
   };
   const hideSpinner = () => {
     setIsLoaded(true);
