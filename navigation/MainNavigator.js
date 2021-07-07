@@ -150,7 +150,6 @@ import EventResultScreen, {
 } from "../screens/home/EventResultScreen";
 
 
-
 const getTabBarVisible = (route) => {
   const params = route.params;
   if (params) {

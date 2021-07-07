@@ -51,4 +51,5 @@ export default colors = {
   CERULEAN_2: "#006dbb",
   WARM_GREY_TWO: "#7d7d7d",
   WARM_GREY_THREE: "#707070",
+  WARM_GREY_FOUR: "#a2a2a2",
 };

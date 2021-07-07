@@ -31,7 +31,7 @@ const BackButton = (props) => {
         iconName="chevron-thin-left"
         onPress={() => {
           switch (navigationState.routes[index].name) {
-            case "Agreement":
+            case "Login":
               return dispatch(setPreview(true));
               break;
             case "Notification":

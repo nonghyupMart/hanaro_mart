@@ -223,6 +223,7 @@ export const BlueButtonText = styled(BaseText)({
   color: colors.trueWhite,
   marginLeft: 3,
 });
+// TODO : check layouts where BlueButton is used.
 export const BlueButton = styled(BaseButtonContainer)({
   marginTop: 5,
   justifyContent: "center",
@@ -231,6 +232,13 @@ export const BlueButton = styled(BaseButtonContainer)({
   backgroundColor: colors.cerulean,
   paddingTop: 8,
   paddingBottom: 8,
-  flex: 1,
   alignSelf: "center",
 });
+
+export const BaseButton = (props) => {
+  return (
+    <BlueButton style={props.style} {...props}>
+      <BlueButtonText style={props.textStyle}>{props.children}</BlueButtonText>
+    </BlueButton>
+  );
+};

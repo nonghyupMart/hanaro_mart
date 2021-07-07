@@ -15,6 +15,9 @@ import StoreChangeDetailScreen, {
   screenOptions as StoreChangeDetailScreenOptions,
 } from "../screens/snb/StoreChangeDetailScreen";
 import { CardStyleInterpolators } from "@react-navigation/stack";
+import LoginScreen, {
+  screenOptions as LoginScreenOptions,
+} from "../screens/LoginScreen";
 
 const JoinStackNavigator = createStackNavigator();
 export const JoinNavigator = () => {
@@ -24,6 +27,11 @@ export const JoinNavigator = () => {
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
       }}
     >
+      <JoinStackNavigator.Screen
+        name="Login"
+        component={LoginScreen}
+        options={LoginScreenOptions}
+      />
       <JoinStackNavigator.Screen
         name="Agreement"
         component={AgreementScreen}

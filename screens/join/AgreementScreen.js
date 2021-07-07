@@ -587,7 +587,6 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
-    animationEnabled: false,
   };
 };
 export default AgreementScreen;
