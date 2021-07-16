@@ -112,7 +112,6 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPressEditMyInfo = () => {
-    console.log(userInfo.amnNo);
     userInfo.amnNo
       ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
       : props.navigation.navigate("CI");

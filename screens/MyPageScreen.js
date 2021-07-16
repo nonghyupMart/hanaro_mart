@@ -33,10 +33,10 @@ const MyPageScreen = ({ navigation }) => {
           <Icon source={require("../assets/images/tools.png")} />
           <BtnText>내정보확인</BtnText>
         </BtnContainer>
-        {/* <BtnContainer onPress={() => navigation.navigate("MyADAgreement")}>
+        <BtnContainer onPress={() => navigation.navigate("MyADAgreement")}>
           <Icon source={require("../assets/images/adicon.png")} />
           <BtnText>광고성 정보 수신동의</BtnText>
-        </BtnContainer> */}
+        </BtnContainer>
         <BtnContainer onPress={() => navigation.navigate("MyReviews")}>
           <Icon source={require("../assets/images/chat3.png")} />
           <BtnText>나의리뷰</BtnText>

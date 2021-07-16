@@ -21,6 +21,38 @@ export const setDidTryAL = () => {
   return { type: actionTypes.SET_DID_TRY_AL };
 };
 
+export const signup = (query) => {
+  let url;
+  const data = JSON.stringify(query);
+
+  return async (dispatch) => {
+    const setResponse = async (response) => {
+      if (response.data.userInfo && !response.data.userInfo.user_cd)
+        return response.data;
+      await dispatch(setUserInfo(response.data.userInfo));
+      await saveUserInfoToStorage(response.data.userInfo);
+      return response.data;
+    };
+    if (!query.user_cd) {
+      url = queryString.stringifyUrl({
+        url: `/v1/user_add`,
+      });
+      return http
+        .init({ dispatch: dispatch, isAutoOff: true })
+        .post(url, data)
+        .then(async (response) => setResponse(response));
+    } else {
+      url = queryString.stringifyUrl({
+        url: `/v1/user_modify`,
+      });
+      return http
+        .init({ dispatch: dispatch, isAutoOff: true })
+        .patch(url, data)
+        .then(async (response) => setResponse(response));
+    }
+  };
+};
+
 export const setPushToken = (pushToken) => {
   return { type: actionTypes.SET_PUSH_TOKEN, pushToken: pushToken };
 };
@@ -105,7 +137,7 @@ export const updateLoginLog = (query) => {
 
   return async (dispatch) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -223,7 +255,11 @@ export const updateUserInfo = async ({
   }
 
   return dispatch(updateLoginLog(query)).then(async (data) => {
-    if (_.isEmpty(data.userInfo) || data.userInfo.user_cd != userInfo.user_cd)
+    if (
+      _.isEmpty(data.userInfo) ||
+      data.userInfo.user_cd != userInfo.user_cd ||
+      !data.userInfo.recommend
+    )
       return;
 
     await saveUserData(dispatch, data);
@@ -367,7 +403,7 @@ export const login = (query) => {
   const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         let data = response.data;

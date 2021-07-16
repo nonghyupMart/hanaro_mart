@@ -47,7 +47,6 @@ const MyADAgreementScreen = (props) => {
         pushToken: pushToken,
         userStore: userStore,
       }).then((data) => {
-        dispatch(setIsLoading(false));
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
         setPush(data.userInfo.push_agree == "Y" ? true : false);
         setMarketing_date(data.userInfo.marketing_date);
@@ -75,7 +74,6 @@ const MyADAgreementScreen = (props) => {
     };
     dispatch(authActions.signup(query)).then((data) => {
       const userInfo = data.userInfo;
-      dispatch(setIsLoading(false));
       let yn = push || sms ? "동의" : "거부";
       dispatch(
         setAlert({
