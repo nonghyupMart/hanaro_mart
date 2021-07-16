@@ -9,10 +9,45 @@ import * as RootNavigation from "../navigation/RootNavigation";
 import colors from "../constants/Colors";
 import { setPreview } from "../store/actions/auth";
 import { setAlert, setIsLoading } from "../store/actions/common";
+import * as authActions from "../store/actions/auth";
 import _ from "lodash";
+import * as Util from "../util";
 
 const LoginScreen = (props) => {
   const dispatch = useDispatch();
+  const userStore = useSelector((state) => state.auth.userStore);
+  const pushToken = useSelector((state) => state.auth.pushToken);
+  const [intg_id, setIntg_id] = useState("");
+  const [intg_pwd, setIntg_pwd] = useState("");
+
+  // "intg_id":"hanaroapp911","intg_pwd":"doollee1!"
+  const login = async () => {
+    if (intg_id.length <= 0) {
+      return showAlert("아이디를 입력해 주세요.");
+    }
+    if (intg_pwd.length <= 0) {
+      return showAlert("패스워드를 입력해 주세요.");
+    }
+    await dispatch(
+      authActions.login({
+        intg_id,
+        intg_pwd: Util.encrypt(intg_pwd),
+        store_cd: userStore.storeInfo.store_cd,
+        token: pushToken,
+      })
+    );
+  };
+
+  const showAlert = (msg) => {
+    return dispatch(
+      setAlert({
+        message: msg,
+        onPressConfirm: async () => {
+          await dispatch(setAlert(null));
+        },
+      })
+    );
+  };
 
   return (
     <BaseScreen
@@ -34,18 +69,30 @@ const LoginScreen = (props) => {
       }}
     >
       <Logo source={require("../assets/images/hanaromart.png")} />
-      <TextInput placeholder="아이디" autoFocus={true} />
+      <TextInput
+        placeholder="아이디"
+        autoFocus={true}
+        value={intg_id}
+        onChangeText={(text) => setIntg_id(text)}
+      />
       <TextInput
         placeholder="비밀번호"
         autoCompleteType="password"
         textContentType="password"
         secureTextEntry={true}
+        value={intg_pwd}
+        onChangeText={(text) => setIntg_pwd(text)}
       />
-      <RoundButton>통합회원 로그인</RoundButton>
+      <RoundButton onPress={() => login()}>통합회원 로그인</RoundButton>
       <UtilContainer>
         <SimpleButton>아이디 찾기</SimpleButton>
         <SimpleButton>비밀번호 찾기</SimpleButton>
-        <SimpleButton style={{ borderRightWidth: 0 }}>회원가입</SimpleButton>
+        <SimpleButton
+          style={{ borderRightWidth: 0 }}
+          onPress={() => props.navigation.navigate("NHAHM", { regiDesc: "01" })}
+        >
+          회원가입
+        </SimpleButton>
       </UtilContainer>
       <RoundButton2 onPress={() => props.navigation.navigate("CI")}>
         휴대폰 로그인
@@ -57,6 +104,7 @@ const LoginScreen = (props) => {
 const SimpleButton = (props) => {
   return (
     <TouchableOpacity
+      {...props}
       style={[
         {
           paddingLeft: 14,

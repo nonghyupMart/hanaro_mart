@@ -18,6 +18,9 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 import LoginScreen, {
   screenOptions as LoginScreenOptions,
 } from "../screens/LoginScreen";
+import NHAHMScreen, {
+  screenOptions as NHAHMScreenOptions,
+} from "../screens/join/NHAHMScreen";
 
 const JoinStackNavigator = createStackNavigator();
 export const JoinNavigator = () => {
@@ -36,6 +39,11 @@ export const JoinNavigator = () => {
         name="Agreement"
         component={AgreementScreen}
         options={AgreementScreenOptions}
+      />
+      <JoinStackNavigator.Screen
+        name="NHAHM"
+        component={NHAHMScreen}
+        options={NHAHMScreenOptions}
       />
       <JoinStackNavigator.Screen
         name="CI"

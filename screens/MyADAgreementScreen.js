@@ -32,6 +32,7 @@ import { updateUserInfo } from "../store/actions/auth";
 const MyADAgreementScreen = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
@@ -40,7 +41,12 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
+      updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
+      }).then((data) => {
         dispatch(setIsLoading(false));
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
         setPush(data.userInfo.push_agree == "Y" ? true : false);

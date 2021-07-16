@@ -53,7 +53,12 @@ const HomeScreen = (props) => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));
-      authActions.updateUserInfo(dispatch, userInfo, pushToken);
+      authActions.updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
+      });
     }
 
     return () => {

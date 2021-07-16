@@ -17,25 +17,36 @@ import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 import { SERVER_URL, API_URL } from "../../constants";
 
-const CIScreen = ({ navigation, route }) => {
+const NHAHMScreen = ({ navigation, route }) => {
   const params = route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+
   useEffect(() => {
-    if (!_.isEmpty(userInfo)) {
+    dispatch(CommonActions.setBottomNavigation(false));
+
+    if (params.regiDesc !== "01") {
+      let title = "";
+      switch (params.regiDesc) {
+        case "02":
+          title = "회원정보수정";
+          break;
+        case "03":
+          title = "비밀번호 변경";
+          break;
+        case "04":
+          title = "회원탈퇴";
+          break;
+      }
       navigation.setOptions({
-        title: "본인인증",
-        cardStyle: {
-          marginBottom: 0,
-        },
+        title: title,
       });
     }
-    dispatch(CommonActions.setBottomNavigation(false));
+
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
     };
   }, []);
-
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView
@@ -49,9 +60,9 @@ const CIScreen = ({ navigation, route }) => {
           width: SCREEN_WIDTH,
         }}
         source={{
-          uri: `${SERVER_URL}/web/access/auth.do?ver=2&key=${new Date().getTime()}`,
-
-          // html: require("../ringPicker/index.js")(),
+          uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
+            params.regiDesc
+          }&amnNo=${!_.isEmpty(userInfo) ? userInfo.amnNo : ""}`,
         }}
       />
     </BaseScreen>
@@ -59,7 +70,7 @@ const CIScreen = ({ navigation, route }) => {
 };
 export const screenOptions = ({ navigation }) => {
   return {
-    title: "휴대폰 본인인증",
+    title: "회원가입",
 
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
@@ -152,4 +163,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CIScreen;
+export default NHAHMScreen;

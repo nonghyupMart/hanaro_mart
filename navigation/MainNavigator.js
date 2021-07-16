@@ -149,6 +149,10 @@ import EventResultScreen, {
   screenOptions as EventResultScreenOptions,
 } from "../screens/home/EventResultScreen";
 
+import NHAHMScreen, {
+  screenOptions as NHAHMScreenOptions,
+} from "../screens/join/NHAHMScreen";
+
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -427,6 +431,12 @@ export const HomeNavigator = ({ navigation, route }) => {
           component={EventResultScreen}
           options={EventResultScreenOptions}
         />
+        <HomeStackNavigator.Screen
+          name="NHAHM"
+          component={NHAHMScreen}
+          options={NHAHMScreenOptions}
+        />
+        
       </HomeStackNavigator.Navigator>
       <BottomButtons />
     </Fragment>

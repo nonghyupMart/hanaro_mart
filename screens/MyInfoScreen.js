@@ -54,7 +54,12 @@ const MyInfoScreen = (props) => {
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       dispatch(setIsLoading(true));
-      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
+      updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
+      }).then((data) => {
         dispatch(setIsLoading(false));
       });
     }
@@ -91,7 +96,12 @@ const MyInfoScreen = (props) => {
               onPressConfirm: () => {
                 dispatch(setAlert(null));
                 dispatch(setIsLoading(true));
-                updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
+                updateUserInfo({
+                  dispatch: dispatch,
+                  userInfo: userInfo,
+                  pushToken: pushToken,
+                  userStore: userStore,
+                }).then((data) => {
                   dispatch(setIsLoading(false));
                 });
               },
@@ -101,7 +111,12 @@ const MyInfoScreen = (props) => {
       }
     );
   };
-  const onPressShowQRCode = () => {};
+  const onPressEditMyInfo = () => {
+    console.log(userInfo.amnNo);
+    userInfo.amnNo
+      ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
+      : props.navigation.navigate("CI");
+  };
   if (!barcode || _.isEmpty(userStore)) return <></>;
   return (
     <BaseScreen
@@ -123,7 +138,7 @@ const MyInfoScreen = (props) => {
             paddingRight: 43,
           }}
         >
-          <EditButton onPress={() => props.navigation.navigate("CI")}>
+          <EditButton onPress={() => onPressEditMyInfo()}>
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
