@@ -51,15 +51,13 @@ const LoginScreen = (props) => {
 
   return (
     <BaseScreen
-      isScroll={false}
       isPadding={false}
       style={{
         backgroundColor: colors.trueWhite,
-        paddingLeft: 20,
-        paddingRight: 20,
-        alignItems: "center",
       }}
       contentStyle={{
+        paddingLeft: 20,
+        paddingRight: 20,
         paddingTop: 0,
         paddingBottom: 0,
         backgroundColor: colors.trueWhite,

@@ -48,7 +48,7 @@ const NHAHMScreen = ({ navigation, route }) => {
     };
   }, []);
   return (
-    <BaseScreen isScroll={false} isPadding={false}>
+    <BaseScreen isPadding={false}>
       <ExtendedWebView
         recommend={params ? params.recommend : null}
         startInLoadingState={true}
