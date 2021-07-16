@@ -83,8 +83,12 @@ const LoginScreen = (props) => {
       />
       <RoundButton onPress={() => login()}>통합회원 로그인</RoundButton>
       <UtilContainer>
-        <SimpleButton>아이디 찾기</SimpleButton>
-        <SimpleButton>비밀번호 찾기</SimpleButton>
+        {/* <SimpleButton>아이디 찾기</SimpleButton> */}
+        <SimpleButton
+          onPress={() => props.navigation.navigate("NHAHM", { regiDesc: "03" })}
+        >
+          비밀번호 찾기
+        </SimpleButton>
         <SimpleButton
           style={{ borderRightWidth: 0 }}
           onPress={() => props.navigation.navigate("NHAHM", { regiDesc: "01" })}

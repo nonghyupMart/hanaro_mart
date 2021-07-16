@@ -141,6 +141,22 @@ const MyInfoScreen = (props) => {
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
+          {userInfo.amnNo && (
+            <EditButton
+              onPress={() =>
+                props.navigation.navigate("NHAHM", {
+                  regiDesc: "03",
+                })
+              }
+              style={{
+                aspectRatio: 100 / 23.4375,
+                marginLeft: 9,
+              }}
+            >
+              <EditButtonText>비밀번호 변경</EditButtonText>
+              <Image source={require("../assets/images/tools3.png")} />
+            </EditButton>
+          )}
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/shop1black.png")} />
