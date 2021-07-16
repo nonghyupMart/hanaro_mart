@@ -138,7 +138,7 @@ export const updateLoginLog = (query) => {
   return async (dispatch) => {
     return http
       .init({ dispatch: dispatch, isAutoOff: true })
-      .post(url, data)
+      .patch(url, data)
       .then(async (response) => {
         return response.data;
       });
@@ -404,7 +404,7 @@ export const login = (query) => {
   return async (dispatch) => {
     return http
       .init({ dispatch: dispatch, isAutoOff: true })
-      .post(url, data)
+      .patch(url, data)
       .then(async (response) => {
         let data = response.data;
         if (response.data.userInfo) {

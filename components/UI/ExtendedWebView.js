@@ -83,6 +83,8 @@ export const ExtendedWebView = (props) => {
         break;
       case "auth":
         await dispatch(setIsLoading(true));
+        if (hasAlreadyRegistered(message.value.user_cd)) return;
+
         let query = {
           // os: Platform.OS === "ios" ? "I" : "A",
           user_cd: message.value.user_cd,
@@ -114,6 +116,23 @@ export const ExtendedWebView = (props) => {
         finish();
         break;
     }
+  };
+
+  const hasAlreadyRegistered = (user_cd) => {
+    // show alert when user_cd is ""
+    if (user_cd == "") {
+      return dispatch(
+        CommonActions.setAlert({
+          message: "가입된 정보가 없습니다. 회원가입을 해주세요.",
+          onPressConfirm: async () => {
+            await dispatch(setIsLoading(false));
+            await dispatch(CommonActions.setAlert(null));
+            finish();
+          },
+        })
+      );
+    }
+    return false;
   };
 
   const isUnderFourteen = (birthday) => {
