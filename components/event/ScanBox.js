@@ -69,6 +69,8 @@ const ScanBox = (props) => {
 };
 
 const GreenBtn = styled(BlueButton)({
+  aspectRatio: 100 / 12.844,
+  height: 42,
   backgroundColor: colors.appleGreen,
 });
 const GrayButton = styled(GreenBtn)({

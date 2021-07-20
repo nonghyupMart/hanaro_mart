@@ -4,6 +4,8 @@ import StampBox from "../../../components/event/StampBox";
 import ScanBox from "../../../components/event/ScanBox";
 import ApplyBox from "../../../components/event/ApplyBox";
 import { BaseText } from "../../../components/UI/BaseUI";
+import * as Util from "../../../util";
+import colors from "../../../constants/Colors";
 
 const C = (props) => {
   const entry_date_yn = props.eventDetail.entry.entry_date_yn;
@@ -22,17 +24,41 @@ const C = (props) => {
         >
           <Text1>교환내역 확인</Text1>
         </Btn>
+        {props.eventDetail.entry.stamp_stock >= 0 && (
+          <RoundedView>
+            <RoundedText>
+              {Util.formatNumber(props.eventDetail.entry.stamp_stock)}개 남음
+            </RoundedText>
+          </RoundedView>
+        )}
       </Container>
       <StampBox {...props} />
     </View>
   );
 };
+
+const RoundedView = styled.View({
+  width: 77,
+  height: 26.5,
+  backgroundColor: colors.grapefruit,
+  borderRadius: 27,
+  justifyContent: "center",
+  alignItems: "center",
+  alignSelf: "center",
+});
+const RoundedText = styled(BaseText)({
+  letterSpacing: -0.41,
+  color: colors.trueWhite,
+  fontSize: 13.5,
+  fontFamily: "Roboto-Medium",
+});
+
 const Btn = styled.TouchableOpacity({
   borderBottomWidth: 1,
   borderColor: colors.CERULEAN_2,
   alignSelf: "center",
   marginTop: 21,
-  marginBottom: 25,
+  marginBottom: 7.5,
 });
 const Text1 = styled(BaseText)({
   color: colors.CERULEAN_2,
