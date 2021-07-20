@@ -17,6 +17,7 @@ import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
 
 const MyPageScreen = ({ navigation }) => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
   return (
     <BaseScreen
       isPadding={false}
@@ -55,7 +56,11 @@ const MyPageScreen = ({ navigation }) => {
         </BtnContainer>
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
-          onPress={() => navigation.navigate("NHAHM", { regiDesc: "04" })}
+          onPress={() =>
+            userInfo.amnNo
+              ? navigation.navigate("NHAHM", { regiDesc: "04" })
+              : navigation.navigate("Withdrawal")
+          }
         >
           <Icon source={require("../assets/images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
