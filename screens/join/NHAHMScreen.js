@@ -40,6 +40,9 @@ const NHAHMScreen = ({ navigation, route }) => {
       }
       navigation.setOptions({
         title: title,
+        cardStyle: {
+          marginBottom: 0,
+        },
       });
     }
 
@@ -75,6 +78,9 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
+    cardStyle: {
+      marginBottom: 0,
+    },
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },
