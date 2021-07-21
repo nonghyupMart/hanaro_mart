@@ -32,7 +32,7 @@ const NHAHMScreen = ({ navigation, route }) => {
           title = "회원정보수정";
           break;
         case "03":
-          title = "비밀번호 변경";
+          title =  params.amnNo? "비밀번호 변경": "비밀번호 찾기";
           break;
         case "04":
           title = "회원탈퇴";
