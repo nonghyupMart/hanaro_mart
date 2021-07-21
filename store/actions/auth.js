@@ -5,7 +5,12 @@ import * as Updates from "expo-updates";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
-import { setAlert, setIsLoading, setDidTryPopup } from "../actions/common";
+import {
+  setAlert,
+  setIsLoading,
+  setDidTryPopup,
+  showServiceErrorAlert,
+} from "../actions/common";
 import * as actionTypes from "./actionTypes";
 import http from "../../util/axios-instance";
 import * as RootNavigation from "../../navigation/RootNavigation";
@@ -292,30 +297,7 @@ export const getResponse = async (response, dispatch, url, query) => {
     // console.warn(response);
     Util.log("ERROR getResponse=> ", url, query);
     Util.log("ERROR message ==>", resData.error.errorMsg);
-    dispatch(
-      setAlert({
-        message:
-          "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
-        confirmText: "재실행",
-        onPressConfirm: async () => {
-          try {
-            if (!__DEV__) {
-              await dispatch(setIsLoading(true));
-              const update = await Updates.checkForUpdateAsync();
-              if (update.isAvailable) {
-                await Updates.fetchUpdateAsync();
-              }
-            }
-          } catch (e) {
-            // handle or log error
-            Util.log("update error=>", e);
-          } finally {
-            await dispatch(setIsLoading(false));
-            await Updates.reloadAsync();
-          }
-        },
-      })
-    );
+    showServiceErrorAlert(dispatch);
     return resData;
   }
 

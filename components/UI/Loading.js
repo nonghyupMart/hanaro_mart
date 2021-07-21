@@ -19,7 +19,7 @@ const Loading = ({ isLoading }) => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       dispatch(setIsLoading(false));
-    }, 1000 * 15);
+    }, 30000);
     return () => {
       clearTimeout(timerRef.current);
       timerRef.current;
