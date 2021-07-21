@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  BackHandler,
+  TouchableOpacity,
+} from "react-native";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { BaseTextInput, BaseButton, BaseText } from "../components/UI/BaseUI";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,6 +25,19 @@ const LoginScreen = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const [intg_id, setIntg_id] = useState("");
   const [intg_pwd, setIntg_pwd] = useState("");
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        dispatch(setPreview(true));
+        return true;
+      }
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
 
   // "intg_id":"hanaroapp911","intg_pwd":"doollee1!"
   const login = async () => {
