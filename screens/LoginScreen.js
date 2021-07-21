@@ -117,8 +117,9 @@ const SimpleButton = (props) => {
           paddingRight: 14,
           borderColor: colors.WARM_GREY_FOUR,
           borderRightWidth: 1,
-          height: 15.7,
+          height: 16,
           alignItems: "center",
+          justifyContent: "center",
         },
         props.style,
       ]}
