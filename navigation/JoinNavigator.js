@@ -21,6 +21,9 @@ import LoginScreen, {
 import NHAHMScreen, {
   screenOptions as NHAHMScreenOptions,
 } from "../screens/join/NHAHMScreen";
+import FindIDResultScreen, {
+  screenOptions as FindIDResultScreenOptions,
+} from "../screens/join/FindIDResultScreen";
 
 const JoinStackNavigator = createStackNavigator();
 export const JoinNavigator = () => {
@@ -59,6 +62,11 @@ export const JoinNavigator = () => {
         name="StoreSetupDetail"
         component={StoreChangeDetailScreen}
         options={StoreChangeDetailScreenOptions}
+      />
+      <JoinStackNavigator.Screen
+        name="FindIDResult"
+        component={FindIDResultScreen}
+        options={FindIDResultScreenOptions}
       />
     </JoinStackNavigator.Navigator>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -21,6 +21,11 @@ const CIScreen = ({ navigation, route }) => {
   const params = route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const uriRef = useRef(
+    `${SERVER_URL}/web/access/auth.do?ver=${
+      params && params.ver ? params.ver : "2"
+    }&key=${new Date().getTime()}`
+  );
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       navigation.setOptions({
@@ -49,8 +54,7 @@ const CIScreen = ({ navigation, route }) => {
           width: SCREEN_WIDTH,
         }}
         source={{
-          uri: `${SERVER_URL}/web/access/auth.do?ver=2&key=${new Date().getTime()}`,
-
+          uri: uriRef.current,
           // html: require("../ringPicker/index.js")(),
         }}
       />

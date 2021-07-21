@@ -112,6 +112,13 @@ export const ExtendedWebView = (props) => {
         });
         // message.value
         break;
+      case "searchId":
+        RootNavigation.replace("FindIDResult", {
+          intg_id: message.value.intg_id,
+          reg_date: message.value.reg_date,
+          user_cd: message.value.user_cd,
+        });
+        break;
       case "close":
         finish();
         break;
