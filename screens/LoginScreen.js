@@ -88,7 +88,6 @@ const LoginScreen = (props) => {
       <Logo source={require("../assets/images/hanaromart.png")} />
       <TextInput
         placeholder="아이디"
-        autoFocus={true}
         value={intg_id}
         onChangeText={(text) => setIntg_id(text)}
       />
