@@ -19,7 +19,12 @@ import {
 import _ from "lodash";
 import * as Util from "../../../util";
 import * as Linking from "expo-linking";
-import { checkSetStore, checkAuth } from "../../../store/actions/auth";
+import {
+  checkSetStore,
+  checkAuth,
+  withdrawalFinish,
+} from "../../../store/actions/auth";
+import * as Updates from "expo-updates";
 
 const MenuList = (props) => {
   const dispatch = useDispatch();
@@ -147,20 +152,57 @@ const MenuList = (props) => {
           <MenuText>찜한 상품 목록</MenuText>
         </MenuButton>
       </MenuButtonContainer>
-      <ShareBtn
-        onPress={Util.sendShareLink.bind(this, userInfo && userInfo.recommend)}
-      >
+      <BottomContainer>
+        {!_.isEmpty(userInfo) && (
+          <LogoutTouchable
+            onPress={() =>
+              dispatch(withdrawalFinish()).then(() => {
+                Updates.reloadAsync();
+              })
+            }
+          >
+            <LogoutText>로그아웃하기</LogoutText>
+            <Image
+              source={require("../../../assets/images/ic_logout.png")}
+              resizeMode="contain"
+              style={{
+                width: Util.normalize(25),
+              }}
+            />
+          </LogoutTouchable>
+        )}
+        <ShareBtn
+          onPress={Util.sendShareLink.bind(
+            this,
+            userInfo && userInfo.recommend
+          )}
+        ></ShareBtn>
         <Image
           source={require("../../../assets/images/bt_heart.png")}
           resizeMode="contain"
-          style={{
-            width: Util.normalize(190),
-          }}
+          style={{ width: Util.normalize(169) }}
         />
-      </ShareBtn>
+      </BottomContainer>
     </MenuContainer>
   );
 };
+const BottomContainer = styled.View({
+  marginTop: Util.normalize(37.5),
+  marginBottom: Util.normalize(19.9),
+  alignSelf: "center",
+});
+const LogoutText = styled(BaseText)({
+  fontSize: 13,
+  color: colors.GREYISH_BROWN_TWO,
+  marginRight: 7.5,
+});
+const LogoutTouchable = styled.TouchableOpacity({
+  flexDirection: "row",
+  justifyContent: "flex-end",
+  alignItems: "center",
+  alignSelf: "flex-end",
+  marginBottom: 13,
+});
 const AnimatableView = styled(Animated.View)({
   flexDirection: "row",
   alignItems: "center",
@@ -179,23 +221,19 @@ const SubMenuText = styled(BaseText)({
   lineHeight: 15.5,
   letterSpacing: -0.7,
   textAlign: "left",
-  color: colors.warmGrey,
+  color: colors.WARM_GREY,
   marginLeft: 5.5,
 });
 const OpenButton = styled.View({
   marginRight: 27,
 });
 const ShareBtn = styled.TouchableOpacity({
-  marginTop: Util.normalize(37.5),
-  marginBottom: Util.normalize(19.9),
   justifyContent: "center",
-  marginLeft: -2,
-
   alignItems: "center",
 });
 const MenuContainer = styled.View({
   paddingTop: Util.normalize(28.9),
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
 });
 const MenuButtonContainer = styled.View({
   flexDirection: "row",
@@ -207,7 +245,7 @@ const MenuText = styled(BaseText)({
   fontStyle: "normal",
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrownTwo,
+  color: colors.GREYISH_BROWN_TWO,
   marginLeft: Util.normalize(15),
   flex: 1,
 });
