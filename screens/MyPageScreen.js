@@ -57,7 +57,7 @@ const MyPageScreen = ({ navigation }) => {
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
           onPress={() =>
-            userInfo.amnNo
+            !_.isEmpty(userInfo.amnNo)
               ? navigation.navigate("NHAHM", { regiDesc: "04" })
               : navigation.navigate("Withdrawal")
           }

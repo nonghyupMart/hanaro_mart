@@ -53,14 +53,11 @@ const MyInfoScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      dispatch(setIsLoading(true));
       updateUserInfo({
         dispatch: dispatch,
         userInfo: userInfo,
         pushToken: pushToken,
         userStore: userStore,
-      }).then((data) => {
-        dispatch(setIsLoading(false));
       });
     }
   }, []);
@@ -112,7 +109,7 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPressEditMyInfo = () => {
-    userInfo.amnNo
+    !_.isEmpty(userInfo.amnNo)
       ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
       : props.navigation.navigate("CI");
   };
@@ -141,7 +138,7 @@ const MyInfoScreen = (props) => {
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
-          {userInfo.amnNo && (
+          {!_.isEmpty(userInfo.amnNo) && (
             <EditButton
               onPress={() =>
                 props.navigation.navigate("NHAHM", {
