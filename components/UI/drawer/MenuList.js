@@ -176,12 +176,13 @@ const MenuList = (props) => {
             this,
             userInfo && userInfo.recommend
           )}
-        ></ShareBtn>
-        <Image
-          source={require("../../../assets/images/bt_heart.png")}
-          resizeMode="contain"
-          style={{ width: Util.normalize(169) }}
-        />
+        >
+          <Image
+            source={require("../../../assets/images/bt_heart.png")}
+            resizeMode="contain"
+            style={{ width: Util.normalize(169) }}
+          />
+        </ShareBtn>
       </BottomContainer>
     </MenuContainer>
   );
