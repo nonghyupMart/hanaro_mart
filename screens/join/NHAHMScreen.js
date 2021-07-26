@@ -32,7 +32,7 @@ const NHAHMScreen = ({ navigation, route }) => {
           title = "회원정보수정";
           break;
         case "03":
-          title =  params.amnNo? "비밀번호 변경": "비밀번호 찾기";
+          title = params.amnNo ? "비밀번호 변경" : "비밀번호 찾기";
           break;
         case "04":
           title = "회원탈퇴";
@@ -92,14 +92,14 @@ export const screenOptions = ({ navigation }) => {
 };
 
 const GreenButton = styled(BaseButtonContainer)({
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
 
   flex: 1,
   width: "100%",
   flexGrow: 0,
 });
 const BlueButton = styled(GreenButton)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const UpperContainer = styled.View({
   flex: 0.5,
@@ -119,7 +119,7 @@ const Info = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 
   flex: 0.3,
 });
@@ -142,10 +142,10 @@ const Box = styled(BaseTouchable)({
   width: "100%",
   flex: 1,
   borderRadius: 8,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   paddingLeft: SCREEN_HEIGHT * 0.083,
   paddingRight: SCREEN_HEIGHT * 0.083,
   // paddingBottom:SCREEN_HEIGHT *0.027,

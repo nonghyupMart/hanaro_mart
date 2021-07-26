@@ -31,7 +31,7 @@ const Img = styled.Image({
 const Title = styled(BaseText)({
   fontSize: 15,
   fontFamily: "Roboto-Bold",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Status = styled(BaseText)({
   fontSize: 13,
@@ -40,7 +40,7 @@ const Status = styled(BaseText)({
   lineHeight: 19,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
   marginLeft: 3,
 });
 const StatusContainer = styled.View({
@@ -53,7 +53,7 @@ const TitleContainer = styled.View({
 const Date = styled(BaseText)({
   fontSize: 15,
   fontFamily: "Roboto-Bold",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Container = styled.View({
   width: "100%",
@@ -62,8 +62,8 @@ const Container = styled.View({
   borderTopWidth: 1,
   borderBottomWidth: 1,
   borderRightWidth: 1,
-  borderColor: colors.white2,
-  borderLeftColor: colors.greyishTwo,
+  borderColor: colors.WHITE2,
+  borderLeftColor: colors.GREYISH_TWO,
   paddingLeft: 17,
   paddingTop: 17,
   paddingBottom: 17,

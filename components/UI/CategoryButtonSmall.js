@@ -19,7 +19,7 @@ const CategoryButtonSmall = (props) => {
 };
 const Button = styled.TouchableOpacity({
   borderWidth: 1,
-  borderColor: colors.emerald,
+  borderColor: colors.EMERALD,
   borderRadius: 30,
   paddingLeft: 6,
   paddingRight: 6,
@@ -33,12 +33,12 @@ const ButtonText = styled(BaseText)({
   fontSize: Util.normalize(13),
   letterSpacing: -0.34,
   textAlign: "center",
-  color: colors.emerald,
+  color: colors.EMERALD,
   fontFamily: "Roboto-Bold",
 });
 const SelectedButton = styled(Button)({
-  backgroundColor: colors.emerald,
+  backgroundColor: colors.EMERALD,
 });
-const SelectedText = styled(ButtonText)({ color: colors.trueWhite });
+const SelectedText = styled(ButtonText)({ color: colors.TRUE_WHITE });
 
 export default CategoryButtonSmall;

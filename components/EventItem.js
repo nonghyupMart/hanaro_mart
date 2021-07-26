@@ -41,7 +41,7 @@ const EventItem = (props) => {
 const Title = styled(BaseText)({
   fontSize: 15,
   fontFamily: "Roboto-Bold",
-  color: colors.black,
+  color: colors.BLACK,
   lineHeight: 22.5,
   height: 25,
   marginTop: 8.5,
@@ -53,7 +53,7 @@ const Status = styled(BaseText)({
   lineHeight: 19,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
   marginLeft: 3,
 });
 const StatusContainer = styled.View({
@@ -69,7 +69,7 @@ const Date = styled(BaseText)({
   lineHeight: 16.5,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Container = styled.View({
   width: "100%",

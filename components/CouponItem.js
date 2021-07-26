@@ -34,7 +34,7 @@ const CouponItem = (props) => {
       <Discount
         numberOfLines={1}
         style={{
-          color: props.item.status > 10 ? colors.greyishTwo : colors.emerald,
+          color: props.item.status > 10 ? colors.GREYISH_TWO : colors.EMERALD,
         }}
       >
         {Util.formatNumber(props.item.price)}
@@ -47,7 +47,7 @@ const CouponItem = (props) => {
       {props.item.status == "00" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.trueWhite }}
+          style={{ backgroundColor: colors.TRUE_WHITE }}
         >
           <ButtonText>쿠폰 다운로드</ButtonText>
           <Icon source={require("../assets/images/ic_file_download_1.png")} />
@@ -56,9 +56,9 @@ const CouponItem = (props) => {
       {props.item.status == "10" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.emerald, borderWidth: 0 }}
+          style={{ backgroundColor: colors.EMERALD, borderWidth: 0 }}
         >
-          <ButtonText style={{ color: colors.trueWhite }}>
+          <ButtonText style={{ color: colors.TRUE_WHITE }}>
             쿠폰 사용하기
           </ButtonText>
           <Icon source={require("../assets/images/ic_file_download_2.png")} />
@@ -66,20 +66,20 @@ const CouponItem = (props) => {
       )}
       {props.item.status == "20" && (
         <Button
-          style={{ backgroundColor: colors.greyishTwo, borderWidth: 0 }}
+          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
           activeOpacity={1}
         >
-          <ButtonText style={{ color: colors.trueWhite, marginRight: 0 }}>
+          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
             쿠폰 사용완료
           </ButtonText>
         </Button>
       )}
       {props.item.status == "30" && (
         <Button
-          style={{ backgroundColor: colors.greyishTwo, borderWidth: 0 }}
+          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
           activeOpacity={1}
         >
-          <ButtonText style={{ color: colors.trueWhite, marginRight: 0 }}>
+          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
             쿠폰 소진완료
           </ButtonText>
         </Button>
@@ -88,7 +88,7 @@ const CouponItem = (props) => {
   );
 };
 const CountContainer = styled.View({
-  backgroundColor: colors.grapefruit,
+  backgroundColor: colors.GRAPEFRUIT,
   borderRadius: 18,
   aspectRatio: 100 / 31.818,
   height: 17.5,
@@ -102,7 +102,7 @@ const Count = styled(BaseText)({
   letterSpacing: -0.27,
   textAlign: "center",
   fontSize: 9,
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   fontFamily: "Roboto-Medium",
 });
 const Icon = styled.Image({});
@@ -113,7 +113,7 @@ const ButtonText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.emerald,
+  color: colors.EMERALD,
   marginRight: 1,
   fontFamily: "Roboto-Medium",
 });
@@ -121,10 +121,10 @@ const Button = styled(BaseTouchable)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.emerald,
+  borderColor: colors.EMERALD,
   minHeight: Util.normalize(24),
 
   aspectRatio: 100 / 19.86,
@@ -138,7 +138,7 @@ const Title = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   // minHeight: 40,
   fontFamily: "Roboto-Bold",
 });
@@ -149,7 +149,7 @@ const Discount = styled(BaseText)({
 
   letterSpacing: -0.51,
   textAlign: "center",
-  color: colors.emerald,
+  color: colors.EMERALD,
 });
 
 const StatusContainer = styled.View({
@@ -159,7 +159,7 @@ const StatusContainer = styled.View({
 const Date = styled(BaseText)({
   fontSize: 10,
   lineHeight: 17,
-  color: colors.greyishTwo,
+  color: colors.GREYISH_TWO,
   marginBottom: 6.5,
   letterSpacing: -0.3,
   textAlign: "center",

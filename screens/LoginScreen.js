@@ -72,14 +72,14 @@ const LoginScreen = (props) => {
     <BaseScreen
       isPadding={false}
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
         paddingLeft: 20,
         paddingRight: 20,
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
@@ -146,7 +146,7 @@ const SimpleButton = (props) => {
         style={{
           fontSize: 14,
           letterSpacing: -0.28,
-          color: colors.greyishBrown,
+          color: colors.GREYISH_BROWN,
           fontFamily: "Roboto-Medium",
         }}
       >
@@ -166,12 +166,12 @@ const RoundButton2 = styled(BaseButton).attrs((props) => ({
   textStyle: [
     styles.font,
     {
-      color: colors.emerald,
+      color: colors.EMERALD,
     },
   ],
 }))({
   width: "100%",
-  borderColor: colors.emerald,
+  borderColor: colors.EMERALD,
   backgroundColor: "white",
   borderWidth: 1.5,
   aspectRatio: 100 / 14.092,
@@ -182,14 +182,14 @@ const RoundButton = styled(BaseButton).attrs((props) => ({
   textStyle: [styles.font, {}],
 }))({
   width: "100%",
-  backgroundColor: colors.emerald,
+  backgroundColor: colors.EMERALD,
   aspectRatio: 100 / 14.092,
   borderRadius: 47,
   marginTop: 30,
 });
 
 const TextInput = styled(BaseTextInput)({
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   borderRadius: 7,
   borderWidth: 1.5,
   width: "100%",

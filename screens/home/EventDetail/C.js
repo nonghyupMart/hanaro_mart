@@ -40,7 +40,7 @@ const C = (props) => {
 const RoundedView = styled.View({
   width: 77,
   height: 26.5,
-  backgroundColor: colors.grapefruit,
+  backgroundColor: colors.GRAPEFRUIT,
   borderRadius: 27,
   justifyContent: "center",
   alignItems: "center",
@@ -48,7 +48,7 @@ const RoundedView = styled.View({
 });
 const RoundedText = styled(BaseText)({
   letterSpacing: -0.41,
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   fontSize: 13.5,
   fontFamily: "Roboto-Medium",
 });

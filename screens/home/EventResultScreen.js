@@ -57,10 +57,10 @@ const EventResultScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingTop: 19,
       }}
     >
@@ -82,7 +82,7 @@ const NoList = styled(BaseText)({
 const Text1 = styled(NoList)({
   marginTop: 45,
   marginBottom: 17,
-  color: colors.blackThree,
+  color: colors.BLACK_THREE,
   textAlign: "center",
 });
 const Text2 = styled(BaseText)({
@@ -101,11 +101,11 @@ const RowWrap = styled.View({
 const Text3 = styled(BaseText)({
   fontSize: 40,
   fontFamily: "Roboto-Bold",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Text4 = styled(BaseText)({
   fontSize: 14,
-  color: colors.black,
+  color: colors.BLACK,
   textAlign: "center",
   marginTop: 27.5,
   marginBottom: 5,
@@ -114,7 +114,7 @@ const Text4 = styled(BaseText)({
 const BackBtn = styled(BlueButton)({});
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "이벤트 추첨결과",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

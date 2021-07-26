@@ -10,7 +10,7 @@ export const WarnText = styled(BaseText)({
   lineHeight: 14,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 export const ExtraBox = styled.View({
   paddingLeft: 37,
@@ -18,24 +18,24 @@ export const ExtraBox = styled.View({
   paddingBottom: 14.5,
   borderStyle: "solid",
   borderTopWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   flex: 1,
   width: "100%",
 });
 export const SmallTextTitle = styled(BaseText)({
   fontSize: 12,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginTop: 14.5,
 });
 export const SmallText = styled(BaseText)({
   fontSize: 11,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 13,
 });
 export const SmallTextBold = styled(BaseText)({
   paddingTop: 14.5,
   fontSize: 11,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   fontFamily: "Roboto-Bold",
   marginLeft: 13,
 });
@@ -66,12 +66,12 @@ export const styles = StyleSheet.create({
     lineHeight: 18,
     letterSpacing: 0,
 
-    color: colors.trueWhite,
+    color: colors.TRUE_WHITE,
   },
   btnBlack: {
     width: 158,
     height: 36,
-    backgroundColor: colors.black,
+    backgroundColor: colors.BLACK,
     borderRadius: 17,
     padding: 0,
     marginBottom: 25,
@@ -87,6 +87,6 @@ export const styles = StyleSheet.create({
     // paddingTop: Constants.statusBarHeight,
     flex: 1,
 
-    backgroundColor: colors.white,
+    backgroundColor: colors.WHITE,
   },
 });

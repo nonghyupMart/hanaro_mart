@@ -99,7 +99,7 @@ const Tel = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 const BlueText = styled(BaseText)({
   fontSize: 14,
@@ -108,7 +108,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
   marginLeft: 8,
   marginRight: 8,
   lineHeight: 17,
@@ -125,7 +125,7 @@ const Container = styled.View({
   marginLeft: 35.5,
   marginRight: 35.5,
   alignItems: "center",
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   borderBottomWidth: 1,
   paddingTop: 10,
   paddingBottom: 10,
@@ -143,7 +143,7 @@ const Title = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 Title.defaultProps = {
   numberOfLines: 1,

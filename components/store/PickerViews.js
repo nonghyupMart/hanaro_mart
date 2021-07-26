@@ -115,7 +115,7 @@ const PickerViews = (props) => {
 };
 const PickerText = styled(BaseText)({
   fontSize: 17,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const PickerButton = styled.TouchableOpacity({
   padding: 10,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   picker: {
     flexGrow: 0.5,
-    color: colors.greyishBrown,
+    color: colors.GREYISH_BROWN,
   },
   row: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
   screen: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    color: colors.primary,
+    color: colors.PRIMARY,
   },
 });
 export default PickerViews;

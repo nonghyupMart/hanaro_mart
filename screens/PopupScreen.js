@@ -143,7 +143,7 @@ const PopupScreen = (props) => {
           paddingBottom: 2,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
         pageInfoTextSeparator="/"
       >
         {storePopup.popupList.map((item, index) => {
@@ -220,13 +220,13 @@ const BtnText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const BtnWarpper = styled.TouchableOpacity({
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   width: "50%",
   padding: 13,
 });

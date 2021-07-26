@@ -180,12 +180,12 @@ const EventDetailScreen = (props) => {
   return (
     <BaseScreen
       setScrollRef={setScrollRef}
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{ backgroundColor: colors.TRUE_WHITE }}
       isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
     >
       {eventDetail && (
@@ -304,7 +304,7 @@ const Text3 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   marginTop: 20,
 });
 
@@ -325,7 +325,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

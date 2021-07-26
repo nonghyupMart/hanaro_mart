@@ -170,7 +170,7 @@ const Text2 = styled(BaseText)({
   lineHeight: 18,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 25.5,
 });
 const Text1 = styled(BaseText)({
@@ -181,7 +181,7 @@ const Text1 = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 export const screenOptions = ({ navigation }) => {
   return {

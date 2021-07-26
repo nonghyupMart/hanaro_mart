@@ -27,7 +27,7 @@ const ResultBtn = (props) => {
   );
 };
 const GreenButton = styled(BlueButton)({
-  backgroundColor: colors.emerald,
+  backgroundColor: colors.EMERALD,
 });
 
 export default ResultBtn;

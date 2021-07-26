@@ -97,7 +97,7 @@ const ExtendedImage = (props) => {
     props.initResizeMode ? props.initResizeMode : "cover"
   );
   const [color, setColor] = useState(
-    Platform.OS == "android" ? colors.white : "transparent"
+    Platform.OS == "android" ? colors.WHITE : "transparent"
   );
   const onError = () => {
     setSource(
@@ -142,7 +142,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
   };
 })((props) => {
   return {
-    // backgroundColor: colors.white,
+    // backgroundColor: colors.WHITE,
   };
 });
 
@@ -182,7 +182,7 @@ export const ButtonText = styled(BaseText)({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 
 export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
@@ -193,7 +193,7 @@ const DetailContainerBody = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   // marginTop: 7,
   paddingLeft: 24,
   paddingRight: 24,
@@ -202,7 +202,7 @@ const DetailContainerBody = styled.View({
 const DetailContainerMarginTop = styled.View({
   width: "100%",
   height: 7,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 });
 export const DetailContainer = (props) => {
   return (
@@ -220,7 +220,7 @@ export const BlueButtonText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 3,
 });
 // TODO : check layouts where BlueButton is used.
@@ -229,7 +229,7 @@ export const BlueButton = styled(BaseButtonContainer)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   paddingTop: 8,
   paddingBottom: 8,
   alignSelf: "center",

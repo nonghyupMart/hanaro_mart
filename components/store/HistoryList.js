@@ -84,7 +84,7 @@ const Text1 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.white,
+  color: colors.WHITE,
   marginLeft: 5.4,
 });
 const Line = styled.View({
@@ -93,10 +93,10 @@ const Line = styled.View({
   margin: 12.5,
   marginLeft: StyleConstants.defaultPadding,
   marginRight: StyleConstants.defaultPadding,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 });
 const Container = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   justifyContent: "center",
   alignItems: "center",
   height: 40,

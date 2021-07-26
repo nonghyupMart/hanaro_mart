@@ -24,7 +24,7 @@ export default class ScaledImage extends Component {
     this.state = {
       source: source,
       sourceURI: sourceURI,
-      color: colors.white,
+      color: colors.WHITE,
       minHeight: 400,
     };
   }

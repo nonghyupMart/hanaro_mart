@@ -234,14 +234,14 @@ const Space = styled.View({
   width: "100%",
   height: 10,
   width: SCREEN_WIDTH,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   borderBottomWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
 });
 
 export const screenOptions = ({ route, navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 50 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 50 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

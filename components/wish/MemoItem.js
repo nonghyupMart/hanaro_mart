@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   checked: {
     textDecorationLine: "line-through",
-    color: colors.emerald,
+    color: colors.EMERALD,
   },
   checkbox: {
     justifyContent: "flex-start",

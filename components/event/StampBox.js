@@ -90,7 +90,7 @@ const StampImage = styled.Image({
 });
 const StampContainer = styled.View({
   width: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   flexDirection: "row",
   flexWrap: "wrap",
   padding: 20,

@@ -18,10 +18,10 @@ const FindIDResultScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingTop: 0,
       }}
     >
@@ -51,7 +51,7 @@ const Text0 = styled(BaseText)({
   width: "100%",
   marginTop: 50,
   marginBottom: 59,
-  color: colors.blackThree,
+  color: colors.BLACK_THREE,
 });
 const Text1 = styled(Text0)({
   fontSize: 15,
@@ -60,22 +60,22 @@ const Text1 = styled(Text0)({
 });
 
 const BtnText = styled(BlueButtonText)({
-  color: colors.emerald,
+  color: colors.EMERALD,
   fontSize: 17.5,
   fontFamily: "Roboto-Medium",
   letterSpacing: -0.35,
 });
 const BackBtn = styled(BlueButton)({
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderWidth: 1.5,
-  borderColor: colors.emerald,
+  borderColor: colors.EMERALD,
   borderRadius: 47,
   aspectRatio: 100 / 32.081,
   height: 47,
 });
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "아이디 찾기",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

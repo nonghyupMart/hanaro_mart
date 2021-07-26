@@ -42,7 +42,7 @@ const Loading = ({ isLoading }) => {
           >
             <ActivityIndicator
               size="large"
-              color={colors.cerulean}
+              color={colors.CERULEAN}
               style={{
                 position: "absolute",
                 left: 0,
@@ -81,7 +81,7 @@ const Loading = ({ isLoading }) => {
           >
             <ActivityIndicator
               size="large"
-              color={colors.cerulean}
+              color={colors.CERULEAN}
               style={{
                 position: "absolute",
                 left: 0,

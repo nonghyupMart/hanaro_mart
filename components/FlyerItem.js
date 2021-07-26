@@ -72,7 +72,7 @@ const FlyerItem = (props) => {
         )}
         {props.item.coupon_price != 0 && (
           <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.grapefruit }}>
+            <Badge1 style={{ backgroundColor: colors.GRAPEFRUIT }}>
               쿠폰할인
             </Badge1>
             {!_.isEmpty(props.item.coupon_sdate) && (
@@ -85,7 +85,7 @@ const FlyerItem = (props) => {
         )}
         {props.item.members_price != 0 && (
           <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.tealish }}>
+            <Badge1 style={{ backgroundColor: colors.TEALISH }}>
               NH멤버스
             </Badge1>
             {!_.isEmpty(props.item.members_sdate) && (
@@ -108,7 +108,7 @@ const BogoText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const BogoIcon = styled.View({
   width: 43,
@@ -135,8 +135,8 @@ const Badge1 = styled(BaseText)({
   lineHeight: 13,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.trueWhite,
-  backgroundColor: colors.brightBlue,
+  color: colors.TRUE_WHITE,
+  backgroundColor: colors.BRIGHT_BLUE,
   paddingLeft: 3,
   paddingRight: 3,
   letterSpacing: -0.28,
@@ -148,13 +148,13 @@ const Badge2 = styled(BaseText)({
   lineHeight: 13,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
-  backgroundColor: colors.brownishGrey,
+  color: colors.TRUE_WHITE,
+  backgroundColor: colors.BROWNISH_GREY,
   letterSpacing: -0.28,
   flex: 1,
 });
 const Container = styled.View({
-  // backgroundColor: colors.black,
+  // backgroundColor: colors.BLACK,
   // flexBasis: 0,
 
   // flex: 1,
@@ -177,7 +177,7 @@ const SalePrice = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   width: "100%",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const OriginalPrice = styled(BaseText)({
   fontSize: 12,
@@ -188,7 +188,7 @@ const OriginalPrice = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   width: "100%",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const Title = styled(BaseText)({
   marginTop: 4,
@@ -199,7 +199,7 @@ const Title = styled(BaseText)({
   letterSpacing: 0,
   textAlign: "left",
   letterSpacing: -0.32,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 
   width: "100%",
   height: 23.5,

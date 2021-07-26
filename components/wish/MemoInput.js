@@ -46,7 +46,7 @@ const Container = styled.View({
   flexDirection: "row",
   width: "100%",
   borderBottomWidth: 2,
-  borderColor: colors.emerald,
+  borderColor: colors.EMERALD,
   alignItems: "center",
 });
 

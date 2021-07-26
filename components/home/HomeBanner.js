@@ -74,7 +74,7 @@ const HomeBanner = (props) => {
           paddingBottom: 4,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
+        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
         {homeBanner.bannerList.map((item, index) => {

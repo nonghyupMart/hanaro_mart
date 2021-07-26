@@ -51,13 +51,13 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
             </NoticeTitleContainer>
             {item.card_price != 0 && (
               <NoticeRow>
-                <Notice0 style={{ backgroundColor: colors.cerulean }}>
+                <Notice0 style={{ backgroundColor: colors.CERULEAN }}>
                   카드할인
                 </Notice0>
                 <NoticeRight>
                   <Notice2
                     style={{
-                      color: colors.cerulean,
+                      color: colors.CERULEAN,
                       paddingLeft: 15,
                       flexGrow: 0.4,
                     }}
@@ -67,7 +67,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                   <Notice2
                     style={{
                       textAlign: "right",
-                      color: colors.cerulean,
+                      color: colors.CERULEAN,
                       paddingRight: 4,
                       flexShrink: 0,
                     }}
@@ -89,13 +89,13 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
             )}
             {item.coupon_price != 0 && (
               <NoticeRow>
-                <Notice0 style={{ backgroundColor: colors.appleGreen }}>
+                <Notice0 style={{ backgroundColor: colors.APPLE_GREEN }}>
                   쿠폰할인
                 </Notice0>
                 <NoticeRight>
                   <Notice2
                     style={{
-                      color: colors.appleGreen,
+                      color: colors.APPLE_GREEN,
                       paddingLeft: 15,
                       flexGrow: 0.4,
                     }}
@@ -105,7 +105,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                   <Notice2
                     style={{
                       textAlign: "right",
-                      color: colors.appleGreen,
+                      color: colors.APPLE_GREEN,
                       paddingRight: 4,
                       flexShrink: 0,
                     }}
@@ -119,7 +119,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
             )}
             {!_.isEmpty(item.bogo_info) && !_.isEmpty(item.bogo_info.trim()) && (
               <NoticeRow>
-                <Notice0 style={{ backgroundColor: colors.cherry }}>
+                <Notice0 style={{ backgroundColor: colors.CHERRY }}>
                   추가정보
                 </Notice0>
                 <NoticeRight>
@@ -127,7 +127,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                     style={{
                       flexShrink: 0,
                       textAlign: "right",
-                      color: colors.cherry,
+                      color: colors.CHERRY,
                       paddingRight: 4,
                     }}
                   >
@@ -138,14 +138,14 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
             )}
             {item.members_price != 0 && (
               <NoticeRow>
-                <Notice0 style={{ backgroundColor: colors.waterBlue }}>
+                <Notice0 style={{ backgroundColor: colors.WATER_BLUE }}>
                   NH멤버스
                 </Notice0>
                 <NoticeRight>
                   <Notice2
                     style={{
                       flexGrow: 0.4,
-                      color: colors.waterBlue,
+                      color: colors.WATER_BLUE,
                       paddingLeft: 15,
                     }}
                   >
@@ -155,7 +155,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                     style={{
                       flexShrink: 0,
                       textAlign: "right",
-                      color: colors.waterBlue,
+                      color: colors.WATER_BLUE,
                       paddingRight: 4,
                     }}
                   >
@@ -228,8 +228,8 @@ const Notice0 = styled(BaseText)({
   lineHeight: 16,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
-  backgroundColor: colors.white,
+  color: colors.TRUE_WHITE,
+  backgroundColor: colors.WHITE,
   paddingLeft: 8,
   paddingRight: 8,
   paddingTop: 1,
@@ -243,8 +243,8 @@ const Notice1 = styled(BaseText)({
   fontStyle: "normal",
   lineHeight: 16,
   letterSpacing: 0,
-  color: colors.greyishBrown,
-  backgroundColor: colors.white,
+  color: colors.GREYISH_BROWN,
+  backgroundColor: colors.WHITE,
   paddingTop: 1,
   paddingBottom: 1,
   flex: 1,
@@ -255,8 +255,8 @@ const Notice2 = styled(BaseText)({
   lineHeight: 16,
   letterSpacing: 0,
 
-  color: colors.greyishBrown,
-  backgroundColor: colors.white,
+  color: colors.GREYISH_BROWN,
+  backgroundColor: colors.WHITE,
   paddingTop: 1,
   paddingBottom: 1,
   flex: 1,
@@ -291,7 +291,7 @@ const InfoText = styled(BaseText)({
   lineHeight: 15,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const InfoContainer = styled.View({
   paddingLeft: 34,
@@ -306,7 +306,7 @@ const NoticeTitleContainer = styled.View({
 const NoticeIcon = styled.View({
   width: 4,
   height: 11,
-  backgroundColor: colors.blackThree,
+  backgroundColor: colors.BLACK_THREE,
   marginRight: 4,
 });
 const NoticeTitle = styled(BaseText)({
@@ -316,20 +316,20 @@ const NoticeTitle = styled(BaseText)({
   lineHeight: 15,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Notice = styled(BaseText)({
   borderLeftWidth: 3,
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   borderRightWidth: 3,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   fontSize: 10,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 15,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
   paddingLeft: 11,
   paddingRight: 11,
   paddingTop: 5,
@@ -347,7 +347,7 @@ const BorderLine = styled.View({
   marginTop: 6.5,
   width: SCREEN_WIDTH - 20.5 - 20.5 - 50,
   height: 1,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 });
 const BtnText = styled(BaseText)({
   fontSize: 12,
@@ -356,11 +356,11 @@ const BtnText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 6,
 });
 const BlueBtn = styled(BaseSquareButtonContainer)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   height: SCREEN_WIDTH * 0.1,
   flexDirection: "row",
   flexGrow: 0,
@@ -369,7 +369,7 @@ const BlueBtn = styled(BaseSquareButtonContainer)({
   marginRight: 2.5,
 });
 const GrayBtn = styled(BlueBtn)({
-  backgroundColor: colors.greyishThree,
+  backgroundColor: colors.GREYISH_THREE,
   width: "100%",
   marginLeft: 0,
   marginRight: 0,
@@ -389,7 +389,7 @@ const PriceUnit = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.pine,
+  color: colors.PINE,
 });
 const TotalUnit = styled(BaseText)({
   fontSize: 16,
@@ -398,7 +398,7 @@ const TotalUnit = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.greyishThree,
+  color: colors.GREYISH_THREE,
 });
 const Total = styled(BaseText)({
   fontSize: 22,
@@ -407,7 +407,7 @@ const Total = styled(BaseText)({
   lineHeight: 32,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const TotalContainer = styled.View({
   alignItems: "center",
@@ -423,7 +423,7 @@ const QInput = styled(BaseTextInput)({
   lineHeight: 30,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const QButtonContainer = styled.View({
   flexDirection: "row",
@@ -435,7 +435,7 @@ const QContainer = styled.View({
   flexDirection: "row",
   alignItems: "center",
   borderRightWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   paddingRight: 20.5,
   marginRight: 25.5,
 });
@@ -446,7 +446,7 @@ const QuantityTitle = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 11,
 });
 const QuantityContainer = styled.View({
@@ -454,10 +454,10 @@ const QuantityContainer = styled.View({
   paddingRight: 28,
   alignItems: "center",
   borderRadius: 23,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
 
   marginLeft: 25,
   marginRight: 25,
@@ -472,7 +472,7 @@ const SalePrice = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Price = styled(BaseText)({
   fontSize: 18,
@@ -481,7 +481,7 @@ const Price = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.pine,
+  color: colors.PINE,
 });
 const PriceContainer = styled.View({
   flexDirection: "row",
@@ -497,7 +497,7 @@ const Title = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginTop: 7.5,
 });
 Title.defaultProps = {
@@ -505,7 +505,7 @@ Title.defaultProps = {
 };
 const Body = styled.ScrollView({ width: "100%" });
 const Header = styled.View({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   height: 12,
   justifyContent: "flex-end",
   alignItems: "flex-end",
@@ -518,11 +518,11 @@ const Container = styled.View({
   borderTopRightRadius: 5,
   borderBottomRightRadius: 5,
   borderBottomLeftRadius: 5,
-  borderColor: colors.cerulean,
+  borderColor: colors.CERULEAN,
 
   overflow: "hidden",
   alignItems: "center",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   width: "100%",
   paddingBottom: 15,
 

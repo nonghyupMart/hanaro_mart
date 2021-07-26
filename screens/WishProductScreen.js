@@ -73,7 +73,7 @@ const WishProductScreen = (props) => {
     <>
       <BaseScreen
         style={{
-          backgroundColor: colors.trueWhite,
+          backgroundColor: colors.TRUE_WHITE,
           paddingLeft: 0,
           paddingRight: 0,
           marginBottom: 40,
@@ -81,7 +81,7 @@ const WishProductScreen = (props) => {
         isPadding={Platform.OS == "ios" ? false : true}
         // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
         contentStyle={{
-          backgroundColor: colors.trueWhite,
+          backgroundColor: colors.TRUE_WHITE,
           paddingTop: Platform.OS == "ios" ? 19 : 19,
           // paddingLeft: Platform.OS == "ios" ? 16 : 0,
           // paddingRight: Platform.OS == "ios" ? 16 : 0,
@@ -142,7 +142,7 @@ const WishProductScreen = (props) => {
 
 const Text4 = styled(BaseTextBold)({
   fontSize: 22.5,
-  color: colors.blackThree,
+  color: colors.BLACK_THREE,
   marginLeft: 10,
   flex: 1,
   textAlign: "right",
@@ -156,7 +156,7 @@ const Text3 = styled(BaseText)({
   marginBottom: 9,
 });
 const TotalContainer = styled.View({
-  borderColor: colors.greyishTwo,
+  borderColor: colors.GREYISH_TWO,
   borderTopWidth: 1,
   borderBottomWidth: 1,
   width: "100%",
@@ -204,7 +204,7 @@ const postWish = (dispatch, object, item, type) => {
 };
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "찜한 상품",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
@@ -216,7 +216,7 @@ const ScrollList = styled(ExtendedFlatList)({
   flex: 1,
 
   width: "100%",
-  // backgroundColor: colors.black,
+  // backgroundColor: colors.BLACK,
 });
 const ResultText = styled(BaseText)({
   fontSize: 14,
@@ -225,7 +225,7 @@ const ResultText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   width: "100%",
   marginTop: 15,
   marginBottom: 15,
@@ -240,7 +240,7 @@ SearchIcon.defaultProps = {
 };
 const SearchContainer = styled.View({
   width: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   // height: 36,
   aspectRatio: 100 / 10.975,
   borderRadius: 25,
