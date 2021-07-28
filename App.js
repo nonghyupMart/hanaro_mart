@@ -1,3 +1,4 @@
+import "expo-dev-client";
 import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
