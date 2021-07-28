@@ -36,7 +36,7 @@ const Title = styled(BaseText)({
   lineHeight: 29,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Name = styled(BaseText)({
   marginLeft: 8,
@@ -46,7 +46,7 @@ const Name = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
   // paddingTop: 5,
 });
 const BlueText = styled(BaseText)({
@@ -56,7 +56,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.pine,
+  color: colors.PINE,
   marginLeft: 17,
 });
 const MemberInfoContainer = styled.View({

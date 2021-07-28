@@ -133,3 +133,30 @@ export const postWish = (dispatch, object, item, type, value = "Y") => {
     data: tempObject,
   });
 };
+
+export const showServiceErrorAlert = (dispatch) => {
+  return dispatch(
+    setAlert({
+      message:
+        "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
+      confirmText: "재실행",
+      onPressConfirm: async () => {
+        try {
+          if (!__DEV__) {
+            await dispatch(setIsLoading(true));
+            const update = await Updates.checkForUpdateAsync();
+            if (update.isAvailable) {
+              await Updates.fetchUpdateAsync();
+            }
+          }
+        } catch (e) {
+          // handle or log error
+          Util.log("update error=>", e);
+        } finally {
+          await dispatch(setIsLoading(false));
+          await Updates.reloadAsync();
+        }
+      },
+    })
+  );
+};

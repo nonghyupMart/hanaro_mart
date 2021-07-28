@@ -149,7 +149,9 @@ import EventResultScreen, {
   screenOptions as EventResultScreenOptions,
 } from "../screens/home/EventResultScreen";
 
-
+import NHAHMScreen, {
+  screenOptions as NHAHMScreenOptions,
+} from "../screens/join/NHAHMScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -166,7 +168,7 @@ const HomeTopTabNavigator = createMaterialTopTabNavigator();
 const TabIndicator = styled.View({
   width: 100,
   height: 2,
-  backgroundColor: colors.emerald,
+  backgroundColor: colors.EMERALD,
   position: "absolute",
   bottom: 0,
   left: 0,
@@ -230,7 +232,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
               options={{
                 title: menu.menu_nm,
                 cardStyle: {
-                  backgroundColor: colors.trueWhite,
+                  backgroundColor: colors.TRUE_WHITE,
                 },
               }}
             />
@@ -262,7 +264,7 @@ export const HomeNavigator = ({ navigation, route }) => {
         screenOptions={{
           cardStyle: {
             paddingBottom: PADDING_BOTTOM_MENU,
-            backgroundColor: colors.trueWhite,
+            backgroundColor: colors.TRUE_WHITE,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -427,6 +429,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="EventResult"
           component={EventResultScreen}
           options={EventResultScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="NHAHM"
+          component={NHAHMScreen}
+          options={NHAHMScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

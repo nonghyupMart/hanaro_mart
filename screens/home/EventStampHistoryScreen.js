@@ -46,10 +46,10 @@ const EventStampHistoryScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingTop: Platform.OS == "ios" ? 19 : 19,
       }}
     >
@@ -89,7 +89,7 @@ const NoList = styled(BaseText)({
 const BackBtn = styled(BlueButton)({});
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "교환내역",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

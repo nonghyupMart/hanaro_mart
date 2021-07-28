@@ -131,7 +131,7 @@ const HomeProducts = ({ isFocused, userStore, userInfo }) => {
 
 export const MoreText = styled(BaseText)({
   fontSize: Util.normalize(9),
-  color: colors.emerald,
+  color: colors.EMERALD,
   marginRight: 3,
 });
 export const MoreContainer = styled.View({

@@ -59,7 +59,7 @@ const BottomButtons = (props) => {
             <IconText>마이페이지</IconText>
           </ButtonContainer>
           <ButtonContainer
-            onPress={async() => {
+            onPress={async () => {
               if (await checkSetStore(dispatch, userStore)) {
                 Linking.openURL("tel:" + userStore.storeInfo.support_tel);
               }
@@ -109,7 +109,7 @@ const IconText = styled(BaseText)({
   fontStyle: "normal",
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const ExtraContainer = styled.View({
   height: 60,
@@ -122,7 +122,7 @@ const ExtraContainer = styled.View({
 });
 const Container = styled.View({
   height: 50,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   flexDirection: "row",
   position: "absolute",
   bottom: 0,
@@ -134,7 +134,7 @@ const Container = styled.View({
 
   // for IOS
   zIndex: 10,
-  shadowColor: colors.black16,
+  shadowColor: colors.BLACK16,
   shadowRadius: 6,
   shadowOpacity: 0.5,
   overflow: "visible",

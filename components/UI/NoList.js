@@ -29,7 +29,7 @@ export const EmptyScreen = styled.View({
   flex: 1,
   width: "100%",
   height: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   justifyContent: "center",
   alignItems: "center",
   alignSelf: "center",
@@ -42,7 +42,7 @@ const InfoText = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishThree,
+  color: colors.GREYISH_THREE,
 });
 const Image = styled.Image({
   marginBottom: 9,
@@ -54,13 +54,13 @@ const Text = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const Circle = styled.View({
   borderRadius: 106,
   width: 106,
   height: 106,
-  backgroundColor: colors.pinkishGrey,
+  backgroundColor: colors.PINKISH_GREY,
   marginBottom: 9,
   alignItems: "center",
   justifyContent: "center",

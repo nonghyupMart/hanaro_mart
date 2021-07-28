@@ -50,11 +50,11 @@ const GreenText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 const WhiteText = styled(BaseText)({
   fontSize: 24,
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   textAlign: "center",
 });
 const Container = styled.View({
@@ -74,7 +74,7 @@ export const Text6 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   // marginLeft: 10,
   flexShrink: 1,
   marginRight: 20,
@@ -89,7 +89,7 @@ const SmallText = styled(BaseText)({
   lineHeight: 25,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 10,
   flexShrink: 1,
 });

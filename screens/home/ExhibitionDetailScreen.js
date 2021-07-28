@@ -97,12 +97,12 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
     <BaseScreen
       isScroll={false}
       setScrollRef={setScrollRef}
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{ backgroundColor: colors.TRUE_WHITE }}
       isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
     >
       {detail && (
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

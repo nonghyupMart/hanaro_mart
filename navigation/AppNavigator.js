@@ -24,7 +24,7 @@ const Theme = {
   dark: false,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.trueWhite,
+    background: colors.TRUE_WHITE,
   },
 };
 

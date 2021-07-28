@@ -8,14 +8,14 @@ import {
   BaseButtonContainer,
   SCREEN_HEIGHT,
   BaseText,
-} from "../../UI/BaseUI";
+} from "../BaseUI";
 import { setPreview, withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../util";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as Updates from "expo-updates";
 
-const LoginButtons = (props) => {
+const Footer = (props) => {
   const dispatch = useDispatch();
   const storeInfo = useSelector((state) =>
     !_.isEmpty(state.auth.userStore) ? state.auth.userStore.storeInfo : {}
@@ -77,7 +77,7 @@ const Info = styled(BaseText)({
   lineHeight: 12,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.pinkishGrey,
+  color: colors.PINKISH_GREY,
 });
 const TextArea = styled.View({
   flexDirection: "row",
@@ -89,7 +89,7 @@ const Text3 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrownThree,
+  color: colors.GREYISH_BROWN_THREE,
 });
 const Text2 = styled(BaseText)({
   marginTop: 6,
@@ -100,7 +100,7 @@ const Text2 = styled(BaseText)({
   lineHeight: 14.5,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrownThree,
+  color: colors.GREYISH_BROWN_THREE,
 });
 const Text1 = styled(BaseText)({
   fontSize: 14,
@@ -109,10 +109,10 @@ const Text1 = styled(BaseText)({
 
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrownThree,
+  color: colors.GREYISH_BROWN_THREE,
 });
 const GrayContainer = styled.View({
-  backgroundColor: colors.white2,
+  backgroundColor: colors.WHITE2,
   paddingLeft: 24,
   paddingRight: 24,
   paddingTop: 16,
@@ -126,7 +126,7 @@ const BaseButton = styled(BaseButtonContainer)({
   marginRight: 3,
 });
 const GreenButton = styled(BaseButton)({
-  backgroundColor: colors.pine,
+  backgroundColor: colors.PINE,
 });
 
 const BlueButton = styled(BaseButtonContainer)({
@@ -135,7 +135,7 @@ const BlueButton = styled(BaseButtonContainer)({
   flex: 1,
   marginLeft: 16,
   marginRight: 16,
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const ButtonText = styled(BaseText)({
   fontSize: 12,
@@ -144,7 +144,7 @@ const ButtonText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 
 const BottomContainer = styled.View({
@@ -160,12 +160,12 @@ const BlackText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishThree,
+  color: colors.GREYISH_THREE,
 });
 const BlackBar = styled(BlackText)({});
 const BlackButton = styled(BaseTouchable)({});
 const BlackContainer = styled.View({
-  backgroundColor: colors.black,
+  backgroundColor: colors.BLACK,
   flexDirection: "row",
   paddingRight: 16,
   justifyContent: "flex-end",
@@ -183,6 +183,6 @@ const ButtonContainer = styled.View({
   paddingTop: 25,
   justifyContent: "center",
   paddingBottom: 20,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
 });
-export default LoginButtons;
+export default Footer;

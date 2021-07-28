@@ -38,7 +38,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.nastyGreen,
+  color: colors.NASTY_GREEN,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

@@ -12,7 +12,7 @@ import * as Util from "../../util";
 import _ from "lodash";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";
-import {  setCarousel } from "../../store/actions/flyer";
+import { setCarousel } from "../../store/actions/flyer";
 
 let prevPage = 0;
 
@@ -62,7 +62,7 @@ const FlyerBanner = ({
             />
           }
           pageInfoBackgroundColor={"transparent"}
-          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+          pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
           pageInfoTextSeparator="/"
           onAnimateNextPage={(p) => {
             if (prevPage == p) return;
@@ -70,12 +70,12 @@ const FlyerBanner = ({
             prevPage = p;
           }}
           chosenBulletStyle={{
-            backgroundColor: colors.yellowOrange,
+            backgroundColor: colors.YELLOW_ORANGE,
             marginLeft: 3.5,
             marginRight: 3.5,
           }}
           bulletStyle={{
-            backgroundColor: colors.white,
+            backgroundColor: colors.WHITE,
             borderWidth: 0,
             marginLeft: 3.5,
             marginRight: 3.5,
@@ -144,7 +144,7 @@ const FlyerDetailButton = styled.TouchableOpacity.attrs({
   width: "100%",
   shadowRadius: 4,
   shadowOpacity: 0.1,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   elevation: 0,
   paddingTop: 5,
   paddingBottom: 5,
@@ -153,7 +153,7 @@ const FlyerDetailButton = styled.TouchableOpacity.attrs({
 const DetailText = styled(BaseText)({
   fontSize: Util.normalize(14),
   letterSpacing: -0.32,
-  color: colors.emerald,
+  color: colors.EMERALD,
   // fontFamily: "Roboto-Bold",
   marginRight: 2,
 });

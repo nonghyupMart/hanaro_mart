@@ -85,8 +85,8 @@ const ApplyBox = (props) => {
                     flexGrow: 1,
                     flexShrink: 0,
                     color: props.item.isRequired
-                      ? colors.cerulean
-                      : colors.viridian,
+                      ? colors.CERULEAN
+                      : colors.VIRIDIAN,
                     fontFamily: "Roboto-Bold",
                   }}
                 >
@@ -169,7 +169,7 @@ const ApplyBox = (props) => {
   );
 };
 const GrayButton = styled(BlueButton)({
-  backgroundColor: colors.greyishThree,
+  backgroundColor: colors.GREYISH_THREE,
 });
 ApplyBox.defaultProps = {
   item: {
@@ -181,10 +181,10 @@ ApplyBox.defaultProps = {
 
 const InputText = styled(BaseTextInput)({
   borderRadius: 16,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   marginLeft: 34,
   marginRight: 34,
   minHeight: 34,
@@ -203,7 +203,7 @@ const TextView2 = styled(AgreementScreen.TextView)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 
 const Title = styled(BaseText)({
@@ -214,8 +214,8 @@ const Title = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
-  backgroundColor: colors.greyishBrown,
+  color: colors.TRUE_WHITE,
+  backgroundColor: colors.GREYISH_BROWN,
   width: "100%",
   padding: 4,
 });
@@ -223,10 +223,10 @@ const Container = styled.View({
   marginTop: 42,
 
   width: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   borderRadius: 12,
   overflow: "hidden",
   paddingBottom: 10,

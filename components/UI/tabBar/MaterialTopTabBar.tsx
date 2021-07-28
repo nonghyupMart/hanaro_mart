@@ -38,13 +38,13 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
     state,
     navigation,
     descriptors,
-    activeTintColor = ConstantsColors.black,
-    inactiveTintColor = ConstantsColors.black,
+    activeTintColor = ConstantsColors.BLACK,
+    inactiveTintColor = ConstantsColors.BLACK,
     allowFontScaling = false,
     keyboardHidesTabBar = false,
     showIcon = false,
     showLabel = true,
-    pressColor = ConstantsColors.black,
+    pressColor = ConstantsColors.BLACK,
     iconStyle,
     labelStyle,
     indicatorStyle,
@@ -165,14 +165,14 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
           {
             backgroundColor:
               focusedRoute.name == "Home"
-                ? ConstantsColors.trueWhite
-                : ConstantsColors.emerald,
+                ? ConstantsColors.TRUE_WHITE
+                : ConstantsColors.EMERALD,
             height: 2,
           },
           indicatorStyle,
         ]}
         style={[{ backgroundColor: colors.card, elevation: 0 }, style]}
-        pressColor={ConstantsColors.trueWhite}
+        pressColor={ConstantsColors.TRUE_WHITE}
         getAccessibilityLabel={({ route }) =>
           descriptors[route.key].options.tabBarAccessibilityLabel
         }
@@ -246,7 +246,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
 const Border = styled.View({
   marginTop: 2,
   backgroundColor: (props) =>
-    props.focused ? ConstantsColors.emerald : ConstantsColors.trueWhite,
+    props.focused ? ConstantsColors.EMERALD : ConstantsColors.TRUE_WHITE,
   height: 2,
 });
 const BarText = styled(BaseText)({});
@@ -284,6 +284,6 @@ const styles = StyleSheet.create({
 
     letterSpacing: 0,
     textAlign: "left",
-    color: ConstantsColors.emerald,
+    color: ConstantsColors.EMERALD,
   },
 });

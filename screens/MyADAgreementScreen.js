@@ -32,6 +32,7 @@ import { updateUserInfo } from "../store/actions/auth";
 const MyADAgreementScreen = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
   const [barcode, setBarcode] = useState();
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
@@ -40,8 +41,12 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
-        dispatch(setIsLoading(false));
+      updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
+      }).then((data) => {
         setSms(data.userInfo.sms_agree == "Y" ? true : false);
         setPush(data.userInfo.push_agree == "Y" ? true : false);
         setMarketing_date(data.userInfo.marketing_date);
@@ -69,7 +74,6 @@ const MyADAgreementScreen = (props) => {
     };
     dispatch(authActions.signup(query)).then((data) => {
       const userInfo = data.userInfo;
-      dispatch(setIsLoading(false));
       let yn = push || sms ? "동의" : "거부";
       dispatch(
         setAlert({
@@ -90,10 +94,10 @@ const MyADAgreementScreen = (props) => {
     <BaseScreen
       isPadding={false}
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         marginBottom: 40,
       }}
     >
@@ -195,7 +199,7 @@ const SwitchText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const SwitchBox = styled.View({
   flexDirection: "row",
@@ -216,16 +220,16 @@ const Desc = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   flex: 1,
   marginBottom: 33,
 });
 const RoundBox = styled.View({
   borderRadius: 14,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   marginLeft: 16,
   marginRight: 16,
   paddingLeft: 15,
@@ -239,7 +243,7 @@ const BaseTextStyle = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   // alignSelf: "stretch",
 });
 const Text1 = styled(BaseTextStyle)({
@@ -266,7 +270,7 @@ const TextContainer = styled.View({
 const BarcodeContainer = styled.View({
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   borderRadius: 7,
   margin: 34,
   paddingTop: 14,
@@ -279,7 +283,7 @@ const BlueButtonText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 9,
 });
 const BlueButton = styled(BaseButtonContainer)({
@@ -287,7 +291,7 @@ const BlueButton = styled(BaseButtonContainer)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
@@ -302,7 +306,7 @@ const Warn = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 18,
   flex: 1,
 });
@@ -316,7 +320,7 @@ const WarnContainer = styled.View({
   flex: 1,
 });
 const Now = styled(BaseText)({
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 const TimerText = styled(BaseText)({
   marginTop: 45,
@@ -328,7 +332,7 @@ const TimerText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginBottom: 5,
   flex: 1,
   width: "100%",
@@ -339,7 +343,7 @@ const TimerBar = styled.View({
     return (props.elapsedTime * props.barContainerWidth) / 120;
   },
   flex: 1,
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
 });
 const TimerBarContainer = styled.View({
   overflow: "hidden",
@@ -347,14 +351,14 @@ const TimerBarContainer = styled.View({
   marginBottom: 70,
   width: SCREEN_WIDTH - 50,
   aspectRatio: 100 / 7.042,
-  backgroundColor: colors.pinkishGrey,
+  backgroundColor: colors.PINKISH_GREY,
   borderRadius: 20,
 });
 const Container = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   marginTop: 7,
   paddingLeft: 24,
   paddingRight: 24,

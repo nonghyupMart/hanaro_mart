@@ -165,13 +165,13 @@ const CouponScreen = (props) => {
         paddingTop: 0,
         width: "100%",
         height: "100%",
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       scrollListStyle={{
         width: "100%",
         height: "100%",
         flex: 1,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       // isScroll={false}
     >
@@ -218,7 +218,7 @@ export const screenOptions = ({ navigation }) => {
   return {
     title: "나의 쿠폰",
     cardStyle: {
-      backgroundColor: colors.trueWhite,
+      backgroundColor: colors.TRUE_WHITE,
       paddingBottom: 50,
     },
     headerLeft: () => <BackButton />,
@@ -232,7 +232,7 @@ const ScrollList = styled(ExtendedFlatList)({
   marginTop: 12.5,
 });
 const styles = StyleSheet.create({
-  screen: { backgroundColor: colors.trueWhite, height: "100%", width: "100%" },
+  screen: { backgroundColor: colors.TRUE_WHITE, height: "100%", width: "100%" },
 });
 
 export default CouponScreen;

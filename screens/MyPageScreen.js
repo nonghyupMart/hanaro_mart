@@ -15,16 +15,18 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import { StoreBox, BottomCover } from "../components/store/InfoBox";
 import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
+import _ from "lodash";
 
 const MyPageScreen = ({ navigation }) => {
+  const userInfo = useSelector((state) => state.auth.userInfo);
   return (
     <BaseScreen
       isPadding={false}
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
     >
       <MemberInfo />
@@ -55,7 +57,11 @@ const MyPageScreen = ({ navigation }) => {
         </BtnContainer>
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
-          onPress={() => navigation.navigate("Withdrawal")}
+          onPress={() =>
+            !_.isEmpty(userInfo.amnNo)
+              ? navigation.navigate("NHAHM", { regiDesc: "04" })
+              : navigation.navigate("Withdrawal")
+          }
         >
           <Icon source={require("../assets/images/unlocked2.png")} />
           <BtnText>회원탈퇴</BtnText>
@@ -82,7 +88,7 @@ const GrayText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
   overflow: "hidden",
   width: "auto",
 });
@@ -98,7 +104,7 @@ const GrayBtn = styled(BaseTouchable)({
 });
 const Buttons = styled.View({ width: "auto" });
 const BlackBox = styled.View({
-  backgroundColor: colors.black,
+  backgroundColor: colors.BLACK,
   flex: 1,
   flexDirection: "row",
   width: "100%",
@@ -120,12 +126,12 @@ const BtnText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 25,
 });
 const BtnContainer = styled.TouchableOpacity({
   borderBottomWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   marginLeft: "14.44%",
   marginRight: "14.44%",
   flexDirection: "row",
@@ -141,7 +147,7 @@ const Title = styled(BaseText)({
   lineHeight: 29,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const Name = styled(BaseText)({
   marginLeft: 8,
@@ -151,7 +157,7 @@ const Name = styled(BaseText)({
   // lineHeight: 1,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const BlueText = styled(BaseText)({
   fontSize: 22,
@@ -160,7 +166,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
 });
 const MemberInfoContainer = styled.View({
   flexDirection: "row",

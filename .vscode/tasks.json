@@ -1,0 +1,75 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "start",
+      "problemMatcher": [],
+      "label": "npm: start",
+      "detail": "expo start",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "type": "npm",
+      "script": "build",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build",
+      "detail": "expo build:android --release-channel prod --no-wait -t app-bundle && expo build:ios --release-channel prod --no-wait -t archive"
+    },
+    {
+      "type": "npm",
+      "script": "build:android",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build:android",
+      "detail": "expo build:android --release-channel prod --no-wait -t app-bundle"
+    },
+    {
+      "type": "npm",
+      "script": "build:ios",
+      "group": "build",
+      "problemMatcher": [],
+      "label": "npm: build:ios",
+      "detail": "expo build:ios --release-channel prod --no-wait -t archive"
+    },
+    {
+      "type": "npm",
+      "script": "publish:dev",
+      "problemMatcher": [],
+      "label": "npm: publish:dev",
+      "detail": "expo publish --release-channel develop && expo start"
+    },
+    {
+      "type": "npm",
+      "script": "publish:prod",
+      "problemMatcher": [],
+      "label": "npm: publish:prod",
+      "detail": "expo publish --release-channel prod && expo start"
+    },
+    {
+      "type": "npm",
+      "script": "publish:stage",
+      "problemMatcher": [],
+      "label": "npm: publish:stage",
+      "detail": "expo publish --release-channel stage && expo start"
+    },
+    {
+      "type": "npm",
+      "script": "publish:test",
+      "problemMatcher": [],
+      "label": "npm: publish:test",
+      "detail": "expo publish --release-channel develop && expo publish --release-channel stage && expo start"
+    },
+    {
+      "type": "npm",
+      "script": "upload:android",
+      "problemMatcher": [],
+      "label": "npm: upload:android",
+      "detail": "expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api-8118189818183052496-280-3c18658bab02.json"
+    }
+  ]
+}

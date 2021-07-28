@@ -53,9 +53,11 @@ const MyInfoScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      dispatch(setIsLoading(true));
-      updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
-        dispatch(setIsLoading(false));
+      updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
       });
     }
   }, []);
@@ -91,7 +93,12 @@ const MyInfoScreen = (props) => {
               onPressConfirm: () => {
                 dispatch(setAlert(null));
                 dispatch(setIsLoading(true));
-                updateUserInfo(dispatch, userInfo, pushToken).then((data) => {
+                updateUserInfo({
+                  dispatch: dispatch,
+                  userInfo: userInfo,
+                  pushToken: pushToken,
+                  userStore: userStore,
+                }).then((data) => {
                   dispatch(setIsLoading(false));
                 });
               },
@@ -101,16 +108,20 @@ const MyInfoScreen = (props) => {
       }
     );
   };
-  const onPressShowQRCode = () => {};
+  const onPressEditMyInfo = () => {
+    !_.isEmpty(userInfo.amnNo)
+      ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
+      : props.navigation.navigate("CI");
+  };
   if (!barcode || _.isEmpty(userStore)) return <></>;
   return (
     <BaseScreen
       isPadding={false}
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         marginBottom: 40,
       }}
     >
@@ -123,10 +134,26 @@ const MyInfoScreen = (props) => {
             paddingRight: 43,
           }}
         >
-          <EditButton onPress={() => props.navigation.navigate("CI")}>
+          <EditButton onPress={() => onPressEditMyInfo()}>
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
+          {!_.isEmpty(userInfo.amnNo) && (
+            <EditButton
+              onPress={() =>
+                props.navigation.navigate("NHAHM", {
+                  regiDesc: "03",
+                })
+              }
+              style={{
+                aspectRatio: 100 / 23.4375,
+                marginLeft: 9,
+              }}
+            >
+              <EditButtonText>비밀번호 변경</EditButtonText>
+              <Image source={require("../assets/images/tools3.png")} />
+            </EditButton>
+          )}
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/shop1black.png")} />
@@ -221,7 +248,7 @@ const MyInfoScreen = (props) => {
 const EditButtonText = styled(BaseText)({
   fontSize: 14.5,
   letterSpacing: -0.29,
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   lineHeight: 22,
   paddingRight: 3.5,
 });
@@ -247,9 +274,9 @@ const ReferenceInput = styled.TextInput({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   borderRadius: 19,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   paddingLeft: 15,
   paddingRight: 15,
   paddingTop: 5,
@@ -263,7 +290,7 @@ const ReferenceTitle = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 15,
 });
 const ReferenceContainer = styled.View({
@@ -277,7 +304,7 @@ const ModalCloseText = styled(BaseText)({
   lineHeight: 30,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   marginLeft: 5,
 });
 const ModalCloseButton = styled.TouchableOpacity({
@@ -297,10 +324,10 @@ const ModalTitle = styled(BaseText)({
   lineHeight: 30,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   marginTop: 15,
   borderBottomWidth: 1,
-  borderBottomColor: colors.white,
+  borderBottomColor: colors.WHITE,
   marginLeft: 10,
   marginRight: 10,
   paddingBottom: 10,
@@ -314,10 +341,10 @@ const ModalContainer = styled.View({
   borderBottomLeftRadius: 5,
   overflow: "hidden",
   borderTopWidth: 12,
-  borderTopColor: colors.cerulean,
+  borderTopColor: colors.CERULEAN,
   borderBottomWidth: 12,
-  borderBottomColor: colors.appleGreen,
-  backgroundColor: colors.trueWhite,
+  borderBottomColor: colors.APPLE_GREEN,
+  backgroundColor: colors.TRUE_WHITE,
 });
 const MangerQRCodeContainer = styled.TouchableOpacity({
   alignSelf: "center",
@@ -328,14 +355,14 @@ export const BtnText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   fontFamily: "Roboto-Bold",
   paddingTop: 6,
   paddingBottom: 6,
 });
 export const Button = styled.TouchableOpacity({
   borderRadius: 18,
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   // aspectRatio: 100 / 28.346,
   alignSelf: "center",
   marginTop: 20,
@@ -353,7 +380,7 @@ const BaseTextStyle = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   alignSelf: "stretch",
 });
 const Text1 = styled(BaseTextStyle)({
@@ -379,7 +406,7 @@ const TextContainer = styled.View({
 const BarcodeContainer = styled.View({
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   borderRadius: 7,
   margin: 34,
   paddingTop: 14,
@@ -392,7 +419,7 @@ const BlueButtonText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 9,
 });
 const BlueButton = styled(BaseButtonContainer)({
@@ -400,7 +427,7 @@ const BlueButton = styled(BaseButtonContainer)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   paddingTop: 8,
   paddingBottom: 8,
   flex: 1,
@@ -415,7 +442,7 @@ const Warn = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 18,
   flex: 1,
 });
@@ -429,7 +456,7 @@ const WarnContainer = styled.View({
   flex: 1,
 });
 const Now = styled(BaseText)({
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 const TimerText = styled(BaseText)({
   marginTop: 45,
@@ -441,7 +468,7 @@ const TimerText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginBottom: 5,
   flex: 1,
   width: "100%",
@@ -452,7 +479,7 @@ const TimerBar = styled.View({
     return (props.elapsedTime * props.barContainerWidth) / 120;
   },
   flex: 1,
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
 });
 const TimerBarContainer = styled.View({
   overflow: "hidden",
@@ -460,14 +487,14 @@ const TimerBarContainer = styled.View({
   marginBottom: 70,
   width: SCREEN_WIDTH - 50,
   aspectRatio: 100 / 7.042,
-  backgroundColor: colors.pinkishGrey,
+  backgroundColor: colors.PINKISH_GREY,
   borderRadius: 20,
 });
 const Container = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   marginTop: 7,
   paddingLeft: 24,
   paddingRight: 24,

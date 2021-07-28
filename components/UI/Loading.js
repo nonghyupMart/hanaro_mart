@@ -19,7 +19,7 @@ const Loading = ({ isLoading }) => {
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       dispatch(setIsLoading(false));
-    }, 1000 * 15);
+    }, 30000);
     return () => {
       clearTimeout(timerRef.current);
       timerRef.current;
@@ -42,7 +42,7 @@ const Loading = ({ isLoading }) => {
           >
             <ActivityIndicator
               size="large"
-              color={colors.cerulean}
+              color={colors.CERULEAN}
               style={{
                 position: "absolute",
                 left: 0,
@@ -81,7 +81,7 @@ const Loading = ({ isLoading }) => {
           >
             <ActivityIndicator
               size="large"
-              color={colors.cerulean}
+              color={colors.CERULEAN}
               style={{
                 position: "absolute",
                 left: 0,

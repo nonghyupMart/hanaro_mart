@@ -61,7 +61,7 @@ const HomeHeaderLeft = (props) => {
         <MaterialCommunityIcons
           name="cart-outline"
           size={24}
-          color={colors.pine}
+          color={colors.PINE}
         />
       </Btn> */}
     </BtnContainer>
@@ -87,7 +87,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

@@ -105,7 +105,7 @@ const Text1 = styled(BaseText)({
 });
 const Text2 = styled(BaseText)({
   fontSize: 21,
-  color: colors.black,
+  color: colors.BLACK,
   marginRight: 5,
   height: 28,
   lineHeight: 28,
@@ -113,18 +113,18 @@ const Text2 = styled(BaseText)({
 });
 const Text3 = styled(BaseText)({
   fontSize: 12,
-  color: colors.black,
+  color: colors.BLACK,
   fontFamily: "Roboto-Bold",
 });
 const Text4 = styled(BaseText)({
   fontSize: 16,
-  color: colors.pine,
+  color: colors.PINE,
   lineHeight: 18,
 });
 
 const MemberInfoContainer = styled.View({
   // marginTop: Constants.statusBarHeight,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   paddingRight: 16,
   paddingLeft: 21,
   // paddingBottom: 10,
@@ -139,7 +139,7 @@ const GradientBar = styled(LinearGradient)({
   height: 6,
 });
 GradientBar.defaultProps = {
-  colors: [colors.pine, colors.cerulean],
+  colors: [colors.PINE, colors.CERULEAN],
   start: { x: -1, y: 0 },
   end: { x: 1, y: 0 },
 };

@@ -101,10 +101,10 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
     <BaseScreen
       isPadding={false}
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         marginBottom: 40,
       }}
     >
@@ -119,7 +119,7 @@ const WithdrawalMembershipScreen = ({ navigation }) => {
         <ScaledImage
           source={require("../../assets/images/mem_out01.png")}
           width={SCREEN_WIDTH - 48}
-          style={{ backgroundColor: colors.trueWhite }}
+          style={{ backgroundColor: colors.TRUE_WHITE }}
         />
 
         <BorderContainer2>
@@ -204,10 +204,10 @@ const Radio = (props) => {
   );
 };
 const TextBox = styled.TextInput({
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   padding: 7,
   minHeight: 83,
   textAlignVertical: "top",
@@ -218,7 +218,7 @@ const BtnText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 6,
 });
 const RadioButtons = styled(ButtonGroup)({
@@ -228,17 +228,17 @@ const RadioButtons = styled(ButtonGroup)({
 });
 const BorderContainer2 = styled.View({
   borderRadius: 7,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   padding: 13,
   marginLeft: 5,
   marginRight: 2,
   marginTop: 4,
 });
 const GreenButton = styled(BlueButton)({
-  backgroundColor: colors.pine,
+  backgroundColor: colors.PINE,
 });
 const Text1 = styled(BaseText)({
   fontSize: 16,
@@ -253,7 +253,7 @@ const Text1 = styled(BaseText)({
 const BorderContainer = styled.View({
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   margin: 16,
 });
 export const screenOptions = ({ navigation }) => {

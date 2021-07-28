@@ -139,7 +139,7 @@ const FlyerScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
         paddingRight: 0,
       }}
@@ -223,7 +223,7 @@ const FlyerScreen = (props) => {
       {!_.isEmpty(product) && product.productList.length === 0 && (
         <NoList
           style={{
-            backgroundColor: colors.trueWhite,
+            backgroundColor: colors.TRUE_WHITE,
             height: SCREEN_HEIGHT - (SCREEN_WIDTH * 0.283 + 250),
           }}
           source={require("../../assets/images/box.png")}

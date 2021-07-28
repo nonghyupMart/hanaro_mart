@@ -129,7 +129,7 @@ export default function App() {
 
   useEffect(() => {
     if (Platform.OS == "android")
-      return StatusBar.setBackgroundColor(colors.trueWhite);
+      return StatusBar.setBackgroundColor(colors.TRUE_WHITE);
     (async () => {
       await StatusBar.setBarStyle("dark-content");
     })();

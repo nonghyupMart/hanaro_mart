@@ -181,7 +181,7 @@ const CouponDetailScreen = (props) => {
               <>
                 <TopText
                   style={{
-                    backgroundColor: colors.lipstickTwo,
+                    backgroundColor: colors.LIPSTICK_TWO,
                     fontSize: 18,
                     paddingTop: 14,
                     paddingBottom: 14,
@@ -216,7 +216,7 @@ const CouponDetailScreen = (props) => {
             )}
             {isUsed && (
               <>
-                <TopText style={{ backgroundColor: colors.greyishBrown }}>
+                <TopText style={{ backgroundColor: colors.GREYISH_BROWN }}>
                   쿠폰을 사용하셨습니다.
                 </TopText>
                 <Image
@@ -239,7 +239,7 @@ const CouponDetailScreen = (props) => {
               width: SCREEN_WIDTH * 0.561,
               aspectRatio: 1 / 1,
               marginBottom: 25,
-              backgroundColor: colors.trueWhite,
+              backgroundColor: colors.TRUE_WHITE,
             }}
             initResizeMode="contain"
             resizeMode="contain"
@@ -279,9 +279,9 @@ const CouponDetailScreen = (props) => {
               style={{
                 width: "100%",
                 height: 1,
-                backgroundColor: colors.white,
+                backgroundColor: colors.WHITE,
                 borderBottomWidth: 1,
-                borderColor: colors.white,
+                borderColor: colors.WHITE,
                 marginTop: 12.5,
                 marginBottom: 12.5,
               }}
@@ -294,7 +294,7 @@ const CouponDetailScreen = (props) => {
               style={{
                 backgroundColor: "white",
                 borderWidth: 1,
-                borderColor: colors.pinkishGrey,
+                borderColor: colors.PINKISH_GREY,
               }}
               onPress={() => {
                 dispatch(CommonActions.setBottomNavigation(true));
@@ -302,14 +302,14 @@ const CouponDetailScreen = (props) => {
               }}
             >
               {/* <Image source={require("../../assets/images/resize3.png")} /> */}
-              <BlueButtonText style={{ color: colors.greyishBrown }}>
+              <BlueButtonText style={{ color: colors.GREYISH_BROWN }}>
                 닫기
               </BlueButtonText>
             </BlueButton>
           )}
           {isUsed && (
             <>
-              <Warn style={{ color: colors.greyishBrown }}>
+              <Warn style={{ color: colors.GREYISH_BROWN }}>
                 본 쿠폰은 사용완료 되었습니다.
               </Warn>
               <BlueButton
@@ -317,7 +317,7 @@ const CouponDetailScreen = (props) => {
                   dispatch(CommonActions.setBottomNavigation(true));
                   props.navigation.pop();
                 }}
-                style={{ backgroundColor: colors.greyishThree }}
+                style={{ backgroundColor: colors.GREYISH_THREE }}
               >
                 {/* <Image source={require("../../assets/images/resize3.png")} /> */}
                 <BlueButtonText>사용완료</BlueButtonText>
@@ -359,7 +359,7 @@ const Memo = styled(BaseText)({
   lineHeight: 18,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishThree,
+  color: colors.GREYISH_THREE,
   paddingLeft: 12,
   paddingRight: 12,
 });
@@ -369,14 +369,14 @@ const TextContainer = styled.View({
   width: "100%",
 });
 const TopText = styled(BaseText)({
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   fontSize: 24,
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
   textAlign: "center",
   width: "110%",
   paddingTop: 7,
   paddingBottom: 7,
-  marginLeft:"-5%"
+  marginLeft: "-5%",
 });
 const TopBox = styled.View({
   width: "110%",
@@ -391,7 +391,7 @@ const Desc = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   paddingLeft: 25,
   paddingRight: 25,
 });
@@ -403,7 +403,7 @@ const DescText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const DescContainer = styled.View({
   flexDirection: "row",
@@ -422,12 +422,12 @@ const Warn = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
 });
 const PriceText = styled(BaseText)({
   fontSize: 16,
   lineHeight: 24,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginLeft: 7,
 });
 const PriceContainer = styled.View({
@@ -453,7 +453,7 @@ const Title = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   marginBottom: 8,
 });
 const Discount = styled(BaseText)({
@@ -463,7 +463,7 @@ const Discount = styled(BaseText)({
   lineHeight: 44,
   letterSpacing: -0.75,
   textAlign: "center",
-  color: colors.lipstick,
+  color: colors.LIPSTICK,
   marginTop: 20,
 });
 
@@ -496,7 +496,7 @@ const UseButton = (props) => {
         <Text
           style={{
             alignItems: "center",
-            color: colors.appleGreen,
+            color: colors.APPLE_GREEN,
             fontSize: 15,
             justifyContent: "center",
             fontFamily: "Roboto-Bold",

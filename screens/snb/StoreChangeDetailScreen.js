@@ -119,13 +119,13 @@ const StoreChangeDetailScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingRight: 0,
         paddingLeft: 0,
       }}
       contentStyle={{
         paddingTop: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
@@ -166,7 +166,7 @@ const StoreChangeDetailScreen = (props) => {
             lineHeight: 17,
             letterSpacing: 0,
             textAlign: "center",
-            color: colors.greyishBrown,
+            color: colors.GREYISH_BROWN,
           }}
         >
           매장위치 확인 후 + 설정을 눌러 주세요
@@ -180,7 +180,7 @@ const StoreChangeDetailScreen = (props) => {
             backgroundColor: "rgba(255, 255, 255, 0)",
             borderStyle: "solid",
             borderWidth: 2,
-            borderColor: colors.cerulean,
+            borderColor: colors.CERULEAN,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
@@ -205,7 +205,7 @@ const StoreChangeDetailScreen = (props) => {
                   lineHeight: 24,
                   letterSpacing: 0,
 
-                  color: colors.greyishBrown,
+                  color: colors.GREYISH_BROWN,
                 }}
               >
                 {branch.storeInfo && branch.storeInfo.store_nm}
@@ -218,7 +218,7 @@ const StoreChangeDetailScreen = (props) => {
                   lineHeight: 20,
                   letterSpacing: 0,
                   textAlign: "left",
-                  color: colors.appleGreen,
+                  color: colors.APPLE_GREEN,
                 }}
               >
                 Tel. {branch.storeInfo && branch.storeInfo.support_tel}
@@ -236,7 +236,7 @@ const StoreChangeDetailScreen = (props) => {
                   width: 53,
                   height: 53,
                   borderRadius: 4,
-                  backgroundColor: colors.cerulean,
+                  backgroundColor: colors.CERULEAN,
                   justifyContent: "center",
                   alignItems: "center",
                 }}
@@ -253,7 +253,7 @@ const StoreChangeDetailScreen = (props) => {
 
                     letterSpacing: 0,
                     textAlign: "left",
-                    color: colors.trueWhite,
+                    color: colors.TRUE_WHITE,
                   }}
                 >
                   설정
@@ -284,7 +284,7 @@ const ButtonText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const BaseSmallButton = styled(BaseButtonContainer)({
   width: 114,
@@ -292,10 +292,10 @@ const BaseSmallButton = styled(BaseButtonContainer)({
   borderRadius: 11,
 });
 const BlueButton = styled(BaseSmallButton)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const GrayButton = styled(BaseSmallButton)({
-  backgroundColor: colors.pinkishGrey,
+  backgroundColor: colors.PINKISH_GREY,
 });
 const BlueRoundView = styled.View({
   //    borderBottomLeftRadius: number
@@ -304,14 +304,14 @@ const BlueRoundView = styled.View({
   // - borderTopRightRadius: number
   borderTopLeftRadius: 20,
   borderBottomLeftRadius: 20,
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   height: 40,
 });
 
 const WhiteContainer = styled.View({
   paddingTop: 6,
   width: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   flex: 1,
 });
 const BottomCover = styled.ImageBackground({
@@ -338,7 +338,7 @@ const BlueBaseText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
   marginBottom: 50,
 });
 const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
@@ -349,7 +349,7 @@ Plus.defaultProps = {
 const StoreBox = styled.View({
   flex: 1,
   width: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 
   alignItems: "center",
 });
@@ -361,7 +361,7 @@ const styles = StyleSheet.create({
   picker: {
     flexGrow: 1,
 
-    color: colors.greyishBrown,
+    color: colors.GREYISH_BROWN,
   },
   row: { flexDirection: "row", justifyContent: "center", alignItems: "center" },
   screen: {
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    color: colors.primary,
+    color: colors.PRIMARY,
   },
 });
 export default StoreChangeDetailScreen;

@@ -360,7 +360,7 @@ const AgreementScreen = (props) => {
         activeOpacity={0.8}
         onPress={handleAllChecked.bind(this, !toggleAllheckBox)}
         title={
-          <BaseText style={{ color: colors.trueWhite, marginLeft: 10 }}>
+          <BaseText style={{ color: colors.TRUE_WHITE, marginLeft: 10 }}>
             전체동의
           </BaseText>
         }
@@ -397,7 +397,7 @@ const AgreementScreen = (props) => {
               />
               <TextView
                 style={{
-                  color: item.isRequired ? colors.cerulean : colors.viridian,
+                  color: item.isRequired ? colors.CERULEAN : colors.VIRIDIAN,
                 }}
               >
                 {item.isRequired ? "[필수] " : "[선택] "}
@@ -489,7 +489,7 @@ export const GrayDesc = styled(BaseText)({
   lineHeight: 16,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishThree,
+  color: colors.GREYISH_THREE,
   marginTop: 5,
   marginLeft: 16,
   marginRight: 23,
@@ -502,7 +502,7 @@ export const DescText1 = styled(BaseText)({
   lineHeight: 16,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 export const Desc = styled.View({ marginLeft: 46, marginBottom: 5 });
 export const DescTextLine = styled.View({
@@ -533,7 +533,7 @@ const NoticeText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
   marginRight: 30,
   marginLeft: 30,
   marginTop: 42,
@@ -546,14 +546,14 @@ const BottonBase = styled(BaseButtonContainer)({
   aspectRatio: 100 / 22,
 });
 const GreenButton = styled(BottonBase)({
-  backgroundColor: colors.pine,
+  backgroundColor: colors.PINE,
 });
 const BlueButton = styled(BottonBase)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const TextBox = styled.View({
   alignItems: "flex-start",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   justifyContent: "flex-start",
   marginBottom: 11,
   paddingBottom: 5,
@@ -561,10 +561,10 @@ const TextBox = styled.View({
   // paddingRight: 5,
   width: "100%",
   borderRadius: 6,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   flex: 1,
   overflow: "hidden",
 });
@@ -572,7 +572,7 @@ export const TextView = styled(BaseText)({
   flexShrink: 1,
   lineHeight: 20,
   fontSize: 12,
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
   fontFamily: "Roboto-Bold",
   flexShrink: 0,
 });
@@ -587,7 +587,6 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: (props) => <></>,
-    animationEnabled: false,
   };
 };
 export default AgreementScreen;

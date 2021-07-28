@@ -103,11 +103,11 @@ const StoreChangeScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
         paddingRight: 0,
       }}
-      contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
+      contentStyle={{ paddingTop: 0, backgroundColor: colors.TRUE_WHITE }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
@@ -169,7 +169,7 @@ export const screenOptions = ({ navigation }) => {
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
     cardStyle: {
-      backgroundColor: colors.trueWhite,
+      backgroundColor: colors.TRUE_WHITE,
       paddingBottom: PADDING_BOTTOM_MENU,
     },
   };
@@ -179,7 +179,7 @@ export const screenOptions = ({ navigation }) => {
 export const WhiteContainer = styled.View({
   paddingTop: 6,
   width: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   flex: 1,
   height: "100%",
 });
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    color: colors.primary,
+    color: colors.PRIMARY,
   },
 });
 export default StoreChangeScreen;

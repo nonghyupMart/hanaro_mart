@@ -72,10 +72,10 @@ const BaseButton = styled(BaseTouchable)({
   marginRight: 3,
 });
 const CancelButton = styled(BaseButton)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const ConfirmButton = styled(BaseButton)({
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
 });
 const ButtonText = styled(BaseText)({
   fontSize: 18,
@@ -84,11 +84,11 @@ const ButtonText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const Message = styled(BaseText)({
   fontSize: 16,
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   lineHeight: 22,
   marginBottom: 22,
   marginTop: 36,

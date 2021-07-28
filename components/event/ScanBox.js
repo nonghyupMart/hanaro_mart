@@ -69,10 +69,12 @@ const ScanBox = (props) => {
 };
 
 const GreenBtn = styled(BlueButton)({
-  backgroundColor: colors.appleGreen,
+  aspectRatio: 100 / 12.844,
+  height: 42,
+  backgroundColor: colors.APPLE_GREEN,
 });
 const GrayButton = styled(GreenBtn)({
-  backgroundColor: colors.greyishThree,
+  backgroundColor: colors.GREYISH_THREE,
 });
 const TextContainer1 = styled.View({
   margin: 4,
@@ -85,7 +87,7 @@ const Text3 = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   marginBottom: 10,
 });
 const Text2 = styled(BaseText)({
@@ -95,7 +97,7 @@ const Text2 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
   marginBottom: 35,
 });
 const Text1 = styled(BaseText)({
@@ -105,6 +107,6 @@ const Text1 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 export default ScanBox;
