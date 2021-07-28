@@ -344,8 +344,8 @@ export const checkAuth = (dispatch, isJoin) => {
   if (isJoin) return true;
   dispatch(
     setAlert({
-      message: "회원인증후 사용하실 수\n있는 메뉴입니다.",
-      confirmText: "회원인증",
+      message: "로그인후 사용하실 수\n있는 메뉴입니다.",
+      confirmText: "로그인",
       onPressConfirm: async () => {
         await dispatch(setAlert(null));
         await dispatch(setPreview(false));
