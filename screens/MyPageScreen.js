@@ -15,6 +15,7 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import { StoreBox, BottomCover } from "../components/store/InfoBox";
 import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
+import _ from "lodash";
 
 const MyPageScreen = ({ navigation }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
