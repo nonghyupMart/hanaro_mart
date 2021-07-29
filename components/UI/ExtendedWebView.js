@@ -73,10 +73,10 @@ export const ExtendedWebView = (props) => {
         break;
       case "alert":
         dispatch(
-          CommonActions.setAlert({
+          setAlert({
             message: message.value,
             onPressConfirm: () => {
-              dispatch(CommonActions.setAlert(null));
+              dispatch(setAlert(null));
             },
           })
         );
@@ -113,6 +113,18 @@ export const ExtendedWebView = (props) => {
         // message.value
         break;
       case "searchId":
+        if (!message.value.intg_id) {
+          dispatch(
+            setAlert({
+              message: "통합회원 가입정보가 없습니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+          finish();
+          return;
+        }
         RootNavigation.replace("FindIDResult", {
           intg_id: message.value.intg_id,
           reg_date: message.value.reg_date,
