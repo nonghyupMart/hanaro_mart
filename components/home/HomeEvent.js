@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Carousel from "../../components/UI/Carousel";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Platform, Image, TouchableOpacity } from "react-native";
 import {
   StyleConstants,
   BaseImage,
@@ -117,7 +117,7 @@ const HomeEvent = (props) => {
           paddingBottom: 4,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
+        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
         <TouchableOpacity
@@ -130,7 +130,13 @@ const HomeEvent = (props) => {
         >
           <Image
             source={require("../../assets/images/event_banner.png")}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor:
+                Platform.OS == "android" ? colors.WHITE : "transparent",
+            }}
+            defaultSource={require("../../assets/images/b_img500.png")}
             resizeMode="stretch"
           />
         </TouchableOpacity>
@@ -191,9 +197,12 @@ const BannerItem = (props) => {
         width: SCREEN_WIDTH - 48,
         borderRadius: 10,
         overflow: "hidden",
+        backgroundColor:
+          Platform.OS == "android" ? colors.WHITE : "transparent",
       }}
       resizeMode="cover"
       source={props.item.title_img}
+      defaultSource={require("../../assets/images/b_img500.png")}
     />
   );
 };
