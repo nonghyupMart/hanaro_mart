@@ -59,7 +59,7 @@ const MemberInfo = (props) => {
               />
               <BeforeJoinContainer>
                 <View>
-                  <Text5>로그인 및 회원가입</Text5>
+                  <Text5>로그인 및 통합회원가입</Text5>
                   <Text6>더 많은 혜택을 받아가세요</Text6>
                 </View>
                 <Image
