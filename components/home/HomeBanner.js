@@ -27,6 +27,8 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
   const homeBanner = useSelector((state) => state.home.homeBanner);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+
   useEffect(() => {
     if (!props.isFocused) return;
     dispatch(setIsLoading(true));
@@ -35,6 +37,21 @@ const HomeBanner = (props) => {
       dispatch(setIsLoading(false));
     });
   }, [props.isFocused]);
+
+  const onPressMembershipBanner = () => {
+    if (!_.isEmpty(userInfo.amnNo))
+      return dispatch(
+        setAlert({
+          message: "이미 통합회원 가입하셨습니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+    RootNavigation.navigate("NHAHM", {
+      regiDesc: "01",
+    });
+  };
   if (!homeBanner || !homeBanner.bannerList) return <></>;
   return (
     <RoundedContainer>
@@ -77,7 +94,12 @@ const HomeBanner = (props) => {
         pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
-        <MembershipBanner />
+        <MembershipBanner
+          dispatch={dispatch}
+          amnNo={userInfo.amnNo}
+          key="membershipBanner"
+          onPress={onPressMembershipBanner}
+        />
         {homeBanner.bannerList.map((item, index) => {
           return (
             <TouchableOpacity
@@ -107,8 +129,7 @@ const MembershipBanner = (props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.8}
-      key="registerIntegratedMembership"
-      onPress={() => RootNavigation.navigate("NHAHM", { regiDesc: "01" })}
+      onPress={props.onPress}
       style={{
         height: (SCREEN_WIDTH - 48) * 0.608,
         width: SCREEN_WIDTH - 48,
