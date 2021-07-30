@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import styled from "styled-components/native";
-import * as AgreementScreen from "../../screens/join/AgreementScreen";
-
 import {
   BlueButton,
   BlueButtonText,

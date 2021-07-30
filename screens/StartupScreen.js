@@ -23,57 +23,13 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(authActions.fetchUpdate()).then((data) => {
-        if (data.popupCnt <= 0) return;
-        let obj = data.popupList[0];
-        if (!obj.app_ver) return;
-        const index = Constants.manifest.version.indexOf(".", 2);
-        let versionCheck = Util.versionCompare(
-          Constants.manifest.version.slice(0, index),
-          obj.app_ver
-        );
-
-        if (versionCheck < 0) {
-          //버전이 낮을때만 업데이트 팝업 페이지로 이동
-          dispatch(authActions.setIsUpdated(false));
-          return;
-        }
-      });
-      if (Constants.isDevice) {
-        try {
-          const token = (await Notifications.getExpoPushTokenAsync()).data;
-          if (token) await dispatch(authActions.setPushToken(token));
-        } catch (error) {
-          Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
-        }
-      }
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      permissionStatus.current = status;
-
-      const userStoreData = await Util.getStorageItem("userStoreData");
-      await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
-
-      const userInfoData = await Util.getStorageItem("userInfoData");
-      const parsedUserData = await JSON.parse(userInfoData);
-      await dispatch(authActions.setUserInfo(parsedUserData));
-      if (parsedUserData && parsedUserData.user_id) {
-        await dispatch(authActions.setPreview(false));
-        await dispatch(authActions.setIsJoin(true));
-      } else await dispatch(authActions.setIsJoin(false));
-
-      const agreedStatusData = await Util.getStorageItem("agreedStatusData");
-      await dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
-
+      if (!isUpdatedVersion()) return;
+      getExpoPushToken();
+      getLocationPermission();
+      const userStoreData = getUserStoreData();
+      getUserInfo();
       await getIsStorePopup(userStoreData, dispatch);
-
-      const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
-      setDate = moment().subtract(1, "days");
-      if (dateForAppPopup) setDate = moment(dateForAppPopup);
-
-      //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
-      await dispatch(
-        CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
-      );
+      initAppPopupData();
     })();
   }, []);
 
@@ -96,6 +52,69 @@ const StartupScreen = (props) => {
       fetchBranchNear(location);
     })();
   }, [isJoin]);
+
+  const initAppPopupData = async () => {
+    const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
+    setDate = moment().subtract(1, "days");
+    if (dateForAppPopup) setDate = moment(dateForAppPopup);
+
+    //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
+    await dispatch(
+      CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
+    );
+  };
+
+  const getUserInfo = async () => {
+    const userInfoData = await Util.getStorageItem("userInfoData");
+    const parsedUserData = await JSON.parse(userInfoData);
+    await dispatch(authActions.setUserInfo(parsedUserData));
+    if (parsedUserData && parsedUserData.user_id) {
+      await dispatch(authActions.setPreview(false));
+      await dispatch(authActions.setIsJoin(true));
+    } else await dispatch(authActions.setIsJoin(false));
+  };
+
+  const getUserStoreData = async () => {
+    const userStoreData = await Util.getStorageItem("userStoreData");
+    await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
+    return userStoreData;
+  };
+
+  const getLocationPermission = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    permissionStatus.current = status;
+  };
+
+  const getExpoPushToken = async () => {
+    if (Constants.isDevice) {
+      try {
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        if (token) await dispatch(authActions.setPushToken(token));
+      } catch (error) {
+        Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
+      }
+    }
+  };
+
+  const isUpdatedVersion = async () => {
+    await dispatch(authActions.fetchUpdate()).then((data) => {
+      if (data.popupCnt <= 0) return;
+      let obj = data.popupList[0];
+      if (!obj.app_ver) return;
+      const index = Constants.manifest.version.indexOf(".", 2);
+      let versionCheck = Util.versionCompare(
+        Constants.manifest.version.slice(0, index),
+        obj.app_ver
+      );
+
+      if (versionCheck < 0) {
+        //버전이 낮을때만 업데이트 팝업 페이지로 이동
+        dispatch(authActions.setIsUpdated(false));
+        return false;
+      }
+      return true;
+    });
+  };
 
   const fetchBranchNear = async (location) => {
     let query = {};

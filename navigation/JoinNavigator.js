@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { StatusBar, Platform } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import AgreementScreen, {
-  screenOptions as AgreementScreenOptions,
-} from "../screens/join/AgreementScreen";
 import CIScreen, {
   screenOptions as CIScreenOptions,
 } from "../screens/join/CIScreen";
@@ -37,11 +34,6 @@ export const JoinNavigator = () => {
         name="Login"
         component={LoginScreen}
         options={LoginScreenOptions}
-      />
-      <JoinStackNavigator.Screen
-        name="Agreement"
-        component={AgreementScreen}
-        options={AgreementScreenOptions}
       />
       <JoinStackNavigator.Screen
         name="NHAHM"
