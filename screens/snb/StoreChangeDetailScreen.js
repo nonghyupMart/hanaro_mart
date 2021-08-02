@@ -22,7 +22,11 @@ import BaseScreen from "../../components/BaseScreen";
 import * as homeActions from "../../store/actions/home";
 
 import * as branchesActions from "../../store/actions/branches";
-import { setUserStore, saveUserStore } from "../../store/actions/auth";
+import {
+  setUserStore,
+  saveUserStore,
+  saveUserStoreToStorage,
+} from "../../store/actions/auth";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import { SET_BRANCH } from "../../store/actions/actionTypes";
 import * as CommonActions from "../../store/actions/common";
@@ -83,6 +87,7 @@ const StoreChangeDetailScreen = (props) => {
     await dispatch(setIsLoading(true));
     if (!isJoin) {
       await dispatch(saveUserStore(branch));
+      await saveUserStoreToStorage(branch);
       await props.navigation.navigate("Home");
       await dispatch(CommonActions.setDidTryPopup(false));
       await dispatch(setIsLoading(false));
