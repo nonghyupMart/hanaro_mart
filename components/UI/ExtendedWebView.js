@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, BackHandler } from "react-native";
 import Alert from "../../components/UI/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/auth";
@@ -33,12 +33,28 @@ export const ExtendedWebView = (props) => {
   const index = useNavigationState((state) => state.index);
   const isLoading = useSelector((state) => state.common.isLoading);
   const alert = useSelector((state) => state.common.alert);
+  const backButtonEnabled = useRef(false);
   const webref = useRef();
   const onMessage = (event) => {
     const message = JSON.parse(event.nativeEvent.data);
     parseMethod(message);
   };
 
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        if (backButtonEnabled.current) {
+          webref.current.goBack();
+          console.log(webref.current);
+          return true;
+        }
+      }
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
   // useEffect(() => {
   //   webref.current.injectJavaScript(
   //     `
@@ -54,6 +70,10 @@ export const ExtendedWebView = (props) => {
     return interceptStateChange(e);
   };
   const onNavigationStateChange = (e) => {
+    backButtonEnabled.current = e.canGoBack;
+    if (props.onNavigationStateChange) {
+      props.onNavigationStateChange();
+    }
     // if (Platform.OS === "ios") return interceptStateChange(e);
   };
   const interceptStateChange = (e) => {
