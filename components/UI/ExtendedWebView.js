@@ -46,7 +46,6 @@ export const ExtendedWebView = (props) => {
       () => {
         if (backButtonEnabled.current) {
           webref.current.goBack();
-          console.log(webref.current);
           return true;
         }
       }
