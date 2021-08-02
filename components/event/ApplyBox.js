@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import * as AgreementScreen from "../../screens/join/AgreementScreen";
+import * as Agreement from "../UI/Agreement";
 
 import AgreementContent3 from "../../components/join/AgreementContent3";
 import { styles } from "../../components/join/styles";
@@ -69,16 +69,16 @@ const ApplyBox = (props) => {
         userInfo.marketing_agree == "N" && (
           <Container>
             <Title>개인정보 수집동의</Title>
-            <AgreementScreen.TitleArea>
-              <AgreementScreen.TitleContainer
+            <Agreement.TitleArea>
+              <Agreement.TitleContainer
                 style={{ marginTop: 13, marginBottom: 5 }}
               >
-                <AgreementScreen.CheckButton
+                <Agreement.CheckButton
                   value={checkItem}
                   onPress={handleChecked.bind(this, checkItem)}
                   isRequired={true}
                 />
-                <AgreementScreen.TextView
+                <Agreement.TextView
                   style={{
                     fontWeight: "normal",
                     fontSize: 14,
@@ -91,13 +91,13 @@ const ApplyBox = (props) => {
                   }}
                 >
                   {props.item.isRequired ? "[필수] " : "[선택] "}
-                </AgreementScreen.TextView>
-                <AgreementScreen.BoldText
+                </Agreement.TextView>
+                <Agreement.BoldText
                   style={{ textAlign: "left", width: "100%" }}
                 >
                   행사안내 및 이벤트 수신 동의
-                </AgreementScreen.BoldText>
-              </AgreementScreen.TitleContainer>
+                </Agreement.BoldText>
+              </Agreement.TitleContainer>
               <CheckBox
                 containerStyle={[styles.checkbox]}
                 checked={checkItem.isOpen}
@@ -110,32 +110,32 @@ const ApplyBox = (props) => {
                 }
                 style={{ opacity: 0 }}
               />
-            </AgreementScreen.TitleArea>
+            </Agreement.TitleArea>
 
-            <AgreementScreen.Desc>
-              <AgreementScreen.DescTextLine>
-                <AgreementScreen.CircleCheckButton
+            <Agreement.Desc>
+              <Agreement.DescTextLine>
+                <Agreement.CircleCheckButton
                   checked={checkItem.child[0].isChecked}
                   onPress={setChecked.bind(this, checkItem, checkItem.child[0])}
                 />
-                <AgreementScreen.DescText1>
+                <Agreement.DescText1>
                   개인정보의 선택적 수집·이용 동의
-                </AgreementScreen.DescText1>
-              </AgreementScreen.DescTextLine>
-              <AgreementScreen.DescTextLine>
-                <AgreementScreen.CircleCheckButton
+                </Agreement.DescText1>
+              </Agreement.DescTextLine>
+              <Agreement.DescTextLine>
+                <Agreement.CircleCheckButton
                   checked={checkItem.child[1].isChecked}
                   onPress={setChecked.bind(this, checkItem, checkItem.child[1])}
                 />
-                <AgreementScreen.DescText1>
+                <Agreement.DescText1>
                   개인정보의 선택적 제공동의
-                </AgreementScreen.DescText1>
-              </AgreementScreen.DescTextLine>
-              <AgreementScreen.GrayDesc>
+                </Agreement.DescText1>
+              </Agreement.DescTextLine>
+              <Agreement.GrayDesc>
                 이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
                 있습니다.
-              </AgreementScreen.GrayDesc>
-            </AgreementScreen.Desc>
+              </Agreement.GrayDesc>
+            </Agreement.Desc>
             {checkItem.isOpen && (
               <AgreementContent3 style={{ marginTop: 10, marginBottom: 10 }} />
             )}
@@ -193,7 +193,7 @@ const InputText = styled(BaseTextInput)({
   textAlign: "center",
 });
 
-const TextView2 = styled(AgreementScreen.TextView)({
+const TextView2 = styled(Agreement.TextView)({
   flexGrow: 1,
   marginRight: 22,
   justifyContent: "flex-start",
@@ -231,5 +231,8 @@ const Container = styled.View({
   overflow: "hidden",
   paddingBottom: 10,
 });
+
+
+
 
 export default ApplyBox;

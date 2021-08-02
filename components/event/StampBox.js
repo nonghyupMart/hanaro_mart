@@ -3,12 +3,6 @@ import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import {
-  CheckButton,
-  TitleContainer,
-  TextView,
-} from "../../screens/join/AgreementScreen";
-
-import {
   BlueButton,
   BlueButtonText,
   BaseText,

@@ -213,9 +213,6 @@ export const saveUserStoreToStorage = async (store) => {
   Util.setStorageItem("userStoreData", JSON.stringify(store));
 };
 
-export const saveAgreedStatusToStorage = (status) => {
-  Util.setStorageItem("agreedStatusData", JSON.stringify(status));
-};
 
 export const saveIsJoinToStorage = (status) => {
   Util.setStorageItem("isJoinData", true);
