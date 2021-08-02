@@ -1,5 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  
+} from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
@@ -42,6 +48,7 @@ const NHAHMScreen = ({ navigation, route }) => {
         title: title,
         cardStyle: {
           marginBottom: 0,
+          // marginTop: 30,
         },
       });
     }
@@ -51,36 +58,39 @@ const NHAHMScreen = ({ navigation, route }) => {
     };
   }, []);
   return (
-    <BaseScreen isPadding={false}>
-      <ExtendedWebView
-        recommend={params ? params.recommend : null}
-        startInLoadingState={true}
-        key={Math.random()}
-        cacheMode="LOAD_NO_CACHE"
-        style={{
-          height: SCREEN_HEIGHT,
-          opacity: 0.99,
-          width: SCREEN_WIDTH,
-        }}
-        source={{
-          uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
-            params.regiDesc
-          }&amnNo=${!_.isEmpty(userInfo) ? userInfo.amnNo : ""}`,
-        }}
-      />
-    </BaseScreen>
+    <SafeAreaView style={{ flex: 1, width: "100%" }}>
+      <BaseScreen isPadding={false}>
+        <ExtendedWebView
+          recommend={params ? params.recommend : null}
+          startInLoadingState={true}
+          key={Math.random()}
+          cacheMode="LOAD_NO_CACHE"
+          style={{
+            height: SCREEN_HEIGHT,
+            opacity: 0.99,
+            width: SCREEN_WIDTH,
+          }}
+          source={{
+            uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
+              params.regiDesc
+            }&amnNo=${!_.isEmpty(userInfo) ? userInfo.amnNo : ""}`,
+          }}
+        />
+      </BaseScreen>
+    </SafeAreaView>
   );
 };
 export const screenOptions = ({ navigation }) => {
   return {
     title: "회원가입",
 
-    headerLeft: (props) => <BackButton {...props} />,
-    headerTitle: (props) => <TextTitle {...props} />,
+    headerLeft: (props) => <></>,
+    headerTitle: (props) => <></>,
     headerRight: (props) => <></>,
     cardStyle: {
       marginBottom: 0,
     },
+    headerShown: false,
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },
