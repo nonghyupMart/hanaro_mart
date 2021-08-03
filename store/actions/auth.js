@@ -272,6 +272,10 @@ export const updateUserInfo = async ({
       await Analytics.setUserProperty(name, value.toString());
     });
 
+    await Analytics.setUserProperty(
+      "app_internal_version",
+      Constants.manifest.version
+    );
     // console.log(Analytics.userProperty);
 
     await saveUserData(dispatch, data);
