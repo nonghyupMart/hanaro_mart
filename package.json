@@ -34,6 +34,7 @@
     "debounce": "^1.2.0",
     "expo": "^42.0.0",
     "expo-app-loading": "^1.0.1",
+    "expo-application": "~3.2.0",
     "expo-asset": "~8.3.3",
     "expo-av": "~9.2.3",
     "expo-background-fetch": "~9.2.2",
@@ -41,6 +42,7 @@
     "expo-blur": "~9.0.3",
     "expo-brightness": "~9.2.2",
     "expo-camera": "~11.2.2",
+    "expo-constants": "~11.0.1",
     "expo-contacts": "~9.2.5",
     "expo-dev-client": "^0.4.5",
     "expo-device": "~3.3.0",
@@ -109,6 +111,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
+    "sentry-expo": "^4.0.0",
     "styled-components": "^5.2.1",
     "urijs": "^1.19.2"
   },

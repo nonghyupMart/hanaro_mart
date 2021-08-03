@@ -1,5 +1,5 @@
 import "expo-dev-client";
-
+import * as Sentry from "sentry-expo";
 import { usePreventScreenCapture } from "expo-screen-capture";
 import React, { useState, useEffect, useLayoutEffect } from "react";
 import { Provider, useDispatch, useSelector, shallowEqual } from "react-redux";
@@ -41,6 +41,13 @@ import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
 import * as Util from "./util";
 import { init } from "./helpers/db";
+
+Sentry.init({
+  dsn:
+    "https://f9dc315fd77b4b46886b29ceb067bcb3@o941457.ingest.sentry.io/5890267",
+  enableInExpoDevelopment: true,
+  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+});
 
 init()
   .then(() => {

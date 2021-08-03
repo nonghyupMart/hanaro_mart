@@ -6,12 +6,17 @@
     "version": "1.20.1",
     "orientation": "portrait",
     "privacy": "unlisted",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "icon": "./assets/icon.png",
     "updates": {
       "fallbackToCacheTimeout": 30000
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "notification": {
       "icon": "./assets/9696.png",
       "color": "#b2b2b2"
@@ -82,6 +87,23 @@
         }
       }
     },
-    "developmentClient": { "silentLaunch": true }
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "hanaromart",
+            "project": "hanaroplus",
+            "authToken": "4aacd73cbb4c45c48d86efad1559cae02d3ec253b1ce4d1790938ecd9c0a8c11"
+          }
+        }
+      ]
+    }
   }
 }
