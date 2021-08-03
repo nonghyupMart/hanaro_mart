@@ -89,6 +89,14 @@ transporter 사용
 - nonghyupmart@gmail.com
 - PW : Nonghyup1~
 
+### sentry 계정
+
+- nonghyupmart@gmail.com
+- PW : nonghyup1~
+- https://docs.expo.dev/guides/using-sentry/
+- https://sentry.io/
+
+
 # Expo CLI 설치
 
 Cmd 에서 명령어 입력
