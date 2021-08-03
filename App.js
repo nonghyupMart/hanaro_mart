@@ -41,12 +41,33 @@ import { AppearanceProvider, useColorScheme } from "react-native-appearance";
 import Constants from "expo-constants";
 import * as Util from "./util";
 import { init } from "./helpers/db";
+import { SERVER_URL } from "./constants";
+import { RewriteFrames as RewriteFramesIntegration } from "@sentry/integrations";
+const routingInstrumentation = new Sentry.Native.ReactNavigationV5Instrumentation();
 
 Sentry.init({
   dsn:
     "https://f9dc315fd77b4b46886b29ceb067bcb3@o941457.ingest.sentry.io/5890267",
-  enableInExpoDevelopment: true,
-  debug: true, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  enableInExpoDevelopment: false,
+  debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  integrations: [
+    new Sentry.Native.ReactNativeTracing({
+      routingInstrumentation,
+      tracingOrigins: ["localhost", SERVER_URL, /^\//],
+    }),
+    new RewriteFramesIntegration({
+      iteratee: (frame) => {
+        if (frame.filename) {
+          // the values depend on what names you give the bundle files you are uploading to Sentry
+          frame.filename =
+            Platform.OS === "android"
+              ? "app:///index.android.bundle"
+              : "app:///main.jsbundle";
+        }
+        return frame;
+      },
+    }),
+  ],
 });
 
 init()
@@ -163,7 +184,7 @@ export default function App() {
       <SafeAreaProvider>
         <Provider store={store}>
           <StatusBar barStyle="dark-content" backgroundColor="white" />
-          <AppNavigator />
+          <AppNavigator routingInstrumentation={routingInstrumentation} />
         </Provider>
       </SafeAreaProvider>
     </AppearanceProvider>

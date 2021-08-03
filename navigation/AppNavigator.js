@@ -30,6 +30,8 @@ const Theme = {
 };
 
 const AppNavigator = (props) => {
+  const routeNameRef = useRef();
+  const routingInstrumentation = props.routingInstrumentation;
   const notificationListener = useRef();
   const responseListener = useRef();
   const appState = useRef(AppState.currentState);
@@ -153,14 +155,6 @@ const AppNavigator = (props) => {
     };
   }, []);
 
-  const getActiveRouteName = (navigationState) => {
-    if (!navigationState) return null;
-    const route = navigationState.routes[navigationState.index];
-    // Parse the nested navigators
-    if (route.routes) return getActiveRouteName(route);
-    return route.routeName;
-  };
-
   return (
     <Fragment>
       {isLoading && <Loading isLoading={isLoading} />}
@@ -170,14 +164,21 @@ const AppNavigator = (props) => {
         ref={navigationRef}
         onReady={() => {
           isReadyRef.current = true;
+          routingInstrumentation.registerNavigationContainer(navigationRef);
         }}
         onStateChange={async (prevState, currentState) => {
-          const currentScreen = getActiveRouteName(currentState);
-          const prevScreen = getActiveRouteName(prevState);
-          if (prevScreen !== currentScreen) {
-            // Update Firebase with the name of your screen
-            await Analytics.setCurrentScreen(currentScreen);
+          const previousRouteName = routeNameRef.current;
+          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+          if (previousRouteName !== currentRouteName) {
+            // The line below uses the expo-firebase-analytics tracker
+            // https://docs.expo.io/versions/latest/sdk/firebase-analytics/
+            // Change this line to use another Mobile analytics SDK
+            await Analytics.setCurrentScreen(currentRouteName);
           }
+
+          // Save the current route name for later comparison
+          routeNameRef.current = currentRouteName;
         }}
       >
         {currentScreen()}
