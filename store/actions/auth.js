@@ -266,7 +266,13 @@ export const updateUserInfo = async ({
       return;
 
     await Analytics.setUserId(data.userInfo.user_cd);
-    await Analytics.setUserProperty(data.userInfo);
+
+    _.forEach(data.userInfo, async (value, name) => {
+      if (name == "user_id" || value.length > 37) return;
+      await Analytics.setUserProperty(name, value.toString());
+    });
+
+    // console.log(Analytics.userProperty);
 
     await saveUserData(dispatch, data);
     return data;
