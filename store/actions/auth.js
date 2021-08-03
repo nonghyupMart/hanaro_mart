@@ -1,4 +1,5 @@
 import queryString from "query-string";
+import * as Analytics from "expo-firebase-analytics";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../util";
 import * as Updates from "expo-updates";
@@ -192,6 +193,7 @@ export const withdrawal = (query) => {
 export const withdrawalFinish = () => {
   return async (dispatch) => {
     await Util.clearAllData();
+    await Analytics.resetAnalyticsData();
     await dispatch({ type: actionTypes.WITHDRAWAL });
     await dispatch(setIsLoading(false));
   };
@@ -212,7 +214,6 @@ export const saveUserStoreToStorage = async (store) => {
   }
   Util.setStorageItem("userStoreData", JSON.stringify(store));
 };
-
 
 export const saveIsJoinToStorage = (status) => {
   Util.setStorageItem("isJoinData", true);
@@ -263,6 +264,9 @@ export const updateUserInfo = async ({
       !data.userInfo.recommend
     )
       return;
+
+    await Analytics.setUserId(data.userInfo.user_cd);
+    await Analytics.setUserProperty(data.userInfo);
 
     await saveUserData(dispatch, data);
     return data;

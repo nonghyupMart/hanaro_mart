@@ -68,7 +68,19 @@
       "backgroundColor": "#ffffff"
     },
     "web": {
-      "favicon": "./assets/9696.png"
+      "favicon": "./assets/9696.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyCd6bc06rPcbCVKNEOSKowPPkba6jeuRp4",
+          "authDomain": "hanaroplus-857ec.firebaseapp.com",
+          "databaseURL": "https://hanaroplus-857ec.firebaseio.com",
+          "projectId": "hanaroplus-857ec",
+          "storageBucket": "hanaroplus-857ec.appspot.com",
+          "messagingSenderId": "594838263470",
+          "appId": "1:594838263470:web:1c5cd698072b1f77cbbf3f",
+          "measurementId": "G-XL1751P9ZB"
+        }
+      }
     },
     "developmentClient": { "silentLaunch": true }
   }

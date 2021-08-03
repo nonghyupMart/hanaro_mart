@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import * as Analytics from "expo-firebase-analytics";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
 import JoinNavigator from "./JoinNavigator";
@@ -151,6 +152,15 @@ const AppNavigator = (props) => {
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
+  const getActiveRouteName = (navigationState) => {
+    if (!navigationState) return null;
+    const route = navigationState.routes[navigationState.index];
+    // Parse the nested navigators
+    if (route.routes) return getActiveRouteName(route);
+    return route.routeName;
+  };
+
   return (
     <Fragment>
       {isLoading && <Loading isLoading={isLoading} />}
@@ -160,6 +170,14 @@ const AppNavigator = (props) => {
         ref={navigationRef}
         onReady={() => {
           isReadyRef.current = true;
+        }}
+        onStateChange={async (prevState, currentState) => {
+          const currentScreen = getActiveRouteName(currentState);
+          const prevScreen = getActiveRouteName(prevState);
+          if (prevScreen !== currentScreen) {
+            // Update Firebase with the name of your screen
+            await Analytics.setCurrentScreen(currentScreen);
+          }
         }}
       >
         {currentScreen()}
