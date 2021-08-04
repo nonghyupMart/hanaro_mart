@@ -66,7 +66,6 @@ const HomeScreen = (props) => {
     };
   }, [isFocused]);
   useEffect(() => {
-    dispatch(setIsLoading(true));
     (async () => {
       if (Platform.OS == "ios") {
         setTimeout(() => {
@@ -74,10 +73,6 @@ const HomeScreen = (props) => {
         }, 1000);
       }
     })();
-
-    return () => {
-      dispatch(setIsLoading(false));
-    };
   }, []);
 
   useEffect(() => {
