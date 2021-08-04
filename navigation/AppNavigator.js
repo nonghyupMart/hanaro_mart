@@ -168,6 +168,7 @@ const AppNavigator = (props) => {
         }}
         onStateChange={async (prevState, currentState) => {
           const previousRouteName = routeNameRef.current;
+          if (!navigationRef.current.getCurrentRoute()) return;
           const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
           if (previousRouteName !== currentRouteName) {
