@@ -53,16 +53,6 @@ const MyInfoScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      updateUserInfo({
-        dispatch: dispatch,
-        userInfo: userInfo,
-        pushToken: pushToken,
-        userStore: userStore,
-      });
-    }
-  }, []);
-  useEffect(() => {
-    if (!_.isEmpty(userInfo)) {
       const userID = userInfo.user_id;
       const LastNumber = userID.substr(userID.length - 4);
       const cd = decodeURIComponent(userInfo.user_cd);
@@ -92,14 +82,11 @@ const MyInfoScreen = (props) => {
               message: "추천인이 등록되었습니다.",
               onPressConfirm: () => {
                 dispatch(setAlert(null));
-                dispatch(setIsLoading(true));
                 updateUserInfo({
                   dispatch: dispatch,
                   userInfo: userInfo,
                   pushToken: pushToken,
                   userStore: userStore,
-                }).then((data) => {
-                  dispatch(setIsLoading(false));
                 });
               },
             })
@@ -211,14 +198,6 @@ const MyInfoScreen = (props) => {
           </MangerQRCodeContainer>
         )}
 
-        {/* <BlueButton
-          onPress={
-            props.navigation.pop.bind(this);
-          }
-        >
-         
-          <BlueButtonText>확인</BlueButtonText>
-        </BlueButton> */}
       </WhiteContainer>
 
       {!!userInfo.mana_qr && (
