@@ -99,7 +99,7 @@
           "file": "sentry-expo/upload-sourcemaps",
           "config": {
             "organization": "hanaromart",
-            "project": "hanaroplus",
+            "project": "hanaromart",
             "authToken": "4aacd73cbb4c45c48d86efad1559cae02d3ec253b1ce4d1790938ecd9c0a8c11"
           }
         }
