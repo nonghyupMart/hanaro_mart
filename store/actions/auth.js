@@ -276,7 +276,6 @@ export const updateUserInfo = async ({
       "app_internal_version",
       Constants.manifest.version
     );
-    Sentry.Browser.setTag("app_internal_version", Constants.manifest.version);
     // console.log(Analytics.userProperty);
 
     await saveUserData(dispatch, data);
