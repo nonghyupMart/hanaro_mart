@@ -26,6 +26,7 @@ import PickerViews from "../../components/flyer/PickerViews";
 import { postWish } from "../../store/actions/common";
 
 const FlyerScreen = (props) => {
+  const carouselRef = useRef();
   const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
@@ -154,6 +155,7 @@ const FlyerScreen = (props) => {
     >
       {currentFlyer && (
         <PickerViews
+          carouselRef={carouselRef}
           leafletList={leaflet.leafletList}
           userStore={userStore}
           currentFlyer={currentFlyer}
@@ -163,6 +165,7 @@ const FlyerScreen = (props) => {
       {/* <StoreListPopup isVisible={isVisible} /> */}
       {currentFlyer && (
         <FlyerBanner
+          carouselRef={carouselRef}
           leafletList={leaflet.leafletList}
           carouselKey={carouselKey}
           leaf_cd={currentFlyer.leaf_cd}

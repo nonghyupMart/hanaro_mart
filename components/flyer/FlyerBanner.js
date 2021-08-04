@@ -22,9 +22,8 @@ const FlyerBanner = ({
   leaf_cd,
   detail_img_cnt,
   setPageForCarousel,
+  carouselRef,
 }) => {
-  const dispatch = useDispatch();
-  const carouselRef = useRef();
   useEffect(() => {
     return () => {
       prevPage = 0;
@@ -34,10 +33,7 @@ const FlyerBanner = ({
     <>
       <View style={{ paddingLeft: 24, paddingRight: 24, width: "100%" }}>
         <Carousel
-          ref={(ref) => {
-            dispatch(setCarousel(ref));
-            return (carouselRef.current = ref);
-          }}
+          ref={carouselRef}
           key={`${carouselKey}`}
           style={{
             height: (SCREEN_WIDTH - 48) * 0.608,

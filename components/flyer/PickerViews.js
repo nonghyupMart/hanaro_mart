@@ -15,7 +15,7 @@ const PickerViews = (props) => {
     value: props.currentFlyer.leaf_cd,
   });
   const [title, setTitle] = useState(props.currentFlyer.title);
-  const carousel = useSelector((state) => state.flyer.carousel);
+  const carousel = props.carouselRef.current;
   const onItemChange = async (value) => {
     if (!value || value == selectedItem.value) return;
     const item = _.filter(pickerItems, (o) => o.value == value);
