@@ -1,4 +1,5 @@
 import queryString from "query-string";
+import * as Sentry from "sentry-expo";
 import * as Analytics from "expo-firebase-analytics";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../util";
@@ -266,16 +267,16 @@ export const updateUserInfo = async ({
       return;
 
     await Analytics.setUserId(data.userInfo.user_cd);
-
     _.forEach(data.userInfo, async (value, name) => {
+      Sentry.Browser.setTag(name, value);
       if (name == "user_id" || value.length > 37) return;
       await Analytics.setUserProperty(name, value.toString());
     });
-
     await Analytics.setUserProperty(
       "app_internal_version",
       Constants.manifest.version
     );
+    Sentry.Browser.setTag("app_internal_version", Constants.manifest.version);
     // console.log(Analytics.userProperty);
 
     await saveUserData(dispatch, data);
