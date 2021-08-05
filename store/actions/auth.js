@@ -190,9 +190,9 @@ export const withdrawal = (query) => {
 };
 export const withdrawalFinish = () => {
   return async (dispatch) => {
+    await Util.clearAllData();
     await Analytics.resetAnalyticsData();
     await dispatch({ type: actionTypes.WITHDRAWAL });
-    await Util.clearAllData();
     await dispatch(setIsLoading(false));
   };
 };
@@ -402,6 +402,7 @@ export const login = (query) => {
           await dispatch(setAlert(null));
           await dispatch(setDidTryPopup(false));
           await dispatch(setIsJoin(true));
+          await RootNavigation.navigate("Home");
         }
         return response.data;
       });
