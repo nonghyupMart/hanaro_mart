@@ -96,7 +96,7 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPressEditMyInfo = () => {
-    !_.isEmpty(userInfo.amnNo)
+    !_.isEmpty(userInfo) && userInfo.amnNo
       ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
       : props.navigation.navigate("CI");
   };
@@ -125,7 +125,7 @@ const MyInfoScreen = (props) => {
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
-          {!_.isEmpty(userInfo.amnNo) && (
+          {!_.isEmpty(userInfo) && userInfo.amnNo && (
             <EditButton
               onPress={() =>
                 props.navigation.navigate("NHAHM", {
@@ -197,7 +197,6 @@ const MyInfoScreen = (props) => {
             <Image source={require("../assets/images/adminqr.png")} />
           </MangerQRCodeContainer>
         )}
-
       </WhiteContainer>
 
       {!!userInfo.mana_qr && (

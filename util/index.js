@@ -185,9 +185,5 @@ export const versionCompare = (v1, v2, options) => {
 };
 
 export const clearAllData = async () => {
-  return await AsyncStorage.getAllKeys().then(async (keys) => {
-    if (_.isEmpty(keys)) return;
-    await AsyncStorage.multiRemove(keys);
-  });
-  // .then(() => alert('success'));
+  return await AsyncStorage.clear();
 };
