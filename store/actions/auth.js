@@ -193,9 +193,9 @@ export const withdrawal = (query) => {
 };
 export const withdrawalFinish = () => {
   return async (dispatch) => {
-    await Util.clearAllData();
     await Analytics.resetAnalyticsData();
     await dispatch({ type: actionTypes.WITHDRAWAL });
+    await Util.clearAllData();
     await dispatch(setIsLoading(false));
   };
 };
@@ -268,10 +268,10 @@ export const updateUserInfo = async ({
 
     await Analytics.setUserId(data.userInfo.user_cd);
     _.forEach(data.userInfo, async (value, name) => {
-      Sentry.Browser.setTag(name, value);
       if (name == "user_id" || value.length > 37) return;
       await Analytics.setUserProperty(name, value.toString());
     });
+    Sentry.Browser.setTags(data.userInfo);
     await Analytics.setUserProperty(
       "app_internal_version",
       Constants.manifest.version
