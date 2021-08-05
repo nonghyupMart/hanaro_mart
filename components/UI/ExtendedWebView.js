@@ -119,7 +119,7 @@ export const ExtendedWebView = (props) => {
         if (!_.isEmpty(userStore)) {
           query.store_cd = userStore.storeInfo.store_cd;
         }
-        dispatch(authActions.updateLoginLog(query)).then(async (data) => {
+        dispatch(authActions.loginWithUserCd(query)).then(async (data) => {
           if (data.userInfo) {
             await authActions.saveUserData(dispatch, data);
             if (isLoading) await dispatch(setIsLoading(false));

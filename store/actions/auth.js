@@ -133,7 +133,7 @@ export const getWishCnt = (query) => {
   };
 };
 
-export const updateLoginLog = (query) => {
+export const loginWithUserCd = (query) => {
   const url = queryString.stringifyUrl({
     url: `/v3/user`,
   });
@@ -255,7 +255,7 @@ export const updateUserInfo = async ({
     await dispatch(setPushToken(tk));
   }
 
-  return dispatch(updateLoginLog(query)).then(async (data) => {
+  return dispatch(loginWithUserCd(query)).then(async (data) => {
     if (
       _.isEmpty(data.userInfo) ||
       data.userInfo.user_cd != userInfo.user_cd ||
@@ -386,7 +386,7 @@ export const checkSetStore = (dispatch, userStore) => {
   return false;
 };
 
-export const login = (query) => {
+export const loginWithID = (query) => {
   const url = queryString.stringifyUrl({
     url: `/v4/user`,
   });

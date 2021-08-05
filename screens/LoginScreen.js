@@ -34,7 +34,7 @@ const LoginScreen = (props) => {
       return showAlert("패스워드를 입력해 주세요.");
     }
     await dispatch(
-      authActions.login({
+      authActions.loginWithID({
         intg_id,
         intg_pwd: Util.encrypt(intg_pwd),
         store_cd: userStore.storeInfo.store_cd,
