@@ -154,7 +154,12 @@ const MenuList = (props) => {
       </MenuButtonContainer>
       <BottomContainer>
         {!_.isEmpty(userInfo) && (
-          <LogoutTouchable onPress={() => dispatch(withdrawalFinish())}>
+          <LogoutTouchable
+            onPress={() => {
+              props.navigation.closeDrawer();
+              dispatch(withdrawalFinish());
+            }}
+          >
             <LogoutText>로그아웃하기</LogoutText>
             <Image
               source={require("../../../assets/images/ic_logout.png")}
