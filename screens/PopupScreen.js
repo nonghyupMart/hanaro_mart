@@ -56,11 +56,9 @@ const PopupScreen = (props) => {
         userStore.storeInfo &&
         userStore.storeInfo.store_cd
       ) {
-        dispatch(CommonActions.setIsLoading(true));
         dispatch(
           homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
         ).then(async (data) => {
-          dispatch(CommonActions.setIsLoading(false));
           // console.warn("storePopup.popupCnt", data.popupCnt);
           if (data.popupCnt > 0) {
             let setDate = moment().subtract(1, "days");

@@ -159,7 +159,7 @@ export const setUserStore = (query, userStore) => {
   const data = JSON.stringify(query);
   return async (dispatch) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));

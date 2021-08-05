@@ -29,7 +29,7 @@ export const fetchLeafletDetail = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -97,7 +97,7 @@ export const addCart = (query) => {
 
   return async (dispatch, getState) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isNoLoading: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;

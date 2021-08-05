@@ -34,7 +34,7 @@ export const fetchExclusiveDetail = (query) => {
   });
   return async (dispatch, getState) => {
     return http
-      .init({ dispatch: dispatch })
+      .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({
