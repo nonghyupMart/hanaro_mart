@@ -71,10 +71,10 @@ const StoreChangeScreen = (props) => {
     if (!location) return;
     dispatch(branchesActions.fetchAddress1());
     let query = {
-      user_cd: userInfo.user_cd,
       lat: "",
       lng: "",
     };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
     if (location) {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
