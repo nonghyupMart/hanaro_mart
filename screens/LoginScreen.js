@@ -76,14 +76,25 @@ const LoginScreen = (props) => {
         placeholder="아이디"
         value={intg_id}
         onChangeText={(text) => setIntg_id(text)}
+        textContentType="username"
+        autoCompleteType="username"
+        autoCapitalize="none"
+        autoCorrect={false}
+        importantForAutofill="yes"
       />
       <TextInput
         placeholder="비밀번호"
         autoCompleteType="password"
         textContentType="password"
+        autoCapitalize="none"
         secureTextEntry={true}
+        autoCorrect={false}
         value={intg_pwd}
+        importantForAutofill="yes"
         onChangeText={(text) => setIntg_pwd(text)}
+        onSubmitEditing={() => {
+          login();
+        }}
       />
       <RoundButton onPress={() => login()}>통합회원 로그인</RoundButton>
       <UtilContainer>
