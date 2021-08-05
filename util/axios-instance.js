@@ -64,9 +64,7 @@ let http = (() => {
       if (response.data.code == "USE-0000") {
         //회원정보가 없는 경우 자동로그인 해제
         await Util.clearAllData();
-        await dispatch({ type: actionTypes.WITHDRAWAL });
-        Updates.reloadAsync();
-        return response.data;
+        return await dispatch({ type: actionTypes.WITHDRAWAL });
       }
 
       if (response.data.code != "200" && response.data.code != "201") {

@@ -52,11 +52,7 @@ const Footer = (props) => {
 
         <TouchableOpacity
           delayLongPress={3000}
-          onLongPress={() =>
-            dispatch(withdrawalFinish()).then(() => {
-              Updates.reloadAsync();
-            })
-          }
+          onLongPress={() => dispatch(withdrawalFinish())}
         >
           <Text3>Version : {Constants.manifest.version}</Text3>
         </TouchableOpacity>

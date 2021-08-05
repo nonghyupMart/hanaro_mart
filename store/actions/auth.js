@@ -197,20 +197,19 @@ export const withdrawalFinish = () => {
   };
 };
 export const saveUserInfoToStorage = async (userInfo) => {
-  return Util.setStorageItem("userInfoData", JSON.stringify(userInfo));
+  return Util.setStorageItem("userInfoData", userInfo);
 };
 export const saveUserTelToStorage = async (tel) => {
   const telData = await Util.getStorageItem("telData");
-  const telParsed = await JSON.parse(telData);
-  if (!tel) return telParsed;
-  if (telParsed) return;
-  await Util.setStorageItem("telData", JSON.stringify(tel));
+  if (!tel) return telData;
+  if (telData) return;
+  await Util.setStorageItem("telData", tel);
 };
 export const saveUserStoreToStorage = async (store) => {
   if (_.isEmpty(store)) {
     return Util.removeStorageItem("userStoreData");
   }
-  Util.setStorageItem("userStoreData", JSON.stringify(store));
+  Util.setStorageItem("userStoreData", store);
 };
 
 export const saveIsJoinToStorage = (status) => {
@@ -311,9 +310,7 @@ export const getResponse = async (response, dispatch, url, query) => {
 
   if (resData.code == "USE-0000") {
     //회원정보가 없는 경우 자동로그인 해제
-    await dispatch(withdrawalFinish());
-    Updates.reloadAsync();
-    return resData;
+    return await dispatch(withdrawalFinish());
   }
   if (resData.code != "200" && resData.code != "201") {
     dispatch(

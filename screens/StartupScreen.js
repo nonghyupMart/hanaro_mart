@@ -17,18 +17,17 @@ import * as branchesActions from "../store/actions/branches";
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
-  const permissionStatus = useRef(null);
   const userStore = useSelector((state) => state.auth.userStore);
-  const timerRef = useRef(null);
+  const timerRef = useRef();
 
   useEffect(() => {
     (async () => {
       if (!isUpdatedVersion()) return;
-      getExpoPushToken();
-      getLocationPermission();
-      const userStoreData = getUserStoreData();
-      getUserInfo();
-      await getIsStorePopup(userStoreData, dispatch);
+      await getExpoPushToken();
+      await getLocationPermission();
+      await getUserStoreData();
+      await getUserInfo();
+      await getIsStorePopup(dispatch);
       await initAppPopupData();
       finish();
     })();
@@ -47,22 +46,24 @@ const StartupScreen = (props) => {
 
   const getUserInfo = async () => {
     const userInfoData = await Util.getStorageItem("userInfoData");
-    const parsedUserData = await JSON.parse(userInfoData);
-    await dispatch(authActions.setUserInfo(parsedUserData));
-    if (parsedUserData && parsedUserData.user_id) {
+    await dispatch(authActions.setUserInfo(userInfoData));
+    if (userInfoData && userInfoData.user_id) {
       await dispatch(authActions.setIsJoin(true));
     } else await dispatch(authActions.setIsJoin(false));
   };
 
   const getUserStoreData = async () => {
-    const userStoreData = await Util.getStorageItem("userStoreData");
-    await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
-    return userStoreData;
+    try {
+      const userStoreData = await Util.getStorageItem("userStoreData");
+      if (!userStoreData) return;
+      await dispatch(authActions.saveUserStore(userStoreData));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const getLocationPermission = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    permissionStatus.current = status;
+    await Location.requestForegroundPermissionsAsync();
   };
 
   const getExpoPushToken = async () => {
@@ -120,13 +121,10 @@ const StartupScreen = (props) => {
   return <Splash />;
 };
 
-export const getIsStorePopup = async (userStore, dispatch) => {
+export const getIsStorePopup = async (dispatch) => {
   const dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
-
-  let obj = await JSON.parse(dateForStorePopup);
-  if (!obj) obj = {};
-  // console.warn(obj);
-  await dispatch(CommonActions.setIsStorePopup(obj));
-  return obj;
+  if (!dateForStorePopup) return {};
+  await dispatch(CommonActions.setIsStorePopup(dateForStorePopup));
+  return dateForStorePopup;
 };
 export default StartupScreen;

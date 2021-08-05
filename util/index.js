@@ -87,14 +87,16 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   return PreventDoubleClick;
 };
 export const storagePrefix = SERVER_URL.includes("http://dv-") ? "dev" : "prod";
-export const setStorageItem = (name, data) => {
-  return AsyncStorage.setItem(storagePrefix + name, data);
+export const setStorageItem = async (name, data) => {
+  return await AsyncStorage.setItem(storagePrefix + name, JSON.stringify(data));
 };
-export const getStorageItem = (name) => {
+export const getStorageItem = async (name) => {
+  const data = await AsyncStorage.getItem(storagePrefix + name);
   try {
-    return AsyncStorage.getItem(storagePrefix + name);
+    return await JSON.parse(data);
   } catch (e) {
-    return null;
+    console.log(e);
+    return data;
   }
 };
 

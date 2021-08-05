@@ -35,7 +35,7 @@ const PopupScreen = (props) => {
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   let isPopupStoreFromStorage;
   (async () => {
-    isPopupStoreFromStorage = await getIsStorePopup(userStore, dispatch);
+    isPopupStoreFromStorage = await getIsStorePopup(dispatch);
   })();
   useEffect(() => {
     return () => {
@@ -85,10 +85,7 @@ const PopupScreen = (props) => {
 
   const setDisablePopup = () => {
     (async () => {
-      const isPopupStoreFromStorage = await getIsStorePopup(
-        userStore,
-        dispatch
-      );
+      const isPopupStoreFromStorage = await getIsStorePopup(dispatch);
       await CommonActions.saveDateForStorePopupToStorage(
         isPopupStoreFromStorage,
         userStore.storeInfo.store_cd,

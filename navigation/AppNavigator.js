@@ -68,9 +68,8 @@ const AppNavigator = (props) => {
     ) {
       // console.log("App has come to the foreground!");
       const userInfoData = await Util.getStorageItem("userInfoData");
-      const parsedUserData = await JSON.parse(userInfoData);
-      if (!_.isEmpty(parsedUserData)) {
-        dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+      if (!_.isEmpty(userInfoData)) {
+        dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
       }
     } else {
       // console.log("App has come to the background!");
@@ -115,9 +114,8 @@ const AppNavigator = (props) => {
 
       // When App is not running set received Notification to redux
       let data = await Util.getStorageItem("notificationData");
-      let jsonData = await JSON.parse(data);
-      if (_.isEmpty(jsonData)) return;
-      await dispatch(CommonActions.setNotification(jsonData));
+      if (_.isEmpty(data)) return;
+      await dispatch(CommonActions.setNotification(data));
       await Util.removeStorageItem("notificationData");
     })();
 
@@ -136,9 +134,8 @@ const AppNavigator = (props) => {
         //  console.warn(notification.request.content.data);
         // dispatch(CommonActions.setNotification(notification));
         const userInfoData = await Util.getStorageItem("userInfoData");
-        const parsedUserData = await JSON.parse(userInfoData);
-        if (!_.isEmpty(parsedUserData)) {
-          dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+        if (!_.isEmpty(userInfoData)) {
+          dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
         }
       }
     );

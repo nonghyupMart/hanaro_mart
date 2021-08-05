@@ -34,8 +34,6 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
           (async () => {
             await dispatch(CommonActions.setDidTryPopup("Flyer"));
           })();
-
-          // Updates.reloadAsync();
         }
       });
     });

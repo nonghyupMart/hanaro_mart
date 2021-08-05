@@ -111,8 +111,6 @@ const StoreChangeDetailScreen = (props) => {
                 await props.navigation.navigate("Home");
                 await dispatch(CommonActions.setDidTryPopup(false));
               })();
-
-              // Updates.reloadAsync();
             },
           })
         );

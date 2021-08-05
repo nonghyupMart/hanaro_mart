@@ -63,10 +63,7 @@ export const saveDateForStorePopupToStorage = (
     isStorePopup[store_cd] = expirationDate.toISOString();
     // console.warn("1일 닫기 ", isStorePopup);
     await dispatch(setIsStorePopup(isStorePopup));
-    await Util.setStorageItem(
-      "dateForStorePopupData",
-      JSON.stringify(isStorePopup)
-    );
+    await Util.setStorageItem("dateForStorePopupData", isStorePopup);
   })();
 };
 
@@ -92,7 +89,7 @@ export const setIsLoading = (isLoading) => {
 };
 
 export const saveNotificationToStorage = (data) => {
-  Util.setStorageItem("notificationData", JSON.stringify(data));
+  Util.setStorageItem("notificationData", data);
 };
 
 export const updateExpo = (dispatch) => {
@@ -113,7 +110,7 @@ export const updateExpo = (dispatch) => {
 };
 
 export const navigateByScheme = async (dispatch, url) => {
-  let { queryParams } = await Linking.parse(url);
+  let { queryParams } = await Linking.parse(url + "");
   if (_.isEmpty(queryParams)) return;
   await dispatch(
     setLink({
