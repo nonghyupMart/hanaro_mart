@@ -88,7 +88,7 @@ const StoreChangeDetailScreen = (props) => {
     if (!isJoin) {
       await dispatch(saveUserStore(branch));
       await saveUserStoreToStorage(branch);
-      await props.navigation.navigate("Home");
+      await dispatch(CommonActions.setBottomNavigation(true));
       await dispatch(CommonActions.setDidTryPopup(false));
       await dispatch(setIsLoading(false));
       return;

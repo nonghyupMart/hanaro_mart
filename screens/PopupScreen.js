@@ -76,27 +76,6 @@ const PopupScreen = (props) => {
             dispatch(CommonActions.setDidTryPopup(true));
           }
         });
-      } else if (_.isEmpty(userStore) && isJoin) {
-        const t = setTimeout(
-          () => {
-            dispatch(
-              CommonActions.setAlert({
-                message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-                onPressConfirm: async () => {
-                  await dispatch(CommonActions.setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup("StoreChange"));
-                },
-                onPressCancel: async () => {
-                  await dispatch(CommonActions.setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup(true));
-                },
-                confirmText: "매장선택",
-                cancelText: "취소",
-              })
-            );
-          },
-          Platform.OS == "ios" ? 500 : 0
-        );
       } else {
         dispatch(CommonActions.setDidTryPopup(true));
       }

@@ -15,6 +15,7 @@ import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
 import { PADDING_BOTTOM_MENU } from "../../constants";
+import * as CommonActions from "../../store/actions/common";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
@@ -35,6 +36,15 @@ const StoreChangeScreen = (props) => {
   useEffect(() => {
     (async () => {
       if (AppState.currentState != "active") return;
+      if (_.isEmpty(userStore)) {
+        dispatch(CommonActions.setBottomNavigation(false));
+        props.navigation.setOptions({
+          headerLeft: (props) => <></>,
+          cardStyle: {
+            marginBottom: 0,
+          },
+        });
+      }
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
