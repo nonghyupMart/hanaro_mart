@@ -35,7 +35,6 @@ const StoreChangeScreen = (props) => {
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {
-      if (AppState.currentState != "active") return;
       if (_.isEmpty(userStore)) {
         dispatch(CommonActions.setBottomNavigation(false));
         props.navigation.setOptions({
@@ -48,7 +47,7 @@ const StoreChangeScreen = (props) => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
-        setLocation({
+        return setLocation({
           coords: {
             latitude: "",
             longitude: "",
