@@ -21,7 +21,6 @@ import { HeaderButton, LogoTitle } from "../components/UI/header";
 
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { setPreview } from "../store/actions/auth";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
 
@@ -90,7 +89,7 @@ const EmptyScreen = (props) => {
               await dispatch(setAlert(null));
               if (index > 0) await RootNavigation.pop();
               else await props.navigation.navigate("Home");
-              await dispatch(setPreview(false));
+              await props.navigation.navigate("Login");
             },
             onPressCancel: async () => {
               await dispatch(setAlert(null));

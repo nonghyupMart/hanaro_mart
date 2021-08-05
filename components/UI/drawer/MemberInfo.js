@@ -9,7 +9,6 @@ import UserPhoneNumber from "../../UI/UserPhoneNumber";
 import * as Util from "../../../util";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { setPreview } from "../../../store/actions/auth";
 
 const MemberInfo = (props) => {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const MemberInfo = (props) => {
             style={{ flexGrow: 1 }}
             onPress={async () => {
               await props.navigation.closeDrawer();
-              await dispatch(setPreview(false));
+              await props.navigation.navigate("Login");
             }}
           >
             <MemberID style={{ flexDirection: "row" }}>

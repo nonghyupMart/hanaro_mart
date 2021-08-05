@@ -69,7 +69,6 @@ const StartupScreen = (props) => {
     const parsedUserData = await JSON.parse(userInfoData);
     await dispatch(authActions.setUserInfo(parsedUserData));
     if (parsedUserData && parsedUserData.user_id) {
-      await dispatch(authActions.setPreview(false));
       await dispatch(authActions.setIsJoin(true));
     } else await dispatch(authActions.setIsJoin(false));
   };

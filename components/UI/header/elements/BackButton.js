@@ -8,11 +8,7 @@ import * as CommonActions from "../../../../store/actions/common";
 import colors from "../../../../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigationState } from "@react-navigation/native";
-import {
-  setPreview,
-  fetchPushCnt,
-  getWishCnt,
-} from "../../../../store/actions/auth";
+import { fetchPushCnt, getWishCnt } from "../../../../store/actions/auth";
 import _ from "lodash";
 
 const BackButton = (props) => {
@@ -31,9 +27,6 @@ const BackButton = (props) => {
         iconName="chevron-thin-left"
         onPress={() => {
           switch (navigationState.routes[index].name) {
-            case "Login":
-              return dispatch(setPreview(true));
-              break;
             case "Notification":
               if (!_.isEmpty(userInfo)) {
                 dispatch(fetchPushCnt({ user_cd: userInfo.user_cd }));

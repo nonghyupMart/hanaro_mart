@@ -35,7 +35,6 @@ import { CATEGORY } from "../../constants";
 import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
-import { setPreview } from "../../store/actions/auth";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -83,7 +82,7 @@ const HomeScreen = (props) => {
         link.link_gbn == "I" &&
         (_.isEmpty(userInfo) || _.isEmpty(userStore))
       ) {
-        return await dispatch(setPreview(false));
+        return await navigation.navigate("Login");
       }
       await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);

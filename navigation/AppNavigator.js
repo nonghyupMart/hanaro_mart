@@ -3,7 +3,6 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Analytics from "expo-firebase-analytics";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
-import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "../screens/StartupScreen";
 import PopupScreen from "../screens/PopupScreen";
@@ -38,7 +37,6 @@ const AppNavigator = (props) => {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const alert = useSelector((state) => state.common.alert);
-  const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
@@ -52,10 +50,8 @@ const AppNavigator = (props) => {
     if (!isUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
     else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
-    else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
-    else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
-      return <MainNavigator />;
-    else if (isPreview && didTryAutoLogin) return <MainNavigator />;
+    else if (isJoin && didTryAutoLogin && didTryPopup) return <MainNavigator />;
+    else if (didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
   };
 
@@ -126,14 +122,13 @@ const AppNavigator = (props) => {
     })();
 
     AppState.addEventListener("change", _handleAppStateChange);
-    notificationListener.current = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+    notificationListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
         // When App is running in the background.
         // console.warn(JSON.stringify(response, null, "\t"));
         // console.warn(response.notification.request.content.data);
         dispatch(CommonActions.setNotification(response.notification));
-      }
-    );
+      });
     responseListener.current = Notifications.addNotificationReceivedListener(
       async (notification) => {
         // When app is running in the foreground.

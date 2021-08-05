@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import BaseScreen from "../components/BaseScreen";
 import * as RootNavigation from "../navigation/RootNavigation";
 import colors from "../constants/Colors";
-import { setPreview } from "../store/actions/auth";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as authActions from "../store/actions/auth";
 import _ from "lodash";
@@ -25,19 +24,6 @@ const LoginScreen = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const [intg_id, setIntg_id] = useState("");
   const [intg_pwd, setIntg_pwd] = useState("");
-
-  useEffect(() => {
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      () => {
-        dispatch(setPreview(true));
-        return true;
-      }
-    );
-    return () => {
-      backHandler.remove();
-    };
-  }, []);
 
   // "intg_id":"hanaroapp911","intg_pwd":"doollee1!"
   const login = async () => {
@@ -215,7 +201,6 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <></>,
     headerRight: (props) => <></>,
-    animationEnabled: false,
   };
 };
 const styles = StyleSheet.create({

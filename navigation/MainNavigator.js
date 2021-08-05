@@ -133,14 +133,6 @@ import MyADAgreementScreen, {
   screenOptions as MyADAgreementScreenOptions,
 } from "../screens/MyADAgreementScreen";
 
-import PopupScreen, {
-  screenOptions as PopupScreenOptions,
-} from "../screens/PopupScreen";
-
-import CIScreen, {
-  screenOptions as CIScreenOptions,
-} from "../screens/join/CIScreen";
-
 import EventStampHistoryScreen, {
   screenOptions as EventStampHistoryScreenOptions,
 } from "../screens/home/EventStampHistoryScreen";
@@ -152,6 +144,18 @@ import EventResultScreen, {
 import NHAHMScreen, {
   screenOptions as NHAHMScreenOptions,
 } from "../screens/join/NHAHMScreen";
+
+import CIScreen, {
+  screenOptions as CIScreenOptions,
+} from "../screens/join/CIScreen";
+
+import LoginScreen, {
+  screenOptions as LoginScreenOptions,
+} from "../screens/LoginScreen";
+
+import FindIDResultScreen, {
+  screenOptions as FindIDResultScreenOptions,
+} from "../screens/join/FindIDResultScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -434,6 +438,17 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="NHAHM"
           component={NHAHMScreen}
           options={NHAHMScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Login"
+          component={LoginScreen}
+          options={LoginScreenOptions}
+        />
+
+        <HomeStackNavigator.Screen
+          name="FindIDResult"
+          component={FindIDResultScreen}
+          options={FindIDResultScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

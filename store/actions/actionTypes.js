@@ -2,7 +2,6 @@
 export const SET_UPDATE_POPUP = "SET_UPDATE_POPUP";
 export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
-export const SET_PREVIEW = "SET_PREVIEW";
 export const SET_USER_STORE = "SET_USER_STORE";
 export const SET_USER_INFO = "SET_USER_INFO";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";

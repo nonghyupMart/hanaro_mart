@@ -68,9 +68,6 @@ export const setLocation = (location) => {
   return { type: actionTypes.SET_LOCATION, location: location };
 };
 
-export const setPreview = (status) => {
-  return { type: actionTypes.SET_PREVIEW, isPreview: status };
-};
 export const setIsJoin = (status) => {
   return { type: actionTypes.SET_IS_JOIN, isJoin: status };
 };
@@ -359,7 +356,7 @@ export const checkAuth = (dispatch, isJoin) => {
       confirmText: "로그인",
       onPressConfirm: async () => {
         await dispatch(setAlert(null));
-        await dispatch(setPreview(false));
+        await RootNavigation.navigate("Login");
       },
       onPressCancel: async () => {
         await dispatch(setAlert(null));

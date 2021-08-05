@@ -4,7 +4,6 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   didTryAutoLogin: false,
   isJoin: null,
-  isPreview: true,
   pushToken: null,
   location: null,
   userStore: null,
@@ -39,12 +38,6 @@ export default (state = initialState, action) => {
         ...state,
         updatePopup: action.updatePopup,
       };
-    case actionTypes.SET_PREVIEW: {
-      return {
-        ...state,
-        isPreview: action.isPreview,
-      };
-    }
     case actionTypes.SET_DID_TRY_AL: {
       return {
         ...state,

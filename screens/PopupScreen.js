@@ -32,7 +32,6 @@ const PopupScreen = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const storePopup = useSelector((state) => state.home.storePopup);
-  const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   let isPopupStoreFromStorage;
   (async () => {

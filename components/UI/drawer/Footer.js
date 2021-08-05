@@ -9,7 +9,7 @@ import {
   SCREEN_HEIGHT,
   BaseText,
 } from "../BaseUI";
-import { setPreview, withdrawalFinish } from "../../../store/actions/auth";
+import { withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../util";
 import _ from "lodash";
 import Constants from "expo-constants";
@@ -20,12 +20,7 @@ const Footer = (props) => {
   const storeInfo = useSelector((state) =>
     !_.isEmpty(state.auth.userStore) ? state.auth.userStore.storeInfo : {}
   );
-  const isJoin = useSelector((state) => state.auth.isJoin);
 
-  const onPressJoin = () => {
-    props.navigation.closeDrawer();
-    dispatch(setPreview(false));
-  };
   return (
     <BottomContainer>
       <GrayContainer>
