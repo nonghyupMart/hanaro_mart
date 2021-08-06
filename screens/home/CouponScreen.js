@@ -57,18 +57,17 @@ const CouponScreen = (props) => {
   }, [coupon]);
 
   useEffect(() => {
-    if (!isFocused || !userStore) return;
-    if (userStore) {
-      page.current = 1;
-      dispatch(
-        couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
-          user_yn: routeName == "MyCoupon" ? "Y" : "N",
-          gbn: gbn,
-        })
-      );
-    }
+    if (!isFocused || _.isEmpty(userStore)) return;
+
+    page.current = 1;
+    dispatch(
+      couponActions.fetchCoupon({
+        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo.user_cd,
+        user_yn: routeName == "MyCoupon" ? "Y" : "N",
+        gbn: gbn,
+      })
+    );
   }, [gbn, userStore, isFocused]);
 
   const onCouponItemPressed = async (item, type = "B") => {
