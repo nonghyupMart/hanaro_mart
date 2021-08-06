@@ -69,6 +69,15 @@ const StartupScreen = (props) => {
   const getExpoPushToken = async () => {
     if (Constants.isDevice) {
       try {
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== "granted") {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         if (token) await dispatch(authActions.setPushToken(token));
       } catch (error) {
