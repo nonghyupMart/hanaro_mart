@@ -333,7 +333,7 @@ export const fetchUpdate = () => {
   });
   return async (dispatch, getState) => {
     return http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({

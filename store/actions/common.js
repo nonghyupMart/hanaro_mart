@@ -92,20 +92,17 @@ export const saveNotificationToStorage = (data) => {
   Util.setStorageItem("notificationData", data);
 };
 
-export const updateExpo = (dispatch) => {
+export const updateExpo = async (dispatch) => {
   if (!__DEV__) {
-    return (async () => {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          await dispatch(setAlert(null));
-        }
-      } catch (e) {
-        // handle or log error
-        Util.log("update error=>", e);
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
       }
-    })();
+    } catch (e) {
+      // handle or log error
+      Util.log("update error=>", e);
+    }
   }
 };
 

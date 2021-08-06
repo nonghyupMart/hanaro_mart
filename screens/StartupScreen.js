@@ -23,6 +23,7 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
+      await dispatch(CommonActions.setIsLoading(true));
       if (!isUpdatedVersion()) return;
       await getExpoPushToken();
       await getLocationPermission();
