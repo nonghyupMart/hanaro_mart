@@ -17,6 +17,7 @@ import * as branchesActions from "../store/actions/branches";
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
+  const permissionStatus = useRef();
   const userStore = useSelector((state) => state.auth.userStore);
   const timerRef = useRef();
 
@@ -29,9 +30,28 @@ const StartupScreen = (props) => {
       await getUserInfo();
       await getIsStorePopup(dispatch);
       await initAppPopupData();
-      finish();
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (isJoin == null) return;
+      if (isJoin || !_.isEmpty(userStore)) {
+        // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
+        await finish();
+        return;
+      }
+
+      if (permissionStatus.current !== "granted") {
+        //권한 거부시 신촌점 호출
+        fetchBranchNear();
+        return;
+      }
+
+      let location = await Location.getLastKnownPositionAsync();
+      fetchBranchNear(location);
+    })();
+  }, [isJoin, userStore]);
 
   const initAppPopupData = async () => {
     const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
@@ -63,7 +83,8 @@ const StartupScreen = (props) => {
   };
 
   const getLocationPermission = async () => {
-    await Location.requestForegroundPermissionsAsync();
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    permissionStatus.current = status;
   };
 
   const getExpoPushToken = async () => {
@@ -77,6 +98,11 @@ const StartupScreen = (props) => {
           const { status } = await Notifications.requestPermissionsAsync();
           finalStatus = status;
         }
+
+        // if (finalStatus !== "granted") {
+        //   alert("Failed to get push token for push notification!");
+        //   return;
+        // }
 
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         if (token) await dispatch(authActions.setPushToken(token));
