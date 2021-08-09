@@ -100,7 +100,7 @@ const MyInfoScreen = (props) => {
       ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
       : props.navigation.navigate("CI");
   };
-  if (!barcode || _.isEmpty(userStore)) return <></>;
+  if (!barcode || _.isEmpty(userStore) || _.isEmpty(userInfo)) return <></>;
   return (
     <BaseScreen
       isPadding={false}

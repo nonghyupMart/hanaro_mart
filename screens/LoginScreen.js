@@ -22,8 +22,8 @@ const LoginScreen = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const pushToken = useSelector((state) => state.auth.pushToken);
-  const [intg_id, setIntg_id] = useState("");
-  const [intg_pwd, setIntg_pwd] = useState("");
+  const [intg_id, setIntg_id] = useState(__DEV__ ? "nick0504k" : "");
+  const [intg_pwd, setIntg_pwd] = useState(__DEV__ ? "shdguq12@" : "");
 
   // "intg_id":"hanaroapp911","intg_pwd":"doollee1!"
   const login = async () => {
