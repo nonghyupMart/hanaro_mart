@@ -23,7 +23,7 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(CommonActions.setIsLoading(true));
+      await SplashScreen.hideAsync();
       if (!isUpdatedVersion()) return;
       await getExpoPushToken();
       await getLocationPermission();
@@ -68,9 +68,8 @@ const StartupScreen = (props) => {
   const getUserInfo = async () => {
     const userInfoData = await Util.getStorageItem("userInfoData");
     await dispatch(authActions.setUserInfo(userInfoData));
-    if (userInfoData && userInfoData.user_id) {
-      await dispatch(authActions.setIsJoin(true));
-    } else await dispatch(authActions.setIsJoin(false));
+    const isUserJoined = !!(userInfoData && userInfoData.user_id);
+    await dispatch(authActions.setIsJoin(isUserJoined));
   };
 
   const getUserStoreData = async () => {
@@ -149,9 +148,7 @@ const StartupScreen = (props) => {
 
   const finish = async () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    await dispatch(CommonActions.setIsLoading(false));
     await dispatch(authActions.setDidTryAL());
-    await SplashScreen.hideAsync();
   };
 
   return <Splash />;
