@@ -38,7 +38,7 @@ const EventScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const link = useSelector((state) => state.common.link);
   let event;
-  if (routeName == "MyEvent") {
+  if (routeName === "MyEvent") {
     //이벤트응모내역 일 경우..
     event = useSelector((state) => state.event.myEvent);
   } else {
@@ -46,7 +46,7 @@ const EventScreen = (props) => {
   }
 
   useEffect(() => {
-    if (link && link.category == routeName && link.link_code) {
+    if (link && link.category === routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
@@ -70,7 +70,7 @@ const EventScreen = (props) => {
       page: p,
       gbn: gbn,
     };
-    if (routeName == "MyEvent") query.user_cd = userInfo.user_cd;
+    if (routeName === "MyEvent") query.user_cd = userInfo.user_cd;
     dispatch(eventActions.fetchEvent(query));
   };
   const loadMore = () => {
@@ -88,7 +88,7 @@ const EventScreen = (props) => {
     moveToDetail(item.event_cd);
   };
   if (!event) return <></>;
-  if (routeName == "MyEvent" && _.size(event.eventList) === 0)
+  if (routeName === "MyEvent" && _.size(event.eventList) === 0)
     return (
       <>
         <CategoryButtonSmallList
@@ -103,7 +103,7 @@ const EventScreen = (props) => {
         />
       </>
     );
-  if (routeName == "Event" && _.size(event.eventList) === 0)
+  if (routeName === "Event" && _.size(event.eventList) === 0)
     return (
       <>
         <CategoryButtonSmallList

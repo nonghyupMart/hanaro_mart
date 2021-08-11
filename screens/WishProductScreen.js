@@ -78,13 +78,10 @@ const WishProductScreen = (props) => {
           paddingRight: 0,
           marginBottom: 40,
         }}
-        isPadding={Platform.OS == "ios" ? false : true}
-        // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
+        isPadding={Platform.OS === "ios" ? false : true}
         contentStyle={{
           backgroundColor: colors.TRUE_WHITE,
-          paddingTop: Platform.OS == "ios" ? 19 : 19,
-          // paddingLeft: Platform.OS == "ios" ? 16 : 0,
-          // paddingRight: Platform.OS == "ios" ? 16 : 0,
+          paddingTop: Platform.OS === "ios" ? 19 : 19,
         }}
         scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
       >

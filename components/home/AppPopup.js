@@ -55,7 +55,7 @@ const AppPopup = (props) => {
   if (
     !isAppPopup ||
     _.isEmpty(appPopup) ||
-    appPopup.popupCnt == 0 ||
+    appPopup.popupCnt <= 0 ||
     !isVisible
   )
     return <></>;

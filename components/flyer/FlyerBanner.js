@@ -61,7 +61,7 @@ const FlyerBanner = ({
           pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
           pageInfoTextSeparator="/"
           onAnimateNextPage={(p) => {
-            if (prevPage == p) return;
+            if (prevPage === p) return;
             setPageForCarousel(p);
             prevPage = p;
           }}

@@ -43,7 +43,7 @@ const MyInfoScreen = (props) => {
   const routeName = props.route.name;
 
   useEffect(() => {
-    if (link && link.category == routeName && link.link_code) {
+    if (link && link.category === routeName && link.link_code) {
       setTimeout(async () => {
         await setRecommend(link.link_code);
         await dispatch(setLink(null));
@@ -72,11 +72,11 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPress = () => {
-    if (userInfo.recommend_apply == "Y" || !recommend || recommend.length <= 0)
+    if (userInfo.recommend_apply === "Y" || !recommend || recommend.length <= 0)
       return props.navigation.goBack();
     dispatch(setReference({ user_cd: userInfo.user_cd, recommend })).then(
       (data) => {
-        if (data.result == "success") {
+        if (data.result === "success") {
           dispatch(
             setAlert({
               message: "추천인이 등록되었습니다.",
@@ -159,7 +159,7 @@ const MyInfoScreen = (props) => {
         </TextContainer>
       </MarginContainer>
       <WhiteContainer style={{ marginTop: 10 }}>
-        {userInfo.recommend_apply != "Y" && (
+        {userInfo.recommend_apply !== "Y" && (
           <BarcodeContainer
             style={{
               paddingLeft: 10,

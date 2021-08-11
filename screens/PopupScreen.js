@@ -94,7 +94,7 @@ const PopupScreen = (props) => {
       await dispatch(CommonActions.setDidTryPopup(true));
     })();
   };
-  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt == 0)
+  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt <= 0)
     //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
@@ -179,7 +179,7 @@ const Screen = styled.View({
 const Image = styled(BaseImage)({
   resizeMode: "cover",
   width: SCREEN_WIDTH,
-  height: () => (Platform.OS == "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
+  height: () => (Platform.OS === "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
 });
 const BtnContainer = styled.View({
   flexDirection: "row",

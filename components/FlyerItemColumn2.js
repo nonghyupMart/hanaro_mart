@@ -82,12 +82,12 @@ const FlyerItemColumn2 = ({
               source={item.title_img}
               defaultSource={require("../assets/images/n_img501.png")}
             />
-            {item.wish_yn == "N" && (
+            {item.wish_yn === "N" && (
               <WishButton onPress={addWishItem.bind(this, item)}>
                 <Image source={require("../assets/images/bt_heart_w.png")} />
               </WishButton>
             )}
-            {item.wish_yn == "Y" && (
+            {item.wish_yn === "Y" && (
               <WishButton onPress={deleteWishItem.bind(this, item)}>
                 <Image source={require("../assets/images/bt_heart_r.png")} />
               </WishButton>
@@ -137,7 +137,7 @@ const WishButton = styled.TouchableOpacity({
   bottom: 1,
 });
 const Period = styled(BaseText)({
-  borderRadius: Platform.OS == "ios" ? 5 : 10,
+  borderRadius: Platform.OS === "ios" ? 5 : 10,
   borderStyle: "solid",
   borderWidth: 0.5,
   borderColor: colors.WARM_GREY_TWO,

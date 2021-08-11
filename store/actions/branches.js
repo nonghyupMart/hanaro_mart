@@ -18,7 +18,7 @@ export const fetchAddress1 = () => {
 };
 
 export const fetchAddress2 = (lname) => {
-  if (!lname || lname == "") return async () => null;
+  if (!lname) return async () => null;
   const url = queryString.stringifyUrl({
     url: `/${lname}/mname`,
   });
@@ -40,7 +40,7 @@ export const fetchBranches = (query) => {
     url: `/store`,
     query: query,
   });
-  if (url == prevUrl) return async (dispatch, getState) => {};
+  if (url === prevUrl) return async (dispatch, getState) => {};
   prevUrl = url;
   return async (dispatch, getState) => {
     return http

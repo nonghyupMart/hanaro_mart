@@ -36,7 +36,7 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (isJoin == null) return;
+      if (isJoin === null) return;
       if (isJoin || !_.isEmpty(userStore)) {
         // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
         await finish();

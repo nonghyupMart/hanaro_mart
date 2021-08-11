@@ -15,11 +15,11 @@ const Contents = (props) => {
 };
 const BaseScreen = (props) => {
   const [isPadding, setIsPadding] = useState(
-    props.isPadding == undefined ? true : props.isPadding
+    props.isPadding === undefined ? true : props.isPadding
   );
   const dispatch = useDispatch();
   const [isScroll, setIsScroll] = useState(
-    props.isScroll == undefined ? true : props.isScroll
+    props.isScroll === undefined ? true : props.isScroll
   );
 
   return (
@@ -76,8 +76,8 @@ const ContentContainer = styled.View({
   // flexGrow: 1,
   paddingTop: (props) => {
     let v = 0;
-    if (!props.headerHeight || props.headerHeight == 0)
-      v = Platform.OS == "ios" ? Constants.statusBarHeight : 0;
+    if (!props.headerHeight || props.headerHeight === 0)
+      v = Platform.OS === "ios" ? Constants.statusBarHeight : 0;
     v += 19;
     if (!props.isPadding) v = 0;
     return v;

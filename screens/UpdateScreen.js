@@ -38,7 +38,7 @@ const UpdateScreen = (props) => {
   if (
     _.isEmpty(updatePopup) ||
     _.isEmpty(updatePopup) ||
-    updatePopup.popupCnt == 0
+    updatePopup.popupCnt <= 0
   )
     //매장이 있는 경우만 매장 팝업
     return <></>;

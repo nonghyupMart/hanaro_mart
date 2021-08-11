@@ -158,7 +158,7 @@ export const ExtendedWebView = (props) => {
 
   const hasAlreadyRegistered = (user_cd) => {
     // show alert when user_cd is ""
-    if (user_cd == "") {
+    if (user_cd === "") {
       return dispatch(
         CommonActions.setAlert({
           message: "가입된 정보가 없습니다. 회원가입을 해주세요.",

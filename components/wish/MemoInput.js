@@ -15,7 +15,7 @@ const MemoInput = (props) => {
   };
 
   const saveMemoHandler = () => {
-    if (titleValue.trim() == "") return;
+    if (titleValue.trim() === "") return;
     dispatch(memosActions.addMemo(titleValue, false));
     setTitleValue("");
   };

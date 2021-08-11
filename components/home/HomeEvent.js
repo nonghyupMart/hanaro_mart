@@ -44,7 +44,7 @@ const HomeEvent = (props) => {
     });
   }, [props.isFocused]);
   const onAnimateNextPage = (index) => {
-    if (index == 0) {
+    if (index === 0) {
       setEvDate(null);
       return setEvTitle(eventTitle1);
     }
@@ -134,7 +134,7 @@ const HomeEvent = (props) => {
               width: "100%",
               height: "100%",
               backgroundColor:
-                Platform.OS == "android" ? colors.WHITE : "transparent",
+                Platform.OS === "android" ? colors.WHITE : "transparent",
             }}
             defaultSource={require("../../assets/images/b_img500.png")}
             resizeMode="stretch"
@@ -198,7 +198,7 @@ const BannerItem = (props) => {
         borderRadius: 10,
         overflow: "hidden",
         backgroundColor:
-          Platform.OS == "android" ? colors.WHITE : "transparent",
+          Platform.OS === "android" ? colors.WHITE : "transparent",
       }}
       resizeMode="cover"
       source={props.item.title_img}

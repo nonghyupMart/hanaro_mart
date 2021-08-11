@@ -25,7 +25,7 @@ const Loading = ({ isLoading }) => {
       timerRef.current;
     };
   }, [isLoading]);
-  if (Platform.OS == "android")
+  if (Platform.OS === "android")
     return (
       <>
         {isLoading && (

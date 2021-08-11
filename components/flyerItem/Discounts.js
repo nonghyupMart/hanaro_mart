@@ -20,7 +20,7 @@ const Discounts = ({ item }) => {
   return (
     <>
       <View style={{ height: 10 }} />
-      {item.card_price != 0 && (
+      {item.card_price > 0 && (
         <BadgeContainer>
           <Badge1Container>
             <Badge1>카드할인</Badge1>
@@ -35,7 +35,7 @@ const Discounts = ({ item }) => {
           )}
         </BadgeContainer>
       )}
-      {item.coupon_price != 0 && (
+      {item.coupon_price > 0 && (
         <BadgeContainer>
           <Badge1Container style={{ backgroundColor: colors.EMERALD }}>
             <Badge1>쿠폰할인</Badge1>
@@ -50,7 +50,7 @@ const Discounts = ({ item }) => {
           )}
         </BadgeContainer>
       )}
-      {item.members_price != 0 && (
+      {item.members_price > 0 && (
         <BadgeContainer>
           <Badge1Container style={{ backgroundColor: colors.TEALISH }}>
             <Badge1>NH멤버스</Badge1>

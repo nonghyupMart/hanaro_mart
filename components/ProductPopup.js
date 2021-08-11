@@ -49,7 +49,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
               <NoticeIcon />
               <NoticeTitle>혜택 및 상품 정보안내</NoticeTitle>
             </NoticeTitleContainer>
-            {item.card_price != 0 && (
+            {item.card_price > 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.CERULEAN }}>
                   카드할인
@@ -87,7 +87,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </Notice1>
               </NoticeRow>
             )}
-            {item.coupon_price != 0 && (
+            {item.coupon_price > 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.APPLE_GREEN }}>
                   쿠폰할인
@@ -136,7 +136,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {item.members_price != 0 && (
+            {item.members_price > 0 && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.WATER_BLUE }}>
                   NH멤버스

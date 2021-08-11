@@ -59,7 +59,7 @@ const FlyerItem = (props) => {
             </OriginalPrice>
           </>
         )}
-        {props.item.card_price != 0 && (
+        {props.item.card_price > 0 && (
           <BadgeContainer>
             <Badge1>카드할인</Badge1>
             {!_.isEmpty(props.item.card_sdate) && (
@@ -70,7 +70,7 @@ const FlyerItem = (props) => {
             )}
           </BadgeContainer>
         )}
-        {props.item.coupon_price != 0 && (
+        {props.item.coupon_price > 0 && (
           <BadgeContainer>
             <Badge1 style={{ backgroundColor: colors.GRAPEFRUIT }}>
               쿠폰할인
@@ -83,7 +83,7 @@ const FlyerItem = (props) => {
             )}
           </BadgeContainer>
         )}
-        {props.item.members_price != 0 && (
+        {props.item.members_price > 0 && (
           <BadgeContainer>
             <Badge1 style={{ backgroundColor: colors.TEALISH }}>
               NH멤버스

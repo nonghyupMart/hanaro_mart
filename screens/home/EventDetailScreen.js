@@ -117,7 +117,7 @@ const EventDetailScreen = (props) => {
       rcp_qr: QRCode,
     };
 
-    if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
+    if (userInfo.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyStamp(query)).then((data) => {
       if (!data.eventInfo) return;
       userInfo.marketing_agree = "Y";
@@ -130,7 +130,7 @@ const EventDetailScreen = (props) => {
     });
   };
   const validateAgree = () => {
-    if (userInfo && userInfo.marketing_agree == "N") {
+    if (userInfo && userInfo.marketing_agree === "N") {
       if (
         !checkItem.isChecked ||
         !checkItem.child[0].isChecked ||
@@ -166,7 +166,7 @@ const EventDetailScreen = (props) => {
       reg_num,
     };
     if (QRCode) query.rcp_qr = QRCode;
-    if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
+    if (userInfo.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyEvent(query)).then((data) => {
       if (!data.eventInfo) return;
       dispatch(eventActions.updateEventDetail(data.eventInfo));
@@ -231,7 +231,7 @@ const EventDetailScreen = (props) => {
               imageUrls={[{ url: IMAGE_URL + eventDetail.detail_img }]}
             />
           </Modal>
-          {eventDetail.entry && eventDetail.gbn == "A" && (
+          {eventDetail.entry && eventDetail.gbn === "A" && (
             <A
               {...props}
               onApply={onApply}
@@ -245,7 +245,7 @@ const EventDetailScreen = (props) => {
               key={key}
             />
           )}
-          {eventDetail.entry && eventDetail.gbn == "B" && (
+          {eventDetail.entry && eventDetail.gbn === "B" && (
             <B
               {...props}
               scrollRef={scrollRef}
@@ -261,7 +261,7 @@ const EventDetailScreen = (props) => {
               setReg_num={setReg_num}
             />
           )}
-          {eventDetail.entry && eventDetail.gbn == "C" && (
+          {eventDetail.entry && eventDetail.gbn === "C" && (
             <C
               {...props}
               scrollRef={scrollRef}

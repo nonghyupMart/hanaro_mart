@@ -24,7 +24,7 @@ const C = (props) => {
         >
           <Text1>교환내역 확인</Text1>
         </Btn>
-        {props.eventDetail.entry.stock_box == "Y" && (
+        {props.eventDetail.entry.stock_box === "Y" && (
           <RoundedView>
             {props.eventDetail.entry.stamp_stock > 0 && (
               <RoundedText>

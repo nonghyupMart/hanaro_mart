@@ -61,13 +61,13 @@ let http = (() => {
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
 
-      if (response.data.code == "USE-0000") {
+      if (response.data.code === "USE-0000") {
         //회원정보가 없는 경우 자동로그인 해제
         await Util.clearAllData();
         return await dispatch({ type: actionTypes.WITHDRAWAL });
       }
 
-      if (response.data.code != "200" && response.data.code != "201") {
+      if (response.data.code !== 200 && response.data.code !== 201) {
         Util.log("response URL=>", response.request.responseURL);
         Util.log("response=>", response.data);
         dispatch(

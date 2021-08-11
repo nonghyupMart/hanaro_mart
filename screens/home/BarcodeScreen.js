@@ -48,7 +48,7 @@ const BarcodeScreen = (props) => {
     dispatch(CommonActions.setBottomNavigation(false));
     return async () => {
       dispatch(CommonActions.setBottomNavigation(true));
-      if (brightness && Platform.OS == "ios")
+      if (brightness && Platform.OS === "ios")
         await Brightness.setBrightnessAsync(brightness);
       await Brightness.useSystemBrightnessAsync();
     };

@@ -56,27 +56,8 @@ const styles = StyleSheet.create({
 Text.defaultProps = { allowFontScaling: false };
 export const BaseText = styled(Text)({
   fontFamily: (props) => {
-    // const rules = props.forwardedComponent.inlineStyle.rules;
-    // var isFontWeight = _.some(rules, _.method("includes", "bold"));
-    // console.warn(isFontWeight, props);
-    // if (isFontWeight || (props.style && props.style.fontWeight == "bold")) {
-    //   return "Roboto-Bold";
-    // }
     return "Roboto-Regular";
   },
-
-  //  ...Platform.select({
-  //    ios: {
-  //      fontFamily: "Arial",
-  //    },
-  //    android: {
-  //      fontFamily: "Roboto",
-  //    },
-  //    default: {
-  //      // other platforms, web for example
-  //      fontFamily: "sans-serif",
-  //    },
-  //  }),
 });
 
 BaseText.defaultProps = { allowFontScaling: false };
@@ -97,7 +78,7 @@ const ExtendedImage = (props) => {
     props.initResizeMode ? props.initResizeMode : "cover"
   );
   const [color, setColor] = useState(
-    Platform.OS == "android" ? colors.WHITE : "transparent"
+    Platform.OS === "android" ? colors.WHITE : "transparent"
   );
   const onError = () => {
     setSource(
@@ -124,14 +105,14 @@ const ExtendedImage = (props) => {
 
 BaseTextInput.defaultProps = { allowFontScaling: false };
 export const BaseImage = styled(ExtendedImage).attrs((props) => {
-  if (!props.source || props.source == " ")
+  if (!props.source || props.source === " ")
     return {
       source: props.defaultSource
         ? props.defaultSource
         : require("../../assets/images/b_img500.png"),
     };
   let source;
-  if (typeof props.source == "string")
+  if (typeof props.source === "string")
     source = {
       uri: IMAGE_URL + props.source,
     };

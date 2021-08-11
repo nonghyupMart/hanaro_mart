@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 const ResultBtn = (props) => {
-  if (props.eventDetail.entry.winner_yn != "Y") return <></>;
+  if (props.eventDetail.entry.winner_yn !== "Y") return <></>;
   return (
     <GreenButton
       style={{ marginTop: 15 }}

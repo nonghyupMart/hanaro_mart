@@ -30,14 +30,14 @@ const ExhibitionScreen = (props) => {
   const link = useSelector((state) => state.common.link);
 
   let data;
-  if (routeName == "Exhibition") {
+  if (routeName === "Exhibition") {
     data = useSelector((state) => state.exhibition.exhibition);
   } else {
     data = useSelector((state) => state.exclusive.exclusive);
   }
 
   useEffect(() => {
-    if (link && link.category == routeName && link.link_code) {
+    if (link && link.category === routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
@@ -46,7 +46,7 @@ const ExhibitionScreen = (props) => {
   }, [link]);
 
   const moveToDetail = (event_cd) => {
-    if (routeName == "Exhibition") {
+    if (routeName === "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: event_cd });
     } else {
       navigation.navigate("ForStoreDetail", { event_cd: event_cd });
@@ -57,10 +57,10 @@ const ExhibitionScreen = (props) => {
     if (!isFocused) {
       return;
     }
-    const currentTab = TabMenus.filter((tab) => tab.name == routeName);
+    const currentTab = TabMenus.filter((tab) => tab.name === routeName);
 
     const tab = userStore.menuList.filter(
-      (menu) => menu.r_menu_nm == currentTab[0].title
+      (menu) => menu.r_menu_nm === currentTab[0].title
     );
 
     if (tab[0].menu_nm) {
@@ -80,7 +80,7 @@ const ExhibitionScreen = (props) => {
       store_cd: userStore.storeInfo.store_cd,
       page: p,
     };
-    if (routeName == "Exhibition") {
+    if (routeName === "Exhibition") {
       dispatch(exhibitionActions.fetchExhibition(query));
     } else {
       dispatch(exclusiveActions.fetchExclusive(query));
@@ -94,7 +94,7 @@ const ExhibitionScreen = (props) => {
   };
 
   const onPress = (item) => {
-    if (routeName == "Exhibition") {
+    if (routeName === "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: item.plan_cd });
     } else {
       navigation.navigate("ForStoreDetail", { event_cd: item.exclu_cd });
@@ -102,13 +102,13 @@ const ExhibitionScreen = (props) => {
   };
   if (!data) return <></>;
   if (
-    (routeName == "Exhibition" && _.size(data.list) === 0) ||
-    (routeName == "ForStore" && _.size(data.list) === 0)
+    (routeName === "Exhibition" && _.size(data.list) === 0) ||
+    (routeName === "ForStore" && _.size(data.list) === 0)
   )
     return (
       <NoList
         source={
-          routeName == "Exhibition"
+          routeName === "Exhibition"
             ? require("../../assets/images/diamond.png")
             : require("../../assets/images/shopwhite.png")
         }
@@ -127,7 +127,7 @@ const ExhibitionScreen = (props) => {
           data={data.list}
           keyExtractor={(item, index) =>
             `${userStore.storeInfo.store_cd}-${
-              routeName == "Exhibition" ? item.plan_cd : item.exclu_cd
+              routeName === "Exhibition" ? item.plan_cd : item.exclu_cd
             }`
           }
           onEndReached={loadMore}

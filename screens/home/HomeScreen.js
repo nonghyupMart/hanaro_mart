@@ -66,7 +66,7 @@ const HomeScreen = (props) => {
   }, [isFocused]);
   useEffect(() => {
     (async () => {
-      if (Platform.OS == "ios") {
+      if (Platform.OS === "ios") {
         setTimeout(() => {
           StatusBar.setBarStyle("dark-content");
         }, 1000);
@@ -79,7 +79,7 @@ const HomeScreen = (props) => {
       if (!link || _.isEmpty(link)) return;
 
       if (
-        link.link_gbn == "I" &&
+        link.link_gbn === "I" &&
         (_.isEmpty(userInfo) || _.isEmpty(userStore))
       ) {
         return await navigation.navigate("Login");
@@ -89,7 +89,7 @@ const HomeScreen = (props) => {
   }, [link]);
 
   useEffect(() => {
-    if (typeof didTryPopup != "string" && typeof didTryPopup != "object")
+    if (typeof didTryPopup !== "string" && typeof didTryPopup !== "object")
       return;
     dispatch(setIsLoading(true));
     setTimeout(() => {
@@ -168,12 +168,12 @@ const initNotificationReceiver = (routeName) => {
         const cd = notification.request.content.data.cd;
 
         if (category) {
-          if (userStore && userStore.storeInfo.store_cd == store_cd) {
+          if (userStore && userStore.storeInfo.store_cd === store_cd) {
             const currentTab = TabMenus.filter(
-              (tab) => tab.name == CATEGORY[category]
+              (tab) => tab.name === CATEGORY[category]
             );
             const tab = userStore.menuList.filter(
-              (menu) => menu.r_menu_nm == currentTab[0].title
+              (menu) => menu.r_menu_nm === currentTab[0].title
             );
             if (_.isEmpty(tab)) return;
 

@@ -4,7 +4,7 @@ import { BaseText } from "./BaseUI";
 import * as Util from "../../util";
 
 const CategoryButton = (props) => {
-  if (props.type_val == props.item.type_val)
+  if (props.type_val === props.item.type_val)
     return (
       <SelectedButton onPress={props.onPress}>
         <SelectedText>{props.item.type_nm}</SelectedText>

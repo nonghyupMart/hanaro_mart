@@ -166,11 +166,11 @@ export const versionCompare = (v1, v2, options) => {
   }
 
   for (var i = 0; i < v1parts.length; ++i) {
-    if (v2parts.length == i) {
+    if (v2parts.length === i) {
       return 1;
     }
 
-    if (v1parts[i] == v2parts[i]) {
+    if (v1parts[i] === v2parts[i]) {
       continue;
     } else if (v1parts[i] > v2parts[i]) {
       return 1;
@@ -179,7 +179,7 @@ export const versionCompare = (v1, v2, options) => {
     }
   }
 
-  if (v1parts.length != v2parts.length) {
+  if (v1parts.length !== v2parts.length) {
     return -1;
   }
 

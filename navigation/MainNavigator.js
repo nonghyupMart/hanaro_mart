@@ -99,9 +99,6 @@ import MyPageScreen, {
 import MyReviewsScreen, {
   screenOptions as MyReviewsScreenOptions,
 } from "../screens/myPage/MyReviewsScreen";
-import WithdrawalMembershipScreen, {
-  screenOptions as WithdrawalMembershipScreenOptions,
-} from "../screens/myPage/WithdrawalMembershipScreen";
 
 import NotificationScreen, {
   screenOptions as NotificationScreenOptions,
@@ -214,17 +211,10 @@ export const HomeTabNavigator = ({ navigation, route }) => {
       />
       {menuList.map((menu) => {
         {
-          let Tab = TabMenus.filter((tab) => tab.title == menu.r_menu_nm);
+          let Tab = TabMenus.filter((tab) => tab.title === menu.r_menu_nm);
           if (!Tab[0]) return;
           let components = Tab[0].components;
-          {
-            /* if (
-            !userInfo.ci &&
-            (Tab[0].name == "Event" || Tab[0].name == "Coupon")
-          ) {
-            components = Tab[0].subComponents;
-          } */
-          }
+       
           return (
             <HomeTopTabNavigator.Screen
               key={Tab[0].name}
@@ -356,11 +346,6 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="MyReviews"
           component={MyReviewsScreen}
           options={MyReviewsScreenOptions}
-        />
-        <HomeStackNavigator.Screen
-          name="Withdrawal"
-          component={WithdrawalMembershipScreen}
-          options={WithdrawalMembershipScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="Notification"

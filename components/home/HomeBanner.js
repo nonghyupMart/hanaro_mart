@@ -161,7 +161,7 @@ const BannerItem = (props) => {
         borderRadius: 10,
         overflow: "hidden",
         backgroundColor:
-          Platform.OS == "android" ? colors.WHITE : "transparent",
+          Platform.OS === "android" ? colors.WHITE : "transparent",
       }}
       source={props.item.display_img}
       defaultSource={require("../../assets/images/m_img499.png")}

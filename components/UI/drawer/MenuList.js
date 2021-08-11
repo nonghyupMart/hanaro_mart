@@ -260,7 +260,7 @@ const MenuButton = styled(BaseTouchable)({
 
 const IconImage = styled.Image({
   width: Util.normalize(25),
-  resizeMode: Platform.OS == "ios" ? "contain" : "cover",
+  resizeMode: Platform.OS === "ios" ? "contain" : "cover",
 });
 
 export default MenuList;

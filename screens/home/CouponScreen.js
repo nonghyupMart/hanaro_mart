@@ -32,7 +32,7 @@ const CouponScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   let coupon;
-  if (routeName == "MyCoupon") {
+  if (routeName === "MyCoupon") {
     //나의쿠폰 일 경우..
     coupon = useSelector((state) => state.coupon.myCoupon);
   } else {
@@ -44,11 +44,11 @@ const CouponScreen = (props) => {
   // global.alert(1);
   useEffect(() => {
     if (_.isEmpty(coupon) || !coupon.couponList || !link) return;
-    if (link && link.category == routeName && link.link_code) {
+    if (link && link.category === routeName && link.link_code) {
       setTimeout(async () => {
         let item = _.filter(
           coupon.couponList,
-          (o) => o.cou_cd == link.link_code
+          (o) => o.cou_cd === link.link_code
         );
         await dispatch(setLink(null));
         await onCouponItemPressed(item[0]);
@@ -64,7 +64,7 @@ const CouponScreen = (props) => {
       couponActions.fetchCoupon({
         store_cd: userStore.storeInfo.store_cd,
         user_cd: userInfo.user_cd,
-        user_yn: routeName == "MyCoupon" ? "Y" : "N",
+        user_yn: routeName === "MyCoupon" ? "Y" : "N",
         gbn: gbn,
       })
     );
@@ -87,7 +87,7 @@ const CouponScreen = (props) => {
             index: index,
           })
         ).then(async (data) => {
-          if (data.result == "success") {
+          if (data.result === "success") {
             navigation.navigate("CouponDetail", {
               store_cd: userStore.storeInfo.store_cd,
               cou_cd: item.cou_cd,
@@ -127,7 +127,7 @@ const CouponScreen = (props) => {
     }
   };
   if (!coupon) return <></>;
-  if (routeName == "MyCoupon" && _.size(coupon.couponList) === 0)
+  if (routeName === "MyCoupon" && _.size(coupon.couponList) === 0)
     return (
       <>
         <CategoryButtonSmallList
@@ -142,7 +142,7 @@ const CouponScreen = (props) => {
         />
       </>
     );
-  if (routeName == "Coupon" && _.size(coupon.couponList) === 0)
+  if (routeName === "Coupon" && _.size(coupon.couponList) === 0)
     return (
       <>
         <CategoryButtonSmallList
@@ -158,7 +158,6 @@ const CouponScreen = (props) => {
     );
   return (
     <BaseScreen
-      // isBottomNavigation={routeName == "MyCoupon" ? false : true}
       style={styles.screen}
       contentStyle={{
         paddingTop: 0,

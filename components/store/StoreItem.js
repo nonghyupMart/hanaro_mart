@@ -30,7 +30,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
           data
         )
       ).then((data) => {
-        if (data.result == "success") {
+        if (data.result === "success") {
           (async () => {
             await dispatch(CommonActions.setDidTryPopup("Flyer"));
           })();
@@ -45,7 +45,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
         store_cd: item.store_cd,
       })
     ).then((data) => {
-      if (data.result == "success") {
+      if (data.result === "success") {
         fetchMarkedStores(true);
         fetchBranches();
       }

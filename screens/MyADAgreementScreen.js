@@ -47,16 +47,16 @@ const MyADAgreementScreen = (props) => {
         pushToken: pushToken,
         userStore: userStore,
       }).then((data) => {
-        setSms(data.userInfo.sms_agree == "Y" ? true : false);
-        setPush(data.userInfo.push_agree == "Y" ? true : false);
+        setSms(data.userInfo.sms_agree === "Y" ? true : false);
+        setPush(data.userInfo.push_agree === "Y" ? true : false);
         setMarketing_date(data.userInfo.marketing_date);
       });
     }
   }, []);
   const onPress = async () => {
-    const prevPush = userInfo.push_agree == "Y";
-    const prevSms = userInfo.sms_agree == "Y";
-    if (push == prevPush && sms == prevSms) {
+    const prevPush = userInfo.push_agree === "Y";
+    const prevSms = userInfo.sms_agree === "Y";
+    if (push === prevPush && sms === prevSms) {
       return dispatch(
         setAlert({
           message: "변경사항이 없습니다.",
@@ -82,8 +82,8 @@ const MyADAgreementScreen = (props) => {
           )})\n수신${yn} 처리 되었습니다.`,
           onPressConfirm: () => {
             dispatch(setAlert(null));
-            setSms(userInfo.sms_agree == "Y" ? true : false);
-            setPush(userInfo.push_agree == "Y" ? true : false);
+            setSms(userInfo.sms_agree === "Y" ? true : false);
+            setPush(userInfo.push_agree === "Y" ? true : false);
             setMarketing_date(userInfo.marketing_date);
           },
         })

@@ -18,7 +18,7 @@ const PickerViews = (props) => {
 
   const onLnameChange = async (lname) => {
     props.setLname(() => (lname ? lname : null));
-    if (Platform.OS == "android") onLnameDonePress();
+    if (Platform.OS === "android") onLnameDonePress();
   };
   const onLnameDonePress = () => {
     props.setMname(() => null);
@@ -32,7 +32,7 @@ const PickerViews = (props) => {
 
   const onMnameChange = (lname, mname) => {
     props.setMname(() => (mname ? mname : null));
-    if (Platform.OS == "android") onMnameDonePress();
+    if (Platform.OS === "android") onMnameDonePress();
   };
 
   const onMnameDonePress = () => {
@@ -87,7 +87,7 @@ const PickerViews = (props) => {
         </PickerContainer>
       </RNPickerSelect>
 
-      {displayedLname != "시/도 선택" &&
+      {displayedLname !== "시/도 선택" &&
         props.address2 &&
         props.address2.mnameList && (
           <RNPickerSelect

@@ -84,7 +84,7 @@ const FlyerScreen = (props) => {
 
   useEffect(() => {
     if (!isFocused) return;
-    if (pageforCarousel == null || pageforCarousel == undefined) return;
+    if (pageforCarousel === null || pageforCarousel === undefined) return;
 
     setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
     fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
@@ -93,8 +93,8 @@ const FlyerScreen = (props) => {
   useEffect(() => {
     if (!isFocused) return;
     if (
-      pageforCarousel == null ||
-      pageforCarousel == undefined ||
+      pageforCarousel === null ||
+      pageforCarousel === undefined ||
       JSON.stringify(pageforCarousel) === JSON.stringify({})
     )
       return;
@@ -144,12 +144,9 @@ const FlyerScreen = (props) => {
         paddingLeft: 0,
         paddingRight: 0,
       }}
-      isPadding={Platform.OS == "ios" ? false : true}
-      // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
+      isPadding={Platform.OS === "ios" ? false : true}
       contentStyle={{
-        paddingTop: Platform.OS == "ios" ? 0 : 0,
-        // paddingLeft: Platform.OS == "ios" ? 16 : 0,
-        // paddingRight: Platform.OS == "ios" ? 16 : 0,
+        paddingTop: Platform.OS === "ios" ? 0 : 0,
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >

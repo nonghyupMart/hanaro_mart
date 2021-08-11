@@ -140,7 +140,7 @@
       while (missingZeros--) {
         barcode = "0" + barcode;
       }
-    } else if (!enableZeroPadding && barcode.length != validLength) {
+    } else if (!enableZeroPadding && barcode.length !== validLength) {
       return false;
     } else if (barcode.length > validLength) {
       return false;

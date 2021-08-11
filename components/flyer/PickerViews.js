@@ -17,17 +17,17 @@ const PickerViews = (props) => {
   const [title, setTitle] = useState(props.currentFlyer.title);
   const carousel = props.carouselRef.current;
   const onItemChange = async (value) => {
-    if (!value || value == selectedItem.value) return;
-    const item = _.filter(pickerItems, (o) => o.value == value);
+    if (!value || value === selectedItem.value) return;
+    const item = _.filter(pickerItems, (o) => o.value === value);
     setSelectedItem(item[0]);
-    if (Platform.OS == "android") onItemSelected(item[0]);
+    if (Platform.OS === "android") onItemSelected(item[0]);
   };
 
   const onItemSelected = async (obj) => {
-    const val = Platform.OS == "android" ? obj.value : selectedItem.value;
-    const title = Platform.OS == "android" ? obj.label : selectedItem.label;
+    const val = Platform.OS === "android" ? obj.value : selectedItem.value;
+    const title = Platform.OS === "android" ? obj.label : selectedItem.label;
     setTitle(title);
-    const index = _.findIndex(pickerItems, (o) => o.value == val);
+    const index = _.findIndex(pickerItems, (o) => o.value === val);
     props.setPageForCarousel(index);
     carousel.animateToPage(index);
   };

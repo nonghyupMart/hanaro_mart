@@ -50,7 +50,7 @@ const EventStampHistoryScreen = (props) => {
       }}
       contentStyle={{
         backgroundColor: colors.TRUE_WHITE,
-        paddingTop: Platform.OS == "ios" ? 19 : 19,
+        paddingTop: Platform.OS === "ios" ? 19 : 19,
       }}
     >
       {stampHistory &&

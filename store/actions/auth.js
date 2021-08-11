@@ -240,7 +240,7 @@ export const updateUserInfo = async ({
 
   let tk = `${token}`.trim();
 
-  if (Constants.isDevice && (!tk || tk == ""))
+  if (Constants.isDevice && !tk)
     tk = (await Notifications.getExpoPushTokenAsync()).data.trim();
 
   if (!Constants.isDevice) tk = "";
@@ -257,14 +257,14 @@ export const updateUserInfo = async ({
   return dispatch(loginWithUserCd(query)).then(async (data) => {
     if (
       _.isEmpty(data.userInfo) ||
-      data.userInfo.user_cd != userInfo.user_cd ||
+      data.userInfo.user_cd !== userInfo.user_cd ||
       !data.userInfo.recommend
     )
       return;
 
     await Analytics.setUserId(data.userInfo.user_cd);
     _.forEach(data.userInfo, async (value, name) => {
-      if (name == "user_id" || value.length > 37) return;
+      if (name === "user_id" || value.length > 37) return;
       await Analytics.setUserProperty(name, value.toString());
     });
     Sentry.Browser.setTags(data.userInfo);
@@ -300,7 +300,6 @@ export const getResponse = async (response, dispatch, url, query) => {
   //   console.warn(resData);
 
   if (!response.ok) {
-    //response.status == 500, 400...
     // console.warn(response);
     Util.log("ERROR getResponse=> ", url, query);
     Util.log("ERROR message ==>", resData.error.errorMsg);
@@ -308,11 +307,11 @@ export const getResponse = async (response, dispatch, url, query) => {
     return resData;
   }
 
-  if (resData.code == "USE-0000") {
+  if (resData.code === "USE-0000") {
     //회원정보가 없는 경우 자동로그인 해제
     return await dispatch(withdrawalFinish());
   }
-  if (resData.code != "200" && resData.code != "201") {
+  if (String(resData.code) !== "200" && String(resData.code) !== "201") {
     dispatch(
       setAlert({
         message: resData.error.errorMsg,

@@ -164,7 +164,7 @@ export default function TabBarTop(props: MaterialTopTabBarProps) {
         indicatorStyle={[
           {
             backgroundColor:
-              focusedRoute.name == "Home"
+              focusedRoute.name === "Home"
                 ? ConstantsColors.TRUE_WHITE
                 : ConstantsColors.EMERALD,
             height: 2,

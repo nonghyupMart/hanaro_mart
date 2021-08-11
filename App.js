@@ -169,12 +169,12 @@ const store = createStore(
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false);
-  if (Constants.manifest.releaseChannel == "prod") {
+  if (Constants.manifest.releaseChannel === "prod") {
     usePreventScreenCapture();
   }
 
   useEffect(() => {
-    if (Platform.OS == "android")
+    if (Platform.OS === "android")
       return StatusBar.setBackgroundColor(colors.TRUE_WHITE);
     (async () => {
       await StatusBar.setBarStyle("dark-content");

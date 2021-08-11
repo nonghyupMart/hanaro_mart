@@ -11,7 +11,7 @@ export default class ScaledImage extends Component {
     super(props);
     let source;
     let sourceURI;
-    if (typeof this.props.source == "string") {
+    if (typeof this.props.source === "string") {
       sourceURI = IMAGE_URL + this.props.source;
       source = {
         uri: IMAGE_URL + this.props.source,
@@ -36,7 +36,7 @@ export default class ScaledImage extends Component {
   };
 
   componentDidMount() {
-    if (typeof this.state.sourceURI == "string") {
+    if (typeof this.state.sourceURI === "string") {
       Image.getSize(this.state.sourceURI, (width, height) => {
         if (this.props.width && !this.props.height) {
           this.setState({

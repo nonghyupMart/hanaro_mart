@@ -28,9 +28,7 @@ const JoinPopupContent = (props) => {
             return (
               <Line
                 style={{
-                  marginTop: index == 0 ? 20 : 0,
-                  // marginBottom:
-                  //   index == Object.keys(agreedStatus).length - 1 ? 30 : 0,
+                  marginTop: index === 0 ? 20 : 0,
                 }}
               >
                 <Icon source={require("../../assets/images/checkmark.png")} />

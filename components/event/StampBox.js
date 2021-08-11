@@ -60,13 +60,13 @@ const StampBox = (props) => {
           return item;
         })}
       </StampContainer>
-      {props.eventDetail.entry.trade_btn == "Y" && (
+      {props.eventDetail.entry.trade_btn === "Y" && (
         <BlueButton onPress={onPress}>
           <Image source={require("../../assets/images/ticket3.png")} />
           <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
         </BlueButton>
       )}
-      {props.eventDetail.entry.exchange_btn == "Y" && (
+      {props.eventDetail.entry.exchange_btn === "Y" && (
         <BlueButton onPress={onPressForInterim}>
           <Image source={require("../../assets/images/ticket3.png")} />
           <BlueButtonText>중간정산(관리자전용)</BlueButtonText>

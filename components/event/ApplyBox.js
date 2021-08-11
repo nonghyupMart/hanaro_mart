@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { CheckBox } from "react-native-elements";
 
 const ApplyBox = (props) => {
-  if (props.eventDetail.entry.entry_date_yn != "Y") return <></>;
+  if (props.eventDetail.entry.entry_date_yn !== "Y") return <></>;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const checkItem = props.checkItem;
@@ -48,7 +48,7 @@ const ApplyBox = (props) => {
     let cks = { ...checkItem };
     cks.child[child.id].isChecked = !cks.child[child.id].isChecked;
 
-    if (cks.child[child.id].isChecked == false) {
+    if (cks.child[child.id].isChecked === false) {
       cks.isChecked = false;
     } else {
       let allTrue = cks.child.every((el) => el.isChecked);
@@ -64,9 +64,9 @@ const ApplyBox = (props) => {
 
   return (
     <>
-      {props.eventDetail.entry.entry_date_yn == "Y" &&
+      {props.eventDetail.entry.entry_date_yn === "Y" &&
         userInfo &&
-        userInfo.marketing_agree == "N" && (
+        userInfo.marketing_agree === "N" && (
           <Container>
             <Title>개인정보 수집동의</Title>
             <Agreement.TitleArea>

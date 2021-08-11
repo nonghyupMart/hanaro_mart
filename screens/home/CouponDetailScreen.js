@@ -49,7 +49,7 @@ const CouponDetailScreen = (props) => {
         type: SET_COUPON_DETAIL,
         couponDetail: null,
       });
-      if (brightness && Platform.OS == "ios")
+      if (brightness && Platform.OS === "ios")
         await Brightness.setBrightnessAsync(brightness);
       await Brightness.useSystemBrightnessAsync();
     };
@@ -64,7 +64,7 @@ const CouponDetailScreen = (props) => {
         headerLeft: () => <BackButton />,
         headerTitle: (props) => <TextTitle {...props} />,
         headerRight: (props) =>
-          couponDetail.limit_yn == "N" ? (
+          couponDetail.limit_yn === "N" ? (
             <></>
           ) : (
             <UseButton onPress={onPress} />
@@ -75,7 +75,7 @@ const CouponDetailScreen = (props) => {
       if (
         !couponDetail ||
         !couponDetail.barcode ||
-        couponDetail.limit_yn != "N"
+        couponDetail.limit_yn !== "N"
       )
         return;
       const currentBrightLevel = await Brightness.getBrightnessAsync();
@@ -128,7 +128,7 @@ const CouponDetailScreen = (props) => {
                 routeName: params.routeName,
               })
             ).then((data) => {
-              if (data.result == "success") {
+              if (data.result === "success") {
                 setIsUsed(true);
 
                 props.navigation.navigate("Barcode", {
@@ -245,7 +245,7 @@ const CouponDetailScreen = (props) => {
             resizeMode="contain"
             defaultSource={require("../../assets/images/p_img503.png")}
           />
-          {couponDetail.barcode && couponDetail.limit_yn == "N" && (
+          {couponDetail.barcode && couponDetail.limit_yn === "N" && (
             <Barcode
               width={3}
               height={100}
@@ -256,15 +256,9 @@ const CouponDetailScreen = (props) => {
               onError={onError}
             />
           )}
-          {/* <Discount>
-            {couponDetail.price}
-            {couponDetail.price_gbn == "A" ? "원 " : "% "}
-            할인
-          </Discount>
-          <Title>{couponDetail.title}</Title> */}
           <TextContainer>
             <Price>
-              {couponDetail.gbn == "A" ? `쿠폰명` : `상품명`} :{" "}
+              {couponDetail.gbn === "A" ? `쿠폰명` : `상품명`} :{" "}
               {couponDetail.title}
             </Price>
             <Price>할인가 : {Util.formatNumber(couponDetail.price)}원</Price>

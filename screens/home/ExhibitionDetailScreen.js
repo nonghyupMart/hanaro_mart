@@ -32,7 +32,7 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const detail = useSelector((state) =>
-    routeName == "ExhibitionDetail"
+    routeName === "ExhibitionDetail"
       ? state.exhibition.exhibitionDetail
       : state.exclusive.exclusiveDetail
   );
@@ -49,11 +49,11 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
   }, []);
   useEffect(() => {
     const currentTab = TabMenus.filter(
-      (tab) => tab.name == routeName.split("Detail")[0]
+      (tab) => tab.name === routeName.split("Detail")[0]
     );
 
     const tab = userStore.menuList.filter(
-      (menu) => menu.r_menu_nm == currentTab[0].title
+      (menu) => menu.r_menu_nm === currentTab[0].title
     );
 
     if (tab[0].menu_nm) {
@@ -73,7 +73,7 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
 
   const fetchDetail = () => {
     dispatch(setIsLoading(true));
-    if (routeName == "ExhibitionDetail") {
+    if (routeName === "ExhibitionDetail") {
       dispatch(
         exhibitionActions.fetchExhibitionDetail({
           event_cd: params.event_cd,

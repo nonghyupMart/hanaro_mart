@@ -24,7 +24,7 @@ const CouponItem = (props) => {
           initResizeMode="contain"
           defaultSource={require("../assets/images/n_img501.png")}
         />
-        {props.item.remain_yn == "Y" && (
+        {props.item.remain_yn === "Y" && (
           <CountContainer>
             <Count>{props.item.current_remain}개 남음</Count>
           </CountContainer>
@@ -38,13 +38,13 @@ const CouponItem = (props) => {
         }}
       >
         {Util.formatNumber(props.item.price)}
-        {props.item.price_gbn == "A" ? "원 " : "% "}
+        {props.item.price_gbn === "A" ? "원 " : "% "}
         할인
       </Discount>
       <Date>
         {props.item.start_date} ~ {props.item.end_date}
       </Date>
-      {props.item.status == "00" && (
+      {props.item.status === "00" && (
         <Button
           onPress={props.onPress}
           style={{ backgroundColor: colors.TRUE_WHITE }}
@@ -53,7 +53,7 @@ const CouponItem = (props) => {
           <Icon source={require("../assets/images/ic_file_download_1.png")} />
         </Button>
       )}
-      {props.item.status == "10" && (
+      {props.item.status === "10" && (
         <Button
           onPress={props.onPress}
           style={{ backgroundColor: colors.EMERALD, borderWidth: 0 }}
@@ -64,7 +64,7 @@ const CouponItem = (props) => {
           <Icon source={require("../assets/images/ic_file_download_2.png")} />
         </Button>
       )}
-      {props.item.status == "20" && (
+      {props.item.status === "20" && (
         <Button
           style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
           activeOpacity={1}
@@ -74,7 +74,7 @@ const CouponItem = (props) => {
           </ButtonText>
         </Button>
       )}
-      {props.item.status == "30" && (
+      {props.item.status === "30" && (
         <Button
           style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
           activeOpacity={1}
@@ -171,7 +171,6 @@ const Container = styled.View({
   padding: 10,
 
   alignSelf: "flex-start",
-  // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
   marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });
 

@@ -20,7 +20,7 @@ export const fetchCoupon = (query) => {
 
         if (query.page > 1) {
           // 다음 페이지 로딩
-          if (query.user_yn == "Y") {
+          if (query.user_yn === "Y") {
             //마이쿠폰일 경우..
             type = actionTypes.SET_MY_COUPON_MORE;
           } else {
@@ -28,7 +28,7 @@ export const fetchCoupon = (query) => {
           }
         } else {
           // 첫페이지 로딩
-          if (query.user_yn == "Y") {
+          if (query.user_yn === "Y") {
             //마이쿠폰일 경우..
             type = actionTypes.SET_MY_COUPON;
           } else {
