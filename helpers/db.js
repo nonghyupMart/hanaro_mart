@@ -3,7 +3,7 @@ import * as Util from "../util";
 
 const db = SQLite.openDatabase(Util.storagePrefix + "HanaroPlus.db");
 
-export const init = () => {
+export const initSQLite = () => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
