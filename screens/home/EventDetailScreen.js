@@ -126,7 +126,7 @@ const EventDetailScreen = (props) => {
       authActions.saveUserInfoToStorage(userInfo);
 
       dispatch(eventActions.updateEventDetail(data.eventInfo));
-      alertSusscess();
+      alertSusscess(data.alert_msg);
     });
   };
   const validateAgree = () => {

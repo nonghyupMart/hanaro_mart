@@ -24,11 +24,16 @@ const C = (props) => {
         >
           <Text1>교환내역 확인</Text1>
         </Btn>
-        {props.eventDetail.entry.stamp_stock >= 0 && (
+        {props.eventDetail.entry.stock_box == "Y" && (
           <RoundedView>
-            <RoundedText>
-              {Util.formatNumber(props.eventDetail.entry.stamp_stock)}개 남음
-            </RoundedText>
+            {props.eventDetail.entry.stamp_stock > 0 && (
+              <RoundedText>
+                {Util.formatNumber(props.eventDetail.entry.stamp_stock)}개 남음
+              </RoundedText>
+            )}
+            {props.eventDetail.entry.stamp_stock <= 0 && (
+              <RoundedText>행사마감</RoundedText>
+            )}
           </RoundedView>
         )}
       </Container>

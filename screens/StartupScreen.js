@@ -78,7 +78,7 @@ const StartupScreen = (props) => {
       if (!userStoreData) return;
       await dispatch(authActions.saveUserStore(userStoreData));
     } catch (e) {
-      console.log(e);
+      Util.log(e);
     }
   };
 
