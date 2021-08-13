@@ -13,10 +13,10 @@ import {
   fetchFonts,
   initStatusBarStyle,
   routingInstrumentation,
-  init,
-} from "./helpers/initialize";
+  initializeApplication,
+} from "./helpers";
 
-init();
+initializeApplication();
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState<Boolean>(false);

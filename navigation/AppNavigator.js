@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Analytics from "expo-firebase-analytics";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "../screens/StartupScreen";
@@ -9,31 +9,27 @@ import PopupScreen from "../screens/PopupScreen";
 import UpdateScreen from "../screens/UpdateScreen";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/Loading";
-import colors from "../constants/Colors";
 import * as CommonActions from "../store/actions/common";
 import * as Notifications from "expo-notifications";
 import { BackHandler, AppState } from "react-native";
-import * as Device from "expo-device";
-import { fetchPushCnt } from "../store/actions/auth";
 import _ from "lodash";
 import * as Util from "../utils";
-import * as Linking from "expo-linking";
-
-const Theme = {
-  ...DefaultTheme,
-  dark: false,
-  colors: {
-    ...DefaultTheme.colors,
-    background: colors.TRUE_WHITE,
-  },
-};
+import {
+  initDeepLink,
+  getNotificationData,
+  validateRooting,
+  theme,
+  handleAppStateChange,
+  getBackgroundNotificationListener,
+  getForegroundNotificationListener,
+  createBackHandler
+} from "../helpers";
 
 const AppNavigator = (props) => {
   const routeNameRef = useRef();
   const routingInstrumentation = props.routingInstrumentation;
   const notificationListener = useRef();
   const responseListener = useRef();
-  const appState = useRef(AppState.currentState);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const alert = useSelector((state) => state.common.alert);
@@ -46,7 +42,7 @@ const AppNavigator = (props) => {
   );
 
   useEffect(() => {
-    const backHandler = createBackHandler();
+    const backHandler = createBackHandler(dispatch);
     return () => {
       backHandler.remove();
     };
@@ -56,8 +52,8 @@ const AppNavigator = (props) => {
     (async () => {
       try {
         await validateRooting();
-        await initDeepLink();
-        await initNotificationData();
+        await initDeepLink(dispatch);
+        await getNotificationData(dispatch);
       } catch (error) {
         dispatch(
           CommonActions.setAlert({
@@ -70,24 +66,15 @@ const AppNavigator = (props) => {
       }
     })();
 
-    AppState.addEventListener("change", _handleAppStateChange);
-    notificationListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // When App is running in the background.
-        dispatch(CommonActions.setNotification(response.notification));
-      });
-    responseListener.current = Notifications.addNotificationReceivedListener(
-      async (notification) => {
-        // When app is running in the foreground.
-        const userInfoData = await Util.getStorageItem("userInfoData");
-        if (!_.isEmpty(userInfoData)) {
-          dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
-        }
-      }
+    AppState.addEventListener(
+      "change",
+      handleAppStateChange.bind(this, dispatch)
     );
+    notificationListener.current = getBackgroundNotificationListener(dispatch);
+    responseListener.current = getForegroundNotificationListener(dispatch);
     return async () => {
       await Util.removeStorageItem("notificationData");
-      AppState.removeEventListener("change", _handleAppStateChange);
+      AppState.removeEventListener("change", handleAppStateChange);
       Notifications.removeNotificationSubscription(
         notificationListener.current
       );
@@ -95,39 +82,7 @@ const AppNavigator = (props) => {
     };
   }, []);
 
-  const createBackHandler = () => {
-    const backAction = () => {
-      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
-      dispatch(CommonActions.setIsLoading(false));
-      return false;
-    };
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-    return backHandler;
-  };
 
-  const initNotificationData = async () => {
-    // When App is not running set received Notification to redux
-    let data = await Util.getStorageItem("notificationData");
-    if (_.isEmpty(data)) return;
-    await dispatch(CommonActions.setNotification(data));
-    await Util.removeStorageItem("notificationData");
-  };
-
-  const initDeepLink = async () => {
-    await Linking.addEventListener("url", _handleUrl);
-    const schemeUrl = await Linking.getInitialURL();
-    CommonActions.navigateByScheme(dispatch, schemeUrl);
-  };
-
-  const validateRooting = async () => {
-    const isRooted = await Device.isRootedExperimentalAsync();
-    if (isRooted) {
-      throw new Error("루팅이 감지되었습니다.\n고객센터에 문의해주세요.");
-    }
-  };
   const currentScreen = () => {
     if (!isUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
@@ -135,30 +90,6 @@ const AppNavigator = (props) => {
     else if (isJoin && didTryAutoLogin && didTryPopup) return <MainNavigator />;
     else if (didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
-  };
-
-  const _handleUrl = async (data) => {
-    // this.setState({ url });
-    if (!data.url) return;
-    CommonActions.navigateByScheme(dispatch, data.url);
-  };
-
-  const _handleAppStateChange = async (nextAppState) => {
-    if (
-      appState.current.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
-      // console.log("App has come to the foreground!");
-      const userInfoData = await Util.getStorageItem("userInfoData");
-      if (!_.isEmpty(userInfoData)) {
-        dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
-      }
-    } else {
-      // console.log("App has come to the background!");
-      Util.removeStorageItem("notificationData");
-    }
-    CommonActions.updateExpo(dispatch);
-    appState.current = nextAppState;
   };
 
   const onReady = () => {
@@ -186,7 +117,7 @@ const AppNavigator = (props) => {
       {isLoading && <Loading isLoading={isLoading} />}
       {alert && <Alert alert={alert} />}
       <NavigationContainer
-        theme={Theme}
+        theme={theme}
         ref={navigationRef}
         onReady={onReady}
         onStateChange={onStateChange}

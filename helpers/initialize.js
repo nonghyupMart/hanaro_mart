@@ -6,9 +6,9 @@ import * as SplashScreen from "expo-splash-screen";
 export { routingInstrumentation } from "./sentry";
 export { store } from "./reducer";
 export { fetchFonts } from "./font";
-export { initStatusBarStyle } from "./statusBar";
+export { initStatusBarStyle } from "./status-bar";
 
-export const init = () => {
+export const initializeApplication = () => {
   initSQLite();
   initNotificationReceiver();
   SplashScreen.preventAutoHideAsync();

@@ -3,7 +3,7 @@ import * as Util from "../../utils";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as actionTypes from "./actionTypes";
-console.log(Util.http);
+
 export const fetchHomeBanner = (query) => {
   const url = queryString.stringifyUrl({
     url: `/home-banner`,
