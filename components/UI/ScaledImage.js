@@ -92,8 +92,8 @@ export default class ScaledImage extends Component {
           { backgroundColor: this.state.color },
           {
             minHeight: this.state.minHeight,
-            height: this.state.height,
-            width: this.state.width,
+            height: this.state.height ? this.state.height : 0,
+            width: this.state.width ? this.state.width : 0,
           },
           this.props.style,
         ]}
