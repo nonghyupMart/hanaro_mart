@@ -1,36 +1,16 @@
 {
-  "compilerOptions": {
-    "jsx": "react"
-  },
+  "compilerOptions": {},
   "baseUrl": ".",
   "paths": {
-    "@screens/*": [
-      "screens/*"
-    ],
-    "@assets/*": [
-      "assets/*"
-    ],
-    "@images/*": [
-      "assets/images/*"
-    ],
-    "@constants/*": [
-      "constants/*"
-    ],
-    "@components/*": [
-      "components/*"
-    ],
-    "@UI/*": [
-      "./components/UI/*"
-    ],
-    "@actions/*": [
-      "store/actions/*"
-    ],
-    "@reducers/*": [
-      "store/reducers/*"
-    ],
-    "@models/*": [
-      "models/*"
-    ]
+    "@screens/*": ["screens/*"],
+    "@assets/*": ["assets/*"],
+    "@images/*": ["assets/images/*"],
+    "@constants/*": ["constants/*"],
+    "@components/*": ["components/*"],
+    "@UI/*": ["./components/UI/*"],
+    "@actions/*": ["store/actions/*"],
+    "@reducers/*": ["store/reducers/*"],
+    "@models/*": ["models/*"]
   },
   "extends": "expo/tsconfig.base"
 }

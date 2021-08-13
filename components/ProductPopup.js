@@ -5,7 +5,7 @@ import Modal from "react-native-modal";
 import { useSelector, useDispatch } from "react-redux";
 import { BaseImage, SCREEN_WIDTH, BaseText } from "../components/UI/BaseUI";
 import { BaseSquareButtonContainer, BaseTextInput } from "./UI/BaseUI";
-import * as Util from "../util";
+import * as Util from "../utils";
 import _ from "lodash";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {

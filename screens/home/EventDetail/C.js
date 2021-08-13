@@ -4,7 +4,7 @@ import StampBox from "../../../components/event/StampBox";
 import ScanBox from "../../../components/event/ScanBox";
 import ApplyBox from "../../../components/event/ApplyBox";
 import { BaseText } from "../../../components/UI/BaseUI";
-import * as Util from "../../../util";
+import * as Util from "../../../utils";
 import colors from "../../../constants/Colors";
 
 const C = (props) => {

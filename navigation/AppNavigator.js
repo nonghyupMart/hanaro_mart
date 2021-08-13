@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as Analytics from "expo-firebase-analytics";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
@@ -16,7 +16,7 @@ import { BackHandler, AppState } from "react-native";
 import * as Device from "expo-device";
 import { fetchPushCnt } from "../store/actions/auth";
 import _ from "lodash";
-import * as Util from "../util";
+import * as Util from "../utils";
 import * as Linking from "expo-linking";
 
 const Theme = {
@@ -44,8 +44,90 @@ const AppNavigator = (props) => {
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
   );
-  const userInfo = useSelector((state) => state.auth.userInfo);
 
+  useEffect(() => {
+    const backHandler = createBackHandler();
+    return () => {
+      backHandler.remove();
+    };
+  }, [isBottomNavigation]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        await validateRooting();
+        await initDeepLink();
+        await initNotificationData();
+      } catch (error) {
+        dispatch(
+          CommonActions.setAlert({
+            message: error.message,
+            onPressConfirm: () => {
+              BackHandler.exitApp();
+            },
+          })
+        );
+      }
+    })();
+
+    AppState.addEventListener("change", _handleAppStateChange);
+    notificationListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        // When App is running in the background.
+        dispatch(CommonActions.setNotification(response.notification));
+      });
+    responseListener.current = Notifications.addNotificationReceivedListener(
+      async (notification) => {
+        // When app is running in the foreground.
+        const userInfoData = await Util.getStorageItem("userInfoData");
+        if (!_.isEmpty(userInfoData)) {
+          dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
+        }
+      }
+    );
+    return async () => {
+      await Util.removeStorageItem("notificationData");
+      AppState.removeEventListener("change", _handleAppStateChange);
+      Notifications.removeNotificationSubscription(
+        notificationListener.current
+      );
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
+
+  const createBackHandler = () => {
+    const backAction = () => {
+      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
+      dispatch(CommonActions.setIsLoading(false));
+      return false;
+    };
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+    return backHandler;
+  };
+
+  const initNotificationData = async () => {
+    // When App is not running set received Notification to redux
+    let data = await Util.getStorageItem("notificationData");
+    if (_.isEmpty(data)) return;
+    await dispatch(CommonActions.setNotification(data));
+    await Util.removeStorageItem("notificationData");
+  };
+
+  const initDeepLink = async () => {
+    await Linking.addEventListener("url", _handleUrl);
+    const schemeUrl = await Linking.getInitialURL();
+    CommonActions.navigateByScheme(dispatch, schemeUrl);
+  };
+
+  const validateRooting = async () => {
+    const isRooted = await Device.isRootedExperimentalAsync();
+    if (isRooted) {
+      throw new Error("루팅이 감지되었습니다.\n고객센터에 문의해주세요.");
+    }
+  };
   const currentScreen = () => {
     if (!isUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
@@ -79,104 +161,39 @@ const AppNavigator = (props) => {
     appState.current = nextAppState;
   };
 
-  useEffect(() => {
-    const backAction = () => {
-      dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
-      dispatch(CommonActions.setIsLoading(false));
-      return false;
-    };
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-    return () => {
-      backHandler.remove();
-    };
-  }, [isBottomNavigation]);
+  const onReady = () => {
+    isReadyRef.current = true;
+    routingInstrumentation.registerNavigationContainer(navigationRef);
+  };
 
-  useEffect(() => {
-    (async () => {
-      await Linking.addEventListener("url", _handleUrl);
-      const isRooted = await Device.isRootedExperimentalAsync();
-      if (isRooted) {
-        return dispatch(
-          CommonActions.setAlert({
-            message: "루팅이 감지되었습니다.\n고객센터에 문의해주세요.",
-            onPressConfirm: () => {
-              BackHandler.exitApp();
-            },
-          })
-        );
-      }
+  const onStateChange = async (prevState, currentState) => {
+    const previousRouteName = routeNameRef.current;
+    if (!navigationRef.current.getCurrentRoute()) return;
+    const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
-      const schemeUrl = await Linking.getInitialURL();
-      CommonActions.navigateByScheme(dispatch, schemeUrl);
+    if (previousRouteName !== currentRouteName) {
+      // The line below uses the expo-firebase-analytics tracker
+      // https://docs.expo.io/versions/latest/sdk/firebase-analytics/
+      // Change this line to use another Mobile analytics SDK
+      await Analytics.setCurrentScreen(currentRouteName);
+    }
 
-      // When App is not running set received Notification to redux
-      let data = await Util.getStorageItem("notificationData");
-      if (_.isEmpty(data)) return;
-      await dispatch(CommonActions.setNotification(data));
-      await Util.removeStorageItem("notificationData");
-    })();
-
-    AppState.addEventListener("change", _handleAppStateChange);
-    notificationListener.current =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        // When App is running in the background.
-        // console.warn(JSON.stringify(response, null, "\t"));
-        // console.warn(response.notification.request.content.data);
-        dispatch(CommonActions.setNotification(response.notification));
-      });
-    responseListener.current = Notifications.addNotificationReceivedListener(
-      async (notification) => {
-        // When app is running in the foreground.
-        // console.warn(JSON.stringify(notification, null, "\t"));
-        //  console.warn(notification.request.content.data);
-        // dispatch(CommonActions.setNotification(notification));
-        const userInfoData = await Util.getStorageItem("userInfoData");
-        if (!_.isEmpty(userInfoData)) {
-          dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
-        }
-      }
-    );
-    return async () => {
-      await Util.removeStorageItem("notificationData");
-      AppState.removeEventListener("change", _handleAppStateChange);
-      Notifications.removeNotificationSubscription(notificationListener);
-      Notifications.removeNotificationSubscription(responseListener);
-    };
-  }, []);
-
+    // Save the current route name for later comparison
+    routeNameRef.current = currentRouteName;
+  };
   return (
-    <Fragment>
+    <>
       {isLoading && <Loading isLoading={isLoading} />}
       {alert && <Alert alert={alert} />}
       <NavigationContainer
         theme={Theme}
         ref={navigationRef}
-        onReady={() => {
-          isReadyRef.current = true;
-          routingInstrumentation.registerNavigationContainer(navigationRef);
-        }}
-        onStateChange={async (prevState, currentState) => {
-          const previousRouteName = routeNameRef.current;
-          if (!navigationRef.current.getCurrentRoute()) return;
-          const currentRouteName = navigationRef.current.getCurrentRoute().name;
-
-          if (previousRouteName !== currentRouteName) {
-            // The line below uses the expo-firebase-analytics tracker
-            // https://docs.expo.io/versions/latest/sdk/firebase-analytics/
-            // Change this line to use another Mobile analytics SDK
-            await Analytics.setCurrentScreen(currentRouteName);
-          }
-
-          // Save the current route name for later comparison
-          routeNameRef.current = currentRouteName;
-        }}
+        onReady={onReady}
+        onStateChange={onStateChange}
       >
         {currentScreen()}
       </NavigationContainer>
-    </Fragment>
+    </>
   );
 };
 

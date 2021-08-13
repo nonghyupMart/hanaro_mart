@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 
 export const fetchLeaflet = (query) => {
   const url = queryString.stringifyUrl({
@@ -9,7 +9,7 @@ export const fetchLeaflet = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -28,7 +28,7 @@ export const fetchLeafletDetail = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -48,7 +48,7 @@ export const fetchProduct = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -76,7 +76,7 @@ export const fetchProductDetail = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -96,7 +96,7 @@ export const addCart = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isNoLoading: true })
       .post(url, data)
       .then(async (response) => {

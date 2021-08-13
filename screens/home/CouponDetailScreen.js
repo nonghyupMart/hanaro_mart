@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Image, TouchableOpacity, Text } from "react-native";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import { View, Text as TextView, StyleSheet, Platform } from "react-native";
 import {
   DetailContainer,

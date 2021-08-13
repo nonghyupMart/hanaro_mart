@@ -1,5 +1,5 @@
 import * as SQLite from "expo-sqlite";
-import * as Util from "../util";
+import * as Util from "../utils";
 
 const db = SQLite.openDatabase(Util.storagePrefix + "HanaroPlus.db");
 

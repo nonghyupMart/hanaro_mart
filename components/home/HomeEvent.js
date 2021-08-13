@@ -16,7 +16,7 @@ import * as eventActions from "../../store/actions/event";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import _ from "lodash";
 import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
 import { CATEGORY } from "../../constants";

@@ -1,6 +1,6 @@
 import { initSQLite } from "./db";
 import { LogBox } from "react-native";
-import { initNotification } from "./notification";
+import { initNotificationReceiver } from "./notification";
 import * as SplashScreen from "expo-splash-screen";
 
 export { routingInstrumentation } from "./sentry";
@@ -10,7 +10,7 @@ export { initStatusBarStyle } from "./statusBar";
 
 export const init = () => {
   initSQLite();
-  initNotification();
+  initNotificationReceiver();
   SplashScreen.preventAutoHideAsync();
   LogBox.ignoreLogs(["Expected", "No native", "Require cycle", "cycles"]);
 };

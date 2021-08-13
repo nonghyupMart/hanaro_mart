@@ -12,7 +12,7 @@ import { BaseImage, BaseText } from "../../components/UI/BaseUI";
 import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
 
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import moment from "moment";
 import _ from "lodash";
 

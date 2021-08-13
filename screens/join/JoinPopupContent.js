@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import moment from "moment";
 import { BaseText } from "../../components/UI/BaseUI";
-import { formatPhoneNumber } from "../../util";
+import { formatPhoneNumber } from "../../utils";
 
 const JoinPopupContent = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);

@@ -23,7 +23,7 @@ import Memo from "../components/wish/Memo";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 import colors from "../constants/Colors";
-import * as Util from "../util";
+import * as Util from "../utils";
 
 const WishProductScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);

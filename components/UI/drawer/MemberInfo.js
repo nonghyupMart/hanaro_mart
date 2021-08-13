@@ -6,7 +6,7 @@ import _ from "lodash";
 import { LinearGradient } from "expo-linear-gradient";
 import UserName from "../../UI/UserName";
 import UserPhoneNumber from "../../UI/UserPhoneNumber";
-import * as Util from "../../../util";
+import * as Util from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 

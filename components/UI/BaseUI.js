@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
 import { IMAGE_URL } from "../../constants";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import {
   Dimensions,
   TouchableOpacity,

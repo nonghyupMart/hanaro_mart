@@ -10,7 +10,7 @@ import {
   BaseText,
 } from "../BaseUI";
 import { withdrawalFinish } from "../../../store/actions/auth";
-import * as Util from "../../../util";
+import * as Util from "../../../utils";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as Updates from "expo-updates";

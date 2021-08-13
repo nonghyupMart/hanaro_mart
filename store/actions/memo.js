@@ -8,7 +8,7 @@ import {
   deleteMemo,
 } from "../../helpers/db";
 import { ADD_MEMO, SET_MEMOS, DELETE_MEMO } from "./actionTypes";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 
 export const addMemo = (title, isChecked) => {
   return async (dispatch) => {

@@ -24,7 +24,7 @@ import useWindowDimensions from "./utils/useWindowDimensions";
 import useIsKeyboardShown from "./utils/useIsKeyboardShown";
 import Color from "color";
 import ConstantsColors from "../../../constants/Colors";
-import * as Util from "../../../util";
+import * as Util from "../../../utils";
 
 import type { MaterialTopTabBarProps } from "./types";
 const useNativeDriver = Platform.OS !== "web";

@@ -1,13 +1,13 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 
 export const fetchAddress1 = () => {
   const url = queryString.stringifyUrl({
     url: `/lname`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -23,7 +23,7 @@ export const fetchAddress2 = (lname) => {
     url: `/${lname}/mname`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -43,7 +43,7 @@ export const fetchBranches = (query) => {
   if (url === prevUrl) return async (dispatch, getState) => {};
   prevUrl = url;
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -64,7 +64,7 @@ export const fetchBranch = (store_cd) => {
     url: `/store/${store_cd}`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -80,7 +80,7 @@ export const fetchBranchNear = (query) => {
     query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -96,7 +96,7 @@ export const fetchStoreMark = (query) => {
     query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -116,7 +116,7 @@ export const deleteMarkedStore = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .delete(url)
       .then(async (response) => {

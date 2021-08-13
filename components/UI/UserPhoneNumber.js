@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import { formatPhoneNumber } from "../../util";
+import { formatPhoneNumber } from "../../utils";
 const UserPhoneNumber = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   return (

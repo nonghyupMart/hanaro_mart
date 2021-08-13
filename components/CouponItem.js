@@ -7,7 +7,7 @@ import {
   BaseTouchable,
   BaseText,
 } from "../components/UI/BaseUI";
-import * as Util from "../util";
+import * as Util from "../utils";
 
 const CouponItem = (props) => {
   return (

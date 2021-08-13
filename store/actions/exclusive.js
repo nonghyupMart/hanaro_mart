@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 
 export const fetchExclusive = (query) => {
   if (!query.page) query.page = "1";
@@ -9,7 +9,7 @@ export const fetchExclusive = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -33,7 +33,7 @@ export const fetchExclusiveDetail = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {

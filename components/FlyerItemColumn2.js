@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { BaseImage, BaseText } from "../components/UI/BaseUI";
 const { width, height } = Dimensions.get("window");
-import * as Util from "../util";
+import * as Util from "../utils";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
 import moment from "moment";

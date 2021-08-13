@@ -8,7 +8,7 @@ import {
   BaseText,
   SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import _ from "lodash";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { useSelector, useDispatch } from "react-redux";

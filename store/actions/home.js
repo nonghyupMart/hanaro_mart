@@ -1,17 +1,16 @@
 import queryString from "query-string";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
-
+console.log(Util.http);
 export const fetchHomeBanner = (query) => {
   const url = queryString.stringifyUrl({
     url: `/home-banner`,
     query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -31,7 +30,7 @@ export const fetchHomeNotice = (query = {}) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -56,7 +55,7 @@ export const fetchHomeProducts = (query = {}) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -78,7 +77,7 @@ export const fetchHomeNaro = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -101,7 +100,7 @@ export const fetchPopup = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {

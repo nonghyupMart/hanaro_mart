@@ -11,7 +11,7 @@ import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import _ from "lodash";
 import { styles } from "../../screens/home/FlyerScreen";
 import FlyerItemColumn2 from "../../components/FlyerItemColumn2";

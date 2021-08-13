@@ -16,7 +16,7 @@ import colors from "../constants/Colors";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as authActions from "../store/actions/auth";
 import _ from "lodash";
-import * as Util from "../util";
+import * as Util from "../utils";
 
 const LoginScreen = (props) => {
   const dispatch = useDispatch();

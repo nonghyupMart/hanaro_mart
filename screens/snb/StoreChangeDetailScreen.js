@@ -14,7 +14,7 @@ import {
   BaseText,
 } from "../../components/UI/BaseUI";
 import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import colors from "../../constants/Colors";
 
 import StoreItem from "../../components/store/StoreItem";

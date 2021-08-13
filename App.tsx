@@ -19,7 +19,7 @@ import {
 init();
 
 export default function App() {
-  const [fontLoaded, setFontLoaded] = useState(false);
+  const [fontLoaded, setFontLoaded] = useState<Boolean>(false);
   if (Constants.manifest.releaseChannel === "prod") {
     usePreventScreenCapture();
   }

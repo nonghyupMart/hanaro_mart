@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 
 export const fetchCoupon = (query) => {
   query.limit = 40;
@@ -12,7 +12,7 @@ export const fetchCoupon = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -54,7 +54,7 @@ export const downloadCoupon = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
@@ -87,7 +87,7 @@ export const useCoupon = (query) => {
   });
   return async (dispatch, getState) => {
     const data = JSON.stringify(query);
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
@@ -110,7 +110,7 @@ export const fetchCouponDetail = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {

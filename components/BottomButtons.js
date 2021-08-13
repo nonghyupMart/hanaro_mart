@@ -14,7 +14,7 @@ import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
 import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
-import * as Util from "../util";
+import * as Util from "../utils";
 import { checkAuth, checkSetStore } from "../store/actions/auth";
 
 const BottomButtons = (props) => {

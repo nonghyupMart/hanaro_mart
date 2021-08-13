@@ -2,7 +2,7 @@ import queryString from "query-string";
 import * as Sentry from "sentry-expo";
 import * as Analytics from "expo-firebase-analytics";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import * as Updates from "expo-updates";
 import _ from "lodash";
 import Constants from "expo-constants";
@@ -14,7 +14,6 @@ import {
   showServiceErrorAlert,
 } from "../actions/common";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
 import * as RootNavigation from "../../navigation/RootNavigation";
 
 export const setIsUpdated = (isUpdated) => {
@@ -44,7 +43,7 @@ export const signup = (query) => {
       url = queryString.stringifyUrl({
         url: `/v1/user_add`,
       });
-      return http
+      return Util.http
         .init({ dispatch: dispatch, isAutoOff: true })
         .post(url, data)
         .then(async (response) => setResponse(response));
@@ -52,7 +51,7 @@ export const signup = (query) => {
       url = queryString.stringifyUrl({
         url: `/v1/user_modify`,
       });
-      return http
+      return Util.http
         .init({ dispatch: dispatch, isAutoOff: true })
         .patch(url, data)
         .then(async (response) => setResponse(response));
@@ -71,6 +70,7 @@ export const setLocation = (location) => {
 export const setIsJoin = (status) => {
   return { type: actionTypes.SET_IS_JOIN, isJoin: status };
 };
+
 export const setUserInfo = (userInfo) => {
   return async (dispatch) => {
     if (!_.isEmpty(userInfo)) {
@@ -86,9 +86,11 @@ export const setUserInfo = (userInfo) => {
     dispatch({ type: actionTypes.SET_USER_INFO, userInfo: userInfo });
   };
 };
+
 export const setCI = (ci) => {
   return { type: actionTypes.SET_CI, ci: ci };
 };
+
 export const saveUserStore = (userStore) => {
   return async (dispatch) => {
     dispatch({ type: actionTypes.SET_USER_STORE, userStore: userStore });
@@ -100,7 +102,7 @@ export const fetchPushCnt = (query) => {
     url: `push-cnt`,
   });
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
@@ -120,7 +122,7 @@ export const getWishCnt = (query) => {
   });
 
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
@@ -140,7 +142,7 @@ export const loginWithUserCd = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
@@ -155,7 +157,7 @@ export const setUserStore = (query, userStore) => {
   });
   const data = JSON.stringify(query);
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
@@ -188,6 +190,7 @@ export const withdrawal = (query) => {
     return resData.data;
   };
 };
+
 export const withdrawalFinish = () => {
   return async (dispatch) => {
     await Util.clearAllData();
@@ -196,15 +199,18 @@ export const withdrawalFinish = () => {
     await dispatch(setIsLoading(false));
   };
 };
+
 export const saveUserInfoToStorage = async (userInfo) => {
   return Util.setStorageItem("userInfoData", userInfo);
 };
+
 export const saveUserTelToStorage = async (tel) => {
   const telData = await Util.getStorageItem("telData");
   if (!tel) return telData;
   if (telData) return;
   await Util.setStorageItem("telData", tel);
 };
+
 export const saveUserStoreToStorage = async (store) => {
   if (_.isEmpty(store)) {
     return Util.removeStorageItem("userStoreData");
@@ -221,7 +227,7 @@ export const setReference = (query) => {
     url: `/recommend`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
@@ -331,7 +337,7 @@ export const fetchUpdate = () => {
     url: `/popup?update_yn=Y`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
@@ -388,7 +394,7 @@ export const loginWithID = (query) => {
   });
   const data = JSON.stringify(query);
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {

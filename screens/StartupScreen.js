@@ -6,7 +6,7 @@ import * as authActions from "../store/actions/auth";
 import Splash from "../components/UI/Splash";
 import * as CommonActions from "../store/actions/common";
 import moment from "moment";
-import * as Util from "../util";
+import * as Util from "../utils";
 import _ from "lodash";
 import * as SplashScreen from "expo-splash-screen";
 import * as Notifications from "expo-notifications";

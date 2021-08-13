@@ -1,7 +1,7 @@
 import * as Notifications from "expo-notifications";
 import { saveNotificationToStorage } from "../store/actions/common";
 
-export const initNotification = () => {
+export const initNotificationReceiver = () => {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({ shouldShowAlert: true }),
   });

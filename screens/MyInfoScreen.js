@@ -20,7 +20,7 @@ import {
   Image,
 } from "react-native";
 import _ from "lodash";
-import * as Util from "../util";
+import * as Util from "../utils";
 import moment from "moment";
 
 import BaseScreen from "../components/BaseScreen";

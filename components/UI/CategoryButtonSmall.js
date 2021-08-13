@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { BaseText } from "./BaseUI";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 
 const CategoryButtonSmall = (props) => {
   if (props.type_val === props.item.type_val)

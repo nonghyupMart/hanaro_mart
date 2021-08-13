@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 import { API_URL } from "../../constants";
 import { getResponse } from "./auth";
 
@@ -12,7 +12,7 @@ export const fetchWishItem = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -32,7 +32,7 @@ export const addWishItem = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .post(url, data)
       .then(async (response) => {

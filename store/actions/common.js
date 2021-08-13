@@ -1,5 +1,5 @@
 import moment from "moment";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import queryString from "query-string";
 import * as Updates from "expo-updates";
 import * as actionTypes from "./actionTypes";

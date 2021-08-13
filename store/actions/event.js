@@ -1,6 +1,6 @@
 import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
-import http from "../../util/axios-instance";
+import * as Util from "../../utils";
 
 export const fetchEvent = (query) => {
   if (!query.page) query.page = "1";
@@ -9,7 +9,7 @@ export const fetchEvent = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -35,7 +35,7 @@ export const fetchEventDetail = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
@@ -64,7 +64,7 @@ export const applyEvent = (query) => {
     url: `/event`,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
@@ -79,7 +79,7 @@ export const applyStamp = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
@@ -95,7 +95,7 @@ export const exchangeStamp = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
@@ -111,7 +111,7 @@ export const interimExchangeStamp = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
@@ -127,7 +127,7 @@ export const fetchStampHistory = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {

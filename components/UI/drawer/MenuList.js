@@ -17,7 +17,7 @@ import {
   BaseText,
 } from "../../UI/BaseUI";
 import _ from "lodash";
-import * as Util from "../../../util";
+import * as Util from "../../../utils";
 import * as Linking from "expo-linking";
 import {
   checkSetStore,

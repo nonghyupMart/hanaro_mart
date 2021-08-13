@@ -27,7 +27,7 @@ import HomeBanner from "../../components/home/HomeBanner";
 import HomeEvent from "../../components/home/HomeEvent";
 import HomeProducts from "../../components/home/HomeProducts";
 import AppPopup from "../../components/home/AppPopup";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import * as authActions from "../../store/actions/auth";
@@ -47,7 +47,7 @@ const HomeScreen = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const link = useSelector((state) => state.common.link);
 
-  initNotificationReceiver(routeName);
+  processNotifications(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
@@ -148,7 +148,7 @@ const HomeScreen = (props) => {
     </>
   );
 };
-const initNotificationReceiver = (routeName) => {
+const processNotifications = (routeName) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
   const isLoading = useSelector((state) => state.common.isLoading);

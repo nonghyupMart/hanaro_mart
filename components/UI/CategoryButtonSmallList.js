@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
 import { BaseText } from "./BaseUI";
-import * as Util from "../../util";
+import * as Util from "../../utils";
 import CategoryButtonSmall from "./CategoryButtonSmall";
 import { View } from "react-native";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
