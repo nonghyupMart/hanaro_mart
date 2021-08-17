@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "../screens/StartupScreen";
-import PopupScreen from "../screens/PopupScreen";
+import StorePopupScreen from "../screens/StorePopupScreen";
 import UpdateScreen from "../screens/UpdateScreen";
 import Alert from "../components/UI/Alert";
 import Loading from "../components/UI/Loading";
@@ -35,9 +35,9 @@ const AppNavigator = (props) => {
   const isLoading = useSelector((state:RootState) => state.common.isLoading);
   const alert = useSelector((state:RootState) => state.common.alert);
   const didTryAutoLogin = useSelector((state:RootState) => state.auth.didTryAutoLogin);
-  const isJoin = useSelector((state:RootState) => state.auth.isJoin);
-  const didTryPopup = useSelector((state:RootState) => state.common.didTryPopup);
-  const isUpdated = useSelector((state:RootState) => state.auth.isUpdated);
+  const isJoined = useSelector((state:RootState) => state.auth.isJoined);
+  const didTryStorePopup = useSelector((state:RootState) => state.common.didTryStorePopup);
+  const isAppUpdated = useSelector((state:RootState) => state.auth.isAppUpdated);
   const isBottomNavigation = useSelector(
     (state:RootState) => state.common.isBottomNavigation
   );
@@ -90,10 +90,10 @@ const AppNavigator = (props) => {
 
 
   const currentScreen = () => {
-    if (!isUpdated) return <UpdateScreen />;
-    else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
-    else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
-    else if (isJoin && didTryAutoLogin && didTryPopup) return <MainNavigator />;
+    if (!isAppUpdated) return <UpdateScreen />;
+    else if (didTryAutoLogin && !didTryStorePopup) return <StorePopupScreen />;
+    else if (!didTryAutoLogin && !didTryStorePopup) return <StartupScreen />;
+    else if (isJoined && didTryAutoLogin && didTryStorePopup) return <MainNavigator />;
     else if (didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
   };

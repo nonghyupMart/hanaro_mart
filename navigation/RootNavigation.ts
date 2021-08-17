@@ -5,7 +5,7 @@ export const isReadyRef = React.createRef() as any;
 export const navigationRef = React.createRef() as any;
 import { DrawerActions } from "@react-navigation/native";
 
-export const navigate = (name, params) => {
+export const navigate = (name, params = null) => {
   if (isReadyRef.current && navigationRef.current) {
     navigationRef.current?.navigate(name, params);
   }

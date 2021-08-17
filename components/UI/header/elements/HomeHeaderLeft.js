@@ -16,7 +16,7 @@ const HomeHeaderLeft = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const pushCnt = useSelector((state) => state.auth.pushCnt);
   const wishCnt = useSelector((state) => state.auth.wishCnt);
   return (
@@ -38,7 +38,7 @@ const HomeHeaderLeft = (props) => {
       </Btn>
       <Btn
         onPress={async () => {
-          if (await checkAuth(dispatch, isJoin)) {
+          if (await checkAuth(dispatch, isJoined)) {
             RootNavigation.navigate("WishProduct");
           }
         }}

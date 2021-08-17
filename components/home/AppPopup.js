@@ -24,9 +24,9 @@ const AppPopup = (props) => {
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
-  const didTryPopup = useSelector((state) => state.common.didTryPopup);
+  const didTryStorePopup = useSelector((state) => state.common.didTryStorePopup);
   useEffect(() => {
-    if (isAppPopup && props.isFocused && typeof didTryPopup !== "string") {
+    if (isAppPopup && props.isFocused && typeof didTryStorePopup !== "string") {
       setIsVisible(true);
     }
     if (!props.isFocused) {
@@ -100,7 +100,7 @@ const AppPopup = (props) => {
                 onPress={() => {
                   if (item.link_url) Linking.openURL(item.link_url);
                   else if (item.link_gbn) {
-                    dispatch(CommonActions.setDidTryPopup(item));
+                    dispatch(CommonActions.setDidTryStorePopup(item));
                   }
                 }}
               >

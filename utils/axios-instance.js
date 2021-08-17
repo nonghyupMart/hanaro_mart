@@ -93,7 +93,12 @@ export const http = (() => {
     }
   );
   return {
-    init: ({ dispatch, isAutoOff, isNoLoading, baseURL }) => {
+    init: ({
+      dispatch,
+      isAutoOff = false,
+      isNoLoading = false,
+      baseURL = API_URL,
+    }) => {
       _dispatch = dispatch;
       if (isAutoOff) _isAutoOff = isAutoOff;
       if (isNoLoading) _isNoLoading = isNoLoading;

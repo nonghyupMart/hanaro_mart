@@ -24,16 +24,13 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { getIsStorePopup } from "../screens/StartupScreen";
+import { getIsStorePopup } from "./StartupScreen";
 import colors from "../constants/Colors";
 
-const PopupScreen = (props) => {
+const StorePopupScreen = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
-  const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const storePopup = useSelector((state) => state.home.storePopup);
-  const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   let isPopupStoreFromStorage;
   (async () => {
     isPopupStoreFromStorage = await getIsStorePopup(dispatch);
@@ -71,14 +68,14 @@ const PopupScreen = (props) => {
             }
             //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
             if (!moment(setDate).isBefore(moment(), "day")) {
-              dispatch(CommonActions.setDidTryPopup(true));
+              dispatch(CommonActions.setDidTryStorePopup(true));
             }
           } else {
-            dispatch(CommonActions.setDidTryPopup(true));
+            dispatch(CommonActions.setDidTryStorePopup(true));
           }
         });
       } else {
-        dispatch(CommonActions.setDidTryPopup(true));
+        dispatch(CommonActions.setDidTryStorePopup(true));
       }
     })();
     return () => {};
@@ -92,7 +89,7 @@ const PopupScreen = (props) => {
         userStore.storeInfo.store_cd,
         dispatch
       );
-      await dispatch(CommonActions.setDidTryPopup(true));
+      await dispatch(CommonActions.setDidTryStorePopup(true));
     })();
   };
   if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt <= 0)
@@ -128,7 +125,7 @@ const PopupScreen = (props) => {
               onPress={() => {
                 if (item.link_url) Linking.openURL(item.link_url);
                 else if (item.link_gbn) {
-                  dispatch(CommonActions.setDidTryPopup(item));
+                  dispatch(CommonActions.setDidTryStorePopup(item));
                 }
               }}
             >
@@ -150,7 +147,7 @@ const PopupScreen = (props) => {
         </BtnWarpper>
         <BtnWarpper
           onPress={async () => {
-            await dispatch(CommonActions.setDidTryPopup(true));
+            await dispatch(CommonActions.setDidTryStorePopup(true));
           }}
         >
           <BtnText>닫기</BtnText>
@@ -214,4 +211,4 @@ const Container = styled.View({
   width: "100%",
   height: "100%",
 });
-export default PopupScreen;
+export default StorePopupScreen;

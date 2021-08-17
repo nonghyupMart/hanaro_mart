@@ -10,16 +10,16 @@ import * as Notifications from "expo-notifications";
 import {
   setAlert,
   setIsLoading,
-  setDidTryPopup,
+  setDidTryStorePopup,
   showServiceErrorAlert,
-} from "../actions/common";
+} from "./common";
 import * as actionTypes from "./actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 
-export const setIsUpdated = (isUpdated) => {
+export const setIsAppUpdated = (isAppUpdated) => {
   return {
-    type: actionTypes.SET_IS_UPDATED,
-    isUpdated: isUpdated,
+    type: actionTypes.SET_IS_APP_UPDATED,
+    isAppUpdated: isAppUpdated,
   };
 };
 
@@ -27,7 +27,7 @@ export const setDidTryAL = () => {
   return { type: actionTypes.SET_DID_TRY_AL };
 };
 
-export const signup = (query) => {
+export const signUp = (query) => {
   let url;
   const data = JSON.stringify(query);
 
@@ -65,10 +65,6 @@ export const setPushToken = (pushToken) => {
 
 export const setLocation = (location) => {
   return { type: actionTypes.SET_LOCATION, location: location };
-};
-
-export const setIsJoin = (status) => {
-  return { type: actionTypes.SET_IS_JOIN, isJoin: status };
 };
 
 export const setUserInfo = (userInfo) => {
@@ -236,15 +232,15 @@ export const setReference = (query) => {
   };
 };
 
-export const updateUserInfo = async ({
+export const fetchUserInfo = async ({
   dispatch,
   userInfo,
-  token,
+  pushToken,
   userStore,
 }) => {
   if (_.isEmpty(userInfo) || !userInfo.recommend) return;
 
-  let tk = `${token}`.trim();
+  let tk = `${pushToken}`.trim();
 
   if (Constants.isDevice && !tk)
     tk = (await Notifications.getExpoPushTokenAsync()).data.trim();
@@ -256,7 +252,7 @@ export const updateUserInfo = async ({
     store_cd: userStore.storeInfo.store_cd,
   };
   if (tk) {
-    query.token = tk;
+    query['token'] = tk;
     await dispatch(setPushToken(tk));
   }
 
@@ -297,7 +293,7 @@ export const saveUserData = async (dispatch, data) => {
   await dispatch(saveUserStore(obj));
   await saveUserStoreToStorage(obj);
   if (_.isEmpty(obj)) {
-    dispatch(setDidTryPopup(false));
+    dispatch(setDidTryStorePopup(false));
   }
 };
 
@@ -350,8 +346,8 @@ export const fetchUpdate = () => {
   };
 };
 
-export const checkAuth = (dispatch, isJoin) => {
-  if (isJoin) return true;
+export const checkAuth = (dispatch, isJoined) => {
+  if (isJoined) return true;
   dispatch(
     setAlert({
       message: "로그인후 사용하실 수\n있는 메뉴입니다.",
@@ -402,8 +398,7 @@ export const loginWithID = (query) => {
         if (response.data.userInfo) {
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
-          await dispatch(setDidTryPopup(false));
-          await dispatch(setIsJoin(true));
+          await dispatch(setDidTryStorePopup(false));
           await RootNavigation.navigate("Home");
         }
         return response.data;

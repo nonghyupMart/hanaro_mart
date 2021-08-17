@@ -15,7 +15,7 @@ import { useNavigationState } from "@react-navigation/native";
 import {
   setAlert,
   setIsLoading,
-  setDidTryPopup,
+  setDidTryStorePopup,
 } from "../../store/actions/common";
 import * as Notifications from "expo-notifications";
 import JoinPopupContent from "../../screens/join/JoinPopupContent";
@@ -125,8 +125,7 @@ export const ExtendedWebView = (props) => {
             await authActions.saveUserData(dispatch, data);
             if (isLoading) await dispatch(setIsLoading(false));
             if (!_.isEmpty(alert)) await dispatch(setAlert(null));
-            await dispatch(CommonActions.setDidTryPopup(false));
-            await dispatch(authActions.setIsJoin(true));
+            await dispatch(CommonActions.setDidTryStorePopup(false));
             await finish();
           }
         });

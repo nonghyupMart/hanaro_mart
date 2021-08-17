@@ -30,7 +30,7 @@ const MenuList = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const [isShow, setIsShow] = useState(false);
   const aniView = useRef(null);
   const [bounceValue, setBounceValue] = useState(new Animated.Value(-30));
@@ -114,7 +114,7 @@ const MenuList = (props) => {
       <MenuButtonContainer>
         <MenuButton
           onPress={async () => {
-            if (await checkAuth(dispatch, isJoin)) {
+            if (await checkAuth(dispatch, isJoined)) {
               props.navigation.navigate("Inquiry");
             }
           }}
@@ -127,7 +127,7 @@ const MenuList = (props) => {
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={async () => {
-            if (await checkAuth(dispatch, isJoin)) {
+            if (await checkAuth(dispatch, isJoined)) {
               props.navigation.navigate("MyPage");
             }
           }}
@@ -140,7 +140,7 @@ const MenuList = (props) => {
       <MenuButtonContainer style={{ borderBottomWidth: 0 }}>
         <MenuButton
           onPress={async () => {
-            if (await checkAuth(dispatch, isJoin)) {
+            if (await checkAuth(dispatch, isJoined)) {
               props.navigation.navigate("WishProduct");
             }
           }}
