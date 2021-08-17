@@ -9,6 +9,7 @@ import UserPhoneNumber from "../../UI/UserPhoneNumber";
 import * as Util from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import colors from "../../../constants/Colors";
 
 const MemberInfo = (props) => {
   const dispatch = useDispatch();

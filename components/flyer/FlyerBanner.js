@@ -11,8 +11,7 @@ import {
 import * as Util from "../../utils";
 import _ from "lodash";
 import * as RootNavigation from "../../navigation/RootNavigation";
-import { useSelector, useDispatch } from "react-redux";
-import { setCarousel } from "../../store/actions/flyer";
+import colors from "../../constants/Colors";
 
 let prevPage = 0;
 

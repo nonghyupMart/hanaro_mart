@@ -9,7 +9,7 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Modal from "react-native-modal";
-
+import colors from "../../constants/Colors";
 import {
   DetailContainer,
   ScaledImage,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import { BaseText } from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
 
 const InfoBox = (props) => {
   return (

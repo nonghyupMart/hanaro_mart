@@ -2,15 +2,10 @@ import React from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
 import { Platform, View, StyleSheet } from "react-native";
-import {
-  BaseTouchable,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "../../components/UI/BaseUI";
-import Constants from "expo-constants";
+import { BaseText } from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
 import _ from "lodash";
+
 const NoList = (props) => {
   return (
     <EmptyScreen style={[props.style]}>

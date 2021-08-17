@@ -10,11 +10,12 @@ import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
+import { RootState } from "../store/root-state";
 
 const HomeStackNavigator = createStackNavigator();
 
 export const HomeNavigator = ({ navigation, route }) => {
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
   return (
     <Fragment>
       <HomeStackNavigator.Navigator

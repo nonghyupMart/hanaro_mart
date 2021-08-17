@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { StyleSheet } from "react-native";
 import { BaseText } from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
+
 export const WarnText = styled(BaseText)({
   marginTop: 25,
   fontSize: 9,

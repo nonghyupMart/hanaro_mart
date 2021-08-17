@@ -13,7 +13,7 @@ import exhibitionReducer from "../store/reducers/exhibition";
 import exclusiveReducer from "../store/reducers/exclusive";
 import memoReducer from "../store/reducers/memo";
 import wishReducer from "../store/reducers/wish";
-import { WITHDRAWAL } from "../store/actions/auth";
+import { WITHDRAWAL } from "../store/actions/actionTypes";
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -28,7 +28,7 @@ const appReducer = combineReducers({
   wish: wishReducer,
   memo: memoReducer,
 });
-const rootReducer = (state, action) => {
+export const rootReducer = (state, action) => {
   if (action.type === WITHDRAWAL) {
     // for all keys defined in your persistConfig(s)
     // AsyncStorage.removeItem("persist:root");

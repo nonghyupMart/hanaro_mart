@@ -1,7 +1,7 @@
 import { BackHandler } from "react-native";
 import * as CommonActions from "../store/actions/common";
 
-export const createBackHandler = (dispatch) => {
+export const createBackHandler = (dispatch, isBottomNavigation) => {
   const backAction = () => {
     dispatch(CommonActions.setBottomNavigation(isBottomNavigation));
     dispatch(CommonActions.setIsLoading(false));

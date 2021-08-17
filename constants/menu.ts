@@ -2,9 +2,7 @@ import FlyerScreen from "../screens/home/FlyerScreen";
 import EventScreen from "../screens/home/EventScreen";
 import ExhibitionScreen from "../screens/home/ExhibitionScreen";
 import NaroTubeScreen from "../screens/home/NaroTubeScreen";
-import CouponScreen, {
-  screenOptions as CouponScreenOptions,
-} from "../screens/home/CouponScreen";
+import CouponScreen from "../screens/home/CouponScreen";
 
 export const TabMenus = [
   {
@@ -33,7 +31,6 @@ export const TabMenus = [
   },
   {
     components: NaroTubeScreen,
-    subComponents: NaroTubeScreen,
     name: "NaroTube",
     title: "나로튜브",
     icon: require("../assets/images/pictures.png"),

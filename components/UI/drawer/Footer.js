@@ -13,7 +13,7 @@ import { withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../utils";
 import _ from "lodash";
 import Constants from "expo-constants";
-import * as Updates from "expo-updates";
+import colors from "../../../constants/Colors";
 
 const Footer = (props) => {
   const dispatch = useDispatch();

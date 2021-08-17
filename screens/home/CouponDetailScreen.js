@@ -22,6 +22,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import { SET_COUPON_DETAIL } from "../../store/actions/actionTypes";
 import Barcode from "../../components/Barcode";
 import * as Brightness from "expo-brightness";
+import colors from "../../constants/Colors";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;

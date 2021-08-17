@@ -10,7 +10,7 @@ import {
   BaseButtonContainer,
   BaseText,
 } from "../../components/UI/BaseUI";
-
+import colors from "../../constants/Colors";
 // import Barcode from "react-native-jsbarcode";
 import { Text as TextView, StyleSheet, Platform, Image } from "react-native";
 

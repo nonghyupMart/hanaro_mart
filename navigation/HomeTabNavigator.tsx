@@ -6,6 +6,8 @@ import _ from "lodash";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
 import * as Screens from "../screens";
 import { TabMenus } from "../constants/menu";
+import { RootState } from "../store/root-state";
+import colors from "../constants/Colors";
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
@@ -20,15 +22,14 @@ const getTabBarVisible = (route) => {
 };
 
 export const HomeTabNavigator = ({ navigation, route }) => {
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state:RootState) => state.auth.userStore);
+  const userInfo = useSelector((state:RootState) => state.auth.userInfo);
   const menuList =
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
   return (
     <HomeTopTabNavigator.Navigator
       backBehavior="initialRoute"
-      onStateChange={() => {}}
       lazy={true}
       // optimizationsEnabled={true}
       tabBar={(props) => <MeterialTopTabBar {...props} />}
@@ -70,27 +71,15 @@ export const HomeTabNavigator = ({ navigation, route }) => {
               component={components}
               options={{
                 title: menu.menu_nm,
-                cardStyle: {
-                  backgroundColor: colors.TRUE_WHITE,
-                },
+                // cardStyle: {
+                //   backgroundColor: colors.TRUE_WHITE,
+                // }
               }}
             />
           );
         }
       })}
-      {_.size(menuList) === 0 &&
-        TabMenus.map((tab) => {
-          if (_.isEmpty(userStore))
-            return (
-              <HomeTopTabNavigator.Screen
-                key={tab.name}
-                name={tab.name}
-                component={tab.subComponents}
-                options={{ title: tab.title }}
-              />
-            );
-          return;
-        })}
+     
     </HomeTopTabNavigator.Navigator>
   );
 };

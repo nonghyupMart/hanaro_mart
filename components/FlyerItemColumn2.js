@@ -17,6 +17,7 @@ import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import * as wishActions from "../store/actions/wish";
 import { getWishCnt, checkAuth } from "../store/actions/auth";
+import colors from "../constants/Colors";
 
 const FlyerItemColumn2 = ({
   item,

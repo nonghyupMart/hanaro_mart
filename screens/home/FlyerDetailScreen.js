@@ -3,7 +3,6 @@ import styled from "styled-components/native";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import Gallery from "react-native-image-gallery";
-
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";

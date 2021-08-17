@@ -24,25 +24,26 @@ import {
   getForegroundNotificationListener,
   createBackHandler
 } from "../helpers";
+import { RootState } from "../store/root-state";
 
 const AppNavigator = (props) => {
   const routeNameRef = useRef();
   const routingInstrumentation = props.routingInstrumentation;
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const notificationListener = useRef() as any;
+  const responseListener = useRef()  as any;
   const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const alert = useSelector((state) => state.common.alert);
-  const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
-  const isJoin = useSelector((state) => state.auth.isJoin);
-  const didTryPopup = useSelector((state) => state.common.didTryPopup);
-  const isUpdated = useSelector((state) => state.auth.isUpdated);
+  const isLoading = useSelector((state:RootState) => state.common.isLoading);
+  const alert = useSelector((state:RootState) => state.common.alert);
+  const didTryAutoLogin = useSelector((state:RootState) => state.auth.didTryAutoLogin);
+  const isJoin = useSelector((state:RootState) => state.auth.isJoin);
+  const didTryPopup = useSelector((state:RootState) => state.common.didTryPopup);
+  const isUpdated = useSelector((state:RootState) => state.auth.isUpdated);
   const isBottomNavigation = useSelector(
-    (state) => state.common.isBottomNavigation
+    (state:RootState) => state.common.isBottomNavigation
   );
 
   useEffect(() => {
-    const backHandler = createBackHandler(dispatch);
+    const backHandler = createBackHandler(dispatch, isBottomNavigation);
     return () => {
       backHandler.remove();
     };
@@ -66,20 +67,25 @@ const AppNavigator = (props) => {
       }
     })();
 
+    const appStateHandler = handleAppStateChange.bind(this, dispatch);
     AppState.addEventListener(
       "change",
-      handleAppStateChange.bind(this, dispatch)
+      appStateHandler
     );
     notificationListener.current = getBackgroundNotificationListener(dispatch);
     responseListener.current = getForegroundNotificationListener(dispatch);
     return async () => {
       await Util.removeStorageItem("notificationData");
-      AppState.removeEventListener("change", handleAppStateChange);
+      AppState.removeEventListener("change", appStateHandler);
       Notifications.removeNotificationSubscription(
         notificationListener.current
       );
       Notifications.removeNotificationSubscription(responseListener.current);
     };
+
+    return () => {
+      
+    }
   }, []);
 
 
@@ -97,7 +103,7 @@ const AppNavigator = (props) => {
     routingInstrumentation.registerNavigationContainer(navigationRef);
   };
 
-  const onStateChange = async (prevState, currentState) => {
+  const onStateChange = async () => {
     const previousRouteName = routeNameRef.current;
     if (!navigationRef.current.getCurrentRoute()) return;
     const currentRouteName = navigationRef.current.getCurrentRoute().name;

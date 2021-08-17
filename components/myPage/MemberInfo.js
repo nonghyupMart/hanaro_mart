@@ -5,6 +5,8 @@ import UserName from "../../components/UI/UserName";
 import UserPhoneNumber from "../../components/UI/UserPhoneNumber";
 import { Image, View } from "react-native";
 import { BaseText } from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
+
 const MemberInfo = (props) => {
   return (
     <StoreBox style={{}}>

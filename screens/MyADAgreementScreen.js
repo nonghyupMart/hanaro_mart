@@ -22,7 +22,7 @@ import {
 } from "react-native";
 import _ from "lodash";
 import moment from "moment";
-
+import colors from "../constants/Colors";
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { setAlert, setIsLoading } from "../store/actions/common";

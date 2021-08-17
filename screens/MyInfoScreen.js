@@ -22,7 +22,7 @@ import {
 import _ from "lodash";
 import * as Util from "../utils";
 import moment from "moment";
-
+import colors from "../constants/Colors";
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import Barcode from "../components/Barcode";

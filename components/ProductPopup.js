@@ -7,6 +7,7 @@ import { BaseImage, SCREEN_WIDTH, BaseText } from "../components/UI/BaseUI";
 import { BaseSquareButtonContainer, BaseTextInput } from "./UI/BaseUI";
 import * as Util from "../utils";
 import _ from "lodash";
+import colors from "../constants/Colors";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item || !isVisible || _.isEmpty(item)) return <></>;

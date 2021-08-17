@@ -9,13 +9,14 @@ import {
   drawerStyle,
 } from "../components/UI/CustomDrawerContent";
 import { HomeNavigator } from "./HomeNavigator";
+import { RootState } from "../store/root-state";
 
 // https://reactnavigation.org/docs/drawer-navigator/
 // hide drawer item - https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
 const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useSelector((state:RootState) => state.auth.userStore);
   const [isInitialRender, setIsInitialRender] = useState(true);
 
   if (isInitialRender) {
@@ -38,7 +39,6 @@ export const MainNavigator = (props) => {
           props,
           dispatch,
           !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [],
-          TabMenus
         )
       }
     >

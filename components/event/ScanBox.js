@@ -7,6 +7,7 @@ import {
   SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
 import { Image } from "react-native";
+import colors from "../../constants/Colors";
 
 const ScanBox = (props) => {
   if (props.eventDetail.entry.entry_date_yn !== "Y") return <></>;

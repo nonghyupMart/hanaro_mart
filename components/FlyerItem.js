@@ -9,13 +9,11 @@ import {
   Dimensions,
 } from "react-native";
 import { BaseImage, BaseText } from "../components/UI/BaseUI";
-import { Ionicons } from "@expo/vector-icons";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "../constants";
 import * as Util from "../utils";
 import moment from "moment";
-import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
+import colors from "../constants/Colors";
 
 const defaultImage = require("../assets/icon.png");
 const FlyerItem = (props) => {

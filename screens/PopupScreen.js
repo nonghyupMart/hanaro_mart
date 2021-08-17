@@ -25,6 +25,7 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import { getIsStorePopup } from "../screens/StartupScreen";
+import colors from "../constants/Colors";
 
 const PopupScreen = (props) => {
   const dispatch = useDispatch();
@@ -179,7 +180,8 @@ const Screen = styled.View({
 const Image = styled(BaseImage)({
   resizeMode: "cover",
   width: SCREEN_WIDTH,
-  height: () => (Platform.OS === "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT),
+  height: () =>
+    Platform.OS === "android" ? SCREEN_HEIGHT - 40 : SCREEN_HEIGHT,
 });
 const BtnContainer = styled.View({
   flexDirection: "row",

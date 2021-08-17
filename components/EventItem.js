@@ -9,6 +9,7 @@ import {
   BaseTouchable,
   BaseText,
 } from "../components/UI/BaseUI";
+import colors from "../constants/Colors";
 
 const EventItem = (props) => {
   const startDate = moment(props.item.start_date)

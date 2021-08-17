@@ -1,4 +1,4 @@
-export default colors = {
+const colors = {
   CERULEAN: "#006dbb",
   YELLOW_ORANGE: "#ffb200",
   WHITE: "#e8e8e8",
@@ -17,7 +17,7 @@ export default colors = {
   BLACK_TWO: "#262626",
   MANGO: "#ffbb30",
   RUST_RED: "#a72004",
-  GREYISH_TWO: "#b2b2b2",
+  // GREYISH_TWO: "#b2b2b2",
   PINE_GREEN: "#145e30",
   WHITE_TWO: "#d9d9d9",
   GREYISH_THREE: "#b5b5b5",
@@ -53,3 +53,4 @@ export default colors = {
   WARM_GREY_THREE: "#707070",
   WARM_GREY_FOUR: "#a2a2a2",
 };
+export default colors;

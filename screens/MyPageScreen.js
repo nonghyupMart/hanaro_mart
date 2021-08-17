@@ -16,6 +16,7 @@ import { StoreBox, BottomCover } from "../components/store/InfoBox";
 import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
 import _ from "lodash";
+import colors from "../constants/Colors";
 
 const MyPageScreen = ({ navigation }) => {
   const userInfo = useSelector((state) => state.auth.userInfo);

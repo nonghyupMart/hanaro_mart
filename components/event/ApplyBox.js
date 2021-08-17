@@ -3,7 +3,7 @@ import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import * as Agreement from "../UI/Agreement";
-
+import colors from "../../constants/Colors";
 import AgreementContent3 from "../../components/join/AgreementContent3";
 import { styles } from "../../components/join/styles";
 import {
@@ -231,8 +231,5 @@ const Container = styled.View({
   overflow: "hidden",
   paddingBottom: 10,
 });
-
-
-
 
 export default ApplyBox;

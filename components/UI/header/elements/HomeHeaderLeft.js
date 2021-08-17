@@ -9,7 +9,7 @@ import {
   SCREEN_WIDTH,
 } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
-import * as Util from "../../../../utils";
+import colors from "../../../../constants/Colors";
 import { checkAuth } from "../../../../store/actions/auth";
 
 const HomeHeaderLeft = (props) => {

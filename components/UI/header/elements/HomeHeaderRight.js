@@ -7,6 +7,7 @@ import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import { IconImage } from "./HomeHeaderLeft";
 import * as Util from "../../../../utils";
+import colors from "../../../../constants/Colors";
 
 const HomeHeaderRight = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);

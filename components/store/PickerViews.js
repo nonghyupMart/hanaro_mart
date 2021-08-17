@@ -6,6 +6,7 @@ import { StyleSheet, Platform, Image } from "react-native";
 import _ from "lodash";
 import { BaseText } from "../../components/UI/BaseUI";
 import RNPickerSelect from "react-native-picker-select";
+import colors from "../../constants/Colors";
 
 const PickerViews = (props) => {
   const lnamePickerRef = useRef();

@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
 import { setAlert, setIsLoading } from "../../store/actions/common";
+import colors from "../../constants/Colors";
+
 const Loading = ({ isLoading }) => {
   const dispatch = useDispatch();
   const timerRef = useRef(null);

@@ -13,6 +13,7 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 import * as branchesActions from "../../store/actions/branches";
 import * as CommonActions from "../../store/actions/common";
 import { setUserStore } from "../../store/actions/auth";
+import colors from "../../constants/Colors";
 
 const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
   const dispatch = useDispatch();

@@ -23,6 +23,7 @@ import {
 } from "../components/UI/BaseUI";
 import * as CommonActions from "../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
+import colors from "../constants/Colors";
 
 const DESIRED_RATIO = "16:9";
 

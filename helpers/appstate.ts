@@ -4,11 +4,11 @@ import * as Util from "../utils";
 import { fetchPushCnt } from "../store/actions/auth";
 import { AppState } from "react-native";
 
-const appState = AppState.currentState;
+let appState = AppState.currentState;
 
-export const handleAppStateChange = async (nextAppState, dispatch) => {
+export const handleAppStateChange = async (nextAppState:any, dispatch:any ) => {
   if (
-    appState.current.match(/inactive|background/) &&
+    appState.match(/inactive|background/) &&
     nextAppState === "active"
   ) {
     // console.log("App has come to the foreground!");
@@ -21,5 +21,5 @@ export const handleAppStateChange = async (nextAppState, dispatch) => {
     Util.removeStorageItem("notificationData");
   }
   updateExpo(dispatch);
-  appState.current = nextAppState;
+  appState = nextAppState;
 };

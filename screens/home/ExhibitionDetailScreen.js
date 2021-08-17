@@ -16,7 +16,7 @@ import {
   SCREEN_WIDTH,
   BaseButtonContainer,
 } from "../../components/UI/BaseUI";
-
+import colors from "../../constants/Colors";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";

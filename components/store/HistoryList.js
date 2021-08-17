@@ -14,6 +14,7 @@ import * as branchesActions from "../../store/actions/branches";
 import { SET_STORE_MARK } from "../../store/actions/actionTypes";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
+import colors from "../../constants/Colors";
 
 const HistoryList = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);

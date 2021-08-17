@@ -5,6 +5,7 @@ import * as Util from "../../utils";
 import CategoryButtonSmall from "./CategoryButtonSmall";
 import { View } from "react-native";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import colors from "../../constants/Colors";
 
 const CategoryButtonSmallList = ({ data, value, setValue }) => {
   return (

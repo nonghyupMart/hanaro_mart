@@ -10,6 +10,8 @@ import {
   BaseImage,
   SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
+import colors from "../../constants/Colors";
+
 const StampBox = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;
   const stamp_type1_cnt = props.eventDetail.entry.stamp_type1_cnt;

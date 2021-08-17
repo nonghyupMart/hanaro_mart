@@ -16,6 +16,7 @@ import { Icon } from "react-native-elements";
 import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
 import * as Util from "../utils";
 import { checkAuth, checkSetStore } from "../store/actions/auth";
+import colors from "../constants/Colors";
 
 const BottomButtons = (props) => {
   const dispatch = useDispatch();

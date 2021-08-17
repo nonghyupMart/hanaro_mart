@@ -7,7 +7,7 @@ import {
   BaseText,
   BaseTextInput,
 } from "../../components/UI/BaseUI";
-import { useSelector, useDispatch } from "react-redux";
+import colors from "../../constants/Colors";
 
 const ResultBtn = (props) => {
   if (props.eventDetail.entry.winner_yn !== "Y") return <></>;

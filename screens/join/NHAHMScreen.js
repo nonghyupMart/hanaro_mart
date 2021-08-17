@@ -22,6 +22,7 @@ import _ from "lodash";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 import { SERVER_URL, API_URL } from "../../constants";
+import colors from "../../constants/Colors";
 
 const NHAHMScreen = ({ navigation, route }) => {
   const params = route.params;
@@ -101,82 +102,5 @@ export const screenOptions = ({ navigation }) => {
   };
 };
 
-const GreenButton = styled(BaseButtonContainer)({
-  backgroundColor: colors.APPLE_GREEN,
-
-  flex: 1,
-  width: "100%",
-  flexGrow: 0,
-});
-const BlueButton = styled(GreenButton)({
-  backgroundColor: colors.CERULEAN,
-});
-const UpperContainer = styled.View({
-  flex: 0.5,
-  justifyContent: "flex-end",
-  alignItems: "center",
-  alignSelf: "center",
-});
-
-const Info = styled(BaseText)({
-  // marginTop: SCREEN_HEIGHT *  0.029,
-  // marginBottom: SCREEN_HEIGHT * 0.030,
-  // marginLeft: "12%",
-  // marginRight: "12%",
-  fontSize: 13,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 20,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.GREYISH_BROWN,
-
-  flex: 0.3,
-});
-const LowerContainer = styled.View({
-  flex: 0.2,
-  width: "100%",
-  alignItems: "flex-start",
-  justifyContent: "flex-start",
-});
-const Symbol = styled.Image.attrs({ resizeMode: "contain" })({
-  alignSelf: "center",
-});
-
-const Box = styled(BaseTouchable)({
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  alignContent: "center",
-  height: "50%",
-  width: "100%",
-  flex: 1,
-  borderRadius: 8,
-  backgroundColor: colors.TRUE_WHITE,
-  borderStyle: "solid",
-  borderWidth: 1,
-  borderColor: colors.PINKISH_GREY,
-  paddingLeft: SCREEN_HEIGHT * 0.083,
-  paddingRight: SCREEN_HEIGHT * 0.083,
-  // paddingBottom:SCREEN_HEIGHT *0.027,
-  // paddingTop:SCREEN_HEIGHT *0.027,
-  // overflow:"hidden"
-});
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "black",
-    height: "100%",
-    padding: 24,
-  },
-  allCheck: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default NHAHMScreen;

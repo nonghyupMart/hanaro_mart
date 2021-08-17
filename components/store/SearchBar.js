@@ -12,6 +12,7 @@ import {
   BaseTextInput,
 } from "../../components/UI/BaseUI";
 import { setIsLoading, setBottomNavigation } from "../../store/actions/common";
+import colors from "../../constants/Colors";
 
 const SearchBar = (props) => {
   const dispatch = useDispatch();

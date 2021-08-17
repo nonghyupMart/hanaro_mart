@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import moment from "moment";
 import { BaseText } from "../../components/UI/BaseUI";
 import { formatPhoneNumber } from "../../utils";
+import colors from "../../constants/Colors";
 
 const JoinPopupContent = (props) => {
   const agreedStatus = useSelector((state) => state.auth.agreedStatus);

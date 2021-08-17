@@ -15,7 +15,7 @@ import { setIsLoading } from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
 import NoList from "../../components/UI/NoList";
 import * as CommonActions from "../../store/actions/common";
-import * as actionTypes from "../../store/actions/actionTypes";
+import colors from "../../constants/Colors";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;

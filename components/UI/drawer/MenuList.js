@@ -24,7 +24,7 @@ import {
   checkAuth,
   withdrawalFinish,
 } from "../../../store/actions/auth";
-import * as Updates from "expo-updates";
+import colors from "../../../constants/Colors";
 
 const MenuList = (props) => {
   const dispatch = useDispatch();

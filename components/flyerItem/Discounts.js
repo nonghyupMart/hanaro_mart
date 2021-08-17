@@ -2,16 +2,9 @@ import React, { PureComponent } from "react";
 import styled from "styled-components/native";
 import {
   View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Dimensions,
 } from "react-native";
 import { BaseImage, BaseText } from "../../components/UI/BaseUI";
-import { Ionicons } from "@expo/vector-icons";
-const { width, height } = Dimensions.get("window");
-
+import colors from "../../constants/Colors";
 import * as Util from "../../utils";
 import moment from "moment";
 import _ from "lodash";

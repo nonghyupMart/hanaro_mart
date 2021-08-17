@@ -1,4 +1,5 @@
 import { Platform, StatusBar } from "react-native";
+import colors from "../constants/Colors";
 
 export const initStatusBarStyle = async () => {
   if (Platform.OS === "android") {

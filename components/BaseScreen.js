@@ -7,8 +7,7 @@ import { useHeaderHeight } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import { StyleConstants } from "../components/UI/BaseUI";
 import _ from "lodash";
-import * as Util from "../utils";
-import { updateExpo } from "../store/actions/common";
+import colors from "../constants/Colors";
 
 const Contents = (props) => {
   return <>{props.children}</>;

@@ -8,6 +8,7 @@ import {
   BaseText,
 } from "../components/UI/BaseUI";
 import * as Util from "../utils";
+import colors from "../constants/Colors";
 
 const CouponItem = (props) => {
   return (

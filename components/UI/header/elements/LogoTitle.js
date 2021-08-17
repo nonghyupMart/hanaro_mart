@@ -6,6 +6,7 @@ import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../../utils";
+import colors from "../../../../constants/Colors";
 
 const LogoTitle = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);

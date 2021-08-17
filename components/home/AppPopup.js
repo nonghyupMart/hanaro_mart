@@ -17,6 +17,7 @@ import * as homeActions from "../../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native";
 import { setAlert, setIsLoading } from "../../store/actions/common";
+import colors from "../../constants/Colors";
 
 const AppPopup = (props) => {
   const dispatch = useDispatch();

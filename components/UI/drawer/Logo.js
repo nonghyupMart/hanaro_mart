@@ -5,6 +5,7 @@ import { TouchableOpacity, View, Image } from "react-native";
 import { BaseText, SCREEN_WIDTH } from "../../UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../utils";
+import colors from "../../../constants/Colors";
 
 const Logo = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);

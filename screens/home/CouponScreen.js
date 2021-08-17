@@ -14,6 +14,7 @@ import NoList from "../../components/UI/NoList";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 import { checkAuth } from "../../store/actions/auth";
+import colors from "../../constants/Colors";
 
 const CouponScreen = (props) => {
   const eventCategory = [

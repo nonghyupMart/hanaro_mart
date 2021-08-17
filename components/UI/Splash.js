@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { Image, View, ActivityIndicator } from "react-native";
 import Loading from "./Loading";
+import colors from "../../constants/Colors";
 
 const Splash = (props) => {
   return (

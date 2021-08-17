@@ -1,8 +1,8 @@
 import * as React from "react";
 import { StackActions } from "@react-navigation/native";
 
-export const isReadyRef = React.createRef();
-export const navigationRef = React.createRef();
+export const isReadyRef = React.createRef() as any;
+export const navigationRef = React.createRef() as any;
 import { DrawerActions } from "@react-navigation/native";
 
 export const navigate = (name, params) => {
@@ -13,7 +13,7 @@ export const navigate = (name, params) => {
 
 export const replace = (...args) => {
   if (isReadyRef.current && navigationRef.current) {
-    navigationRef.current?.dispatch(StackActions.replace(...args));
+    navigationRef.current?.dispatch(StackActions.replace([...args] as any));
   }
 };
 

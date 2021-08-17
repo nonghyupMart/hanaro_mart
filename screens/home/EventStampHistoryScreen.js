@@ -18,6 +18,7 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import { SET_STAMP_HISTORY } from "../../store/actions/actionTypes";
 import { styles } from "./FlyerScreen";
 import _ from "lodash";
+import colors from "../../constants/Colors";
 
 const EventStampHistoryScreen = (props) => {
   const params = props.route.params;

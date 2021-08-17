@@ -7,7 +7,11 @@ import { fetchPushCnt } from "../store/actions/auth";
 
 export const initNotificationReceiver = () => {
   Notifications.setNotificationHandler({
-    handleNotification: async () => ({ shouldShowAlert: true }),
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    }),
   });
 
   let globalInitialNotificationResponse;

@@ -15,6 +15,7 @@ import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 import { checkAuth } from "../../store/actions/auth";
+import colors from "../../constants/Colors";
 
 // let isMoved = false;
 

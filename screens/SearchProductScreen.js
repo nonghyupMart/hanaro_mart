@@ -27,6 +27,7 @@ import * as CommonActions from "../store/actions/common";
 import { styles } from "../screens/home/FlyerScreen";
 import _ from "lodash";
 import { postWish } from "../store/actions/common";
+import colors from "../constants/Colors";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);

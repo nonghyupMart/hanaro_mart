@@ -24,6 +24,7 @@ import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
 import { postWish } from "../../store/actions/common";
+import colors from "../../constants/Colors";
 
 const FlyerScreen = (props) => {
   const carouselRef = useRef();
