@@ -22,7 +22,7 @@ import {
   handleAppStateChange,
   getBackgroundNotificationListener,
   getForegroundNotificationListener,
-  createBackHandler
+  createBackHandler,
 } from "../helpers";
 import { RootState } from "../store/root-state";
 
@@ -30,7 +30,7 @@ const AppNavigator = (props) => {
   const routeNameRef = useRef();
   const routingInstrumentation = props.routingInstrumentation;
   const notificationListener = useRef() as any;
-  const responseListener = useRef()  as any;
+  const responseListener = useRef() as any;
   const dispatch = useDispatch();
   const isLoading = useSelector((state:RootState) => state.common.isLoading);
   const alert = useSelector((state:RootState) => state.common.alert);
@@ -39,7 +39,7 @@ const AppNavigator = (props) => {
   const didTryStorePopup = useSelector((state:RootState) => state.common.didTryStorePopup);
   const isAppUpdated = useSelector((state:RootState) => state.auth.isAppUpdated);
   const isBottomNavigation = useSelector(
-    (state:RootState) => state.common.isBottomNavigation
+    (state: RootState) => state.common.isBottomNavigation
   );
 
   useEffect(() => {
@@ -68,10 +68,7 @@ const AppNavigator = (props) => {
     })();
 
     const appStateHandler = handleAppStateChange.bind(this, dispatch);
-    AppState.addEventListener(
-      "change",
-      appStateHandler
-    );
+    AppState.addEventListener("change", appStateHandler);
     notificationListener.current = getBackgroundNotificationListener(dispatch);
     responseListener.current = getForegroundNotificationListener(dispatch);
     return async () => {
@@ -83,11 +80,8 @@ const AppNavigator = (props) => {
       Notifications.removeNotificationSubscription(responseListener.current);
     };
 
-    return () => {
-      
-    }
+    return () => {};
   }, []);
-
 
   const currentScreen = () => {
     if (!isAppUpdated) return <UpdateScreen />;

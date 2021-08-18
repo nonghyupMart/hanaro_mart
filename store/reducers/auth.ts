@@ -5,6 +5,8 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   didTryAutoLogin: false,
   isJoined: null,
+  hasUserStore: null,
+  isJoinedUserHasStore: null,
   pushToken: null,
   location: null,
   userStore: null,
@@ -54,9 +56,8 @@ export default (state = initialState, action) => {
     case actionTypes.SET_USER_INFO: {
       const result = { ...state };
       const userInfo = { ...action.userInfo };
-      if (!_.isEmpty(userInfo)) {
-        result.isJoined = true;
-      }
+      result.isJoined = !_.isEmpty(userInfo);
+      result.isJoinedUserHasStore = result.isJoined && result.hasUserStore;
       result.userInfo = userInfo;
       return result;
     }
@@ -77,10 +78,12 @@ export default (state = initialState, action) => {
       };
 
     case actionTypes.SET_USER_STORE:
-      return {
-        ...state,
-        userStore: { ...action.userStore },
-      };
+      const result = { ...state };
+      const userStore = { ...action.userStore };
+      result.hasUserStore = !_.isEmpty(userStore);
+      result.isJoinedUserHasStore = result.isJoined && result.hasUserStore;
+      result.userStore = userStore;
+      return result;
 
     case actionTypes.WITHDRAWAL:
       return {
