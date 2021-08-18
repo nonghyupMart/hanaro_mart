@@ -42,7 +42,18 @@
         "NSLocationAlwaysUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
         "NSLocationUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
-        "NSLocationWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다."
+        "NSLocationWhenInUseUsageDescription": "매장선택시 가까운 매장을 찾기 위해 위치 권한이 필요합니다.",
+        "LSApplicationQueriesSchemes":[
+          "kipinapp", 
+          "kb-auth", 
+          "mpocket.online.ansimclick", 
+          "lotteappcard", 
+          "shinhan-sr-ansimclick", 
+          "hyundaicardappcardid", 
+          "cloudpay",
+          "ispmobile",
+          "nhallonepayansimclick" 
+        ]
       },
       "userInterfaceStyle": "light"
     },
