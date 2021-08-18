@@ -27,7 +27,7 @@ import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as authActions from "../store/actions/auth";
-import { updateUserInfo } from "../store/actions/auth";
+import { fetchUserInfo } from "../store/actions/auth";
 
 const MyADAgreementScreen = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      updateUserInfo({
+      fetchUserInfo({
         dispatch: dispatch,
         userInfo: userInfo,
         pushToken: pushToken,
@@ -72,7 +72,7 @@ const MyADAgreementScreen = (props) => {
       sms_agree: sms ? "Y" : "N",
       user_id: await authActions.saveUserTelToStorage(),
     };
-    dispatch(authActions.signup(query)).then((data) => {
+    dispatch(authActions.signUp(query)).then((data) => {
       const userInfo = data.userInfo;
       let yn = push || sms ? "동의" : "거부";
       dispatch(

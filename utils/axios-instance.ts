@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { API_URL } from "../constants";
 import * as Util from ".";
 import {
@@ -105,16 +105,16 @@ export const http = (() => {
       if (baseURL) instance.defaults.baseURL = baseURL;
       return instance;
     },
-    get: (...params) => {
+    get: (...params: [string, AxiosRequestConfig?]) => {
       return instance.get(...params);
     },
-    post: (...params) => {
+    post: (...params: [string, any?, AxiosRequestConfig?]) => {
       return instance.post(...params);
     },
-    patch: (...params) => {
+    patch: (...params: [string, any?, AxiosRequestConfig?]) => {
       return instance.patch(...params);
     },
-    delete: (...params) => {
+    delete: (...params: [string, AxiosRequestConfig?]) => {
       return instance.delete(...params);
     },
   };

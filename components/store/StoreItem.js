@@ -33,7 +33,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
       ).then((data) => {
         if (data.result === "success") {
           (async () => {
-            await dispatch(CommonActions.setDidTryPopup("Flyer"));
+            await dispatch(CommonActions.setDidTryStorePopup("Flyer"));
           })();
         }
       });

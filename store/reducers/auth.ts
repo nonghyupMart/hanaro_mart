@@ -1,9 +1,12 @@
+import { InitialState } from "@react-navigation/native";
 import _ from "lodash";
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   didTryAutoLogin: false,
-  isJoin: null,
+  isJoined: null,
+  hasUserStore: null,
+  isJoinedUserHasStore: null,
   pushToken: null,
   location: null,
   userStore: null,
@@ -11,7 +14,7 @@ const initialState = {
   agreedStatus: null,
   ci: null,
   updatePopup: null,
-  isUpdated: true,
+  isAppUpdated: true,
   pushCnt: 0,
   wishCnt: 0,
 };
@@ -28,10 +31,10 @@ export default (state = initialState, action) => {
         ...state,
         pushCnt: action.pushCnt,
       };
-    case actionTypes.SET_IS_UPDATED:
+    case actionTypes.SET_IS_APP_UPDATED:
       return {
         ...state,
-        isUpdated: action.isUpdated,
+        isAppUpdated: action.isAppUpdated,
       };
     case actionTypes.SET_UPDATE_POPUP:
       return {
@@ -44,12 +47,6 @@ export default (state = initialState, action) => {
         didTryAutoLogin: true,
       };
     }
-    case actionTypes.SET_IS_JOIN: {
-      return {
-        ...state,
-        isJoin: action.isJoin,
-      };
-    }
     case actionTypes.SET_AGREED_STATUS: {
       return {
         ...state,
@@ -57,10 +54,12 @@ export default (state = initialState, action) => {
       };
     }
     case actionTypes.SET_USER_INFO: {
-      return {
-        ...state,
-        userInfo: { ...action.userInfo },
-      };
+      const result = { ...state };
+      const userInfo = { ...action.userInfo };
+      result.isJoined = !_.isEmpty(userInfo);
+      result.isJoinedUserHasStore = result.isJoined && result.hasUserStore;
+      result.userInfo = userInfo;
+      return result;
     }
     case actionTypes.SET_CI:
       return {
@@ -79,10 +78,12 @@ export default (state = initialState, action) => {
       };
 
     case actionTypes.SET_USER_STORE:
-      return {
-        ...state,
-        userStore: { ...action.userStore },
-      };
+      const result = { ...state };
+      const userStore = { ...action.userStore };
+      result.hasUserStore = !_.isEmpty(userStore);
+      result.isJoinedUserHasStore = result.isJoined && result.hasUserStore;
+      result.userStore = userStore;
+      return result;
 
     case actionTypes.WITHDRAWAL:
       return {

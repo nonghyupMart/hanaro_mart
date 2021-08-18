@@ -25,12 +25,12 @@ const FlyerItemColumn2 = ({
   afterAddWishItem,
   afterDeleteWishItem,
 }) => {
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const addWishItem = async (item) => {
-    if (await checkAuth(dispatch, isJoin)) {
+    if (await checkAuth(dispatch, isJoined)) {
       if (afterAddWishItem) await afterAddWishItem(item);
       await dispatch(
         wishActions.addWishItem({
@@ -47,7 +47,7 @@ const FlyerItemColumn2 = ({
     }
   };
   const deleteWishItem = async (item) => {
-    if (await checkAuth(dispatch, isJoin)) {
+    if (await checkAuth(dispatch, isJoined)) {
       if (afterDeleteWishItem) await afterDeleteWishItem(item);
       await dispatch(
         wishActions.deleteWishItem({

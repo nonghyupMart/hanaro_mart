@@ -1,5 +1,5 @@
 import Memo from "../../models/Memo";
-import { SET_MEMOS, ADD_MEMO, UPDATE_MEMO } from "../actions/actionTypes";
+import { SET_MEMOS, ADD_MEMO } from "../actions/actionTypes";
 
 const initialState = {
   memos: [],

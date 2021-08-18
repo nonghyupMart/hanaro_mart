@@ -77,7 +77,7 @@
    * @api public
    */
 
-  var Barcoder = function (format, options) {
+  var Barcoder = function (format, options = null) {
     if (format && !formats[format]) throw new Error('"format" invalid');
 
     this.format = format ? formats[format] : "autoSelect";

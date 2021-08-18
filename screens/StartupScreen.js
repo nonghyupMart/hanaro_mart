@@ -16,7 +16,7 @@ import * as branchesActions from "../store/actions/branches";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const permissionStatus = useRef();
   const userStore = useSelector((state) => state.auth.userStore);
   const timerRef = useRef();
@@ -27,8 +27,8 @@ const StartupScreen = (props) => {
       if (!isUpdatedVersion()) return;
       await getExpoPushToken();
       await getLocationPermission();
-      await getUserStoreData();
-      await getUserInfo();
+      await getUserInfoFromStorage();
+      await getUserStoreDataFromStorage();
       await getIsStorePopup(dispatch);
       await initAppPopupData();
     })();
@@ -36,8 +36,8 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (isJoin === null) return;
-      if (isJoin || !_.isEmpty(userStore)) {
+      if (isJoined === null) return;
+      if (isJoined || !_.isEmpty(userStore)) {
         // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
         await finish();
         return;
@@ -52,7 +52,7 @@ const StartupScreen = (props) => {
       let location = await Location.getLastKnownPositionAsync();
       fetchBranchNear(location);
     })();
-  }, [isJoin, userStore]);
+  }, [isJoined, userStore]);
 
   const initAppPopupData = async () => {
     const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
@@ -65,14 +65,12 @@ const StartupScreen = (props) => {
     );
   };
 
-  const getUserInfo = async () => {
+  const getUserInfoFromStorage = async () => {
     const userInfoData = await Util.getStorageItem("userInfoData");
     await dispatch(authActions.setUserInfo(userInfoData));
-    const isUserJoined = !!(userInfoData && userInfoData.user_id);
-    await dispatch(authActions.setIsJoin(isUserJoined));
   };
 
-  const getUserStoreData = async () => {
+  const getUserStoreDataFromStorage = async () => {
     try {
       const userStoreData = await Util.getStorageItem("userStoreData");
       if (!userStoreData) return;
@@ -125,7 +123,7 @@ const StartupScreen = (props) => {
 
       if (versionCheck < 0) {
         //버전이 낮을때만 업데이트 팝업 페이지로 이동
-        dispatch(authActions.setIsUpdated(false));
+        dispatch(authActions.setIsAppUpdated(false));
         return false;
       }
       return true;

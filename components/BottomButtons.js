@@ -20,7 +20,7 @@ import colors from "../constants/Colors";
 
 const BottomButtons = (props) => {
   const dispatch = useDispatch();
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoin);
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation
@@ -35,7 +35,7 @@ const BottomButtons = (props) => {
           </ButtonContainer>
           <ButtonContainer
             onPress={async () => {
-              if (await checkAuth(dispatch, isJoin)) {
+              if (await checkAuth(dispatch, isJoined)) {
                 RootNavigation.navigate("MyCoupon");
               }
             }}
@@ -51,7 +51,7 @@ const BottomButtons = (props) => {
 
           <ButtonContainer
             onPress={async () => {
-              if (await checkAuth(dispatch, isJoin)) {
+              if (await checkAuth(dispatch, isJoined)) {
                 RootNavigation.navigate("MyPage");
               }
             }}

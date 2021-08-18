@@ -20,7 +20,7 @@ import * as CommonActions from "../../store/actions/common";
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
   const userStore = useSelector((state) => state.auth.userStore);
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.common.isLoading);
   const [lname, setLname] = useState(null);
@@ -79,7 +79,7 @@ const StoreChangeScreen = (props) => {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    if (isJoin) dispatch(branchesActions.fetchStoreMark(query));
+    if (isJoined) dispatch(branchesActions.fetchStoreMark(query));
     fetchBranches(lname, mname, store_nm, pageNum.current);
   }, [location]);
 
@@ -120,7 +120,7 @@ const StoreChangeScreen = (props) => {
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
-      {isJoin &&
+      {isJoined &&
         !_.isEmpty(userStore) &&
         !_.isEmpty(storeMark) &&
         _.size(storeMark.storeList) > 0 && (

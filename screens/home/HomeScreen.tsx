@@ -35,35 +35,35 @@ import { CATEGORY } from "../../constants";
 import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
+import { RootState } from "../../store/root-state";
+import { hasUserAndStore } from "../../helpers";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
-  const didTryPopup = useSelector((state) => state.common.didTryPopup);
-  const userStore = useSelector((state) => state.auth.userStore);
+  const didTryStorePopup = useSelector((state: RootState) => state.common.didTryStorePopup);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
   const isFocused = useIsFocused();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const pushToken = useSelector((state) => state.auth.pushToken);
-  const link = useSelector((state) => state.common.link);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const pushToken = useSelector((state: RootState) => state.auth.pushToken);
+  const link = useSelector((state: RootState) => state.common.link);
 
   processNotifications(routeName);
   useEffect(() => {
     if (!isFocused) return;
-    if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
-      // console.warn(JSON.stringify(userInfo, null, "\t"));
-      authActions.updateUserInfo({
-        dispatch: dispatch,
-        userInfo: userInfo,
-        pushToken: pushToken,
-        userStore: userStore,
-      });
-    }
+    if (!hasUserAndStore(userInfo, userStore)) return;
+    authActions.fetchUserInfo({
+      dispatch: dispatch,
+      userInfo: userInfo,
+      pushToken: pushToken,
+      userStore: userStore,
+    });
 
     return () => {
-      dispatch(setIsLoading(false));
     };
   }, [isFocused]);
+
   useEffect(() => {
     (async () => {
       if (Platform.OS === "ios") {
@@ -75,6 +75,42 @@ const HomeScreen = (props) => {
   }, []);
 
   useEffect(() => {
+    redirectToScreen(link);
+  }, [link]);
+
+  useEffect(() => {
+    if (typeof didTryStorePopup !== "string" && typeof didTryStorePopup !== "object")
+      return;
+    dispatch(setIsLoading(true));
+    setTimeout(() => {
+      switch (typeof didTryStorePopup) {
+        case "string":
+          navigation.navigate(didTryStorePopup);
+          break;
+        case "object":
+          dispatch(CommonActions.setLink(null));
+          if (didTryStorePopup.link_code) {
+            dispatch(
+              CommonActions.setLink({
+                category: CATEGORY[didTryStorePopup.link_gbn],
+                link_code: didTryStorePopup.link_code,
+              })
+            );
+          }
+          navigation.navigate(CATEGORY[didTryStorePopup.link_gbn]);
+          break;
+
+        default:
+          break;
+      }
+      dispatch(setIsLoading(false));
+      dispatch(CommonActions.setDidTryStorePopup(true));
+    }, 500);
+
+  }, [didTryStorePopup]);
+
+
+  const redirectToScreen = (link) => {
     setTimeout(async () => {
       if (!link || _.isEmpty(link)) return;
 
@@ -86,37 +122,7 @@ const HomeScreen = (props) => {
       }
       await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);
-  }, [link]);
-
-  useEffect(() => {
-    if (typeof didTryPopup !== "string" && typeof didTryPopup !== "object")
-      return;
-    dispatch(setIsLoading(true));
-    setTimeout(() => {
-      switch (typeof didTryPopup) {
-        case "string":
-          navigation.navigate(didTryPopup);
-          break;
-        case "object":
-          dispatch(CommonActions.setLink(null));
-          if (didTryPopup.link_code) {
-            dispatch(
-              CommonActions.setLink({
-                category: CATEGORY[didTryPopup.link_gbn],
-                link_code: didTryPopup.link_code,
-              })
-            );
-          }
-          navigation.navigate(CATEGORY[didTryPopup.link_gbn]);
-          break;
-
-        default:
-          break;
-      }
-      dispatch(setIsLoading(false));
-    }, 500);
-    dispatch(CommonActions.setDidTryPopup(true));
-  }, [didTryPopup]);
+  }
 
   if (!isFocused) return <></>;
   // console.log("***************HomeScreen rendered***************");
@@ -148,11 +154,14 @@ const HomeScreen = (props) => {
     </>
   );
 };
+
+
 const processNotifications = (routeName) => {
+
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const notification = useSelector((state) => state.common.notification);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const isLoading = useSelector((state: RootState) => state.common.isLoading);
+  const notification = useSelector((state: RootState) => state.common.notification);
   useEffect(() => {
     if (
       isLoading ||
@@ -225,15 +234,6 @@ const processNotifications = (routeName) => {
     })();
   }, [notification, isLoading]);
 };
-
-const Space = styled.View({
-  width: "100%",
-  height: 10,
-  width: SCREEN_WIDTH,
-  backgroundColor: colors.WHITE,
-  borderBottomWidth: 1,
-  borderColor: colors.PINKISH_GREY,
-});
 
 export const screenOptions = ({ route, navigation }) => {
   return {

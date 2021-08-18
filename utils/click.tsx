@@ -4,7 +4,7 @@ import React from "react";
 export const withPreventDoubleClick = (WrappedComponent) => {
   class PreventDoubleClick extends React.PureComponent {
     debouncedOnPress = () => {
-      this.props.onPress && this.props.onPress();
+      this.props['onPress'] && this.props['onPress']();
     };
 
     onPress = debounce(this.debouncedOnPress, 0, {
@@ -17,8 +17,5 @@ export const withPreventDoubleClick = (WrappedComponent) => {
     }
   }
 
-  PreventDoubleClick.displayName = `withPreventDoubleClick(${
-    WrappedComponent.displayName || WrappedComponent.name
-  })`;
   return PreventDoubleClick;
 };

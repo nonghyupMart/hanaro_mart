@@ -32,10 +32,10 @@ export const setBottomNavigation = (isBottomNavigation) => {
     isBottomNavigation: isBottomNavigation,
   };
 };
-export const setDidTryPopup = (didTryPopup) => {
+export const setDidTryStorePopup = (didTryStorePopup) => {
   return {
-    type: actionTypes.SET_DID_TRY_POPUP,
-    didTryPopup: didTryPopup,
+    type: actionTypes.SET_DID_TRY_STORE_POPUP,
+    didTryStorePopup: didTryStorePopup,
   };
 };
 

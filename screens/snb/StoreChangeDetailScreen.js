@@ -38,21 +38,20 @@ const StoreChangeDetailScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const isLoading = useSelector((state) => state.common.isLoading);
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const branch = useSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
-  const didTryPopup = useSelector((state) => state.common.didTryPopup);
+  const didTryStorePopup = useSelector((state) => state.common.didTryStorePopup);
   // useEffect(() => {
   //   return () => {
   //     dispatch({ type: SET_BRANCH, branch: null });
   //   };
   // }, []);
   useEffect(() => {
-    // console.warn("didTryPopup2", didTryPopup);
-    if (!didTryPopup && isJoin) {
+    if (!didTryStorePopup && isJoined) {
       RootNavigation.popToTop();
     }
-  }, [didTryPopup]);
+  }, [didTryStorePopup]);
   useEffect(() => {
     dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
@@ -85,11 +84,11 @@ const StoreChangeDetailScreen = (props) => {
   const saveStore = async () => {
     if (!branch || !branch.storeInfo) return;
     await dispatch(setIsLoading(true));
-    if (!isJoin) {
+    if (!isJoined) {
       await dispatch(saveUserStore(branch));
       await saveUserStoreToStorage(branch);
       await dispatch(CommonActions.setBottomNavigation(true));
-      await dispatch(CommonActions.setDidTryPopup(false));
+      await dispatch(CommonActions.setDidTryStorePopup(false));
       await dispatch(setIsLoading(false));
       return;
     }
@@ -109,7 +108,7 @@ const StoreChangeDetailScreen = (props) => {
               (async () => {
                 dispatch(setAlert(null));
                 await props.navigation.navigate("Home");
-                await dispatch(CommonActions.setDidTryPopup(false));
+                await dispatch(CommonActions.setDidTryStorePopup(false));
               })();
             },
           })
@@ -229,7 +228,7 @@ const StoreChangeDetailScreen = (props) => {
             </View>
             <BaseTouchable
               onPress={() =>
-                _.isEmpty(userStore) || !isJoin
+                _.isEmpty(userStore) || !isJoined
                   ? saveStore()
                   : storeChangeHandler()
               }

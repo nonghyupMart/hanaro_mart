@@ -108,7 +108,7 @@ const HomeBanner = (props) => {
               onPress={() => {
                 if (item.link_url) Linking.openURL(item.link_url);
                 else if (item.link_gbn) {
-                  dispatch(CommonActions.setDidTryPopup(item));
+                  dispatch(CommonActions.setDidTryStorePopup(item));
                 }
               }}
               style={{

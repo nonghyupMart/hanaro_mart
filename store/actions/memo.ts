@@ -17,7 +17,7 @@ export const addMemo = (title, isChecked) => {
       dispatch({
         type: ADD_MEMO,
         memoData: {
-          id: dbResult.insertId,
+          id: dbResult['insertId'],
           title: title,
           isChecked: isChecked,
         },
@@ -33,7 +33,7 @@ export const removeMemo = (id) => {
     try {
       const dbResult = await deleteMemo(id);
       const fetchResult = await fetchMemo();
-      dispatch({ type: SET_MEMOS, memos: fetchResult.rows._array });
+      dispatch({ type: SET_MEMOS, memos: fetchResult['rows']._array });
     } catch (err) {
       throw err;
     }
@@ -45,7 +45,7 @@ export const checkMemo = (id, title, isChecked) => {
     try {
       const dbResult = await updateMemo(id, title, isChecked);
       const fetchResult = await fetchMemo();
-      dispatch({ type: SET_MEMOS, memos: fetchResult.rows._array });
+      dispatch({ type: SET_MEMOS, memos: fetchResult['rows']._array });
     } catch (err) {
       throw err;
     }
@@ -56,7 +56,7 @@ export const loadMemos = () => {
   return async (dispatch) => {
     try {
       const dbResult = await fetchMemo();
-      dispatch({ type: SET_MEMOS, memos: dbResult.rows._array });
+      dispatch({ type: SET_MEMOS, memos: dbResult['rows']._array });
     } catch (err) {
       throw err;
     }

@@ -28,7 +28,7 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import Barcode from "../components/Barcode";
 import { setAlert, setIsLoading, setLink } from "../store/actions/common";
 import Modal from "react-native-modal";
-import { setReference, updateUserInfo } from "../store/actions/auth";
+import { setReference, fetchUserInfo } from "../store/actions/auth";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;
@@ -82,7 +82,7 @@ const MyInfoScreen = (props) => {
               message: "추천인이 등록되었습니다.",
               onPressConfirm: () => {
                 dispatch(setAlert(null));
-                updateUserInfo({
+                fetchUserInfo({
                   dispatch: dispatch,
                   userInfo: userInfo,
                   pushToken: pushToken,

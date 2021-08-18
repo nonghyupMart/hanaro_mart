@@ -7,7 +7,7 @@ const initialState = {
   alert: null,
   isLoading: false,
   headerHeight: 0,
-  didTryPopup: false,
+  didTryStorePopup: false,
   notification: null,
   brightness: null,
   link: null,
@@ -20,10 +20,10 @@ export default (state = initialState, action) => {
         ...state,
         link: action.link,
       };
-    case actionTypes.SET_DID_TRY_POPUP:
+    case actionTypes.SET_DID_TRY_STORE_POPUP:
       return {
         ...state,
-        didTryPopup: action.didTryPopup,
+        didTryStorePopup: action.didTryStorePopup,
       };
     case actionTypes.SET_BOTTOM_NAVIGATION:
       return {
