@@ -252,7 +252,7 @@ export const fetchUserInfo = async ({
     store_cd: userStore.storeInfo.store_cd,
   };
   if (tk) {
-    query['token'] = tk;
+    query["token"] = tk;
     await dispatch(setPushToken(tk));
   }
 
@@ -398,8 +398,7 @@ export const loginWithID = (query) => {
         if (response.data.userInfo) {
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
-          await dispatch(setDidTryStorePopup(false));
-          await RootNavigation.navigate("Home");
+          await dispatch(setDidTryStorePopup("Home"));
         }
         return response.data;
       });

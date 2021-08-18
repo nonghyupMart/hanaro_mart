@@ -8,7 +8,7 @@ let appState: string = AppState.currentState;
 
 export const handleAppStateChange = async (
   dispatch: any,
-  nextAppState: any
+  nextAppState: string
 ) => {
   if (appState.match(/inactive|background/) && nextAppState === "active") {
     // console.log("App has come to the foreground!");
