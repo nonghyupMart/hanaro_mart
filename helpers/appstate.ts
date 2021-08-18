@@ -4,13 +4,13 @@ import * as Util from "../utils";
 import { fetchPushCnt } from "../store/actions/auth";
 import { AppState } from "react-native";
 
-let appState = AppState.currentState;
+let appState: string = AppState.currentState;
 
-export const handleAppStateChange = async (nextAppState:any, dispatch:any ) => {
-  if (
-    appState.match(/inactive|background/) &&
-    nextAppState === "active"
-  ) {
+export const handleAppStateChange = async (
+  dispatch: any,
+  nextAppState: any
+) => {
+  if (appState.match(/inactive|background/) && nextAppState === "active") {
     // console.log("App has come to the foreground!");
     const userInfoData = await Util.getStorageItem("userInfoData");
     if (!_.isEmpty(userInfoData)) {
