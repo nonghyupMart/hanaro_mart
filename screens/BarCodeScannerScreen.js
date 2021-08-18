@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components/native";
 import {
   Text,
@@ -8,6 +8,7 @@ import {
   Image,
   View,
   ImageBackground,
+  Platform,
 } from "react-native";
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
@@ -23,11 +24,15 @@ import {
 import * as CommonActions from "../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
 
+const DESIRED_RATIO = "16:9";
+
 const BarCodeScannerScreen = (props) => {
   const dispatch = useDispatch();
   const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const camRef = useRef();
+  const [ratio, setRatio] = useState(DESIRED_RATIO);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
@@ -40,6 +45,19 @@ const BarCodeScannerScreen = (props) => {
       setHasPermission(status === "granted");
     })();
   }, []);
+
+  const prepareRatio = async () => {
+    if (Platform.OS === "android" && camRef.current) {
+      const ratios = await camRef.current.getSupportedRatiosAsync();
+      // See if the current device has your desired ratio, otherwise get the maximum supported one
+      // Usually the last element of "ratios" is the maximum supported ratio
+      const ratio =
+        ratios.find((ratio) => ratio === DESIRED_RATIO) ||
+        ratios[ratios.length - 1];
+
+      setRatio(ratio);
+    }
+  };
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
@@ -73,6 +91,9 @@ const BarCodeScannerScreen = (props) => {
       }}
     >
       <Camera
+        onCameraReady={prepareRatio} // You can only get the supported ratios when the camera is mounted
+        ratio={ratio}
+        ref={(cam) => (camRef.current = cam)}
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         barCodeScannerSettings={{
           barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr],
@@ -108,7 +129,7 @@ const BarCodeScannerScreen = (props) => {
           }}
         >
           <Image source={require("../assets/images/barcodeWhite.png")} />
-          <Text1>영수증QR코드</Text1>
+          <Text1>{params.isForStaff ? "관리자QR코드" : "영수증QR코드"}</Text1>
         </ImageBackground>
       </View>
       <View
@@ -124,13 +145,15 @@ const BarCodeScannerScreen = (props) => {
           flexDirection: "row",
           alignItems: "center",
           paddingLeft: 35,
-          padding: 18,
+          padding: 24,
           paddingRight: 35,
         }}
       >
         <Image source={require("../assets/images/logo1pic478.png")} />
         <Text2>
-          {`하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
+          {params.isForStaff
+            ? `관리자 휴대폰에서 하나로마트앱 실행 -> 마이페이지 -> 내정보확인에 있는 관리자QR코드를 촬영해 주세요. `
+            : `하나로마트에서 구매하신 영수증의\nQR코드를 화면의 중앙에 비추면\n자동으로 인식합니다.`}
         </Text2>
       </View>
       {/* </BarCodeScanner> */}
@@ -147,7 +170,7 @@ const Text2 = styled(BaseText)({
   lineHeight: 18,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
   marginLeft: 25.5,
 });
 const Text1 = styled(BaseText)({
@@ -158,7 +181,7 @@ const Text1 = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 export const screenOptions = ({ navigation }) => {
   return {

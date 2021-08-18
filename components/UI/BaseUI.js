@@ -1,7 +1,6 @@
 import React, { useEffect, useState, Fragment } from "react";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
-import { Image } from "react-native-expo-image-cache";
 import { IMAGE_URL } from "../../constants";
 import * as Util from "../../util";
 import {
@@ -13,6 +12,7 @@ import {
   TextInput,
   StyleSheet,
   ImageBackground,
+  Image,
 } from "react-native";
 import _ from "lodash";
 // import ScaledImage from "../../components/UI/ScaledImage";
@@ -21,7 +21,7 @@ export const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get(
   "window"
 );
 export const StyleConstants = {
-  defaultPadding: 16,
+  defaultPadding: 24,
   //  defaultImageLarge: require("../../assets/images/m_img499.png"),
   //  defaultImage: require("../../assets/images/b_img500.png"),
   //  defaultImage: require("../../assets/images/b_img500.png"),
@@ -80,6 +80,9 @@ export const BaseText = styled(Text)({
 });
 
 BaseText.defaultProps = { allowFontScaling: false };
+export const BaseTextBold = styled(BaseText)({
+  fontFamily: "Roboto-Bold",
+});
 TextInput.defaultProps = {
   allowFontScaling: false,
   underlineColorAndroid: "transparent",
@@ -94,7 +97,7 @@ const ExtendedImage = (props) => {
     props.initResizeMode ? props.initResizeMode : "cover"
   );
   const [color, setColor] = useState(
-    Platform.OS == "android" ? colors.white : "transparent"
+    Platform.OS == "android" ? colors.WHITE : "transparent"
   );
   const onError = () => {
     setSource(
@@ -139,7 +142,7 @@ export const BaseImage = styled(ExtendedImage).attrs((props) => {
   };
 })((props) => {
   return {
-    // backgroundColor: colors.white,
+    // backgroundColor: colors.WHITE,
   };
 });
 
@@ -160,10 +163,16 @@ export const BaseTouchable = (props) => {
   return <Touchbale {...props}>{props.children}</Touchbale>;
 };
 
+export const ImageButton = (props) => {
+  return (
+    <BaseTouchable style={props.style} onPress={props.onPress}>
+      <Image source={props.source} style={props.ImageStyle} />
+    </BaseTouchable>
+  );
+};
 export const BaseButtonContainer = styled.TouchableOpacity({
-  width: SCREEN_WIDTH * 0.44,
-  minHeight: SCREEN_HEIGHT * 0.058,
-  height: undefined,
+  width: SCREEN_WIDTH * 0.728,
+  aspectRatio: 100 / 12.8205,
   borderRadius: 21,
   justifyContent: "center",
   alignItems: "center",
@@ -173,7 +182,7 @@ export const ButtonText = styled(BaseText)({
   fontSize: 16,
   // flex: 1,
   // flexDirection: "column",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 
 export const BaseSquareButtonContainer = styled(BaseButtonContainer)({
@@ -184,16 +193,16 @@ const DetailContainerBody = styled.View({
   alignItems: "center",
   width: "100%",
   flex: 1,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   // marginTop: 7,
-  paddingLeft: 18,
-  paddingRight: 18,
+  paddingLeft: 24,
+  paddingRight: 24,
   // paddingBottom: 65,
 });
 const DetailContainerMarginTop = styled.View({
   width: "100%",
   height: 7,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 });
 export const DetailContainer = (props) => {
   return (
@@ -211,20 +220,25 @@ export const BlueButtonText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.trueWhite,
-  marginLeft: 9,
+  color: colors.TRUE_WHITE,
+  marginLeft: 3,
 });
+// TODO : check layouts where BlueButton is used.
 export const BlueButton = styled(BaseButtonContainer)({
   marginTop: 5,
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   paddingTop: 8,
   paddingBottom: 8,
-  flex: 1,
-  width: SCREEN_WIDTH - 18 * 2,
   alignSelf: "center",
-  aspectRatio: 100 / 12.804,
-  borderRadius: 25,
 });
+
+export const BaseButton = (props) => {
+  return (
+    <BlueButton style={props.style} {...props}>
+      <BlueButtonText style={props.textStyle}>{props.children}</BlueButtonText>
+    </BlueButton>
+  );
+};

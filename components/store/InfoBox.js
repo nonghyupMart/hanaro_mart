@@ -42,7 +42,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
 });
 const Plus = styled.Image({ marginTop: 19, marginBottom: 10 });
 
@@ -53,7 +53,7 @@ export const StoreBox = styled.View({
   flex: 1,
   width: "100%",
 
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 
   alignItems: "center",
 });

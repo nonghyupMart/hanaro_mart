@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Constants from "expo-constants";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { debounce } from "lodash"; // 4.0.8
 import Barcoder from "./barcode";
 import { Share, Dimensions, PixelRatio } from "react-native";
 import { SERVER_URL } from "../constants";
+import _ from "lodash";
 
 import AesUtil from "./aes_util";
 var g_keySize = 128;
@@ -47,6 +48,18 @@ export const emptyPrint = (val) => {
 
 export const log = (...val) => {
   if (__DEV__) {
+    console.trace(...val);
+    // console.warn(JSON.stringify(userStore, null, "\t"));
+    /*
+    var people = [["John", "Smith"], ["Jane", "Doe"], ["Emily", "Jones"]]
+    console.table(people);
+    console.trace({foo, bar, baz});
+    console.log({foo, bar, baz}); // when it's needed to log plenty of objects.
+    */
+  }
+};
+export const warn = (...val) => {
+  if (__DEV__) {
     console.warn(...val);
     // console.warn(JSON.stringify(userStore, null, "\t"));
   }
@@ -73,26 +86,30 @@ export const withPreventDoubleClick = (WrappedComponent) => {
   })`;
   return PreventDoubleClick;
 };
-
-const storagePrefix = Constants.manifest.releaseChannel
-  ? Constants.manifest.releaseChannel
-  : "dev" + "::";
-export const setStorageItem = (name, data) => {
-  return AsyncStorage.setItem(storagePrefix + name, data);
+export const storagePrefix = SERVER_URL.includes("http://dv-") ? "dev" : "prod";
+export const setStorageItem = async (name, data) => {
+  return await AsyncStorage.setItem(storagePrefix + name, JSON.stringify(data));
 };
-export const getStorageItem = (name) => {
-  return AsyncStorage.getItem(storagePrefix + name);
+export const getStorageItem = async (name) => {
+  const data = await AsyncStorage.getItem(storagePrefix + name);
+  try {
+    return await JSON.parse(data);
+  } catch (e) {
+    console.log(e);
+    return data;
+  }
 };
 
 export const removeStorageItem = (name) => {
   AsyncStorage.removeItem(storagePrefix + name);
 };
 
-export const sendShareLink = async (reference) => {
+export const sendShareLink = async (recommend) => {
   try {
-    let message =
-      "모든 것을 하나로마트 - https://www.hanaromartapp.com/web/about/appStore.do";
-    if (reference) message += "\n\n추천인코드 : " + reference;
+    let message = `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore2.do`;
+    if (recommend) {
+      message += `?recommend=${recommend}\n\n추천인코드: ${recommend}`;
+    }
     const result = await Share.share({
       message: message,
     });
@@ -167,4 +184,8 @@ export const versionCompare = (v1, v2, options) => {
   }
 
   return 0;
+};
+
+export const clearAllData = async () => {
+  return await AsyncStorage.clear();
 };

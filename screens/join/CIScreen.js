@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -15,10 +15,17 @@ import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import _ from "lodash";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch } from "react-redux";
+import { SERVER_URL, API_URL } from "../../constants";
 
-const CIScreen = ({ navigation }) => {
+const CIScreen = ({ navigation, route }) => {
+  const params = route.params;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+  const uriRef = useRef(
+    `${SERVER_URL}/web/access/auth.do?ver=${
+      params && params.ver ? params.ver : "2"
+    }&key=${new Date().getTime()}`
+  );
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
       navigation.setOptions({
@@ -37,6 +44,7 @@ const CIScreen = ({ navigation }) => {
   return (
     <BaseScreen isScroll={false} isPadding={false}>
       <ExtendedWebView
+        recommend={params ? params.recommend : null}
         startInLoadingState={true}
         key={Math.random()}
         cacheMode="LOAD_NO_CACHE"
@@ -46,9 +54,7 @@ const CIScreen = ({ navigation }) => {
           width: SCREEN_WIDTH,
         }}
         source={{
-          uri:
-            "https://www.hanaromartapp.com/web/access/auth.do?key=" +
-            new Date().getTime(),
+          uri: uriRef.current,
           // html: require("../ringPicker/index.js")(),
         }}
       />
@@ -73,14 +79,14 @@ export const screenOptions = ({ navigation }) => {
 };
 
 const GreenButton = styled(BaseButtonContainer)({
-  backgroundColor: colors.appleGreen,
+  backgroundColor: colors.APPLE_GREEN,
 
   flex: 1,
   width: "100%",
   flexGrow: 0,
 });
 const BlueButton = styled(GreenButton)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const UpperContainer = styled.View({
   flex: 0.5,
@@ -100,7 +106,7 @@ const Info = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 
   flex: 0.3,
 });
@@ -123,10 +129,10 @@ const Box = styled(BaseTouchable)({
   width: "100%",
   flex: 1,
   borderRadius: 8,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   paddingLeft: SCREEN_HEIGHT * 0.083,
   paddingRight: SCREEN_HEIGHT * 0.083,
   // paddingBottom:SCREEN_HEIGHT *0.027,
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // backgroundColor: "black",
     height: "100%",
-    padding: 18,
+    padding: 24,
   },
   allCheck: {
     flexDirection: "row",

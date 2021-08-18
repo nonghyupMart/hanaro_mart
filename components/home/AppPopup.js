@@ -88,7 +88,7 @@ const AppPopup = (props) => {
             paddingBottom: 2,
           }}
           pageInfoBackgroundColor={"transparent"}
-          pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+          pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
           pageInfoTextSeparator="/"
         >
           {appPopup.popupList.map((item, index) => {
@@ -97,7 +97,10 @@ const AppPopup = (props) => {
                 activeOpacity={0.8}
                 key={item.pop_cd}
                 onPress={() => {
-                  if (item.link_url != "") Linking.openURL(item.link_url);
+                  if (item.link_url) Linking.openURL(item.link_url);
+                  else if (item.link_gbn) {
+                    dispatch(CommonActions.setDidTryPopup(item));
+                  }
                 }}
               >
                 <BaseImage
@@ -134,13 +137,13 @@ const BtnText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const BtnWarpper = styled.TouchableOpacity({
-  backgroundColor: colors.black,
+  backgroundColor: colors.BLACK,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.blackThree,
+  borderColor: colors.BLACK_THREE,
   width: "50%",
   padding: 13,
 });

@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch } from "react-redux";
 import * as eventActions from "../../store/actions/event";
+import * as authActions from "../../store/actions/auth";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -11,10 +12,8 @@ import Modal from "react-native-modal";
 
 import {
   DetailContainer,
-  BaseImage,
   ScaledImage,
   SCREEN_WIDTH,
-  BaseButtonContainer,
   BaseText,
 } from "../../components/UI/BaseUI";
 
@@ -25,15 +24,14 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import { PinchGestureHandler } from "react-native-gesture-handler";
 
-const EventDetailScreen = (props, { navigation }) => {
+const EventDetailScreen = (props) => {
   const dispatch = useDispatch();
   const [scrollRef, setScrollRef] = useState();
-  const isLoading = useSelector((state) => state.common.isLoading);
   const [isZoom, setIsZoom] = useState(false);
-  const [imageHeight, setImageHeight] = useState(0);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const userStore = useSelector((state) => state.auth.userStore);
   const eventDetail = useSelector((state) => state.event.eventDetail);
+  const [key, setKey] = useState(Math.random());
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
   const [reg_num, setReg_num] = useState();
@@ -46,72 +44,34 @@ const EventDetailScreen = (props, { navigation }) => {
       { id: 1, isChecked: false },
     ],
   });
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(eventActions.clearEventDetail());
-  //   };
-  // }, []);
+
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
+      dispatch(eventActions.clearEventDetail());
     };
   }, []);
+
   useEffect(() => {
     requestEvent();
   }, [dispatch]);
-  const onLoad = () => {
-    dispatch(setIsLoading(false));
-  };
+
   const requestEvent = () => {
-    dispatch(setIsLoading(true));
-    dispatch(
+    return dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
         user_cd: userInfo.user_cd,
       })
-    ).then(() => {
-      // if (__DEV__) {
-      dispatch(setIsLoading(false));
-      // }
-    });
+    );
   };
-  const checkQRLength = (val, length) => {
-    if (val.length !== length) {
-      dispatch(
-        setAlert({
-          message: "QR코드가 정확하지 않습니다.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return false;
-    }
-    return true;
-  };
-  const checkRequiredAmount = (val) => {
-    const price = val.substr(val.length - 10);
-    if (price < eventDetail.entry.entry_price) {
-      dispatch(
-        setAlert({
-          message: "영수증 금액이 부족합니다.",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-      return false;
-    }
-    return true;
-  };
+
   const alertSusscess = (message = "응모 되었습니다.") => {
     dispatch(
       setAlert({
         message: message,
         onPressConfirm: () => {
           dispatch(setAlert(null));
-          requestEvent();
         },
       })
     );
@@ -127,9 +87,24 @@ const EventDetailScreen = (props, { navigation }) => {
         mana_qr: QRCode,
       })
     ).then((data) => {
-      if (data.result == "success") {
-        alertSusscess("교환처리 되었습니다.");
-      }
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess("교환처리 되었습니다.");
+    });
+  };
+
+  const onInterimExchangeStamp = (QRCode) => {
+    dispatch(
+      eventActions.interimExchangeStamp({
+        event_cd: params.event_cd,
+        user_cd: userInfo.user_cd,
+        store_cd: userStore.storeInfo.store_cd,
+        mana_qr: QRCode,
+      })
+    ).then((data) => {
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess("교환처리 되었습니다.");
     });
   };
   const onApplyStamp = (QRCode) => {
@@ -141,11 +116,17 @@ const EventDetailScreen = (props, { navigation }) => {
       store_cd: userStore.storeInfo.store_cd,
       rcp_qr: QRCode,
     };
+
     if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyStamp(query)).then((data) => {
-      if (data.result == "success") {
-        alertSusscess();
-      }
+      if (!data.eventInfo) return;
+      userInfo.marketing_agree = "Y";
+
+      dispatch(authActions.setUserInfo(userInfo));
+      authActions.saveUserInfoToStorage(userInfo);
+
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess();
     });
   };
   const validateAgree = () => {
@@ -187,23 +168,24 @@ const EventDetailScreen = (props, { navigation }) => {
     if (QRCode) query.rcp_qr = QRCode;
     if (userInfo.marketing_agree == "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyEvent(query)).then((data) => {
-      if (data.result == "success") {
-        eventDetail.entry.status = "20";
-        dispatch(eventActions.updateEventDetail(eventDetail));
-        alertSusscess();
-      }
+      if (!data.eventInfo) return;
+      dispatch(eventActions.updateEventDetail(data.eventInfo));
+      alertSusscess();
     });
   };
-  if (!eventDetail || isLoading) return <></>;
+  const onScaledImageEnd = () => {
+    setKey(Math.random());
+  };
+  if (!eventDetail) return <></>;
   return (
     <BaseScreen
       setScrollRef={setScrollRef}
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{ backgroundColor: colors.TRUE_WHITE }}
       isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
     >
       {eventDetail && (
@@ -212,6 +194,7 @@ const EventDetailScreen = (props, { navigation }) => {
             paddingLeft: 0,
             paddingRight: 0,
             marginBottom: 0,
+            paddingBottom: 50,
           }}
         >
           <TouchableOpacity
@@ -221,13 +204,10 @@ const EventDetailScreen = (props, { navigation }) => {
           >
             <PinchGestureHandler onGestureEvent={setIsZoom.bind(this, true)}>
               <ScaledImage
-                onLoad={onLoad}
-                onError={onLoad}
-                onLoadEnd={onLoad}
                 key={eventDetail.detail_img}
                 source={eventDetail.detail_img}
-                style={{}}
                 width={SCREEN_WIDTH}
+                onLoadEnd={onScaledImageEnd}
               />
             </PinchGestureHandler>
           </TouchableOpacity>
@@ -251,57 +231,53 @@ const EventDetailScreen = (props, { navigation }) => {
               imageUrls={[{ url: IMAGE_URL + eventDetail.detail_img }]}
             />
           </Modal>
-          {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
-            eventDetail.gbn == "A" && (
-              <A
-                {...props}
-                onApply={onApply}
-                eventDetail={eventDetail}
-                scrollRef={scrollRef}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-              />
-            )}
-          {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
-            eventDetail.gbn == "B" && (
-              <B
-                {...props}
-                scrollRef={scrollRef}
-                key={scrollRef}
-                onApply={onApply}
-                setRcp_qr={setRcp_qr}
-                rcp_qr={rcp_qr}
-                eventDetail={eventDetail}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-              />
-            )}
-          {eventDetail.entry &&
-            eventDetail.entry_yn == "Y" &&
-            eventDetail.gbn == "C" && (
-              <C
-                {...props}
-                scrollRef={scrollRef}
-                key={scrollRef}
-                onApply={onApplyStamp}
-                setRcp_qr={setRcp_qr}
-                eventDetail={eventDetail}
-                setMana_qr={onExchangeStamp}
-                checkItem={checkItem}
-                setCheckItem={setCheckItem}
-                validateAgree={validateAgree}
-                reg_num={reg_num}
-                setReg_num={setReg_num}
-              />
-            )}
+          {eventDetail.entry && eventDetail.gbn == "A" && (
+            <A
+              {...props}
+              onApply={onApply}
+              eventDetail={eventDetail}
+              scrollRef={scrollRef}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+              key={key}
+            />
+          )}
+          {eventDetail.entry && eventDetail.gbn == "B" && (
+            <B
+              {...props}
+              scrollRef={scrollRef}
+              key={key}
+              onApply={onApply}
+              setRcp_qr={setRcp_qr}
+              rcp_qr={rcp_qr}
+              eventDetail={eventDetail}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+            />
+          )}
+          {eventDetail.entry && eventDetail.gbn == "C" && (
+            <C
+              {...props}
+              scrollRef={scrollRef}
+              key={key}
+              onApply={onApplyStamp}
+              setRcp_qr={setRcp_qr}
+              eventDetail={eventDetail}
+              onExchangeStamp={onExchangeStamp}
+              onInterimExchangeStamp={onInterimExchangeStamp}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+              reg_num={reg_num}
+              setReg_num={setReg_num}
+            />
+          )}
           {!!eventDetail.winner_img && (
             <View style={{ marginTop: 30 }}>
               <ScaledImage
@@ -328,7 +304,7 @@ const Text3 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   marginTop: 20,
 });
 
@@ -349,7 +325,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

@@ -1,24 +1,9 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled from "styled-components/native";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  Platform,
-  Image,
-  AppState,
-} from "react-native";
+import { StyleSheet, AppState } from "react-native";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import {
-  BaseButtonContainer,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  StyleConstants,
-} from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";
 import * as Location from "expo-location";
 import StoreItem from "../../components/store/StoreItem";
@@ -29,8 +14,8 @@ import InfoBox from "../../components/store/InfoBox";
 import HistoryList from "../../components/store/HistoryList";
 import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
-import { setIsLoading } from "../../store/actions/common";
 import { PADDING_BOTTOM_MENU } from "../../constants";
+import * as CommonActions from "../../store/actions/common";
 
 const StoreChangeScreen = (props) => {
   const dispatch = useDispatch();
@@ -50,35 +35,52 @@ const StoreChangeScreen = (props) => {
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {
-      if (AppState.currentState != "active") return;
-      let { status } = await Location.requestPermissionsAsync();
+      if (_.isEmpty(userStore)) {
+        dispatch(CommonActions.setBottomNavigation(false));
+        props.navigation.setOptions({
+          headerLeft: (props) => <></>,
+          cardStyle: {
+            marginBottom: 0,
+          },
+        });
+      }
+      let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         // setErrorMsg("Permission to access location was denied");
+        return setLocation({
+          coords: {
+            latitude: "",
+            longitude: "",
+          },
+        });
       }
-      if (location == null) {
-        let location = await Location.getLastKnownPositionAsync();
-        setLocation(location);
+
+      let location = await Location.getLastKnownPositionAsync();
+      if (!location) {
+        location = {
+          coords: {
+            latitude: "",
+            longitude: "",
+          },
+        };
       }
+      setLocation(location);
     })();
   }, []);
   useEffect(() => {
-    dispatch(setIsLoading(true));
-    const fetchAddress1 = dispatch(branchesActions.fetchAddress1());
+    if (!location) return;
+    dispatch(branchesActions.fetchAddress1());
     let query = {
-      user_cd: userInfo.user_cd,
+      lat: "",
+      lng: "",
     };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
     if (location) {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
-    const fetchStoreMark = isJoin
-      ? dispatch(branchesActions.fetchStoreMark(query))
-      : null;
-    fetchBranches();
-
-    Promise.all([fetchAddress1, fetchStoreMark]).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    if (isJoin) dispatch(branchesActions.fetchStoreMark(query));
+    fetchBranches(lname, mname, store_nm, pageNum.current);
   }, [location]);
 
   const fetchBranches = (
@@ -92,6 +94,8 @@ const StoreChangeScreen = (props) => {
       mname,
       store_nm: storeName,
       page: page,
+      lat: "",
+      lng: "",
     };
     if (location) {
       query.lat = location.coords.latitude;
@@ -101,21 +105,18 @@ const StoreChangeScreen = (props) => {
   };
   const loadMore = async () => {
     if (!isLoading && pageNum.current + 1 <= branches.finalPage) {
-      dispatch(setIsLoading(true));
       pageNum.current++;
-      fetchBranches(lname, mname, store_nm, pageNum.current).then((data) => {
-        dispatch(setIsLoading(false));
-      });
+      fetchBranches(lname, mname, store_nm, pageNum.current);
     }
   };
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
         paddingRight: 0,
       }}
-      contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
+      contentStyle={{ paddingTop: 0, backgroundColor: colors.TRUE_WHITE }}
       scrollListStyle={{ paddingRight: 0, paddingLeft: 0 }}
     >
       <InfoBox />
@@ -161,7 +162,7 @@ const StoreChangeScreen = (props) => {
             listKey="stores"
             style={{ width: "100%", flexGrow: 1 }}
             data={branches.storeList}
-            keyExtractor={(item) => `stores-${item.store_cd}`}
+            keyExtractor={(item, index) => `stores-${item.store_cd}-${index}`}
             renderItem={(itemData) => <StoreItem item={itemData.item} />}
           />
         )}
@@ -177,7 +178,7 @@ export const screenOptions = ({ navigation }) => {
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
     cardStyle: {
-      backgroundColor: colors.trueWhite,
+      backgroundColor: colors.TRUE_WHITE,
       paddingBottom: PADDING_BOTTOM_MENU,
     },
   };
@@ -187,7 +188,7 @@ export const screenOptions = ({ navigation }) => {
 export const WhiteContainer = styled.View({
   paddingTop: 6,
   width: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   flex: 1,
   height: "100%",
 });
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   amount: {
-    color: colors.primary,
+    color: colors.PRIMARY,
   },
 });
 export default StoreChangeScreen;

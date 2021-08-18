@@ -1,20 +1,29 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import * as couponActions from "../../store/actions/coupon";
 import CouponItem from "../../components/CouponItem";
-import CouponItemA from "../../components/CouponItemA";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import { setAlert, setIsLoading, setLink } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
+import { checkAuth } from "../../store/actions/auth";
 
 const CouponScreen = (props) => {
+  const eventCategory = [
+    { type_nm: "전체", type_val: "" },
+    { type_nm: "상품쿠폰", type_val: "B" },
+    { type_nm: "할인쿠폰", type_val: "A" },
+  ];
+  const [gbn, setGbn] = useState("");
   const isFocused = useIsFocused();
+  const link = useSelector((state) => state.common.link);
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
@@ -22,13 +31,11 @@ const CouponScreen = (props) => {
   const page = useRef(1);
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  let couponA, coupon;
+  let coupon;
   if (routeName == "MyCoupon") {
     //나의쿠폰 일 경우..
-    couponA = useSelector((state) => state.coupon.myCouponA);
     coupon = useSelector((state) => state.coupon.myCoupon);
   } else {
-    couponA = useSelector((state) => state.coupon.couponA);
     coupon = useSelector((state) => state.coupon.coupon);
   }
 
@@ -36,70 +43,57 @@ const CouponScreen = (props) => {
   // useScrollToTop(ref);
   // global.alert(1);
   useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (userStore) {
-        dispatch(setIsLoading(true));
-        page.current = 1;
-
-        const fetchCouponA = dispatch(
-          couponActions.fetchCoupon({
-            store_cd: userStore.storeInfo.store_cd,
-            user_cd: userInfo.user_cd,
-            user_yn: routeName == "MyCoupon" ? "Y" : "N",
-            gbn: "A",
-          })
+    if (_.isEmpty(coupon) || !coupon.couponList || !link) return;
+    if (link && link.category == routeName && link.link_code) {
+      setTimeout(async () => {
+        let item = _.filter(
+          coupon.couponList,
+          (o) => o.cou_cd == link.link_code
         );
-        const fetchCouponB = dispatch(
-          couponActions.fetchCoupon({
-            store_cd: userStore.storeInfo.store_cd,
-            user_cd: userInfo.user_cd,
-            user_yn: routeName == "MyCoupon" ? "Y" : "N",
-            gbn: "B",
-          })
-        );
-
-        Promise.all([fetchCouponA, fetchCouponB]).then(() => {
-          dispatch(setIsLoading(false));
-        });
-      }
-    });
-    return unsubscribe;
-  }, [userStore]);
-  const onCouponItemPressed = async (item, type = "B") => {
-    if (!userInfo.ci) return navigation.navigate("Empty");
-
-    let couponList;
-    switch (type) {
-      case "A":
-        couponList = couponA.couponList;
-        break;
-      case "B":
-        couponList = coupon.couponList;
-        break;
+        await dispatch(setLink(null));
+        await onCouponItemPressed(item[0]);
+      }, 500);
     }
+  }, [coupon]);
+
+  useEffect(() => {
+    if (!isFocused || _.isEmpty(userStore)) return;
+
+    page.current = 1;
+    dispatch(
+      couponActions.fetchCoupon({
+        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo.user_cd,
+        user_yn: routeName == "MyCoupon" ? "Y" : "N",
+        gbn: gbn,
+      })
+    );
+  }, [gbn, userStore, isFocused]);
+
+  const onCouponItemPressed = async (item, type = "B") => {
+    if (!userInfo.ci) return checkAuth(dispatch, !!userInfo.ci);
+
+    let couponList = coupon.couponList;
+
     const index = couponList.indexOf(item);
     switch (item.status) {
       case "00": // 미발급
-        await dispatch(setIsLoading(true));
         dispatch(
           couponActions.downloadCoupon({
             store_cd: userStore.storeInfo.store_cd,
             user_cd: userInfo.user_cd,
             cou_cd: item.cou_cd,
-            coupon: type == "A" ? couponA : coupon,
+            coupon: coupon,
             index: index,
-            type,
           })
         ).then(async (data) => {
-          await dispatch(setIsLoading(false));
           if (data.result == "success") {
             navigation.navigate("CouponDetail", {
               store_cd: userStore.storeInfo.store_cd,
               cou_cd: item.cou_cd,
               user_cd: userInfo.user_cd,
-              coupon: type == "A" ? couponA : coupon,
+              coupon: coupon,
               index: index,
-              type,
               routeName,
               isNew: true,
             });
@@ -111,9 +105,8 @@ const CouponScreen = (props) => {
           store_cd: userStore.storeInfo.store_cd,
           cou_cd: item.cou_cd,
           user_cd: userInfo.user_cd,
-          coupon: type == "A" ? couponA : coupon,
+          coupon: coupon,
           index: index,
-          type,
           routeName,
         });
       case "20": // 사용완료
@@ -122,43 +115,46 @@ const CouponScreen = (props) => {
   };
   const loadMore = () => {
     if (!isLoading && page.current + 1 <= coupon.finalPage) {
-      dispatch(setIsLoading(true));
       page.current++;
       dispatch(
         couponActions.fetchCoupon({
           store_cd: userStore.storeInfo.store_cd,
           user_cd: userInfo.user_cd,
           page: page.current,
-          gbn: "B",
+          gbn: gbn,
         })
-      ).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      );
     }
   };
-  if (!isFocused || !couponA || !coupon) return <></>;
-  if (
-    routeName == "MyCoupon" &&
-    _.size(couponA.couponList) === 0 &&
-    _.size(coupon.couponList) === 0
-  )
+  if (!coupon) return <></>;
+  if (routeName == "MyCoupon" && _.size(coupon.couponList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/wallet.png")}
-        text={"나의 쿠폰"}
-        infoText="나의 쿠폰이 없습니다."
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/wallet.png")}
+          text={"나의 쿠폰"}
+          infoText="나의 쿠폰이 없습니다."
+        />
+      </>
     );
-  if (
-    routeName == "Coupon" &&
-    _.size(couponA.couponList) === 0 &&
-    _.size(coupon.couponList) === 0
-  )
+  if (routeName == "Coupon" && _.size(coupon.couponList) === 0)
     return (
-      <NoList
-        source={require("../../assets/images/ticketWhite.png")}
-        text={"쿠폰"}
-      />
+      <>
+        <CategoryButtonSmallList
+          data={eventCategory}
+          value={gbn}
+          setValue={setGbn}
+        />
+        <NoList
+          source={require("../../assets/images/ticketWhite.png")}
+          text={"쿠폰"}
+        />
+      </>
     );
   return (
     <BaseScreen
@@ -168,43 +164,23 @@ const CouponScreen = (props) => {
         paddingTop: 0,
         width: "100%",
         height: "100%",
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       scrollListStyle={{
         width: "100%",
         height: "100%",
         flex: 1,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
       // isScroll={false}
     >
-      {coupon && couponA && (
+      <CategoryButtonSmallList
+        data={eventCategory}
+        value={gbn}
+        setValue={setGbn}
+      />
+      {coupon && (
         <>
-          <ScrollList
-            listKey={0}
-            numColumns={1}
-            data={couponA.couponList}
-            keyExtractor={(item) =>
-              `A-${userStore.storeInfo.store_cd}-${item.cou_cd}`
-            }
-            // columnWrapperStyle={{
-            //   alignItems: "space-between",
-            //   justifyContent: "space-between",
-            // }}
-            contentContainerStyle={{ flex: 1, width: "100%" }}
-            ListHeaderComponent={() => {
-              return <View style={{ height: 6 }}></View>;
-            }}
-            renderItem={({ item, index, separators }) => {
-              return (
-                <CouponItemA
-                  item={item}
-                  index={index}
-                  onPress={onCouponItemPressed.bind(this, item, "A")}
-                />
-              );
-            }}
-          />
           <ScrollList
             listKey={1}
             numColumns={2}
@@ -241,7 +217,7 @@ export const screenOptions = ({ navigation }) => {
   return {
     title: "나의 쿠폰",
     cardStyle: {
-      backgroundColor: colors.trueWhite,
+      backgroundColor: colors.TRUE_WHITE,
       paddingBottom: 50,
     },
     headerLeft: () => <BackButton />,
@@ -252,9 +228,10 @@ export const screenOptions = ({ navigation }) => {
 
 const ScrollList = styled(ExtendedFlatList)({
   width: "100%",
+  marginTop: 12.5,
 });
 const styles = StyleSheet.create({
-  screen: { backgroundColor: colors.trueWhite, height: "100%", width: "100%" },
+  screen: { backgroundColor: colors.TRUE_WHITE, height: "100%", width: "100%" },
 });
 
 export default CouponScreen;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components/native";
 import Carousel from "../../components/UI/Carousel";
-import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Platform, Image, TouchableOpacity } from "react-native";
 import {
   StyleConstants,
   BaseImage,
@@ -11,6 +11,7 @@ import {
 import * as RootNavigation from "../../navigation/RootNavigation";
 import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
+import * as actionTypes from "../../store/actions/actionTypes";
 import * as eventActions from "../../store/actions/event";
 import * as CommonActions from "../../store/actions/common";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -28,7 +29,7 @@ const HomeEvent = (props) => {
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
   const clearData = () => {
-    dispatch({ type: eventActions.SET_EVENT, event: null });
+    dispatch({ type: actionTypes.SET_EVENT, event: null });
   };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(props.userStore)) return;
@@ -88,7 +89,7 @@ const HomeEvent = (props) => {
           overflow: "hidden",
           aspectRatio: 1 / 0.34756097560976,
         }}
-        arrows={_.size(event.eventList) <= 1 ? false : true}
+        arrows={_.size(event.eventList) > 0 ? true : false}
         arrowLeft={
           <Image source={require("../../assets/images/left_button2.png")} />
         }
@@ -129,7 +130,13 @@ const HomeEvent = (props) => {
         >
           <Image
             source={require("../../assets/images/event_banner.png")}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor:
+                Platform.OS == "android" ? colors.WHITE : "transparent",
+            }}
+            defaultSource={require("../../assets/images/b_img500.png")}
             resizeMode="stretch"
           />
         </TouchableOpacity>
@@ -190,9 +197,12 @@ const BannerItem = (props) => {
         width: SCREEN_WIDTH - 48,
         borderRadius: 10,
         overflow: "hidden",
+        backgroundColor:
+          Platform.OS == "android" ? colors.WHITE : "transparent",
       }}
       resizeMode="cover"
       source={props.item.title_img}
+      defaultSource={require("../../assets/images/b_img500.png")}
     />
   );
 };

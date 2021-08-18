@@ -6,6 +6,7 @@ import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import { IconImage } from "./HomeHeaderLeft";
+import * as Util from "../../../../util";
 
 const HomeHeaderRight = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
@@ -16,7 +17,10 @@ const HomeHeaderRight = (props) => {
         onPress={() => RootNavigation.navigate("SearchProduct")}
         style={{ paddingRight: 21 }}
       >
-        <IconImage source={require("../../../../assets/images/search.png")} />
+        <IconImage
+          source={require("../../../../assets/images/search.png")}
+          style={{ width: Util.normalize(77) }}
+        />
       </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
@@ -25,7 +29,7 @@ const HomeHeaderRight = (props) => {
         <MaterialCommunityIcons
           name="cart-outline"
           size={24}
-          color={colors.pine}
+          color={colors.PINE}
         />
       </Btn> */}
     </BtnContainer>
@@ -48,7 +52,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

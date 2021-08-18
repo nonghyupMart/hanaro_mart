@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
-import * as AgreementScreen from "../../screens/join/AgreementScreen";
+import * as Agreement from "../UI/Agreement";
 
 import AgreementContent3 from "../../components/join/AgreementContent3";
 import { styles } from "../../components/join/styles";
@@ -17,6 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { CheckBox } from "react-native-elements";
 
 const ApplyBox = (props) => {
+  if (props.eventDetail.entry.entry_date_yn != "Y") return <></>;
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const checkItem = props.checkItem;
@@ -63,40 +64,40 @@ const ApplyBox = (props) => {
 
   return (
     <>
-      {props.eventDetail.entry.status == "10" &&
+      {props.eventDetail.entry.entry_date_yn == "Y" &&
         userInfo &&
         userInfo.marketing_agree == "N" && (
           <Container>
             <Title>개인정보 수집동의</Title>
-            <AgreementScreen.TitleArea>
-              <AgreementScreen.TitleContainer
+            <Agreement.TitleArea>
+              <Agreement.TitleContainer
                 style={{ marginTop: 13, marginBottom: 5 }}
               >
-                <AgreementScreen.CheckButton
+                <Agreement.CheckButton
                   value={checkItem}
                   onPress={handleChecked.bind(this, checkItem)}
                   isRequired={true}
                 />
-                <AgreementScreen.TextView
+                <Agreement.TextView
                   style={{
                     fontWeight: "normal",
                     fontSize: 14,
                     flexGrow: 1,
                     flexShrink: 0,
                     color: props.item.isRequired
-                      ? colors.cerulean
-                      : colors.viridian,
+                      ? colors.CERULEAN
+                      : colors.VIRIDIAN,
                     fontFamily: "Roboto-Bold",
                   }}
                 >
                   {props.item.isRequired ? "[필수] " : "[선택] "}
-                </AgreementScreen.TextView>
-                <AgreementScreen.BoldText
+                </Agreement.TextView>
+                <Agreement.BoldText
                   style={{ textAlign: "left", width: "100%" }}
                 >
                   행사안내 및 이벤트 수신 동의
-                </AgreementScreen.BoldText>
-              </AgreementScreen.TitleContainer>
+                </Agreement.BoldText>
+              </Agreement.TitleContainer>
               <CheckBox
                 containerStyle={[styles.checkbox]}
                 checked={checkItem.isOpen}
@@ -109,32 +110,32 @@ const ApplyBox = (props) => {
                 }
                 style={{ opacity: 0 }}
               />
-            </AgreementScreen.TitleArea>
+            </Agreement.TitleArea>
 
-            <AgreementScreen.Desc>
-              <AgreementScreen.DescTextLine>
-                <AgreementScreen.CircleCheckButton
+            <Agreement.Desc>
+              <Agreement.DescTextLine>
+                <Agreement.CircleCheckButton
                   checked={checkItem.child[0].isChecked}
                   onPress={setChecked.bind(this, checkItem, checkItem.child[0])}
                 />
-                <AgreementScreen.DescText1>
+                <Agreement.DescText1>
                   개인정보의 선택적 수집·이용 동의
-                </AgreementScreen.DescText1>
-              </AgreementScreen.DescTextLine>
-              <AgreementScreen.DescTextLine>
-                <AgreementScreen.CircleCheckButton
+                </Agreement.DescText1>
+              </Agreement.DescTextLine>
+              <Agreement.DescTextLine>
+                <Agreement.CircleCheckButton
                   checked={checkItem.child[1].isChecked}
                   onPress={setChecked.bind(this, checkItem, checkItem.child[1])}
                 />
-                <AgreementScreen.DescText1>
+                <Agreement.DescText1>
                   개인정보의 선택적 제공동의
-                </AgreementScreen.DescText1>
-              </AgreementScreen.DescTextLine>
-              <AgreementScreen.GrayDesc>
+                </Agreement.DescText1>
+              </Agreement.DescTextLine>
+              <Agreement.GrayDesc>
                 이벤트 수신동의를 하시면 할인쿠폰 등에 대한 정보를 받으실 수
                 있습니다.
-              </AgreementScreen.GrayDesc>
-            </AgreementScreen.Desc>
+              </Agreement.GrayDesc>
+            </Agreement.Desc>
             {checkItem.isOpen && (
               <AgreementContent3 style={{ marginTop: 10, marginBottom: 10 }} />
             )}
@@ -159,7 +160,7 @@ const ApplyBox = (props) => {
         </BlueButton>
       )}
       {props.isShowApplyButton && props.eventDetail.entry.status === "20" && (
-        <GrayButton style={{ marginTop: 40 }}>
+        <GrayButton style={{ marginTop: 40 }} activeOpacity={1}>
           <Image source={require("../../assets/images/forward.png")} />
           <BlueButtonText>응모완료</BlueButtonText>
         </GrayButton>
@@ -167,8 +168,8 @@ const ApplyBox = (props) => {
     </>
   );
 };
-const GrayButton = styled(BlueButton).attrs({ activeOpacity: 0 })({
-  backgroundColor: colors.greyishThree,
+const GrayButton = styled(BlueButton)({
+  backgroundColor: colors.GREYISH_THREE,
 });
 ApplyBox.defaultProps = {
   item: {
@@ -180,10 +181,10 @@ ApplyBox.defaultProps = {
 
 const InputText = styled(BaseTextInput)({
   borderRadius: 16,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   marginLeft: 34,
   marginRight: 34,
   minHeight: 34,
@@ -192,7 +193,7 @@ const InputText = styled(BaseTextInput)({
   textAlign: "center",
 });
 
-const TextView2 = styled(AgreementScreen.TextView)({
+const TextView2 = styled(Agreement.TextView)({
   flexGrow: 1,
   marginRight: 22,
   justifyContent: "flex-start",
@@ -202,7 +203,7 @@ const TextView2 = styled(AgreementScreen.TextView)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 
 const Title = styled(BaseText)({
@@ -213,8 +214,8 @@ const Title = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
-  backgroundColor: colors.greyishBrown,
+  color: colors.TRUE_WHITE,
+  backgroundColor: colors.GREYISH_BROWN,
   width: "100%",
   padding: 4,
 });
@@ -222,13 +223,16 @@ const Container = styled.View({
   marginTop: 42,
 
   width: "100%",
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.greyishThree,
+  borderColor: colors.GREYISH_THREE,
   borderRadius: 12,
   overflow: "hidden",
   paddingBottom: 10,
 });
+
+
+
 
 export default ApplyBox;

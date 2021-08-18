@@ -1,8 +1,8 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, BackHandler } from "react-native";
 import Alert from "../../components/UI/Alert";
 import { useSelector, useDispatch } from "react-redux";
 import * as authActions from "../../store/actions/auth";
@@ -12,9 +12,14 @@ import * as branchesActions from "../../store/actions/branches";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as CommonActions from "../../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import {
+  setAlert,
+  setIsLoading,
+  setDidTryPopup,
+} from "../../store/actions/common";
 import * as Notifications from "expo-notifications";
 import JoinPopupContent from "../../screens/join/JoinPopupContent";
+import moment from "moment";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -24,20 +29,50 @@ export const ExtendedWebView = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const [isLoaded, setIsLoaded] = useState(false);
   const pushToken = useSelector((state) => state.auth.pushToken);
-  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
   const userInfo = useSelector((state) => state.auth.userInfo);
   const index = useNavigationState((state) => state.index);
-  // const onMessage = (event) => {
-  //   // iOS용
-  //   const message = JSON.parse(event.nativeEvent.data);
-  //   parseMethod(message);
-  // };
+  const isLoading = useSelector((state) => state.common.isLoading);
+  const alert = useSelector((state) => state.common.alert);
+  const backButtonEnabled = useRef(false);
+  const webref = useRef();
+  const onMessage = (event) => {
+    const message = JSON.parse(event.nativeEvent.data);
+    parseMethod(message);
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        if (backButtonEnabled.current) {
+          webref.current.goBack();
+          return true;
+        }
+      }
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+  // useEffect(() => {
+  //   webref.current.injectJavaScript(
+  //     `
+  //     var a = {method:"openURL", value:"http://m.nonghyupmall.com/MCAMARKETI/iapp.nh"};
+  //     var event =  JSON.stringify(a);
+  //     window.ReactNativeWebView.postMessage(event)
+  //     `
+  //   );
+  // }, []);
 
   const onShouldStartLoadWithRequest = (e) => {
     // android용
     return interceptStateChange(e);
   };
   const onNavigationStateChange = (e) => {
+    backButtonEnabled.current = e.canGoBack;
+    if (props.onNavigationStateChange) {
+      props.onNavigationStateChange();
+    }
     // if (Platform.OS === "ios") return interceptStateChange(e);
   };
   const interceptStateChange = (e) => {
@@ -47,7 +82,6 @@ export const ExtendedWebView = (props) => {
       decodeURIComponent(e.url.replace("native://", ""))
     );
     parseMethod(message);
-
     // return false to prevent webview navigate to the location of e.url
     return false;
   };
@@ -58,60 +92,96 @@ export const ExtendedWebView = (props) => {
         break;
       case "alert":
         dispatch(
-          CommonActions.setAlert({
+          setAlert({
             message: message.value,
             onPressConfirm: () => {
-              dispatch(CommonActions.setAlert(null));
+              dispatch(setAlert(null));
             },
           })
         );
         break;
       case "auth":
-        dispatch(setIsLoading(true));
+        await dispatch(setIsLoading(true));
+        if (hasAlreadyRegistered(message.value.user_cd)) return;
+
         let query = {
-          user_sex: message.value.sex,
-          user_id: message.value.tel,
-          user_name: message.value.name,
-          os: Platform.OS === "ios" ? "I" : "A",
-          di: message.value.di,
-          ci: message.value.ci,
+          // os: Platform.OS === "ios" ? "I" : "A",
+          user_cd: message.value.user_cd,
         };
 
+        if (props.recommend) query.to_recommend = props.recommend;
         if (pushToken) query.token = pushToken;
-        if (_.isEmpty(userInfo) && !_.isEmpty(agreedStatus)) {
-          // Only when the first signup
-          query.marketing_agree = agreedStatus[3].isChecked ? "Y" : "N";
-          if (agreedStatus[3].isChecked)
-            query.user_age = message.value.birthday;
-        }
+
         if (!_.isEmpty(userInfo)) {
           query.user_cd = userInfo.user_cd;
           query.recommend = userInfo.recommend;
         }
-        const user_id = await authActions.saveUserTelToStorage();
-        if (query.user_id != user_id) {
-          delete query.user_cd;
-        }
         if (!_.isEmpty(userStore)) {
           query.store_cd = userStore.storeInfo.store_cd;
         }
-        requestSignup(query, dispatch, agreedStatus).then(() => {
-          if (!_.isEmpty(userInfo)) {
-            dispatch(CommonActions.setBottomNavigation(true));
-            if (index > 0) RootNavigation.pop();
-            else RootNavigation.navigate("Home");
+        dispatch(authActions.loginWithUserCd(query)).then(async (data) => {
+          if (data.userInfo) {
+            await authActions.saveUserData(dispatch, data);
+            if (isLoading) await dispatch(setIsLoading(false));
+            if (!_.isEmpty(alert)) await dispatch(setAlert(null));
+            await dispatch(CommonActions.setDidTryPopup(false));
+            await dispatch(authActions.setIsJoin(true));
+            await finish();
           }
-          dispatch(setIsLoading(false));
         });
-
         // message.value
         break;
+      case "searchId":
+        if (!message.value.intg_id) {
+          dispatch(
+            setAlert({
+              message: "통합회원 가입정보가 없습니다.",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
+          finish();
+          return;
+        }
+        RootNavigation.replace("FindIDResult", {
+          intg_id: message.value.intg_id,
+          reg_date: message.value.reg_date,
+          user_cd: message.value.user_cd,
+        });
+        break;
       case "close":
-        dispatch(CommonActions.setBottomNavigation(true));
-        if (index > 0) RootNavigation.pop();
-        else RootNavigation.navigate("Home");
+        finish();
         break;
     }
+  };
+
+  const hasAlreadyRegistered = (user_cd) => {
+    // show alert when user_cd is ""
+    if (user_cd == "") {
+      return dispatch(
+        CommonActions.setAlert({
+          message: "가입된 정보가 없습니다. 회원가입을 해주세요.",
+          onPressConfirm: async () => {
+            await dispatch(setIsLoading(false));
+            await dispatch(CommonActions.setAlert(null));
+            finish();
+          },
+        })
+      );
+    }
+    return false;
+  };
+
+  const isUnderFourteen = (birthday) => {
+    // block under age 14
+    var years = moment().diff(birthday, "years");
+    return years < 14;
+  };
+  const finish = async () => {
+    await dispatch(CommonActions.setBottomNavigation(true));
+    if (index > 0) RootNavigation.pop();
+    else RootNavigation.navigate("Home");
   };
   const hideSpinner = () => {
     setIsLoaded(true);
@@ -119,6 +189,7 @@ export const ExtendedWebView = (props) => {
   return (
     <>
       <WebView
+        ref={(r) => (webref.current = r)}
         textZoom={100}
         onLoad={() => hideSpinner()}
         {...restProps}
@@ -135,7 +206,7 @@ export const ExtendedWebView = (props) => {
         mixedContentMode="always"
         sharedCookiesEnabled={true}
         thirdPartyCookiesEnabled={true}
-        // onMessage={(event) => onMessage(event)}
+        onMessage={(event) => onMessage(event)}
         // renderError={(error) => Util.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
           // const { nativeEvent } = syntheticEvent;
@@ -152,7 +223,7 @@ export const ExtendedWebView = (props) => {
           return (
             <ActivityIndicator
               size={props.indicatorSize ? props.indicatorSize : "large"}
-              color={colors.cerulean}
+              color={colors.CERULEAN}
               style={{
                 position: "absolute",
                 left: 0,
@@ -171,63 +242,4 @@ export const ExtendedWebView = (props) => {
       />
     </>
   );
-};
-
-export const requestSignup = async (query, dispatch, agreedStatus) => {
-  query.token = `${query.token}`.trim();
-  if (!query.token || query.token == "") {
-    query.token = (await Notifications.getExpoPushTokenAsync()).data;
-  }
-  query.token = `${query.token}`.trim();
-  if (!query.token || query.token == "") {
-    return new Promise((resolve, reject) => {
-      dispatch(
-        setAlert({
-          message:
-            "서버통신지연으로 인하여 잠시 후 다시 실행해주시기 바랍니다.",
-          onPressConfirm: async () => {
-            await dispatch(setIsLoading(false));
-            await dispatch(setAlert(null));
-            reject(false);
-          },
-        })
-      );
-    });
-  }
-  return dispatch(authActions.signup(query)).then(async (userInfo) => {
-    if (!_.isEmpty(userInfo)) {
-      await authActions.saveUserTelToStorage(query.user_id);
-      if (userInfo.store_cd) {
-        dispatch(branchesActions.fetchBranch(userInfo.store_cd)).then(
-          async (storeData) => {
-            await dispatch(setIsLoading(false));
-            await authActions.saveUserStoreToStorage(storeData);
-            await dispatch(authActions.saveUserStore(storeData));
-            dispatch(
-              setAlert({
-                content: <JoinPopupContent />,
-                onPressConfirm: async () => {
-                  await dispatch(setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup(false));
-                  dispatch(authActions.setIsJoin(true));
-                },
-              })
-            );
-          }
-        );
-      } else {
-        await dispatch(setIsLoading(false));
-        dispatch(
-          setAlert({
-            content: <JoinPopupContent />,
-            onPressConfirm: async () => {
-              await dispatch(setAlert(null));
-              await dispatch(CommonActions.setDidTryPopup(false));
-              dispatch(authActions.setIsJoin(true));
-            },
-          })
-        );
-      }
-    }
-  });
 };

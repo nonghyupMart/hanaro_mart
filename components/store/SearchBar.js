@@ -23,11 +23,7 @@ const SearchBar = (props) => {
       store_nm: props.store_nm,
     };
     props.pageNum.current = 1;
-    props
-      .fetchBranches(props.lname, props.mname, props.store_nm, 1)
-      .then(() => {
-        dispatch(setIsLoading(false));
-      });
+    props.fetchBranches(props.lname, props.mname, props.store_nm, 1);
   };
   const onFocus = () => {
     // dispatch(setBottomNavigation(false));
@@ -74,7 +70,7 @@ const TextInputContainer = styled.View({
   height: 40,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.cerulean,
+  borderColor: colors.CERULEAN,
   borderTopRightRadius: 20,
   borderBottomRightRadius: 20,
   flex: 1,
@@ -87,7 +83,7 @@ const StoreName = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const SearchBarContainer = styled.View({
   flexDirection: "row",
@@ -103,7 +99,7 @@ const ButtonText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 const BaseSmallButton = styled(BaseButtonContainer)({
   width: 114,
@@ -111,10 +107,10 @@ const BaseSmallButton = styled(BaseButtonContainer)({
   borderRadius: 11,
 });
 const BlueButton = styled(BaseSmallButton)({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
 });
 const GrayButton = styled(BaseSmallButton)({
-  backgroundColor: colors.pinkishGrey,
+  backgroundColor: colors.PINKISH_GREY,
 });
 const BlueRoundView = styled.View({
   //    borderBottomLeftRadius: number
@@ -123,7 +119,7 @@ const BlueRoundView = styled.View({
   // - borderTopRightRadius: number
   borderTopLeftRadius: 20,
   borderBottomLeftRadius: 20,
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   height: 40,
   flexDirection: "row",
   alignItems: "center",

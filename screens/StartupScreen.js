@@ -13,165 +13,151 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
 import * as branchesActions from "../store/actions/branches";
-import { INTERNAL_APP_VERSION } from "../constants";
 
 const StartupScreen = (props) => {
   const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
-  const [permissionStatus, setPermissionStatus] = useState();
-  const [location, setLocation] = useState(null);
+  const permissionStatus = useRef();
   const userStore = useSelector((state) => state.auth.userStore);
-  const [isLocationReady, setIsLocationReady] = useState(false);
-  const timerRef = useRef(null);
+  const timerRef = useRef();
 
   useEffect(() => {
-    dispatch(CommonActions.setIsLoading(true));
     (async () => {
-      dispatch(authActions.fetchUpdate()).then((data) => {
-        if (data.popupCnt <= 0) return;
-        let obj = data.popupList[0];
-        if (!obj.app_ver) return;
-        let versionCheck = Util.versionCompare(
-          INTERNAL_APP_VERSION.slice(0, 3),
-          obj.app_ver
-        );
-
-        if (versionCheck < 0) {
-          //버전이 낮을때만 업데이트 팝업 페이지로 이동
-          dispatch(authActions.setIsUpdated(false));
-          dispatch(CommonActions.setIsLoading(false));
-          return;
-        }
-      });
-      await CommonActions.updateExpo(dispatch);
-      if (Constants.isDevice) {
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
-        if (token) await dispatch(authActions.setPushToken(token));
-      }
-      let { status } = await Location.requestPermissionsAsync();
-      setPermissionStatus(status);
-
-      const userStoreData = await Util.getStorageItem("userStoreData");
-      await dispatch(authActions.saveUserStore(JSON.parse(userStoreData)));
-
-      const userInfoData = await Util.getStorageItem("userInfoData");
-      const parsedUserData = await JSON.parse(userInfoData);
-      await dispatch(authActions.setUserInfo(parsedUserData));
-      if (parsedUserData && parsedUserData.user_id) {
-        await dispatch(authActions.setPreview(false));
-        await dispatch(authActions.setIsJoin(true));
-      } else await dispatch(authActions.setIsJoin(false));
-
-      const agreedStatusData = await Util.getStorageItem("agreedStatusData");
-      await dispatch(authActions.setAgreedStatus(JSON.parse(agreedStatusData)));
-
-      await getIsStorePopup(userStoreData, dispatch);
-
-      const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
-      setDate = moment().subtract(1, "days");
-      if (dateForAppPopup) setDate = moment(dateForAppPopup);
-
-      //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
-      await dispatch(
-        CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
-      );
-
-      if (
-        !_.isEmpty(userStoreData) &&
-        parsedUserData &&
-        parsedUserData.user_id
-      ) {
-        //가입을 했고 매장이 있는경우 근처매장 api 호출 않함
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
-        await dispatch(CommonActions.setIsLoading(false));
-        return;
-      }
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        fetchBranchNear();
-      }, 1500 * 10);
+      await SplashScreen.hideAsync();
+      if (!isUpdatedVersion()) return;
+      await getExpoPushToken();
+      await getLocationPermission();
+      await getUserStoreData();
+      await getUserInfo();
+      await getIsStorePopup(dispatch);
+      await initAppPopupData();
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      // 비가입시에만 실행
-      if (!permissionStatus || isJoin) return;
-      if (permissionStatus !== "granted") {
-        // 매장을 선택해주세요. 매장 설정 화면으로 ...
-        dispatch(
-          setAlert({
-            message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-            onPressConfirm: async () => {
-              await dispatch(setAlert(null));
-              RootNavigation.navigate("StoreChange");
-            },
-            onPressCancel: async () => {
-              await dispatch(setAlert(null));
-              await dispatch(setDidTryPopup(true));
-            },
-            confirmText: "매장선택",
-            cancelText: "취소",
-          })
-        );
+      if (isJoin == null) return;
+      if (isJoin || !_.isEmpty(userStore)) {
+        // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
+        await finish();
         return;
       }
-      if (location == null) {
-        let location = await Location.getLastKnownPositionAsync();
-        setLocation(location);
-      }
-    })();
-  }, [permissionStatus]);
 
-  useEffect(() => {
-    (async () => {
-      // 비가입시에만 실행
-      // 가장 가까운 매장 상세정보 호출 후 세팅
-      if ((!location && permissionStatus == "granted") || isJoin) {
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
-        await dispatch(CommonActions.setIsLoading(false));
-      }
-      if (!location) {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        timerRef.current = setTimeout(() => {
-          fetchBranchNear();
-        }, 1000 * 10);
+      if (permissionStatus.current !== "granted") {
+        //권한 거부시 신촌점 호출
+        fetchBranchNear();
         return;
       }
-      if (timerRef.current) clearTimeout(timerRef.current);
-      fetchBranchNear();
-    })();
-  }, [location]);
 
-  const fetchBranchNear = async () => {
+      let location = await Location.getLastKnownPositionAsync();
+      fetchBranchNear(location);
+    })();
+  }, [isJoin, userStore]);
+
+  const initAppPopupData = async () => {
+    const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
+    setDate = moment().subtract(1, "days");
+    if (dateForAppPopup) setDate = moment(dateForAppPopup);
+
+    //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
+    await dispatch(
+      CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
+    );
+  };
+
+  const getUserInfo = async () => {
+    const userInfoData = await Util.getStorageItem("userInfoData");
+    await dispatch(authActions.setUserInfo(userInfoData));
+    const isUserJoined = !!(userInfoData && userInfoData.user_id);
+    await dispatch(authActions.setIsJoin(isUserJoined));
+  };
+
+  const getUserStoreData = async () => {
+    try {
+      const userStoreData = await Util.getStorageItem("userStoreData");
+      if (!userStoreData) return;
+      await dispatch(authActions.saveUserStore(userStoreData));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const getLocationPermission = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    permissionStatus.current = status;
+  };
+
+  const getExpoPushToken = async () => {
+    if (Constants.isDevice) {
+      try {
+        const { status: existingStatus } =
+          await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+
+        if (existingStatus !== "granted") {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+
+        // if (finalStatus !== "granted") {
+        //   alert("Failed to get push token for push notification!");
+        //   return;
+        // }
+
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        if (token) await dispatch(authActions.setPushToken(token));
+      } catch (error) {
+        Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
+      }
+    }
+  };
+
+  const isUpdatedVersion = async () => {
+    await dispatch(authActions.fetchUpdate()).then((data) => {
+      if (data.popupCnt <= 0) return;
+      let obj = data.popupList[0];
+      if (!obj.app_ver) return;
+      const index = Constants.manifest.version.indexOf(".", 2);
+      let versionCheck = Util.versionCompare(
+        Constants.manifest.version.slice(0, index),
+        obj.app_ver
+      );
+
+      if (versionCheck < 0) {
+        //버전이 낮을때만 업데이트 팝업 페이지로 이동
+        dispatch(authActions.setIsUpdated(false));
+        return false;
+      }
+      return true;
+    });
+  };
+
+  const fetchBranchNear = async (location) => {
     let query = {};
     if (location) {
       query.lat = location.coords.latitude;
       query.lng = location.coords.longitude;
     }
     dispatch(branchesActions.fetchBranchNear(query)).then(async (data) => {
-      if (!data || !data.storeInfo || !_.isEmpty(userStore)) return;
+      if (!data || !data.storeInfo || !_.isEmpty(userStore)) return finish();
       dispatch(authActions.saveUserStore(data)).then(async (d) => {
-        if (timerRef.current) clearTimeout(timerRef.current);
-        await dispatch(CommonActions.setIsLoading(false));
-        await dispatch(authActions.setDidTryAL());
-        await SplashScreen.hideAsync();
+        finish();
       });
     });
+  };
+
+  const finish = async () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    await dispatch(authActions.setDidTryAL());
   };
 
   return <Splash />;
 };
 
-export const getIsStorePopup = async (userStore, dispatch) => {
+export const getIsStorePopup = async (dispatch) => {
   const dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
-
-  let obj = await JSON.parse(dateForStorePopup);
-  if (!obj) obj = {};
-  // console.warn(obj);
-  await dispatch(CommonActions.setIsStorePopup(obj));
-  return obj;
+  if (!dateForStorePopup) return {};
+  await dispatch(CommonActions.setIsStorePopup(dateForStorePopup));
+  return dateForStorePopup;
 };
 export default StartupScreen;

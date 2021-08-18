@@ -1,139 +1,126 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants";
-import * as Util from "../../util";
-import { getResponse } from "../actions/auth";
-export const SET_ADDRESS1 = "SET_ADDRESS1";
-export const SET_ADDRESS2 = "SET_ADDRESS2";
-export const SET_BRANCHES = "SET_BRANCHES";
-export const SET_BRANCHES_MORE = "SET_BRANCHES_MORE";
-export const SET_BRANCH = "SET_BRANCH";
-export const SET_STORE_MARK = "SET_STORE_MARK";
+import * as actionTypes from "./actionTypes";
+import http from "../../util/axios-instance";
 
 export const fetchAddress1 = () => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/lname`,
+    url: `/lname`,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url);
-
-      dispatch({ type: SET_ADDRESS1, address1: resData.data });
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({ type: actionTypes.SET_ADDRESS1, address1: response.data });
+        return response.data;
+      });
   };
 };
 
 export const fetchAddress2 = (lname) => {
   if (!lname || lname == "") return async () => null;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/${lname}/mname`,
+    url: `/${lname}/mname`,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url);
-
-      dispatch({ type: SET_ADDRESS2, address2: resData.data });
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({ type: actionTypes.SET_ADDRESS2, address2: response.data });
+        return response.data;
+      });
   };
 };
 
+let prevUrl;
 export const fetchBranches = (query) => {
   query.limit = 40;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/store`,
+    url: `/store`,
     query: query,
   });
+  if (url == prevUrl) return async (dispatch, getState) => {};
+  prevUrl = url;
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      if (query.page > 1) {
-        dispatch({ type: SET_BRANCHES_MORE, branches: resData.data });
-      } else {
-        dispatch({ type: SET_BRANCHES, branches: resData.data });
-      }
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        if (query.page > 1) {
+          dispatch({
+            type: actionTypes.SET_BRANCHES_MORE,
+            branches: response.data,
+          });
+        } else {
+          dispatch({ type: actionTypes.SET_BRANCHES, branches: response.data });
+        }
+        return response.data;
+      });
   };
 };
 export const fetchBranch = (store_cd) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/store/${store_cd}`,
+    url: `/store/${store_cd}`,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, store_cd);
-
-      dispatch({ type: SET_BRANCH, branch: resData.data });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
+        return response.data;
+      });
   };
 };
 
 export const fetchBranchNear = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/store-near`,
+    url: `/store-near`,
     query,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({ type: SET_BRANCH, branch: resData.data });
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
+        return response.data;
+      });
   };
 };
 
 export const fetchStoreMark = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/store-mark`,
+    url: `/store-mark`,
     query,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-
-      dispatch({ type: SET_STORE_MARK, storeMark: resData.data });
-    } catch (err) {
-      throw err;
-    }
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_STORE_MARK,
+          storeMark: response.data,
+        });
+        return response.data;
+      });
   };
 };
 
 export const deleteMarkedStore = (query) => {
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/store-mark`,
+    url: `/store-mark`,
     query: query,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .delete(url)
+      .then(async (response) => {
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };

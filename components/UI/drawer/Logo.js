@@ -41,7 +41,7 @@ const BranchName = styled(BaseText)({
   fontSize: Util.normalize(13),
   fontFamily: "Roboto-Bold",
 
-  color: colors.nastyGreen,
+  color: colors.NASTY_GREEN,
   marginTop: Util.normalize(4.5),
 });
 const LogoContainer = styled.View({

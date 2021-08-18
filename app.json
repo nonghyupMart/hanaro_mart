@@ -1,16 +1,23 @@
 {
   "expo": {
+    "scheme": "hanaroplus",
     "name": "하나로마트앱",
     "slug": "hanaro-plus",
-    "version": "1.7.0",
+    "version": "1.22.1",
     "orientation": "portrait",
     "privacy": "unlisted",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "icon": "./assets/icon.png",
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 30000
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "assets/images/*",
+      "assets/fonts/*"
+    ],
     "notification": {
       "icon": "./assets/9696.png",
       "color": "#b2b2b2"
@@ -19,7 +26,7 @@
     "primaryColor": "#ffffff",
     "backgroundColor": "#ffffff",
     "ios": {
-      "buildNumber": "1.7.0",
+      "buildNumber": "1.22.0",
       "icon": "./assets/icon.png",
       "bundleIdentifier": "com.hanaro.hanaroPlus",
       "supportsTablet": false,
@@ -40,7 +47,7 @@
       "userInterfaceStyle": "light"
     },
     "android": {
-      "versionCode": 20,
+      "versionCode": 36,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",
@@ -67,8 +74,37 @@
       "backgroundColor": "#ffffff"
     },
     "web": {
-      "favicon": "./assets/9696.png"
+      "favicon": "./assets/9696.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyCd6bc06rPcbCVKNEOSKowPPkba6jeuRp4",
+          "authDomain": "hanaroplus-857ec.firebaseapp.com",
+          "databaseURL": "https://hanaroplus-857ec.firebaseio.com",
+          "projectId": "hanaroplus-857ec",
+          "storageBucket": "hanaroplus-857ec.appspot.com",
+          "messagingSenderId": "594838263470",
+          "appId": "1:594838263470:web:1c5cd698072b1f77cbbf3f",
+          "measurementId": "G-XL1751P9ZB"
+        }
+      }
     },
-    "developmentClient": { "silentLaunch": true }
+    "developmentClient": {
+      "silentLaunch": true
+    },
+    "plugins": [
+      "sentry-expo"
+    ],
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "hanaromart",
+            "project": "hanaromart",
+            "authToken": "4aacd73cbb4c45c48d86efad1559cae02d3ec253b1ce4d1790938ecd9c0a8c11"
+          }
+        }
+      ]
+    }
   }
 }

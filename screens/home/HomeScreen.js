@@ -1,6 +1,12 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/native";
-import { StyleSheet, StatusBar, Platform, AppState } from "react-native";
+import {
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import {
   CardStyleInterpolators,
   HeaderStyleInterpolators,
@@ -26,11 +32,9 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import * as authActions from "../../store/actions/auth";
 import { CATEGORY } from "../../constants";
-import { SET_NOTIFICATION } from "../../store/actions/common";
+import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { TabMenus } from "../../constants/menu";
-import * as Location from "expo-location";
-import * as branchesActions from "../../store/actions/branches";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;
@@ -41,13 +45,19 @@ const HomeScreen = (props) => {
   const isFocused = useIsFocused();
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
+  const link = useSelector((state) => state.common.link);
 
   initNotificationReceiver(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
       // console.warn(JSON.stringify(userInfo, null, "\t"));
-      authActions.updateUserInfo(dispatch, userInfo, pushToken);
+      authActions.updateUserInfo({
+        dispatch: dispatch,
+        userInfo: userInfo,
+        pushToken: pushToken,
+        userStore: userStore,
+      });
     }
 
     return () => {
@@ -61,17 +71,22 @@ const HomeScreen = (props) => {
           StatusBar.setBarStyle("dark-content");
         }, 1000);
       }
-      let data = await Util.getStorageItem("notificationData");
-      let jsonData = await JSON.parse(data);
-      if (_.isEmpty(jsonData)) return;
-      await dispatch(CommonActions.setNotification(jsonData));
-      await Util.removeStorageItem("notificationData");
     })();
-
-    return () => {
-      dispatch(setIsLoading(false));
-    };
   }, []);
+
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!link || _.isEmpty(link)) return;
+
+      if (
+        link.link_gbn == "I" &&
+        (_.isEmpty(userInfo) || _.isEmpty(userStore))
+      ) {
+        return await navigation.navigate("Login");
+      }
+      await navigation.navigate(CATEGORY[link.link_gbn]);
+    }, 500);
+  }, [link]);
 
   useEffect(() => {
     if (typeof didTryPopup != "string" && typeof didTryPopup != "object")
@@ -103,11 +118,6 @@ const HomeScreen = (props) => {
     dispatch(CommonActions.setDidTryPopup(true));
   }, [didTryPopup]);
 
-  const navigateToCart = () => {
-    if (_.isEmpty(userStore)) return navigation.navigate("Empty");
-    navigation.navigate("Cart");
-  };
-
   if (!isFocused) return <></>;
   // console.log("***************HomeScreen rendered***************");
   return (
@@ -130,6 +140,7 @@ const HomeScreen = (props) => {
           <HomeProducts
             isFocused={isFocused}
             userStore={userStore}
+            userInfo={userInfo}
             key={`HomeProducts-${userStore.storeInfo.store_cd}`}
           />
         )}
@@ -142,7 +153,7 @@ const initNotificationReceiver = (routeName) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const isLoading = useSelector((state) => state.common.isLoading);
   const notification = useSelector((state) => state.common.notification);
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (
       !isLoading &&
       notification &&
@@ -150,55 +161,65 @@ const initNotificationReceiver = (routeName) => {
       notification.request.content &&
       notification.request.content.data
     ) {
-      const category = notification.request.content.data.category;
-      const store_cd = notification.request.content.data.store_cd;
-      const store_nm = notification.request.content.data.store_nm;
-      const cd = notification.request.content.data.cd;
+      (async () => {
+        const category = notification.request.content.data.category;
+        const store_cd = notification.request.content.data.store_cd;
+        const store_nm = notification.request.content.data.store_nm;
+        const cd = notification.request.content.data.cd;
 
-      if (category) {
-        if (userStore && userStore.storeInfo.store_cd == store_cd) {
-          const currentTab = TabMenus.filter(
-            (tab) => tab.name == CATEGORY[category]
-          );
-          const tab = userStore.menuList.filter(
-            (menu) => menu.r_menu_nm == currentTab[0].title
-          );
-          if (_.isEmpty(tab)) return;
+        if (category) {
+          if (userStore && userStore.storeInfo.store_cd == store_cd) {
+            const currentTab = TabMenus.filter(
+              (tab) => tab.name == CATEGORY[category]
+            );
+            const tab = userStore.menuList.filter(
+              (menu) => menu.r_menu_nm == currentTab[0].title
+            );
+            if (_.isEmpty(tab)) return;
 
-          let param = {};
-          if (!!cd) param.notice_cd = cd;
-          switch (category) {
-            case "A": //매장공지
-              param.type = "C";
-              break;
-            case "H": //통합공지
-              param.type = "H";
-              break;
-            default:
-              break;
+            let param = {};
+            if (!!cd) param.link_code = cd;
+            if (!!category) param.category = category;
+            switch (category) {
+              case "A": //매장공지
+                if (!!cd) param.notice_cd = cd;
+                param.type = "C";
+                break;
+              case "H": //통합공지
+                if (!!cd) param.notice_cd = cd;
+                param.type = "H";
+                break;
+              default:
+                break;
+            }
+            await dispatch(
+              CommonActions.setLink({
+                category: CATEGORY[param.category],
+                link_code: param.link_code,
+              })
+            );
+            setTimeout(() => {
+              RootNavigation.navigate(CATEGORY[param.category], param);
+            }, 500);
+          } else {
+            dispatch(
+              setAlert({
+                message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
+                confirmText: "매장설정",
+                onPressConfirm: () => {
+                  dispatch(setAlert(null));
+                  RootNavigation.navigate("Home");
+                  RootNavigation.navigate("StoreChange");
+                },
+                onPressCancel: () => {
+                  dispatch(setAlert(null));
+                },
+              })
+            );
           }
-
-          setTimeout(() => {
-            RootNavigation.navigate(CATEGORY[category], param);
-          }, 0);
-        } else {
-          dispatch(
-            setAlert({
-              message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
-              confirmText: "매장설정",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                RootNavigation.navigate("Home");
-                RootNavigation.navigate("StoreChange");
-              },
-              onPressCancel: () => {
-                dispatch(setAlert(null));
-              },
-            })
-          );
         }
-      }
-      dispatch({ type: SET_NOTIFICATION, notification: null });
+        dispatch({ type: SET_NOTIFICATION, notification: null });
+      })();
     }
   }, [notification, isLoading]);
 };
@@ -207,14 +228,14 @@ const Space = styled.View({
   width: "100%",
   height: 10,
   width: SCREEN_WIDTH,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   borderBottomWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
 });
 
 export const screenOptions = ({ route, navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 50 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 50 },
     cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
     headerStyle: { elevation: 0, shadowOpacity: 0 },
@@ -232,7 +253,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

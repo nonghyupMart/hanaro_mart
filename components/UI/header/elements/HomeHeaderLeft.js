@@ -3,12 +3,22 @@ import styled from "styled-components/native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
+import {
+  BaseTouchable,
+  BaseText,
+  SCREEN_WIDTH,
+} from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../../util";
+import { checkAuth } from "../../../../store/actions/auth";
 
 const HomeHeaderLeft = (props) => {
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const isJoin = useSelector((state) => state.auth.isJoin);
   const pushCnt = useSelector((state) => state.auth.pushCnt);
+  const wishCnt = useSelector((state) => state.auth.wishCnt);
   return (
     <BtnContainer>
       <Btn
@@ -26,6 +36,24 @@ const HomeHeaderLeft = (props) => {
           />
         )}
       </Btn>
+      <Btn
+        onPress={async () => {
+          if (await checkAuth(dispatch, isJoin)) {
+            RootNavigation.navigate("WishProduct");
+          }
+        }}
+        style={{}}
+      >
+        <IconImage
+          source={require("../../../../assets/images/ic_heart_black.png")}
+        />
+        {wishCnt > 0 && (
+          <Image
+            source={require("../../../../assets/images/N.png")}
+            style={{ position: "absolute", top: 6, right: 6 }}
+          />
+        )}
+      </Btn>
       {/* <Btn
         onPress={() => RootNavigation.navigate("Cart")}
         style={{ paddingRight: 10 }}
@@ -33,18 +61,17 @@ const HomeHeaderLeft = (props) => {
         <MaterialCommunityIcons
           name="cart-outline"
           size={24}
-          color={colors.pine}
+          color={colors.PINE}
         />
       </Btn> */}
     </BtnContainer>
   );
 };
 export const IconImage = styled.Image({
-  width: Util.normalize(22),
   resizeMode: "contain",
 });
 const Btn = styled.TouchableOpacity({
-  padding: 6,
+  padding: SCREEN_WIDTH > 320 ? 5 : 0,
 });
 const BtnContainer = styled.View({
   flexDirection: "row",
@@ -60,7 +87,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

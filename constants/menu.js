@@ -5,40 +5,28 @@ import NaroTubeScreen from "../screens/home/NaroTubeScreen";
 import CouponScreen, {
   screenOptions as CouponScreenOptions,
 } from "../screens/home/CouponScreen";
-import EmptyScreen from "../screens/EmptyScreen";
 
 export const TabMenus = [
   {
     components: FlyerScreen,
-    subComponents: EmptyScreen,
     name: "Flyer",
     title: "행사전단",
     icon: require("../assets/images/news.png"),
   },
   {
     components: EventScreen,
-    subComponents: EmptyScreen,
     name: "Event",
     title: "이벤트",
     icon: require("../assets/images/pig.png"),
   },
   {
     components: CouponScreen,
-    subComponents: EmptyScreen,
     name: "Coupon",
     title: "쿠폰",
     icon: require("../assets/images/ticket2.png"),
   },
   {
-    components: CouponScreen,
-    subComponents: EmptyScreen,
-    name: "Coupon",
-    title: "나로쿠폰",
-    icon: require("../assets/images/ticket2.png"),
-  },
-  {
     components: ExhibitionScreen,
-    subComponents: EmptyScreen,
     name: "Exhibition",
     title: "기획전",
     icon: require("../assets/images/medal2.png"),
@@ -52,7 +40,6 @@ export const TabMenus = [
   },
   {
     components: ExhibitionScreen,
-    subComponents: EmptyScreen,
     name: "ForStore",
     title: "매장전용",
     icon: require("../assets/images/shop1.png"),

@@ -3,12 +3,6 @@ import { View, Image, FlatList } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components/native";
 import {
-  CheckButton,
-  TitleContainer,
-  TextView,
-} from "../../screens/join/AgreementScreen";
-
-import {
   BlueButton,
   BlueButtonText,
   BaseText,
@@ -18,9 +12,18 @@ import {
 } from "../../components/UI/BaseUI";
 const StampBox = (props) => {
   const stamp_cnt = props.eventDetail.entry.stamp_cnt;
-  const stamp_history_cnt = props.eventDetail.entry.stamp_history_cnt;
+  const stamp_type1_cnt = props.eventDetail.entry.stamp_type1_cnt;
+  const stamp_type2_cnt = props.eventDetail.entry.stamp_type2_cnt;
   let stamps = [];
-  for (let i = 0; i < stamp_history_cnt; i++) {
+  for (let i = 0; i < stamp_type2_cnt; i++) {
+    stamps.push(
+      <StampImage
+        source={require("../../assets/images/naro.png")}
+        key={Math.random()}
+      />
+    );
+  }
+  for (let i = 0; i < stamp_type1_cnt; i++) {
     stamps.push(
       <StampImage
         source={require("../../assets/images/on_nara192.png")}
@@ -28,7 +31,8 @@ const StampBox = (props) => {
       />
     );
   }
-  for (let i = 0; i < stamp_cnt - stamp_history_cnt; i++) {
+
+  for (let i = 0; i < stamp_cnt - stamp_type1_cnt - stamp_type2_cnt; i++) {
     stamps.push(
       <StampImage
         source={require("../../assets/images/off_nara191.png")}
@@ -39,7 +43,14 @@ const StampBox = (props) => {
 
   const onPress = () => {
     props.navigation.navigate("BarCodeScanner", {
-      setRcp_qr: props.setMana_qr,
+      setRcp_qr: props.onExchangeStamp,
+      isForStaff: true,
+    });
+  };
+  const onPressForInterim = () => {
+    props.navigation.navigate("BarCodeScanner", {
+      setRcp_qr: props.onInterimExchangeStamp,
+      isForStaff: true,
     });
   };
   return (
@@ -49,22 +60,17 @@ const StampBox = (props) => {
           return item;
         })}
       </StampContainer>
-      {props.eventDetail.entry.status === "10" &&
-        stamp_cnt - stamp_history_cnt <= 0 && (
-          <BtnContainer>
-            <BlueButton onPress={onPress}>
-              <Image source={require("../../assets/images/ticket3.png")} />
-              <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
-            </BlueButton>
-          </BtnContainer>
-        )}
-      {props.eventDetail.entry.status === "20" && (
-        <BtnContainer>
-          <BlueButton style={{ backgroundColor: colors.greyishThree }}>
-            <Image source={require("../../assets/images/ticket3.png")} />
-            <BlueButtonText>교환완료</BlueButtonText>
-          </BlueButton>
-        </BtnContainer>
+      {props.eventDetail.entry.trade_btn == "Y" && (
+        <BlueButton onPress={onPress}>
+          <Image source={require("../../assets/images/ticket3.png")} />
+          <BlueButtonText>교환처리(관리자전용)</BlueButtonText>
+        </BlueButton>
+      )}
+      {props.eventDetail.entry.exchange_btn == "Y" && (
+        <BlueButton onPress={onPressForInterim}>
+          <Image source={require("../../assets/images/ticket3.png")} />
+          <BlueButtonText>중간정산(관리자전용)</BlueButtonText>
+        </BlueButton>
       )}
     </Container>
   );
@@ -78,7 +84,7 @@ const StampImage = styled.Image({
 });
 const StampContainer = styled.View({
   width: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   flexDirection: "row",
   flexWrap: "wrap",
   padding: 20,

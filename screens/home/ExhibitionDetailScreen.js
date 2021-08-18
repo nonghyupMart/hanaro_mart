@@ -8,7 +8,7 @@ import * as exclusiveActions from "../../store/actions/exclusive";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { SET_EXHIBITION_DETAIL } from "../../store/actions/exhibition";
+import { SET_EXHIBITION_DETAIL } from "../../store/actions/actionTypes";
 import {
   DetailContainer,
   BaseImage,
@@ -97,12 +97,12 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
     <BaseScreen
       isScroll={false}
       setScrollRef={setScrollRef}
-      style={{ backgroundColor: colors.trueWhite }}
+      style={{ backgroundColor: colors.TRUE_WHITE }}
       isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
       }}
     >
       {detail && (
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
   screen: {
     paddingLeft: 0,
     paddingRight: 0,
-    backgroundColor: colors.trueWhite,
+    backgroundColor: colors.TRUE_WHITE,
   },
 });
 

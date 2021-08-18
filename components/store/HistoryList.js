@@ -11,7 +11,7 @@ import {
 import { Image, FlatList } from "react-native";
 import StoreItem from "../../components/store/StoreItem";
 import * as branchesActions from "../../store/actions/branches";
-import { SET_STORE_MARK } from "../../store/actions/branches";
+import { SET_STORE_MARK } from "../../store/actions/actionTypes";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 
@@ -26,7 +26,6 @@ const HistoryList = (props) => {
 
   const fetchMarkedStores = (isDel = false) => {
     if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
-    dispatch(setIsLoading(true));
     let query = {
       user_cd: userInfo.user_cd,
     };
@@ -34,9 +33,7 @@ const HistoryList = (props) => {
       query.lat = props.location.coords.latitude;
       query.lng = props.location.coords.longitude;
     }
-    dispatch(branchesActions.fetchStoreMark(query)).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    dispatch(branchesActions.fetchStoreMark(query));
   };
   useEffect(() => {
     return () => {
@@ -44,7 +41,6 @@ const HistoryList = (props) => {
     };
   }, []);
 
-  const onPress = () => {};
   return (
     <>
       <Container onPress={setIsVisible.bind(this, !isVisible)}>
@@ -88,7 +84,7 @@ const Text1 = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.white,
+  color: colors.WHITE,
   marginLeft: 5.4,
 });
 const Line = styled.View({
@@ -97,10 +93,10 @@ const Line = styled.View({
   margin: 12.5,
   marginLeft: StyleConstants.defaultPadding,
   marginRight: StyleConstants.defaultPadding,
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
 });
 const Container = styled.TouchableOpacity.attrs({ activeOpacity: 0.8 })({
-  backgroundColor: colors.cerulean,
+  backgroundColor: colors.CERULEAN,
   justifyContent: "center",
   alignItems: "center",
   height: 40,
@@ -123,4 +119,4 @@ const TextContainer = styled.View({
   justifyContent: "space-between",
   paddingRight: 13.5,
 });
-export default HistoryList;
+export default React.memo(HistoryList);

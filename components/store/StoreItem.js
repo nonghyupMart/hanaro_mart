@@ -11,36 +11,29 @@ import {
 import { BaseText, BaseTouchable } from "../../components/UI/BaseUI";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as branchesActions from "../../store/actions/branches";
-import { setIsLoading } from "../../store/actions/common";
-import { findLastKey } from "lodash";
 import * as CommonActions from "../../store/actions/common";
 import { setUserStore } from "../../store/actions/auth";
 
-const StoreItem = (props) => {
+const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
   const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
-  const isMark = props.isMark;
+  const _isMark = isMark;
 
   const onPress = () => {
-    dispatch(setIsLoading(true));
-    if (!isMark) {
-      return RootNavigation.navigate("StoreChangeDetail", { item: props.item });
+    if (!_isMark) {
+      return RootNavigation.navigate("StoreChangeDetail", { item: item });
     }
-    dispatch(branchesActions.fetchBranch(props.item.store_cd)).then((data) => {
+    dispatch(branchesActions.fetchBranch(item.store_cd)).then((data) => {
       dispatch(
         setUserStore(
-          { user_cd: userInfo.user_cd, store_cd: props.item.store_cd },
+          { user_cd: userInfo.user_cd, store_cd: item.store_cd },
           data
         )
       ).then((data) => {
         if (data.result == "success") {
           (async () => {
-            await dispatch(setIsLoading(false));
             await dispatch(CommonActions.setDidTryPopup("Flyer"));
           })();
-
-          // Updates.reloadAsync();
         }
       });
     });
@@ -49,12 +42,12 @@ const StoreItem = (props) => {
     dispatch(
       branchesActions.deleteMarkedStore({
         user_cd: userInfo.user_cd,
-        store_cd: props.item.store_cd,
+        store_cd: item.store_cd,
       })
     ).then((data) => {
       if (data.result == "success") {
-        props.fetchMarkedStores(true);
-        props.fetchBranches();
+        fetchMarkedStores(true);
+        fetchBranches();
       }
     });
   };
@@ -62,22 +55,22 @@ const StoreItem = (props) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <Container>
-        {isMark && (
+        {_isMark && (
           <StarContainer>
             <Image source={require("../../assets/images/star2.png")} />
           </StarContainer>
         )}
         <TitleContainer>
-          <Title>{props.item.store_nm}</Title>
-          <Tel>Tel. {props.item.tel}</Tel>
+          <Title>{item.store_nm}</Title>
+          <Tel>Tel. {item.tel}</Tel>
         </TitleContainer>
         <IconContainer>
           <Image source={require("../../assets/images/location-pin.png")} />
-          <BlueText>{props.item.dist}km</BlueText>
-          {!isMark && (
+          <BlueText>{item.dist}km</BlueText>
+          {!_isMark && (
             <Image source={require("../../assets/images/circle-right.png")} />
           )}
-          {isMark && (
+          {_isMark && (
             <Btn onPress={onDelete}>
               <Image source={require("../../assets/images/close_x646.png")} />
             </Btn>
@@ -104,7 +97,7 @@ const Tel = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.appleGreen,
+  color: colors.APPLE_GREEN,
 });
 const BlueText = styled(BaseText)({
   fontSize: 14,
@@ -113,7 +106,7 @@ const BlueText = styled(BaseText)({
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "right",
-  color: colors.cerulean,
+  color: colors.CERULEAN,
   marginLeft: 8,
   marginRight: 8,
   lineHeight: 17,
@@ -130,7 +123,7 @@ const Container = styled.View({
   marginLeft: 35.5,
   marginRight: 35.5,
   alignItems: "center",
-  borderColor: colors.white,
+  borderColor: colors.WHITE,
   borderBottomWidth: 1,
   paddingTop: 10,
   paddingBottom: 10,
@@ -148,7 +141,7 @@ const Title = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
 });
 Title.defaultProps = {
   numberOfLines: 1,
@@ -180,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StoreItem;
+export default React.memo(StoreItem);

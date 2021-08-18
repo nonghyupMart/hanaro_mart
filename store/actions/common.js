@@ -1,62 +1,54 @@
 import moment from "moment";
 import * as Util from "../../util";
 import queryString from "query-string";
-import { API_URL } from "../../constants";
 import * as Updates from "expo-updates";
-
-export const SET_BOTTOM_NAVIGATION = "SET_BOTTOM_NAVIGATION";
-export const SET_IS_STORE_POPUP = "SET_IS_STORE_POPUP";
-export const SET_IS_APP_POPUP = "SET_IS_APP_POPUP";
-export const SET_ALERT = "SET_ALERT";
-export const SET_IS_LOADING = "SET_IS_LOADING";
-export const SET_HEADER_HEIGHT = "SET_HEADER_HEIGHT";
-export const SET_DID_TRY_POPUP = "SET_DID_TRY_POPUP";
-export const SET_NOTIFICATION = "SET_NOTIFICATION";
-export const SET_BRIGHTNESS = "SET_BRIGHTNESS";
-export const SET_LINK = "SET_LINK";
+import * as actionTypes from "./actionTypes";
+import * as Linking from "expo-linking";
+import { CATEGORY } from "../../constants";
+import _ from "lodash";
 
 export const setLink = (link) => {
   return {
-    type: SET_LINK,
+    type: actionTypes.SET_LINK,
     link: link,
   };
 };
 
 export const setBrightness = (brightness) => {
   return {
-    type: SET_BRIGHTNESS,
+    type: actionTypes.SET_BRIGHTNESS,
     brightness: brightness,
   };
 };
 export const setNotification = (notification) => {
   return {
-    type: SET_NOTIFICATION,
+    type: actionTypes.SET_NOTIFICATION,
     notification: notification,
   };
 };
 export const setBottomNavigation = (isBottomNavigation) => {
   return {
-    type: SET_BOTTOM_NAVIGATION,
+    type: actionTypes.SET_BOTTOM_NAVIGATION,
     isBottomNavigation: isBottomNavigation,
   };
 };
 export const setDidTryPopup = (didTryPopup) => {
   return {
-    type: SET_DID_TRY_POPUP,
+    type: actionTypes.SET_DID_TRY_POPUP,
     didTryPopup: didTryPopup,
   };
 };
 
 export const setHeaderHeight = (headerHeight) => {
   return {
-    type: SET_HEADER_HEIGHT,
+    type: actionTypes.SET_HEADER_HEIGHT,
     headerHeight: headerHeight,
   };
 };
 
 export const setIsStorePopup = (isStorePopup) => {
   return {
-    type: SET_IS_STORE_POPUP,
+    type: actionTypes.SET_IS_STORE_POPUP,
     isStorePopup: isStorePopup,
   };
 };
@@ -71,16 +63,13 @@ export const saveDateForStorePopupToStorage = (
     isStorePopup[store_cd] = expirationDate.toISOString();
     // console.warn("1일 닫기 ", isStorePopup);
     await dispatch(setIsStorePopup(isStorePopup));
-    await Util.setStorageItem(
-      "dateForStorePopupData",
-      JSON.stringify(isStorePopup)
-    );
+    await Util.setStorageItem("dateForStorePopupData", isStorePopup);
   })();
 };
 
 export const setIsAppPopup = (isAppPopup) => {
   return {
-    type: SET_IS_APP_POPUP,
+    type: actionTypes.SET_IS_APP_POPUP,
     isAppPopup: isAppPopup,
   };
 };
@@ -91,42 +80,77 @@ export const saveDateForAppPopupToStorage = () => {
 };
 
 export const setAlert = (alert) => {
-  return { type: SET_ALERT, alert: alert };
+  return { type: actionTypes.SET_ALERT, alert: alert };
 };
 
 export const setIsLoading = (isLoading) => {
   return async (dispatch) =>
-    await dispatch({ type: SET_IS_LOADING, isLoading: isLoading });
+    await dispatch({ type: actionTypes.SET_IS_LOADING, isLoading: isLoading });
 };
 
 export const saveNotificationToStorage = (data) => {
-  Util.setStorageItem("notificationData", JSON.stringify(data));
+  Util.setStorageItem("notificationData", data);
 };
 
-export const updateExpo = (dispatch) => {
+export const updateExpo = async (dispatch) => {
   if (!__DEV__) {
-    return (async () => {
-      try {
-        const update = await Updates.checkForUpdateAsync();
-        if (update.isAvailable) {
-          await Updates.fetchUpdateAsync();
-          // ... notify user of update ...
-          // Util.log("new update");
-          await dispatch(
-            setAlert({
-              message: "새로운 버전이 있습니다. 앱을 재실행 해주세요.",
-              confirmText: "업데이트",
-              onPressConfirm: () => {
-                dispatch(setAlert(null));
-                Updates.reloadAsync();
-              },
-            })
-          );
-        }
-      } catch (e) {
-        // handle or log error
-        Util.log("update error=>", e);
+    try {
+      const update = await Updates.checkForUpdateAsync();
+      if (update.isAvailable) {
+        await Updates.fetchUpdateAsync();
       }
-    })();
+    } catch (e) {
+      // handle or log error
+      Util.log("update error=>", e);
+    }
   }
+};
+
+export const navigateByScheme = async (dispatch, url) => {
+  let { queryParams } = await Linking.parse(url + "");
+  if (_.isEmpty(queryParams)) return;
+  await dispatch(
+    setLink({
+      link_gbn: queryParams.link_gbn,
+      category: CATEGORY[queryParams.link_gbn],
+      link_code: queryParams.link_code,
+    })
+  );
+};
+
+export const postWish = (dispatch, object, item, type, value = "Y") => {
+  const tempObject = { ...object };
+  const index = tempObject.productList.indexOf(item);
+  tempObject.productList[index].wish_yn = value;
+  dispatch({
+    type: type,
+    data: tempObject,
+  });
+};
+
+export const showServiceErrorAlert = (dispatch) => {
+  return dispatch(
+    setAlert({
+      message:
+        "서비스 연결에\n오류가 발생하였습니다.\n잠시후 다시 실행해 주십시오.",
+      confirmText: "재실행",
+      onPressConfirm: async () => {
+        try {
+          if (!__DEV__) {
+            await dispatch(setIsLoading(true));
+            const update = await Updates.checkForUpdateAsync();
+            if (update.isAvailable) {
+              await Updates.fetchUpdateAsync();
+            }
+          }
+        } catch (e) {
+          // handle or log error
+          Util.log("update error=>", e);
+        } finally {
+          await dispatch(setIsLoading(false));
+          await Updates.reloadAsync();
+        }
+      },
+    })
+  );
 };

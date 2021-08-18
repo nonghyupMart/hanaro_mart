@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import * as Analytics from "expo-firebase-analytics";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { MainNavigator } from "./MainNavigator";
-import JoinNavigator from "./JoinNavigator";
 import { navigationRef, isReadyRef } from "./RootNavigation";
 import StartupScreen from "../screens/StartupScreen";
 import PopupScreen from "../screens/PopupScreen";
@@ -17,28 +17,26 @@ import * as Device from "expo-device";
 import { fetchPushCnt } from "../store/actions/auth";
 import _ from "lodash";
 import * as Util from "../util";
+import * as Linking from "expo-linking";
 
 const Theme = {
   ...DefaultTheme,
   dark: false,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.trueWhite,
+    background: colors.TRUE_WHITE,
   },
 };
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => {
-    return { shouldShowAlert: true };
-  },
-});
-
 const AppNavigator = (props) => {
+  const routeNameRef = useRef();
+  const routingInstrumentation = props.routingInstrumentation;
+  const notificationListener = useRef();
+  const responseListener = useRef();
   const appState = useRef(AppState.currentState);
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.common.isLoading);
   const alert = useSelector((state) => state.common.alert);
-  const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   const isJoin = useSelector((state) => state.auth.isJoin);
   const didTryPopup = useSelector((state) => state.common.didTryPopup);
@@ -52,11 +50,15 @@ const AppNavigator = (props) => {
     if (!isUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
     else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
-    else if (!isPreview && !isJoin && didTryAutoLogin) return <JoinNavigator />;
-    else if ((isPreview || isJoin) && didTryAutoLogin && didTryPopup)
-      return <MainNavigator />;
-    else if (isPreview && didTryAutoLogin) return <MainNavigator />;
+    else if (isJoin && didTryAutoLogin && didTryPopup) return <MainNavigator />;
+    else if (didTryAutoLogin) return <MainNavigator />;
     return <StartupScreen />;
+  };
+
+  const _handleUrl = async (data) => {
+    // this.setState({ url });
+    if (!data.url) return;
+    CommonActions.navigateByScheme(dispatch, data.url);
   };
 
   const _handleAppStateChange = async (nextAppState) => {
@@ -65,14 +67,15 @@ const AppNavigator = (props) => {
       nextAppState === "active"
     ) {
       // console.log("App has come to the foreground!");
-      CommonActions.updateExpo(dispatch);
-
       const userInfoData = await Util.getStorageItem("userInfoData");
-      const parsedUserData = await JSON.parse(userInfoData);
-      if (!_.isEmpty(parsedUserData)) {
-        dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+      if (!_.isEmpty(userInfoData)) {
+        dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
       }
+    } else {
+      // console.log("App has come to the background!");
+      Util.removeStorageItem("notificationData");
     }
+    CommonActions.updateExpo(dispatch);
     appState.current = nextAppState;
   };
 
@@ -93,6 +96,7 @@ const AppNavigator = (props) => {
 
   useEffect(() => {
     (async () => {
+      await Linking.addEventListener("url", _handleUrl);
       const isRooted = await Device.isRootedExperimentalAsync();
       if (isRooted) {
         return dispatch(
@@ -104,34 +108,45 @@ const AppNavigator = (props) => {
           })
         );
       }
+
+      const schemeUrl = await Linking.getInitialURL();
+      CommonActions.navigateByScheme(dispatch, schemeUrl);
+
+      // When App is not running set received Notification to redux
+      let data = await Util.getStorageItem("notificationData");
+      if (_.isEmpty(data)) return;
+      await dispatch(CommonActions.setNotification(data));
+      await Util.removeStorageItem("notificationData");
     })();
+
     AppState.addEventListener("change", _handleAppStateChange);
-    const backgroundSubscription = Notifications.addNotificationResponseReceivedListener(
-      (response) => {
+    notificationListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        // When App is running in the background.
         // console.warn(JSON.stringify(response, null, "\t"));
         // console.warn(response.notification.request.content.data);
         dispatch(CommonActions.setNotification(response.notification));
-      }
-    );
-    const foregroundSubscription = Notifications.addNotificationReceivedListener(
+      });
+    responseListener.current = Notifications.addNotificationReceivedListener(
       async (notification) => {
+        // When app is running in the foreground.
         // console.warn(JSON.stringify(notification, null, "\t"));
         //  console.warn(notification.request.content.data);
-        dispatch(CommonActions.setNotification(notification));
+        // dispatch(CommonActions.setNotification(notification));
         const userInfoData = await Util.getStorageItem("userInfoData");
-        const parsedUserData = await JSON.parse(userInfoData);
-        if (!_.isEmpty(parsedUserData)) {
-          dispatch(fetchPushCnt({ user_cd: parsedUserData.user_cd }));
+        if (!_.isEmpty(userInfoData)) {
+          dispatch(fetchPushCnt({ user_cd: userInfoData.user_cd }));
         }
       }
     );
-
-    return () => {
+    return async () => {
+      await Util.removeStorageItem("notificationData");
       AppState.removeEventListener("change", _handleAppStateChange);
-      backgroundSubscription.remove();
-      foregroundSubscription.remove();
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
   return (
     <Fragment>
       {isLoading && <Loading isLoading={isLoading} />}
@@ -141,6 +156,22 @@ const AppNavigator = (props) => {
         ref={navigationRef}
         onReady={() => {
           isReadyRef.current = true;
+          routingInstrumentation.registerNavigationContainer(navigationRef);
+        }}
+        onStateChange={async (prevState, currentState) => {
+          const previousRouteName = routeNameRef.current;
+          if (!navigationRef.current.getCurrentRoute()) return;
+          const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
+          if (previousRouteName !== currentRouteName) {
+            // The line below uses the expo-firebase-analytics tracker
+            // https://docs.expo.io/versions/latest/sdk/firebase-analytics/
+            // Change this line to use another Mobile analytics SDK
+            await Analytics.setCurrentScreen(currentRouteName);
+          }
+
+          // Save the current route name for later comparison
+          routeNameRef.current = currentRouteName;
         }}
       >
         {currentScreen()}

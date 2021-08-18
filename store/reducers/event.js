@@ -1,27 +1,28 @@
-import {
-  SET_EVENT,
-  SET_MY_EVENT,
-  SET_EVENT_MORE,
-  SET_MY_EVENT_MORE,
-  SET_EVENT_DETAIL,
-} from "../actions/event";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   event: null,
   eventDetail: null,
   myEvent: null,
   event_cd: null,
+  stampHistory: null,
 };
 
 export default (state = initialState, action) => {
   let newEvent, updatedEventList;
   switch (action.type) {
-    case SET_EVENT:
+    case actionTypes.SET_STAMP_HISTORY:
+      return {
+        ...state,
+        stampHistory: { ...action.stampHistory },
+      };
+
+    case actionTypes.SET_EVENT:
       return {
         ...state,
         event: { ...action.event },
       };
-    case SET_EVENT_MORE:
+    case actionTypes.SET_EVENT_MORE:
       let event = { ...state.event };
       newEvent = { ...action.event };
       updatedEventList = event.eventList.concat(newEvent.eventList);
@@ -31,12 +32,12 @@ export default (state = initialState, action) => {
         ...state,
         event: event,
       };
-    case SET_MY_EVENT:
+    case actionTypes.SET_MY_EVENT:
       return {
         ...state,
         myEvent: { ...action.event },
       };
-    case SET_MY_EVENT_MORE:
+    case actionTypes.SET_MY_EVENT_MORE:
       let myEvent = { ...state.myEvent };
       newEvent = { ...action.event };
       updatedEventList = myEvent.eventList.concat(newEvent.eventList);
@@ -47,7 +48,7 @@ export default (state = initialState, action) => {
         myEvent: myEvent,
       };
 
-    case SET_EVENT_DETAIL:
+    case actionTypes.SET_EVENT_DETAIL:
       return {
         ...state,
         eventDetail: { ...action.eventDetail },

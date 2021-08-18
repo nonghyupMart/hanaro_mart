@@ -22,10 +22,13 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import _ from "lodash";
 import * as CommonActions from "../../store/actions/common";
+import * as RootNavigation from "../../navigation/RootNavigation";
 
 const HomeBanner = (props) => {
   const dispatch = useDispatch();
   const homeBanner = useSelector((state) => state.home.homeBanner);
+  const userInfo = useSelector((state) => state.auth.userInfo);
+
   useEffect(() => {
     if (!props.isFocused) return;
     dispatch(setIsLoading(true));
@@ -34,8 +37,22 @@ const HomeBanner = (props) => {
       dispatch(setIsLoading(false));
     });
   }, [props.isFocused]);
-  if (!homeBanner || !homeBanner.bannerList || homeBanner.bannerCnt == 0)
-    return <></>;
+
+  const onPressMembershipBanner = () => {
+    if (!_.isEmpty(userInfo) && userInfo.amnNo)
+      return dispatch(
+        setAlert({
+          message: "이미 통합회원 가입하셨습니다.",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+    RootNavigation.navigate("NHAHM", {
+      regiDesc: "01",
+    });
+  };
+  if (!homeBanner || !homeBanner.bannerList) return <></>;
   return (
     <RoundedContainer>
       <Carousel
@@ -74,9 +91,15 @@ const HomeBanner = (props) => {
           paddingBottom: 4,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
+        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
+        <MembershipBanner
+          dispatch={dispatch}
+          amnNo={!_.isEmpty(userInfo) && userInfo.amnNo}
+          key="membershipBanner"
+          onPress={onPressMembershipBanner}
+        />
         {homeBanner.bannerList.map((item, index) => {
           return (
             <TouchableOpacity
@@ -101,6 +124,25 @@ const HomeBanner = (props) => {
     </RoundedContainer>
   );
 };
+
+const MembershipBanner = (props) => {
+  return (
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={props.onPress}
+      style={{
+        height: (SCREEN_WIDTH - 48) * 0.608,
+        width: SCREEN_WIDTH - 48,
+      }}
+    >
+      <BannerItem
+        item={{
+          display_img: require("../../assets/images/main_banner2.jpg"),
+        }}
+      />
+    </TouchableOpacity>
+  );
+};
 const RoundedContainer = styled.View({
   flex: 1,
   width: "100%",
@@ -118,8 +160,11 @@ const BannerItem = (props) => {
         width: SCREEN_WIDTH - 48,
         borderRadius: 10,
         overflow: "hidden",
+        backgroundColor:
+          Platform.OS == "android" ? colors.WHITE : "transparent",
       }}
       source={props.item.display_img}
+      defaultSource={require("../../assets/images/m_img499.png")}
     />
   );
 };

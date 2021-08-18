@@ -99,9 +99,6 @@ import MyPageScreen, {
 import MyReviewsScreen, {
   screenOptions as MyReviewsScreenOptions,
 } from "../screens/myPage/MyReviewsScreen";
-import EmptyScreen, {
-  screenOptions as EmptyScreenOptions,
-} from "../screens/EmptyScreen";
 import WithdrawalMembershipScreen, {
   screenOptions as WithdrawalMembershipScreenOptions,
 } from "../screens/myPage/WithdrawalMembershipScreen";
@@ -117,6 +114,10 @@ import SearchProductScreen, {
   screenOptions as SearchProductScreenOptions,
 } from "../screens/SearchProductScreen";
 
+import WishProductScreen, {
+  screenOptions as WishProductScreenOptions,
+} from "../screens/WishProductScreen";
+
 import MyOrderScreen, {
   screenOptions as MyOrderScreenOptions,
 } from "../screens/MyOrderScreen";
@@ -129,13 +130,29 @@ import MyADAgreementScreen, {
   screenOptions as MyADAgreementScreenOptions,
 } from "../screens/MyADAgreementScreen";
 
-import PopupScreen, {
-  screenOptions as PopupScreenOptions,
-} from "../screens/PopupScreen";
+import EventStampHistoryScreen, {
+  screenOptions as EventStampHistoryScreenOptions,
+} from "../screens/home/EventStampHistoryScreen";
+
+import EventResultScreen, {
+  screenOptions as EventResultScreenOptions,
+} from "../screens/home/EventResultScreen";
+
+import NHAHMScreen, {
+  screenOptions as NHAHMScreenOptions,
+} from "../screens/join/NHAHMScreen";
 
 import CIScreen, {
   screenOptions as CIScreenOptions,
 } from "../screens/join/CIScreen";
+
+import LoginScreen, {
+  screenOptions as LoginScreenOptions,
+} from "../screens/LoginScreen";
+
+import FindIDResultScreen, {
+  screenOptions as FindIDResultScreenOptions,
+} from "../screens/join/FindIDResultScreen";
 
 const getTabBarVisible = (route) => {
   const params = route.params;
@@ -152,7 +169,7 @@ const HomeTopTabNavigator = createMaterialTopTabNavigator();
 const TabIndicator = styled.View({
   width: 100,
   height: 2,
-  backgroundColor: colors.emerald,
+  backgroundColor: colors.EMERALD,
   position: "absolute",
   bottom: 0,
   left: 0,
@@ -216,7 +233,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
               options={{
                 title: menu.menu_nm,
                 cardStyle: {
-                  backgroundColor: colors.trueWhite,
+                  backgroundColor: colors.TRUE_WHITE,
                 },
               }}
             />
@@ -242,13 +259,14 @@ export const HomeTabNavigator = ({ navigation, route }) => {
 
 const HomeStackNavigator = createStackNavigator();
 export const HomeNavigator = ({ navigation, route }) => {
+  const userStore = useSelector((state) => state.auth.userStore);
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
         screenOptions={{
           cardStyle: {
             paddingBottom: PADDING_BOTTOM_MENU,
-            backgroundColor: colors.trueWhite,
+            backgroundColor: colors.TRUE_WHITE,
           },
           headerBackTitle: " ",
           gestureEnabled: false,
@@ -340,11 +358,6 @@ export const HomeNavigator = ({ navigation, route }) => {
           options={MyReviewsScreenOptions}
         />
         <HomeStackNavigator.Screen
-          name="Empty"
-          component={EmptyScreen}
-          options={EmptyScreenOptions}
-        />
-        <HomeStackNavigator.Screen
           name="Withdrawal"
           component={WithdrawalMembershipScreen}
           options={WithdrawalMembershipScreenOptions}
@@ -363,6 +376,11 @@ export const HomeNavigator = ({ navigation, route }) => {
           name="SearchProduct"
           component={SearchProductScreen}
           options={SearchProductScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="WishProduct"
+          component={WishProductScreen}
+          options={WishProductScreenOptions}
         />
         <HomeStackNavigator.Screen
           name="MyOrder"
@@ -395,9 +413,34 @@ export const HomeNavigator = ({ navigation, route }) => {
           options={ExhibitionDetailScreenOptions}
         />
         <HomeStackNavigator.Screen
+          name="StampHistory"
+          component={EventStampHistoryScreen}
+          options={EventStampHistoryScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="EventResult"
+          component={EventResultScreen}
+          options={EventResultScreenOptions}
+        />
+        <HomeStackNavigator.Screen
           name="CI"
           component={CIScreen}
           options={CIScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="FindIDResult"
+          component={FindIDResultScreen}
+          options={FindIDResultScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="NHAHM"
+          component={NHAHMScreen}
+          options={NHAHMScreenOptions}
+        />
+        <HomeStackNavigator.Screen
+          name="Login"
+          component={LoginScreen}
+          options={LoginScreenOptions}
         />
       </HomeStackNavigator.Navigator>
       <BottomButtons />

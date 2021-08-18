@@ -6,7 +6,7 @@ import { SCREEN_HEIGHT } from "./BaseUI";
 import colors from "../../constants/Colors";
 import MemberInfo from "./drawer/MemberInfo";
 import MenuList from "./drawer/MenuList";
-import LoginButtons from "./drawer/LoginButtons";
+import Footer from "./drawer/Footer";
 import Logo from "./drawer/Logo";
 const { width, height } = Dimensions.get("window");
 
@@ -27,14 +27,14 @@ export const CustomDrawerContent = (props, dispatch, menuList) => {
             <MemberInfo {...props} />
             <MenuList {...props} menuList={menuList} />
           </View>
-          <LoginButtons {...props} {...dispatch} />
+          <Footer {...props} {...dispatch} />
         </DrawerContentScrollView>
       </View>
     </View>
   );
 };
 export const drawerStyle = {
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   width: width * 0.791,
   maxWidth: 285,
   activeTintColor: "black",

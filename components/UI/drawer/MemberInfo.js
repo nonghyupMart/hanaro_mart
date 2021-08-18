@@ -9,7 +9,6 @@ import UserPhoneNumber from "../../UI/UserPhoneNumber";
 import * as Util from "../../../util";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { setPreview } from "../../../store/actions/auth";
 
 const MemberInfo = (props) => {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const MemberInfo = (props) => {
             style={{ flexGrow: 1 }}
             onPress={async () => {
               await props.navigation.closeDrawer();
-              await dispatch(setPreview(false));
+              await props.navigation.navigate("Login");
             }}
           >
             <MemberID style={{ flexDirection: "row" }}>
@@ -59,7 +58,7 @@ const MemberInfo = (props) => {
               />
               <BeforeJoinContainer>
                 <View>
-                  <Text5>로그인 및 회원가입</Text5>
+                  <Text5>로그인 및 통합회원가입</Text5>
                   <Text6>더 많은 혜택을 받아가세요</Text6>
                 </View>
                 <Image
@@ -105,7 +104,7 @@ const Text1 = styled(BaseText)({
 });
 const Text2 = styled(BaseText)({
   fontSize: 21,
-  color: colors.black,
+  color: colors.BLACK,
   marginRight: 5,
   height: 28,
   lineHeight: 28,
@@ -113,18 +112,18 @@ const Text2 = styled(BaseText)({
 });
 const Text3 = styled(BaseText)({
   fontSize: 12,
-  color: colors.black,
+  color: colors.BLACK,
   fontFamily: "Roboto-Bold",
 });
 const Text4 = styled(BaseText)({
   fontSize: 16,
-  color: colors.pine,
+  color: colors.PINE,
   lineHeight: 18,
 });
 
 const MemberInfoContainer = styled.View({
   // marginTop: Constants.statusBarHeight,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   paddingRight: 16,
   paddingLeft: 21,
   // paddingBottom: 10,
@@ -139,7 +138,7 @@ const GradientBar = styled(LinearGradient)({
   height: 6,
 });
 GradientBar.defaultProps = {
-  colors: [colors.pine, colors.cerulean],
+  colors: [colors.PINE, colors.CERULEAN],
   start: { x: -1, y: 0 },
   end: { x: 1, y: 0 },
 };

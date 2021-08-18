@@ -16,17 +16,21 @@ import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/flyer";
+import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/actionTypes";
 import _ from "lodash";
 import { setIsLoading } from "../../store/actions/common";
 import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
+import PickerViews from "../../components/flyer/PickerViews";
+import { postWish } from "../../store/actions/common";
 
 const FlyerScreen = (props) => {
+  const carouselRef = useRef();
   const isFocused = useIsFocused();
   const isLoading = useSelector((state) => state.common.isLoading);
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
   const currentItem = useRef(null);
   const [pageforCarousel, setPageForCarousel] = useState();
@@ -46,8 +50,6 @@ const FlyerScreen = (props) => {
     setCarouselKey(Math.random());
 
     if (userStore) {
-      dispatch(setIsLoading(true));
-
       dispatch(
         flyerActions.fetchLeaflet({
           store_cd: userStore.storeInfo.store_cd,
@@ -63,48 +65,43 @@ const FlyerScreen = (props) => {
     if (isFocused) {
       init();
     } else {
+      clearData();
       setPageForCarousel(null);
       dispatch({ type: SET_LEAFLET, leaflet: null });
     }
-
-    return () => {
-      clearData();
-      dispatch({ type: SET_LEAFLET, leaflet: null });
-      setPageForCarousel(null);
-    };
   }, [isFocused]);
 
-  useEffect(() => {
-    if (!isFocused) return;
-    if (pageforCarousel == null || pageforCarousel == undefined) return;
-    dispatch(setIsLoading(true));
-    setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
-    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-      dispatch(setIsLoading(false));
-    });
-  }, [type_val]);
-
   const fetchProduct = (leaf_cd, p = page.current) => {
-    return dispatch(
-      flyerActions.fetchProduct({
-        store_cd: userStore.storeInfo.store_cd,
-        leaf_cd: leaf_cd,
-        page: p,
-        type_val: type_val,
-      })
-    );
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      leaf_cd: leaf_cd,
+      page: p,
+      type_val: type_val,
+    };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    return dispatch(flyerActions.fetchProduct(query));
   };
 
   useEffect(() => {
     if (!isFocused) return;
     if (pageforCarousel == null || pageforCarousel == undefined) return;
+
+    setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
+    fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
+  }, [type_val]);
+
+  useEffect(() => {
+    if (!isFocused) return;
+    if (
+      pageforCarousel == null ||
+      pageforCarousel == undefined ||
+      JSON.stringify(pageforCarousel) === JSON.stringify({})
+    )
+      return;
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
-      dispatch(setIsLoading(true));
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
-      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
     }
   }, [pageforCarousel, isFocused]);
 
@@ -115,17 +112,18 @@ const FlyerScreen = (props) => {
       !_.isEmpty(leaflet) &&
       _.size(leaflet.leafletList) > 0
     ) {
-      dispatch(setIsLoading(true));
       page.current++;
-      fetchProduct(
-        leaflet.leafletList[pageforCarousel].leaf_cd,
-        page.current
-      ).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, page.current);
     }
   };
   const [isVisible, setIsVisible] = useState(false);
+
+  const afterAddWishItem = (item) => {
+    postWish(dispatch, product, item, SET_PRODUCT, "Y");
+  };
+  const afterDeleteWishItem = (item) => {
+    postWish(dispatch, product, item, SET_PRODUCT, "N");
+  };
 
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
@@ -142,22 +140,32 @@ const FlyerScreen = (props) => {
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
         paddingRight: 0,
       }}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
-        paddingTop: Platform.OS == "ios" ? 17 : 17,
+        paddingTop: Platform.OS == "ios" ? 0 : 0,
         // paddingLeft: Platform.OS == "ios" ? 16 : 0,
         // paddingRight: Platform.OS == "ios" ? 16 : 0,
       }}
       scrollListStyle={{ paddingLeft: 0, paddingRight: 0 }}
     >
+      {currentFlyer && (
+        <PickerViews
+          carouselRef={carouselRef}
+          leafletList={leaflet.leafletList}
+          userStore={userStore}
+          currentFlyer={currentFlyer}
+          setPageForCarousel={setPageForCarousel}
+        />
+      )}
       {/* <StoreListPopup isVisible={isVisible} /> */}
       {currentFlyer && (
         <FlyerBanner
+          carouselRef={carouselRef}
           leafletList={leaflet.leafletList}
           carouselKey={carouselKey}
           leaf_cd={currentFlyer.leaf_cd}
@@ -178,6 +186,7 @@ const FlyerScreen = (props) => {
             marginLeft: 24,
             marginRight: 0,
             width: SCREEN_WIDTH - 24,
+            marginBottom: 7,
           }}
           data={currentFlyer.type_list}
           keyExtractor={(item) =>
@@ -208,6 +217,8 @@ const FlyerScreen = (props) => {
             <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
             />
           )}
         />
@@ -215,20 +226,19 @@ const FlyerScreen = (props) => {
       {!_.isEmpty(product) && product.productList.length === 0 && (
         <NoList
           style={{
-            backgroundColor: colors.trueWhite,
+            backgroundColor: colors.TRUE_WHITE,
             height: SCREEN_HEIGHT - (SCREEN_WIDTH * 0.283 + 250),
           }}
           source={require("../../assets/images/box.png")}
           text={"행사전단"}
         />
       )}
-      {currentItem.current && isVisible && (
-        <ProductPopup
-          item={currentItem.current}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      )}
+
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };

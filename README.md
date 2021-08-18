@@ -5,7 +5,6 @@
 # 배포전 수정 파일
 
 - app.json -> version , buildNumber , versionCode
-- settings.js -> INTERNAL_APP_VERSION
 
 # Expo 배포
 
@@ -34,6 +33,12 @@ expo publish --release-channel prod && expo start
 ```
 
 # Expo 빌드
+
+둘다 빌드 
+
+```bash
+expo build:android --release-channel prod --no-wait -t app-bundle && expo build:ios --release-channel prod --no-wait -t archive
+```
 
 안드로이드
 
@@ -83,6 +88,14 @@ transporter 사용
 - https://expo.io/
 - nonghyupmart@gmail.com
 - PW : Nonghyup1~
+
+### sentry 계정
+
+- nonghyupmart@gmail.com
+- PW : nonghyup1~
+- https://docs.expo.dev/guides/using-sentry/
+- https://sentry.io/
+
 
 # Expo CLI 설치
 

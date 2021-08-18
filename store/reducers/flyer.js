@@ -1,12 +1,4 @@
-import {
-  SET_LEAFLET,
-  SET_PRODUCT,
-  SET_PRODUCT_MORE,
-  SET_SEARCHED_PRODUCT,
-  SET_SEARCHED_PRODUCT_MORE,
-  SET_LEAFLET_DETAIL,
-  SET_PRODUCT_DETAIL,
-} from "../actions/flyer";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   leaflet: null,
@@ -14,32 +6,38 @@ const initialState = {
   product: null,
   productDetail: null,
   searchedProduct: null,
+  carousel: null,
 };
 
 export default (state = initialState, action) => {
-  let product, newEvent, updatedProductList, searchedProduct;
+  let product, newProduct, updatedProductList, searchedProduct;
 
   switch (action.type) {
-    case SET_LEAFLET:
+    case actionTypes.SET_CAROUSEL:
+      return {
+        ...state,
+        carousel: action.carousel,
+      };
+    case actionTypes.SET_LEAFLET:
       return {
         ...state,
         leaflet: { ...action.leaflet },
       };
-    case SET_LEAFLET_DETAIL:
+    case actionTypes.SET_LEAFLET_DETAIL:
       return {
         ...state,
         leafletDetail: { ...action.leafletDetail },
       };
-    case SET_PRODUCT:
+    case actionTypes.SET_PRODUCT:
       return {
         ...state,
-        product: { ...action.product },
+        product: { ...action.data },
       };
 
-    case SET_PRODUCT_MORE:
+    case actionTypes.SET_PRODUCT_MORE:
       product = { ...state.product };
-      newEvent = { ...action.product };
-      updatedProductList = product.productList.concat(newEvent.productList);
+      newProduct = { ...action.data };
+      updatedProductList = product.productList.concat(newProduct.productList);
 
       product.productList = updatedProductList;
       return {
@@ -47,16 +45,16 @@ export default (state = initialState, action) => {
         product: product,
       };
 
-    case SET_SEARCHED_PRODUCT:
+    case actionTypes.SET_SEARCHED_PRODUCT:
       return {
         ...state,
-        searchedProduct: { ...action.product },
+        searchedProduct: { ...action.data },
       };
-    case SET_SEARCHED_PRODUCT_MORE:
+    case actionTypes.SET_SEARCHED_PRODUCT_MORE:
       searchedProduct = { ...state.searchedProduct };
-      newEvent = { ...action.product };
+      newProduct = { ...action.data };
       updatedProductList = searchedProduct.productList.concat(
-        newEvent.productList
+        newProduct.productList
       );
 
       searchedProduct.productList = updatedProductList;
@@ -65,7 +63,7 @@ export default (state = initialState, action) => {
         searchedProduct: searchedProduct,
       };
 
-    case SET_PRODUCT_DETAIL:
+    case actionTypes.SET_PRODUCT_DETAIL:
       return {
         ...state,
         productDetail: { ...action.productDetail },

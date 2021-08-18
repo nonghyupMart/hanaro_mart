@@ -14,9 +14,55 @@ import * as Util from "../util";
 import _ from "lodash";
 import Discounts from "../components/flyerItem/Discounts";
 import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import * as wishActions from "../store/actions/wish";
+import { getWishCnt, checkAuth } from "../store/actions/auth";
 
-const FlyerItemColumn2 = ({ item, onPress }) => {
-  // console.log(item.title + " FlyerItemColumn2 rendered");
+const FlyerItemColumn2 = ({
+  item,
+  onPress,
+  afterAddWishItem,
+  afterDeleteWishItem,
+}) => {
+  const isJoin = useSelector((state) => state.auth.isJoin);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+  const addWishItem = async (item) => {
+    if (await checkAuth(dispatch, isJoin)) {
+      if (afterAddWishItem) await afterAddWishItem(item);
+      await dispatch(
+        wishActions.addWishItem({
+          user_cd: userInfo.user_cd,
+          product_cd: item.product_cd,
+        })
+      );
+      await dispatch(
+        getWishCnt({
+          user_cd: userInfo.user_cd,
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      );
+    }
+  };
+  const deleteWishItem = async (item) => {
+    if (await checkAuth(dispatch, isJoin)) {
+      if (afterDeleteWishItem) await afterDeleteWishItem(item);
+      await dispatch(
+        wishActions.deleteWishItem({
+          user_cd: userInfo.user_cd,
+          product_cd: item.product_cd,
+        })
+      );
+      await dispatch(
+        getWishCnt({
+          user_cd: userInfo.user_cd,
+          store_cd: userStore.storeInfo.store_cd,
+        })
+      );
+    }
+  };
+
   return (
     <View style={styles.containerStyle}>
       <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
@@ -36,6 +82,16 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
               source={item.title_img}
               defaultSource={require("../assets/images/n_img501.png")}
             />
+            {item.wish_yn == "N" && (
+              <WishButton onPress={addWishItem.bind(this, item)}>
+                <Image source={require("../assets/images/bt_heart_w.png")} />
+              </WishButton>
+            )}
+            {item.wish_yn == "Y" && (
+              <WishButton onPress={deleteWishItem.bind(this, item)}>
+                <Image source={require("../assets/images/bt_heart_r.png")} />
+              </WishButton>
+            )}
           </ImageContainer>
 
           <Discounts item={item} />
@@ -75,13 +131,18 @@ const FlyerItemColumn2 = ({ item, onPress }) => {
     </View>
   );
 };
+const WishButton = styled.TouchableOpacity({
+  position: "absolute",
+  right: 2,
+  bottom: 1,
+});
 const Period = styled(BaseText)({
   borderRadius: Platform.OS == "ios" ? 5 : 10,
   borderStyle: "solid",
   borderWidth: 0.5,
-  borderColor: colors.warmGreyTwo,
+  borderColor: colors.WARM_GREY_TWO,
   fontSize: 9,
-  color: colors.warmGreyTwo,
+  color: colors.WARM_GREY_TWO,
   paddingLeft: 5,
   paddingRight: 5,
   fontFamily: "Roboto-Bold",
@@ -89,7 +150,7 @@ const Period = styled(BaseText)({
 });
 const SalePriceUnit = styled(BaseText)({
   fontSize: 13,
-  color: colors.blackish2,
+  color: colors.BLACKISH2,
   marginLeft: 1.3,
 });
 const SalePriceContainer = styled.View({
@@ -103,7 +164,7 @@ const OriginalPriceContainer = styled.View({
 const PriceTitle = styled(BaseText)({
   fontSize: 9,
   lineHeight: 12.5,
-  color: colors.blackish,
+  color: colors.BLACKISH,
   marginRight: 2.5,
 });
 const ImageContainer = styled.View({
@@ -115,7 +176,7 @@ const BogoText = styled(BaseText)({
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const BogoIcon = styled.View({
   width: 30,
@@ -127,9 +188,9 @@ const BogoIcon = styled.View({
   top: 0,
   zIndex: 10,
   elevation: 1,
-  backgroundColor: colors.brightRed,
+  backgroundColor: colors.BRIGHT_RED,
   borderWidth: 1,
-  borderColor: colors.trueWhite,
+  borderColor: colors.TRUE_WHITE,
   borderRadius: 100,
 });
 
@@ -140,7 +201,7 @@ const BadgeContainer = styled.View({
 const Badge1Container = styled.View({
   alignItems: "center",
   height: Util.normalize(12),
-  backgroundColor: colors.peacockBlue,
+  backgroundColor: colors.PEACOCK_BLUE,
   justifyContent: "center",
   paddingLeft: 3,
   paddingRight: 3,
@@ -148,7 +209,7 @@ const Badge1Container = styled.View({
 });
 const Badge1 = styled(BaseText)({
   fontSize: Util.normalize(7),
-  color: colors.trueWhite,
+  color: colors.TRUE_WHITE,
 });
 const Badge2Container = styled.View({
   borderStyle: "solid",
@@ -156,7 +217,7 @@ const Badge2Container = styled.View({
   borderRightWidth: 1,
   borderTopWidth: 1,
   borderBottomWidth: 1,
-  borderColor: colors.peacockBlue,
+  borderColor: colors.PEACOCK_BLUE,
   borderLeftWidth: 0,
   height: Util.normalize(12),
   justifyContent: "center",
@@ -167,12 +228,12 @@ const Badge2 = styled(BaseText)({
   fontStyle: "normal",
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.peacockBlue,
+  color: colors.PEACOCK_BLUE,
   paddingLeft: 3.5,
   paddingRight: 3.5,
 });
 const Container = styled.View({
-  // backgroundColor: colors.black,
+  // backgroundColor: colors.BLACK,
   // flexBasis: 0,
 
   // flex: 1,
@@ -190,14 +251,14 @@ const Container = styled.View({
 const SalePrice = styled(BaseText)({
   fontSize: 24,
   letterSpacing: -0.72,
-  color: colors.blackish2,
+  color: colors.BLACKISH2,
   fontFamily: "Roboto-Bold",
   lineHeight: 24,
 });
 const OriginalPrice = styled(BaseText)({
   fontSize: 9,
   lineHeight: 12.5,
-  color: colors.blackish,
+  color: colors.BLACKISH,
   textDecorationLine: "line-through",
   textDecorationStyle: "solid",
 });
@@ -207,7 +268,7 @@ const Title = styled(BaseText)({
   lineHeight: 16.5,
   letterSpacing: -0.4,
   textAlign: "left",
-  color: colors.blackish2,
+  color: colors.BLACKISH2,
   height: 16.5,
 });
 Title.defaultProps = {

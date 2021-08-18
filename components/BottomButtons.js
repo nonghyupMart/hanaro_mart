@@ -13,9 +13,12 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { Icon } from "react-native-elements";
-import { BaseText } from "./UI/BaseUI";
+import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
+import * as Util from "../util";
+import { checkAuth, checkSetStore } from "../store/actions/auth";
 
 const BottomButtons = (props) => {
+  const dispatch = useDispatch();
   const isJoin = useSelector((state) => state.auth.isJoin);
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
@@ -23,53 +26,76 @@ const BottomButtons = (props) => {
   );
   if (isBottomNavigation)
     return (
-      <Container>
-        <ButtonContainer onPress={() => RootNavigation.navigate("Home")}>
-          <Image source={require("../assets/images/home_icon.png")} />
-          <IconText>홈</IconText>
-        </ButtonContainer>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore) || !isJoin)
-              return RootNavigation.navigate("Empty");
-            RootNavigation.navigate("MyCoupon");
-          }}
-        >
-          <Image source={require("../assets/images/coupon_icon.png")} />
-          <IconText>나의 쿠폰</IconText>
-        </ButtonContainer>
+      <ExtraContainer>
+        <Container>
+          <ButtonContainer onPress={() => RootNavigation.navigate("Home")}>
+            <Image source={require("../assets/images/home_icon.png")} />
+            <IconText>홈</IconText>
+          </ButtonContainer>
+          <ButtonContainer
+            onPress={async () => {
+              if (await checkAuth(dispatch, isJoin)) {
+                RootNavigation.navigate("MyCoupon");
+              }
+            }}
+          >
+            <Image source={require("../assets/images/coupon_icon.png")} />
+            <IconText>나의 쿠폰</IconText>
+          </ButtonContainer>
+
+          <Image
+            source={require("../assets/images/HANA_icon.png")}
+            style={{ opacity: 0 }}
+          />
+
+          <ButtonContainer
+            onPress={async () => {
+              if (await checkAuth(dispatch, isJoin)) {
+                RootNavigation.navigate("MyPage");
+              }
+            }}
+          >
+            <Image source={require("../assets/images/mypage_icon.png")} />
+            <IconText>마이페이지</IconText>
+          </ButtonContainer>
+          <ButtonContainer
+            onPress={async () => {
+              if (await checkSetStore(dispatch, userStore)) {
+                Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+              }
+            }}
+          >
+            <Image source={require("../assets/images/call_icon.png")} />
+            <IconText>매장전화</IconText>
+          </ButtonContainer>
+        </Container>
         <TouchableOpacity
-          style={[styles.icons, { marginTop: 0, marginBottom: 0 }]}
+          style={[
+            styles.icons,
+            {
+              marginTop: 0,
+              marginBottom: 0,
+              zIndex: 110,
+              elevation: 110,
+              position: "absolute",
+              width: Util.normalize(47),
+              height: Util.normalize(47),
+              left: SCREEN_WIDTH / 2 - Util.normalize(23.5),
+            },
+          ]}
           onPress={() => RootNavigation.navigate("RingPicker")}
         >
-          <Image source={require("../assets/images/HANA_icon.png")} />
+          <Image
+            source={require("../assets/images/HANA_icon.png")}
+            style={{ width: Util.normalize(47), height: Util.normalize(47) }}
+          />
         </TouchableOpacity>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore) || !isJoin)
-              return RootNavigation.navigate("Empty");
-            RootNavigation.navigate("MyPage");
-          }}
-        >
-          <Image source={require("../assets/images/mypage_icon.png")} />
-          <IconText>마이페이지</IconText>
-        </ButtonContainer>
-        <ButtonContainer
-          onPress={() => {
-            if (_.isEmpty(userStore)) return RootNavigation.navigate("Empty");
-            Linking.openURL("tel:" + userStore.storeInfo.support_tel);
-          }}
-        >
-          <Image source={require("../assets/images/call_icon.png")} />
-          <IconText>매장전화</IconText>
-        </ButtonContainer>
-      </Container>
+      </ExtraContainer>
     );
   else return <></>;
 };
 
 const ButtonContainer = styled.TouchableOpacity({
-  backgroundColor: colors.trueWhite,
   height: 50,
   flex: 1,
   justifyContent: "center",
@@ -83,25 +109,35 @@ const IconText = styled(BaseText)({
   fontStyle: "normal",
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.greyishBrown,
+  color: colors.GREYISH_BROWN,
+});
+const ExtraContainer = styled.View({
+  height: 60,
+  alignItems: "flex-end",
+  flexDirection: "row",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  width: "100%",
 });
 const Container = styled.View({
   height: 50,
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   flexDirection: "row",
   position: "absolute",
   bottom: 0,
   left: 0,
   width: "100%",
   // justifyContent: "center",
-  alignItems: "center",
+  alignItems: "flex-end",
   elevation: 10,
 
   // for IOS
   zIndex: 10,
-  shadowColor: colors.black16,
+  shadowColor: colors.BLACK16,
   shadowRadius: 6,
   shadowOpacity: 0.5,
+  overflow: "visible",
 });
 const styles = StyleSheet.create({
   icons: {
@@ -111,7 +147,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "column",
     position: "relative",
-    top: -5,
+    top: 0,
   },
   center: {
     flex: 1,

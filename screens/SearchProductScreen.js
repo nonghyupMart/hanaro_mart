@@ -21,15 +21,18 @@ import * as flyerActions from "../store/actions/flyer";
 import FlyerItemColumn2 from "../components/FlyerItemColumn2";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_SEARCHED_PRODUCT } from "../store/actions/flyer";
+import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
 import { styles } from "../screens/home/FlyerScreen";
+import _ from "lodash";
+import { postWish } from "../store/actions/common";
 
 const SearchProductScreen = (props) => {
   const isLoading = useSelector((state) => state.common.isLoading);
   const [product_nm, setProduct_nm] = useState("");
   const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state) => state.auth.userInfo);
   const dispatch = useDispatch();
   const page = useRef(1);
   const currentItem = useRef(null);
@@ -74,15 +77,13 @@ const SearchProductScreen = (props) => {
     }
 
     dispatch(setIsLoading(true));
-    dispatch(
-      flyerActions.fetchProduct({
-        store_cd: userStore.storeInfo.store_cd,
-        product_nm: product_nm,
-        page: p,
-      })
-    ).then(() => {
-      dispatch(setIsLoading(false));
-    });
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      product_nm: product_nm,
+      page: p,
+    };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    dispatch(flyerActions.fetchProduct(query));
   };
   const loadMore = () => {
     if (!isLoading && page.current + 1 <= product.finalPage) {
@@ -96,17 +97,24 @@ const SearchProductScreen = (props) => {
     setIsVisible((isVisible) => !isVisible);
     currentItem.current = item;
   };
+
+  const afterAddWishItem = (item) => {
+    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "Y");
+  };
+  const afterDeleteWishItem = (item) => {
+    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "N");
+  };
   return (
     <BaseScreen
       style={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
         paddingRight: 0,
       }}
       isPadding={Platform.OS == "ios" ? false : true}
       // scrollListStyle={{ paddingTop: Platform.OS == "ios" ? 19 : 0 }}
       contentStyle={{
-        backgroundColor: colors.trueWhite,
+        backgroundColor: colors.TRUE_WHITE,
         paddingTop: Platform.OS == "ios" ? 19 : 19,
         // paddingLeft: Platform.OS == "ios" ? 16 : 0,
         // paddingRight: Platform.OS == "ios" ? 16 : 0,
@@ -147,24 +155,25 @@ const SearchProductScreen = (props) => {
             <FlyerItemColumn2
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
+              afterAddWishItem={afterAddWishItem}
+              afterDeleteWishItem={afterDeleteWishItem}
             />
           )}
         />
       )}
-      {currentItem.current && isVisible && (
-        <ProductPopup
-          item={currentItem.current}
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-        />
-      )}
+
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.trueWhite, paddingBottom: 0 },
+    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "상품검색",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
@@ -176,7 +185,7 @@ const ScrollList = styled(ExtendedFlatList)({
   flex: 1,
 
   width: "100%",
-  // backgroundColor: colors.black,
+  // backgroundColor: colors.BLACK,
 });
 const ResultText = styled(BaseText)({
   fontSize: 14,
@@ -185,7 +194,7 @@ const ResultText = styled(BaseText)({
   lineHeight: 28,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
   width: "100%",
   marginTop: 15,
   marginBottom: 15,
@@ -200,7 +209,7 @@ SearchIcon.defaultProps = {
 };
 const SearchContainer = styled.View({
   width: "100%",
-  backgroundColor: colors.white,
+  backgroundColor: colors.WHITE,
   // height: 36,
   aspectRatio: 100 / 10.975,
   borderRadius: 25,

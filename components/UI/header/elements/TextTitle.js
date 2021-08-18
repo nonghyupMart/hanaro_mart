@@ -22,7 +22,7 @@ const Title = styled(BaseText)({
   lineHeight: 29,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.black,
+  color: colors.BLACK,
 
   flexShrink: 1,
 });

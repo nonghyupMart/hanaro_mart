@@ -7,17 +7,7 @@ import { BaseTouchable, BaseText } from "../../../../components/UI/BaseUI";
 import _ from "lodash";
 import * as Util from "../../../../util";
 
-let isInit = false;
 const LogoTitle = (props) => {
-  if (!isInit && !props.route.state) {
-    // console.log("home init 화면 ");
-    isInit = true;
-  } else if (props.route.state && props.route.state.index == 0) {
-    // console.log("home 화면 ");
-    isInit = false;
-  }
-  // console.log(props.route.state && props.route.state.index);
-  // console.log(props.navigator.route);
   const userStore = useSelector((state) => state.auth.userStore);
   return (
     <Container onPress={() => RootNavigation.navigate("Home")}>
@@ -48,7 +38,7 @@ const BranchName = styled(BaseText)({
   lineHeight: 22,
   letterSpacing: 0,
   textAlign: "left",
-  color: colors.nastyGreen,
+  color: colors.NASTY_GREEN,
 });
 BranchName.defaultProps = {
   numberOfLines: 1,

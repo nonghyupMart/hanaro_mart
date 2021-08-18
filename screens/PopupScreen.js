@@ -17,7 +17,7 @@ import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
 import { useDispatch, useSelector } from "react-redux";
 import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "../store/actions/home";
+import { SET_STORE_POPUP } from "../store/actions/actionTypes";
 import moment from "moment";
 import {
   createStackNavigator,
@@ -32,11 +32,10 @@ const PopupScreen = (props) => {
   const isJoin = useSelector((state) => state.auth.isJoin);
   const isStorePopup = useSelector((state) => state.common.isStorePopup);
   const storePopup = useSelector((state) => state.home.storePopup);
-  const isPreview = useSelector((state) => state.auth.isPreview);
   const didTryAutoLogin = useSelector((state) => state.auth.didTryAutoLogin);
   let isPopupStoreFromStorage;
   (async () => {
-    isPopupStoreFromStorage = await getIsStorePopup(userStore, dispatch);
+    isPopupStoreFromStorage = await getIsStorePopup(dispatch);
   })();
   useEffect(() => {
     return () => {
@@ -56,11 +55,9 @@ const PopupScreen = (props) => {
         userStore.storeInfo &&
         userStore.storeInfo.store_cd
       ) {
-        dispatch(CommonActions.setIsLoading(true));
         dispatch(
           homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
         ).then(async (data) => {
-          dispatch(CommonActions.setIsLoading(false));
           // console.warn("storePopup.popupCnt", data.popupCnt);
           if (data.popupCnt > 0) {
             let setDate = moment().subtract(1, "days");
@@ -79,27 +76,6 @@ const PopupScreen = (props) => {
             dispatch(CommonActions.setDidTryPopup(true));
           }
         });
-      } else if (_.isEmpty(userStore) && isJoin) {
-        const t = setTimeout(
-          () => {
-            dispatch(
-              CommonActions.setAlert({
-                message: "선택된 매장이 없습니다.\n매장을 선택해 주세요.",
-                onPressConfirm: async () => {
-                  await dispatch(CommonActions.setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup("StoreChange"));
-                },
-                onPressCancel: async () => {
-                  await dispatch(CommonActions.setAlert(null));
-                  await dispatch(CommonActions.setDidTryPopup(true));
-                },
-                confirmText: "매장선택",
-                cancelText: "취소",
-              })
-            );
-          },
-          Platform.OS == "ios" ? 500 : 0
-        );
       } else {
         dispatch(CommonActions.setDidTryPopup(true));
       }
@@ -109,10 +85,7 @@ const PopupScreen = (props) => {
 
   const setDisablePopup = () => {
     (async () => {
-      const isPopupStoreFromStorage = await getIsStorePopup(
-        userStore,
-        dispatch
-      );
+      const isPopupStoreFromStorage = await getIsStorePopup(dispatch);
       await CommonActions.saveDateForStorePopupToStorage(
         isPopupStoreFromStorage,
         userStore.storeInfo.store_cd,
@@ -143,7 +116,7 @@ const PopupScreen = (props) => {
           paddingBottom: 2,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 14 }}
+        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
         pageInfoTextSeparator="/"
       >
         {storePopup.popupList.map((item, index) => {
@@ -220,13 +193,13 @@ const BtnText = styled(BaseText)({
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.black,
+  color: colors.BLACK,
 });
 const BtnWarpper = styled.TouchableOpacity({
-  backgroundColor: colors.trueWhite,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
   borderWidth: 1,
-  borderColor: colors.pinkishGrey,
+  borderColor: colors.PINKISH_GREY,
   width: "50%",
   padding: 13,
 });

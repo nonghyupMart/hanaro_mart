@@ -1,8 +1,4 @@
-import {
-  SET_EXHIBITION,
-  SET_EXHIBITION_MORE,
-  SET_EXHIBITION_DETAIL,
-} from "../actions/exhibition";
+import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   exhibition: null,
@@ -12,12 +8,12 @@ const initialState = {
 export default (state = initialState, action) => {
   let newExhibition, updatedPlanList;
   switch (action.type) {
-    case SET_EXHIBITION:
+    case actionTypes.SET_EXHIBITION:
       return {
         ...state,
         exhibition: { ...action.exhibition },
       };
-    case SET_EXHIBITION_MORE:
+    case actionTypes.SET_EXHIBITION_MORE:
       let exhibition = { ...state.exhibition };
       newExhibition = { ...action.exhibition };
       updatedPlanList = exhibition.list.concat(newExhibition.list);
@@ -28,7 +24,7 @@ export default (state = initialState, action) => {
         exhibition: exhibition,
       };
 
-    case SET_EXHIBITION_DETAIL:
+    case actionTypes.SET_EXHIBITION_DETAIL:
       return {
         ...state,
         exhibitionDetail: { ...action.exhibitionDetail },

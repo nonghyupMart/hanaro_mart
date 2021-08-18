@@ -1,14 +1,4 @@
-import {
-  SET_HOME_BANNER,
-  SET_HOME_NOTICE,
-  SET_HOME_NOTICE_MORE,
-  SET_HOME_PRODUCTS,
-  SET_HOME_PRODUCTS_MORE,
-  SET_HOME_NARO,
-  SET_APP_POPUP,
-  SET_STORE_POPUP,
-} from "../actions/home";
-
+import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   homeBanner: null,
   homeNotice: null,
@@ -20,17 +10,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case SET_HOME_BANNER:
+    case actionTypes.SET_HOME_BANNER:
       return {
         ...state,
         homeBanner: { ...action.homeBanner },
       };
-    case SET_HOME_NOTICE:
+    case actionTypes.SET_HOME_NOTICE:
       return {
         ...state,
         homeNotice: { ...action.homeNotice },
       };
-    case SET_HOME_NOTICE_MORE:
+    case actionTypes.SET_HOME_NOTICE_MORE:
       let homeNotice = { ...state.homeNotice };
       let newHomeNotice = { ...action.homeNotice };
 
@@ -43,14 +33,14 @@ export default (state = initialState, action) => {
         ...state,
         homeNotice: homeNotice,
       };
-    case SET_HOME_PRODUCTS:
+    case actionTypes.SET_HOME_PRODUCTS:
       return {
         ...state,
-        homeProducts: { ...action.homeProducts },
+        homeProducts: { ...action.data },
       };
-    case SET_HOME_PRODUCTS_MORE:
+    case actionTypes.SET_HOME_PRODUCTS_MORE:
       let homeProducts = { ...state.homeProducts };
-      let newHomeProducts = { ...action.homeProducts };
+      let newHomeProducts = { ...action.data };
 
       let updatedProductList = homeProducts.productList.concat(
         newHomeProducts.productList
@@ -61,17 +51,17 @@ export default (state = initialState, action) => {
         ...state,
         homeProducts: homeProducts,
       };
-    case SET_HOME_NARO:
+    case actionTypes.SET_HOME_NARO:
       return {
         ...state,
         homeNaro: { ...action.homeNaro },
       };
-    case SET_APP_POPUP:
+    case actionTypes.SET_APP_POPUP:
       return {
         ...state,
         appPopup: { ...action.appPopup },
       };
-    case SET_STORE_POPUP:
+    case actionTypes.SET_STORE_POPUP:
       return {
         ...state,
         storePopup: { ...action.storePopup },

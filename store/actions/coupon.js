@@ -1,108 +1,75 @@
 import queryString from "query-string";
-import { API_URL } from "../../constants";
-import * as Util from "../../util";
-import { getResponse } from "../actions/auth";
-
-export const SET_COUPON_A = "SET_COUPON_A";
-export const SET_COUPON = "SET_COUPON";
-export const SET_MY_COUPON_A = "SET_MY_COUPON_A";
-export const SET_MY_COUPON = "SET_MY_COUPON";
-export const SET_COUPON_MORE = "SET_COUPON_MORE";
-export const SET_MY_COUPON_MORE = "SET_MY_COUPON_MORE";
-export const SET_COUPON_DETAIL = "SET_COUPON_DETAIL";
+import * as actionTypes from "./actionTypes";
+import http from "../../util/axios-instance";
 
 export const fetchCoupon = (query) => {
   query.limit = 40;
   // store_cd , user_cd
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon`,
+    url: `/coupon`,
     query: query,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        let type = actionTypes.SET_COUPON;
 
-      const resData = await getResponse(response, dispatch, url, query);
-      let type = SET_COUPON;
-
-      if (query.page > 1) {
-        // 다음 페이지 로딩
-        if (query.user_yn == "Y") {
-          //마이쿠폰일 경우..
-          type = SET_MY_COUPON_MORE;
-        } else {
-          type = SET_COUPON_MORE;
-        }
-      } else {
-        // 첫페이지 로딩
-        if (query.user_yn == "Y") {
-          //마이쿠폰일 경우..
-          if (query.gbn == "A") {
-            type = SET_MY_COUPON_A;
+        if (query.page > 1) {
+          // 다음 페이지 로딩
+          if (query.user_yn == "Y") {
+            //마이쿠폰일 경우..
+            type = actionTypes.SET_MY_COUPON_MORE;
           } else {
-            type = SET_MY_COUPON;
+            type = actionTypes.SET_COUPON_MORE;
           }
         } else {
-          if (query.gbn == "A") {
-            type = SET_COUPON_A;
+          // 첫페이지 로딩
+          if (query.user_yn == "Y") {
+            //마이쿠폰일 경우..
+            type = actionTypes.SET_MY_COUPON;
           } else {
-            type = SET_COUPON;
+            type = actionTypes.SET_COUPON;
           }
         }
-      }
 
-      dispatch({ type: type, coupon: resData.data });
-    } catch (err) {
-      throw err;
-    }
+        dispatch({ type: type, coupon: response.data });
+        return response.data;
+      });
   };
 };
 
 export const downloadCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
-  const type = query.type;
   delete query.coupon;
   delete query.index;
-  delete query.type;
+
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon`,
+    url: `/coupon`,
   });
+  const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .post(url, data)
+      .then(async (response) => {
+        switch (`${response.code}`) {
+          case "200":
+            coupon.couponList[index].status = "10";
+            break;
+          case "COU-0004": //COU-0004 - 수량이 없을때 오류 메세지
+            coupon.couponList[index].status = "30";
+          default:
+            break;
+        }
+        dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      switch (resData.code) {
-        case "200":
-          coupon.couponList[index].status = "10";
-          break;
-        case "COU-0004": //COU-0004 - 수량이 없을때 오류 메세지
-          coupon.couponList[index].status = "30";
-        default:
-          break;
-      }
-
-      switch (type) {
-        case "A":
-          dispatch({ type: SET_COUPON_A, coupon: coupon });
-          break;
-        case "B":
-          dispatch({ type: SET_COUPON, coupon: coupon });
-          break;
-      }
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
@@ -116,36 +83,20 @@ export const useCoupon = (query) => {
   delete query.type;
   delete query.routeName;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon`,
+    url: `/coupon`,
   });
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(query),
+    const data = JSON.stringify(query);
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .patch(url, data)
+      .then(async (response) => {
+        coupon.couponList[index].status = "20";
+        if (routeName === "MyCoupon")
+          dispatch({ type: actionTypes.SET_MY_COUPON, coupon: coupon });
+        else dispatch({ type: actionTypes.SET_COUPON, coupon: coupon });
+        return response.data;
       });
-      const resData = await getResponse(response, dispatch, url, query);
-      // return;
-      coupon.couponList[index].status = "20";
-      switch (type) {
-        case "A":
-          if (routeName === "MyCoupon")
-            dispatch({ type: SET_MY_COUPON_A, coupon: coupon });
-          else dispatch({ type: SET_COUPON_A, coupon: coupon });
-          break;
-        case "B":
-          if (routeName === "MyCoupon")
-            dispatch({ type: SET_MY_COUPON, coupon: coupon });
-          else dispatch({ type: SET_COUPON, coupon: coupon });
-          break;
-      }
-      return resData.data;
-    } catch (err) {
-      throw err;
-    }
   };
 };
 
@@ -154,21 +105,20 @@ export const fetchCouponDetail = (query) => {
   const cou_cd = query.cou_cd;
   delete query.cou_cd;
   const url = queryString.stringifyUrl({
-    url: `${API_URL}/coupon/${cou_cd}`,
+    url: `/coupon/${cou_cd}`,
     query: query,
   });
 
   return async (dispatch, getState) => {
-    try {
-      const response = await fetch(url);
-      const resData = await getResponse(response, dispatch, url, query);
-      // Util.log("fetchCouponDetail", resData.data.couponInfo);
-      dispatch({
-        type: SET_COUPON_DETAIL,
-        couponDetail: resData.data.couponInfo,
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true })
+      .get(url)
+      .then(async (response) => {
+        dispatch({
+          type: actionTypes.SET_COUPON_DETAIL,
+          couponDetail: response.data.couponInfo,
+        });
+        return response.data;
       });
-    } catch (err) {
-      throw err;
-    }
   };
 };

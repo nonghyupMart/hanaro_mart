@@ -12,112 +12,144 @@ import * as Util from "../util";
 const CouponItem = (props) => {
   return (
     <Container index={props.index}>
-      <Discount>
+      <View>
+        <BaseImage
+          source={props.item.title_img}
+          style={{
+            height: SCREEN_WIDTH * 0.328,
+            aspectRatio: 1 / 1,
+            alignSelf: "center",
+          }}
+          resizeMode="contain"
+          initResizeMode="contain"
+          defaultSource={require("../assets/images/n_img501.png")}
+        />
+        {props.item.remain_yn == "Y" && (
+          <CountContainer>
+            <Count>{props.item.current_remain}개 남음</Count>
+          </CountContainer>
+        )}
+      </View>
+      <Title numberOfLines={1}>{props.item.title}</Title>
+      <Discount
+        numberOfLines={1}
+        style={{
+          color: props.item.status > 10 ? colors.GREYISH_TWO : colors.EMERALD,
+        }}
+      >
         {Util.formatNumber(props.item.price)}
         {props.item.price_gbn == "A" ? "원 " : "% "}
         할인
       </Discount>
-      <BaseImage
-        source={props.item.title_img}
-        style={{
-          height: SCREEN_WIDTH * 0.277,
-          aspectRatio: 1 / 1,
-          alignSelf: "center",
-        }}
-        resizeMode="contain"
-        defaultSource={require("../assets/images/n_img501.png")}
-      />
-      <Title numberOfLines={2}>{props.item.title}</Title>
       <Date>
         {props.item.start_date} ~ {props.item.end_date}
       </Date>
       {props.item.status == "00" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.blueyGreen }}
+          style={{ backgroundColor: colors.TRUE_WHITE }}
         >
           <ButtonText>쿠폰 다운로드</ButtonText>
-          <Icon
-            source={require("../assets/images/ic_file_download_24px.png")}
-          />
+          <Icon source={require("../assets/images/ic_file_download_1.png")} />
         </Button>
       )}
       {props.item.status == "10" && (
         <Button
           onPress={props.onPress}
-          style={{ backgroundColor: colors.booger }}
+          style={{ backgroundColor: colors.EMERALD, borderWidth: 0 }}
         >
-          <ButtonText>사용하기</ButtonText>
-          <Icon source={require("../assets/images/ic_rotate_right_24px.png")} />
+          <ButtonText style={{ color: colors.TRUE_WHITE }}>
+            쿠폰 사용하기
+          </ButtonText>
+          <Icon source={require("../assets/images/ic_file_download_2.png")} />
         </Button>
       )}
       {props.item.status == "20" && (
         <Button
-          onPress={props.onPress}
-          style={{ backgroundColor: colors.silver }}
+          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
+          activeOpacity={1}
         >
-          <ButtonText>사용완료</ButtonText>
-          <Icon source={require("../assets/images/ic_timer_24px.png")} />
+          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
+            쿠폰 사용완료
+          </ButtonText>
         </Button>
       )}
       {props.item.status == "30" && (
         <Button
-          onPress={props.onPress}
-          style={{ backgroundColor: colors.silver }}
+          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
+          activeOpacity={1}
         >
-          <ButtonText>쿠폰소진완료</ButtonText>
-          <Icon source={require("../assets/images/ic_timer_24px.png")} />
+          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
+            쿠폰 소진완료
+          </ButtonText>
         </Button>
       )}
     </Container>
   );
 };
+const CountContainer = styled.View({
+  backgroundColor: colors.GRAPEFRUIT,
+  borderRadius: 18,
+  aspectRatio: 100 / 31.818,
+  height: 17.5,
+  justifyContent: "center",
+  alignSelf: "center",
+  position: "absolute",
+  bottom: 0,
+});
+const Count = styled(BaseText)({
+  lineHeight: 12,
+  letterSpacing: -0.27,
+  textAlign: "center",
+  fontSize: 9,
+  color: colors.TRUE_WHITE,
+  fontFamily: "Roboto-Medium",
+});
 const Icon = styled.Image({});
 const ButtonText = styled(BaseText)({
-  fontSize: 12,
+  fontSize: 12.5,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.trueWhite,
-  marginRight: 5,
+  color: colors.EMERALD,
+  marginRight: 1,
+  fontFamily: "Roboto-Medium",
 });
-const Button = styled(BaseTouchable).attrs({
-  activeOpacity: 0.5,
-})({
+const Button = styled(BaseTouchable)({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  borderRadius: 5,
-  backgroundColor: colors.white,
+  backgroundColor: colors.TRUE_WHITE,
   borderStyle: "solid",
-  borderWidth: 0,
-  borderColor: colors.pinkishGrey,
-  minHeight: 26,
-  height: SCREEN_WIDTH * 0.072,
+  borderWidth: 1,
+  borderColor: colors.EMERALD,
+  minHeight: Util.normalize(24),
+
+  aspectRatio: 100 / 19.86,
 });
 const Title = styled(BaseText)({
   marginTop: 3,
   marginBottom: 0,
-  fontSize: 14,
+  fontSize: 13,
   fontWeight: "normal",
   fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
-  color: colors.greyishBrown,
-  minHeight: 40,
+  color: colors.BLACK,
+  // minHeight: 40,
+  fontFamily: "Roboto-Bold",
 });
 const Discount = styled(BaseText)({
-  fontSize: 18,
+  fontSize: 17,
   fontFamily: "Roboto-Bold",
   fontStyle: "normal",
-  lineHeight: 26,
-  letterSpacing: -0.45,
+
+  letterSpacing: -0.51,
   textAlign: "center",
-  color: colors.lipstick,
-  marginBottom: 8,
+  color: colors.EMERALD,
 });
 
 const StatusContainer = styled.View({
@@ -125,25 +157,20 @@ const StatusContainer = styled.View({
 });
 
 const Date = styled(BaseText)({
-  fontSize: 12,
-  fontWeight: "normal",
-  fontStyle: "normal",
+  fontSize: 10,
   lineHeight: 17,
-  letterSpacing: 0,
+  color: colors.GREYISH_TWO,
+  marginBottom: 6.5,
+  letterSpacing: -0.3,
   textAlign: "center",
-  color: colors.greyishBrown,
-  marginBottom: 10,
-  letterSpacing: -0.5,
 });
 const Container = styled.View({
   maxWidth: "50%",
   flex: 0.489,
   width: "100%",
-  borderStyle: "solid",
-  borderWidth: 1,
-  borderColor: colors.white,
   padding: 10,
 
+  alignSelf: "flex-start",
   // marginRight: (props) => (props.index % 2 == 0 ? 5 : 0),
   marginTop: (props) => (SCREEN_WIDTH - 4 - 18 - 18) * 0.02,
 });

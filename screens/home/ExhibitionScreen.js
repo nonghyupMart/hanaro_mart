@@ -15,6 +15,7 @@ import { setIsLoading } from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
 import NoList from "../../components/UI/NoList";
 import * as CommonActions from "../../store/actions/common";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
@@ -36,7 +37,7 @@ const ExhibitionScreen = (props) => {
   }
 
   useEffect(() => {
-    if (link && link.category == routeName) {
+    if (link && link.category == routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
@@ -45,7 +46,6 @@ const ExhibitionScreen = (props) => {
   }, [link]);
 
   const moveToDetail = (event_cd) => {
-    dispatch(setIsLoading(true));
     if (routeName == "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: event_cd });
     } else {
@@ -54,6 +54,9 @@ const ExhibitionScreen = (props) => {
   };
 
   useEffect(() => {
+    if (!isFocused) {
+      return;
+    }
     const currentTab = TabMenus.filter((tab) => tab.name == routeName);
 
     const tab = userStore.menuList.filter(
@@ -66,29 +69,21 @@ const ExhibitionScreen = (props) => {
         title: tab[0].menu_nm,
       });
     }
-    const unsubscribe = navigation.addListener("focus", () => {
-      if (userStore) {
-        page.current = 1;
-        fetchExhibition();
-      }
-    });
-    return unsubscribe;
-  }, [userStore]);
+    if (!_.isEmpty(userStore)) {
+      page.current = 1;
+      fetchExhibition();
+    }
+  }, [isFocused, userStore]);
 
   const fetchExhibition = (p = page.current) => {
-    dispatch(setIsLoading(true));
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: p,
     };
     if (routeName == "Exhibition") {
-      dispatch(exhibitionActions.fetchExhibition(query)).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      dispatch(exhibitionActions.fetchExhibition(query));
     } else {
-      dispatch(exclusiveActions.fetchExclusive(query)).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      dispatch(exclusiveActions.fetchExclusive(query));
     }
   };
   const loadMore = () => {
@@ -99,14 +94,13 @@ const ExhibitionScreen = (props) => {
   };
 
   const onPress = (item) => {
-    dispatch(setIsLoading(true));
     if (routeName == "Exhibition") {
       navigation.navigate("ExhibitionDetail", { event_cd: item.plan_cd });
     } else {
       navigation.navigate("ForStoreDetail", { event_cd: item.exclu_cd });
     }
   };
-  if (!isFocused || !data) return <></>;
+  if (!data) return <></>;
   if (
     (routeName == "Exhibition" && _.size(data.list) === 0) ||
     (routeName == "ForStore" && _.size(data.list) === 0)
@@ -123,15 +117,18 @@ const ExhibitionScreen = (props) => {
     );
   return (
     <BaseScreen
-      style={styles.screen}
-      contentStyle={{ paddingTop: 0, backgroundColor: colors.trueWhite }}
+      style={[styles.screen]}
+      contentStyle={{ paddingTop: 0, backgroundColor: colors.TRUE_WHITE }}
     >
       {data && (
         <ScrollList
+          listKey={`${userStore.storeInfo.store_cd}-${routeName}`}
           numColumns={1}
           data={data.list}
           keyExtractor={(item, index) =>
-            `${userStore.storeInfo.store_cd}-${index}`
+            `${userStore.storeInfo.store_cd}-${
+              routeName == "Exhibition" ? item.plan_cd : item.exclu_cd
+            }`
           }
           onEndReached={loadMore}
           renderItem={(itemData) => {
@@ -158,12 +155,12 @@ export const screenOptions = ({ navigation }) => {
 
 const ScrollList = styled(ExtendedFlatList)({
   flexGrow: 1,
-
+  marginTop: 30.5,
   width: "100%",
-  // backgroundColor: colors.black,
+  // backgroundColor: colors.BLACK,
 });
 const styles = StyleSheet.create({
-  screen: { backgroundColor: colors.trueWhite },
+  screen: { backgroundColor: colors.TRUE_WHITE },
 });
 
 export default ExhibitionScreen;
