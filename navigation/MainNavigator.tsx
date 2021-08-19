@@ -16,13 +16,13 @@ import { RootState } from "../store/root-state";
 const Drawer = createDrawerNavigator();
 export const MainNavigator = (props) => {
   const dispatch = useDispatch();
-  const userStore = useSelector((state:RootState) => state.auth.userStore);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
   const [isInitialRender, setIsInitialRender] = useState(true);
 
   if (isInitialRender) {
     setTimeout(() => setIsInitialRender(false), 1);
   }
-  // return <></>;
+  if (_.isEmpty(userStore)) return <></>;
   const drawerWidth =
     SCREEN_WIDTH > 320 ? SCREEN_WIDTH * 0.7066 : SCREEN_WIDTH * 0.711;
   return (
@@ -38,7 +38,7 @@ export const MainNavigator = (props) => {
         CustomDrawerContent(
           props,
           dispatch,
-          !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [],
+          !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : []
         )
       }
     >

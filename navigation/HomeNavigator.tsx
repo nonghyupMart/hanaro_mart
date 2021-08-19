@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import * as Screens from "../screens";
 import { HomeTabNavigator } from "./HomeTabNavigator";
 import { PADDING_BOTTOM_MENU } from "../constants";
@@ -15,7 +14,6 @@ import { RootState } from "../store/root-state";
 const HomeStackNavigator = createStackNavigator();
 
 export const HomeNavigator = ({ navigation, route }) => {
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
   return (
     <Fragment>
       <HomeStackNavigator.Navigator

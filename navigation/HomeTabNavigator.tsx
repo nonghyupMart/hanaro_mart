@@ -28,7 +28,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
 
-  if (_.isEmpty(userStore) || _.isEmpty(menuList)) return <></>;
+  if (_.isEmpty(userStore)) return <></>;
   Util.log("HomeTabNavigator why call multiple times?");
   return (
     <HomeTopTabNavigator.Navigator
