@@ -397,9 +397,8 @@ export const loginWithID = (query) => {
         if (response.data.userInfo) {
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
-          await dispatch(setDidTryPopup(false));
           await dispatch(setIsJoin(true));
-          await RootNavigation.navigate("Home");
+          await dispatch(setDidTryPopup("Home"));
         }
         return response.data;
       });
