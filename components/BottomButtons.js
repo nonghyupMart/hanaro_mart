@@ -20,7 +20,7 @@ import colors from "../constants/Colors";
 
 const BottomButtons = (props) => {
   const dispatch = useDispatch();
-  const isJoined = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state) => state.auth.isJoined);
   const userStore = useSelector((state) => state.auth.userStore);
   const isBottomNavigation = useSelector(
     (state) => state.common.isBottomNavigation

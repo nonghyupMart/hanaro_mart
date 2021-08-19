@@ -1,6 +1,6 @@
 export const log = (...val) => {
   if (__DEV__) {
-    console.trace(...val);
+    console.log(...val);
     // console.warn(JSON.stringify(userStore, null, "\t"));
     /*
     var people = [["John", "Smith"], ["Jane", "Doe"], ["Emily", "Jones"]]

@@ -28,6 +28,7 @@ export const HomeNavigator = ({ navigation, route }) => {
           gestureEnabled: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
+        initialRouteName="HomeTab"
       >
         <HomeStackNavigator.Screen
           name="HomeTab"

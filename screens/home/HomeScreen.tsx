@@ -191,28 +191,28 @@ const processNotifications = (routeName) => {
         if (_.isEmpty(tab)) return;
 
         let param = {};
-        if (!!cd) param.link_code = cd;
-        if (!!category) param.category = category;
+        if (!!cd) param["link_code"] = cd;
+        if (!!category) param["category"] = category;
         switch (category) {
           case "A": //매장공지
-            if (!!cd) param.notice_cd = cd;
-            param.type = "C";
+            if (!!cd) param["notice_cd"] = cd;
+            param["type"] = "C";
             break;
           case "H": //통합공지
-            if (!!cd) param.notice_cd = cd;
-            param.type = "H";
+            if (!!cd) param["notice_cd"] = cd;
+            param["type"] = "H";
             break;
           default:
             break;
         }
         await dispatch(
           CommonActions.setLink({
-            category: CATEGORY[param.category],
-            link_code: param.link_code,
+            category: CATEGORY[param["category"]],
+            link_code: param["link_code"],
           })
         );
         setTimeout(() => {
-          RootNavigation.navigate(CATEGORY[param.category], param);
+          RootNavigation.navigate(CATEGORY[param["category"]], param);
         }, 500);
       } else {
         dispatch(

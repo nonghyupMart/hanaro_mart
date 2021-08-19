@@ -8,6 +8,7 @@ import * as Screens from "../screens";
 import { TabMenus } from "../constants/menu";
 import { RootState } from "../store/root-state";
 import colors from "../constants/Colors";
+import * as Util from "../utils";
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
@@ -22,11 +23,13 @@ const getTabBarVisible = (route) => {
 };
 
 export const HomeTabNavigator = ({ navigation, route }) => {
-  const userStore = useSelector((state:RootState) => state.auth.userStore);
-  const userInfo = useSelector((state:RootState) => state.auth.userInfo);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
   const menuList =
     !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
+
+  if (_.isEmpty(userStore) || _.isEmpty(menuList)) return <></>;
+  Util.log("HomeTabNavigator why call multiple times?");
   return (
     <HomeTopTabNavigator.Navigator
       backBehavior="initialRoute"
@@ -63,7 +66,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           let Tab = TabMenus.filter((tab) => tab.title === menu.r_menu_nm);
           if (!Tab[0]) return;
           let components = Tab[0].components;
-
           return (
             <HomeTopTabNavigator.Screen
               key={Tab[0].name}
@@ -79,7 +81,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           );
         }
       })}
-     
     </HomeTopTabNavigator.Navigator>
   );
 };
