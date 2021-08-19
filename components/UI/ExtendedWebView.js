@@ -21,6 +21,7 @@ import * as Notifications from "expo-notifications";
 import JoinPopupContent from "../../screens/join/JoinPopupContent";
 import moment from "moment";
 import colors from "../../constants/Colors";
+import { SERVER_URL } from "../../constants";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();
@@ -78,13 +79,19 @@ export const ExtendedWebView = (props) => {
   };
   const interceptStateChange = (e) => {
     // allow normal the navigation
-    if (!e.url.startsWith("native://")) return true;
-    const message = JSON.parse(
-      decodeURIComponent(e.url.replace("native://", ""))
-    );
-    parseMethod(message);
-    // return false to prevent webview navigate to the location of e.url
-    return false;
+    if (e.url.startsWith("native://")) {
+      const message = JSON.parse(
+        decodeURIComponent(e.url.replace("native://", ""))
+      );
+      parseMethod(message);
+      // return false to prevent webview navigate to the location of e.url
+      return false;
+    } else if (!e.url.startsWith("http") || !e.url.startsWith("https")) {
+      let param = encodeURIComponent(e.url);
+      Linking.openURL(`${SERVER_URL}/web/about/redirectURL.do?url=` + param);
+      return false;
+    }
+    return true;
   };
   const parseMethod = async (message) => {
     switch (message.method) {
