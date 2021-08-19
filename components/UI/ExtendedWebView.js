@@ -77,8 +77,10 @@ export const ExtendedWebView = (props) => {
     // if (Platform.OS === "ios") return interceptStateChange(e);
   };
   const interceptStateChange = (e) => {
-    // allow normal the navigation
+    if (e.url.startsWith("about")) return true;
+
     if (e.url.startsWith("native://")) {
+      // allow normal the navigation
       const message = JSON.parse(
         decodeURIComponent(e.url.replace("native://", ""))
       );
