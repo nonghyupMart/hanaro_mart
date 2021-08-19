@@ -29,7 +29,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
   // const menuList = route.params ? route.params.menuList : [];
 
   if (_.isEmpty(userStore)) return <></>;
-  Util.log("HomeTabNavigator why call multiple times?");
   return (
     <HomeTopTabNavigator.Navigator
       backBehavior="initialRoute"
