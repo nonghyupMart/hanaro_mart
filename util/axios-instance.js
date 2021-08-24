@@ -15,9 +15,9 @@ let http = (() => {
     timeout: 30000,
     headers: { "Content-Type": "application/json" },
   });
-  let dispatch,
-    isAutoOff = false,
-    isNoLoading = false;
+  let _dispatch,
+    _isAutoOff = false,
+    _isNoLoading = false;
   const errorHandler = (error) => {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -38,7 +38,7 @@ let http = (() => {
     }
     // console.log(error.config);
     // console.log("errorHandler", error);
-    showServiceErrorAlert(dispatch);
+    showServiceErrorAlert(_dispatch);
     return error;
   };
   // Add a request interceptor
@@ -46,7 +46,11 @@ let http = (() => {
     function (config) {
       // Do something before request is sent
       // console.log(config);
-      if (!isNoLoading) dispatch(setIsLoading(true));
+      console.log(_isNoLoading);
+      if (!_isNoLoading) {
+        _dispatch(setIsLoading(true));
+        console.log("D");
+      }
       return config;
     },
     function (error) {
@@ -64,23 +68,23 @@ let http = (() => {
       if (response.data.code == "USE-0000") {
         //회원정보가 없는 경우 자동로그인 해제
         await Util.clearAllData();
-        return await dispatch({ type: actionTypes.WITHDRAWAL });
+        return await _dispatch({ type: actionTypes.WITHDRAWAL });
       }
 
       if (response.data.code != "200" && response.data.code != "201") {
         Util.log("response URL=>", response.request.responseURL);
         Util.log("response=>", response.data);
-        dispatch(
+        _dispatch(
           setAlert({
             message: response.data.error.errorMsg,
             onPressConfirm: () => {
-              dispatch(setAlert(null));
+              _dispatch(setAlert(null));
             },
           })
         );
       }
-      if (isAutoOff) {
-        dispatch(setIsLoading(false));
+      if (_isAutoOff) {
+        _dispatch(setIsLoading(false));
       }
 
       return response.data;
@@ -93,11 +97,11 @@ let http = (() => {
     }
   );
   return {
-    init: (options) => {
-      dispatch = options.dispatch;
-      if (options.isAutoOff) isAutoOff = options.isAutoOff;
-      if (options.isNoLoading) isNoLoading = options.isNoLoading;
-      if (options.url) instance.defaults.baseURL = options.url;
+    init: ({ dispatch, isAutoOff, isNoLoading, url }) => {
+      _dispatch = dispatch;
+      _isAutoOff = isAutoOff;
+      _isNoLoading = isNoLoading;
+      if (url) instance.defaults.baseURL = url;
       return instance;
     },
     get: (...params) => {
