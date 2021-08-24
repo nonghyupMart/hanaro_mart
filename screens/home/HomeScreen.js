@@ -47,11 +47,9 @@ const HomeScreen = (props) => {
   const pushToken = useSelector((state) => state.auth.pushToken);
   const link = useSelector((state) => state.common.link);
 
-  initNotificationReceiver(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!_.isEmpty(userInfo) && !_.isEmpty(userStore)) {
-      // console.warn(JSON.stringify(userInfo, null, "\t"));
       authActions.updateUserInfo({
         dispatch: dispatch,
         userInfo: userInfo,
@@ -59,13 +57,11 @@ const HomeScreen = (props) => {
         userStore: userStore,
       });
     }
-
-    return () => {
-      dispatch(setIsLoading(false));
-    };
+    return () => {};
   }, [isFocused]);
   useEffect(() => {
     (async () => {
+      initNotificationReceiver();
       if (Platform.OS == "ios") {
         setTimeout(() => {
           StatusBar.setBarStyle("dark-content");
@@ -118,34 +114,32 @@ const HomeScreen = (props) => {
     dispatch(CommonActions.setDidTryPopup(true));
   }, [didTryPopup]);
 
-  if (!isFocused) return <></>;
+  if (!isFocused || !userStore || !userInfo) return <></>;
   // console.log("***************HomeScreen rendered***************");
   return (
-    <>
-      <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
-        <AppPopup
+    <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
+      <AppPopup
+        isFocused={isFocused}
+        // key={appPopupKey}
+        {...props}
+      />
+      <HomeBanner isFocused={isFocused} />
+      {!_.isEmpty(userStore) && (
+        <HomeEvent
           isFocused={isFocused}
-          // key={appPopupKey}
-          {...props}
+          userStore={userStore}
+          key={`HomeEvent-${userStore.storeInfo.store_cd}`}
         />
-        <HomeBanner isFocused={isFocused} />
-        {!_.isEmpty(userStore) && (
-          <HomeEvent
-            isFocused={isFocused}
-            userStore={userStore}
-            key={`HomeEvent-${userStore.storeInfo.store_cd}`}
-          />
-        )}
-        {!_.isEmpty(userStore) && (
-          <HomeProducts
-            isFocused={isFocused}
-            userStore={userStore}
-            userInfo={userInfo}
-            key={`HomeProducts-${userStore.storeInfo.store_cd}`}
-          />
-        )}
-      </BaseScreen>
-    </>
+      )}
+      {!_.isEmpty(userStore) && (
+        <HomeProducts
+          isFocused={isFocused}
+          userStore={userStore}
+          userInfo={userInfo}
+          key={`HomeProducts-${userStore.storeInfo.store_cd}`}
+        />
+      )}
+    </BaseScreen>
   );
 };
 const initNotificationReceiver = (routeName) => {
