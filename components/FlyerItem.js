@@ -1,118 +1,185 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components/native";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
   Dimensions,
+  Platform,
 } from "react-native";
-import { BaseImage, BaseText } from "../components/UI/BaseUI";
-import { Ionicons } from "@expo/vector-icons";
+import { BaseImage, BaseText } from "./UI/BaseUI";
 const { width, height } = Dimensions.get("window");
-import { IMAGE_URL } from "../constants";
 import * as Util from "../util";
-import moment from "moment";
-import { LinearGradient } from "expo-linear-gradient";
 import _ from "lodash";
+import Discounts from "./flyerItem/Discounts";
+import WishButton from "./flyerItem/WishButton";
+import moment from "moment";
+import { useSelector, useDispatch } from "react-redux";
+import * as wishActions from "../store/actions/wish";
+import { getWishCnt, checkAuth } from "../store/actions/auth";
 
-const defaultImage = require("../assets/icon.png");
-const FlyerItem = (props) => {
+const FlyerItem = ({
+  item,
+  onPress,
+  afterAddWishItem,
+  afterDeleteWishItem,
+}) => {
+  const isJoin = useSelector((state) => state.auth.isJoin);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useSelector((state) => state.auth.userStore);
+
+  const addWishItem = useCallback(
+    async (item) => {
+      if (await checkAuth(dispatch, isJoin)) {
+        if (afterAddWishItem) await afterAddWishItem(item);
+        await dispatch(
+          wishActions.addWishItem({
+            user_cd: userInfo.user_cd,
+            product_cd: item.product_cd,
+          })
+        );
+        await dispatch(
+          getWishCnt({
+            user_cd: userInfo.user_cd,
+            store_cd: userStore.storeInfo.store_cd,
+          })
+        );
+      }
+    },
+    [item]
+  );
+  const deleteWishItem = useCallback(
+    async (item) => {
+      if (await checkAuth(dispatch, isJoin)) {
+        if (afterDeleteWishItem) await afterDeleteWishItem(item);
+        await dispatch(
+          wishActions.deleteWishItem({
+            user_cd: userInfo.user_cd,
+            product_cd: item.product_cd,
+          })
+        );
+        await dispatch(
+          getWishCnt({
+            user_cd: userInfo.user_cd,
+            store_cd: userStore.storeInfo.store_cd,
+          })
+        );
+      }
+    },
+    [item]
+  );
+
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-      style={{
-        flex: 0.333,
-        width: "100%",
-        maxWidth: "33.3333%",
-      }}
-    >
-      <Container>
-        <ImageContainer>
-          {!_.isEmpty(props.item.bogo) && (
-            <BogoIcon>
-              <BogoText>{props.item.bogo}</BogoText>
-            </BogoIcon>
+    <View style={styles.containerStyle}>
+      <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
+        <Container>
+          <ImageContainer>
+            {!_.isEmpty(item.bogo) && (
+              <BogoIcon>
+                <BogoText>{item.bogo}</BogoText>
+              </BogoIcon>
+            )}
+            <BaseImage
+              style={{
+                width: width * 0.316,
+                // height: width * 0.227,
+                aspectRatio: 1 / 1,
+              }}
+              source={item.title_img}
+              defaultSource={require("../assets/images/n_img501.png")}
+            />
+            <WishButton
+              wish_yn={item.wish_yn}
+              addWishItem={addWishItem.bind(this, item)}
+              deleteWishItem={deleteWishItem.bind(this, item)}
+            />
+          </ImageContainer>
+
+          <Discounts item={item} />
+          {item.sale_price > 0 && (
+            <>
+              <OriginalPriceContainer>
+                <PriceTitle>최종행사가</PriceTitle>
+                <OriginalPrice>{Util.formatNumber(item.price)}원</OriginalPrice>
+                <Image
+                  source={require("../assets/images/ic_sale.png")}
+                  style={{ marginTop: 4 }}
+                />
+              </OriginalPriceContainer>
+              <SalePriceContainer>
+                <SalePrice>{Util.formatNumber(item.sale_price)}</SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
           )}
-          <BaseImage
-            style={{
-              width: width * 0.285,
-              // height: width * 0.227,
-              aspectRatio: 100 / 103.797,
-            }}
-            source={props.item.title_img}
-            defaultSource={require("../assets/images/p_img503.png")}
-          />
-        </ImageContainer>
-        <Title>{props.item.title}</Title>
-        {props.item.sale_price <= 0 && (
-          <>
-            <SalePrice>{Util.formatNumber(props.item.price)}원</SalePrice>
-          </>
-        )}
-        {props.item.sale_price > 0 && (
-          <>
-            <SalePrice>{Util.formatNumber(props.item.sale_price)}원</SalePrice>
-            <OriginalPrice>
-              {Util.formatNumber(props.item.price)}원
-            </OriginalPrice>
-          </>
-        )}
-        {props.item.card_price != 0 && (
-          <BadgeContainer>
-            <Badge1>카드할인</Badge1>
-            {!_.isEmpty(props.item.card_sdate) && (
-              <Badge2>
-                {moment(props.item.card_sdate).format("MM.DD")}~
-                {moment(props.item.card_edate).format("MM.DD")}
-              </Badge2>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.coupon_price != 0 && (
-          <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.GRAPEFRUIT }}>
-              쿠폰할인
-            </Badge1>
-            {!_.isEmpty(props.item.coupon_sdate) && (
-              <Badge2>
-                {moment(props.item.coupon_sdate).format("MM.DD")}~
-                {moment(props.item.coupon_edate).format("MM.DD")}
-              </Badge2>
-            )}
-          </BadgeContainer>
-        )}
-        {props.item.members_price != 0 && (
-          <BadgeContainer>
-            <Badge1 style={{ backgroundColor: colors.TEALISH }}>
-              NH멤버스
-            </Badge1>
-            {!_.isEmpty(props.item.members_sdate) && (
-              <Badge2>
-                {moment(props.item.members_sdate).format("MM.DD")}~
-                {moment(props.item.members_edate).format("MM.DD")}
-              </Badge2>
-            )}
-          </BadgeContainer>
-        )}
-      </Container>
-    </TouchableOpacity>
+          {item.sale_price <= 0 && (
+            <>
+              <PriceTitle style={{ marginBottom: 2 }}>행사가</PriceTitle>
+              <SalePriceContainer>
+                <SalePrice>{Util.formatNumber(item.price)}</SalePrice>
+                <SalePriceUnit>원</SalePriceUnit>
+              </SalePriceContainer>
+            </>
+          )}
+
+          <Title>{item.title}</Title>
+          <Period>
+            {moment(item.start_date).format("MM.DD")}~
+            {moment(item.end_date).format("MM.DD")}
+          </Period>
+        </Container>
+      </TouchableOpacity>
+    </View>
   );
 };
-const ImageContainer = styled.View({});
-const BogoText = styled(BaseText)({
-  fontSize: 12,
+
+const Period = styled(BaseText)({
+  borderRadius: Platform.OS == "ios" ? 5 : 10,
+  borderStyle: "solid",
+  borderWidth: 0.5,
+  borderColor: colors.WARM_GREY_TWO,
+  fontSize: 9,
+  color: colors.WARM_GREY_TWO,
+  paddingLeft: 5,
+  paddingRight: 5,
   fontFamily: "Roboto-Bold",
-  fontStyle: "normal",
+  marginTop: 4.5,
+});
+const SalePriceUnit = styled(BaseText)({
+  fontSize: 13,
+  color: colors.BLACKISH2,
+  marginLeft: 1.3,
+});
+const SalePriceContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "baseline",
+});
+const OriginalPriceContainer = styled.View({
+  flexDirection: "row",
+  alignItems: "center",
+});
+const PriceTitle = styled(BaseText)({
+  fontSize: 9,
+  lineHeight: 12.5,
+  color: colors.BLACKISH,
+  marginRight: 2.5,
+});
+const ImageContainer = styled.View({
+  alignSelf: "center",
+});
+const BogoText = styled(BaseText)({
+  fontSize: 13.5,
+  fontFamily: "Roboto-Bold",
   lineHeight: 17,
   letterSpacing: 0,
-  textAlign: "right",
+  textAlign: "center",
   color: colors.TRUE_WHITE,
 });
 const BogoIcon = styled.View({
-  width: 43,
-  height: 21.5,
+  width: 30,
+  height: 30,
   justifyContent: "center",
   alignItems: "center",
   position: "absolute",
@@ -120,38 +187,49 @@ const BogoIcon = styled.View({
   top: 0,
   zIndex: 10,
   elevation: 1,
-  backgroundColor: "rgba(255, 46, 46, 0.8)",
+  backgroundColor: colors.BRIGHT_RED,
+  borderWidth: 1,
+  borderColor: colors.TRUE_WHITE,
+  borderRadius: 100,
 });
 
 const BadgeContainer = styled.View({
   flexDirection: "row",
-  marginBottom: 2.5,
-  width: "100%",
+  marginBottom: 2,
 });
-const Badge1 = styled(BaseText)({
-  fontSize: 9,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 13,
-  letterSpacing: 0,
-  textAlign: "right",
-  color: colors.TRUE_WHITE,
-  backgroundColor: colors.BRIGHT_BLUE,
+const Badge1Container = styled.View({
+  alignItems: "center",
+  height: Util.normalize(12),
+  backgroundColor: colors.PEACOCK_BLUE,
+  justifyContent: "center",
   paddingLeft: 3,
   paddingRight: 3,
-  letterSpacing: -0.28,
+  width: Util.normalize(35),
+});
+const Badge1 = styled(BaseText)({
+  fontSize: Util.normalize(7),
+  color: colors.TRUE_WHITE,
+});
+const Badge2Container = styled.View({
+  borderStyle: "solid",
+  borderWidth: 0,
+  borderRightWidth: 1,
+  borderTopWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: colors.PEACOCK_BLUE,
+  borderLeftWidth: 0,
+  height: Util.normalize(12),
+  justifyContent: "center",
 });
 const Badge2 = styled(BaseText)({
-  fontSize: 9,
+  fontSize: Util.normalize(7),
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 13,
   letterSpacing: 0,
-  textAlign: "center",
-  color: colors.TRUE_WHITE,
-  backgroundColor: colors.BROWNISH_GREY,
-  letterSpacing: -0.28,
-  flex: 1,
+  textAlign: "left",
+  color: colors.PEACOCK_BLUE,
+  paddingLeft: 3.5,
+  paddingRight: 3.5,
 });
 const Container = styled.View({
   // backgroundColor: colors.BLACK,
@@ -159,62 +237,48 @@ const Container = styled.View({
 
   // flex: 1,
   // padding: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
-  width: width * 0.285,
+  paddingTop: 12.5,
+  paddingBottom: 12.5,
+  width: width * 0.398,
 
   // backgroundColor: "white",
 
   marginHorizontal: 5,
   justifyContent: "flex-start",
-  alignItems: "center",
+  alignItems: "flex-start",
 });
 const SalePrice = styled(BaseText)({
-  fontSize: 14,
-  fontStyle: "normal",
-  lineHeight: 20.5,
-  letterSpacing: -0.28,
-  letterSpacing: 0,
-  textAlign: "left",
-  width: "100%",
-  color: colors.BLACK,
+  fontSize: 24,
+  letterSpacing: -0.72,
+  color: colors.BLACKISH2,
+  fontFamily: "Roboto-Bold",
+  lineHeight: 24,
 });
 const OriginalPrice = styled(BaseText)({
-  fontSize: 12,
-  letterSpacing: -0.24,
-  fontStyle: "normal",
+  fontSize: 9,
+  lineHeight: 12.5,
+  color: colors.BLACKISH,
   textDecorationLine: "line-through",
   textDecorationStyle: "solid",
-  letterSpacing: 0,
-  textAlign: "left",
-  width: "100%",
-  color: colors.GREYISH_BROWN,
 });
 const Title = styled(BaseText)({
   marginTop: 4,
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 23.5,
-  letterSpacing: 0,
+  fontSize: 14,
+  lineHeight: 16.5,
+  letterSpacing: -0.4,
   textAlign: "left",
-  letterSpacing: -0.32,
-  color: colors.GREYISH_BROWN,
-
-  width: "100%",
-  height: 23.5,
+  color: colors.BLACKISH2,
+  height: 16.5,
 });
 Title.defaultProps = {
   numberOfLines: 1,
 };
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   cartItem: {
     flexBasis: 0,
     flex: 0.333,
     padding: 10,
-
     // backgroundColor: "white",
-
     marginHorizontal: 20,
   },
   itemData: {
@@ -232,6 +296,12 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginLeft: 20,
   },
+  containerStyle: {
+    flex: 0.5,
+    width: "100%",
+    maxWidth: "50%",
+    alignItems: "center",
+  },
 });
 
-export default FlyerItem;
+export default React.memo(FlyerItem);
