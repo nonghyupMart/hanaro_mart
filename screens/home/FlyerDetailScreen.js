@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import Gallery from "react-native-image-gallery";
+import Gallery from "../../util/react-native-image-gallery/Gallery";
 
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useSelector, useDispatch } from "react-redux";
