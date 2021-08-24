@@ -46,10 +46,8 @@ let http = (() => {
     function (config) {
       // Do something before request is sent
       // console.log(config);
-      console.log(_isNoLoading);
       if (!_isNoLoading) {
         _dispatch(setIsLoading(true));
-        console.log("D");
       }
       return config;
     },
