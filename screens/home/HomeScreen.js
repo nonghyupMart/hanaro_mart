@@ -46,6 +46,8 @@ const HomeScreen = (props) => {
   const userInfo = useSelector((state) => state.auth.userInfo);
   const pushToken = useSelector((state) => state.auth.pushToken);
   const link = useSelector((state) => state.common.link);
+  const isLoading = useSelector((state) => state.common.isLoading);
+  const notification = useSelector((state) => state.common.notification);
 
   useEffect(() => {
     if (!isFocused) return;
@@ -61,7 +63,6 @@ const HomeScreen = (props) => {
   }, [isFocused]);
   useEffect(() => {
     (async () => {
-      initNotificationReceiver();
       if (Platform.OS == "ios") {
         setTimeout(() => {
           StatusBar.setBarStyle("dark-content");
@@ -83,6 +84,12 @@ const HomeScreen = (props) => {
       await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);
   }, [link]);
+
+  useEffect(() => {
+    if (!userStore || isLoading) return;
+    initNotificationReceiver(dispatch, userStore, isLoading, notification);
+    return () => {};
+  }, [userStore, isLoading, notification]);
 
   useEffect(() => {
     if (typeof didTryPopup != "string" && typeof didTryPopup != "object")
@@ -142,80 +149,78 @@ const HomeScreen = (props) => {
     </BaseScreen>
   );
 };
-const initNotificationReceiver = (routeName) => {
-  const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const notification = useSelector((state) => state.common.notification);
-  useEffect(() => {
-    if (
-      !isLoading &&
-      notification &&
-      notification.request &&
-      notification.request.content &&
-      notification.request.content.data
-    ) {
-      (async () => {
-        const category = notification.request.content.data.category;
-        const store_cd = notification.request.content.data.store_cd;
-        const store_nm = notification.request.content.data.store_nm;
-        const cd = notification.request.content.data.cd;
+const initNotificationReceiver = (
+  dispatch,
+  userStore,
+  isLoading,
+  notification
+) => {
+  if (
+    notification &&
+    notification.request &&
+    notification.request.content &&
+    notification.request.content.data
+  ) {
+    (async () => {
+      const category = notification.request.content.data.category;
+      const store_cd = notification.request.content.data.store_cd;
+      const store_nm = notification.request.content.data.store_nm;
+      const cd = notification.request.content.data.cd;
 
-        if (category) {
-          if (userStore && userStore.storeInfo.store_cd == store_cd) {
-            const currentTab = TabMenus.filter(
-              (tab) => tab.name == CATEGORY[category]
-            );
-            const tab = userStore.menuList.filter(
-              (menu) => menu.r_menu_nm == currentTab[0].title
-            );
-            if (_.isEmpty(tab)) return;
+      if (category) {
+        if (userStore && userStore.storeInfo.store_cd == store_cd) {
+          const currentTab = TabMenus.filter(
+            (tab) => tab.name == CATEGORY[category]
+          );
+          const tab = userStore.menuList.filter(
+            (menu) => menu.r_menu_nm == currentTab[0].title
+          );
+          if (_.isEmpty(tab)) return;
 
-            let param = {};
-            if (!!cd) param.link_code = cd;
-            if (!!category) param.category = category;
-            switch (category) {
-              case "A": //매장공지
-                if (!!cd) param.notice_cd = cd;
-                param.type = "C";
-                break;
-              case "H": //통합공지
-                if (!!cd) param.notice_cd = cd;
-                param.type = "H";
-                break;
-              default:
-                break;
-            }
-            await dispatch(
-              CommonActions.setLink({
-                category: CATEGORY[param.category],
-                link_code: param.link_code,
-              })
-            );
-            setTimeout(() => {
-              RootNavigation.navigate(CATEGORY[param.category], param);
-            }, 500);
-          } else {
-            dispatch(
-              setAlert({
-                message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
-                confirmText: "매장설정",
-                onPressConfirm: () => {
-                  dispatch(setAlert(null));
-                  RootNavigation.navigate("Home");
-                  RootNavigation.navigate("StoreChange");
-                },
-                onPressCancel: () => {
-                  dispatch(setAlert(null));
-                },
-              })
-            );
+          let param = {};
+          if (!!cd) param.link_code = cd;
+          if (!!category) param.category = category;
+          switch (category) {
+            case "A": //매장공지
+              if (!!cd) param.notice_cd = cd;
+              param.type = "C";
+              break;
+            case "H": //통합공지
+              if (!!cd) param.notice_cd = cd;
+              param.type = "H";
+              break;
+            default:
+              break;
           }
+          await dispatch(
+            CommonActions.setLink({
+              category: CATEGORY[param.category],
+              link_code: param.link_code,
+            })
+          );
+          setTimeout(() => {
+            RootNavigation.navigate(CATEGORY[param.category], param);
+          }, 500);
+        } else {
+          dispatch(
+            setAlert({
+              message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
+              confirmText: "매장설정",
+              onPressConfirm: () => {
+                dispatch(setAlert(null));
+                RootNavigation.navigate("Home");
+                RootNavigation.navigate("StoreChange");
+              },
+              onPressCancel: () => {
+                dispatch(setAlert(null));
+              },
+            })
+          );
         }
-        dispatch({ type: SET_NOTIFICATION, notification: null });
-      })();
-    }
-  }, [notification, isLoading]);
+      }
+      dispatch({ type: SET_NOTIFICATION, notification: null });
+    })();
+  }
 };
 
 const Space = styled.View({
