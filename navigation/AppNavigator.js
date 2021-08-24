@@ -50,8 +50,7 @@ const AppNavigator = (props) => {
     if (!isUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryPopup) return <PopupScreen />;
     else if (!didTryAutoLogin && !didTryPopup) return <StartupScreen />;
-    else if (isJoin && didTryAutoLogin && didTryPopup) return <MainNavigator />;
-    else if (didTryAutoLogin) return <MainNavigator />;
+    else if (didTryAutoLogin && didTryPopup) return <MainNavigator />;
     return <StartupScreen />;
   };
 
