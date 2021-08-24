@@ -133,7 +133,7 @@ export const getWishCnt = (query) => {
   };
 };
 
-export const loginWithUserCd = (query) => {
+export const loginWithUserCd = (query, isNoLoading = false) => {
   const url = queryString.stringifyUrl({
     url: `/v3/user`,
   });
@@ -141,7 +141,7 @@ export const loginWithUserCd = (query) => {
 
   return async (dispatch) => {
     return http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: isNoLoading })
       .patch(url, data)
       .then(async (response) => {
         return response.data;
@@ -254,10 +254,10 @@ export const updateUserInfo = async ({
     await dispatch(setPushToken(tk));
   }
 
-  return dispatch(loginWithUserCd(query)).then(async (data) => {
+  return dispatch(loginWithUserCd(query, false)).then(async (data) => {
     if (
       _.isEmpty(data.userInfo) ||
-      data.userInfo.user_cd != userInfo.user_cd ||
+      data.userInfo.user_cd !== userInfo.user_cd ||
       !data.userInfo.recommend
     )
       return;
@@ -273,8 +273,7 @@ export const updateUserInfo = async ({
       Constants.manifest.version
     );
     // console.log(Analytics.userProperty);
-
-    await saveUserData(dispatch, data);
+    if (!_.isEqual(data.userInfo, userInfo)) await saveUserData(dispatch, data);
     return data;
   });
 };
