@@ -29,7 +29,7 @@ const MyPageScreen = ({ navigation }) => {
         backgroundColor: colors.TRUE_WHITE,
       }}
     >
-      <MemberInfo />
+      <MemberInfo amnNo={userInfo.amnNo} />
       <WhiteContainer>
         <BtnContainer onPress={() => navigation.navigate("MyInfo")}>
           <Icon source={require("../assets/images/tools.png")} />
@@ -58,7 +58,7 @@ const MyPageScreen = ({ navigation }) => {
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
           onPress={() =>
-            !_.isEmpty(userInfo) && userInfo.amnNo
+            !_.isEmpty(userInfo) && !!userInfo.amnNo
               ? navigation.navigate("NHAHM", { regiDesc: "04" })
               : navigation.navigate("Withdrawal")
           }

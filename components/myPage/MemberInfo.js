@@ -9,7 +9,10 @@ const MemberInfo = (props) => {
   return (
     <StoreBox style={{}}>
       <MemberInfoContainer>
-        <Image source={require("../../assets/images/unlocked.png")} />
+        <Container1>
+          <Image source={require("../../assets/images/unlocked.png")} />
+          {!!props.amnNo && <BlueSmallText> [통합회원]</BlueSmallText>}
+        </Container1>
         <View style={{ marginLeft: 18 }}>
           <View style={{ flexDirection: "row" }}>
             <Image
@@ -30,6 +33,15 @@ const MemberInfo = (props) => {
     </StoreBox>
   );
 };
+const Container1 = styled.View({
+  alignItems: "center",
+});
+const BlueSmallText = styled(BaseText)({
+  color: colors.BRIGHT_BLUE,
+  fontSize: 10,
+  marginTop: 5,
+  marginLeft: -13,
+});
 const Title = styled(BaseText)({
   fontSize: 20,
   fontWeight: "normal",
