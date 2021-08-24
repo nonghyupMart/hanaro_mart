@@ -25,22 +25,25 @@ import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
 import { postWish } from "../../store/actions/common";
 import colors from "../../constants/Colors";
+import { RootState } from "../../store/root-state";
+import { ProductRequest } from "../../models/product/ProductRequest";
 
 const FlyerScreen = (props) => {
   const carouselRef = useRef();
   const isFocused = useIsFocused();
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const isLoading = useSelector((state: RootState) => state.common.isLoading);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useDispatch();
   const currentItem = useRef(null);
-  const [pageforCarousel, setPageForCarousel] = useState();
-  const leaflet = useSelector((state) => state.flyer.leaflet);
-  const product = useSelector((state) => state.flyer.product);
+  const [pageforCarousel, setPageForCarousel] = useState<number>();
+  const leaflet = useSelector((state: RootState) => state.flyer.leaflet);
+  const product = useSelector((state: RootState) => state.flyer.product);
   const page = useRef(1);
-  const [carouselKey, setCarouselKey] = useState();
+  const [carouselKey, setCarouselKey] = useState<number>();
   const [currentFlyer, setCurrentFlyer] = useState();
-  const [type_val, setType_val] = useState("");
+  const [type_val, setType_val] = useState<TypeValue | "">();
+
   const clearData = () => {
     dispatch({ type: SET_PRODUCT, product: null });
     page.current = 1;
@@ -72,8 +75,8 @@ const FlyerScreen = (props) => {
     }
   }, [isFocused]);
 
-  const fetchProduct = (leaf_cd, p = page.current) => {
-    let query = {
+  const fetchProduct = (leaf_cd: string, p: number = page.current) => {
+    let query: ProductRequest = {
       store_cd: userStore.storeInfo.store_cd,
       leaf_cd: leaf_cd,
       page: p,
@@ -93,12 +96,7 @@ const FlyerScreen = (props) => {
 
   useEffect(() => {
     if (!isFocused) return;
-    if (
-      pageforCarousel === null ||
-      pageforCarousel === undefined ||
-      JSON.stringify(pageforCarousel) === JSON.stringify({})
-    )
-      return;
+
     clearData();
     if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);

@@ -6,7 +6,7 @@ import { StatusBar } from "react-native";
 import AppNavigator from "./navigation/AppNavigator";
 import AppLoading from "expo-app-loading";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AppearanceProvider, useColorScheme } from "react-native-appearance";
+import { AppearanceProvider } from "react-native-appearance";
 import Constants from "expo-constants";
 import {
   store,
@@ -19,8 +19,8 @@ import {
 initializeApplication();
 
 export default function App() {
-  const [fontLoaded, setFontLoaded] = useState<Boolean>(false);
-  if (Constants.manifest.releaseChannel === "prod") {
+  const [fontLoaded, setFontLoaded] = useState<boolean>(false);
+  if (Constants.manifest && Constants.manifest.releaseChannel === "prod") {
     usePreventScreenCapture();
   }
 

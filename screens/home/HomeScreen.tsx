@@ -1,42 +1,33 @@
-import React, { useEffect } from "react";
-import styled from "styled-components/native";
-import {
-  StyleSheet,
-  StatusBar,
-  Platform,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
-  HeaderStyleInterpolators,
+  HeaderStyleInterpolators
 } from "@react-navigation/stack";
-import colors from "../../constants/Colors";
-import {
-  HeaderButton,
-  LogoTitle,
-  HomeHeaderLeft,
-  HomeHeaderRight,
-} from "../../components/UI/header";
-import { useIsFocused } from "@react-navigation/native";
-import BaseScreen from "../../components/BaseScreen";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import _ from "lodash";
+import React, { useEffect } from "react";
+import {
+  Platform, StatusBar, StyleSheet
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import BaseScreen from "../../components/BaseScreen";
+import AppPopup from "../../components/home/AppPopup";
 import HomeBanner from "../../components/home/HomeBanner";
 import HomeEvent from "../../components/home/HomeEvent";
 import HomeProducts from "../../components/home/HomeProducts";
-import AppPopup from "../../components/home/AppPopup";
-import * as Util from "../../utils";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as CommonActions from "../../store/actions/common";
-import * as authActions from "../../store/actions/auth";
+import {
+  HomeHeaderLeft,
+  HomeHeaderRight, LogoTitle
+} from "../../components/UI/header";
 import { CATEGORY } from "../../constants";
-import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
-import * as RootNavigation from "../../navigation/RootNavigation";
+import colors from "../../constants/Colors";
 import { TabMenus } from "../../constants/menu";
-import { RootState } from "../../store/root-state";
 import { hasUserAndStore } from "../../helpers";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
+import * as authActions from "../../store/actions/auth";
+import * as CommonActions from "../../store/actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import { RootState } from "../../store/root-state";
 
 const HomeScreen = (props) => {
   const routeName = props.route.name;

@@ -1,8 +1,25 @@
-import { InitialState } from "@react-navigation/native";
 import _ from "lodash";
+import { Popup } from "../../models/Popup";
+import { UserInfo } from "../../models/UserInfo";
+import { UserStore } from "../../models/UserStore";
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
+const initialState: {
+  didTryAutoLogin: boolean;
+  isJoined: Nullable<boolean>;
+  hasUserStore: Nullable<boolean>;
+  isJoinedUserHasStore: Nullable<boolean>;
+  pushToken: Nullable<string>;
+  location: Nullable<boolean>;
+  userStore: Nullable<UserStore>;
+  userInfo: Nullable<UserInfo>;
+  agreedStatus: Nullable<object>;
+  ci: Nullable<string>;
+  updatePopup: Nullable<Popup>;
+  isAppUpdated: boolean;
+  pushCnt: number;
+  wishCnt: number;
+} = {
   didTryAutoLogin: false,
   isJoined: null,
   hasUserStore: null,

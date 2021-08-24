@@ -1,5 +1,18 @@
 {
-  "compilerOptions": {},
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "noStrictGenericChecks": false,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+
+    "strict": true,
+    
+    /* Additional Checks */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true
+  },
   "baseUrl": ".",
   "paths": {
     "@screens/*": ["screens/*"],

@@ -7,13 +7,11 @@ import colors from "../constants/Colors";
 import {
   createStackNavigator,
   CardStyleInterpolators,
-  HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { RootState } from "../store/root-state";
 
 const HomeStackNavigator = createStackNavigator();
 
-export const HomeNavigator = ({ navigation, route }) => {
+export const HomeNavigator = () => {
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
