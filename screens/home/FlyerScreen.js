@@ -12,7 +12,7 @@ import BaseScreen from "../../components/BaseScreen";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
-import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
+import FlyerItem from "../../components/FlyerItem";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
@@ -214,7 +214,7 @@ const FlyerScreen = (props) => {
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
-            <FlyerItemColumn2
+            <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
               afterAddWishItem={afterAddWishItem}

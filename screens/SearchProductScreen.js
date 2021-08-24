@@ -18,7 +18,7 @@ import {
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../store/actions/flyer";
-import FlyerItemColumn2 from "../components/FlyerItemColumn2";
+import FlyerItem from "../components/FlyerItem";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
@@ -152,7 +152,7 @@ const SearchProductScreen = (props) => {
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
-            <FlyerItemColumn2
+            <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
               afterAddWishItem={afterAddWishItem}
