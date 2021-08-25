@@ -21,7 +21,7 @@ import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
 import Memo from "../components/wish/Memo";
 import { useIsFocused } from "@react-navigation/native";
-import FlyerItem from "../components/FlyerItem";
+import FlyerItem from "../components/flyer/FlyerItem";
 import colors from "../constants/Colors";
 import * as Util from "../utils";
 

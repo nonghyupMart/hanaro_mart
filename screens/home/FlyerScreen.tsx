@@ -12,7 +12,7 @@ import BaseScreen from "../../components/BaseScreen";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
-import FlyerItem from "../../components/FlyerItem";
+import FlyerItem from "../../components/flyer/FlyerItem";
 import CategoryButton from "../../components/UI/CategoryButton";
 import ProductPopup from "../../components/ProductPopup";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";

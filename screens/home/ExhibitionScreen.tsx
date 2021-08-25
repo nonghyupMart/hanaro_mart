@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import * as exhibitionActions from "../../store/actions/exhibition";
 import * as exclusiveActions from "../../store/actions/exclusive";
 import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import EventItem from "../../components/EventItem";
+import EventItem from "../../components/event/EventItem";
 import { useIsFocused } from "@react-navigation/native";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";

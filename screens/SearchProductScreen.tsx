@@ -18,7 +18,7 @@ import {
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../store/actions/flyer";
-import FlyerItem from "../components/FlyerItem";
+import FlyerItem from "../components/flyer/FlyerItem";
 import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
