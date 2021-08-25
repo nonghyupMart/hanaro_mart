@@ -6,7 +6,7 @@ import {
   BaseButtonContainer,
   BaseText,
 } from "../components/UI/BaseUI";
-import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
+import { WhiteContainer } from "./snb/StoreChangeScreen";
 import MemberInfoB from "../components/myPage/MemberInfoB";
 import QRCode from "react-native-qrcode-svg";
 // import Barcode from "react-native-jsbarcode";

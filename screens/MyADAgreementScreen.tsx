@@ -6,7 +6,7 @@ import {
   BaseButtonContainer,
   BaseText,
 } from "../components/UI/BaseUI";
-import * as MyInfoScreen from "../screens/MyInfoScreen";
+import * as MyInfoScreen from "./MyInfoScreen";
 import MemberInfoB from "../components/myPage/MemberInfoB";
 import { CheckBox } from "react-native-elements";
 // import Barcode from "react-native-jsbarcode";

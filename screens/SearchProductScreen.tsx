@@ -24,7 +24,7 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
 import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
-import { styles } from "../screens/home/FlyerScreen";
+import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
 import { postWish } from "../store/actions/common";
 import colors from "../constants/Colors";

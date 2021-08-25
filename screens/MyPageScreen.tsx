@@ -13,7 +13,7 @@ import { BaseTouchable, BaseText } from "../components/UI/BaseUI";
 import BaseScreen from "../components/BaseScreen";
 import { BackButton, TextTitle } from "../components/UI/header";
 import { StoreBox, BottomCover } from "../components/store/InfoBox";
-import { WhiteContainer } from "../screens/snb/StoreChangeScreen";
+import { WhiteContainer } from "./snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
 import _ from "lodash";
 import colors from "../constants/Colors";
