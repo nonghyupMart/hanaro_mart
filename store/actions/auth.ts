@@ -3,7 +3,6 @@ import * as Sentry from "sentry-expo";
 import * as Analytics from "expo-firebase-analytics";
 import { API_URL, PRODUCT_SERVER_URL } from "../../constants";
 import * as Util from "../../utils";
-import * as Updates from "expo-updates";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
@@ -131,15 +130,15 @@ export const getWishCnt = (query) => {
   };
 };
 
-export const loginWithUserCd = (query) => {
+export const loginWithUserCd = (query, isNoLoading = false) => {
   const url = queryString.stringifyUrl({
     url: `/v3/user`,
   });
   const data = JSON.stringify(query);
 
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return http
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: isNoLoading })
       .patch(url, data)
       .then(async (response) => {
         return response.data;
@@ -256,7 +255,7 @@ export const fetchUserInfo = async ({
     await dispatch(setPushToken(tk));
   }
 
-  return dispatch(loginWithUserCd(query)).then(async (data) => {
+  return dispatch(loginWithUserCd(query, false)).then(async (data) => {
     if (
       _.isEmpty(data.userInfo) ||
       data.userInfo.user_cd !== userInfo.user_cd ||
@@ -275,8 +274,7 @@ export const fetchUserInfo = async ({
       Constants.manifest.version
     );
     // console.log(Analytics.userProperty);
-
-    await saveUserData(dispatch, data);
+    if (!_.isEqual(data.userInfo, userInfo)) await saveUserData(dispatch, data);
     return data;
   });
 };

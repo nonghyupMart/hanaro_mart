@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  
-} from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import styled from "styled-components/native";
 import {
   BaseButtonContainer,
@@ -74,7 +68,9 @@ const NHAHMScreen = ({ navigation, route }) => {
           source={{
             uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
               params.regiDesc
-            }&amnNo=${!_.isEmpty(userInfo) ? userInfo.amnNo : ""}`,
+            }&amnNo=${
+              !_.isEmpty(userInfo) && !!userInfo.amnNo ? userInfo.amnNo : ""
+            }`,
           }}
         />
       </BaseScreen>

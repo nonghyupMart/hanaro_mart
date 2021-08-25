@@ -39,7 +39,7 @@ const HomeBanner = (props) => {
   }, [props.isFocused]);
 
   const onPressMembershipBanner = () => {
-    if (!_.isEmpty(userInfo) && userInfo.amnNo)
+    if (!_.isEmpty(userInfo) && !!userInfo.amnNo)
       return dispatch(
         setAlert({
           message: "이미 통합회원 가입하셨습니다.",
@@ -96,7 +96,6 @@ const HomeBanner = (props) => {
       >
         <MembershipBanner
           dispatch={dispatch}
-          amnNo={!_.isEmpty(userInfo) && userInfo.amnNo}
           key="membershipBanner"
           onPress={onPressMembershipBanner}
         />

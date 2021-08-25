@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  useCallback,
+} from "react";
 import styled from "styled-components/native";
 import { TouchableOpacity, Image, View } from "react-native";
 import {
@@ -14,8 +20,7 @@ import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../utils";
 import _ from "lodash";
 import { styles } from "../../screens/home/FlyerScreen";
-import FlyerItemColumn2 from "../../components/FlyerItemColumn2";
-import { styles as FlyerItemColumn2Styles } from "../../components/FlyerItemColumn2";
+import FlyerItem from "../FlyerItem";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import * as actionTypes from "../../store/actions/actionTypes";
 import * as homeActions from "../../store/actions/home";
@@ -36,37 +41,32 @@ const HomeProducts = ({ isFocused, userStore, userInfo }) => {
   };
   useEffect(() => {
     if (!isFocused || _.isEmpty(userStore)) return;
-    dispatch(setIsLoading(true));
+
     clearData();
     let query = {
       store_cd: userStore.storeInfo.store_cd,
       page: 1,
     };
     if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
-    dispatch(homeActions.fetchHomeProducts(query)).then((data) => {
-      dispatch(setIsLoading(false));
-    });
+    dispatch(homeActions.fetchHomeProducts(query)).then((data) => {});
   }, [isFocused]);
 
-  const loadMore = () => {
+  const loadMore = useCallback(() => {
     if (
       !isLoading &&
       page.current + 1 <= homeProducts.finalPage &&
       !_.isEmpty(homeProducts) &&
       _.size(homeProducts.productList) > 0
     ) {
-      dispatch(setIsLoading(true));
       page.current++;
       let query = {
         store_cd: userStore.storeInfo.store_cd,
         page: page.current,
       };
       if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
-      dispatch(homeActions.fetchHomeProducts(query)).then(() => {
-        dispatch(setIsLoading(false));
-      });
+      dispatch(homeActions.fetchHomeProducts(query)).then(() => {});
     }
-  };
+  }, [isLoading, homeProducts]);
   const popupHandler = (item) => {
     setIsVisible((isVisible) => !isVisible);
     currentItem.current = item;
@@ -110,7 +110,7 @@ const HomeProducts = ({ isFocused, userStore, userInfo }) => {
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
-            <FlyerItemColumn2
+            <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
               afterAddWishItem={afterAddWishItem}

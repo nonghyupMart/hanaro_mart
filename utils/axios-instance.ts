@@ -46,7 +46,9 @@ export const http = (() => {
     function (config) {
       // Do something before request is sent
       // console.log(config);
-      if (!_isNoLoading) _dispatch(setIsLoading(true));
+      if (!_isNoLoading) {
+        _dispatch(setIsLoading(true));
+      }
       return config;
     },
     function (error) {
@@ -93,16 +95,11 @@ export const http = (() => {
     }
   );
   return {
-    init: ({
-      dispatch,
-      isAutoOff = false,
-      isNoLoading = false,
-      baseURL = API_URL,
-    }) => {
+    init: ({ dispatch, isAutoOff, isNoLoading, url }) => {
       _dispatch = dispatch;
-      if (isAutoOff) _isAutoOff = isAutoOff;
-      if (isNoLoading) _isNoLoading = isNoLoading;
-      if (baseURL) instance.defaults.baseURL = baseURL;
+      _isAutoOff = isAutoOff;
+      _isNoLoading = isNoLoading;
+      if (url) instance.defaults.baseURL = url;
       return instance;
     },
     get: (...params: [string, AxiosRequestConfig?]) => {

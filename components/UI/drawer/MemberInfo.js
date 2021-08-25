@@ -14,6 +14,7 @@ import colors from "../../../constants/Colors";
 const MemberInfo = (props) => {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.auth.userInfo);
+
   return (
     <MemberInfoContainer>
       <MemberContainer>
@@ -33,6 +34,7 @@ const MemberInfo = (props) => {
                   <UserName />
                 </Text2>
                 <Text3>님</Text3>
+                {!!userInfo.amnNo && <BlueSmallText> [통합회원]</BlueSmallText>}
               </View>
               <Text4>
                 <UserPhoneNumber />
@@ -75,6 +77,11 @@ const MemberInfo = (props) => {
     </MemberInfoContainer>
   );
 };
+const BlueSmallText = styled(BaseText)({
+  color: colors.BRIGHT_BLUE,
+  fontSize: 10,
+  marginLeft: 3.5,
+});
 const BeforeJoinContainer = styled.View({
   flexDirection: "row",
   marginLeft: 12.7,

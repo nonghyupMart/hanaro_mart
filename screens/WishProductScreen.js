@@ -21,7 +21,7 @@ import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
 import Memo from "../components/wish/Memo";
 import { useIsFocused } from "@react-navigation/native";
-import FlyerItemColumn2 from "../components/FlyerItemColumn2";
+import FlyerItem from "../components/FlyerItem";
 import colors from "../constants/Colors";
 import * as Util from "../utils";
 
@@ -98,7 +98,7 @@ const WishProductScreen = (props) => {
               `wish-${userStore.storeInfo.store_cd}-${item.product_cd}`
             }
             renderItem={(itemData) => (
-              <FlyerItemColumn2
+              <FlyerItem
                 onPress={popupHandler.bind(this, itemData.item)}
                 item={itemData.item}
                 afterAddWishItem={afterAddWishItem}

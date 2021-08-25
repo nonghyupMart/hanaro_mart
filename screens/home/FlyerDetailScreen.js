@@ -2,21 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components/native";
 import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import Gallery from "react-native-image-gallery";
+import Gallery from "../../util/react-native-image-gallery/Gallery";
+import _ from "lodash";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { useSelector, useDispatch } from "react-redux";
 import * as flyerActions from "../../store/actions/flyer";
 import { IMAGE_URL } from "../../constants";
-import { setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
   const dispatch = useDispatch();
-  const leafletDetail = useSelector((state) => state.flyer.leafletDetail);
-  const isLoading = useSelector((state) => state.common.isLoading);
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
+  const [images, setImages] = useState([]);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
@@ -24,23 +23,16 @@ const FlyerDetailScreen = (props, { navigation }) => {
     };
   }, []);
   useEffect(() => {
-    dispatch(setIsLoading(true));
-
-    const fetchLeafletDetail = dispatch(
-      flyerActions.fetchLeafletDetail({ leaf_cd: params.leaf_cd })
+    dispatch(flyerActions.fetchLeafletDetail({ leaf_cd: params.leaf_cd })).then(
+      (data) => {
+        let arr = [];
+        data.leafletInfo.detail_img.forEach((item) => {
+          arr.push({ source: { uri: IMAGE_URL + item } });
+        });
+        setImages(arr);
+      }
     );
-
-    Promise.all([fetchLeafletDetail]).then(() => {
-      dispatch(setIsLoading(false));
-    });
   }, [dispatch]);
-  let images = [];
-  if (leafletDetail) {
-    //
-    leafletDetail.detail_img.map((item, index) => {
-      images.push({ source: { uri: IMAGE_URL + item } });
-    });
-  }
 
   const next = (page) => {
     if (page < images.length - 1) {
@@ -69,6 +61,8 @@ const FlyerDetailScreen = (props, { navigation }) => {
   const onPageSelected = (val) => {
     if (gallery) setPage(gallery.getViewPagerInstance().currentPage);
   };
+
+  if (images.length === 0) return <></>;
 
   return (
     <BaseScreen isScroll={false}>
