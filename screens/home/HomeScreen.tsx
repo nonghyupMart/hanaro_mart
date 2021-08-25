@@ -1,13 +1,11 @@
 import { useIsFocused } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
-  HeaderStyleInterpolators
+  HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import _ from "lodash";
 import React, { useEffect } from "react";
-import {
-  Platform, StatusBar, StyleSheet
-} from "react-native";
+import { Platform, StatusBar, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BaseScreen from "../../components/BaseScreen";
 import AppPopup from "../../components/home/AppPopup";
@@ -16,7 +14,8 @@ import HomeEvent from "../../components/home/HomeEvent";
 import HomeProducts from "../../components/home/HomeProducts";
 import {
   HomeHeaderLeft,
-  HomeHeaderRight, LogoTitle
+  HomeHeaderRight,
+  LogoTitle,
 } from "../../components/UI/header";
 import { CATEGORY } from "../../constants";
 import colors from "../../constants/Colors";
@@ -33,14 +32,19 @@ const HomeScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const dispatch = useDispatch();
-  const didTryStorePopup = useSelector((state: RootState) => state.common.didTryStorePopup);
+  const didTryStorePopup = useSelector(
+    (state: RootState) => state.common.didTryStorePopup
+  );
   const userStore = useSelector((state: RootState) => state.auth.userStore);
   const isFocused = useIsFocused();
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const pushToken = useSelector((state: RootState) => state.auth.pushToken);
   const link = useSelector((state: RootState) => state.common.link);
+  const isLoading = useSelector((state: RootState) => state.common.isLoading);
+  const notification = useSelector(
+    (state: RootState) => state.common.notification
+  );
 
-  processNotifications(routeName);
   useEffect(() => {
     if (!isFocused) return;
     if (!hasUserAndStore(userInfo, userStore)) return;
@@ -51,8 +55,7 @@ const HomeScreen = (props) => {
       userStore: userStore,
     });
 
-    return () => {
-    };
+    return () => {};
   }, [isFocused]);
 
   useEffect(() => {
@@ -70,7 +73,16 @@ const HomeScreen = (props) => {
   }, [link]);
 
   useEffect(() => {
-    if (typeof didTryStorePopup !== "string" && typeof didTryStorePopup !== "object")
+    if (!userStore || isLoading) return;
+    processNotifications(dispatch, userStore, isLoading, notification);
+    return () => {};
+  }, [userStore, isLoading, notification]);
+
+  useEffect(() => {
+    if (
+      typeof didTryStorePopup !== "string" &&
+      typeof didTryStorePopup !== "object"
+    )
       return;
     dispatch(setIsLoading(true));
     setTimeout(() => {
@@ -97,9 +109,7 @@ const HomeScreen = (props) => {
       dispatch(setIsLoading(false));
       dispatch(CommonActions.setDidTryStorePopup(true));
     }, 500);
-
   }, [didTryStorePopup]);
-
 
   const redirectToScreen = (link) => {
     setTimeout(async () => {
@@ -113,117 +123,107 @@ const HomeScreen = (props) => {
       }
       await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);
-  }
+  };
 
   if (!isFocused) return <></>;
   // console.log("***************HomeScreen rendered***************");
   return (
-    <>
-      <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
-        <AppPopup
+    <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
+      <AppPopup
+        isFocused={isFocused}
+        // key={appPopupKey}
+        {...props}
+      />
+      <HomeBanner isFocused={isFocused} />
+      {!_.isEmpty(userStore) && (
+        <HomeEvent
           isFocused={isFocused}
-          // key={appPopupKey}
-          {...props}
+          userStore={userStore}
+          key={`HomeEvent-${userStore.storeInfo.store_cd}`}
         />
-        <HomeBanner isFocused={isFocused} />
-        {!_.isEmpty(userStore) && (
-          <HomeEvent
-            isFocused={isFocused}
-            userStore={userStore}
-            key={`HomeEvent-${userStore.storeInfo.store_cd}`}
-          />
-        )}
-        {!_.isEmpty(userStore) && (
-          <HomeProducts
-            isFocused={isFocused}
-            userStore={userStore}
-            userInfo={userInfo}
-            key={`HomeProducts-${userStore.storeInfo.store_cd}`}
-          />
-        )}
-      </BaseScreen>
-    </>
+      )}
+      {!_.isEmpty(userStore) && (
+        <HomeProducts
+          isFocused={isFocused}
+          userStore={userStore}
+          userInfo={userInfo}
+          key={`HomeProducts-${userStore.storeInfo.store_cd}`}
+        />
+      )}
+    </BaseScreen>
   );
 };
 
+const processNotifications = (dispatch, userStore, isLoading, notification) => {
+  if (
+    isLoading ||
+    !notification ||
+    !notification.request ||
+    !notification.request.content ||
+    !notification.request.content.data
+  ) {
+    return;
+  }
 
-const processNotifications = (routeName) => {
+  (async () => {
+    const category = notification.request.content.data.category;
+    const store_cd = notification.request.content.data.store_cd;
+    const store_nm = notification.request.content.data.store_nm;
+    const cd = notification.request.content.data.cd;
 
-  const dispatch = useDispatch();
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
-  const isLoading = useSelector((state: RootState) => state.common.isLoading);
-  const notification = useSelector((state: RootState) => state.common.notification);
-  useEffect(() => {
-    if (
-      isLoading ||
-      !notification ||
-      !notification.request ||
-      !notification.request.content ||
-      !notification.request.content.data
-    ) {
-      return;
-    }
+    if (!category) return;
 
-    (async () => {
-      const category = notification.request.content.data.category;
-      const store_cd = notification.request.content.data.store_cd;
-      const store_nm = notification.request.content.data.store_nm;
-      const cd = notification.request.content.data.cd;
+    if (userStore && userStore.storeInfo.store_cd === store_cd) {
+      const currentTab = TabMenus.filter(
+        (tab) => tab.name === CATEGORY[category]
+      );
+      const tab = userStore.menuList.filter(
+        (menu) => menu.r_menu_nm === currentTab[0].title
+      );
+      if (_.isEmpty(tab)) return;
 
-      if (!category) return;
-
-      if (userStore && userStore.storeInfo.store_cd === store_cd) {
-        const currentTab = TabMenus.filter(
-          (tab) => tab.name === CATEGORY[category]
-        );
-        const tab = userStore.menuList.filter(
-          (menu) => menu.r_menu_nm === currentTab[0].title
-        );
-        if (_.isEmpty(tab)) return;
-
-        let param = {};
-        if (!!cd) param["link_code"] = cd;
-        if (!!category) param["category"] = category;
-        switch (category) {
-          case "A": //매장공지
-            if (!!cd) param["notice_cd"] = cd;
-            param["type"] = "C";
-            break;
-          case "H": //통합공지
-            if (!!cd) param["notice_cd"] = cd;
-            param["type"] = "H";
-            break;
-          default:
-            break;
-        }
-        await dispatch(
-          CommonActions.setLink({
-            category: CATEGORY[param["category"]],
-            link_code: param["link_code"],
-          })
-        );
-        setTimeout(() => {
-          RootNavigation.navigate(CATEGORY[param["category"]], param);
-        }, 500);
-      } else {
-        dispatch(
-          setAlert({
-            message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
-            confirmText: "매장설정",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-              RootNavigation.navigate("Home");
-              RootNavigation.navigate("StoreChange");
-            },
-            onPressCancel: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
+      let param = {};
+      if (!!cd) param["link_code"] = cd;
+      if (!!category) param["category"] = category;
+      switch (category) {
+        case "A": //매장공지
+          if (!!cd) param["notice_cd"] = cd;
+          param["type"] = "C";
+          break;
+        case "H": //통합공지
+          if (!!cd) param["notice_cd"] = cd;
+          param["type"] = "H";
+          break;
+        default:
+          break;
       }
-      dispatch({ type: SET_NOTIFICATION, notification: null });
-    })();
-  }, [notification, isLoading]);
+      await dispatch(
+        CommonActions.setLink({
+          category: CATEGORY[param["category"]],
+          link_code: param["link_code"],
+        })
+      );
+      setTimeout(() => {
+        RootNavigation.navigate(CATEGORY[param["category"]], param);
+      }, 500);
+    } else {
+      dispatch(
+        setAlert({
+          message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
+          confirmText: "매장설정",
+          onPressConfirm: () => {
+            dispatch(setAlert(null));
+            RootNavigation.navigate("Home");
+            RootNavigation.navigate("StoreChange");
+          },
+          onPressCancel: () => {
+            dispatch(setAlert(null));
+          },
+        })
+      );
+    }
+    dispatch({ type: SET_NOTIFICATION, notification: null });
+  })();
 };
 
 export const screenOptions = ({ route, navigation }) => {

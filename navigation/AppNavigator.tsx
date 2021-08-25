@@ -32,12 +32,18 @@ const AppNavigator = (props) => {
   const notificationListener = useRef() as any;
   const responseListener = useRef() as any;
   const dispatch = useDispatch();
-  const isLoading = useSelector((state:RootState) => state.common.isLoading);
-  const alert = useSelector((state:RootState) => state.common.alert);
-  const didTryAutoLogin = useSelector((state:RootState) => state.auth.didTryAutoLogin);
-  const isJoined = useSelector((state:RootState) => state.auth.isJoined);
-  const didTryStorePopup = useSelector((state:RootState) => state.common.didTryStorePopup);
-  const isAppUpdated = useSelector((state:RootState) => state.auth.isAppUpdated);
+  const isLoading = useSelector((state: RootState) => state.common.isLoading);
+  const alert = useSelector((state: RootState) => state.common.alert);
+  const didTryAutoLogin = useSelector(
+    (state: RootState) => state.auth.didTryAutoLogin
+  );
+  const isJoined = useSelector((state: RootState) => state.auth.isJoined);
+  const didTryStorePopup = useSelector(
+    (state: RootState) => state.common.didTryStorePopup
+  );
+  const isAppUpdated = useSelector(
+    (state: RootState) => state.auth.isAppUpdated
+  );
   const isBottomNavigation = useSelector(
     (state: RootState) => state.common.isBottomNavigation
   );
@@ -87,8 +93,7 @@ const AppNavigator = (props) => {
     if (!isAppUpdated) return <UpdateScreen />;
     else if (didTryAutoLogin && !didTryStorePopup) return <StorePopupScreen />;
     else if (!didTryAutoLogin && !didTryStorePopup) return <StartupScreen />;
-    else if (isJoined && didTryAutoLogin && didTryStorePopup) return <MainNavigator />;
-    else if (didTryAutoLogin) return <MainNavigator />;
+    else if (didTryAutoLogin && didTryStorePopup) return <MainNavigator />;
     return <StartupScreen />;
   };
 
