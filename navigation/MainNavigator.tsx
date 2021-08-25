@@ -16,7 +16,6 @@ const Drawer = createDrawerNavigator();
 export const MainNavigator = () => {
   const dispatch = useDispatch();
   const userStore = useSelector((state: RootState) => state.auth.userStore);
-  console.log(userStore);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
 
   if (isInitialRender) {

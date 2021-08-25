@@ -17,9 +17,9 @@ import {
   BaseText,
 } from "../../components/UI/BaseUI";
 
-import A from "../../screens/home/EventDetail/A";
-import B from "../../screens/home/EventDetail/B";
-import C from "../../screens/home/EventDetail/C";
+import A from "./EventDetail/A";
+import B from "./EventDetail/B";
+import C from "./EventDetail/C";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as CommonActions from "../../store/actions/common";
 import { PinchGestureHandler } from "react-native-gesture-handler";

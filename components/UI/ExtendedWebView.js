@@ -20,7 +20,8 @@ import {
 import * as Notifications from "expo-notifications";
 import JoinPopupContent from "../../screens/join/JoinPopupContent";
 import moment from "moment";
-import { SERVER_URL, colors } from "../../constants";
+import { SERVER_URL } from "../../constants";
+import colors from "../../constants/Colors";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useDispatch();

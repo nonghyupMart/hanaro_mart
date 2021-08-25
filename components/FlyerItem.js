@@ -16,7 +16,6 @@ import _ from "lodash";
 import colors from "../constants/Colors";
 import Discounts from "./flyerItem/Discounts";
 import WishButton from "./flyerItem/WishButton";
-import moment from "moment";
 import { useSelector, useDispatch } from "react-redux";
 import * as wishActions from "../store/actions/wish";
 import { getWishCnt, checkAuth } from "../store/actions/auth";
@@ -134,7 +133,6 @@ const FlyerItem = ({
         </Container>
       </TouchableOpacity>
     </View>
->>>>>>> 0231cc9dc5eff26ec502a52e8c070de796e42efa
   );
 };
 

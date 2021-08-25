@@ -137,7 +137,7 @@ export const loginWithUserCd = (query, isNoLoading = false) => {
   const data = JSON.stringify(query);
 
   return async (dispatch) => {
-    return http
+    return Util.http
       .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: isNoLoading })
       .patch(url, data)
       .then(async (response) => {

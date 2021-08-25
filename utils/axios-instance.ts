@@ -6,7 +6,6 @@ import {
   setIsLoading,
   showServiceErrorAlert,
 } from "../store/actions/common";
-import * as Updates from "expo-updates";
 import * as actionTypes from "../store/actions/actionTypes";
 
 export const http = (() => {

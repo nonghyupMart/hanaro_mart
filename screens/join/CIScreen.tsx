@@ -61,7 +61,7 @@ const CIScreen = ({ navigation, route }) => {
     </BaseScreen>
   );
 };
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     title: "휴대폰 본인인증",
 
