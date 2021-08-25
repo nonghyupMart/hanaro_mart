@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { ActivityIndicator } from "react-native";
 import styled from "styled-components/native";
-import { Image, View, ActivityIndicator } from "react-native";
-import Loading from "./Loading";
 import colors from "../../constants/Colors";
 
-const Splash = (props) => {
+const Splash = (props: any) => {
   return (
     <>
       <BgImage
@@ -30,8 +29,5 @@ const Splash = (props) => {
   );
 };
 const BgImage = styled.Image({ width: "100%", height: "100%" });
-const Container = styled.View({
-  width: "100%",
-  height: "100%",
-});
+
 export default Splash;
