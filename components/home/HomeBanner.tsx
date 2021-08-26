@@ -1,46 +1,31 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import Carousel from "../UI/Carousel";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
-} from "react-native";
-import {
-  StyleConstants,
-  BaseImage,
-  BaseTouchable,
-  SCREEN_WIDTH,
-} from "../UI/BaseUI";
-import colors from "../../constants/Colors";
 import * as Linking from "expo-linking";
-import * as homeActions from "../../store/actions/home";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "../../store/actions/common";
 import _ from "lodash";
-import * as CommonActions from "../../store/actions/common";
+import React, { useEffect } from "react";
+import { Image, Platform, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import colors from "../../constants/Colors";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import * as CommonActions from "../../store/actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
+import * as homeActions from "../../store/actions/home";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { BaseImage, SCREEN_WIDTH } from "../UI/BaseUI";
+import Carousel from "../UI/Carousel";
 
-const HomeBanner = (props) => {
-  const dispatch = useDispatch();
-  const homeBanner = useSelector((state) => state.home.homeBanner);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+const HomeBanner = (props: any) => {
+  const dispatch = useAppDispatch();
+  const homeBanner = useAppSelector((state) => state.home.homeBanner);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   useEffect(() => {
     if (!props.isFocused) return;
-    dispatch(setIsLoading(true));
-    const fetchHomeBanner = dispatch(homeActions.fetchHomeBanner());
-    Promise.all([fetchHomeBanner]).then((result) => {
-      dispatch(setIsLoading(false));
-    });
+
+    dispatch(homeActions.fetchHomeBanner());
   }, [props.isFocused]);
 
   const onPressMembershipBanner = () => {
-    if (!_.isEmpty(userInfo) && !!userInfo.amnNo)
-      return dispatch(
+    if (!_.isEmpty(userInfo) && !!userInfo.amnNo) {
+      dispatch(
         setAlert({
           message: "이미 통합회원 가입하셨습니다.",
           onPressConfirm: () => {
@@ -48,6 +33,8 @@ const HomeBanner = (props) => {
           },
         })
       );
+      return;
+    }
     RootNavigation.navigate("NHAHM", {
       regiDesc: "01",
     });

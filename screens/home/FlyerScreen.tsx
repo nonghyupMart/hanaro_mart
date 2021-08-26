@@ -25,7 +25,7 @@ import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
 import { changeWishState } from "../../store/actions/common";
 import colors from "../../constants/Colors";
-import { RootState } from "../../store/root-state";
+import { RootState } from "../../hooks";
 import { ProductRequest } from "../../models/product/ProductRequest";
 
 const FlyerScreen = (props) => {

@@ -1,31 +1,35 @@
 {
+  "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "noStrictGenericChecks": false,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
 
     /* Strict Type-Checking Options */
-    "strict": true  /* Enable all strict type-checking options. */,
+    "strict": true /* Enable all strict type-checking options. */,
 
     /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
 
-     /* Experimental Options */
+    /* Experimental Options */
     "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */
   },
   "baseUrl": ".",
-  "paths": {
-    "@screens/*": ["screens/*"],
-    "@assets/*": ["assets/*"],
-    "@images/*": ["assets/images/*"],
-    "@constants/*": ["constants/*"],
-    "@components/*": ["components/*"],
-    "@UI/*": ["./components/UI/*"],
-    "@actions/*": ["store/actions/*"],
-    "@reducers/*": ["store/reducers/*"],
-    "@models/*": ["models/*"]
-  },
-  "extends": "expo/tsconfig.base"
+  // "paths": {
+  //   "appHooks/*": ["store/*"],
+  //   "hooks": ["store/hooks.ts"],
+  //   "screens/*": ["screens/*"],
+  //   "assets/*": ["assets/*"],
+  //   "images/*": ["assets/images/*"],
+  //   "constants/*": ["constants/*"],
+  //   "components/*": ["components/*"],
+  //   "UI/*": ["./components/UI/*"],
+  //   "actions/*": ["store/actions/*"],
+  //   "reducers/*": ["store/reducers/*"],
+  //   "models/*": ["models/*"],
+  //   "navigation/*": ["navigation/*"],
+  //   "utils/*": ["utils/*"]
+  // }
 }

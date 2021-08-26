@@ -7,6 +7,7 @@ import {
   showServiceErrorAlert,
 } from "../store/actions/common";
 import * as actionTypes from "../store/actions/actionTypes";
+import { AppDispatch } from "../hooks";
 
 export const http = (() => {
   const instance = axios.create({
@@ -14,8 +15,8 @@ export const http = (() => {
     timeout: 30000,
     headers: { "Content-Type": "application/json" },
   });
-  let _dispatch,
-    _isAutoOff = false,
+  let _dispatch: AppDispatch;
+  let _isAutoOff = false,
     _isNoLoading = false;
   const errorHandler = (error) => {
     if (error.response) {
@@ -94,7 +95,17 @@ export const http = (() => {
     }
   );
   return {
-    init: ({ dispatch, isAutoOff, isNoLoading, url }) => {
+    init: ({
+      dispatch,
+      isAutoOff = false,
+      isNoLoading = false,
+      url = null,
+    }: {
+      dispatch: AppDispatch;
+      isAutoOff?: boolean;
+      isNoLoading?: boolean;
+      url?: Nullable<string>;
+    }) => {
       _dispatch = dispatch;
       _isAutoOff = isAutoOff;
       _isNoLoading = isNoLoading;

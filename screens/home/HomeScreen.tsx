@@ -29,7 +29,7 @@ import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
 import * as authActions from "../../store/actions/auth";
 import * as CommonActions from "../../store/actions/common";
 import { setAlert, setIsLoading } from "../../store/actions/common";
-import { RootState } from "../../store/root-state";
+import { RootState } from "../../hooks";
 import ProductPopup from "../../components/ProductPopup";
 import * as homeActions from "../../store/actions/home";
 import { changeWishState } from "../../store/actions/common";

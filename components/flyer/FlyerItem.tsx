@@ -1,19 +1,25 @@
-import React, { useCallback } from "react";
-import styled from "styled-components/native";
-import { View, StyleSheet, Image, Dimensions, Platform } from "react-native";
-import { BaseImage, BaseText } from "../UI/BaseUI";
-const { width, height } = Dimensions.get("window");
-import * as Util from "../../utils";
-import moment from "moment";
 import _ from "lodash";
+import moment from "moment";
+import React, { useCallback } from "react";
+import {
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { checkAuth, getWishCnt } from "../../store/actions/auth";
+import * as wishActions from "../../store/actions/wish";
+import { RootState } from "../../hooks";
+import * as Util from "../../utils";
 import Discounts from "../flyerItem/Discounts";
 import WishButton from "../flyerItem/WishButton";
-import { useSelector, useDispatch } from "react-redux";
-import * as wishActions from "../../store/actions/wish";
-import { getWishCnt, checkAuth } from "../../store/actions/auth";
-import { BorderlessButton } from "react-native-gesture-handler";
-import { RootState } from "../../store/root-state";
+import { BaseImage, BaseText } from "../UI/BaseUI";
+const { width, height } = Dimensions.get("window");
 
 const FlyerItem = ({
   item,
@@ -69,11 +75,7 @@ const FlyerItem = ({
 
   return (
     <View style={styles.containerStyle}>
-      <BorderlessButton
-        underlayColor="transparant"
-        onPress={onPress}
-        style={styles.containerStyle}
-      >
+      <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
         <Container>
           <ImageContainer>
             {!_.isEmpty(item.bogo) && (
@@ -130,7 +132,7 @@ const FlyerItem = ({
             {moment(item.end_date).format("MM.DD")}
           </Period>
         </Container>
-      </BorderlessButton>
+      </TouchableOpacity>
     </View>
   );
 };

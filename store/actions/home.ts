@@ -3,15 +3,16 @@ import * as Util from "../../utils";
 import _ from "lodash";
 import Constants from "expo-constants";
 import * as actionTypes from "./actionTypes";
+import { AppDispatch } from "../../hooks";
 
-export const fetchHomeBanner = (query) => {
+export const fetchHomeBanner = (query = {}) => {
   const url = queryString.stringifyUrl({
     url: `/home-banner`,
     query,
   });
-  return async (dispatch, getState) => {
+  return async (dispatch: AppDispatch, getState) => {
     return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -29,7 +30,7 @@ export const fetchHomeNotice = (query = {}) => {
     url: `/home-notice`,
     query: query,
   });
-  return async (dispatch, getState) => {
+  return async (dispatch: AppDispatch, getState) => {
     return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })
       .get(url)

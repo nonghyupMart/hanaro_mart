@@ -11,3 +11,5 @@ web-build/
 # macOS
 .DS_Store
 yarn-error.log
+—reset-cache/.expo/README.md
+—reset-cache/.expo/settings.json

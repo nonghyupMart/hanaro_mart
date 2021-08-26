@@ -7,7 +7,7 @@ import {
   CustomDrawerContent,
   drawerStyle,
 } from "../components/UI/CustomDrawerContent";
-import { RootState } from "../store/root-state";
+import { RootState } from "../hooks";
 import { HomeNavigator } from "./HomeNavigator";
 
 // https://reactnavigation.org/docs/drawer-navigator/

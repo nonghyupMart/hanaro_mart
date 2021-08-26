@@ -6,7 +6,7 @@ import _ from "lodash";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
 import * as Screens from "../screens";
 import { TabMenus } from "../constants/menu";
-import { RootState } from "../store/root-state";
+import { RootState } from "../hooks";
 import colors from "../constants/Colors";
 import * as Util from "../utils";
 

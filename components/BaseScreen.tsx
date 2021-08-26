@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
 import { View, StyleSheet, Platform } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 import Constants from "expo-constants";
@@ -8,19 +7,20 @@ import { StyleConstants } from "./UI/BaseUI";
 import _ from "lodash";
 import colors from "../constants/Colors";
 import * as homeActions from "../store/actions/home";
+import { useAppDispatch, useAppSelector } from "../hooks";
 
-const Contents = (props) => {
+const Contents = (props: any) => {
   return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [isPadding, setIsPadding] = useState(
     props.isPadding === undefined ? true : props.isPadding
   );
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const isLoading = useSelector((state: RootState) => state.common.isLoading);
-  let { finalPage = 0, page = 1, data } = props;
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
+  let { finalPage = 0, page = 1 } = props;
   const [isScroll, setIsScroll] = useState(
     props.isScroll === undefined ? true : props.isScroll
   );
@@ -60,12 +60,7 @@ const BaseScreen = (props) => {
 
   if (!userInfo || !userStore) return <></>;
   return (
-    <Screen
-      headerHeight={useHeaderHeight()}
-      style={props.style}
-      isPadding={isPadding}
-      isCenter={props.isCenter}
-    >
+    <Screen style={props.style} isCenter={props.isCenter}>
       {isScroll && (
         <ScrollList
           decelerationRate="fast"

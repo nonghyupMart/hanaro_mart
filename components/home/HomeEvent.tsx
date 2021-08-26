@@ -1,30 +1,28 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import Carousel from "../UI/Carousel";
-import { View, Platform, Image, TouchableOpacity } from "react-native";
-import {
-  StyleConstants,
-  BaseImage,
-  BaseText,
-  SCREEN_WIDTH,
-} from "../UI/BaseUI";
-import * as RootNavigation from "../../navigation/RootNavigation";
-import colors from "../../constants/Colors";
-import * as Linking from "expo-linking";
-import * as actionTypes from "../../store/actions/actionTypes";
-import * as eventActions from "../../store/actions/event";
-import * as CommonActions from "../../store/actions/common";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as Util from "../../utils";
 import _ from "lodash";
-import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProductsHeader";
+import React, { useEffect, useState } from "react";
+import { Image, Platform, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
 import { CATEGORY } from "../../constants";
+import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import * as actionTypes from "../../store/actions/actionTypes";
+import * as CommonActions from "../../store/actions/common";
+import * as eventActions from "../../store/actions/event";
+import * as Util from "../../utils";
+import { BaseImage, BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
+import Carousel from "../UI/Carousel";
+import {
+  MoreContainer,
+  MoreText,
+  Title,
+  TitleContainer,
+} from "./HomeProductsHeader";
 
-const HomeEvent = (props) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const event = useSelector((state) => state.event.event);
+const HomeEvent = (props: any) => {
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const event = useAppSelector((state) => state.event.event);
   const eventTitle1 = "하나로마트 앱 지인추천하기";
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
@@ -33,15 +31,13 @@ const HomeEvent = (props) => {
   };
   useEffect(() => {
     if (!props.isFocused || _.isEmpty(props.userStore)) return;
-    dispatch(setIsLoading(true));
+
     clearData();
     let query = {
       store_cd: props.userStore.storeInfo.store_cd,
       page: 1,
     };
-    dispatch(eventActions.fetchEvent(query)).then((data) => {
-      dispatch(setIsLoading(false));
-    });
+    dispatch(eventActions.fetchEvent(query, false));
   }, [props.isFocused]);
   const onAnimateNextPage = (index) => {
     if (index === 0) {
@@ -110,8 +106,6 @@ const HomeEvent = (props) => {
           width: 35,
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           borderRadius: 20,
-          paddingTop: 2,
-          paddingBottom: 2,
           height: 15,
           paddingTop: 0,
           paddingBottom: 4,
@@ -207,4 +201,4 @@ const BannerItem = (props) => {
   );
 };
 
-export default HomeEvent;
+export default React.memo(HomeEvent);

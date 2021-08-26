@@ -2,7 +2,7 @@ import queryString from "query-string";
 import * as actionTypes from "./actionTypes";
 import * as Util from "../../utils";
 
-export const fetchEvent = (query) => {
+export const fetchEvent = (query, isNoLoading = false) => {
   if (!query.page) query.page = "1";
   const url = queryString.stringifyUrl({
     url: `/event`,
@@ -10,7 +10,7 @@ export const fetchEvent = (query) => {
   });
   return async (dispatch, getState) => {
     return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_EVENT;

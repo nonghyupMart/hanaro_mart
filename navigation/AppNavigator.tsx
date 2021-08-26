@@ -24,7 +24,7 @@ import {
   getForegroundNotificationListener,
   createBackHandler,
 } from "../helpers";
-import { RootState } from "../store/root-state";
+import { RootState } from "../hooks";
 
 const AppNavigator = (props) => {
   const routeNameRef = useRef();

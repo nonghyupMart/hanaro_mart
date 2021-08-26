@@ -1,7 +1,6 @@
 import React from "react";
-import styled from "styled-components/native";
 import { Image } from "react-native";
-import { BorderlessButton } from "react-native-gesture-handler";
+import styled from "styled-components/native";
 
 const WishButton = ({ wish_yn, addWishItem, deleteWishItem }) => {
   let onPress, source;
@@ -18,7 +17,7 @@ const WishButton = ({ wish_yn, addWishItem, deleteWishItem }) => {
     </Button>
   );
 };
-const Button = styled(BorderlessButton).attrs({})({
+const Button = styled.TouchableOpacity({
   position: "absolute",
   right: 2,
   bottom: 1,
