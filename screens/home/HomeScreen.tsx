@@ -4,14 +4,17 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import _ from "lodash";
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Platform, StatusBar, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import BaseScreen from "../../components/BaseScreen";
+import FlyerItem from "../../components/flyer/FlyerItem";
 import AppPopup from "../../components/home/AppPopup";
 import HomeBanner from "../../components/home/HomeBanner";
 import HomeEvent from "../../components/home/HomeEvent";
-import HomeProducts from "../../components/home/HomeProducts";
+import HomeProductsHeader, {
+  loadMore,
+} from "../../components/home/HomeProductsHeader";
 import {
   HomeHeaderLeft,
   HomeHeaderRight,
@@ -27,10 +30,15 @@ import * as authActions from "../../store/actions/auth";
 import * as CommonActions from "../../store/actions/common";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import { RootState } from "../../store/root-state";
+import ProductPopup from "../../components/ProductPopup";
+import * as homeActions from "../../store/actions/home";
+import { changeWishState } from "../../store/actions/common";
+import * as actionTypes from "../../store/actions/actionTypes";
 
 const HomeScreen = (props) => {
-  const routeName = props.route.name;
+  const page = useRef(1);
   const navigation = props.navigation;
+  const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
   const didTryStorePopup = useSelector(
     (state: RootState) => state.common.didTryStorePopup
@@ -44,6 +52,10 @@ const HomeScreen = (props) => {
   const notification = useSelector(
     (state: RootState) => state.common.notification
   );
+  const homeProducts = useSelector(
+    (state: RootState) => state.home.homeProducts
+  );
+  const currentItem = useRef();
 
   useEffect(() => {
     if (!isFocused) return;
@@ -54,6 +66,13 @@ const HomeScreen = (props) => {
       pushToken: pushToken,
       userStore: userStore,
     });
+
+    let query = {
+      store_cd: userStore.storeInfo.store_cd,
+      page: 1,
+    };
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    dispatch(homeActions.fetchHomeProducts(query));
 
     return () => {};
   }, [isFocused]);
@@ -124,11 +143,59 @@ const HomeScreen = (props) => {
       await navigation.navigate(CATEGORY[link.link_gbn]);
     }, 500);
   };
+  const onPageChanged = (p) => {
+    page.current = p;
+  };
 
-  if (!isFocused) return <></>;
+  const beforeAddWishItem = (item) => {
+    changeWishState(
+      dispatch,
+      homeProducts,
+      item,
+      actionTypes.SET_HOME_PRODUCTS,
+      "Y"
+    );
+  };
+
+  const beforeDeleteWishItem = (item) => {
+    changeWishState(
+      dispatch,
+      homeProducts,
+      item,
+      actionTypes.SET_HOME_PRODUCTS,
+      "N"
+    );
+  };
+  const popupHandler = (item) => {
+    setIsVisible((isVisible) => !isVisible);
+    currentItem.current = item;
+  };
+  const renderItem = (itemData) => (
+    <FlyerItem
+      onPress={popupHandler.bind(this, itemData.item)}
+      item={itemData.item}
+      beforeAddWishItem={beforeAddWishItem}
+      beforeDeleteWishItem={beforeDeleteWishItem}
+    />
+  );
+  if (!isFocused || !userStore) return <></>;
+  // console.log(_.isEmpty(homeProducts));
   // console.log("***************HomeScreen rendered***************");
   return (
-    <BaseScreen style={styles.screen} contentStyle={{ paddingTop: 0 }}>
+    <BaseScreen
+      style={styles.screen}
+      contentStyle={{ paddingTop: 0 }}
+      renderItem={renderItem}
+      data={homeProducts && homeProducts.productList}
+      numColumns={2}
+      keyExtractor={(item) =>
+        `${userStore.storeInfo.store_cd}-${item.product_cd}`
+      }
+      query={{ store_cd: userStore.storeInfo.store_cd, page: page.current }}
+      page={page.current}
+      onPageChanged={onPageChanged}
+      finalPage={homeProducts && homeProducts.finalPage}
+    >
       <AppPopup
         isFocused={isFocused}
         // key={appPopupKey}
@@ -142,14 +209,16 @@ const HomeScreen = (props) => {
           key={`HomeEvent-${userStore.storeInfo.store_cd}`}
         />
       )}
-      {!_.isEmpty(userStore) && (
-        <HomeProducts
-          isFocused={isFocused}
-          userStore={userStore}
-          userInfo={userInfo}
+      {homeProducts && homeProducts.productList && (
+        <HomeProductsHeader
           key={`HomeProducts-${userStore.storeInfo.store_cd}`}
         />
       )}
+      <ProductPopup
+        item={currentItem.current}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </BaseScreen>
   );
 };

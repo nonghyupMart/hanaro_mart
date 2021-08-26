@@ -52,7 +52,8 @@ const HomeBanner = (props) => {
       regiDesc: "01",
     });
   };
-  if (!homeBanner || !homeBanner.bannerList) return <></>;
+  if (!userInfo || !homeBanner || !homeBanner.bannerList) return <></>;
+
   return (
     <RoundedContainer>
       <Carousel
@@ -168,4 +169,4 @@ const BannerItem = (props) => {
   );
 };
 
-export default HomeBanner;
+export default React.memo(HomeBanner);

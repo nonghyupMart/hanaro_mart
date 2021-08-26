@@ -118,7 +118,7 @@ export const navigateByScheme = async (dispatch, url) => {
   );
 };
 
-export const postWish = (dispatch, object, item, type, value = "Y") => {
+export const changeWishState = (dispatch, object, item, type, value = "Y") => {
   const tempObject = { ...object };
   const index = tempObject.productList.indexOf(item);
   tempObject.productList[index].wish_yn = value;

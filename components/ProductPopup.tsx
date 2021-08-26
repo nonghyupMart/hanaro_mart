@@ -22,7 +22,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
       hideModalContentWhileAnimating={true}
     >
       <Container>
-        <CloseBtnContainer onPress={setIsVisible.bind(this, !isVisible)}>
+        <CloseBtnContainer onPressIn={setIsVisible.bind(this, !isVisible)}>
           <Image source={require("../assets/images/cross0104.png")} />
         </CloseBtnContainer>
         <Body contentContainerStyle={{ alignItems: "center" }}>
@@ -201,7 +201,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
           </InfoContainer>
 
           <BtnContainer style={{}}>
-            <GrayBtn onPress={setIsVisible.bind(this, !isVisible)}>
+            <GrayBtn onPressIn={setIsVisible.bind(this, !isVisible)}>
               <BtnText>닫기</BtnText>
             </GrayBtn>
           </BtnContainer>
@@ -352,8 +352,6 @@ const BorderLine = styled.View({
 });
 const BtnText = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "300",
-  fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "left",
@@ -385,8 +383,6 @@ const BtnContainer = styled.View({
 });
 const PriceUnit = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "center",
@@ -394,8 +390,6 @@ const PriceUnit = styled(BaseText)({
 });
 const TotalUnit = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
@@ -419,8 +413,6 @@ const TotalContainer = styled.View({
 const QInput = styled(BaseTextInput)({
   width: 65,
   fontSize: 21,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 30,
   letterSpacing: 0,
   textAlign: "center",
@@ -442,8 +434,6 @@ const QContainer = styled.View({
 });
 const QuantityTitle = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "right",
@@ -468,8 +458,6 @@ const QuantityContainer = styled.View({
 });
 const SalePrice = styled(BaseText)({
   fontSize: 18,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",

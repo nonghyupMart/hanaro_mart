@@ -23,7 +23,7 @@ import NoList from "../../components/UI/NoList";
 import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import PickerViews from "../../components/flyer/PickerViews";
-import { postWish } from "../../store/actions/common";
+import { changeWishState } from "../../store/actions/common";
 import colors from "../../constants/Colors";
 import { RootState } from "../../store/root-state";
 import { ProductRequest } from "../../models/product/ProductRequest";
@@ -117,11 +117,11 @@ const FlyerScreen = (props) => {
   };
   const [isVisible, setIsVisible] = useState(false);
 
-  const afterAddWishItem = (item) => {
-    postWish(dispatch, product, item, SET_PRODUCT, "Y");
+  const beforeAddWishItem = (item) => {
+    changeWishState(dispatch, product, item, SET_PRODUCT, "Y");
   };
-  const afterDeleteWishItem = (item) => {
-    postWish(dispatch, product, item, SET_PRODUCT, "N");
+  const beforeDeleteWishItem = (item) => {
+    changeWishState(dispatch, product, item, SET_PRODUCT, "N");
   };
 
   const popupHandler = (item) => {
@@ -138,6 +138,7 @@ const FlyerScreen = (props) => {
     );
   return (
     <BaseScreen
+      page={3}
       style={{
         backgroundColor: colors.TRUE_WHITE,
         paddingLeft: 0,
@@ -213,8 +214,8 @@ const FlyerScreen = (props) => {
             <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
+              beforeAddWishItem={beforeAddWishItem}
+              beforeDeleteWishItem={beforeDeleteWishItem}
             />
           )}
         />

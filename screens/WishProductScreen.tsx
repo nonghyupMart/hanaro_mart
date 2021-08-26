@@ -63,10 +63,10 @@ const WishProductScreen = (props) => {
     currentItem.current = item;
   };
 
-  const afterAddWishItem = (item) => {
+  const beforeAddWishItem = (item) => {
     postWish(dispatch, wishItem, item, SET_WISH_ITEM);
   };
-  const afterDeleteWishItem = (item) => {
+  const beforeDeleteWishItem = (item) => {
     postWish(dispatch, wishItem, item, SET_WISH_ITEM);
   };
   return (
@@ -101,8 +101,8 @@ const WishProductScreen = (props) => {
               <FlyerItem
                 onPress={popupHandler.bind(this, itemData.item)}
                 item={itemData.item}
-                afterAddWishItem={afterAddWishItem}
-                afterDeleteWishItem={afterDeleteWishItem}
+                beforeAddWishItem={beforeAddWishItem}
+                beforeDeleteWishItem={beforeDeleteWishItem}
               />
             )}
           />

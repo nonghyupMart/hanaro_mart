@@ -18,7 +18,7 @@ import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { setAlert, setIsLoading } from "../../store/actions/common";
 import * as Util from "../../utils";
 import _ from "lodash";
-import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProducts";
+import { MoreContainer, MoreText, TitleContainer, Title } from "./HomeProductsHeader";
 import { CATEGORY } from "../../constants";
 
 const HomeEvent = (props) => {

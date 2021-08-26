@@ -1,13 +1,6 @@
 import React, { useCallback } from "react";
 import styled from "styled-components/native";
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-  Platform,
-} from "react-native";
+import { View, StyleSheet, Image, Dimensions, Platform } from "react-native";
 import { BaseImage, BaseText } from "../UI/BaseUI";
 const { width, height } = Dimensions.get("window");
 import * as Util from "../../utils";
@@ -19,22 +12,24 @@ import WishButton from "../flyerItem/WishButton";
 import { useSelector, useDispatch } from "react-redux";
 import * as wishActions from "../../store/actions/wish";
 import { getWishCnt, checkAuth } from "../../store/actions/auth";
+import { BorderlessButton } from "react-native-gesture-handler";
+import { RootState } from "../../store/root-state";
 
 const FlyerItem = ({
   item,
   onPress,
-  afterAddWishItem,
-  afterDeleteWishItem,
+  beforeAddWishItem,
+  beforeDeleteWishItem,
 }) => {
-  const isJoin = useSelector((state) => state.auth.isJoin);
+  const isJoined = useSelector((state: RootState) => state.auth.isJoined);
   const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
 
   const addWishItem = useCallback(
     async (item) => {
-      if (await checkAuth(dispatch, isJoin)) {
-        if (afterAddWishItem) await afterAddWishItem(item);
+      if (await checkAuth(dispatch, isJoined)) {
+        if (beforeAddWishItem) await beforeAddWishItem(item);
         await dispatch(
           wishActions.addWishItem({
             user_cd: userInfo.user_cd,
@@ -53,8 +48,8 @@ const FlyerItem = ({
   );
   const deleteWishItem = useCallback(
     async (item) => {
-      if (await checkAuth(dispatch, isJoin)) {
-        if (afterDeleteWishItem) await afterDeleteWishItem(item);
+      if (await checkAuth(dispatch, isJoined)) {
+        if (beforeDeleteWishItem) await beforeDeleteWishItem(item);
         await dispatch(
           wishActions.deleteWishItem({
             user_cd: userInfo.user_cd,
@@ -74,7 +69,11 @@ const FlyerItem = ({
 
   return (
     <View style={styles.containerStyle}>
-      <TouchableOpacity onPress={onPress} style={styles.containerStyle}>
+      <BorderlessButton
+        underlayColor="transparant"
+        onPress={onPress}
+        style={styles.containerStyle}
+      >
         <Container>
           <ImageContainer>
             {!_.isEmpty(item.bogo) && (
@@ -131,7 +130,7 @@ const FlyerItem = ({
             {moment(item.end_date).format("MM.DD")}
           </Period>
         </Container>
-      </TouchableOpacity>
+      </BorderlessButton>
     </View>
   );
 };

@@ -24,7 +24,9 @@ const AppPopup = (props) => {
   const isAppPopup = useSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useSelector((state) => state.home.appPopup);
-  const didTryStorePopup = useSelector((state) => state.common.didTryStorePopup);
+  const didTryStorePopup = useSelector(
+    (state) => state.common.didTryStorePopup
+  );
   useEffect(() => {
     if (isAppPopup && props.isFocused && typeof didTryStorePopup !== "string") {
       setIsVisible(true);
@@ -60,6 +62,7 @@ const AppPopup = (props) => {
     !isVisible
   )
     return <></>;
+
   return (
     <Modal
       backdropTransitionInTiming={0}
@@ -153,4 +156,4 @@ const Container = styled.View({
   justifyContent: "center",
   alignItems: "center",
 });
-export default AppPopup;
+export default React.memo(AppPopup);

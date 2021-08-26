@@ -53,10 +53,9 @@ export const fetchHomeProducts = (query = {}) => {
     url: `/home-product`,
     query: query,
   });
-
   return async (dispatch, getState) => {
     return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_HOME_PRODUCTS;

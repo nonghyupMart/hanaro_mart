@@ -1,26 +1,64 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { useDispatch, useSelector } from "react-redux";
-
 import { View, StyleSheet, Platform } from "react-native";
 import { useHeaderHeight } from "@react-navigation/stack";
 import Constants from "expo-constants";
 import { StyleConstants } from "./UI/BaseUI";
 import _ from "lodash";
 import colors from "../constants/Colors";
+import * as homeActions from "../store/actions/home";
 
 const Contents = (props) => {
   return <>{props.children}</>;
 };
 const BaseScreen = (props) => {
+  const dispatch = useDispatch();
   const [isPadding, setIsPadding] = useState(
     props.isPadding === undefined ? true : props.isPadding
   );
-  const dispatch = useDispatch();
+  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
+  const isLoading = useSelector((state: RootState) => state.common.isLoading);
+  let { finalPage = 0, page = 1, data } = props;
   const [isScroll, setIsScroll] = useState(
     props.isScroll === undefined ? true : props.isScroll
   );
+  let isScrolled = false;
 
+  const onScroll = () => {
+    if (!isScrolled) isScrolled = true;
+    if (props.isScrolling) props.isScrolling(true);
+  };
+  const onEndReached = () => {
+    if (isScrolled) {
+      if (props.onEndReached) props.onEndReached();
+      loadMore();
+    }
+  };
+
+  const loadMore = () => {
+    if (!isLoading && page + 1 <= finalPage) {
+      page++;
+      fetchItem();
+    }
+  };
+
+  const onRefresh = () => {
+    page = 1;
+    fetchItem();
+    if (props.onRefresh) props.onRefresh();
+  };
+
+  const fetchItem = () => {
+    let query = { ...props.query };
+    query.page = page;
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    dispatch(homeActions.fetchHomeProducts(query)).then(() => {});
+    if (props.onPageChanged) props.onPageChanged(page);
+  };
+
+  if (!userInfo || !userStore) return <></>;
   return (
     <Screen
       headerHeight={useHeaderHeight()}
@@ -30,6 +68,13 @@ const BaseScreen = (props) => {
     >
       {isScroll && (
         <ScrollList
+          decelerationRate="fast"
+          refreshing={props.renderItem ? isLoading : null}
+          onRefresh={props.renderItem ? onRefresh : null}
+          onScroll={onScroll}
+          onEndReached={onEndReached}
+          // onEndReachedThreshold={0.5}
+          // scrollEventThrottle={60}
           listKey="BaseScreen"
           // onScroll={onScroll}
           isPadding={isPadding}
@@ -42,19 +87,21 @@ const BaseScreen = (props) => {
           keyboardShouldPersistTaps="handled"
           windowSize={props.windowSize ? props.windowSize : 5}
           style={props.scrollListStyle}
-          data={[0]}
-          keyExtractor={(item, index) => `${index}`}
+          // keyExtractor={(item, index) => `${index}`}
           headerHeight={useHeaderHeight()}
           {...props}
           contentContainerStyle={[styles.safeAreaView]}
-          renderItem={({ item, index, separators }) => (
+          ListHeaderComponent={
             <ContentContainer
               style={[props.contentStyle]}
               isPadding={isPadding}
             >
-              <Contents {...props} />
+              <Contents {...props} page={page.current} />
             </ContentContainer>
-          )}
+          }
+          // renderItem={({ item, index, separators }) => (
+
+          // )}
         />
       )}
       {!isScroll && <Contents {...props} />}

@@ -26,7 +26,7 @@ import { setAlert, setIsLoading } from "../store/actions/common";
 import * as CommonActions from "../store/actions/common";
 import { styles } from "./home/FlyerScreen";
 import _ from "lodash";
-import { postWish } from "../store/actions/common";
+import { changeWishState } from "../store/actions/common";
 import colors from "../constants/Colors";
 
 const SearchProductScreen = (props) => {
@@ -99,11 +99,11 @@ const SearchProductScreen = (props) => {
     currentItem.current = item;
   };
 
-  const afterAddWishItem = (item) => {
-    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "Y");
+  const beforeAddWishItem = (item) => {
+    changeWishState(dispatch, product, item, SET_SEARCHED_PRODUCT, "Y");
   };
-  const afterDeleteWishItem = (item) => {
-    postWish(dispatch, product, item, SET_SEARCHED_PRODUCT, "N");
+  const beforeDeleteWishItem = (item) => {
+    changeWishState(dispatch, product, item, SET_SEARCHED_PRODUCT, "N");
   };
   return (
     <BaseScreen
@@ -153,8 +153,8 @@ const SearchProductScreen = (props) => {
             <FlyerItem
               onPress={popupHandler.bind(this, itemData.item)}
               item={itemData.item}
-              afterAddWishItem={afterAddWishItem}
-              afterDeleteWishItem={afterDeleteWishItem}
+              beforeAddWishItem={beforeAddWishItem}
+              beforeDeleteWishItem={beforeDeleteWishItem}
             />
           )}
         />
