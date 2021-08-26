@@ -37,7 +37,7 @@ const HomeEvent = (props: any) => {
       store_cd: props.userStore.storeInfo.store_cd,
       page: 1,
     };
-    dispatch(eventActions.fetchEvent(query, false));
+    dispatch(eventActions.fetchEvent(query, true));
   }, [props.isFocused]);
   const onAnimateNextPage = (index) => {
     if (index === 0) {

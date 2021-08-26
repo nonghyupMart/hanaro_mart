@@ -4,11 +4,11 @@ import React, { useEffect } from "react";
 import { Image, Platform, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import * as CommonActions from "../../store/actions/common";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import { setAlert } from "../../store/actions/common";
 import * as homeActions from "../../store/actions/home";
-import { useAppDispatch, useAppSelector } from "../../hooks";
 import { BaseImage, SCREEN_WIDTH } from "../UI/BaseUI";
 import Carousel from "../UI/Carousel";
 

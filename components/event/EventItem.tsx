@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
-import styled from "styled-components/native";
 import moment from "moment";
 import "moment/min/locales";
-import { BaseImage, SCREEN_WIDTH, BaseTouchable, BaseText } from "../UI/BaseUI";
+import React from "react";
+import { TouchableOpacity, View } from "react-native";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { BaseImage, BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
 
-const EventItem = (props) => {
+const EventItem = (props: any) => {
   const startDate = moment(props.item.start_date)
     .locale("ko")
     .format("YYYY.MM.DD(dd)");
@@ -42,26 +42,11 @@ const Title = styled(BaseText)({
   height: 25,
   marginTop: 8.5,
 });
-const Status = styled(BaseText)({
-  fontSize: 13,
-  fontWeight: "500",
-  fontStyle: "normal",
-  lineHeight: 19,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.APPLE_GREEN,
-  marginLeft: 3,
-});
-const StatusContainer = styled.View({
-  flexDirection: "row",
-});
 const TitleContainer = styled.View({
   flexDirection: "row",
 });
 const Date = styled(BaseText)({
   fontSize: 11,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 16.5,
   letterSpacing: 0,
   textAlign: "left",

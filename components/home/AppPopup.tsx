@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import Modal from "react-native-modal";
-import Carousel from "../UI/Carousel";
-import {
-  StyleConstants,
-  BaseImage,
-  ScaledImage,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  BaseText,
-} from "../UI/BaseUI";
-import _ from "lodash";
 import * as Linking from "expo-linking";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
+import styled from "styled-components/native";
+import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
 import * as homeActions from "../../store/actions/home";
-import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity } from "react-native";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import colors from "../../constants/Colors";
+import { BaseImage, BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
+import Carousel from "../UI/Carousel";
 
 const AppPopup = (props) => {
-  const dispatch = useDispatch();
-  const isAppPopup = useSelector((state) => state.common.isAppPopup);
+  const dispatch = useAppDispatch();
+  const isAppPopup = useAppSelector((state) => state.common.isAppPopup);
   const [isVisible, setIsVisible] = useState(false);
-  const appPopup = useSelector((state) => state.home.appPopup);
-  const didTryStorePopup = useSelector(
+  const appPopup = useAppSelector((state) => state.home.appPopup);
+  const didTryStorePopup = useAppSelector(
     (state) => state.common.didTryStorePopup
   );
   useEffect(() => {
@@ -39,14 +31,8 @@ const AppPopup = (props) => {
     if (!_.isEmpty(appPopup) || !isAppPopup || !props.isFocused) {
       return;
     }
-    dispatch(setIsLoading(true));
 
-    dispatch(homeActions.fetchPopup()).then(() => {
-      dispatch(setIsLoading(false));
-      if (_.isEmpty(appPopup)) {
-        dispatch(setIsLoading(false));
-      }
-    });
+    dispatch(homeActions.fetchPopup({}, true));
   }, [props.isFocused]);
 
   const setDisablePopup = () => {
@@ -136,8 +122,6 @@ const AppPopup = (props) => {
 const BtnContainer = styled.View({ flexDirection: "row" });
 const BtnText = styled(BaseText)({
   fontSize: 14,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
@@ -151,7 +135,6 @@ const BtnWarpper = styled.TouchableOpacity({
   width: "50%",
   padding: 13,
 });
-const PopupImage = styled(BaseImage)({ resizeMode: "cover", width: "100%" });
 const Container = styled.View({
   justifyContent: "center",
   alignItems: "center",

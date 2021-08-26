@@ -94,14 +94,14 @@ export const clearStorePopup = () => {
   };
 };
 
-export const fetchPopup = (query) => {
+export const fetchPopup = (query = {}, isNoLoading = false) => {
   const url = queryString.stringifyUrl({
     url: `/popup`,
     query: query,
   });
   return async (dispatch, getState) => {
     return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading })
       .get(url)
       .then(async (response) => {
         if (query && query.store_cd) {

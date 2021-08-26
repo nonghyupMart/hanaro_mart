@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components/native";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import BaseScreen from "../../components/BaseScreen";
-import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "../../store/actions/event";
-import * as CommonActions from "../../store/actions/common";
-import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import EventItem from "../../components/event/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
-import { setIsLoading } from "../../store/actions/common";
-import NoList from "../../components/UI/NoList";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
+import BaseScreen from "../../components/BaseScreen";
+import EventItem from "../../components/event/EventItem";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
-import { checkAuth } from "../../store/actions/auth";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import NoList from "../../components/UI/NoList";
 import colors from "../../constants/Colors";
+import { checkAuth } from "../../store/actions/auth";
+import * as CommonActions from "../../store/actions/common";
+import * as eventActions from "../../store/actions/event";
 
 // let isMoved = false;
 
-const EventScreen = (props) => {
+const EventScreen = (props: any) => {
   const eventCategory = [
     { type_nm: "전체", type_val: "" },
     { type_nm: "일반", type_val: "A" },
@@ -82,7 +80,10 @@ const EventScreen = (props) => {
   };
 
   const moveToDetail = async (event_cd) => {
-    if (!userInfo.ci) return checkAuth(dispatch, !!userInfo.ci);
+    if (!userInfo.ci) {
+      checkAuth(dispatch, !!userInfo.ci);
+      return;
+    }
     await navigation.navigate("EventDetail", { event_cd: event_cd });
   };
   const onPress = (item) => {

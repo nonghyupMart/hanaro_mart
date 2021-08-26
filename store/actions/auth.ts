@@ -255,7 +255,7 @@ export const fetchUserInfo = async ({
     await dispatch(setPushToken(tk));
   }
 
-  return dispatch(loginWithUserCd(query, false)).then(async (data) => {
+  return dispatch(loginWithUserCd(query, true)).then(async (data) => {
     if (
       _.isEmpty(data.userInfo) ||
       data.userInfo.user_cd !== userInfo.user_cd ||
