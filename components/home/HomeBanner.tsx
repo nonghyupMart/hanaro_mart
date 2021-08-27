@@ -72,8 +72,6 @@ const HomeBanner = (props: any) => {
           width: 35,
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           borderRadius: 20,
-          paddingTop: 2,
-          paddingBottom: 2,
           height: 15,
           paddingTop: 0,
           paddingBottom: 4,
@@ -156,4 +154,4 @@ const BannerItem = (props) => {
   );
 };
 
-export default React.memo(HomeBanner);
+export default HomeBanner;

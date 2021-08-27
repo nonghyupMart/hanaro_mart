@@ -16,6 +16,7 @@ import { SERVER_URL } from "../../constants";
 import colors from "../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import { CHANGE_SHOP } from "../../store/actions/actionTypes";
 import {
   saveUserStore,
   saveUserStoreToStorage,
@@ -48,12 +49,10 @@ const StoreChangeDetailScreen = (props) => {
     }
   }, [didTryStorePopup]);
   useEffect(() => {
-    dispatch(setIsLoading(true));
     const fetchBranch = dispatch(
       branchesActions.fetchBranch(storeItem.store_cd)
     );
     Promise.all([fetchBranch]).then(() => {
-      dispatch(setIsLoading(false));
       if (branch && branch.storeInfo)
         setLocation(
           `${branch.storeInfo.lname}  ${branch.storeInfo.mname} ${branch.storeInfo.addr1} ${branch.storeInfo.addr2}`
@@ -78,13 +77,12 @@ const StoreChangeDetailScreen = (props) => {
   };
   const saveStore = async () => {
     if (!branch || !branch.storeInfo) return;
-    await dispatch(setIsLoading(true));
+    await dispatch({ type: CHANGE_SHOP });
     if (!isJoined) {
       await dispatch(saveUserStore(branch));
       await saveUserStoreToStorage(branch);
       await dispatch(CommonActions.setBottomNavigation(true));
-      await dispatch(CommonActions.setDidTryStorePopup("Home"));
-      await dispatch(setIsLoading(false));
+      await RootNavigation.popToTop();
       return;
     }
     let msg;
@@ -102,7 +100,7 @@ const StoreChangeDetailScreen = (props) => {
             onPressConfirm: () => {
               (async () => {
                 dispatch(setAlert(null));
-                await dispatch(CommonActions.setDidTryStorePopup("Home"));
+                await RootNavigation.popToTop();
               })();
             },
           })
@@ -110,7 +108,7 @@ const StoreChangeDetailScreen = (props) => {
       }
     });
   };
-  if (!branch || isLoading) return <></>;
+  if (!branch) return <></>;
 
   return (
     <BaseScreen

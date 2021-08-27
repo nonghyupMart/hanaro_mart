@@ -24,9 +24,7 @@ export default function App() {
     usePreventScreenCapture();
   }
 
-  useEffect(() => {
-    initStatusBarStyle();
-  }, []);
+  initStatusBarStyle();
 
   if (!fontLoaded) {
     return (

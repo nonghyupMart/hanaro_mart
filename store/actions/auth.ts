@@ -158,7 +158,6 @@ export const setUserStore = (query, userStore) => {
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
         await saveUserStoreToStorage(userStore);
-        await dispatch({ type: actionTypes.CHANGE_SHOP });
         return response.data;
       });
   };
@@ -396,7 +395,7 @@ export const loginWithID = (query) => {
         if (response.data.userInfo) {
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
-          await dispatch(setDidTryStorePopup("Home"));
+          await RootNavigation.popToTop();
         }
         return response.data;
       });

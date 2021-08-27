@@ -24,28 +24,24 @@ import {
   getForegroundNotificationListener,
   createBackHandler,
 } from "../helpers";
-import { RootState } from "../hooks";
+import { RootState, useAppDispatch, useAppSelector } from "../hooks";
 
 const AppNavigator = (props) => {
   const routeNameRef = useRef();
   const routingInstrumentation = props.routingInstrumentation;
   const notificationListener = useRef() as any;
   const responseListener = useRef() as any;
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.common.isLoading);
-  const alert = useSelector((state: RootState) => state.common.alert);
-  const didTryAutoLogin = useSelector(
-    (state: RootState) => state.auth.didTryAutoLogin
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.common.isLoading);
+  const alert = useAppSelector((state) => state.common.alert);
+  const didTryAutoLogin = useAppSelector((state) => state.auth.didTryAutoLogin);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const didTryStorePopup = useAppSelector(
+    (state) => state.common.didTryStorePopup
   );
-  const isJoined = useSelector((state: RootState) => state.auth.isJoined);
-  const didTryStorePopup = useSelector(
-    (state: RootState) => state.common.didTryStorePopup
-  );
-  const isAppUpdated = useSelector(
-    (state: RootState) => state.auth.isAppUpdated
-  );
-  const isBottomNavigation = useSelector(
-    (state: RootState) => state.common.isBottomNavigation
+  const isAppUpdated = useAppSelector((state) => state.auth.isAppUpdated);
+  const isBottomNavigation = useAppSelector(
+    (state) => state.common.isBottomNavigation
   );
 
   useEffect(() => {

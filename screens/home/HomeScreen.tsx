@@ -110,6 +110,7 @@ const HomeScreen = (props: any) => {
 
   // console.log(_.isEmpty(homeProducts));
   // console.log("***************HomeScreen rendered***************");
+  if (!userStore) return <></>;
   return (
     <BaseScreen
       style={styles.screen}
@@ -132,7 +133,7 @@ const HomeScreen = (props: any) => {
         {...props}
       />
       <HomeBanner isFocused={isFocused} />
-      {!_.isEmpty(userStore) && <HomeEvent isFocused={isFocused} />}
+      {!_.isEmpty(userStore) && <HomeEvent />}
       {homeProducts && homeProducts.productList.length > 0 && (
         <HomeProductsHeader />
       )}

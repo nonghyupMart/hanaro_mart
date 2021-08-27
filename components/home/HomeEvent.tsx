@@ -47,6 +47,7 @@ const HomeEvent = () => {
     }
   };
   if (!event || !event.eventList) return <></>;
+  // console.log("HomeEvent - " + Date.now());
   return (
     <RoundedContainer>
       <HomeEventHeader listSize={event.eventList.length} />
@@ -89,9 +90,9 @@ const HomeEvent = () => {
         pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
-        <ShareBanner />
+        <ShareBanner key="shareBanner" />
         {event.eventList.map((item, index) => {
-          return <BannerItem item={item} />;
+          return <BannerItem item={item} key={index.toString()} />;
         })}
       </Carousel>
       <EventTitle>{evTitle}</EventTitle>
@@ -118,4 +119,4 @@ const RoundedContainer = styled.View({
   overflow: "hidden",
 });
 
-export default React.memo(HomeEvent);
+export default HomeEvent;
