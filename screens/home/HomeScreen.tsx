@@ -4,58 +4,49 @@ import {
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import _ from "lodash";
-import React, { useState, useEffect, useRef } from "react";
-import { Platform, StatusBar, StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import FlyerItem from "../../components/flyer/FlyerItem";
 import AppPopup from "../../components/home/AppPopup";
 import HomeBanner from "../../components/home/HomeBanner";
 import HomeEvent from "../../components/home/HomeEvent";
-import HomeProductsHeader, {
-  loadMore,
-} from "../../components/home/HomeProductsHeader";
+import HomeProductsHeader from "../../components/home/HomeProductsHeader";
+import ProductPopup from "../../components/ProductPopup";
 import {
   HomeHeaderLeft,
   HomeHeaderRight,
   LogoTitle,
 } from "../../components/UI/header";
-import { CATEGORY } from "../../constants";
 import colors from "../../constants/Colors";
-import { TabMenus } from "../../constants/menu";
-import { hasUserAndStore } from "../../helpers";
-import * as RootNavigation from "../../navigation/RootNavigation";
-import { SET_NOTIFICATION } from "../../store/actions/actionTypes";
-import * as authActions from "../../store/actions/auth";
-import * as CommonActions from "../../store/actions/common";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import { RootState } from "../../hooks";
-import ProductPopup from "../../components/ProductPopup";
-import * as homeActions from "../../store/actions/home";
-import { changeWishState } from "../../store/actions/common";
+import {
+  hasUserAndStore,
+  processNotifications,
+  setIOSStatusBarStyle,
+  useRedirectToScreenByDidTryStorePopup,
+  useRedirectToScreenByLink,
+} from "../../helpers";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as actionTypes from "../../store/actions/actionTypes";
+import * as authActions from "../../store/actions/auth";
+import { changeWishState } from "../../store/actions/common";
+import * as homeActions from "../../store/actions/home";
 
-const HomeScreen = (props) => {
+const HomeScreen = (props: any) => {
   const page = useRef(1);
-  const navigation = props.navigation;
   const [isVisible, setIsVisible] = useState(false);
-  const dispatch = useDispatch();
-  const didTryStorePopup = useSelector(
-    (state: RootState) => state.common.didTryStorePopup
-  );
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
   const isFocused = useIsFocused();
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const pushToken = useSelector((state: RootState) => state.auth.pushToken);
-  const link = useSelector((state: RootState) => state.common.link);
-  const isLoading = useSelector((state: RootState) => state.common.isLoading);
-  const notification = useSelector(
-    (state: RootState) => state.common.notification
-  );
-  const homeProducts = useSelector(
-    (state: RootState) => state.home.homeProducts
-  );
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const pushToken = useAppSelector((state) => state.auth.pushToken);
+  const homeProducts = useAppSelector((state) => state.home.homeProducts);
   const currentItem = useRef();
+
+  processNotifications();
+  setIOSStatusBarStyle();
+  useRedirectToScreenByLink();
+  useRedirectToScreenByDidTryStorePopup();
 
   useEffect(() => {
     if (!isFocused) return;
@@ -77,72 +68,6 @@ const HomeScreen = (props) => {
     return () => {};
   }, [isFocused]);
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS === "ios") {
-        setTimeout(() => {
-          StatusBar.setBarStyle("dark-content");
-        }, 1000);
-      }
-    })();
-  }, []);
-
-  useEffect(() => {
-    redirectToScreen(link);
-  }, [link]);
-
-  useEffect(() => {
-    if (!userStore || isLoading) return;
-    processNotifications(dispatch, userStore, isLoading, notification);
-    return () => {};
-  }, [userStore, isLoading, notification]);
-
-  useEffect(() => {
-    if (
-      typeof didTryStorePopup !== "string" &&
-      typeof didTryStorePopup !== "object"
-    )
-      return;
-    dispatch(setIsLoading(true));
-    setTimeout(() => {
-      switch (typeof didTryStorePopup) {
-        case "string":
-          navigation.navigate(didTryStorePopup);
-          break;
-        case "object":
-          dispatch(CommonActions.setLink(null));
-          if (didTryStorePopup.link_code) {
-            dispatch(
-              CommonActions.setLink({
-                category: CATEGORY[didTryStorePopup.link_gbn],
-                link_code: didTryStorePopup.link_code,
-              })
-            );
-          }
-          navigation.navigate(CATEGORY[didTryStorePopup.link_gbn]);
-          break;
-
-        default:
-          break;
-      }
-      dispatch(setIsLoading(false));
-      dispatch(CommonActions.setDidTryStorePopup(true));
-    }, 500);
-  }, [didTryStorePopup]);
-
-  const redirectToScreen = (link) => {
-    setTimeout(async () => {
-      if (!link || _.isEmpty(link)) return;
-
-      if (
-        link.link_gbn === "I" &&
-        (_.isEmpty(userInfo) || _.isEmpty(userStore))
-      ) {
-        return await navigation.navigate("Login");
-      }
-      await navigation.navigate(CATEGORY[link.link_gbn]);
-    }, 500);
-  };
   const onPageChanged = (p) => {
     page.current = p;
   };
@@ -178,7 +103,7 @@ const HomeScreen = (props) => {
       beforeDeleteWishItem={beforeDeleteWishItem}
     />
   );
-  if (!isFocused || !userStore) return <></>;
+
   // console.log(_.isEmpty(homeProducts));
   // console.log("***************HomeScreen rendered***************");
   return (
@@ -188,10 +113,11 @@ const HomeScreen = (props) => {
       renderItem={renderItem}
       data={homeProducts && homeProducts.productList}
       numColumns={2}
-      keyExtractor={(item) =>
-        `${userStore.storeInfo.store_cd}-${item.product_cd}`
-      }
-      query={{ store_cd: userStore.storeInfo.store_cd, page: page.current }}
+      keyExtractor={(item) => `${item.product_cd}`}
+      query={{
+        store_cd: userStore && userStore.storeInfo.store_cd,
+        page: page.current,
+      }}
       page={page.current}
       onPageChanged={onPageChanged}
       finalPage={homeProducts && homeProducts.finalPage}
@@ -202,17 +128,9 @@ const HomeScreen = (props) => {
         {...props}
       />
       <HomeBanner isFocused={isFocused} />
-      {!_.isEmpty(userStore) && (
-        <HomeEvent
-          isFocused={isFocused}
-          userStore={userStore}
-          key={`HomeEvent-${userStore.storeInfo.store_cd}`}
-        />
-      )}
-      {homeProducts && homeProducts.productList && (
-        <HomeProductsHeader
-          key={`HomeProducts-${userStore.storeInfo.store_cd}`}
-        />
+      {!_.isEmpty(userStore) && <HomeEvent isFocused={isFocused} />}
+      {homeProducts && homeProducts.productList.length > 0 && (
+        <HomeProductsHeader />
       )}
       <ProductPopup
         item={currentItem.current}
@@ -221,78 +139,6 @@ const HomeScreen = (props) => {
       />
     </BaseScreen>
   );
-};
-
-const processNotifications = (dispatch, userStore, isLoading, notification) => {
-  if (
-    isLoading ||
-    !notification ||
-    !notification.request ||
-    !notification.request.content ||
-    !notification.request.content.data
-  ) {
-    return;
-  }
-
-  (async () => {
-    const category = notification.request.content.data.category;
-    const store_cd = notification.request.content.data.store_cd;
-    const store_nm = notification.request.content.data.store_nm;
-    const cd = notification.request.content.data.cd;
-
-    if (!category) return;
-
-    if (userStore && userStore.storeInfo.store_cd === store_cd) {
-      const currentTab = TabMenus.filter(
-        (tab) => tab.name === CATEGORY[category]
-      );
-      const tab = userStore.menuList.filter(
-        (menu) => menu.r_menu_nm === currentTab[0].title
-      );
-      if (_.isEmpty(tab)) return;
-
-      let param = {};
-      if (!!cd) param["link_code"] = cd;
-      if (!!category) param["category"] = category;
-      switch (category) {
-        case "A": //매장공지
-          if (!!cd) param["notice_cd"] = cd;
-          param["type"] = "C";
-          break;
-        case "H": //통합공지
-          if (!!cd) param["notice_cd"] = cd;
-          param["type"] = "H";
-          break;
-        default:
-          break;
-      }
-      await dispatch(
-        CommonActions.setLink({
-          category: CATEGORY[param["category"]],
-          link_code: param["link_code"],
-        })
-      );
-      setTimeout(() => {
-        RootNavigation.navigate(CATEGORY[param["category"]], param);
-      }, 500);
-    } else {
-      dispatch(
-        setAlert({
-          message: `${store_nm}에서 발송한 알림입니다.\n매장을 변경하시겠습니까?`,
-          confirmText: "매장설정",
-          onPressConfirm: () => {
-            dispatch(setAlert(null));
-            RootNavigation.navigate("Home");
-            RootNavigation.navigate("StoreChange");
-          },
-          onPressCancel: () => {
-            dispatch(setAlert(null));
-          },
-        })
-      );
-    }
-    dispatch({ type: SET_NOTIFICATION, notification: null });
-  })();
 };
 
 export const screenOptions = ({ route, navigation }) => {

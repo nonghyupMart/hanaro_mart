@@ -10,6 +10,7 @@ export const SET_HAS_USER_STORE = "SET_HAS_USER_STORE";
 export const SET_IS_JOINED_USER_HAS_STORE = "SET_IS_JOINED_USER_HAS_STORE";
 export const SET_DID_TRY_AL = "SET_DID_TRY_AL";
 export const WITHDRAWAL = "WITHDRAWAL";
+export const CHANGE_SHOP = "CHANGE_SHOP";
 export const SET_CI = "SET_CI";
 export const SET_IS_APP_UPDATED = "SET_IS_APP_UPDATED";
 export const SET_PUSH_CNT = "SET_PUSH_CNT";

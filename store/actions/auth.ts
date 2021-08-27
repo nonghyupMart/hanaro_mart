@@ -158,7 +158,7 @@ export const setUserStore = (query, userStore) => {
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
         await saveUserStoreToStorage(userStore);
-
+        await dispatch({ type: actionTypes.CHANGE_SHOP });
         return response.data;
       });
   };

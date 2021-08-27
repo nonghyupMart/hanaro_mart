@@ -1,5 +1,5 @@
 export * from "./db"
-export * from "./deep-link"
+export * from "./link"
 export * from "./font"
 export * from "./initialize"
 export * from "./notification"

@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
 import { Image, Platform, TouchableOpacity } from "react-native";
@@ -26,19 +27,19 @@ const HomeEvent = (props: any) => {
   const eventTitle1 = "하나로마트 앱 지인추천하기";
   const [evTitle, setEvTitle] = useState(eventTitle1);
   const [evDate, setEvDate] = useState("");
-  const clearData = () => {
-    dispatch({ type: actionTypes.SET_EVENT, event: null });
-  };
-  useEffect(() => {
-    if (!props.isFocused || _.isEmpty(props.userStore)) return;
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const isFocused = useIsFocused();
 
-    clearData();
+  useEffect(() => {
+    if (!isFocused || _.isEmpty(userStore)) return;
+
     let query = {
-      store_cd: props.userStore.storeInfo.store_cd,
+      store_cd: userStore.storeInfo.store_cd,
       page: 1,
     };
     dispatch(eventActions.fetchEvent(query, true));
-  }, [props.isFocused]);
+  }, [isFocused, userStore]);
+
   const onAnimateNextPage = (index) => {
     if (index === 0) {
       setEvDate(null);
@@ -75,7 +76,6 @@ const HomeEvent = (props: any) => {
         )}
       </TitleContainer>
       <Carousel
-        key={`carousel-${props.userStore.storeInfo.store_cd}`}
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
         style={{

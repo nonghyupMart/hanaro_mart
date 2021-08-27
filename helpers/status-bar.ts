@@ -1,5 +1,6 @@
 import { Platform, StatusBar } from "react-native";
 import colors from "../constants/Colors";
+import { useEffect } from "react";
 
 export const initStatusBarStyle = async () => {
   if (Platform.OS === "android") {
@@ -9,4 +10,16 @@ export const initStatusBarStyle = async () => {
   setTimeout(() => {
     StatusBar.setBarStyle("dark-content");
   }, 3000);
+};
+
+export const setIOSStatusBarStyle = () => {
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS === "ios") {
+        setTimeout(() => {
+          StatusBar.setBarStyle("dark-content");
+        }, 1000);
+      }
+    })();
+  }, []);
 };
