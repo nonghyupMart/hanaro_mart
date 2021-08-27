@@ -60,7 +60,10 @@ const BaseScreen = (props) => {
 
   if (!userInfo || !userStore) return <></>;
   return (
-    <Screen style={props.style} isCenter={props.isCenter}>
+    <Screen
+      style={props.style}
+      isCenter={props.isCenter}
+    >
       {isScroll && (
         <ScrollList
           decelerationRate="fast"

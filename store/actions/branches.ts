@@ -33,15 +33,13 @@ export const fetchAddress2 = (lname) => {
   };
 };
 
-let prevUrl;
 export const fetchBranches = (query) => {
   query.limit = 40;
   const url = queryString.stringifyUrl({
     url: `/store`,
     query: query,
   });
-  if (url === prevUrl) return async (dispatch, getState) => {};
-  prevUrl = url;
+
   return async (dispatch, getState) => {
     return Util.http
       .init({ dispatch: dispatch, isAutoOff: true })

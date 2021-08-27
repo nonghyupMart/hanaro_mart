@@ -1,13 +1,13 @@
 import * as CommonActions from "../store/actions/common";
 import * as Linking from "expo-linking";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { AppDispatch, useAppDispatch, useAppSelector } from "../hooks";
 import _ from "lodash";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { useEffect } from "react";
 import { CATEGORY } from "../constants";
 import { setIsLoading } from "../store/actions/common";
 
-export const initDeepLink = async (dispatch) => {
+export const initDeepLink = async (dispatch: AppDispatch) => {
   const _handleUrl = async (data) => {
     // this.setState({ url });
     if (!data.url) return;
@@ -44,7 +44,7 @@ export const useRedirectToScreenByDidTryStorePopup = () => {
   const didTryStorePopup = useAppSelector(
     (state) => state.common.didTryStorePopup
   );
-  
+
   useEffect(() => {
     if (
       typeof didTryStorePopup !== "string" &&

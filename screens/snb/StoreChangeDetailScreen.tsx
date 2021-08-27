@@ -1,47 +1,42 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { SERVER_URL } from "../../constants";
-import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
-import * as Updates from "expo-updates";
-import { View, StyleSheet, Image } from "react-native";
 import _ from "lodash";
-import { BackButton, TextTitle } from "../../components/UI/header";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, View } from "react-native";
+import styled from "styled-components/native";
+import BaseScreen from "../../components/BaseScreen";
 import {
   BaseButtonContainer,
+  BaseText,
   BaseTouchable,
   SCREEN_WIDTH,
   StyleConstants,
-  BaseText,
 } from "../../components/UI/BaseUI";
 import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import * as Util from "../../utils";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { SERVER_URL } from "../../constants";
 import colors from "../../constants/Colors";
-
-import StoreItem from "../../components/store/StoreItem";
-import BaseScreen from "../../components/BaseScreen";
-import * as homeActions from "../../store/actions/home";
-
-import * as branchesActions from "../../store/actions/branches";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import * as RootNavigation from "../../navigation/RootNavigation";
 import {
-  setUserStore,
   saveUserStore,
   saveUserStoreToStorage,
+  setUserStore,
 } from "../../store/actions/auth";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import { SET_BRANCH } from "../../store/actions/actionTypes";
+import * as branchesActions from "../../store/actions/branches";
 import * as CommonActions from "../../store/actions/common";
-import * as RootNavigation from "../../navigation/RootNavigation";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 const StoreChangeDetailScreen = (props) => {
   const storeItem = props.route.params.item;
-  const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const isJoined = useSelector((state) => state.auth.isJoined);
-  const branch = useSelector((state) => state.branches.branch);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const branch = useAppSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
-  const didTryStorePopup = useSelector((state) => state.common.didTryStorePopup);
+  const didTryStorePopup = useAppSelector(
+    (state) => state.common.didTryStorePopup
+  );
   // useEffect(() => {
   //   return () => {
   //     dispatch({ type: SET_BRANCH, branch: null });
@@ -88,7 +83,7 @@ const StoreChangeDetailScreen = (props) => {
       await dispatch(saveUserStore(branch));
       await saveUserStoreToStorage(branch);
       await dispatch(CommonActions.setBottomNavigation(true));
-      await dispatch(CommonActions.setDidTryStorePopup(false));
+      await dispatch(CommonActions.setDidTryStorePopup("Home"));
       await dispatch(setIsLoading(false));
       return;
     }
@@ -107,8 +102,7 @@ const StoreChangeDetailScreen = (props) => {
             onPressConfirm: () => {
               (async () => {
                 dispatch(setAlert(null));
-                await props.navigation.navigate("Home");
-                await dispatch(CommonActions.setDidTryStorePopup(false));
+                await dispatch(CommonActions.setDidTryStorePopup("Home"));
               })();
             },
           })

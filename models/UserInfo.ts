@@ -1,17 +1,24 @@
 export interface UserInfo {
-  addr: string;
-  addr_no: string;
-  biz_no: string;
-  ceo: string;
-  company_no: string;
-  lat: string;
-  lname: string;
-  lng: string;
-  mname: string;
-  prv_manager: string;
+  amnNo: string;
+  ci: string;
+  di: string;
+  mana_qr: string;
+  marketing_agree: "N" | "Y";
+  marketing_date: string;
+  push_agree: "N" | "Y";
+  push_cnt: number;
+  recommend: string;
+  recommend_apply: "N" | "Y";
+  reg_date: string;
+  sms_agree: "N" | "Y";
   store_cd: number;
-  store_nm: string;
   store_type: string;
-  support_tel: string;
   tel: string;
+  token: string;
+  user_age: string;
+  user_cd: string;
+  user_id: string;
+  user_name: string;
+  user_sex: string;
+  wish_cnt: number;
 }

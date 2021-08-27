@@ -1,28 +1,20 @@
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import React, { useEffect, useState } from "react";
-import { Image, Platform, TouchableOpacity } from "react-native";
+import { Image } from "react-native";
 import styled from "styled-components/native";
-import { CATEGORY } from "../../constants";
 import colors from "../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import * as RootNavigation from "../../navigation/RootNavigation";
-import * as actionTypes from "../../store/actions/actionTypes";
-import * as CommonActions from "../../store/actions/common";
 import * as eventActions from "../../store/actions/event";
 import * as Util from "../../utils";
-import { BaseImage, BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
+import { BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
 import Carousel from "../UI/Carousel";
-import {
-  MoreContainer,
-  MoreText,
-  Title,
-  TitleContainer,
-} from "./HomeProductsHeader";
+import BannerItem from "./homeEvent/BannerItem";
+import HomeEventHeader from "./homeEvent/HomeEventHeader";
+import ShareBanner from "./homeEvent/ShareBanner";
 
-const HomeEvent = (props: any) => {
+const HomeEvent = () => {
   const dispatch = useAppDispatch();
-  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const event = useAppSelector((state) => state.event.event);
   const eventTitle1 = "하나로마트 앱 지인추천하기";
   const [evTitle, setEvTitle] = useState(eventTitle1);
@@ -34,7 +26,7 @@ const HomeEvent = (props: any) => {
     if (!isFocused || _.isEmpty(userStore)) return;
 
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: userStore && userStore.storeInfo.store_cd,
       page: 1,
     };
     dispatch(eventActions.fetchEvent(query, true));
@@ -42,7 +34,7 @@ const HomeEvent = (props: any) => {
 
   const onAnimateNextPage = (index) => {
     if (index === 0) {
-      setEvDate(null);
+      setEvDate("");
       return setEvTitle(eventTitle1);
     }
     if (event && event.eventList && _.size(event.eventList) > 0) {
@@ -57,24 +49,7 @@ const HomeEvent = (props: any) => {
   if (!event || !event.eventList) return <></>;
   return (
     <RoundedContainer>
-      <TitleContainer>
-        {_.size(event.eventList) > 0 && (
-          <>
-            <Title style={{ fontSize: Util.normalize(9), lineHeight: null }}>
-              {" "}
-            </Title>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => RootNavigation.navigate("Event")}
-            >
-              <MoreContainer>
-                <MoreText>더보기</MoreText>
-                <Image source={require("../../assets/images/path2.png")} />
-              </MoreContainer>
-            </TouchableOpacity>
-          </>
-        )}
-      </TitleContainer>
+      <HomeEventHeader listSize={event.eventList.length} />
       <Carousel
         onAnimateNextPage={onAnimateNextPage}
         delay={3000}
@@ -111,53 +86,12 @@ const HomeEvent = (props: any) => {
           paddingBottom: 4,
         }}
         pageInfoBackgroundColor={"transparent"}
-        pageInfoTextStyle={{ color: colors.trueWhite, fontSize: 12 }}
+        pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 12 }}
         pageInfoTextSeparator="/"
       >
-        <TouchableOpacity
-          key="inviteFriends"
-          activeOpacity={0.8}
-          onPress={Util.sendShareLink.bind(
-            this,
-            userInfo ? userInfo.recommend : null
-          )}
-        >
-          <Image
-            source={require("../../assets/images/event_banner.png")}
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundColor:
-                Platform.OS === "android" ? colors.WHITE : "transparent",
-            }}
-            defaultSource={require("../../assets/images/b_img500.png")}
-            resizeMode="stretch"
-          />
-        </TouchableOpacity>
+        <ShareBanner />
         {event.eventList.map((item, index) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              key={item.event_cd}
-              onPress={async () => {
-                await dispatch(
-                  CommonActions.setLink({
-                    category: CATEGORY["E"],
-                    link_code: item.event_cd,
-                  })
-                );
-                await RootNavigation.navigate("Event", {
-                  event_cd: item.event_cd,
-                });
-              }}
-              style={{
-                aspectRatio: 1 / 0.34756097560976,
-                width: SCREEN_WIDTH - 48,
-              }}
-            >
-              <BannerItem item={item} />
-            </TouchableOpacity>
-          );
+          return <BannerItem item={item} />;
         })}
       </Carousel>
       <EventTitle>{evTitle}</EventTitle>
@@ -183,22 +117,5 @@ const RoundedContainer = styled.View({
   borderRadius: 10,
   overflow: "hidden",
 });
-const BannerItem = (props) => {
-  return (
-    <BaseImage
-      style={{
-        aspectRatio: 1 / 0.34756097560976,
-        width: SCREEN_WIDTH - 48,
-        borderRadius: 10,
-        overflow: "hidden",
-        backgroundColor:
-          Platform.OS === "android" ? colors.WHITE : "transparent",
-      }}
-      resizeMode="cover"
-      source={props.item.title_img}
-      defaultSource={require("../../assets/images/b_img500.png")}
-    />
-  );
-};
 
 export default React.memo(HomeEvent);

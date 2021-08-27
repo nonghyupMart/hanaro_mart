@@ -1,6 +1,5 @@
 import React, { useEffect, useState, Fragment, useRef } from "react";
 import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, AppState } from "react-native";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
@@ -16,22 +15,23 @@ import _ from "lodash";
 import * as branchesActions from "../../store/actions/branches";
 import { PADDING_BOTTOM_MENU } from "../../constants";
 import * as CommonActions from "../../store/actions/common";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 
 const StoreChangeScreen = (props) => {
-  const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isJoined = useSelector((state) => state.auth.isJoined);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const [lname, setLname] = useState(null);
   const [mname, setMname] = useState(null);
   const [store_nm, setStore_nm] = useState("");
   const pageNum = useRef(1);
 
-  const address1 = useSelector((state) => state.branches.address1);
-  const address2 = useSelector((state) => state.branches.address2);
-  const branches = useSelector((state) => state.branches.branches);
-  const storeMark = useSelector((state) => state.branches.storeMark);
+  const address1 = useAppSelector((state) => state.branches.address1);
+  const address2 = useAppSelector((state) => state.branches.address2);
+  const branches = useAppSelector((state) => state.branches.branches);
+  const storeMark = useAppSelector((state) => state.branches.storeMark);
   const [location, setLocation] = useState(null);
   useEffect(() => {
     (async () => {

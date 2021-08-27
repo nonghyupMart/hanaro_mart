@@ -58,15 +58,19 @@ const HomeScreen = (props: any) => {
       userStore: userStore,
     });
 
+    return () => {};
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (!userStore || !userInfo) return;
+
     let query = {
       store_cd: userStore.storeInfo.store_cd,
-      page: 1,
+      page: page.current,
     };
     if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
     dispatch(homeActions.fetchHomeProducts(query));
-
-    return () => {};
-  }, [isFocused]);
+  }, [userStore, userInfo]);
 
   const onPageChanged = (p) => {
     page.current = p;
