@@ -395,7 +395,7 @@ export const loginWithID = (query) => {
         if (response.data.userInfo) {
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
-          await RootNavigation.popToTop();
+          await dispatch(setDidTryStorePopup("Home"));
         }
         return response.data;
       });

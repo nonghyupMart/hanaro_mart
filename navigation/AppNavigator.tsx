@@ -1,30 +1,28 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as Analytics from "expo-firebase-analytics";
 import { NavigationContainer } from "@react-navigation/native";
-import { MainNavigator } from "./MainNavigator";
-import { navigationRef, isReadyRef } from "./RootNavigation";
+import * as Analytics from "expo-firebase-analytics";
+import * as Notifications from "expo-notifications";
+import React, { useEffect, useRef } from "react";
+import { AppState, BackHandler } from "react-native";
+import Alert from "../components/UI/Alert";
+import Loading from "../components/UI/Loading";
+import {
+  createBackHandler,
+  getBackgroundNotificationListener,
+  getForegroundNotificationListener,
+  getNotificationData,
+  handleAppStateChange,
+  initDeepLink,
+  theme,
+  validateRooting,
+} from "../helpers";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import StartupScreen from "../screens/StartupScreen";
 import StorePopupScreen from "../screens/StorePopupScreen";
 import UpdateScreen from "../screens/UpdateScreen";
-import Alert from "../components/UI/Alert";
-import Loading from "../components/UI/Loading";
 import * as CommonActions from "../store/actions/common";
-import * as Notifications from "expo-notifications";
-import { BackHandler, AppState } from "react-native";
-import _ from "lodash";
 import * as Util from "../utils";
-import {
-  initDeepLink,
-  getNotificationData,
-  validateRooting,
-  theme,
-  handleAppStateChange,
-  getBackgroundNotificationListener,
-  getForegroundNotificationListener,
-  createBackHandler,
-} from "../helpers";
-import { RootState, useAppDispatch, useAppSelector } from "../hooks";
+import { MainNavigator } from "./MainNavigator";
+import { isReadyRef, navigationRef } from "./RootNavigation";
 
 const AppNavigator = (props) => {
   const routeNameRef = useRef();
@@ -35,7 +33,6 @@ const AppNavigator = (props) => {
   const isLoading = useAppSelector((state) => state.common.isLoading);
   const alert = useAppSelector((state) => state.common.alert);
   const didTryAutoLogin = useAppSelector((state) => state.auth.didTryAutoLogin);
-  const isJoined = useAppSelector((state) => state.auth.isJoined);
   const didTryStorePopup = useAppSelector(
     (state) => state.common.didTryStorePopup
   );
@@ -87,8 +84,8 @@ const AppNavigator = (props) => {
 
   const currentScreen = () => {
     if (!isAppUpdated) return <UpdateScreen />;
+    else if (!didTryAutoLogin) return <StartupScreen />;
     else if (didTryAutoLogin && !didTryStorePopup) return <StorePopupScreen />;
-    else if (!didTryAutoLogin && !didTryStorePopup) return <StartupScreen />;
     else if (didTryAutoLogin && didTryStorePopup) return <MainNavigator />;
     return <StartupScreen />;
   };

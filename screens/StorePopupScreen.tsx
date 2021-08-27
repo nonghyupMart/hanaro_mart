@@ -1,40 +1,32 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
-import styled from "styled-components/native";
-import Modal from "react-native-modal";
-import Carousel from "../components/UI/Carousel";
 import {
-  StyleConstants,
-  BaseImage,
-  ScaledImage,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "../components/UI/BaseUI";
-import _ from "lodash";
-import * as Linking from "expo-linking";
-import * as CommonActions from "../store/actions/common";
-import * as homeActions from "../store/actions/home";
-import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity, Platform } from "react-native";
-import { SET_STORE_POPUP } from "../store/actions/actionTypes";
-import moment from "moment";
-import {
-  createStackNavigator,
   CardStyleInterpolators,
   HeaderStyleInterpolators,
 } from "@react-navigation/stack";
-import { getIsStorePopup } from "./StartupScreen";
+import * as Linking from "expo-linking";
+import _ from "lodash";
+import moment from "moment";
+import React, { useEffect } from "react";
+import { Platform, TouchableOpacity } from "react-native";
+import styled from "styled-components/native";
+import {
+  BaseImage,
+  BaseText,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from "../components/UI/BaseUI";
+import Carousel from "../components/UI/Carousel";
 import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { SET_STORE_POPUP } from "../store/actions/actionTypes";
+import * as CommonActions from "../store/actions/common";
+import * as homeActions from "../store/actions/home";
+import { getDateForStorePopup } from "./StartupScreen";
 
 const StorePopupScreen = (props) => {
-  const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const storePopup = useSelector((state) => state.home.storePopup);
-  let isPopupStoreFromStorage;
-  (async () => {
-    isPopupStoreFromStorage = await getIsStorePopup(dispatch);
-  })();
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const storePopup = useAppSelector((state) => state.home.storePopup);
+
   useEffect(() => {
     return () => {
       dispatch(CommonActions.setIsLoading(false));
@@ -47,43 +39,39 @@ const StorePopupScreen = (props) => {
   }, []);
 
   useEffect(() => {
+    if (_.isEmpty(userStore)) {
+      dispatch(CommonActions.setDidTryStorePopup(true));
+      return;
+    }
     (async () => {
-      if (
-        !_.isEmpty(userStore) &&
-        userStore.storeInfo &&
-        userStore.storeInfo.store_cd
-      ) {
-        dispatch(
-          homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
-        ).then(async (data) => {
-          // console.warn("storePopup.popupCnt", data.popupCnt);
-          if (data.popupCnt > 0) {
-            let setDate = moment().subtract(1, "days");
+      dispatch(
+        homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
+      ).then(async (data) => {
+        // console.warn("storePopup.popupCnt", data.popupCnt);
 
-            // console.warn(isPopupStoreFromStorage);
-            if (isPopupStoreFromStorage[userStore.storeInfo.store_cd]) {
-              setDate = moment(
-                isPopupStoreFromStorage[userStore.storeInfo.store_cd]
-              );
-            }
-            //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
-            if (!moment(setDate).isBefore(moment(), "day")) {
-              dispatch(CommonActions.setDidTryStorePopup(true));
-            }
-          } else {
+        if (data.popupCnt > 0) {
+          let setDate = moment().subtract(1, "days");
+          let isPopupStoreFromStorage = await getDateForStorePopup(dispatch);
+          // console.warn(isPopupStoreFromStorage);
+          if (isPopupStoreFromStorage[userStore.storeInfo.store_cd]) {
+            setDate = moment(
+              isPopupStoreFromStorage[userStore.storeInfo.store_cd]
+            );
+          }
+          //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
+          if (!moment(setDate).isBefore(moment(), "day")) {
             dispatch(CommonActions.setDidTryStorePopup(true));
           }
-        });
-      } else {
-        dispatch(CommonActions.setDidTryStorePopup(true));
-      }
+        } else {
+          dispatch(CommonActions.setDidTryStorePopup(true));
+        }
+      });
     })();
-    return () => {};
   }, [userStore]);
 
   const setDisablePopup = () => {
     (async () => {
-      const isPopupStoreFromStorage = await getIsStorePopup(dispatch);
+      const isPopupStoreFromStorage = await getDateForStorePopup(dispatch);
       await CommonActions.saveDateForStorePopupToStorage(
         isPopupStoreFromStorage,
         userStore.storeInfo.store_cd,
@@ -92,6 +80,7 @@ const StorePopupScreen = (props) => {
       await dispatch(CommonActions.setDidTryStorePopup(true));
     })();
   };
+
   if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt <= 0)
     //매장이 있는 경우만 매장 팝업
     return <></>;

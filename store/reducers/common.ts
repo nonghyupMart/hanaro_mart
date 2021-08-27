@@ -2,8 +2,8 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
   isBottomNavigation: true,
-  isStorePopup: {},
-  isAppPopup: true,
+  dateForStorePopup: null,
+  shouldShowAppPopup: true,
   alert: null,
   isLoading: false,
   headerHeight: 0,
@@ -41,15 +41,15 @@ export default (state = initialState, action) => {
         headerHeight: action.headerHeight,
       };
 
-    case actionTypes.SET_IS_STORE_POPUP:
+    case actionTypes.SET_DATE_FOR_STORE_POPUP:
       return {
         ...state,
-        isStorePopup: { ...action.isStorePopup },
+        dateForStorePopup: { ...action.dateForStorePopup },
       };
-    case actionTypes.SET_IS_APP_POPUP:
+    case actionTypes.SET_SHOULD_SHOW_APP_POPUP:
       return {
         ...state,
-        isAppPopup: action.isAppPopup,
+        shouldShowAppPopup: action.shouldShowAppPopup,
       };
     case actionTypes.SET_ALERT:
       return {

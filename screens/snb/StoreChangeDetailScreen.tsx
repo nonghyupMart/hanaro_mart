@@ -82,7 +82,7 @@ const StoreChangeDetailScreen = (props) => {
       await dispatch(saveUserStore(branch));
       await saveUserStoreToStorage(branch);
       await dispatch(CommonActions.setBottomNavigation(true));
-      await RootNavigation.popToTop();
+      await dispatch(CommonActions.setDidTryStorePopup(false));
       return;
     }
     let msg;
@@ -100,7 +100,7 @@ const StoreChangeDetailScreen = (props) => {
             onPressConfirm: () => {
               (async () => {
                 dispatch(setAlert(null));
-                await RootNavigation.popToTop();
+                await dispatch(CommonActions.setDidTryStorePopup(false));
               })();
             },
           })

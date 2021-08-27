@@ -46,31 +46,31 @@ export const setHeaderHeight = (headerHeight) => {
   };
 };
 
-export const setIsStorePopup = (isStorePopup) => {
+export const setDateForStorePopup = (dateForStorePopup) => {
   return {
-    type: actionTypes.SET_IS_STORE_POPUP,
-    isStorePopup: isStorePopup,
+    type: actionTypes.SET_DATE_FOR_STORE_POPUP,
+    dateForStorePopup: dateForStorePopup,
   };
 };
 
 export const saveDateForStorePopupToStorage = (
-  isStorePopup,
+  dateForStorePopup,
   store_cd,
   dispatch
 ) => {
   return (async () => {
     const expirationDate = await new Date(new Date().getTime());
-    isStorePopup[store_cd] = expirationDate.toISOString();
+    dateForStorePopup[store_cd] = expirationDate.toISOString();
     // console.warn("1일 닫기 ", isStorePopup);
-    await dispatch(setIsStorePopup(isStorePopup));
-    await Util.setStorageItem("dateForStorePopupData", isStorePopup);
+    await dispatch(setDateForStorePopup(dateForStorePopup));
+    await Util.setStorageItem("dateForStorePopupData", dateForStorePopup);
   })();
 };
 
-export const setIsAppPopup = (isAppPopup) => {
+export const setShouldShowAppPopup = (shouldShowAppPopup: boolean) => {
   return {
-    type: actionTypes.SET_IS_APP_POPUP,
-    isAppPopup: isAppPopup,
+    type: actionTypes.SET_SHOULD_SHOW_APP_POPUP,
+    shouldShowAppPopup: shouldShowAppPopup,
   };
 };
 

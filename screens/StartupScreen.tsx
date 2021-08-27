@@ -1,24 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-
-import * as authActions from "../store/actions/auth";
-import Splash from "../components/UI/Splash";
-import * as CommonActions from "../store/actions/common";
-import moment from "moment";
-import * as Util from "../utils";
-import _ from "lodash";
-import * as SplashScreen from "expo-splash-screen";
-import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import * as Location from "expo-location";
+import * as Notifications from "expo-notifications";
+import * as SplashScreen from "expo-splash-screen";
+import _ from "lodash";
+import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import Splash from "../components/UI/Splash";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import * as authActions from "../store/actions/auth";
 import * as branchesActions from "../store/actions/branches";
+import * as CommonActions from "../store/actions/common";
+import * as Util from "../utils";
 
 const StartupScreen = (props) => {
-  const dispatch = useDispatch();
-  const isJoined = useSelector((state) => state.auth.isJoined);
+  const dispatch = useAppDispatch();
   const permissionStatus = useRef();
-  const userStore = useSelector((state) => state.auth.userStore);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const dateForStorePopup = useAppSelector(
+    (state) => state.common.dateForStorePopup
+  );
   const timerRef = useRef();
 
   useEffect(() => {
@@ -29,14 +30,14 @@ const StartupScreen = (props) => {
       await getLocationPermission();
       await getUserInfoFromStorage();
       await getUserStoreDataFromStorage();
-      await getIsStorePopup(dispatch);
+      await getDateForStorePopup(dispatch);
       await initAppPopupData();
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
-      if (isJoined === null) return;
+      if (isJoined === null || !userStore) return;
       if (isJoined || !_.isEmpty(userStore)) {
         // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
         await finish();
@@ -54,6 +55,11 @@ const StartupScreen = (props) => {
     })();
   }, [isJoined, userStore]);
 
+  useEffect(() => {
+    if (!dateForStorePopup) return;
+    defineShouldStorePopup(dispatch, dateForStorePopup, userStore);
+  }, [dateForStorePopup, userStore]);
+
   const initAppPopupData = async () => {
     const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
     setDate = moment().subtract(1, "days");
@@ -61,7 +67,9 @@ const StartupScreen = (props) => {
 
     //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
     await dispatch(
-      CommonActions.setIsAppPopup(moment(setDate).isBefore(moment(), "day"))
+      CommonActions.setShouldShowAppPopup(
+        moment(setDate).isBefore(moment(), "day")
+      )
     );
   };
 
@@ -72,8 +80,8 @@ const StartupScreen = (props) => {
 
   const getUserStoreDataFromStorage = async () => {
     try {
-      const userStoreData = await Util.getStorageItem("userStoreData");
-      if (!userStoreData) return;
+      let userStoreData = await Util.getStorageItem("userStoreData");
+      if (!userStoreData) userStoreData = {};
       await dispatch(authActions.saveUserStore(userStoreData));
     } catch (e) {
       Util.log(e);
@@ -152,10 +160,24 @@ const StartupScreen = (props) => {
   return <Splash />;
 };
 
-export const getIsStorePopup = async (dispatch) => {
+export const getDateForStorePopup = async (dispatch) => {
   const dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
   if (!dateForStorePopup) return {};
-  await dispatch(CommonActions.setIsStorePopup(dateForStorePopup));
+  await dispatch(CommonActions.setDateForStorePopup(dateForStorePopup));
   return dateForStorePopup;
+};
+
+const defineShouldStorePopup = (dispatch, dateForStorePopup, userStore) => {
+
+
+  let setDate = moment().subtract(1, "days");
+  if (dateForStorePopup[userStore.storeInfo.store_cd]) {
+    setDate = moment(dateForStorePopup[userStore.storeInfo.store_cd]);
+  }
+
+  //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
+  if (!moment(setDate).isBefore(moment(), "day")) {
+    dispatch(CommonActions.setDidTryStorePopup(true));
+  }
 };
 export default StartupScreen;
