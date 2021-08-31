@@ -1,20 +1,19 @@
-import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
-import styled from "styled-components/native";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-import BaseScreen from "../../components/BaseScreen";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import * as couponActions from "../../store/actions/coupon";
-import CouponItem from "../../components/CouponItem";
-import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { BackButton, TextTitle } from "../../components/UI/header";
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
-import { setAlert, setIsLoading, setLink } from "../../store/actions/common";
-import NoList from "../../components/UI/NoList";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
+import BaseScreen from "../../components/BaseScreen";
+import CouponItem from "../../components/CouponItem";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
-import { checkAuth } from "../../store/actions/auth";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import NoList from "../../components/UI/NoList";
 import colors from "../../constants/Colors";
+import { checkAuth } from "../../store/actions/auth";
+import { setLink } from "../../store/actions/common";
+import * as couponActions from "../../store/actions/coupon";
 
 const CouponScreen = (props) => {
   const eventCategory = [
