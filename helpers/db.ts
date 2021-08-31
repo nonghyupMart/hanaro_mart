@@ -9,11 +9,12 @@ export const initSQLite = () => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS memo (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, isChecked INTEGER NOT NULL DEFAULT 0);",
         [],
-          (_, result) => {
-         resolve(result)
+        (_, result) => {
+          resolve(result);
         },
         (_, err): boolean => {
           resolve([]);
+          Util.error(err);
           return false;
         }
       );
@@ -22,17 +23,18 @@ export const initSQLite = () => {
   return promise;
 };
 
-export const insertMemo =(title, isChecked) => {
+export const insertMemo = (title, isChecked) => {
   const promise = new Promise((resolve, reject) => {
     db.transaction((tx) => {
       tx.executeSql(
         `INSERT INTO memo (title, isChecked) VALUES (?, ?);`,
         [title, !!Number(isChecked) ? 1 : 0],
         (_, result) => {
-         resolve(result)
+          resolve(result);
         },
         (_, err) => {
-           resolve([]);
+          resolve([]);
+          Util.error(err);
           return false;
         }
       );
@@ -51,7 +53,8 @@ export const deleteMemo = (id) => {
           resolve(result);
         },
         (_, err) => {
-           resolve([]);
+          resolve([]);
+          Util.error(err);
           return false;
         }
       );
@@ -70,7 +73,8 @@ export const updateMemo = (id, title, isChecked) => {
           resolve(result);
         },
         (_, err) => {
-           resolve([]);
+          resolve([]);
+          Util.error(err);
           return false;
         }
       );
@@ -90,6 +94,7 @@ export const fetchMemo = () => {
         },
         (_, err) => {
           resolve([]);
+          Util.error(err);
           return false;
         }
       );
@@ -107,8 +112,8 @@ export const dropTable = () => {
         Util.log("Successfully Dropped");
       },
       function (db, error) {
-        Util.log("Could not delete");
-        return false
+        Util.error("Could not delete");
+        return false;
       }
     );
   });

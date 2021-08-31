@@ -16,3 +16,9 @@ export const warn = (...val) => {
     // console.warn(JSON.stringify(userStore, null, "\t"));
   }
 };
+
+export const error = (...val) => {
+  if (__DEV__) {
+    console.error(...val);
+  }
+};

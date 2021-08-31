@@ -3,7 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   isBottomNavigation: true,
   dateForStorePopup: null,
-  shouldShowAppPopup: true,
+  shouldShowAppPopup: null,
   alert: null,
   isLoading: false,
   headerHeight: 0,

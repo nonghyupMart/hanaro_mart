@@ -63,7 +63,7 @@ const StartupScreen = (props) => {
 
   const initAppPopupData = async () => {
     const dateForAppPopup = await Util.getStorageItem("dateForAppPopupData");
-    setDate = moment().subtract(1, "days");
+    let setDate = moment().subtract(1, "days");
     if (dateForAppPopup) setDate = moment(dateForAppPopup);
 
     //1일동안 보지 않기 설정한 날짜가 오늘보다 이전이면 true
@@ -162,8 +162,9 @@ const StartupScreen = (props) => {
 };
 
 export const getDateForStorePopup = async (dispatch) => {
-  const dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
-  if (!dateForStorePopup) return {};
+  let dateForStorePopup = await Util.getStorageItem("dateForStorePopupData");
+
+  if (!dateForStorePopup) dateForStorePopup = {};
   await dispatch(CommonActions.setDateForStorePopup(dateForStorePopup));
   return dateForStorePopup;
 };
@@ -174,8 +175,8 @@ export const defineShouldShowStorePopup = (
   userStore: UserStore
 ): boolean => {
   let setDate = moment().subtract(1, "days");
-  if (dateForStorePopup[userStore.storeInfo.store_cd]) {
-    setDate = moment(dateForStorePopup[userStore.storeInfo.store_cd]);
+  if (dateForStorePopup[userStore.storeInfo?.store_cd]) {
+    setDate = moment(dateForStorePopup[userStore.storeInfo?.store_cd]);
   }
 
   if (!moment(setDate).isBefore(moment(), "day")) {

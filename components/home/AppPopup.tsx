@@ -13,27 +13,24 @@ import Carousel from "../UI/Carousel";
 
 const AppPopup = (props) => {
   const dispatch = useAppDispatch();
-  const shouldShowAppPopup = useAppSelector((state) => state.common.shouldShowAppPopup);
+  const shouldShowAppPopup = useAppSelector(
+    (state) => state.common.shouldShowAppPopup
+  );
   const [isVisible, setIsVisible] = useState(false);
   const appPopup = useAppSelector((state) => state.home.appPopup);
   const didTryStorePopup = useAppSelector(
     (state) => state.common.didTryStorePopup
   );
-  useEffect(() => {
-    if (shouldShowAppPopup && props.isFocused && typeof didTryStorePopup !== "string") {
-      setIsVisible(true);
-    }
-    if (!props.isFocused) {
-      setIsVisible(false);
-    }
-  }, [shouldShowAppPopup, props.isFocused]);
+
   useEffect(() => {
     if (!_.isEmpty(appPopup) || !shouldShowAppPopup || !props.isFocused) {
       return;
     }
 
+    setIsVisible(shouldShowAppPopup && props.isFocused);
+
     dispatch(homeActions.fetchPopup({}, true));
-  }, [props.isFocused]);
+  }, [props.isFocused, shouldShowAppPopup]);
 
   const setDisablePopup = () => {
     CommonActions.saveDateForAppPopupToStorage();

@@ -1,10 +1,9 @@
 import {
   CardStyleInterpolators,
-  HeaderStyleInterpolators,
+  HeaderStyleInterpolators
 } from "@react-navigation/stack";
 import * as Linking from "expo-linking";
 import _ from "lodash";
-import moment from "moment";
 import React, { useEffect } from "react";
 import { Platform, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
@@ -12,7 +11,7 @@ import {
   BaseImage,
   BaseText,
   SCREEN_HEIGHT,
-  SCREEN_WIDTH,
+  SCREEN_WIDTH
 } from "../components/UI/BaseUI";
 import Carousel from "../components/UI/Carousel";
 import colors from "../constants/Colors";
@@ -20,7 +19,10 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { SET_STORE_POPUP } from "../store/actions/actionTypes";
 import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
-import { defineShouldShowStorePopup, getDateForStorePopup } from "./StartupScreen";
+import {
+  defineShouldShowStorePopup,
+  getDateForStorePopup
+} from "./StartupScreen";
 
 const StorePopupScreen = (props) => {
   const dispatch = useAppDispatch();
@@ -84,7 +86,7 @@ const StorePopupScreen = (props) => {
     !userStore ||
     _.isEmpty(userStore) ||
     storePopup.popupCnt <= 0 ||
-    _.isEmpty(dateForStorePopup)
+    !dateForStorePopup
   )
     //매장이 있는 경우만 매장 팝업
     return <></>;
