@@ -6,7 +6,8 @@ import _ from "lodash";
 import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import Splash from "../components/UI/Splash";
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { AppDispatch, useAppDispatch, useAppSelector } from "../hooks";
+import { UserStore } from "../models/UserStore";
 import * as authActions from "../store/actions/auth";
 import * as branchesActions from "../store/actions/branches";
 import * as CommonActions from "../store/actions/common";
@@ -57,7 +58,7 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     if (!dateForStorePopup) return;
-    defineShouldStorePopup(dispatch, dateForStorePopup, userStore);
+    defineShouldShowStorePopup(dispatch, dateForStorePopup, userStore);
   }, [dateForStorePopup, userStore]);
 
   const initAppPopupData = async () => {
@@ -167,17 +168,21 @@ export const getDateForStorePopup = async (dispatch) => {
   return dateForStorePopup;
 };
 
-const defineShouldStorePopup = (dispatch, dateForStorePopup, userStore) => {
-
-
+export const defineShouldShowStorePopup = (
+  dispatch: AppDispatch,
+  dateForStorePopup: any,
+  userStore: UserStore
+): boolean => {
   let setDate = moment().subtract(1, "days");
   if (dateForStorePopup[userStore.storeInfo.store_cd]) {
     setDate = moment(dateForStorePopup[userStore.storeInfo.store_cd]);
   }
 
-  //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
   if (!moment(setDate).isBefore(moment(), "day")) {
     dispatch(CommonActions.setDidTryStorePopup(true));
+    return false;
   }
+  return true;
 };
+
 export default StartupScreen;

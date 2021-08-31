@@ -20,12 +20,15 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { SET_STORE_POPUP } from "../store/actions/actionTypes";
 import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
-import { getDateForStorePopup } from "./StartupScreen";
+import { defineShouldShowStorePopup, getDateForStorePopup } from "./StartupScreen";
 
 const StorePopupScreen = (props) => {
   const dispatch = useAppDispatch();
   const userStore = useAppSelector((state) => state.auth.userStore);
   const storePopup = useAppSelector((state) => state.home.storePopup);
+  const dateForStorePopup = useAppSelector(
+    (state) => state.common.dateForStorePopup
+  );
 
   useEffect(() => {
     return () => {
@@ -39,49 +42,50 @@ const StorePopupScreen = (props) => {
   }, []);
 
   useEffect(() => {
+    if (!dateForStorePopup) return;
+
     if (_.isEmpty(userStore)) {
       dispatch(CommonActions.setDidTryStorePopup(true));
       return;
     }
+
+    const shouldShowStorePopup = defineShouldShowStorePopup(
+      dispatch,
+      dateForStorePopup,
+      userStore!
+    );
+    if (!shouldShowStorePopup) return;
+
     (async () => {
       dispatch(
-        homeActions.fetchPopup({ store_cd: userStore.storeInfo.store_cd })
+        homeActions.fetchPopup({ store_cd: userStore!.storeInfo.store_cd })
       ).then(async (data) => {
-        // console.warn("storePopup.popupCnt", data.popupCnt);
-
-        if (data.popupCnt > 0) {
-          let setDate = moment().subtract(1, "days");
-          let isPopupStoreFromStorage = await getDateForStorePopup(dispatch);
-          // console.warn(isPopupStoreFromStorage);
-          if (isPopupStoreFromStorage[userStore.storeInfo.store_cd]) {
-            setDate = moment(
-              isPopupStoreFromStorage[userStore.storeInfo.store_cd]
-            );
-          }
-          //   setIsVisible(moment(setDate).isBefore(moment(), "day"));
-          if (!moment(setDate).isBefore(moment(), "day")) {
-            dispatch(CommonActions.setDidTryStorePopup(true));
-          }
-        } else {
+        if (data.popupCnt <= 0) {
           dispatch(CommonActions.setDidTryStorePopup(true));
         }
       });
     })();
-  }, [userStore]);
+  }, [userStore, dateForStorePopup]);
 
   const setDisablePopup = () => {
     (async () => {
       const isPopupStoreFromStorage = await getDateForStorePopup(dispatch);
       await CommonActions.saveDateForStorePopupToStorage(
         isPopupStoreFromStorage,
-        userStore.storeInfo.store_cd,
+        userStore!.storeInfo.store_cd,
         dispatch
       );
       await dispatch(CommonActions.setDidTryStorePopup(true));
     })();
   };
 
-  if (_.isEmpty(storePopup) || _.isEmpty(userStore) || storePopup.popupCnt <= 0)
+  if (
+    !storePopup ||
+    !userStore ||
+    _.isEmpty(userStore) ||
+    storePopup.popupCnt <= 0 ||
+    _.isEmpty(dateForStorePopup)
+  )
     //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
