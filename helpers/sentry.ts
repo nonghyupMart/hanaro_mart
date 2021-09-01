@@ -9,7 +9,7 @@ export const routingInstrumentation =
 Sentry.init({
   dsn: "https://f9dc315fd77b4b46886b29ceb067bcb3@o941457.ingest.sentry.io/5890267",
   enableInExpoDevelopment: false,
-  debug: false, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
+  debug: __DEV__, // Sentry will try to print out useful debugging information if something goes wrong with sending an event. Set this to `false` in production.
   integrations: [
     new Sentry.Native.ReactNativeTracing({
       routingInstrumentation,

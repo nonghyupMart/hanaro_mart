@@ -11,7 +11,7 @@ export const navigate = (name: string, params = {}) => {
   }
 };
 
-export const replace = (...args) => {
+export const replace = (...args: any) => {
   if (isReadyRef.current && navigationRef.current) {
     navigationRef.current?.dispatch(StackActions.replace([...args] as any));
   }
