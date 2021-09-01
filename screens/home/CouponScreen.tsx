@@ -126,7 +126,7 @@ const CouponScreen = (props) => {
       );
     }
   };
-  if (!coupon) return <></>;
+  if (!coupon || _.isEmpty(userStore)) return <></>;
   if (routeName === "MyCoupon" && _.size(coupon.couponList) === 0)
     return (
       <>
