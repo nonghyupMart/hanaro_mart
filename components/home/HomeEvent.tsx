@@ -35,9 +35,15 @@ const HomeEvent = () => {
   const onAnimateNextPage = (index) => {
     if (index === 0) {
       setEvDate("");
-      return setEvTitle(eventTitle1);
+      setEvTitle(eventTitle1);
+      return;
     }
-    if (event && event.eventList && _.size(event.eventList) > 0) {
+    if (
+      event &&
+      event.eventList &&
+      _.size(event.eventList) > 0 &&
+      event.eventList[index - 1]
+    ) {
       setEvTitle(event.eventList[index - 1].title);
       setEvDate(
         `헹사기간 : ${event.eventList[index - 1].start_date} ~ ${
