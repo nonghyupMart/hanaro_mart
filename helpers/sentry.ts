@@ -1,7 +1,7 @@
 import * as Sentry from "sentry-expo";
-import { RewriteFrames as RewriteFramesIntegration } from "@sentry/integrations";
+// import { RewriteFrames as RewriteFramesIntegration } from "@sentry/integrations";
 import { SERVER_URL } from "../constants";
-import { Platform } from "react-native";
+// import { Platform } from "react-native";
 
 export const routingInstrumentation =
   new Sentry.Native.ReactNavigationV5Instrumentation();
@@ -30,18 +30,18 @@ Sentry.init({
       },
       tracingOrigins: ["localhost", SERVER_URL, /^\//],
     }),
-    new RewriteFramesIntegration({
-      iteratee: (frame) => {
-        if (frame.filename) {
-          // the values depend on what names you give the bundle files you are uploading to Sentry
-          frame.filename =
-            Platform.OS === "android"
-              ? "app:///index.android.bundle"
-              : "app:///main.jsbundle";
-        }
-        return frame;
-      },
-    }),
+    // new RewriteFramesIntegration({
+    //   iteratee: (frame) => {
+    //     if (frame.filename) {
+    //       // the values depend on what names you give the bundle files you are uploading to Sentry
+    //       frame.filename =
+    //         Platform.OS === "android"
+    //           ? "app:///index.android.bundle"
+    //           : "app:///main.jsbundle";
+    //     }
+    //     return frame;
+    //   },
+    // }),
   ],
   tracesSampleRate: 0.25,
 });
