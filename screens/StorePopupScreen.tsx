@@ -1,6 +1,6 @@
 import {
   CardStyleInterpolators,
-  HeaderStyleInterpolators
+  HeaderStyleInterpolators,
 } from "@react-navigation/stack";
 import * as Linking from "expo-linking";
 import _ from "lodash";
@@ -11,7 +11,7 @@ import {
   BaseImage,
   BaseText,
   SCREEN_HEIGHT,
-  SCREEN_WIDTH
+  SCREEN_WIDTH,
 } from "../components/UI/BaseUI";
 import Carousel from "../components/UI/Carousel";
 import colors from "../constants/Colors";
@@ -21,10 +21,10 @@ import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
 import {
   defineShouldShowStorePopup,
-  getDateForStorePopup
+  getDateForStorePopup,
 } from "./StartupScreen";
 
-const StorePopupScreen = (props) => {
+const StorePopupScreen = () => {
   const dispatch = useAppDispatch();
   const userStore = useAppSelector((state) => state.auth.userStore);
   const storePopup = useAppSelector((state) => state.home.storePopup);
@@ -166,9 +166,7 @@ export const screenOptions = ({ navigation }) => {
     headerStyleInterpolator: HeaderStyleInterpolators.forFade,
   };
 };
-const Screen = styled.View({
-  backgroundColor: "transparent",
-});
+
 const Image = styled(BaseImage)({
   resizeMode: "cover",
   width: SCREEN_WIDTH,
@@ -182,8 +180,6 @@ const BtnContainer = styled.View({
 });
 const BtnText = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "center",
@@ -196,10 +192,6 @@ const BtnWarpper = styled.TouchableOpacity({
   borderColor: colors.PINKISH_GREY,
   width: "50%",
   padding: 13,
-});
-const PopupImage = styled(BaseImage)({
-  width: "100%",
-  height: "100%",
 });
 const Container = styled.View({
   backgroundColor: "transparent",
