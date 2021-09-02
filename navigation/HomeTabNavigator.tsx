@@ -56,7 +56,9 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           padding: 0,
           margin: 0,
           height: 40,
-          marginLeft: SCREEN_WIDTH > 320 ? -18 : -14,
+          marginLeft: SCREEN_WIDTH > 320 ? -0 : -0,
+          zIndex: 0,
+          elevation: 0,
           // marginRight: SCREEN_WIDTH > 320 ? 18 : 14,
         },
       }}

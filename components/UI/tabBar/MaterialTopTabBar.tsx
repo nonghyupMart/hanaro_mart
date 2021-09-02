@@ -29,6 +29,10 @@ export default function TabBarTop({
     focusedOptions.tabBarInactiveTintColor ??
     Color(activeColor).alpha(0.5).rgb().string();
 
+  const widthStyle =
+    focusedRoute.name === "Home"
+      ? { width: 0, paddingLeft: 0, paddingRight: 0 }
+      : null;
   return (
     <TabBar
       {...rest}
@@ -37,8 +41,8 @@ export default function TabBarTop({
       bounces={focusedOptions.tabBarBounces}
       activeColor={activeColor}
       inactiveColor={inactiveColor}
-      pressColor={focusedOptions.tabBarPressColor}
-      pressOpacity={focusedOptions.tabBarPressOpacity}
+      pressColor={"transparent"}
+      pressOpacity={1}
       tabStyle={focusedOptions.tabBarItemStyle}
       indicatorStyle={[
         {
@@ -48,7 +52,9 @@ export default function TabBarTop({
               : ConstantsColors.EMERALD,
           // backgroundColor: colors.primary,
         },
+
         focusedOptions.tabBarIndicatorStyle,
+        widthStyle,
       ]}
       indicatorContainerStyle={focusedOptions.tabBarIndicatorContainerStyle}
       contentContainerStyle={focusedOptions.tabBarContentContainerStyle}
@@ -145,8 +151,8 @@ const styles = StyleSheet.create({
   label: {
     textAlign: "center",
     textTransform: "uppercase",
-    fontSize: 13,
-    margin: 4,
+    // fontSize: 13,
+    // margin: 4,
     backgroundColor: "transparent",
   },
 });
