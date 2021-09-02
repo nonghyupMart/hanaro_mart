@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import MeterialTopTabBar from "../components/UI/tabBar/MaterialTopTabBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import _ from "lodash";
+import React from "react";
+import { useSelector } from "react-redux";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
-import * as Screens from "../screens";
+import TabBarTop from "../components/UI/tabBar/MaterialTopTabBar";
+import colors from "../constants/Colors";
 import { TabMenus } from "../constants/menu";
 import { RootState } from "../hooks";
-import colors from "../constants/Colors";
-import * as Util from "../utils";
+import * as Screens from "../screens";
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
 
@@ -31,25 +30,37 @@ export const HomeTabNavigator = ({ navigation, route }) => {
   if (_.isEmpty(userStore)) return <></>;
   return (
     <HomeTopTabNavigator.Navigator
+      tabBar={(props: any) => <TabBarTop {...props} />}
       backBehavior="initialRoute"
       lazy={true}
-      // optimizationsEnabled={true}
-      tabBar={(props) => <MeterialTopTabBar {...props} />}
       initialRouteName="Home"
       swipeEnabled={false}
-      tabBarOptions={{
-        renderIndicator: (props) => {
-          return <></>;
+      screenOptions={{
+        tabBarScrollEnabled: true,
+        tabBarIndicatorStyle: {
+          // backgroundColor: colors.EMERALD,
+          height: 2,
         },
-        scrollEnabled: true,
-        tabStyle: {
+        tabBarItemStyle: {
           width: "auto",
+          paddingTop: 0,
+          paddingBottom: 0,
+          paddingLeft: SCREEN_WIDTH > 320 ? 9 : 7,
+          paddingRight: SCREEN_WIDTH > 320 ? 9 : 7,
+        },
+        tabBarLabelStyle: {
+          color: colors.BLACK_TWO,
+          fontSize: 15,
+        },
+        tabBarStyle: {
           padding: 0,
           margin: 0,
           height: 40,
+          marginLeft: SCREEN_WIDTH > 320 ? -18 : -14,
+          // marginRight: SCREEN_WIDTH > 320 ? 18 : 14,
         },
-        style: { marginLeft: SCREEN_WIDTH > 320 ? -18 : -14 },
       }}
+      initialLayout={{ width: SCREEN_WIDTH }}
     >
       <HomeTopTabNavigator.Screen
         name="Home"

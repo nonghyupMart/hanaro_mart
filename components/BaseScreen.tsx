@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components/native";
 import { View, StyleSheet, Platform } from "react-native";
-import { useHeaderHeight } from "@react-navigation/stack";
+import { useHeaderHeight } from "@react-navigation/elements";
 import Constants from "expo-constants";
 import { StyleConstants } from "./UI/BaseUI";
 import _ from "lodash";
@@ -60,10 +60,7 @@ const BaseScreen = (props) => {
 
   if (!userInfo || !userStore) return <></>;
   return (
-    <Screen
-      style={props.style}
-      isCenter={props.isCenter}
-    >
+    <Screen style={props.style} isCenter={props.isCenter}>
       {isScroll && (
         <ScrollList
           decelerationRate="fast"
