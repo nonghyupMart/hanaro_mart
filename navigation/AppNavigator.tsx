@@ -25,7 +25,7 @@ import { MainNavigator } from "./MainNavigator";
 import { isReadyRef, navigationRef } from "./RootNavigation";
 
 const AppNavigator = (props) => {
-  const routeNameRef = useRef();
+  const routeNameRef = useRef<string | undefined>();
   const routingInstrumentation = props.routingInstrumentation;
   const notificationListener = useRef() as any;
   const responseListener = useRef() as any;
@@ -97,8 +97,8 @@ const AppNavigator = (props) => {
 
   const onStateChange = async () => {
     const previousRouteName = routeNameRef.current;
-    if (!navigationRef.current.getCurrentRoute()) return;
-    const currentRouteName = navigationRef.current.getCurrentRoute().name;
+    if (!navigationRef.getCurrentRoute()) return;
+    const currentRouteName = navigationRef.getCurrentRoute()?.name;
 
     if (previousRouteName !== currentRouteName) {
       // The line below uses the expo-firebase-analytics tracker
