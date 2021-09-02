@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Image } from "react-native";
 import styled from "styled-components/native";
-import { Image, Text, TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import * as RootNavigation from "../../../../navigation/RootNavigation";
-import {
-  BaseTouchable,
-  BaseText,
-  SCREEN_WIDTH,
-} from "../../BaseUI";
-import _ from "lodash";
 import colors from "../../../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../../../hooks";
+import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { checkAuth } from "../../../../store/actions/auth";
+import { BaseText, SCREEN_WIDTH } from "../../BaseUI";
 
 const HomeHeaderLeft = (props) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isJoined = useSelector((state) => state.auth.isJoined);
-  const pushCnt = useSelector((state) => state.auth.pushCnt);
-  const wishCnt = useSelector((state) => state.auth.wishCnt);
+  const dispatch = useAppDispatch();
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const pushCnt = useAppSelector((state) => state.auth.pushCnt);
+  const wishCnt = useAppSelector((state) => state.auth.wishCnt);
   return (
     <BtnContainer>
       <Btn
@@ -71,15 +64,10 @@ export const IconImage = styled.Image({
   resizeMode: "contain",
 });
 const Btn = styled.TouchableOpacity({
-  padding: SCREEN_WIDTH > 320 ? 5 : 0,
+  padding: SCREEN_WIDTH > 320 ? (SCREEN_WIDTH > 360 ? 5 : 3) : 0,
 });
 const BtnContainer = styled.View({
   flexDirection: "row",
-});
-const Container = styled.View({
-  alignSelf: "center",
-  alignItems: "center",
-  justifyContent: "center",
 });
 const BranchName = styled(BaseText)({
   fontSize: 15,

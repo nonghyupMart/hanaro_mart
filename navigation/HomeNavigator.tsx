@@ -23,6 +23,7 @@ export const HomeNavigator = () => {
           headerBackTitle: " ",
           gestureEnabled: false,
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          headerTitleAlign: "center",
         }}
         initialRouteName="HomeTab"
       >

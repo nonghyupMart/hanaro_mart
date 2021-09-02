@@ -84,8 +84,6 @@ const MyPageScreen = ({ navigation }) => {
 };
 const GrayText = styled(BaseText)({
   fontSize: 12,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 17,
   letterSpacing: 0,
   textAlign: "left",

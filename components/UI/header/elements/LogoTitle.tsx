@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { Image, Text, TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import * as RootNavigation from "../../../../navigation/RootNavigation";
-import { BaseTouchable, BaseText } from "../../BaseUI";
 import _ from "lodash";
-import * as Util from "../../../../utils";
+import React from "react";
+import { Image } from "react-native";
+import styled from "styled-components/native";
 import colors from "../../../../constants/Colors";
+import { useAppSelector } from "../../../../hooks";
+import * as RootNavigation from "../../../../navigation/RootNavigation";
+import * as Util from "../../../../utils";
+import { BaseText } from "../../BaseUI";
 
 const LogoTitle = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useAppSelector((state) => state.auth.userStore);
   return (
     <Container onPress={() => RootNavigation.navigate("Home")}>
       <Image
@@ -38,7 +38,6 @@ const BranchName = styled(BaseText)({
   fontFamily: "Roboto-Bold",
   lineHeight: 22,
   letterSpacing: 0,
-  textAlign: "left",
   color: colors.NASTY_GREEN,
 });
 BranchName.defaultProps = {
