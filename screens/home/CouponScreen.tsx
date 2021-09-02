@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
-import CouponItem from "../../components/CouponItem";
+import CouponItem from "../../components/coupon/CouponItem";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
@@ -71,7 +71,10 @@ const CouponScreen = (props) => {
   }, [gbn, userStore, isFocused]);
 
   const onCouponItemPressed = async (item, type = "B") => {
-    if (!userInfo.ci) return checkAuth(dispatch, !!userInfo.ci);
+    if (!userInfo.ci) {
+      checkAuth(dispatch, !!userInfo.ci);
+      return;
+    }
 
     let couponList = coupon.couponList;
 

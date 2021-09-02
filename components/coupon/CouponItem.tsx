@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { View, Image, FlatList } from "react-native";
+import React from "react";
+import { View } from "react-native";
 import styled from "styled-components/native";
-import {
-  BaseImage,
-  SCREEN_WIDTH,
-  BaseTouchable,
-  BaseText,
-} from "./UI/BaseUI";
-import * as Util from "../utils";
-import colors from "../constants/Colors";
+import colors from "../../constants/Colors";
+import * as Util from "../../utils";
+import { BaseImage, BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
+import CouponButton from "./CouponButton";
 
 const CouponItem = (props) => {
   return (
@@ -23,7 +19,7 @@ const CouponItem = (props) => {
           }}
           resizeMode="contain"
           initResizeMode="contain"
-          defaultSource={require("../assets/images/n_img501.png")}
+          defaultSource={require("../../assets/images/n_img501.png")}
         />
         {props.item.remain_yn === "Y" && (
           <CountContainer>
@@ -45,53 +41,14 @@ const CouponItem = (props) => {
       <Date>
         {props.item.start_date} ~ {props.item.end_date}
       </Date>
-      {props.item.status === "00" && (
-        <Button
-          onPress={props.onPress}
-          style={{ backgroundColor: colors.TRUE_WHITE }}
-        >
-          <ButtonText>쿠폰 다운로드</ButtonText>
-          <Icon source={require("../assets/images/ic_file_download_1.png")} />
-        </Button>
-      )}
-      {props.item.status === "10" && (
-        <Button
-          onPress={props.onPress}
-          style={{ backgroundColor: colors.EMERALD, borderWidth: 0 }}
-        >
-          <ButtonText style={{ color: colors.TRUE_WHITE }}>
-            쿠폰 사용하기
-          </ButtonText>
-          <Icon source={require("../assets/images/ic_file_download_2.png")} />
-        </Button>
-      )}
-      {props.item.status === "20" && (
-        <Button
-          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
-          activeOpacity={1}
-        >
-          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
-            쿠폰 사용완료
-          </ButtonText>
-        </Button>
-      )}
-      {props.item.status === "30" && (
-        <Button
-          style={{ backgroundColor: colors.GREYISH_TWO, borderWidth: 0 }}
-          activeOpacity={1}
-        >
-          <ButtonText style={{ color: colors.TRUE_WHITE, marginRight: 0 }}>
-            쿠폰 소진완료
-          </ButtonText>
-        </Button>
-      )}
+      <CouponButton status={props.item.status} onPress={props.onPress} />
     </Container>
   );
 };
 const CountContainer = styled.View({
   backgroundColor: colors.GRAPEFRUIT,
   borderRadius: 18,
-  aspectRatio: 100 / 31.818,
+  aspectRatio: (100 / 31.818) as any,
   height: 17.5,
   justifyContent: "center",
   alignSelf: "center",
@@ -106,30 +63,7 @@ const Count = styled(BaseText)({
   color: colors.TRUE_WHITE,
   fontFamily: "Roboto-Medium",
 });
-const Icon = styled.Image({});
-const ButtonText = styled(BaseText)({
-  fontSize: 12.5,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 17,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.EMERALD,
-  marginRight: 1,
-  fontFamily: "Roboto-Medium",
-});
-const Button = styled(BaseTouchable)({
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  backgroundColor: colors.TRUE_WHITE,
-  borderStyle: "solid",
-  borderWidth: 1,
-  borderColor: colors.EMERALD,
-  minHeight: Util.normalize(24),
 
-  aspectRatio: 100 / 19.86,
-});
 const Title = styled(BaseText)({
   marginTop: 3,
   marginBottom: 0,
