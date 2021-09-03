@@ -151,6 +151,7 @@ export const screenOptions = ({ route, navigation }) => {
     headerRight: (props) => (
       <HomeHeaderRight {...props} navigator={navigation} />
     ),
+    headerShadowVisible: false,
   };
 };
 

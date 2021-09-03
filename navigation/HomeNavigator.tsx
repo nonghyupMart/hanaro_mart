@@ -19,8 +19,7 @@ export const HomeNavigator = () => {
           headerBackTitle: " ",
           gestureEnabled: false,
           headerTitleAlign: "center",
-          headerBackVisible: false,
-          headerShadowVisible: false,
+          headerBackVisible: false,       
         }}
         initialRouteName="HomeTab"
       >
