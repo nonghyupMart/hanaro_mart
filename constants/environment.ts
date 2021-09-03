@@ -37,6 +37,8 @@ const getEnvVars = (env = Constants.manifest.releaseChannel) => {
     return ENV.stage;
   } else if (env === "prod") {
     return ENV.prod;
+  } else {
+    return ENV.prod;
   }
 };
 

@@ -13,3 +13,5 @@ web-build/
 yarn-error.log
 —reset-cache/.expo/README.md
 —reset-cache/.expo/settings.json
+help/.expo/README.md
+help/.expo/settings.json
