@@ -148,10 +148,6 @@ const HomeScreen = (props: any) => {
 
 export const screenOptions = ({ route, navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 50 },
-    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
-    headerStyle: { elevation: 0, shadowOpacity: 0 },
     headerTitle: (props) => (
       <LogoTitle {...props} navigator={navigation} route={route} />
     ),

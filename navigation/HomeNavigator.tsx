@@ -1,29 +1,26 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { Fragment } from "react";
+import BottomButtons from "../components/BottomButtons";
+import { PADDING_BOTTOM_MENU } from "../constants";
 import * as Screens from "../screens";
 import { HomeTabNavigator } from "./HomeTabNavigator";
-import { PADDING_BOTTOM_MENU } from "../constants";
-import BottomButtons from "../components/BottomButtons";
-import colors from "../constants/Colors";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
 
-const HomeStackNavigator = createStackNavigator();
+const HomeStackNavigator = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
   return (
     <Fragment>
       <HomeStackNavigator.Navigator
         screenOptions={{
-          cardStyle: {
-            paddingBottom: PADDING_BOTTOM_MENU,
-            backgroundColor: colors.TRUE_WHITE,
+          contentStyle: {
+            paddingBottom:PADDING_BOTTOM_MENU
           },
+          animation: "slide_from_right",
           headerBackTitle: " ",
           gestureEnabled: false,
-          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           headerTitleAlign: "center",
+          headerBackVisible: false,
+          headerShadowVisible: false,
         }}
         initialRouteName="HomeTab"
       >

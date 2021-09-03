@@ -7,7 +7,7 @@ import * as RootNavigation from "../../../../navigation/RootNavigation";
 import { checkAuth } from "../../../../store/actions/auth";
 import { BaseText, SCREEN_WIDTH } from "../../BaseUI";
 
-const HomeHeaderLeft = (props) => {
+const HomeHeaderLeft = () => {
   const dispatch = useAppDispatch();
   const isJoined = useAppSelector((state) => state.auth.isJoined);
   const pushCnt = useAppSelector((state) => state.auth.pushCnt);
@@ -16,7 +16,7 @@ const HomeHeaderLeft = (props) => {
     <BtnContainer>
       <Btn
         onPress={RootNavigation.toggleDrawer.bind(this)}
-        style={{ paddingLeft: 23 }}
+        style={{ paddingLeft: 5 }}
       >
         <IconImage source={require("../../../../assets/images/menu.png")} />
       </Btn>
@@ -47,16 +47,6 @@ const HomeHeaderLeft = (props) => {
           />
         )}
       </Btn>
-      {/* <Btn
-        onPress={() => RootNavigation.navigate("Cart")}
-        style={{ paddingRight: 10 }}
-      >
-        <MaterialCommunityIcons
-          name="cart-outline"
-          size={24}
-          color={colors.PINE}
-        />
-      </Btn> */}
     </BtnContainer>
   );
 };
