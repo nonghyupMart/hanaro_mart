@@ -24,7 +24,7 @@ const getTabBarVisible = (route) => {
 export const HomeTabNavigator = ({ navigation, route }) => {
   const userStore = useSelector((state: RootState) => state.auth.userStore);
   const menuList =
-    !_.isEmpty(userStore) && userStore.menuList ? userStore.menuList : [];
+    !_.isEmpty(userStore) && userStore!.menuList ? userStore!.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
 
   if (_.isEmpty(userStore)) return <></>;
@@ -56,7 +56,7 @@ export const HomeTabNavigator = ({ navigation, route }) => {
           padding: 0,
           margin: 0,
           height: 40,
-          marginLeft: SCREEN_WIDTH > 320 ? -0 : -0,
+          marginLeft: 0,
           zIndex: 0,
           elevation: 0,
           // marginRight: SCREEN_WIDTH > 320 ? 18 : 14,

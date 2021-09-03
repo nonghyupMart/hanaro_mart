@@ -1,17 +1,18 @@
+import type { MaterialTopTabBarProps } from "@react-navigation/material-top-tabs/src/types";
 import {
   ParamListBase,
   Route,
   TabNavigationState,
-  useTheme,
+  useTheme
 } from "@react-navigation/native";
 import Color from "color";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { TabBar, TabBarIndicator } from "react-native-tab-view";
-
-import type { MaterialTopTabBarProps } from "./types";
-
+import { TabBar } from "react-native-tab-view";
 import ConstantsColors from "../../../constants/Colors";
+import MaterialTabBarIndicator from "./MaterialTabBarIndicator";
+
+
 
 export default function TabBarTop({
   state,
@@ -136,7 +137,7 @@ export default function TabBarTop({
             ...rest,
           })
         ) : (
-          <TabBarIndicator navigationState={state} {...rest} />
+          <MaterialTabBarIndicator navigationState={state} {...rest} />
         );
       }}
     />
