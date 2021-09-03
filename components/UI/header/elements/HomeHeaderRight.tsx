@@ -1,15 +1,15 @@
 import _ from "lodash";
 import React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 import colors from "../../../../constants/Colors";
+import { useAppSelector } from "../../../../hooks";
 import * as RootNavigation from "../../../../navigation/RootNavigation";
 import * as Util from "../../../../utils";
 import { BaseText } from "../../BaseUI";
 import { IconImage } from "./HomeHeaderLeft";
 
 const HomeHeaderRight = () => {
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useAppSelector((state) => state.auth.userStore);
   if (_.isEmpty(userStore)) return <></>;
   return (
     <BtnContainer>

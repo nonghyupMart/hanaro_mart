@@ -8,7 +8,7 @@ import * as RootNavigation from "../../../../navigation/RootNavigation";
 import * as Util from "../../../../utils";
 import { BaseText } from "../../BaseUI";
 
-const LogoTitle = (props) => {
+const LogoTitle = () => {
   const userStore = useAppSelector((state) => state.auth.userStore);
   return (
     <Container onPress={() => RootNavigation.navigate("Home")}>

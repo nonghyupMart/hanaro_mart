@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { BaseText } from "../../BaseUI";
 import colors from "../../../../constants/Colors";
 
-const TextTitle = (props) => {
+const TextTitle = (props: any) => {
   return (
     <Container>
       <Title>{props.children}</Title>
