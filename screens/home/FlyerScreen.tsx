@@ -36,7 +36,7 @@ const FlyerScreen = (props) => {
   const userInfo = useSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useDispatch();
   const currentItem = useRef(null);
-  const [pageforCarousel, setPageForCarousel] = useState<number>();
+  const [pageforCarousel, setPageForCarousel] = useState<number>(0);
   const leaflet = useSelector((state: RootState) => state.flyer.leaflet);
   const product = useSelector((state: RootState) => state.flyer.product);
   const page = useRef(1);
@@ -98,7 +98,13 @@ const FlyerScreen = (props) => {
     if (!isFocused) return;
 
     clearData();
-    if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) > 0) {
+    if (
+      !_.isEmpty(leaflet) &&
+      _.size(leaflet.leafletList) > 0 &&
+      leaflet &&
+      leaflet.leafletList &&
+      leaflet.leafletList[pageforCarousel]
+    ) {
       setCurrentFlyer(() => leaflet.leafletList[pageforCarousel]);
       fetchProduct(leaflet.leafletList[pageforCarousel].leaf_cd, 1);
     }
