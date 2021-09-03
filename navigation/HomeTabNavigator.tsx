@@ -32,10 +32,10 @@ export const HomeTabNavigator = ({ navigation, route }) => {
     <HomeTopTabNavigator.Navigator
       tabBar={(props: any) => <TabBarTop {...props} />}
       backBehavior="initialRoute"
-      lazy={true}
       initialRouteName="Home"
-      swipeEnabled={false}
       screenOptions={{
+        swipeEnabled: false,
+        lazy: true,
         tabBarScrollEnabled: true,
         tabBarIndicatorStyle: {
           // backgroundColor: colors.EMERALD,
