@@ -1,18 +1,12 @@
 import React, { useEffect } from "react";
-import {
-  StyleSheet
-} from "react-native";
 import { useDispatch } from "react-redux";
 import BaseScreen from "../components/BaseScreen";
-import {
-  SCREEN_HEIGHT, SCREEN_WIDTH
-} from "../components/UI/BaseUI";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../components/UI/BaseUI";
 import { ExtendedWebView } from "../components/UI/ExtendedWebView";
 import { SERVER_URL } from "../constants";
 import * as CommonActions from "../store/actions/common";
 
-
-const RingPickerScreen = ({ navigation: { goBack } }) => {
+const RingPickerScreen = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
@@ -39,7 +33,7 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
     </BaseScreen>
   );
 };
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     contentStyle: {
       paddingBottom: 0,
@@ -48,38 +42,5 @@ export const screenOptions = ({ navigation }) => {
     animation: "fade",
   };
 };
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "white",
-    position: "absolute",
-    bottom: 0,
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  hide: {
-    opacity: 0,
-  },
-  icons: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    elevation: 1000,
-    zIndex: 1000,
-  },
-  center: {
-    flex: 1,
-  },
-  ringPicker: {
-    position: "absolute",
-    bottom: -130,
-  },
-
-  ringIcons: {
-    color: "green",
-  },
-});
 
 export default RingPickerScreen;

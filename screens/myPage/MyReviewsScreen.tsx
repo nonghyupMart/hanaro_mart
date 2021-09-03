@@ -1,61 +1,14 @@
-import _ from "lodash";
-import queryString from "query-string";
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import BaseScreen from "../../components/BaseScreen";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { SERVER_URL } from "../../constants";
+import React from "react";
+import BaseWebViewScreen from "../../components/BaseWebViewScreen";
 
-const MyReviewScreen = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const [url, setUrl] = useState();
-
-  useEffect(() => {
-    if (_.isEmpty(userStore) || !userStore.storeInfo) return;
-    let stringifyUrl;
-    stringifyUrl = queryString.stringifyUrl({
-      url: `${SERVER_URL}/web/community/review.do`,
-      query: {
-        store_cd: userStore.storeInfo.store_cd,
-        user_cd: userInfo.user_cd,
-      },
-    });
-    setUrl(stringifyUrl);
-  }, []);
+const MyReviewScreen = ({ navigation }: any) => {
   return (
-    <BaseScreen
-      style={styles.screen}
-      isScroll={false}
-      // isBottomNavigation={false}
-    >
-      <ExtendedWebView
-        startInLoadingState={true}
-        source={{
-          // uri: `https://www.naver.com`,
-          uri: url,
-        }}
-        style={{ flex: 1, height: "100%", width: "100%" }}
-      />
-    </BaseScreen>
+    <BaseWebViewScreen
+      title={"나의리뷰"}
+      url="/web/community/review.do"
+      navigation={navigation}
+    />
   );
 };
 
-export const screenOptions = ({ navigation }) => {
-  return {
-    title: "나의리뷰",
-    headerLeft: () => <BackButton />,
-    headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
-  };
-};
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-});
 export default MyReviewScreen;

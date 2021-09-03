@@ -1,40 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components/native";
-import { WebView } from "react-native-webview";
-import * as Linking from "expo-linking";
-import { ActivityIndicator, BackHandler } from "react-native";
-import Alert from "./Alert";
-import { useSelector, useDispatch } from "react-redux";
-import * as authActions from "../../store/actions/auth";
-import { Platform } from "react-native";
-import _ from "lodash";
-import * as branchesActions from "../../store/actions/branches";
-import * as RootNavigation from "../../navigation/RootNavigation";
-import * as CommonActions from "../../store/actions/common";
 import { useNavigationState } from "@react-navigation/native";
-import {
-  setAlert,
-  setIsLoading,
-  setDidTryStorePopup,
-} from "../../store/actions/common";
-import * as Notifications from "expo-notifications";
-import JoinPopupContent from "../../screens/join/JoinPopupContent";
+import * as Linking from "expo-linking";
+import _ from "lodash";
 import moment from "moment";
+import React, { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, BackHandler } from "react-native";
+import { WebView } from "react-native-webview";
 import { SERVER_URL } from "../../constants";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import * as RootNavigation from "../../navigation/RootNavigation";
+import * as authActions from "../../store/actions/auth";
+import * as CommonActions from "../../store/actions/common";
+import { setAlert, setIsLoading } from "../../store/actions/common";
 
 export const ExtendedWebView = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { uri, onLoadStart, ...restProps } = props;
   const [currentURI, setURI] = useState(props.source.uri);
   const newSource = { ...props.source, uri: currentURI };
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useAppSelector((state) => state.auth.userStore);
   const [isLoaded, setIsLoaded] = useState(false);
-  const pushToken = useSelector((state) => state.auth.pushToken);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const pushToken = useAppSelector((state) => state.auth.pushToken);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const index = useNavigationState((state) => state.index);
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const alert = useSelector((state) => state.common.alert);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
+  const alert = useAppSelector((state) => state.common.alert);
   const backButtonEnabled = useRef(false);
   const webref = useRef();
   const onMessage = (event) => {
@@ -42,6 +32,7 @@ export const ExtendedWebView = (props) => {
     parseMethod(message);
   };
 
+  // console.log(webref.current);
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
       "hardwareBackPress",

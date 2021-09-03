@@ -1,27 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import styled from "styled-components/native";
-import {
-  BaseButtonContainer,
-  ButtonText,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BaseTouchable,
-  BaseText,
-} from "../../components/UI/BaseUI";
-import BaseScreen from "../../components/BaseScreen";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import _ from "lodash";
+import React, { useEffect } from "react";
+import { SafeAreaView } from "react-native";
+import BaseScreen from "../../components/BaseScreen";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { SERVER_URL } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
-import { useSelector, useDispatch } from "react-redux";
-import { SERVER_URL, API_URL } from "../../constants";
-import colors from "../../constants/Colors";
 
-const NHAHMScreen = ({ navigation, route }) => {
+const NHAHMScreen = ({ navigation, route }: any) => {
   const params = route.params;
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
@@ -69,7 +59,7 @@ const NHAHMScreen = ({ navigation, route }) => {
             uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
               params.regiDesc
             }&amnNo=${
-              !_.isEmpty(userInfo) && !!userInfo.amnNo ? userInfo.amnNo : ""
+              !_.isEmpty(userInfo) && !!userInfo!.amnNo ? userInfo!.amnNo : ""
             }`,
           }}
         />
@@ -77,13 +67,13 @@ const NHAHMScreen = ({ navigation, route }) => {
     </SafeAreaView>
   );
 };
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     title: "회원가입",
 
-    headerLeft: (props) => <></>,
-    headerTitle: (props) => <></>,
-    headerRight: (props) => <></>,
+    headerLeft: () => <></>,
+    headerTitle: () => <></>,
+    headerRight: () => <></>,
     contentStyle: {
       paddingBottom: 0,
     },

@@ -1,75 +1,19 @@
-import queryString from "query-string";
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
-import BaseScreen from "../../components/BaseScreen";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { SERVER_URL } from "../../constants";
+import React, { useRef } from "react";
+import BaseWebViewScreen from "../../components/BaseWebViewScreen";
 
-
-const NoticeScreen = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
-  const [url, setUrl] = useState();
-  let query = props.route.params;
-
-  useEffect(() => {
-    (async () => {
-      let stringifyUrl;
-      if (!query && userStore && userStore.storeInfo) {
-        props.navigation.setOptions({
-          title: "매장 공지사항",
-        });
-        stringifyUrl = queryString.stringifyUrl({
-          url: `${SERVER_URL}/web/community/notice.do`,
-          query: { type: "C", store_cd: userStore.storeInfo.store_cd },
-        });
-        setUrl(stringifyUrl);
-      } else {
-        props.navigation.setOptions({
-          title: "통합 공지사항",
-        });
-        stringifyUrl = queryString.stringifyUrl({
-          url: `${SERVER_URL}/web/community/notice.do`,
-          query: props.route.params,
-        });
-      }
-      setUrl(stringifyUrl);
-    })();
-  }, []);
+const NoticeScreen = (props: any) => {
+  let params = props.route.params;
+  const queryRef = useRef(params ? params : { type: "C" });
+  const titleRef = useRef(params ? "통합 공지사항" : "매장 공지사항");
 
   return (
-    <BaseScreen
-      style={styles.screen}
-      isScroll={false}
-      // isBottomNavigation={false}
-    >
-      <ExtendedWebView
-        startInLoadingState={true}
-        source={{
-          // uri: `https://www.naver.com`,
-          uri: url,
-        }}
-        style={{ flex: 1, height: "100%", width: "100%" }}
-      />
-    </BaseScreen>
+    <BaseWebViewScreen
+      title={titleRef.current}
+      url="/web/community/notice.do"
+      navigation={props.navigation}
+      query={queryRef.current}
+    />
   );
 };
-
-export const screenOptions = ({ navigation }) => {
-  return {
-    title: "공지사항",
-    headerLeft: () => <BackButton />,
-    headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
-  };
-};
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-  },
-});
 
 export default NoticeScreen;

@@ -1,26 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import styled from "styled-components/native";
-import {
-  BaseButtonContainer,
-  ButtonText,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BaseTouchable,
-  BaseText,
-} from "../../components/UI/BaseUI";
-import BaseScreen from "../../components/BaseScreen";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
 import _ from "lodash";
+import React, { useEffect, useRef } from "react";
+import BaseScreen from "../../components/BaseScreen";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { SERVER_URL } from "../../constants";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
-import { useSelector, useDispatch } from "react-redux";
-import { SERVER_URL, API_URL } from "../../constants";
 
-const CIScreen = ({ navigation, route }) => {
+const CIScreen = ({ navigation, route }: any) => {
   const params = route.params;
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const uriRef = useRef(
     `${SERVER_URL}/web/access/auth.do?ver=${
       params && params.ver ? params.ver : "2"
@@ -65,9 +56,9 @@ export const screenOptions = () => {
   return {
     title: "휴대폰 본인인증",
 
-    headerLeft: (props) => <BackButton {...props} />,
-    headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
+    headerLeft: (props: any) => <BackButton {...props} />,
+    headerTitle: (props: any) => <TextTitle {...props} />,
+    headerRight: () => <></>,
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },
@@ -77,6 +68,5 @@ export const screenOptions = () => {
     // },
   };
 };
-
 
 export default CIScreen;

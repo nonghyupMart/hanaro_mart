@@ -1,18 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import queryString from "query-string";
 import { useIsFocused } from "@react-navigation/native";
-import { View, Text, StyleSheet, AppState } from "react-native";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "../../constants";
-import { useSelector, useDispatch } from "react-redux";
+import queryString from "query-string";
+import React, { useEffect, useRef, useState } from "react";
+import { AppState, StyleSheet } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import _ from "lodash";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { SERVER_URL } from "../../constants";
 
-const NaroTubeScreen = (props) => {
+const NaroTubeScreen = () => {
   const isFocused = useIsFocused();
-  const [url, setUrl] = useState();
-  const appState = useRef(AppState.currentState);
+  const [url, setUrl] = useState<string>();
+  const appState = useRef(AppState.currentState as string);
   const [key, setKey] = useState(Math.random());
 
   useEffect(() => {
@@ -27,7 +25,7 @@ const NaroTubeScreen = (props) => {
     };
   }, []);
 
-  const _handleAppStateChange = async (nextAppState) => {
+  const _handleAppStateChange = async (nextAppState: string) => {
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === "active"
@@ -40,7 +38,7 @@ const NaroTubeScreen = (props) => {
     appState.current = nextAppState;
   };
 
-  if (!isFocused) return <></>;
+  if (!isFocused || !url) return <></>;
   return (
     <BaseScreen
       style={styles.screen}
@@ -60,12 +58,12 @@ const NaroTubeScreen = (props) => {
   );
 };
 
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     title: "나로튜브",
     headerLeft: () => <BackButton />,
-    headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
+    headerTitle: (props: any) => <TextTitle {...props} />,
+    headerRight: () => <></>,
   };
 };
 const styles = StyleSheet.create({

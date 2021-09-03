@@ -1,47 +1,14 @@
-import React, { useState, useEffect } from "react";
-import queryString from "query-string";
-import { useSelector, useDispatch } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "../../constants";
-import { setAlert, setIsLoading } from "../../store/actions/common";
+import React from "react";
+import BaseWebViewScreen from "../../components/BaseWebViewScreen";
 
-const TermsScreen = (props) => {
-  const dispatch = useDispatch();
-  const [loadingState, setLoadingState] = useState(() =>
-    dispatch(setIsLoading(false))
-  );
-  // const isLoading = useSelector((state) => state.common.isLoading);
-  // if (isLoading) return <></>;
-
+const TermsScreen = ({ navigation }: any) => {
   return (
-    <View style={styles.screen}>
-      <ExtendedWebView
-        startInLoadingState={true}
-        source={{
-          uri: `${SERVER_URL}/web/about/terms.do`,
-        }}
-      />
-    </View>
+    <BaseWebViewScreen
+      title={"이용약관"}
+      url="/web/about/terms.do"
+      navigation={navigation}
+    />
   );
 };
-
-export const screenOptions = ({ navigation }) => {
-  return {
-    title: "이용약관",
-    headerLeft: () => <BackButton />,
-    headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
-  };
-};
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-  },
-});
 
 export default TermsScreen;
