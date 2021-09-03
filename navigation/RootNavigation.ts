@@ -9,7 +9,7 @@ export const navigationRef = createNavigationContainerRef();
 
 import { DrawerActions } from "@react-navigation/native";
 
-export const navigate = (name: string, params?: never) => {
+export const navigate = (name: string, params?: any) => {
   if (navigationRef.isReady()) {
     navigationRef.navigate(name as never, params as never);
   }

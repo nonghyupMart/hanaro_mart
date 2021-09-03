@@ -12,7 +12,7 @@ import ProductPopup from "../../components/ProductPopup";
 import {
   HomeHeaderLeft,
   HomeHeaderRight,
-  LogoTitle
+  LogoTitle,
 } from "../../components/UI/header";
 import colors from "../../constants/Colors";
 import {
@@ -20,7 +20,7 @@ import {
   processNotifications,
   setIOSStatusBarStyle,
   useRedirectToScreenByDidTryStorePopup,
-  useRedirectToScreenByLink
+  useRedirectToScreenByLink,
 } from "../../helpers";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as actionTypes from "../../store/actions/actionTypes";
