@@ -10,6 +10,7 @@ import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import NoList from "../../components/UI/NoList";
+import { PADDING_BOTTOM_MENU } from "../../constants";
 import colors from "../../constants/Colors";
 import { checkAuth } from "../../store/actions/auth";
 import { setLink } from "../../store/actions/common";
@@ -218,9 +219,9 @@ const CouponScreen = (props) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "나의 쿠폰",
-    cardStyle: {
+    contentStyle: {
       backgroundColor: colors.TRUE_WHITE,
-      paddingBottom: 50,
+      paddingBottom: PADDING_BOTTOM_MENU,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

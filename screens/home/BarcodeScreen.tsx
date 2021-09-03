@@ -216,8 +216,8 @@ const Container = styled.View({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "쿠폰",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

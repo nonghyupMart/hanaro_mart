@@ -1,24 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
+import { Image, Platform } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
-import { View, Platform, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
+import BoardItem from "../../components/board/BoardItem";
 import {
-  BaseTouchable,
-  BaseImage,
-  BaseTextInput,
   BaseText,
   BlueButton,
-  BlueButtonText,
+  BlueButtonText
 } from "../../components/UI/BaseUI";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "../../store/actions/event";
-import BoardItem from "../../components/board/BoardItem";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import { SET_STAMP_HISTORY } from "../../store/actions/actionTypes";
-import { styles } from "./FlyerScreen";
-import _ from "lodash";
 import colors from "../../constants/Colors";
+import * as eventActions from "../../store/actions/event";
+import { styles } from "./FlyerScreen";
 
 const EventStampHistoryScreen = (props) => {
   const params = props.route.params;
@@ -90,7 +85,7 @@ const NoList = styled(BaseText)({
 const BackBtn = styled(BlueButton)({});
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
+    contentStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "교환내역",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

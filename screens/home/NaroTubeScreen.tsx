@@ -62,9 +62,6 @@ const NaroTubeScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    // cardStyle: {
-    //   marginBottom: 0,
-    // },
     title: "나로튜브",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

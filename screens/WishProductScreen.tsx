@@ -201,7 +201,7 @@ const postWish = (dispatch, object, item, type) => {
 };
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
+    contentStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "찜한 상품",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

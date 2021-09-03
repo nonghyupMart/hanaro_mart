@@ -30,8 +30,8 @@ const CIScreen = ({ navigation, route }) => {
     if (!_.isEmpty(userInfo)) {
       navigation.setOptions({
         title: "본인인증",
-        cardStyle: {
-          marginBottom: 0,
+        contentStyle: {
+          paddingBottom: 0,
         },
       });
     }

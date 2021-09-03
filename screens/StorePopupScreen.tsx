@@ -1,7 +1,3 @@
-import {
-  CardStyleInterpolators,
-  HeaderStyleInterpolators,
-} from "@react-navigation/stack";
 import * as Linking from "expo-linking";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -11,7 +7,7 @@ import {
   BaseImage,
   BaseText,
   SCREEN_HEIGHT,
-  SCREEN_WIDTH,
+  SCREEN_WIDTH
 } from "../components/UI/BaseUI";
 import Carousel from "../components/UI/Carousel";
 import colors from "../constants/Colors";
@@ -21,7 +17,7 @@ import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
 import {
   defineShouldShowStorePopup,
-  getDateForStorePopup,
+  getDateForStorePopup
 } from "./StartupScreen";
 
 const StorePopupScreen = () => {
@@ -154,16 +150,12 @@ const StorePopupScreen = () => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: {
-      marginBottom: 0,
-      backgroundColor: "transparent",
-    },
-    containerStyle: {
+    contentStyle: {
+      paddingBottom: 0,
       backgroundColor: "transparent",
     },
     headerShown: false,
-    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+    animation: "fade",
   };
 };
 

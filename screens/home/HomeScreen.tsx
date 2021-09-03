@@ -1,8 +1,4 @@
 import { useIsFocused } from "@react-navigation/native";
-import {
-  CardStyleInterpolators,
-  HeaderStyleInterpolators,
-} from "@react-navigation/stack";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
@@ -16,7 +12,7 @@ import ProductPopup from "../../components/ProductPopup";
 import {
   HomeHeaderLeft,
   HomeHeaderRight,
-  LogoTitle,
+  LogoTitle
 } from "../../components/UI/header";
 import colors from "../../constants/Colors";
 import {
@@ -24,7 +20,7 @@ import {
   processNotifications,
   setIOSStatusBarStyle,
   useRedirectToScreenByDidTryStorePopup,
-  useRedirectToScreenByLink,
+  useRedirectToScreenByLink
 } from "../../helpers";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as actionTypes from "../../store/actions/actionTypes";

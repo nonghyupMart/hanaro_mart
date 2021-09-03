@@ -41,8 +41,8 @@ const NotificationScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     title: "알림",
     headerLeft: () => <BackButton />,

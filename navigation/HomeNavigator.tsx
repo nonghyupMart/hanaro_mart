@@ -13,7 +13,7 @@ export const HomeNavigator = () => {
       <HomeStackNavigator.Navigator
         screenOptions={{
           contentStyle: {
-            paddingBottom:PADDING_BOTTOM_MENU
+            paddingBottom: PADDING_BOTTOM_MENU,
           },
           animation: "slide_from_right",
           headerBackTitle: " ",

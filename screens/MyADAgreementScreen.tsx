@@ -367,8 +367,8 @@ const Container = styled.View({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "광고성 정보 수신동의",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

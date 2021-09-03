@@ -187,8 +187,8 @@ const Text1 = styled(BaseText)({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "QR코드 촬영",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

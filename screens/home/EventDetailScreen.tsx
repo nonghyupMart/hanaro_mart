@@ -299,8 +299,6 @@ const EventDetailScreen = (props) => {
 
 const Text3 = styled(BaseText)({
   fontSize: 20,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 20,
   letterSpacing: 0,
   textAlign: "center",
@@ -311,8 +309,7 @@ const Text3 = styled(BaseText)({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "이벤트",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
       paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,

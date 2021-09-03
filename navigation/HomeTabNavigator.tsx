@@ -85,9 +85,6 @@ export const HomeTabNavigator = ({ navigation, route }) => {
               component={components}
               options={{
                 title: menu.menu_nm,
-                // cardStyle: {
-                //   backgroundColor: colors.TRUE_WHITE,
-                // }
               }}
             />
           );

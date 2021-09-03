@@ -41,8 +41,8 @@ const NHAHMScreen = ({ navigation, route }) => {
       }
       navigation.setOptions({
         title: title,
-        cardStyle: {
-          marginBottom: 0,
+        contentStyle: {
+          paddingBottom: 0,
           // marginTop: 30,
         },
       });
@@ -84,8 +84,8 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <></>,
     headerTitle: (props) => <></>,
     headerRight: (props) => <></>,
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerShown: false,
     // headerStyle: {
@@ -97,6 +97,5 @@ export const screenOptions = ({ navigation }) => {
     // },
   };
 };
-
 
 export default NHAHMScreen;

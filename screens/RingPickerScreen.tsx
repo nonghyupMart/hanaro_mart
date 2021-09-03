@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Button,
-  Image,
-  View,
-  TouchableOpacity,
+  StyleSheet
 } from "react-native";
-import { SERVER_URL } from "../constants";
-
-import * as CommonActions from "../store/actions/common";
-import { ExtendedWebView } from "../components/UI/ExtendedWebView";
-import {
-  StyleConstants,
-  BaseImage,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-} from "../components/UI/BaseUI";
+import { useDispatch } from "react-redux";
 import BaseScreen from "../components/BaseScreen";
 import {
-  createStackNavigator,
-  CardStyleInterpolators,
-  HeaderStyleInterpolators,
-} from "@react-navigation/stack";
+  SCREEN_HEIGHT, SCREEN_WIDTH
+} from "../components/UI/BaseUI";
+import { ExtendedWebView } from "../components/UI/ExtendedWebView";
+import { SERVER_URL } from "../constants";
+import * as CommonActions from "../store/actions/common";
+
 
 const RingPickerScreen = ({ navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -56,12 +41,11 @@ const RingPickerScreen = ({ navigation: { goBack } }) => {
 };
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerShown: false,
-    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
+    animation: "fade",
   };
 };
 const styles = StyleSheet.create({

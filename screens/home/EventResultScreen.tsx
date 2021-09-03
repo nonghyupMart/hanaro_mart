@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
+import { Image } from "react-native";
 import styled from "styled-components/native";
-import { View, Platform, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import {
   BaseText,
   BlueButton,
-  BlueButtonText,
+  BlueButtonText
 } from "../../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import _ from "lodash";
 import colors from "../../constants/Colors";
 
 const EventResultScreen = (props) => {
@@ -114,7 +113,7 @@ const Text4 = styled(BaseText)({
 const BackBtn = styled(BlueButton)({});
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
+    contentStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "이벤트 추첨결과",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

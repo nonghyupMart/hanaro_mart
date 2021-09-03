@@ -39,8 +39,8 @@ const StoreChangeScreen = (props) => {
         dispatch(CommonActions.setBottomNavigation(false));
         props.navigation.setOptions({
           headerLeft: (props) => <></>,
-          cardStyle: {
-            marginBottom: 0,
+          contentStyle: {
+            paddingBottom: 0,
           },
         });
       }
@@ -177,10 +177,6 @@ export const screenOptions = ({ navigation }) => {
     headerLeft: (props) => <BackButton {...props} />,
     headerTitle: (props) => <TextTitle {...props} />,
     headerRight: () => <></>,
-    cardStyle: {
-      backgroundColor: colors.TRUE_WHITE,
-      paddingBottom: PADDING_BOTTOM_MENU,
-    },
   };
 };
 // const SearchButton = styled(BaseButtonContainer)({});

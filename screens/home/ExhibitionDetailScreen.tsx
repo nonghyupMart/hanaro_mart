@@ -1,25 +1,20 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import AutoHeightWebView from "react-native-autoheight-webview";
+import { useDispatch, useSelector } from "react-redux";
 import BaseScreen from "../../components/BaseScreen";
-import { useSelector, useDispatch } from "react-redux";
-import * as exhibitionActions from "../../store/actions/exhibition";
-import * as exclusiveActions from "../../store/actions/exclusive";
+import {
+  DetailContainer
+} from "../../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
-import AutoHeightWebView from "react-native-autoheight-webview";
-import { SET_EXHIBITION_DETAIL } from "../../store/actions/actionTypes";
-import {
-  DetailContainer,
-  BaseImage,
-  ScaledImage,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-} from "../../components/UI/BaseUI";
 import colors from "../../constants/Colors";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as CommonActions from "../../store/actions/common";
 import { TabMenus } from "../../constants/menu";
+import { SET_EXHIBITION_DETAIL } from "../../store/actions/actionTypes";
+import * as CommonActions from "../../store/actions/common";
+import { setIsLoading } from "../../store/actions/common";
+import * as exclusiveActions from "../../store/actions/exclusive";
+import * as exhibitionActions from "../../store/actions/exhibition";
 
 const ExhibitionDetailScreen = (props, { navigation }) => {
   const routeName = props.route.name;
@@ -132,8 +127,8 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
 export const screenOptions = ({ navigation }) => {
   return {
     title: "기획전",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

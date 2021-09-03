@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import queryString from "query-string";
-
-import { View, Text, StyleSheet } from "react-native";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
-import { SERVER_URL, API_URL } from "../../constants";
-import { useSelector, useDispatch } from "react-redux";
-import BaseScreen from "../../components/BaseScreen";
 import _ from "lodash";
+import queryString from "query-string";
+import React, { useEffect, useState } from "react";
+import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import BaseScreen from "../../components/BaseScreen";
+import { ExtendedWebView } from "../../components/UI/ExtendedWebView";
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { SERVER_URL } from "../../constants";
+
 const InquiryScreen = (props) => {
   const userStore = useSelector((state) => state.auth.userStore);
   const userInfo = useSelector((state) => state.auth.userInfo);
@@ -45,9 +45,6 @@ const InquiryScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    // cardStyle: {
-    //   marginBottom: 0,
-    // },
     title: "1:1 문의",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

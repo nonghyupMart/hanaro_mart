@@ -1,14 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
-import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import Gallery from "../../utils/react-native-image-gallery/Gallery";
-import _ from "lodash";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "../../store/actions/flyer";
 import { IMAGE_URL } from "../../constants";
 import * as CommonActions from "../../store/actions/common";
+import * as flyerActions from "../../store/actions/flyer";
+import Gallery from "../../utils/react-native-image-gallery/Gallery";
 
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
@@ -106,8 +105,8 @@ const Btn = styled.TouchableOpacity({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "전단지",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

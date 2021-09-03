@@ -59,8 +59,8 @@ const CouponDetailScreen = (props) => {
     if (!_.isEmpty(couponDetail)) {
       props.navigation.setOptions({
         title: "쿠폰",
-        cardStyle: {
-          marginBottom: 0,
+        contentStyle: {
+          paddingBottom: 0,
         },
         headerLeft: () => <BackButton />,
         headerTitle: (props) => <TextTitle {...props} />,
@@ -465,8 +465,8 @@ const Discount = styled(BaseText)({
 export const screenOptions = ({ navigation }) => {
   return {
     title: "쿠폰",
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
     },
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,

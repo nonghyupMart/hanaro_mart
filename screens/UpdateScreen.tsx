@@ -1,29 +1,16 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
-import styled from "styled-components/native";
-import Modal from "react-native-modal";
-
-import {
-  StyleConstants,
-  BaseImage,
-  ScaledImage,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "../components/UI/BaseUI";
-import _ from "lodash";
 import * as Linking from "expo-linking";
+import _ from "lodash";
+import React, { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
+import {
+  BaseImage, SCREEN_HEIGHT, SCREEN_WIDTH
+} from "../components/UI/BaseUI";
 import * as CommonActions from "../store/actions/common";
 
-import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity, Platform } from "react-native";
 
-import moment from "moment";
-import {
-  createStackNavigator,
-  CardStyleInterpolators,
-  HeaderStyleInterpolators,
-} from "@react-navigation/stack";
+
 
 const UpdateScreen = (props) => {
   const dispatch = useDispatch();
@@ -70,16 +57,12 @@ const UpdateScreen = (props) => {
 
 export const screenOptions = ({ navigation }) => {
   return {
-    cardStyle: {
-      marginBottom: 0,
+    contentStyle: {
+      paddingBottom: 0,
       backgroundColor: "transparent",
     },
-    containerStyle: {
-      backgroundColor: "transparent",
-    },
+    animation: "fade",
     headerShown: false,
-    cardStyleInterpolator: CardStyleInterpolators.forFadeFromBottomAndroid,
-    headerStyleInterpolator: HeaderStyleInterpolators.forFade,
   };
 };
 const Screen = styled.View({
