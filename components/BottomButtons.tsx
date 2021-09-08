@@ -1,22 +1,15 @@
-import React from "react";
-import styled from "styled-components/native";
-import {
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  View,
-} from "react-native";
-import { useSelector, useDispatch } from "react-redux";
 import * as Linking from "expo-linking";
-import { MaterialIcons, Entypo } from "@expo/vector-icons";
-import _ from "lodash";
-import * as RootNavigation from "../navigation/RootNavigation";
-import { Icon } from "react-native-elements";
-import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
-import * as Util from "../utils";
-import { checkAuth, checkSetStore } from "../store/actions/auth";
+import React from "react";
+import {
+  Image, StyleSheet, TouchableOpacity
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import styled from "styled-components/native";
 import colors from "../constants/Colors";
+import * as RootNavigation from "../navigation/RootNavigation";
+import { checkAuth, checkSetStore } from "../store/actions/auth";
+import * as Util from "../utils";
+import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
 
 const BottomButtons = (props) => {
   const dispatch = useDispatch();
