@@ -1,8 +1,7 @@
-export interface UserStore {
-  menuList: {
-    menu_nm: string;
-    r_menu_nm: string;
-  }[];
+import { MenuList } from "./MenuList";
+
+export type UserStore = {
+  menuList: MenuList[];
   storeInfo: {
     addr: string;
     addr_no: string;
@@ -20,4 +19,4 @@ export interface UserStore {
     support_tel: string;
     tel: string;
   };
-}
+};

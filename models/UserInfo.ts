@@ -1,16 +1,18 @@
-export interface UserInfo {
+import { YN } from "./Types";
+
+export type UserInfo = {
   amnNo: string;
   ci: string;
   di: string;
   mana_qr: string;
-  marketing_agree: "N" | "Y";
+  marketing_agree: YN;
   marketing_date: string;
-  push_agree: "N" | "Y";
+  push_agree: YN;
   push_cnt: number;
   recommend: string;
-  recommend_apply: "N" | "Y";
+  recommend_apply: YN;
   reg_date: string;
-  sms_agree: "N" | "Y";
+  sms_agree: YN;
   store_cd: number;
   store_type: string;
   tel: string;
@@ -21,4 +23,4 @@ export interface UserInfo {
   user_name: string;
   user_sex: string;
   wish_cnt: number;
-}
+};
