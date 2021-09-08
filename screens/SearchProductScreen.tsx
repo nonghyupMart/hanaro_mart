@@ -1,44 +1,35 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components/native";
+import _ from "lodash";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Platform,
-  Image,
-  FlatList,
-  Dimensions,
-  Keyboard,
+  Keyboard, Platform, View
 } from "react-native";
+import styled from "styled-components/native";
 import BaseScreen from "../components/BaseScreen";
-import {
-  BaseTouchable,
-  BaseImage,
-  BaseTextInput,
-  BaseText,
-} from "../components/UI/BaseUI";
-import ExtendedFlatList from "../components/UI/ExtendedFlatList";
-import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "../store/actions/flyer";
 import FlyerItem from "../components/flyer/FlyerItem";
 import ProductPopup from "../components/ProductPopup";
+import {
+  BaseText, BaseTextInput, BaseTouchable
+} from "../components/UI/BaseUI";
+import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
-import { setAlert, setIsLoading } from "../store/actions/common";
-import * as CommonActions from "../store/actions/common";
-import { styles } from "./home/FlyerScreen";
-import _ from "lodash";
-import { changeWishState } from "../store/actions/common";
 import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
+import * as CommonActions from "../store/actions/common";
+import { changeWishState, setAlert, setIsLoading } from "../store/actions/common";
+import * as flyerActions from "../store/actions/flyer";
+import { styles } from "./home/FlyerScreen";
 
 const SearchProductScreen = (props) => {
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const [product_nm, setProduct_nm] = useState("");
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const dispatch = useDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
   const page = useRef(1);
   const currentItem = useRef(null);
 
-  const product = useSelector((state) => state.flyer.searchedProduct);
+  const product = useAppSelector((state) => state.flyer.searchedProduct);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
@@ -67,7 +58,7 @@ const SearchProductScreen = (props) => {
   };
   const fetchProduct = (e, p = page.current) => {
     if (product_nm.length < 1) {
-      return dispatch(
+      dispatch(
         setAlert({
           message: "상품명을 입력해주세요.",
           onPressConfirm: () => {
@@ -75,15 +66,16 @@ const SearchProductScreen = (props) => {
           },
         })
       );
+      return;
     }
 
     dispatch(setIsLoading(true));
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       product_nm: product_nm,
       page: p,
     };
-    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo?.user_cd;
     dispatch(flyerActions.fetchProduct(query));
   };
   const loadMore = () => {
@@ -133,13 +125,13 @@ const SearchProductScreen = (props) => {
           </SearchBtn>
         </SearchContainer>
       </View>
-      {product && product.productList && (
+      {product?.productList && (
         <ResultText>
           '{product_nm}'의 검색결과 (총{product.allCnt})
         </ResultText>
       )}
 
-      {product && product.productList && (
+      {product?.productList && (
         <ExtendedFlatList
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           style={[styles.flyerListStyle]}

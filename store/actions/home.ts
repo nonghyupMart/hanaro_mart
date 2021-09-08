@@ -104,7 +104,7 @@ export const fetchPopup = (query = {}, isNoLoading = false) => {
       .init({ dispatch: dispatch, isAutoOff: true, isNoLoading })
       .get(url)
       .then(async (response) => {
-        if (query && query.store_cd) {
+        if (query?.store_cd) {
           dispatch({
             type: actionTypes.SET_STORE_POPUP,
             storePopup: response.data,
@@ -113,9 +113,9 @@ export const fetchPopup = (query = {}, isNoLoading = false) => {
           //버전이 같거나 높으면 팝업 목록에서 제거
           _.remove(response.data.popupList, (currentObject) => {
             if (currentObject.app_ver) {
-              const index = Constants.manifest.version.indexOf(".", 2);
+              const index = Constants?.manifest?.version?.indexOf(".", 2);
               let versionCheck = Util.versionCompare(
-                Constants.manifest.version.slice(0, index),
+                Constants?.manifest?.version?.slice(0, index),
                 currentObject.app_ver
               );
               return versionCheck >= 0;

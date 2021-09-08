@@ -17,7 +17,7 @@ initializeApplication();
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState<boolean>(false);
-  if (Constants.manifest && Constants.manifest.releaseChannel === "prod") {
+  if (Constants.manifest?.releaseChannel === "prod") {
     usePreventScreenCapture();
   }
 

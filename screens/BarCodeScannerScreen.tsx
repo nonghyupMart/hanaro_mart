@@ -1,34 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components/native";
-import {
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  Button,
-  Image,
-  View,
-  ImageBackground,
-  Platform,
-} from "react-native";
-import BaseScreen from "../components/BaseScreen";
-import { BackButton, TextTitle } from "../components/UI/header";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { Camera } from "expo-camera";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  BaseTouchable,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  SCREEN_HEIGHT,
-  BaseText,
+  Image, ImageBackground,
+  Platform, StyleSheet, Text, View
+} from "react-native";
+import styled from "styled-components/native";
+import BaseScreen from "../components/BaseScreen";
+import {
+  BaseText
 } from "../components/UI/BaseUI";
-import * as CommonActions from "../store/actions/common";
-import { useSelector, useDispatch } from "react-redux";
+import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
+import { useAppDispatch } from "../hooks";
+import * as CommonActions from "../store/actions/common";
 
 const DESIRED_RATIO = "16:9";
 
 const BarCodeScannerScreen = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const params = props.route.params;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);

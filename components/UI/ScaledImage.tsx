@@ -5,8 +5,16 @@ import { IMAGE_URL } from "../../constants";
 import colors from "../../constants/Colors";
 
 // import { BaseImage } from "../../components/UI/BaseUI";
-
-export default class ScaledImage extends Component {
+interface IProps {
+  source: string;
+}
+interface IState {
+  source: { uri: string };
+  sourceURI: string;
+  color: string;
+  minHeight: number;
+}
+export default class ScaledImage extends Component<IProps, IState> {
   constructor(props) {
     super(props);
     let source;
@@ -30,6 +38,7 @@ export default class ScaledImage extends Component {
   }
 
   onLoadEnd = () => {
+    // TODO: https://stackoverflow.com/questions/44277855/cannot-change-state-interface-in-reacttypescript
     this.state.color = "transparent";
     if (this.props.onLoadEnd) this.props.onLoadEnd();
     this.setState({ minHeight: 0 });

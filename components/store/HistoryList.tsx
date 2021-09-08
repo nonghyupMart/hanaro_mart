@@ -1,25 +1,21 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components/native";
-import {
-  BlueButton,
-  BlueButtonText,
-  SCREEN_WIDTH,
-  StyleConstants,
-  BaseText,
-} from "../UI/BaseUI";
-import { Image, FlatList } from "react-native";
-import StoreItem from "./StoreItem";
-import * as branchesActions from "../../store/actions/branches";
-import { SET_STORE_MARK } from "../../store/actions/actionTypes";
 import _ from "lodash";
-import { setIsLoading } from "../../store/actions/common";
+import React, { useEffect, useState } from "react";
+import { FlatList, Image } from "react-native";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { SET_STORE_MARK } from "../../store/actions/actionTypes";
+import * as branchesActions from "../../store/actions/branches";
+import {
+  BaseText, SCREEN_WIDTH,
+  StyleConstants
+} from "../UI/BaseUI";
+import StoreItem from "./StoreItem";
 
 const HistoryList = (props) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const storeMark = useSelector((state) => state.branches.storeMark);
-  const dispatch = useDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const storeMark = useAppSelector((state) => state.branches.storeMark);
+  const dispatch = useAppDispatch();
   const [isVisible, setIsVisible] = useState(true);
   // useEffect(() => {
   //   fetchMarkedStores();
@@ -28,7 +24,7 @@ const HistoryList = (props) => {
   const fetchMarkedStores = (isDel = false) => {
     if (!isDel && (!isVisible || !_.isEmpty(storeMark))) return;
     let query = {
-      user_cd: userInfo.user_cd,
+      user_cd: userInfo?.user_cd,
     };
     if (props.location) {
       query.lat = props.location.coords.latitude;

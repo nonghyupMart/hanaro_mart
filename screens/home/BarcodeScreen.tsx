@@ -1,33 +1,26 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import JsBarcode from "jsbarcode";
 import * as Brightness from "expo-brightness";
-
+import React, { useEffect, useState } from "react";
+// import Barcode from "react-native-jsbarcode";
+import { Image, Platform } from "react-native";
+import styled from "styled-components/native";
 import { DOMImplementation, XMLSerializer } from "xmldom";
+import Barcode from "../../components/Barcode";
+import BaseScreen from "../../components/BaseScreen";
 import {
-  SCREEN_WIDTH,
   BaseButtonContainer,
   BaseText,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
-import colors from "../../constants/Colors";
-// import Barcode from "react-native-jsbarcode";
-import { Text as TextView, StyleSheet, Platform, Image } from "react-native";
-
-import BaseScreen from "../../components/BaseScreen";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import Barcode from "../../components/Barcode";
-import { setAlert } from "../../store/actions/common";
+import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
+import { setAlert } from "../../store/actions/common";
 
 const BarcodeScreen = (props) => {
   const params = props.route.params;
-  const dispatch = useDispatch();
-  const brightness = useSelector((state) => state.common.brightness);
-  const isLoading = useSelector((state) => state.common.isLoading);
-  const [isBarcodeSafe, setIsBarcodeSafe] = useState(false);
-  const [svgBarcode, setSvgBarcode] = useState();
-  const xmlSerializer = new XMLSerializer();
+  const dispatch = useAppDispatch();
+  const brightness = useAppSelector((state) => state.common.brightness);
   const document = new DOMImplementation().createDocument(
     "http://www.w3.org/1999/xhtml",
     "html",
@@ -46,11 +39,13 @@ const BarcodeScreen = (props) => {
       await Brightness.setBrightnessAsync(1);
     })();
     dispatch(CommonActions.setBottomNavigation(false));
-    return async () => {
-      dispatch(CommonActions.setBottomNavigation(true));
-      if (brightness && Platform.OS === "ios")
-        await Brightness.setBrightnessAsync(brightness);
-      await Brightness.useSystemBrightnessAsync();
+    return () => {
+      (async () => {
+        dispatch(CommonActions.setBottomNavigation(true));
+        if (brightness && Platform.OS === "ios")
+          await Brightness.setBrightnessAsync(brightness);
+        await Brightness.useSystemBrightnessAsync();
+      })();
     };
   }, []);
   useEffect(() => {
@@ -224,13 +219,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default BarcodeScreen;

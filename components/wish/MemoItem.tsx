@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Image } from "react-native";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import React from "react";
+import { Image, StyleSheet } from "react-native";
+import { CheckBox } from "react-native-elements";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
-import { BaseTextInput, ImageButton, BaseText } from "../UI/BaseUI";
-import { CheckBox } from "react-native-elements";
+import { useAppDispatch } from "../../hooks";
 import * as memosActions from "../../store/actions/memo";
+import { BaseText, ImageButton } from "../UI/BaseUI";
 
 const MemoItem = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onCheckPress = (memo) => {
     dispatch(
@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     color: colors.EMERALD,
   },
   checkbox: {
-    justifyContent: "flex-start",
     margin: 0,
     alignItems: "flex-start",
     padding: 0,

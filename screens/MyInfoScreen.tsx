@@ -1,49 +1,42 @@
+import _ from "lodash";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  BaseText,
-} from "../components/UI/BaseUI";
-import { WhiteContainer } from "./snb/StoreChangeScreen";
-import MemberInfoB from "../components/myPage/MemberInfoB";
-import QRCode from "react-native-qrcode-svg";
 // import Barcode from "react-native-jsbarcode";
 import {
-  SafeAreaView,
-  View,
-  Text as TextView,
-  StyleSheet,
-  FlatList,
-  BackHandler,
-  Image,
+  Image, StyleSheet
 } from "react-native";
-import _ from "lodash";
-import * as Util from "../utils";
-import moment from "moment";
-import colors from "../constants/Colors";
-import BaseScreen from "../components/BaseScreen";
-import { BackButton, TextTitle } from "../components/UI/header";
-import Barcode from "../components/Barcode";
-import { setAlert, setIsLoading, setLink } from "../store/actions/common";
 import Modal from "react-native-modal";
-import { setReference, fetchUserInfo } from "../store/actions/auth";
+import QRCode from "react-native-qrcode-svg";
+import styled from "styled-components/native";
+import Barcode from "../components/Barcode";
+import BaseScreen from "../components/BaseScreen";
+import MemberInfoB from "../components/myPage/MemberInfoB";
+import {
+  BaseButtonContainer,
+  BaseText, SCREEN_WIDTH
+} from "../components/UI/BaseUI";
+import { BackButton, TextTitle } from "../components/UI/header";
+import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { fetchUserInfo, setReference } from "../store/actions/auth";
+import { setAlert, setLink } from "../store/actions/common";
+import * as Util from "../utils";
+import { WhiteContainer } from "./snb/StoreChangeScreen";
 
 const MyInfoScreen = (props) => {
   const params = props.route.params;
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const [isVisible, setIsVisible] = useState(false);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const [barcode, setBarcode] = useState();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const [barcode, setBarcode] = useState<string>();
   const [recommend, setRecommend] = useState();
-  const pushToken = useSelector((state) => state.auth.pushToken);
-  const link = useSelector((state) => state.common.link);
+  const pushToken = useAppSelector((state) => state.auth.pushToken);
+  const link = useAppSelector((state) => state.common.link);
   const routeName = props.route.name;
 
   useEffect(() => {
-    if (link && link.category === routeName && link.link_code) {
+    if (link?.category === routeName && link?.link_code) {
       setTimeout(async () => {
         await setRecommend(link.link_code);
         await dispatch(setLink(null));
@@ -53,9 +46,9 @@ const MyInfoScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      const userID = userInfo.user_id;
-      const LastNumber = userID.substr(userID.length - 4);
-      const cd = decodeURIComponent(userInfo.user_cd);
+      const userID = userInfo?.user_id;
+      const LastNumber = userID?.substr(userID.length - 4);
+      const cd = decodeURIComponent(userInfo?.user_cd + "");
       const userCD = Util.pad(8, Util.decrypt(cd));
       setBarcode(LastNumber + userCD);
     }
@@ -72,9 +65,9 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPress = () => {
-    if (userInfo.recommend_apply === "Y" || !recommend || recommend.length <= 0)
+    if (userInfo?.recommend_apply === "Y" || recommend?.length <= 0)
       return props.navigation.goBack();
-    dispatch(setReference({ user_cd: userInfo.user_cd, recommend })).then(
+    dispatch(setReference({ user_cd: userInfo?.user_cd, recommend })).then(
       (data) => {
         if (data.result === "success") {
           dispatch(
@@ -96,7 +89,7 @@ const MyInfoScreen = (props) => {
     );
   };
   const onPressEditMyInfo = () => {
-    !!userInfo.amnNo
+    !!userInfo?.amnNo
       ? props.navigation.navigate("NHAHM", { regiDesc: "02" })
       : props.navigation.navigate("CI");
   };
@@ -125,7 +118,7 @@ const MyInfoScreen = (props) => {
             <EditButtonText>내정보 수정</EditButtonText>
             <Image source={require("../assets/images/create_white_24dp.png")} />
           </EditButton>
-          {!!userInfo.amnNo && (
+          {!!userInfo?.amnNo && (
             <EditButton
               onPress={() =>
                 props.navigation.navigate("NHAHM", {
@@ -145,21 +138,21 @@ const MyInfoScreen = (props) => {
         <TextContainer>
           <TitleIcon source={require("../assets/images/shop1black.png")} />
           <Text1>주매장</Text1>
-          <Text2>{userStore.storeInfo.store_nm}</Text2>
+          <Text2>{userStore?.storeInfo.store_nm}</Text2>
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/heart2black.png")} />
           <Text1>추천인코드</Text1>
-          <Text2>{userInfo.recommend}</Text2>
+          <Text2>{userInfo?.recommend}</Text2>
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/mypage_bt_off.png")} />
           <Text1>가입일자</Text1>
-          <Text2>{moment(userInfo.reg_date).format("YYYY.MM.DD")}</Text2>
+          <Text2>{moment(userInfo?.reg_date).format("YYYY.MM.DD")}</Text2>
         </TextContainer>
       </MarginContainer>
       <WhiteContainer style={{ marginTop: 10 }}>
-        {userInfo.recommend_apply !== "Y" && (
+        {userInfo?.recommend_apply !== "Y" && (
           <BarcodeContainer
             style={{
               paddingLeft: 10,
@@ -188,18 +181,18 @@ const MyInfoScreen = (props) => {
             height={100}
             value={barcode}
             format="CODE128"
-            flat
+            flat={true}
             onError={onError}
           />
         </BarcodeContainer>
-        {!!userInfo.mana_qr && (
+        {!!userInfo?.mana_qr && (
           <MangerQRCodeContainer onPress={setIsVisible.bind(this, true)}>
             <Image source={require("../assets/images/adminqr.png")} />
           </MangerQRCodeContainer>
         )}
       </WhiteContainer>
 
-      {!!userInfo.mana_qr && (
+      {!!userInfo?.mana_qr && (
         <Modal
           backdropTransitionInTiming={0}
           backdropTransitionOutTiming={0}
@@ -211,7 +204,7 @@ const MyInfoScreen = (props) => {
           <ModalContainer>
             <ModalTitle>관리자 QR코드</ModalTitle>
             <QRCodeContainer>
-              <QRCode value={userInfo.mana_qr} />
+              <QRCode value={userInfo?.mana_qr} />
             </QRCodeContainer>
             <ModalCloseButton onPress={setIsVisible.bind(this, false)}>
               <Image source={require("../assets/images/closeBtn10.png")} />
@@ -232,7 +225,6 @@ const EditButtonText = styled(BaseText)({
 });
 const EditButton = styled.TouchableOpacity({
   backgroundColor: colors.CERULEAN_2,
-
   flexDirection: "row",
   paddingLeft: 11.5,
   paddingRight: 6.7,

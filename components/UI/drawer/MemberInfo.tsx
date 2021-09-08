@@ -1,19 +1,18 @@
-import React from "react";
-import styled from "styled-components/native";
-import { View, Image } from "react-native";
-import { BaseText, SCREEN_WIDTH } from "../BaseUI";
-import _ from "lodash";
 import { LinearGradient } from "expo-linear-gradient";
+import _ from "lodash";
+import React from "react";
+import { Image, View } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import styled from "styled-components/native";
+import colors from "../../../constants/Colors";
+import { useAppSelector } from "../../../hooks";
+import * as Util from "../../../utils";
+import { BaseText } from "../BaseUI";
 import UserName from "../UserName";
 import UserPhoneNumber from "../UserPhoneNumber";
-import * as Util from "../../../utils";
-import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import colors from "../../../constants/Colors";
 
 const MemberInfo = (props) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
 
   return (
     <MemberInfoContainer>
@@ -34,7 +33,7 @@ const MemberInfo = (props) => {
                   <UserName />
                 </Text2>
                 <Text3>님</Text3>
-                {!!userInfo.amnNo && <BlueSmallText> [통합회원]</BlueSmallText>}
+                {!!userInfo?.amnNo && <BlueSmallText> [통합회원]</BlueSmallText>}
               </View>
               <Text4>
                 <UserPhoneNumber />

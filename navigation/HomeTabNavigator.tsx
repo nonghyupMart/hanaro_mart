@@ -1,12 +1,11 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import _ from "lodash";
 import React from "react";
-import { useSelector } from "react-redux";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
 import TabBarTop from "../components/UI/tabBar/MaterialTopTabBar";
 import colors from "../constants/Colors";
 import { TabMenus } from "../constants/menu";
-import { RootState } from "../hooks";
+import { useAppSelector } from "../hooks";
 import * as Screens from "../screens";
 
 const HomeTopTabNavigator = createMaterialTopTabNavigator();
@@ -22,9 +21,8 @@ const getTabBarVisible = (route) => {
 };
 
 export const HomeTabNavigator = ({ navigation, route }) => {
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
-  const menuList =
-    !_.isEmpty(userStore) && userStore!.menuList ? userStore!.menuList : [];
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const menuList = userStore?.menuList ? userStore.menuList : [];
   // const menuList = route.params ? route.params.menuList : [];
 
   if (_.isEmpty(userStore)) return <></>;

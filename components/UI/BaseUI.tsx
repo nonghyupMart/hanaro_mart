@@ -32,7 +32,7 @@ const CustomText = ({ style, children, ...rest }) => {
 
   // Multiple styles may be provided.
   (Array.isArray(style) ? style : [style]).forEach((style) => {
-    if (style && style.fontWeight) {
+    if (style?.fontWeight) {
       baseStyle = style.fontWeight === "bold" ? styles.bold : styles.regular;
     }
   });

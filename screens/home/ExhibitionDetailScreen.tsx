@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
 import AutoHeightWebView from "react-native-autoheight-webview";
-import { useDispatch, useSelector } from "react-redux";
 import BaseScreen from "../../components/BaseScreen";
-import {
-  DetailContainer
-} from "../../components/UI/BaseUI";
+import { DetailContainer } from "../../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import colors from "../../constants/Colors";
 import { TabMenus } from "../../constants/menu";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { SET_EXHIBITION_DETAIL } from "../../store/actions/actionTypes";
 import * as CommonActions from "../../store/actions/common";
 import { setIsLoading } from "../../store/actions/common";
 import * as exclusiveActions from "../../store/actions/exclusive";
 import * as exhibitionActions from "../../store/actions/exhibition";
 
-const ExhibitionDetailScreen = (props, { navigation }) => {
+const ExhibitionDetailScreen = (props) => {
   const routeName = props.route.name;
-  const [isZoom, setIsZoom] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [scrollRef, setScrollRef] = useState();
-  const isLoading = useSelector((state) => state.common.isLoading);
-
-  const [imageHeight, setImageHeight] = useState(0);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const detail = useSelector((state) =>
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const detail = useAppSelector((state) =>
     routeName === "ExhibitionDetail"
       ? state.exhibition.exhibitionDetail
       : state.exclusive.exclusiveDetail
@@ -47,7 +39,7 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
       (tab) => tab.name === routeName.split("Detail")[0]
     );
 
-    const tab = userStore.menuList.filter(
+    const tab = userStore?.menuList.filter(
       (menu) => menu.r_menu_nm === currentTab[0].title
     );
 
@@ -124,7 +116,7 @@ const ExhibitionDetailScreen = (props, { navigation }) => {
   );
 };
 
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     title: "기획전",
     contentStyle: {
@@ -135,13 +127,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    backgroundColor: colors.TRUE_WHITE,
-  },
-});
 
 export default ExhibitionDetailScreen;

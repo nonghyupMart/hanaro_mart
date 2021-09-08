@@ -1,21 +1,19 @@
 import * as Linking from "expo-linking";
 import React from "react";
-import {
-  Image, StyleSheet, TouchableOpacity
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { Image, StyleSheet, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import * as RootNavigation from "../navigation/RootNavigation";
 import { checkAuth, checkSetStore } from "../store/actions/auth";
 import * as Util from "../utils";
 import { BaseText, SCREEN_WIDTH } from "./UI/BaseUI";
 
-const BottomButtons = (props) => {
-  const dispatch = useDispatch();
-  const isJoined = useSelector((state) => state.auth.isJoined);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isBottomNavigation = useSelector(
+const BottomButtons = () => {
+  const dispatch = useAppDispatch();
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const isBottomNavigation = useAppSelector(
     (state) => state.common.isBottomNavigation
   );
   if (isBottomNavigation)

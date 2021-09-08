@@ -1,43 +1,31 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  BaseText,
-} from "../components/UI/BaseUI";
-import * as MyInfoScreen from "./MyInfoScreen";
-import MemberInfoB from "../components/myPage/MemberInfoB";
-import { CheckBox } from "react-native-elements";
-// import Barcode from "react-native-jsbarcode";
-import {
-  SafeAreaView,
-  View,
-  Text as TextView,
-  StyleSheet,
-  FlatList,
-  BackHandler,
-  Image,
-  Switch,
-} from "react-native";
 import _ from "lodash";
 import moment from "moment";
-import colors from "../constants/Colors";
+import React, { useEffect, useState } from "react";
+// import Barcode from "react-native-jsbarcode";
+import { Image } from "react-native";
+import { CheckBox } from "react-native-elements";
+import styled from "styled-components/native";
 import BaseScreen from "../components/BaseScreen";
+import MemberInfoB from "../components/myPage/MemberInfoB";
+import {
+  BaseText
+} from "../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { setAlert, setIsLoading } from "../store/actions/common";
+import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import * as authActions from "../store/actions/auth";
 import { fetchUserInfo } from "../store/actions/auth";
+import { setAlert } from "../store/actions/common";
+import * as MyInfoScreen from "./MyInfoScreen";
 
 const MyADAgreementScreen = (props) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const [barcode, setBarcode] = useState();
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
   const [sms, setSms] = useState(false);
   const [push, setPush] = useState(false);
   const [marketing_date, setMarketing_date] = useState();
-  const pushToken = useSelector((state) => state.auth.pushToken);
+  const pushToken = useAppSelector((state) => state.auth.pushToken);
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
@@ -54,10 +42,10 @@ const MyADAgreementScreen = (props) => {
     }
   }, []);
   const onPress = async () => {
-    const prevPush = userInfo.push_agree === "Y";
-    const prevSms = userInfo.sms_agree === "Y";
+    const prevPush = userInfo?.push_agree === "Y";
+    const prevSms = userInfo?.sms_agree === "Y";
     if (push === prevPush && sms === prevSms) {
-      return dispatch(
+      dispatch(
         setAlert({
           message: "변경사항이 없습니다.",
           onPressConfirm: () => {
@@ -65,9 +53,10 @@ const MyADAgreementScreen = (props) => {
           },
         })
       );
+      return;
     }
     let query = {
-      user_cd: userInfo.user_cd,
+      user_cd: userInfo?.user_cd,
       push_agree: push ? "Y" : "N",
       sms_agree: sms ? "Y" : "N",
       user_id: await authActions.saveUserTelToStorage(),
@@ -267,103 +256,6 @@ const TextContainer = styled.View({
   alignSelf: "stretch",
   flexWrap: "wrap",
 });
-const BarcodeContainer = styled.View({
-  borderStyle: "solid",
-  borderWidth: 1,
-  borderColor: colors.PINKISH_GREY,
-  borderRadius: 7,
-  margin: 34,
-  paddingTop: 14,
-  paddingBottom: 14,
-});
-const BlueButtonText = styled(BaseText)({
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.TRUE_WHITE,
-  marginLeft: 9,
-});
-const BlueButton = styled(BaseButtonContainer)({
-  marginTop: 5,
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  backgroundColor: colors.CERULEAN,
-  paddingTop: 8,
-  paddingBottom: 8,
-  flex: 1,
-  width: SCREEN_WIDTH - 24 * 2,
-  alignSelf: "center",
-  aspectRatio: 100 / 12.804,
-});
-const Warn = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.GREYISH_BROWN,
-  marginLeft: 18,
-  flex: 1,
-});
-const WarnContainer = styled.View({
-  overflow: "hidden",
-  marginTop: 22,
-  flexDirection: "row",
-  marginLeft: 28,
-  marginRight: 28,
-  marginBottom: 22,
-  flex: 1,
-});
-const Now = styled(BaseText)({
-  color: colors.APPLE_GREEN,
-});
-const TimerText = styled(BaseText)({
-  marginTop: 45,
-  justifyContent: "flex-end",
-  alignItems: "flex-end",
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "right",
-  color: colors.GREYISH_BROWN,
-  marginBottom: 5,
-  flex: 1,
-  width: "100%",
-  marginRight: 35,
-});
-const TimerBar = styled.View({
-  width: (props) => {
-    return (props.elapsedTime * props.barContainerWidth) / 120;
-  },
-  flex: 1,
-  backgroundColor: colors.APPLE_GREEN,
-});
-const TimerBarContainer = styled.View({
-  overflow: "hidden",
-
-  marginBottom: 70,
-  width: SCREEN_WIDTH - 50,
-  aspectRatio: 100 / 7.042,
-  backgroundColor: colors.PINKISH_GREY,
-  borderRadius: 20,
-});
-const Container = styled.View({
-  alignItems: "center",
-  width: "100%",
-  flex: 1,
-  backgroundColor: colors.TRUE_WHITE,
-  marginTop: 7,
-  paddingLeft: 24,
-  paddingRight: 24,
-  paddingBottom: 45,
-});
 export const screenOptions = ({ navigation }) => {
   return {
     title: "광고성 정보 수신동의",
@@ -375,13 +267,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default MyADAgreementScreen;

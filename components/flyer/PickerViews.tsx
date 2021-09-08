@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
-import { StyleSheet, Image, Platform } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 import _ from "lodash";
-import { BaseText } from "../UI/BaseUI";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, Platform, StyleSheet } from "react-native";
+import RNPickerSelect from "react-native-picker-select";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { BaseText } from "../UI/BaseUI";
 
 const PickerViews = (props) => {
   const pickerRef = useRef();

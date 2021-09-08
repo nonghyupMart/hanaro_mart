@@ -198,7 +198,7 @@ export const saveUserInfoToStorage = async (userInfo) => {
   return Util.setStorageItem("userInfoData", userInfo);
 };
 
-export const saveUserTelToStorage = async (tel) => {
+export const saveUserTelToStorage = async (tel?: string) => {
   const telData = await Util.getStorageItem("telData");
   if (!tel) return telData;
   if (telData) return;

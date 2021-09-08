@@ -1,23 +1,19 @@
 import React from "react";
-import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
 import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Platform,
-  Image,
+  Image, TouchableOpacity
 } from "react-native";
-import { BaseText, BaseTouchable } from "../UI/BaseUI";
+import styled from "styled-components/native";
+import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import { setUserStore } from "../../store/actions/auth";
 import * as branchesActions from "../../store/actions/branches";
 import * as CommonActions from "../../store/actions/common";
-import { setUserStore } from "../../store/actions/auth";
-import colors from "../../constants/Colors";
+import { BaseText, BaseTouchable } from "../UI/BaseUI";
 
 const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const _isMark = isMark;
 
   const onPress = () => {
@@ -27,7 +23,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
     dispatch(branchesActions.fetchBranch(item.store_cd)).then((data) => {
       dispatch(
         setUserStore(
-          { user_cd: userInfo.user_cd, store_cd: item.store_cd },
+          { user_cd: userInfo?.user_cd, store_cd: item.store_cd },
           data
         )
       ).then((data) => {
@@ -42,7 +38,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
   const onDelete = () => {
     dispatch(
       branchesActions.deleteMarkedStore({
-        user_cd: userInfo.user_cd,
+        user_cd: userInfo?.user_cd,
         store_cd: item.store_cd,
       })
     ).then((data) => {
@@ -104,7 +100,6 @@ const BlueText = styled(BaseText)({
   fontSize: 14,
   fontWeight: "normal",
   fontStyle: "normal",
-  lineHeight: 20,
   letterSpacing: 0,
   textAlign: "right",
   color: colors.CERULEAN,
@@ -147,31 +142,5 @@ const Title = styled(BaseText)({
 Title.defaultProps = {
   numberOfLines: 1,
 };
-
-const styles = StyleSheet.create({
-  cartItem: {
-    padding: 10,
-    // backgroundColor: "white",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginHorizontal: 20,
-  },
-  itemData: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  quantity: {
-    color: "#888",
-    fontSize: 16,
-  },
-  mainText: {
-    color: "black",
-    fontFamily: "Roboto-Bold",
-    fontSize: 16,
-  },
-  deleteButton: {
-    marginLeft: 20,
-  },
-});
 
 export default React.memo(StoreItem);

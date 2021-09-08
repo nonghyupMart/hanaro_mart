@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
-import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
-import * as branchesActions from "../../store/actions/branches";
-import { StyleSheet, Platform, Image } from "react-native";
 import _ from "lodash";
-import { BaseText } from "../UI/BaseUI";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, Platform, StyleSheet } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { useAppDispatch } from "../../hooks";
+import * as branchesActions from "../../store/actions/branches";
+import { BaseText } from "../UI/BaseUI";
 
 const PickerViews = (props) => {
   const lnamePickerRef = useRef();
@@ -15,7 +15,7 @@ const PickerViews = (props) => {
   const [displayedLname, setDisplayedLname] = useState("시/도 선택");
   const [mnameItems, setMnameItems] = useState([]);
   const [displayedMname, setDisplayedMname] = useState("선택");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onLnameChange = async (lname) => {
     props.setLname(() => (lname ? lname : null));
@@ -89,8 +89,7 @@ const PickerViews = (props) => {
       </RNPickerSelect>
 
       {displayedLname !== "시/도 선택" &&
-        props.address2 &&
-        props.address2.mnameList && (
+        props.address2?.mnameList && (
           <RNPickerSelect
             doneText="확인"
             fixAndroidTouchableBug={true}

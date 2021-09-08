@@ -31,7 +31,6 @@ const StoreChangeDetailScreen = (props) => {
   const dispatch = useAppDispatch();
   const userStore = useAppSelector((state) => state.auth.userStore);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
-  const isLoading = useAppSelector((state) => state.common.isLoading);
   const isJoined = useAppSelector((state) => state.auth.isJoined);
   const branch = useAppSelector((state) => state.branches.branch);
   const [location, setLocation] = useState(null);
@@ -88,7 +87,7 @@ const StoreChangeDetailScreen = (props) => {
     let msg;
     dispatch(
       setUserStore(
-        { user_cd: userInfo.user_cd, store_cd: branch.storeInfo.store_cd },
+        { user_cd: userInfo?.user_cd, store_cd: branch?.storeInfo?.store_cd },
         branch
       )
     ).then((data) => {
@@ -138,9 +137,7 @@ const StoreChangeDetailScreen = (props) => {
           // url = http://dv-www.hanaromartapp.com/web/about/map.do?store_cd=
           // source={{ html: require("../../map.js")(location) }}
           source={{
-            uri: `${SERVER_URL}/web/about/map.do?store_cd=${
-              branch.storeInfo && branch.storeInfo.store_cd
-            }`,
+            uri: `${SERVER_URL}/web/about/map.do?store_cd=${branch?.storeInfo?.store_cd}`,
           }}
         />
         <BottomCover />

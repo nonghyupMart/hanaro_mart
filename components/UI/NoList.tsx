@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import { Platform, View, StyleSheet } from "react-native";
-import { BaseText } from "./BaseUI";
 import colors from "../../constants/Colors";
-import _ from "lodash";
+import { BaseText } from "./BaseUI";
 
 const NoList = (props) => {
   return (

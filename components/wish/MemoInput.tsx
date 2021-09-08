@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import styled from "styled-components/native";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
-import { BaseTextInput, ImageButton } from "../UI/BaseUI";
+import styled from "styled-components/native";
 import colors from "../../constants/Colors";
 import * as memosActions from "../../store/actions/memo";
+import { BaseTextInput, ImageButton } from "../UI/BaseUI";
 
 const MemoInput = (props) => {
   const [titleValue, setTitleValue] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const titleChangeHandler = (text) => {
     setTitleValue(text);

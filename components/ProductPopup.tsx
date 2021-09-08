@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import { StyleSheet, Image } from "react-native";
-import Modal from "react-native-modal";
-import { useSelector, useDispatch } from "react-redux";
-import { BaseImage, SCREEN_WIDTH, BaseText } from "./UI/BaseUI";
-import { BaseSquareButtonContainer, BaseTextInput } from "./UI/BaseUI";
-import * as Util from "../utils";
 import _ from "lodash";
+import React from "react";
+import { Image, StyleSheet } from "react-native";
+import Modal from "react-native-modal";
+import styled from "styled-components/native";
 import colors from "../constants/Colors";
+import * as Util from "../utils";
+import { BaseImage, BaseSquareButtonContainer, BaseText, BaseTextInput, SCREEN_WIDTH } from "./UI/BaseUI";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item || !isVisible || _.isEmpty(item)) return <></>;
@@ -80,7 +78,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {item && !_.isEmpty(item.card_info) && (
+            {!_.isEmpty(item?.card_info) && (
               <NoticeRow>
                 <Notice1 style={{ textAlign: "center" }}>
                   {item.card_info}
@@ -118,7 +116,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
                 </NoticeRight>
               </NoticeRow>
             )}
-            {!_.isEmpty(item.bogo_info) && !_.isEmpty(item.bogo_info.trim()) && (
+            {!_.isEmpty(item.bogo_info?.trim()) && (
               <NoticeRow>
                 <Notice0 style={{ backgroundColor: colors.CHERRY }}>
                   추가정보

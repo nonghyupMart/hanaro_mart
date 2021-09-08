@@ -1,25 +1,18 @@
-import React, { useEffect, useState, Fragment } from "react";
+import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { Image } from "react-native";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Button,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { BaseTouchable, BaseText } from "../components/UI/BaseUI";
 import BaseScreen from "../components/BaseScreen";
-import { BackButton, TextTitle } from "../components/UI/header";
-import { StoreBox, BottomCover } from "../components/store/InfoBox";
-import { WhiteContainer } from "./snb/StoreChangeScreen";
 import MemberInfo from "../components/myPage/MemberInfo";
-import _ from "lodash";
+import { BaseText, BaseTouchable } from "../components/UI/BaseUI";
+import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
+import { useAppSelector } from "../hooks";
+import { WhiteContainer } from "./snb/StoreChangeScreen";
 
 const MyPageScreen = ({ navigation }) => {
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+
   return (
     <BaseScreen
       isPadding={false}
@@ -30,7 +23,7 @@ const MyPageScreen = ({ navigation }) => {
         backgroundColor: colors.TRUE_WHITE,
       }}
     >
-      <MemberInfo amnNo={userInfo.amnNo} />
+      <MemberInfo amnNo={userInfo?.amnNo} />
       <WhiteContainer>
         <BtnContainer onPress={() => navigation.navigate("MyInfo")}>
           <Icon source={require("../assets/images/tools.png")} />
@@ -59,7 +52,7 @@ const MyPageScreen = ({ navigation }) => {
         <BtnContainer
           style={{ borderBottomWidth: 0 }}
           onPress={() =>
-            !_.isEmpty(userInfo) && !!userInfo.amnNo
+            !!userInfo?.amnNo
               ? navigation.navigate("NHAHM", { regiDesc: "04" })
               : navigation.navigate("Withdrawal")
           }
@@ -139,40 +132,7 @@ const BtnContainer = styled.TouchableOpacity({
   paddingLeft: "13.88%",
   alignItems: "center",
 });
-const Title = styled(BaseText)({
-  fontSize: 20,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 29,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.BLACK,
-});
-const Name = styled(BaseText)({
-  marginLeft: 8,
-  fontSize: 30,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  // lineHeight: 1,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.BLACK,
-});
-const BlueText = styled(BaseText)({
-  fontSize: 22,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 28,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.CERULEAN,
-});
-const MemberInfoContainer = styled.View({
-  flexDirection: "row",
-  flex: 1,
-  marginTop: 48,
-  marginBottom: 59,
-});
+
 export const screenOptions = ({ navigation }) => {
   return {
     title: "마이페이지",

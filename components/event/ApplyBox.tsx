@@ -1,39 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { View, Image, FlatList } from "react-native";
-import PropTypes from "prop-types";
+import React from "react";
+import { Image } from "react-native";
+import { CheckBox } from "react-native-elements";
 import styled from "styled-components/native";
-import * as Agreement from "../UI/Agreement";
 import colors from "../../constants/Colors";
+import { useAppSelector } from "../../hooks";
 import AgreementContent3 from "../join/AgreementContent3";
 import { styles } from "../join/styles";
+import * as Agreement from "../UI/Agreement";
 import {
-  BlueButton,
-  BlueButtonText,
   BaseText,
-  BaseTextInput,
+  BaseTextInput, BlueButton,
+  BlueButtonText
 } from "../UI/BaseUI";
-import { setAlert } from "../../store/actions/common";
-import { useSelector, useDispatch } from "react-redux";
-import { CheckBox } from "react-native-elements";
 
 const ApplyBox = (props) => {
   if (props.eventDetail.entry.entry_date_yn !== "Y") return <></>;
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const checkItem = props.checkItem;
   const setCheckItem = props.setCheckItem;
-  const reg_num = props.reg_num;
-  const setReg_num = props.setReg_num;
 
   const onPress = () => {
     props.onApply();
   };
-  const onFocus = () => {
-    if (props.scrollRef)
-      setTimeout(() => {
-        props.scrollRef.scrollToEnd();
-      }, 800);
-  };
+
   const handleChecked = (checkBox) => {
     let cks = { ...checkItem };
     cks.isChecked = !cks.isChecked;
@@ -140,17 +129,6 @@ const ApplyBox = (props) => {
               <AgreementContent3 style={{ marginTop: 10, marginBottom: 10 }} />
             )}
 
-            {/* {userInfo && !userInfo.user_age && (
-              <InputText
-                placeholder="생년원일+성별(7자리-8501011)"
-                keyboardType="numeric"
-                maxLength={7}
-                value={reg_num}
-                onChangeText={(text) => setReg_num(text)}
-                editable={props.eventDetail.entry.status === "10"}
-                onFocus={onFocus}
-              />
-            )} */}
           </Container>
         )}
       {props.isShowApplyButton && props.eventDetail.entry.status === "10" && (

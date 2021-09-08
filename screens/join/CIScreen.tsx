@@ -14,7 +14,7 @@ const CIScreen = ({ navigation, route }: any) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const uriRef = useRef(
     `${SERVER_URL}/web/access/auth.do?ver=${
-      params && params.ver ? params.ver : "2"
+      params?.ver ? params.ver : "2"
     }&key=${new Date().getTime()}`
   );
   useEffect(() => {

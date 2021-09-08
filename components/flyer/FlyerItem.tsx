@@ -7,14 +7,13 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { checkAuth, getWishCnt } from "../../store/actions/auth";
 import * as wishActions from "../../store/actions/wish";
-import { RootState } from "../../hooks";
 import * as Util from "../../utils";
 import Discounts from "../flyerItem/Discounts";
 import WishButton from "../flyerItem/WishButton";
@@ -27,10 +26,10 @@ const FlyerItem = ({
   beforeAddWishItem,
   beforeDeleteWishItem,
 }) => {
-  const isJoined = useSelector((state: RootState) => state.auth.isJoined);
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
 
   const addWishItem = useCallback(
     async (item) => {
@@ -38,14 +37,14 @@ const FlyerItem = ({
         if (beforeAddWishItem) await beforeAddWishItem(item);
         await dispatch(
           wishActions.addWishItem({
-            user_cd: userInfo.user_cd,
+            user_cd: userInfo?.user_cd,
             product_cd: item.product_cd,
           })
         );
         await dispatch(
           getWishCnt({
-            user_cd: userInfo.user_cd,
-            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo?.user_cd,
+            store_cd: userStore?.storeInfo.store_cd,
           })
         );
       }
@@ -58,14 +57,14 @@ const FlyerItem = ({
         if (beforeDeleteWishItem) await beforeDeleteWishItem(item);
         await dispatch(
           wishActions.deleteWishItem({
-            user_cd: userInfo.user_cd,
+            user_cd: userInfo?.user_cd,
             product_cd: item.product_cd,
           })
         );
         await dispatch(
           getWishCnt({
-            user_cd: userInfo.user_cd,
-            store_cd: userStore.storeInfo.store_cd,
+            user_cd: userInfo?.user_cd,
+            store_cd: userStore?.storeInfo.store_cd,
           })
         );
       }
@@ -195,44 +194,6 @@ const BogoIcon = styled.View({
   borderRadius: 100,
 });
 
-const BadgeContainer = styled.View({
-  flexDirection: "row",
-  marginBottom: 2,
-});
-const Badge1Container = styled.View({
-  alignItems: "center",
-  height: Util.normalize(12),
-  backgroundColor: colors.PEACOCK_BLUE,
-  justifyContent: "center",
-  paddingLeft: 3,
-  paddingRight: 3,
-  width: Util.normalize(35),
-});
-const Badge1 = styled(BaseText)({
-  fontSize: Util.normalize(7),
-  color: colors.TRUE_WHITE,
-});
-const Badge2Container = styled.View({
-  borderStyle: "solid",
-  borderWidth: 0,
-  borderRightWidth: 1,
-  borderTopWidth: 1,
-  borderBottomWidth: 1,
-  borderColor: colors.PEACOCK_BLUE,
-  borderLeftWidth: 0,
-  height: Util.normalize(12),
-  justifyContent: "center",
-});
-const Badge2 = styled(BaseText)({
-  fontSize: Util.normalize(7),
-  fontWeight: "normal",
-  fontStyle: "normal",
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.PEACOCK_BLUE,
-  paddingLeft: 3.5,
-  paddingRight: 3.5,
-});
 const Container = styled.View({
   // backgroundColor: colors.BLACK,
   // flexBasis: 0,

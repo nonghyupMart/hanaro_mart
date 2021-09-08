@@ -2,7 +2,6 @@ import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import CouponItem from "../../components/coupon/CouponItem";
@@ -12,6 +11,7 @@ import { BackButton, TextTitle } from "../../components/UI/header";
 import NoList from "../../components/UI/NoList";
 import { PADDING_BOTTOM_MENU } from "../../constants";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { checkAuth } from "../../store/actions/auth";
 import { setLink } from "../../store/actions/common";
 import * as couponActions from "../../store/actions/coupon";
@@ -24,31 +24,31 @@ const CouponScreen = (props) => {
   ];
   const [gbn, setGbn] = useState("");
   const isFocused = useIsFocused();
-  const link = useSelector((state) => state.common.link);
+  const link = useAppSelector((state) => state.common.link);
   const routeName = props.route.name;
   const navigation = props.navigation;
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const page = useRef(1);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   let coupon;
   if (routeName === "MyCoupon") {
     //나의쿠폰 일 경우..
-    coupon = useSelector((state) => state.coupon.myCoupon);
+    coupon = useAppSelector((state) => state.coupon.myCoupon);
   } else {
-    coupon = useSelector((state) => state.coupon.coupon);
+    coupon = useAppSelector((state) => state.coupon.coupon);
   }
 
   const ref = React.useRef(null);
   // useScrollToTop(ref);
   // global.alert(1);
   useEffect(() => {
-    if (_.isEmpty(coupon) || !coupon.couponList || !link) return;
-    if (link && link.category === routeName && link.link_code) {
+    if (!coupon?.couponList || !link) return;
+    if (link?.category === routeName && link.link_code) {
       setTimeout(async () => {
         let item = _.filter(
-          coupon.couponList,
+          coupon?.couponList,
           (o) => o.cou_cd === link.link_code
         );
         await dispatch(setLink(null));
@@ -63,8 +63,8 @@ const CouponScreen = (props) => {
     page.current = 1;
     dispatch(
       couponActions.fetchCoupon({
-        store_cd: userStore.storeInfo.store_cd,
-        user_cd: userInfo.user_cd,
+        store_cd: userStore?.storeInfo.store_cd,
+        user_cd: userInfo?.user_cd,
         user_yn: routeName === "MyCoupon" ? "Y" : "N",
         gbn: gbn,
       })
@@ -72,8 +72,8 @@ const CouponScreen = (props) => {
   }, [gbn, userStore, isFocused]);
 
   const onCouponItemPressed = async (item, type = "B") => {
-    if (!userInfo.ci) {
-      checkAuth(dispatch, !!userInfo.ci);
+    if (!userInfo?.ci) {
+      checkAuth(dispatch, !!userInfo?.ci);
       return;
     }
 
@@ -106,7 +106,7 @@ const CouponScreen = (props) => {
         break;
       case "10": // 쿠폰이 있는 경우
         navigation.navigate("CouponDetail", {
-          store_cd: userStore.storeInfo.store_cd,
+          store_cd: userStore?.storeInfo.store_cd,
           cou_cd: item.cou_cd,
           user_cd: userInfo.user_cd,
           coupon: coupon,
@@ -122,8 +122,8 @@ const CouponScreen = (props) => {
       page.current++;
       dispatch(
         couponActions.fetchCoupon({
-          store_cd: userStore.storeInfo.store_cd,
-          user_cd: userInfo.user_cd,
+          store_cd: userStore?.storeInfo.store_cd,
+          user_cd: userInfo?.user_cd,
           page: page.current,
           gbn: gbn,
         })
@@ -189,7 +189,7 @@ const CouponScreen = (props) => {
             numColumns={2}
             data={coupon.couponList}
             keyExtractor={(item) =>
-              `${userStore.storeInfo.store_cd}-${item.cou_cd}`
+              `${userStore?.storeInfo.store_cd}-${item.cou_cd}`
             }
             onEndReached={loadMore}
             columnWrapperStyle={{

@@ -1,39 +1,38 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import _ from "lodash";
+import React, { useEffect, useRef, useState } from "react";
+import { Image, Platform } from "react-native";
 import styled from "styled-components/native";
-import { Platform, Image } from "react-native";
 import BaseScreen from "../components/BaseScreen";
+import FlyerItem from "../components/flyer/FlyerItem";
+import ProductPopup from "../components/ProductPopup";
 import {
-  BaseTouchable,
-  BaseImage,
-  BaseTextInput,
-  BaseTextBold,
   BaseText,
+  BaseTextBold,
+  BaseTextInput,
+  BaseTouchable,
   BlueButton,
   BlueButtonText,
 } from "../components/UI/BaseUI";
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
-import { useSelector, useDispatch } from "react-redux";
-import * as wishActions from "../store/actions/wish";
-import ProductPopup from "../components/ProductPopup";
 import { BackButton, TextTitle } from "../components/UI/header";
-import { SET_WISH_ITEM } from "../store/actions/actionTypes";
-import { styles } from "./home/FlyerScreen";
-import _ from "lodash";
 import Memo from "../components/wish/Memo";
-import { useIsFocused } from "@react-navigation/native";
-import FlyerItem from "../components/flyer/FlyerItem";
 import colors from "../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { SET_WISH_ITEM } from "../store/actions/actionTypes";
+import * as wishActions from "../store/actions/wish";
 import * as Util from "../utils";
+import { styles } from "./home/FlyerScreen";
 
 const WishProductScreen = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const dispatch = useDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
   const page = useRef(1);
   const currentItem = useRef(null);
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const isFocused = useIsFocused();
-  const wishItem = useSelector((state) => state.wish.wishItem);
+  const wishItem = useAppSelector((state) => state.wish.wishItem);
 
   useEffect(() => {
     if (!isFocused) return;
@@ -43,8 +42,8 @@ const WishProductScreen = (props) => {
   const fetchWishItem = async (p = page.current) => {
     await dispatch(
       wishActions.fetchWishItem({
-        store_cd: userStore.storeInfo.store_cd,
-        user_cd: userInfo.user_cd,
+        store_cd: userStore?.storeInfo.store_cd,
+        user_cd: userInfo?.user_cd,
         page: p,
       })
     );
@@ -88,14 +87,14 @@ const WishProductScreen = (props) => {
         <Memo />
         {wishItem && (
           <ExtendedFlatList
-            listKey={`WishList-${userStore.storeInfo.store_cd}`}
+            listKey={`WishList-${userStore?.storeInfo.store_cd}`}
             onEndReached={loadMore}
             columnWrapperStyle={styles.flyerListColumnWrapperStyle}
             numColumns={2}
             style={[styles.flyerListStyle, { marginTop: 40 }]}
             data={wishItem.productList}
             keyExtractor={(item) =>
-              `wish-${userStore.storeInfo.store_cd}-${item.product_cd}`
+              `wish-${userStore?.storeInfo.store_cd}-${item.product_cd}`
             }
             renderItem={(itemData) => (
               <FlyerItem
@@ -107,7 +106,7 @@ const WishProductScreen = (props) => {
             )}
           />
         )}
-        {wishItem && wishItem.productList.length <= 0 && (
+        {wishItem?.productList.length <= 0 && (
           <>
             <NoListContainer>
               <Image source={require("../assets/images/narocart.png")} />
@@ -127,7 +126,7 @@ const WishProductScreen = (props) => {
           setIsVisible={setIsVisible}
         />
       </BaseScreen>
-      {wishItem && wishItem.productList.length > 0 && wishItem.wishInfo && (
+      {wishItem?.productList.length > 0 && wishItem?.wishInfo && (
         <TotalContainer>
           <Text3>총 합계({wishItem.wishInfo.wish_cnt}) : </Text3>
           <Text4>{Util.formatNumber(wishItem.wishInfo.wish_price)}원</Text4>
@@ -208,45 +207,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: (props) => <></>,
   };
 };
-
-const ScrollList = styled(ExtendedFlatList)({
-  flex: 1,
-
-  width: "100%",
-  // backgroundColor: colors.BLACK,
-});
-const ResultText = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 28,
-  letterSpacing: 0,
-  textAlign: "center",
-  color: colors.BLACK,
-  width: "100%",
-  marginTop: 15,
-  marginBottom: 15,
-});
-const SearchBtn = styled(BaseTouchable)({
-  padding: 10,
-  paddingRight: 15,
-});
-const SearchIcon = styled.Image({});
-SearchIcon.defaultProps = {
-  source: require("../assets/images/search-24_1.png"),
-};
-const SearchContainer = styled.View({
-  width: "100%",
-  backgroundColor: colors.WHITE,
-  // height: 36,
-  aspectRatio: 100 / 10.975,
-  borderRadius: 25,
-  flexDirection: "row",
-});
-const SearchInput = styled(BaseTextInput)({
-  flex: 1,
-  marginLeft: 15,
-  marginRight: 15,
-});
 
 export default WishProductScreen;

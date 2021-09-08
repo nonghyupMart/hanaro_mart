@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import BaseScreen from "../components/BaseScreen";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../components/UI/BaseUI";
 import { ExtendedWebView } from "../components/UI/ExtendedWebView";
 import { SERVER_URL } from "../constants";
+import { useAppDispatch } from "../hooks";
 import * as CommonActions from "../store/actions/common";
 
 const RingPickerScreen = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {

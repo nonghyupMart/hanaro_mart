@@ -21,7 +21,7 @@ const LogoTitle = () => {
           resizeMode: "contain",
         }}
       />
-      {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
+      {userStore?.storeInfo && (
         <BranchName>{userStore.storeInfo.store_nm}</BranchName>
       )}
     </Container>

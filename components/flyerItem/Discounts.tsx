@@ -58,7 +58,7 @@ const Discounts = ({ item }) => {
           )}
         </BadgeContainer>
       )}
-      {!_.isEmpty(item.bogo_info) && !_.isEmpty(item.bogo_info.trim()) && (
+      {!_.isEmpty(item.bogo_info?.trim()) && (
         <BadgeContainer>
           <Badge1Container style={{ backgroundColor: colors.CHERRY }}>
             <Badge1>추가정보</Badge1>

@@ -1,48 +1,41 @@
-import React, { useState, useEffect, Fragment, useRef } from "react";
-import styled from "styled-components/native";
+import { useIsFocused } from "@react-navigation/native";
+import _ from "lodash";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  View,
-  Platform,
-  Image,
-  FlatList,
-  Dimensions,
-  StyleSheet,
+  Platform, StyleSheet
 } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import { useSelector, useDispatch } from "react-redux";
-import * as flyerActions from "../../store/actions/flyer";
-import FlyerItem from "../../components/flyer/FlyerItem";
-import CategoryButton from "../../components/UI/CategoryButton";
-import ProductPopup from "../../components/ProductPopup";
-import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { SET_PRODUCT, SET_LEAFLET } from "../../store/actions/actionTypes";
-import _ from "lodash";
-import { setIsLoading } from "../../store/actions/common";
-import NoList from "../../components/UI/NoList";
-import { useIsFocused } from "@react-navigation/native";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
+import FlyerItem from "../../components/flyer/FlyerItem";
 import PickerViews from "../../components/flyer/PickerViews";
-import { changeWishState } from "../../store/actions/common";
+import ProductPopup from "../../components/ProductPopup";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../components/UI/BaseUI";
+import CategoryButton from "../../components/UI/CategoryButton";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import NoList from "../../components/UI/NoList";
 import colors from "../../constants/Colors";
-import { RootState } from "../../hooks";
+import { RootState, useAppDispatch, useAppSelector } from "../../hooks";
 import { ProductRequest } from "../../models/product/ProductRequest";
+import { TypeValue } from "../../models/product/TypeValue";
+import { SET_LEAFLET, SET_PRODUCT } from "../../store/actions/actionTypes";
+import { changeWishState, setIsLoading } from "../../store/actions/common";
+import * as flyerActions from "../../store/actions/flyer";
 
 const FlyerScreen = (props) => {
   const carouselRef = useRef();
   const isFocused = useIsFocused();
-  const isLoading = useSelector((state: RootState) => state.common.isLoading);
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
-  const userInfo = useSelector((state: RootState) => state.auth.userInfo);
-  const dispatch = useDispatch();
+  const isLoading = useAppSelector((state: RootState) => state.common.isLoading);
+  const userStore = useAppSelector((state: RootState) => state.auth.userStore);
+  const userInfo = useAppSelector((state: RootState) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
   const currentItem = useRef(null);
   const [pageforCarousel, setPageForCarousel] = useState<number>(0);
-  const leaflet = useSelector((state: RootState) => state.flyer.leaflet);
-  const product = useSelector((state: RootState) => state.flyer.product);
+  const leaflet = useAppSelector((state: RootState) => state.flyer.leaflet);
+  const product = useAppSelector((state: RootState) => state.flyer.product);
   const page = useRef(1);
   const [carouselKey, setCarouselKey] = useState<number>();
   const [currentFlyer, setCurrentFlyer] = useState();
-  const [type_val, setType_val] = useState<TypeValue | "">();
+  const [type_val, setType_val] = useState<TypeValue>();
 
   const clearData = () => {
     dispatch({ type: SET_PRODUCT, product: null });
@@ -77,12 +70,12 @@ const FlyerScreen = (props) => {
 
   const fetchProduct = (leaf_cd: string, p: number = page.current) => {
     let query: ProductRequest = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       leaf_cd: leaf_cd,
       page: p,
       type_val: type_val,
     };
-    if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
+    if (!_.isEmpty(userInfo)) query.user_cd = userInfo?.user_cd;
     return dispatch(flyerActions.fetchProduct(query));
   };
 
@@ -141,7 +134,7 @@ const FlyerScreen = (props) => {
   };
   if (!isFocused || !leaflet || !leaflet.leafletList || _.isEmpty(userStore))
     return <></>;
-  if (!_.isEmpty(leaflet) && _.size(leaflet.leafletList) === 0)
+  if (_.size(leaflet?.leafletList) === 0)
     return (
       <NoList
         source={require("../../assets/images/files.png")}
@@ -177,12 +170,12 @@ const FlyerScreen = (props) => {
           carouselRef={carouselRef}
           leafletList={leaflet.leafletList}
           carouselKey={carouselKey}
-          leaf_cd={currentFlyer.leaf_cd}
-          detail_img_cnt={currentFlyer.detail_img_cnt}
+          leaf_cd={currentFlyer?.leaf_cd}
+          detail_img_cnt={currentFlyer?.detail_img_cnt}
           setPageForCarousel={setPageForCarousel}
         />
       )}
-      {currentFlyer && currentFlyer.type_list && (
+      {currentFlyer?.type_list && (
         <ExtendedFlatList
           showsHorizontalScrollIndicator={false}
           horizontal
@@ -197,9 +190,9 @@ const FlyerScreen = (props) => {
             width: SCREEN_WIDTH - 24,
             marginBottom: 7,
           }}
-          data={currentFlyer.type_list}
+          data={currentFlyer?.type_list}
           keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.type_val}`
+            `${userStore?.storeInfo.store_cd}-${item.type_val}`
           }
           renderItem={(itemData) => (
             <CategoryButton
@@ -213,14 +206,14 @@ const FlyerScreen = (props) => {
       {/* <Text>{props.number}</Text> */}
       {product && (
         <ExtendedFlatList
-          listKey={`FlyerList-${userStore.storeInfo.store_cd}`}
+          listKey={`FlyerList-${userStore?.storeInfo.store_cd}`}
           onEndReached={loadMore}
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={2}
           style={styles.flyerListStyle}
           data={product.productList}
           keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.product_cd}`
+            `${userStore?.storeInfo.store_cd}-${item.product_cd}`
           }
           renderItem={(itemData) => (
             <FlyerItem
@@ -232,7 +225,7 @@ const FlyerScreen = (props) => {
           )}
         />
       )}
-      {!_.isEmpty(product) && product.productList.length === 0 && (
+      {product?.productList.length === 0 && (
         <NoList
           style={{
             backgroundColor: colors.TRUE_WHITE,
@@ -266,11 +259,6 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: "center",
   },
-});
-const ArrowBtn = styled.TouchableOpacity({
-  position: "absolute",
-  top: "50%",
-  marginTop: -16,
 });
 
 export default FlyerScreen;

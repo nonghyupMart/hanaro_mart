@@ -112,16 +112,16 @@ const HomeScreen = (props: any) => {
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}
       renderItem={renderItem}
-      data={homeProducts && homeProducts.productList}
+      data={ homeProducts?.productList}
       numColumns={2}
       keyExtractor={(item) => `${item.product_cd}`}
       query={{
-        store_cd: userStore && userStore.storeInfo.store_cd,
+        store_cd: userStore?.storeInfo.store_cd,
         page: page.current,
       }}
       page={page.current}
       onPageChanged={onPageChanged}
-      finalPage={homeProducts && homeProducts.finalPage}
+      finalPage={homeProducts?.finalPage}
     >
       <AppPopup
         isFocused={isFocused}
@@ -130,7 +130,7 @@ const HomeScreen = (props: any) => {
       />
       <HomeBanner isFocused={isFocused} />
       {!_.isEmpty(userStore) && <HomeEvent />}
-      {homeProducts && homeProducts.productList.length > 0 && (
+      { homeProducts?.productList.length > 0 && (
         <HomeProductsHeader />
       )}
       <ProductPopup

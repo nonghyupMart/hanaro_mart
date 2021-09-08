@@ -1,6 +1,6 @@
 import _ from "lodash";
 import queryString from "query-string";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import BaseScreen from "./BaseScreen";
 import { ExtendedWebView } from "./UI/ExtendedWebView";
@@ -9,9 +9,20 @@ import { SERVER_URL } from "../constants";
 import { useAppSelector } from "../hooks";
 
 const BaseWebViewScreen = (props: any) => {
+  const { navigation } = props;
   const userStore = useAppSelector((state) => state.auth.userStore);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const [title, onChangeTitle] = useState(props.title);
   const [url, setUrl] = useState<string>();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: title,
+      headerLeft: () => <BackButton />,
+      headerTitle: (props: any) => <TextTitle {...props} />,
+      headerRight: () => <></>,
+    });
+  }, [navigation, title]);
 
   useEffect(() => {
     if (_.isEmpty(userStore) || !userStore!.storeInfo) return;
@@ -27,21 +38,11 @@ const BaseWebViewScreen = (props: any) => {
       query,
     });
     setUrl(stringifyUrl);
-
-    props.navigation.setOptions({
-      title: props.title,
-      headerLeft: () => <BackButton />,
-      headerTitle: (props: any) => <TextTitle {...props} />,
-      headerRight: () => <></>,
-    });
   }, [userStore]);
 
   if (!url) return <></>;
   return (
-    <BaseScreen
-      style={styles.screen}
-      isScroll={false}
-    >
+    <BaseScreen style={styles.screen} isScroll={false}>
       <ExtendedWebView
         startInLoadingState={true}
         source={{

@@ -1,43 +1,41 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components/native";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import BaseScreen from "../../components/BaseScreen";
-import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
-import { useSelector, useDispatch } from "react-redux";
-import * as exhibitionActions from "../../store/actions/exhibition";
-import * as exclusiveActions from "../../store/actions/exclusive";
-import { StyleConstants, SCREEN_WIDTH } from "../../components/UI/BaseUI";
-import EventItem from "../../components/event/EventItem";
 import { useIsFocused } from "@react-navigation/native";
-import { BackButton, TextTitle } from "../../components/UI/header";
 import _ from "lodash";
-import { setIsLoading } from "../../store/actions/common";
-import { TabMenus } from "../../constants/menu";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet } from "react-native";
+import styled from "styled-components/native";
+import BaseScreen from "../../components/BaseScreen";
+import EventItem from "../../components/event/EventItem";
+import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
+import { BackButton, TextTitle } from "../../components/UI/header";
 import NoList from "../../components/UI/NoList";
-import * as CommonActions from "../../store/actions/common";
 import colors from "../../constants/Colors";
+import { TabMenus } from "../../constants/menu";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { Menu } from "../../models/Menu";
+import * as CommonActions from "../../store/actions/common";
+import * as exclusiveActions from "../../store/actions/exclusive";
+import * as exhibitionActions from "../../store/actions/exhibition";
 
 const ExhibitionScreen = (props) => {
   const routeName = props.route.name;
   const navigation = props.navigation;
   const isFocused = useIsFocused();
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const page = useRef(1);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const [tabInfo, setTabInfo] = useState();
-  const link = useSelector((state) => state.common.link);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const [tabInfo, setTabInfo] = useState<Menu>();
+  const link = useAppSelector((state) => state.common.link);
 
   let data;
   if (routeName === "Exhibition") {
-    data = useSelector((state) => state.exhibition.exhibition);
+    data = useAppSelector((state) => state.exhibition.exhibition);
   } else {
-    data = useSelector((state) => state.exclusive.exclusive);
+    data = useAppSelector((state) => state.exclusive.exclusive);
   }
 
   useEffect(() => {
-    if (link && link.category === routeName && link.link_code) {
+    if (link?.category === routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
@@ -59,11 +57,11 @@ const ExhibitionScreen = (props) => {
     }
     const currentTab = TabMenus.filter((tab) => tab.name === routeName);
 
-    const tab = userStore.menuList.filter(
+    const tab = userStore?.menuList.filter(
       (menu) => menu.r_menu_nm === currentTab[0].title
     );
 
-    if (tab[0].menu_nm) {
+    if (tab && tab[0].menu_nm) {
       setTabInfo(tab[0]);
       props.navigation.setOptions({
         title: tab[0].menu_nm,
@@ -77,7 +75,7 @@ const ExhibitionScreen = (props) => {
 
   const fetchExhibition = (p = page.current) => {
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       page: p,
     };
     if (routeName === "Exhibition") {
@@ -112,7 +110,7 @@ const ExhibitionScreen = (props) => {
             ? require("../../assets/images/diamond.png")
             : require("../../assets/images/shopwhite.png")
         }
-        text={tabInfo && tabInfo.menu_nm}
+        text={tabInfo?.menu_nm}
       />
     );
   return (
@@ -122,11 +120,11 @@ const ExhibitionScreen = (props) => {
     >
       {data && (
         <ScrollList
-          listKey={`${userStore.storeInfo.store_cd}-${routeName}`}
+          listKey={`${userStore?.storeInfo.store_cd}-${routeName}`}
           numColumns={1}
           data={data.list}
           keyExtractor={(item, index) =>
-            `${userStore.storeInfo.store_cd}-${
+            `${userStore?.storeInfo.store_cd}-${
               routeName === "Exhibition" ? item.plan_cd : item.exclu_cd
             }`
           }
@@ -144,7 +142,7 @@ const ExhibitionScreen = (props) => {
     </BaseScreen>
   );
 };
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     title: "기획전",
     headerLeft: () => <BackButton />,

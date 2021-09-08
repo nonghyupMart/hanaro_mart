@@ -1,14 +1,13 @@
 import React from "react";
+import { Image, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import { TouchableOpacity, View, Image } from "react-native";
-import { BaseText, SCREEN_WIDTH } from "../BaseUI";
-import _ from "lodash";
-import * as Util from "../../../utils";
 import colors from "../../../constants/Colors";
+import { useAppSelector } from "../../../hooks";
+import * as Util from "../../../utils";
+import { BaseText, SCREEN_WIDTH } from "../BaseUI";
 
 const Logo = (props) => {
-  const userStore = useSelector((state) => state.auth.userStore);
+  const userStore = useAppSelector((state) => state.auth.userStore);
   return (
     <LogoContainer>
       <View style={{ flex: 1 }}>
@@ -20,7 +19,7 @@ const Logo = (props) => {
             marginLeft: SCREEN_WIDTH > 320 ? -5 : 0,
           }}
         />
-        {userStore && userStore.storeInfo && !_.isEmpty(userStore) && (
+        {userStore?.storeInfo && (
           <BranchName>{userStore.storeInfo.store_nm}</BranchName>
         )}
       </View>

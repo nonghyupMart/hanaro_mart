@@ -1,36 +1,25 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Animated,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  Platform,
-} from "react-native";
-import {
-  BaseTouchable,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
-  SCREEN_HEIGHT,
-  BaseText,
-} from "../BaseUI";
 import _ from "lodash";
-import * as Util from "../../../utils";
-import * as Linking from "expo-linking";
+import React, { useRef, useState } from "react";
 import {
-  checkSetStore,
-  checkAuth,
-  withdrawalFinish,
-} from "../../../store/actions/auth";
+  Animated, Image,
+  Platform, TouchableOpacity
+} from "react-native";
+import styled from "styled-components/native";
 import colors from "../../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import {
+  checkAuth, checkSetStore, withdrawalFinish
+} from "../../../store/actions/auth";
+import * as Util from "../../../utils";
+import {
+  BaseText, BaseTouchable
+} from "../BaseUI";
 
 const MenuList = (props) => {
-  const dispatch = useDispatch();
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const isJoined = useSelector((state) => state.auth.isJoined);
+  const dispatch = useAppDispatch();
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
   const [isShow, setIsShow] = useState(false);
   const aniView = useRef(null);
   const [bounceValue, setBounceValue] = useState(new Animated.Value(-30));
@@ -170,12 +159,7 @@ const MenuList = (props) => {
             />
           </LogoutTouchable>
         )}
-        <ShareBtn
-          onPress={Util.sendShareLink.bind(
-            this,
-            userInfo && userInfo.recommend
-          )}
-        >
+        <ShareBtn onPress={Util.sendShareLink.bind(this, userInfo?.recommend)}>
           <Image
             source={require("../../../assets/images/bt_heart.png")}
             resizeMode="contain"

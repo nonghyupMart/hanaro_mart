@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { ActivityIndicator, Platform, SafeAreaView } from "react-native";
 import Modal from "react-native-modal";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  StyleSheet,
-  ActivityIndicator,
-  View,
-  SafeAreaView,
-  Platform,
-} from "react-native";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
-import { setAlert, setIsLoading } from "../../store/actions/common";
 import colors from "../../constants/Colors";
+import { useAppDispatch } from "../../hooks";
+import { setIsLoading } from "../../store/actions/common";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "./BaseUI";
 
 const Loading = ({ isLoading }) => {
-  const dispatch = useDispatch();
-  const timerRef = useRef(null);
+  const dispatch = useAppDispatch();
+  const timerRef = useRef();
 
   useEffect(() => {
     if (!isLoading) return;

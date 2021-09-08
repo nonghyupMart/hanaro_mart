@@ -2,19 +2,18 @@ import * as Linking from "expo-linking";
 import _ from "lodash";
 import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import {
-  BaseImage, SCREEN_HEIGHT, SCREEN_WIDTH
+  BaseImage,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
 } from "../components/UI/BaseUI";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import * as CommonActions from "../store/actions/common";
 
-
-
-
 const UpdateScreen = (props) => {
-  const dispatch = useDispatch();
-  const updatePopup = useSelector((state) => state.auth.updatePopup);
+  const dispatch = useAppDispatch();
+  const updatePopup = useAppSelector((state) => state.auth.updatePopup);
 
   useEffect(() => {
     return () => {
@@ -22,11 +21,7 @@ const UpdateScreen = (props) => {
     };
   }, []);
 
-  if (
-    _.isEmpty(updatePopup) ||
-    _.isEmpty(updatePopup) ||
-    updatePopup.popupCnt <= 0
-  )
+  if (updatePopup?.popupCnt <= 0)
     //매장이 있는 경우만 매장 팝업
     return <></>;
   return (
@@ -65,18 +60,10 @@ export const screenOptions = ({ navigation }) => {
     headerShown: false,
   };
 };
-const Screen = styled.View({
-  backgroundColor: "transparent",
-});
 const Image = styled(BaseImage)({
   resizeMode: "cover",
   width: SCREEN_WIDTH,
   height: SCREEN_HEIGHT,
-});
-
-const PopupImage = styled(BaseImage)({
-  width: "100%",
-  height: "100%",
 });
 const Container = styled.View({
   backgroundColor: "transparent",

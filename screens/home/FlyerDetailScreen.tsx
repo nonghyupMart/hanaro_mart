@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
+import { useAppDispatch } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
 import * as flyerActions from "../../store/actions/flyer";
 import Gallery from "../../utils/react-native-image-gallery/Gallery";
 
 const FlyerDetailScreen = (props, { navigation }) => {
   const params = props.route.params;
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [gallery, setGallery] = useState();
   const [page, setPage] = useState(0);
   const [images, setImages] = useState([]);

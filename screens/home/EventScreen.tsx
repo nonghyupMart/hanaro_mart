@@ -2,7 +2,6 @@ import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import EventItem from "../../components/event/EventItem";
@@ -11,6 +10,7 @@ import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import NoList from "../../components/UI/NoList";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { checkAuth } from "../../store/actions/auth";
 import * as CommonActions from "../../store/actions/common";
 import * as eventActions from "../../store/actions/event";
@@ -30,22 +30,22 @@ const EventScreen = (props: any) => {
   const isFocused = useIsFocused();
   const params = props.route.params;
 
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const page = useRef(1);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const link = useSelector((state) => state.common.link);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const link = useAppSelector((state) => state.common.link);
   let event;
   if (routeName === "MyEvent") {
     //이벤트응모내역 일 경우..
-    event = useSelector((state) => state.event.myEvent);
+    event = useAppSelector((state) => state.event.myEvent);
   } else {
-    event = useSelector((state) => state.event.event);
+    event = useAppSelector((state) => state.event.event);
   }
 
   useEffect(() => {
-    if (link && link.category === routeName && link.link_code) {
+    if (link?.category === routeName && link.link_code) {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
@@ -65,11 +65,11 @@ const EventScreen = (props: any) => {
 
   const fetchEvent = (p = page.current) => {
     let query = {
-      store_cd: userStore.storeInfo.store_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       page: p,
       gbn: gbn,
     };
-    if (routeName === "MyEvent") query.user_cd = userInfo.user_cd;
+    if (routeName === "MyEvent") query.user_cd = userInfo?.user_cd;
     dispatch(eventActions.fetchEvent(query));
   };
   const loadMore = () => {
@@ -80,8 +80,8 @@ const EventScreen = (props: any) => {
   };
 
   const moveToDetail = async (event_cd) => {
-    if (!userInfo.ci) {
-      checkAuth(dispatch, !!userInfo.ci);
+    if (!userInfo?.ci) {
+      checkAuth(dispatch, !!userInfo?.ci);
       return;
     }
     await navigation.navigate("EventDetail", { event_cd: event_cd });

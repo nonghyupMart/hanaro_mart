@@ -1,58 +1,59 @@
+import * as Brightness from "expo-brightness";
+import _ from "lodash";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components/native";
-import { useDispatch, useSelector } from "react-redux";
-import { Image, TouchableOpacity, Text } from "react-native";
-import * as Util from "../../utils";
-import { View, Text as TextView, StyleSheet, Platform } from "react-native";
 import {
-  DetailContainer,
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { HeaderButtons } from "react-navigation-header-buttons";
+import styled from "styled-components/native";
+import Barcode from "../../components/Barcode";
+import BaseScreen from "../../components/BaseScreen";
+import {
   BaseImage,
-  SCREEN_WIDTH,
-  BaseButtonContainer,
+  BaseText,
   BlueButton,
   BlueButtonText,
-  BaseText,
+  DetailContainer,
+  SCREEN_WIDTH,
 } from "../../components/UI/BaseUI";
-import BaseScreen from "../../components/BaseScreen";
 import { BackButton, TextTitle } from "../../components/UI/header";
-import * as couponActions from "../../store/actions/coupon";
-import * as CommonActions from "../../store/actions/common";
-import _ from "lodash";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import { SET_COUPON_DETAIL } from "../../store/actions/actionTypes";
-import Barcode from "../../components/Barcode";
-import * as Brightness from "expo-brightness";
+import HeaderButton from "../../components/UI/header/elements/HeaderButton";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { SET_COUPON_DETAIL } from "../../store/actions/actionTypes";
+import * as CommonActions from "../../store/actions/common";
+import { setAlert } from "../../store/actions/common";
+import * as couponActions from "../../store/actions/coupon";
+import * as Util from "../../utils";
 
 const CouponDetailScreen = (props) => {
   const params = props.route.params;
   const isNew = !!params.isNew;
-  const couponDetail = useSelector((state) => state.coupon.couponDetail);
-  const dispatch = useDispatch();
-  const isLoading = useSelector((state) => state.common.isLoading);
+  const couponDetail = useAppSelector((state) => state.coupon.couponDetail);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector((state) => state.common.isLoading);
   const [isUsed, setIsUsed] = useState(false);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const brightness = useSelector((state) => state.common.brightness);
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch({
-  //       type: SET_COUPON_DETAIL,
-  //       couponDetail: null,
-  //     });
-  //   };
-  // }, []);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const brightness = useAppSelector((state) => state.common.brightness);
 
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
-    return async () => {
-      dispatch(CommonActions.setBottomNavigation(true));
-      dispatch({
-        type: SET_COUPON_DETAIL,
-        couponDetail: null,
-      });
-      if (brightness && Platform.OS === "ios")
-        await Brightness.setBrightnessAsync(brightness);
-      await Brightness.useSystemBrightnessAsync();
+    return () => {
+      (async () => {
+        dispatch(CommonActions.setBottomNavigation(true));
+        dispatch({
+          type: SET_COUPON_DETAIL,
+          couponDetail: null,
+        });
+        if (brightness && Platform.OS === "ios")
+          await Brightness.setBrightnessAsync(brightness);
+        await Brightness.useSystemBrightnessAsync();
+      })();
     };
   }, []);
   useEffect(() => {
@@ -393,8 +394,6 @@ const Desc = styled(BaseText)({
 const DescText = styled(BaseText)({
   marginLeft: 7,
   fontSize: 18,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 26,
   letterSpacing: 0,
   textAlign: "left",
@@ -473,9 +472,6 @@ export const screenOptions = ({ navigation }) => {
     headerRight: (props) => <></>,
   };
 };
-import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { HeaderButton } from "../../components/UI/header/elements/HeaderButton";
 const UseButton = (props) => {
   return (
     <HeaderButtons HeaderButtonComponent={HeaderButton}>

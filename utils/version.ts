@@ -1,6 +1,6 @@
 export const versionCompare = (v1, v2, options) => {
-  var lexicographical = options && options.lexicographical,
-    zeroExtend = options && options.zeroExtend,
+  var lexicographical = options?.lexicographical,
+    zeroExtend = options?.zeroExtend,
     v1parts = v1.split("."),
     v2parts = v2.split(".");
 

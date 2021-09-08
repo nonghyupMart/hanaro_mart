@@ -130,6 +130,7 @@
     "@sentry/webpack-plugin": "^1.16.0",
     "@types/color": "^3.0.2",
     "@types/lodash": "^4.14.172",
+    "@types/react": "^17.0.20",
     "@types/styled-components": "^5.1.12",
     "@types/styled-components-react-native": "^5.1.1",
     "babel-jest": "^26.6.1",

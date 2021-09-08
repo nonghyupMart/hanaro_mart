@@ -8,7 +8,6 @@ import * as Util from "../../../utils";
 import colors from "../../../constants/Colors";
 
 const C = (props) => {
-  const entry_date_yn = props.eventDetail.entry.entry_date_yn;
 
   return (
     <View>

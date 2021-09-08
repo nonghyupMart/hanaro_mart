@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import * as memosActions from "../../store/actions/memo";
 import ExtendedFlatList from "../UI/ExtendedFlatList";
 import MemoItem from "./MemoItem";
-import * as memosActions from "../../store/actions/memo";
 
 const MemoList = (props) => {
-  const memos = useSelector((state) => state.memo.memos);
-  const dispatch = useDispatch();
+  const memos = useAppSelector((state) => state.memo.memos);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(memosActions.loadMemos());

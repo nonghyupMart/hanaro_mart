@@ -56,11 +56,7 @@ const NHAHMScreen = ({ navigation, route }: any) => {
             width: SCREEN_WIDTH,
           }}
           source={{
-            uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${
-              params.regiDesc
-            }&amnNo=${
-              !_.isEmpty(userInfo) && !!userInfo!.amnNo ? userInfo!.amnNo : ""
-            }`,
+            uri: `${SERVER_URL}/web/access/nhahm.do?regiDesc=${params.regiDesc}&amnNo=${userInfo?.amnNo}`,
           }}
         />
       </BaseScreen>

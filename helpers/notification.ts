@@ -86,7 +86,7 @@ export const processNotifications = () => {
 
       if (!category) return;
 
-      if (userStore && userStore.storeInfo.store_cd === store_cd) {
+      if (userStore?.storeInfo?.store_cd === store_cd) {
         const currentTab = TabMenus.filter(
           (tab) => tab.name === CATEGORY[category]
         );

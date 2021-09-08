@@ -1,21 +1,20 @@
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import _ from "lodash";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
 import {
   CustomDrawerContent,
-  drawerStyle,
+  drawerStyle
 } from "../components/UI/CustomDrawerContent";
-import { RootState } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { HomeNavigator } from "./HomeNavigator";
 
 // https://reactnavigation.org/docs/drawer-navigator/
 // hide drawer item - https://stackoverflow.com/questions/60395508/react-navigation-5-hide-drawer-item
 const Drawer = createDrawerNavigator();
 export const MainNavigator = () => {
-  const dispatch = useDispatch();
-  const userStore = useSelector((state: RootState) => state.auth.userStore);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
   const [isInitialRender, setIsInitialRender] = useState<boolean>(true);
 
   if (isInitialRender) {

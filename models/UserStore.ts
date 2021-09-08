@@ -1,7 +1,7 @@
-import { MenuList } from "./MenuList";
+import { Menu } from "./Menu";
 
 export type UserStore = {
-  menuList: MenuList[];
+  menuList: Menu[];
   storeInfo: {
     addr: string;
     addr_no: string;

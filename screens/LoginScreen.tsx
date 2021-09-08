@@ -1,39 +1,35 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
+import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  BackHandler,
-  TouchableOpacity,
+  StyleSheet, TouchableOpacity
 } from "react-native";
-import { BackButton, TextTitle } from "../components/UI/header";
-import { BaseTextInput, BaseButton, BaseText } from "../components/UI/BaseUI";
-import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components/native";
 import BaseScreen from "../components/BaseScreen";
-import * as RootNavigation from "../navigation/RootNavigation";
+import { BaseButton, BaseText, BaseTextInput } from "../components/UI/BaseUI";
+import { BackButton } from "../components/UI/header";
 import colors from "../constants/Colors";
-import { setAlert, setIsLoading } from "../store/actions/common";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import * as authActions from "../store/actions/auth";
-import _ from "lodash";
+import { setAlert } from "../store/actions/common";
 import * as Util from "../utils";
 
 const LoginScreen = (props) => {
-  const dispatch = useDispatch();
-  const userStore = useSelector((state) => state.auth.userStore);
-  const pushToken = useSelector((state) => state.auth.pushToken);
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const pushToken = useAppSelector((state) => state.auth.pushToken);
   const [intg_id, setIntg_id] = useState(__DEV__ ? "nick0504k" : "");
   const [intg_pwd, setIntg_pwd] = useState(__DEV__ ? "shdguq12@" : "");
 
   // "intg_id":"hanaroapp911","intg_pwd":"doollee1!"
   const login = async () => {
     if (intg_id.length <= 0) {
-      return showAlert("아이디를 입력해 주세요.");
+      showAlert("아이디를 입력해 주세요.");
+      return;
     }
     if (intg_pwd.length <= 0) {
-      return showAlert("패스워드를 입력해 주세요.");
+      showAlert("패스워드를 입력해 주세요.");
+      return;
     }
-    await dispatch(
+    dispatch(
       authActions.loginWithID({
         intg_id,
         intg_pwd: Util.encrypt(intg_pwd),

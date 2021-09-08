@@ -1,21 +1,16 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React from "react";
+import { Image } from "react-native";
 import styled from "styled-components/native";
-import { useSelector, useDispatch } from "react-redux";
-import * as branchesActions from "../../store/actions/branches";
-import { Text, Image, KeyboardAvoidingView } from "react-native";
-import {
-  BaseButtonContainer,
-  BaseTouchable,
-  SCREEN_WIDTH,
-  StyleConstants,
-  BaseText,
-  BaseTextInput,
-} from "../UI/BaseUI";
-import { setIsLoading, setBottomNavigation } from "../../store/actions/common";
 import colors from "../../constants/Colors";
+import { setIsLoading } from "../../store/actions/common";
+import {
+  BaseButtonContainer, BaseText,
+  BaseTextInput, BaseTouchable, StyleConstants
+} from "../UI/BaseUI";
+import { useAppDispatch } from "../../hooks";
 
 const SearchBar = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const onPressSearch = () => {
     dispatch(setIsLoading(true));
     const query = {
@@ -93,25 +88,10 @@ const SearchBarContainer = styled.View({
   marginRight: StyleConstants.defaultPadding,
   height: 40,
 });
-const ButtonText = styled(BaseText)({
-  fontSize: 12,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 17,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.GREYISH_BROWN,
-});
 const BaseSmallButton = styled(BaseButtonContainer)({
   width: 114,
   height: 24,
   borderRadius: 11,
-});
-const BlueButton = styled(BaseSmallButton)({
-  backgroundColor: colors.CERULEAN,
-});
-const GrayButton = styled(BaseSmallButton)({
-  backgroundColor: colors.PINKISH_GREY,
 });
 const BlueRoundView = styled.View({
   //    borderBottomLeftRadius: number

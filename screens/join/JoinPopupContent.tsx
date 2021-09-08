@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components/native";
 import moment from "moment";
+import React from "react";
+import styled from "styled-components/native";
 import { BaseText } from "../../components/UI/BaseUI";
-import { formatPhoneNumber } from "../../utils";
 import colors from "../../constants/Colors";
+import { useAppSelector } from "../../hooks";
+import { formatPhoneNumber } from "../../utils";
 
 const JoinPopupContent = (props) => {
-  const agreedStatus = useSelector((state) => state.auth.agreedStatus);
-  const userInfo = useSelector((state) => state.auth.userInfo);
+  const agreedStatus = useAppSelector((state) => state.auth.agreedStatus);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
   const date = moment();
   return (
     <Container>

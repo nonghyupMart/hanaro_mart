@@ -134,7 +134,7 @@ export default class Carousel extends Component {
     const children = React.Children.toArray(propsChildren);
     const pages = [];
 
-    if (children && children.length > 1) {
+    if (children && children?.length > 1) {
       // add all pages
       pages.push(...children);
       // We want to make infinite pages structure like this: 1-2-3-1-2

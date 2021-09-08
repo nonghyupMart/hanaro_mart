@@ -1,36 +1,35 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components/native";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import BaseScreen from "../../components/BaseScreen";
-import { useSelector, useDispatch } from "react-redux";
-import * as eventActions from "../../store/actions/event";
-import * as authActions from "../../store/actions/auth";
-import { BackButton, TextTitle } from "../../components/UI/header";
-import { IMAGE_URL } from "../../constants";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { PinchGestureHandler } from "react-native-gesture-handler";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Modal from "react-native-modal";
-import colors from "../../constants/Colors";
+import styled from "styled-components/native";
+import BaseScreen from "../../components/BaseScreen";
 import {
-  DetailContainer,
+  BaseText, DetailContainer,
   ScaledImage,
-  SCREEN_WIDTH,
-  BaseText,
+  SCREEN_WIDTH
 } from "../../components/UI/BaseUI";
-
+import { BackButton, TextTitle } from "../../components/UI/header";
+import { IMAGE_URL } from "../../constants";
+import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import * as authActions from "../../store/actions/auth";
+import * as CommonActions from "../../store/actions/common";
+import { setAlert } from "../../store/actions/common";
+import * as eventActions from "../../store/actions/event";
 import A from "./EventDetail/A";
 import B from "./EventDetail/B";
 import C from "./EventDetail/C";
-import { setAlert, setIsLoading } from "../../store/actions/common";
-import * as CommonActions from "../../store/actions/common";
-import { PinchGestureHandler } from "react-native-gesture-handler";
+
 
 const EventDetailScreen = (props) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [scrollRef, setScrollRef] = useState();
   const [isZoom, setIsZoom] = useState(false);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const userStore = useSelector((state) => state.auth.userStore);
-  const eventDetail = useSelector((state) => state.event.eventDetail);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const eventDetail = useAppSelector((state) => state.event.eventDetail);
   const [key, setKey] = useState(Math.random());
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
@@ -61,7 +60,7 @@ const EventDetailScreen = (props) => {
     return dispatch(
       eventActions.fetchEventDetail({
         event_cd: params.event_cd,
-        user_cd: userInfo.user_cd,
+        user_cd: userInfo?.user_cd,
       })
     );
   };
@@ -82,8 +81,8 @@ const EventDetailScreen = (props) => {
     dispatch(
       eventActions.exchangeStamp({
         event_cd: params.event_cd,
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo?.user_cd,
+        store_cd: userStore?.storeInfo.store_cd,
         mana_qr: QRCode,
       })
     ).then((data) => {
@@ -97,8 +96,8 @@ const EventDetailScreen = (props) => {
     dispatch(
       eventActions.interimExchangeStamp({
         event_cd: params.event_cd,
-        user_cd: userInfo.user_cd,
-        store_cd: userStore.storeInfo.store_cd,
+        user_cd: userInfo?.user_cd,
+        store_cd: userStore?.storeInfo.store_cd,
         mana_qr: QRCode,
       })
     ).then((data) => {
@@ -112,25 +111,26 @@ const EventDetailScreen = (props) => {
     // if (!checkRequiredAmount(QRCode)) return;
     let query = {
       event_cd: params.event_cd,
-      user_cd: userInfo.user_cd,
-      store_cd: userStore.storeInfo.store_cd,
+      user_cd: userInfo?.user_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       rcp_qr: QRCode,
     };
 
-    if (userInfo.marketing_agree === "N") query.marketing_agree = "Y";
+    if (userInfo?.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyStamp(query)).then((data) => {
       if (!data.eventInfo) return;
-      userInfo.marketing_agree = "Y";
+      let userInfoTemp = { ...userInfo };
+      userInfoTemp.marketing_agree = "Y";
 
-      dispatch(authActions.setUserInfo(userInfo));
-      authActions.saveUserInfoToStorage(userInfo);
+      dispatch(authActions.setUserInfo(userInfoTemp));
+      authActions.saveUserInfoToStorage(userInfoTemp);
 
       dispatch(eventActions.updateEventDetail(data.eventInfo));
       alertSusscess(data.alert_msg);
     });
   };
   const validateAgree = () => {
-    if (userInfo && userInfo.marketing_agree === "N") {
+    if (userInfo?.marketing_agree === "N") {
       if (
         !checkItem.isChecked ||
         !checkItem.child[0].isChecked ||
@@ -161,12 +161,12 @@ const EventDetailScreen = (props) => {
     }
     let query = {
       event_cd: params.event_cd,
-      user_cd: userInfo.user_cd,
-      store_cd: userStore.storeInfo.store_cd,
+      user_cd: userInfo?.user_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       reg_num,
     };
     if (QRCode) query.rcp_qr = QRCode;
-    if (userInfo.marketing_agree === "N") query.marketing_agree = "Y";
+    if (userInfo?.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyEvent(query)).then((data) => {
       if (!data.eventInfo) return;
       dispatch(eventActions.updateEventDetail(data.eventInfo));
@@ -219,7 +219,7 @@ const EventDetailScreen = (props) => {
               marginTop: 0,
               marginBottom: 0,
             }}
-            visible={isZoom}
+            isVisible={isZoom}
             transparent={true}
             useNativeDriver={true}
             hideModalContentWhileAnimating={true}

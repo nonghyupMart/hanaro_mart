@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Image, Platform } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import BoardItem from "../../components/board/BoardItem";
@@ -12,16 +11,17 @@ import {
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import colors from "../../constants/Colors";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as eventActions from "../../store/actions/event";
 import { styles } from "./FlyerScreen";
 
 const EventStampHistoryScreen = (props) => {
   const params = props.route.params;
-  const userStore = useSelector((state) => state.auth.userStore);
-  const userInfo = useSelector((state) => state.auth.userInfo);
-  const dispatch = useDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const dispatch = useAppDispatch();
 
-  const stampHistory = useSelector((state) => state.event.stampHistory);
+  const stampHistory = useAppSelector((state) => state.event.stampHistory);
 
   useEffect(() => {
     fetchStampHistory();
@@ -33,11 +33,13 @@ const EventStampHistoryScreen = (props) => {
   const fetchStampHistory = () => {
     dispatch(
       eventActions.fetchStampHistory({
-        user_cd: userInfo.user_cd,
+        user_cd: userInfo?.user_cd,
         event_cd: params.event_cd,
       })
     );
   };
+
+  if (!stampHistory) return <></>;
 
   return (
     <BaseScreen
@@ -49,23 +51,21 @@ const EventStampHistoryScreen = (props) => {
         paddingTop: Platform.OS === "ios" ? 19 : 19,
       }}
     >
-      {stampHistory &&
-        stampHistory.history &&
-        stampHistory.history.length <= 0 && (
-          <>
-            <NoList>내역이 없습니다.</NoList>
-            <BlueButton onPress={() => props.navigation.pop()}>
-              <Image source={require("../../assets/images/forward.png")} />
-              <BlueButtonText>뒤로가기</BlueButtonText>
-            </BlueButton>
-          </>
-        )}
-      {stampHistory && stampHistory.history && (
+      {stampHistory?.history?.length <= 0 && (
+        <>
+          <NoList>내역이 없습니다.</NoList>
+          <BlueButton onPress={() => props.navigation.pop()}>
+            <Image source={require("../../assets/images/forward.png")} />
+            <BlueButtonText>뒤로가기</BlueButtonText>
+          </BlueButton>
+        </>
+      )}
+      {stampHistory?.history && (
         <ExtendedFlatList
           style={[styles.flyerListStyle]}
-          data={stampHistory.history}
+          data={stampHistory?.history}
           keyExtractor={(item) =>
-            `${userStore.storeInfo.store_cd}-${item.reg_date}-${item.trade_nm}`
+            `${userStore?.storeInfo.store_cd}-${item.reg_date}-${item.trade_nm}`
           }
           renderItem={(itemData) => <BoardItem item={itemData.item} />}
         />
@@ -82,14 +82,13 @@ const NoList = styled(BaseText)({
   marginTop: 50,
   marginBottom: 70,
 });
-const BackBtn = styled(BlueButton)({});
-export const screenOptions = ({ navigation }) => {
+export const screenOptions = () => {
   return {
     contentStyle: { backgroundColor: colors.TRUE_WHITE, paddingBottom: 0 },
     title: "교환내역",
     headerLeft: () => <BackButton />,
     headerTitle: (props) => <TextTitle {...props} />,
-    headerRight: (props) => <></>,
+    headerRight: () => <></>,
   };
 };
 

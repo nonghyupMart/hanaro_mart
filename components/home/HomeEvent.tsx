@@ -26,7 +26,7 @@ const HomeEvent = () => {
     if (!isFocused || _.isEmpty(userStore)) return;
 
     let query = {
-      store_cd: userStore && userStore.storeInfo.store_cd,
+      store_cd: userStore?.storeInfo.store_cd,
       page: 1,
     };
     dispatch(eventActions.fetchEvent(query, true));

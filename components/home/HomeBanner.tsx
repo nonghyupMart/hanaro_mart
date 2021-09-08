@@ -24,7 +24,7 @@ const HomeBanner = (props: any) => {
   }, [props.isFocused]);
 
   const onPressMembershipBanner = () => {
-    if (!_.isEmpty(userInfo) && !!userInfo!.amnNo) {
+    if (!!userInfo?.amnNo) {
       dispatch(
         setAlert({
           message: "이미 통합회원 가입하셨습니다.",
