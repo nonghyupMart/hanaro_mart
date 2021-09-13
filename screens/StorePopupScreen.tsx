@@ -7,7 +7,7 @@ import {
   BaseImage,
   BaseText,
   SCREEN_HEIGHT,
-  SCREEN_WIDTH
+  SCREEN_WIDTH,
 } from "../components/UI/BaseUI";
 import Carousel from "../components/UI/Carousel";
 import colors from "../constants/Colors";
@@ -17,7 +17,7 @@ import * as CommonActions from "../store/actions/common";
 import * as homeActions from "../store/actions/home";
 import {
   defineShouldShowStorePopup,
-  getDateForStorePopup
+  getDateForStorePopup,
 } from "./StartupScreen";
 
 const StorePopupScreen = () => {
@@ -76,13 +76,13 @@ const StorePopupScreen = () => {
       await dispatch(CommonActions.setDidTryStorePopup(true));
     })();
   };
-
   if (
     !storePopup ||
     !userStore ||
     _.isEmpty(userStore) ||
-    storePopup.popupCnt <= 0 ||
-    !dateForStorePopup
+    storePopup?.popupCnt <= 0 ||
+    !dateForStorePopup ||
+    _.isEmpty(storePopup)
   )
     //매장이 있는 경우만 매장 팝업
     return <></>;
@@ -108,7 +108,7 @@ const StorePopupScreen = () => {
         pageInfoTextStyle={{ color: colors.TRUE_WHITE, fontSize: 14 }}
         pageInfoTextSeparator="/"
       >
-        {storePopup.popupList.map((item, index) => {
+        {storePopup?.popupList.map((item, index) => {
           return (
             <TouchableOpacity
               activeOpacity={0.8}
