@@ -14,7 +14,7 @@ import exclusiveReducer from "../store/reducers/exclusive";
 import memoReducer from "../store/reducers/memo";
 import wishReducer from "../store/reducers/wish";
 import { CHANGE_SHOP, WITHDRAWAL } from "../store/actions/actionTypes";
-import { dropTable } from "./db";
+import { clearMemoTable } from "./db";
 
 const appReducer = combineReducers({
   auth: authReducer,
@@ -34,7 +34,7 @@ export const rootReducer = (state, action) => {
     // for all keys defined in your persistConfig(s)
     // AsyncStorage.removeItem("persist:root");
     // storage.removeItem('persist:otherKey')
-    dropTable();
+    clearMemoTable();
     state = undefined;
   } else if (action.type === CHANGE_SHOP) {
     state.auth.userStore = null;
