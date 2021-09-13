@@ -101,7 +101,7 @@ export const updateExpo = async (dispatch) => {
       }
     } catch (e) {
       // handle or log error
-      Util.log("update error=>", e);
+      console.log("update error=>", e);
     }
   }
 };
@@ -145,7 +145,7 @@ export const showServiceErrorAlert = (dispatch) => {
           }
         } catch (e) {
           // handle or log error
-          Util.log("update error=>", e);
+          console.log("update error=>", e);
         } finally {
           await dispatch(setIsLoading(false));
           await Updates.reloadAsync();

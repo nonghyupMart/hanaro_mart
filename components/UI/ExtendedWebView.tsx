@@ -207,14 +207,14 @@ export const ExtendedWebView = (props) => {
         sharedCookiesEnabled={true}
         thirdPartyCookiesEnabled={true}
         onMessage={(event) => onMessage(event)}
-        // renderError={(error) => Util.log("Webview error:" + error)}
+        // renderError={(error) => console.log("Webview error:" + error)}
         onError={(syntheticEvent) => {
           // const { nativeEvent } = syntheticEvent;
-          // Util.log("WebView error: ", nativeEvent);
+          // console.log("WebView error: ", nativeEvent);
         }}
         onHttpError={(syntheticEvent) => {
           // const { nativeEvent } = syntheticEvent;
-          // Util.log(
+          // console.log(
           //   "WebView received error status code: ",
           //   nativeEvent.statusCode
           // );

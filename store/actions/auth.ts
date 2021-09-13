@@ -307,8 +307,8 @@ export const getResponse = async (response, dispatch, url, query) => {
 
   if (!response.ok) {
     // console.warn(response);
-    Util.log("ERROR getResponse=> ", url, query);
-    Util.log("ERROR message ==>", resData.error.errorMsg);
+    console.log("ERROR getResponse=> ", url, query);
+    console.log("ERROR message ==>", resData.error.errorMsg);
     showServiceErrorAlert(dispatch);
     return resData;
   }

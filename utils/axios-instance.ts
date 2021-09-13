@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { API_URL } from "../constants";
 import * as Util from ".";
 import {
@@ -19,16 +19,16 @@ const errorHandler = (error) => {
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
-    Util.log("error=>", error.response);
-    Util.log("error.response.data=>", error.response.data);
-    // Util.log("error.response.status=>", error.response.status);
-    // Util.log("error.response.headers=>", error.response.headers);
+    console.log("error=>", error.response);
+    console.log("error.response.data=>", error.response.data);
+    // console.log("error.response.status=>", error.response.status);
+    // console.log("error.response.headers=>", error.response.headers);
   } else if (error.request) {
     // The request was made but no response was received
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
-    // Util.log(error.request);
-    Util.log("ERROR responseURL => ", error.request.responseURL);
+    // console.log(error.request);
+    console.log("ERROR responseURL => ", error.request.responseURL);
   } else {
     // Something happened in setting up the request that triggered an Error
     // console.log("Error", error.message);
@@ -43,7 +43,7 @@ axiosInstance.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     // console.log(config.isNoLoading);
-    Util.log(config.isNoLoading, `[${config.method}]`, config.url);
+    console.log(config.isNoLoading, `[${config.method}]`, config.url);
     if (!config.isNoLoading) {
       _dispatch(setIsLoading(true));
     }
@@ -68,8 +68,8 @@ axiosInstance.interceptors.response.use(
     }
 
     if (response.data.code !== 200 && response.data.code !== 201) {
-      Util.log("response URL=>", response.request.responseURL);
-      Util.log("response=>", response.data);
+      console.log("response URL=>", response.request.responseURL);
+      console.log("response=>", response.data);
       _dispatch(
         setAlert({
           message: response.data.error.errorMsg,

@@ -99,10 +99,10 @@ export const dropTable = () => {
       "DROP TABLE memo",
       [],
       function (db, results) {
-        Util.log("Successfully Dropped");
+        console.log("Successfully Dropped");
       },
       function (db, error) {
-        Util.log("Could not delete");
+        console.log("Could not delete");
       }
     );
   });

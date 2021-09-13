@@ -1,6 +1,5 @@
 export * from "./storage";
 export * from "./format";
-export * from "./log";
 export * from "./aes";
 export * from "./barcode";
 export * from "./version";

@@ -85,7 +85,7 @@ const StartupScreen = (props) => {
       if (!userStoreData) userStoreData = {};
       await dispatch(authActions.saveUserStore(userStoreData));
     } catch (e) {
-      Util.log(e);
+      console.log(e);
     }
   };
 
@@ -114,7 +114,7 @@ const StartupScreen = (props) => {
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         if (token) await dispatch(authActions.setPushToken(token));
       } catch (error) {
-        Util.log(" Notifications.getExpoPushTokenAsync error =>", error);
+        console.log(" Notifications.getExpoPushTokenAsync error =>", error);
       }
     }
   };
