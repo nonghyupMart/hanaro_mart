@@ -1,9 +1,7 @@
 import { useIsFocused } from "@react-navigation/native";
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Platform, StyleSheet
-} from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import BaseScreen from "../../components/BaseScreen";
 import FlyerBanner from "../../components/flyer/FlyerBanner";
 import FlyerItem from "../../components/flyer/FlyerItem";
@@ -24,7 +22,9 @@ import * as flyerActions from "../../store/actions/flyer";
 const FlyerScreen = (props) => {
   const carouselRef = useRef();
   const isFocused = useIsFocused();
-  const isLoading = useAppSelector((state: RootState) => state.common.isLoading);
+  const isLoading = useAppSelector(
+    (state: RootState) => state.common.isLoading
+  );
   const userStore = useAppSelector((state: RootState) => state.auth.userStore);
   const userInfo = useAppSelector((state: RootState) => state.auth.userInfo);
   const dispatch = useAppDispatch();
@@ -211,7 +211,7 @@ const FlyerScreen = (props) => {
           columnWrapperStyle={styles.flyerListColumnWrapperStyle}
           numColumns={2}
           style={styles.flyerListStyle}
-          data={product.productList}
+          data={product?.productList}
           keyExtractor={(item) =>
             `${userStore?.storeInfo.store_cd}-${item.product_cd}`
           }
@@ -225,7 +225,7 @@ const FlyerScreen = (props) => {
           )}
         />
       )}
-      {product?.productList.length === 0 && (
+      {product?.productList?.length === 0 && (
         <NoList
           style={{
             backgroundColor: colors.TRUE_WHITE,

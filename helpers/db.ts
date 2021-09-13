@@ -1,5 +1,6 @@
 import * as SQLite from "expo-sqlite";
 import * as Util from "../utils";
+import * as Updates from "expo-updates";
 
 const db = SQLite.openDatabase(Util.storagePrefix + "HanaroPlus.db");
 
@@ -113,6 +114,7 @@ export const dropTable = () => {
       },
       function (db, error) {
         Util.error("Could not delete");
+        Updates.reloadAsync();
         return false;
       }
     );

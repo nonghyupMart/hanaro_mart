@@ -1,14 +1,14 @@
 import _ from "lodash";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Keyboard, Platform, View
-} from "react-native";
+import { Keyboard, Platform, View } from "react-native";
 import styled from "styled-components/native";
 import BaseScreen from "../components/BaseScreen";
 import FlyerItem from "../components/flyer/FlyerItem";
 import ProductPopup from "../components/ProductPopup";
 import {
-  BaseText, BaseTextInput, BaseTouchable
+  BaseText,
+  BaseTextInput,
+  BaseTouchable,
 } from "../components/UI/BaseUI";
 import ExtendedFlatList from "../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../components/UI/header";
@@ -16,7 +16,11 @@ import colors from "../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { SET_SEARCHED_PRODUCT } from "../store/actions/actionTypes";
 import * as CommonActions from "../store/actions/common";
-import { changeWishState, setAlert, setIsLoading } from "../store/actions/common";
+import {
+  changeWishState,
+  setAlert,
+  setIsLoading,
+} from "../store/actions/common";
 import * as flyerActions from "../store/actions/flyer";
 import { styles } from "./home/FlyerScreen";
 
@@ -28,7 +32,6 @@ const SearchProductScreen = (props) => {
   const dispatch = useAppDispatch();
   const page = useRef(1);
   const currentItem = useRef(null);
-
   const product = useAppSelector((state) => state.flyer.searchedProduct);
   useEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
@@ -137,7 +140,7 @@ const SearchProductScreen = (props) => {
           style={[styles.flyerListStyle]}
           onEndReached={loadMore}
           numColumns={2}
-          data={product.productList}
+          data={product?.productList}
           keyExtractor={(item) =>
             `${userStore.storeInfo.store_cd}-${item.product_cd}`
           }
