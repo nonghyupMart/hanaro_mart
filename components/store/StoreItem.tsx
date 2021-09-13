@@ -1,7 +1,5 @@
 import React from "react";
-import {
-  Image, TouchableOpacity
-} from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../hooks";
@@ -44,7 +42,6 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
     ).then((data) => {
       if (data.result === "success") {
         fetchMarkedStores(true);
-        fetchBranches();
       }
     });
   };

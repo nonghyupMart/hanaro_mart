@@ -98,7 +98,7 @@ const StoreChangeDetailScreen = (props) => {
             message: msg,
             onPressConfirm: () => {
               (async () => {
-                dispatch(setAlert(null));
+                await dispatch(setAlert(null));
                 await dispatch(CommonActions.setDidTryStorePopup(false));
               })();
             },

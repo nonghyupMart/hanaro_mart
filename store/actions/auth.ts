@@ -97,8 +97,11 @@ export const fetchPushCnt = (query) => {
     url: `push-cnt`,
   });
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: true,
+    })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -117,8 +120,11 @@ export const getWishCnt = (query) => {
   });
 
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: true,
+    })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -137,8 +143,11 @@ export const loginWithUserCd = (query, isNoLoading = false) => {
   const data = JSON.stringify(query);
 
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: isNoLoading })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: isNoLoading,
+    })
       .patch(url, data)
       .then(async (response) => {
         return response.data;
@@ -152,8 +161,7 @@ export const setUserStore = (query, userStore) => {
   });
   const data = JSON.stringify(query);
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
         await dispatch(saveUserStore(userStore));
@@ -221,8 +229,7 @@ export const setReference = (query) => {
     url: `/recommend`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -330,8 +337,7 @@ export const fetchUpdate = () => {
     url: `/popup?update_yn=Y`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isNoLoading: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -387,8 +393,7 @@ export const loginWithID = (query) => {
   });
   const data = JSON.stringify(query);
   return async (dispatch) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
         let data = response.data;

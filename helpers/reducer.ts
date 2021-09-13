@@ -37,7 +37,7 @@ export const rootReducer = (state, action) => {
     clearMemoTable();
     state = undefined;
   } else if (action.type === CHANGE_SHOP) {
-    state.auth.userStore = null;
+    // state.auth.userStore = null;
     state.home = undefined;
     state.flyer = undefined;
     state.event = undefined;

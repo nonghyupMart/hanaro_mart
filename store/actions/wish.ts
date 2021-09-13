@@ -12,8 +12,7 @@ export const fetchWishItem = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_WISH_ITEM;
@@ -32,8 +31,11 @@ export const addWishItem = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: true,
+    })
       .post(url, data)
       .then(async (response) => {
         return response.data;

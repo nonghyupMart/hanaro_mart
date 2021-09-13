@@ -11,8 +11,11 @@ export const fetchHomeBanner = (query = {}) => {
     query,
   });
   return async (dispatch: AppDispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: true,
+    })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -31,8 +34,7 @@ export const fetchHomeNotice = (query = {}) => {
     query: query,
   });
   return async (dispatch: AppDispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_HOME_NOTICE;
@@ -55,8 +57,11 @@ export const fetchHomeProducts = (query = {}) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading: true })
+    return Util.axiosInit({
+      dispatch: dispatch,
+      isAutoOff: true,
+      isNoLoading: true,
+    })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_HOME_PRODUCTS;
@@ -77,8 +82,7 @@ export const fetchHomeNaro = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_HOME_NARO, homeNaro: response.data });
@@ -100,8 +104,7 @@ export const fetchPopup = (query = {}, isNoLoading = false) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true, isNoLoading })
       .get(url)
       .then(async (response) => {
         if (query?.store_cd) {

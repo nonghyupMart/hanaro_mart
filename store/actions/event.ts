@@ -9,8 +9,7 @@ export const fetchEvent = (query, isNoLoading = false) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true, isNoLoading })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true, isNoLoading })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_EVENT;
@@ -35,8 +34,7 @@ export const fetchEventDetail = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -64,8 +62,7 @@ export const applyEvent = (query) => {
     url: `/event`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -79,8 +76,7 @@ export const applyStamp = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .post(url, JSON.stringify(query))
       .then(async (response) => {
         return response.data;
@@ -95,8 +91,7 @@ export const exchangeStamp = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -111,8 +106,7 @@ export const interimExchangeStamp = (query) => {
   const data = JSON.stringify(query);
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .post(url, data)
       .then(async (response) => {
         return response.data;
@@ -127,8 +121,7 @@ export const fetchStampHistory = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_STAMP_HISTORY;

@@ -9,8 +9,7 @@ export const fetchExclusive = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         let type = actionTypes.SET_EXCLUSIVE;
@@ -33,8 +32,7 @@ export const fetchExclusiveDetail = (query) => {
     query: query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({

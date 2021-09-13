@@ -7,8 +7,7 @@ export const fetchAddress1 = () => {
     url: `/lname`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS1, address1: response.data });
@@ -23,8 +22,7 @@ export const fetchAddress2 = (lname) => {
     url: `/${lname}/mname`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_ADDRESS2, address2: response.data });
@@ -41,8 +39,7 @@ export const fetchBranches = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         if (query.page > 1) {
@@ -62,8 +59,7 @@ export const fetchBranch = (store_cd) => {
     url: `/store/${store_cd}`,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
@@ -78,8 +74,7 @@ export const fetchBranchNear = (query) => {
     query,
   });
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({ type: actionTypes.SET_BRANCH, branch: response.data });
@@ -93,9 +88,9 @@ export const fetchStoreMark = (query) => {
     url: `/store-mark`,
     query,
   });
+
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .get(url)
       .then(async (response) => {
         dispatch({
@@ -114,8 +109,7 @@ export const deleteMarkedStore = (query) => {
   });
 
   return async (dispatch, getState) => {
-    return Util.http
-      .init({ dispatch: dispatch, isAutoOff: true })
+    return Util.axiosInit({ dispatch: dispatch, isNoLoading: true })
       .delete(url)
       .then(async (response) => {
         return response.data;
