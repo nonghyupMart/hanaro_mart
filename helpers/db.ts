@@ -1,6 +1,5 @@
 import * as SQLite from "expo-sqlite";
 import * as Util from "../utils";
-import * as Updates from "expo-updates";
 
 const db = SQLite.openDatabase(Util.storagePrefix + "HanaroPlus.db");
 
@@ -10,13 +9,11 @@ export const initSQLite = () => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS memo (id INTEGER PRIMARY KEY NOT NULL, title TEXT NOT NULL, isChecked INTEGER NOT NULL DEFAULT 0);",
         [],
-        (_, result) => {
-          resolve(result);
+        () => {
+          resolve();
         },
-        (_, err): boolean => {
-          resolve([]);
-          Util.error(err);
-          return false;
+        (_, err) => {
+          reject(err);
         }
       );
     });
@@ -34,9 +31,7 @@ export const insertMemo = (title, isChecked) => {
           resolve(result);
         },
         (_, err) => {
-          resolve([]);
-          Util.error(err);
-          return false;
+          reject(err);
         }
       );
     });
@@ -54,9 +49,7 @@ export const deleteMemo = (id) => {
           resolve(result);
         },
         (_, err) => {
-          resolve([]);
-          Util.error(err);
-          return false;
+          reject(err);
         }
       );
     });
@@ -74,9 +67,7 @@ export const updateMemo = (id, title, isChecked) => {
           resolve(result);
         },
         (_, err) => {
-          resolve([]);
-          Util.error(err);
-          return false;
+          reject(err);
         }
       );
     });
@@ -94,9 +85,7 @@ export const fetchMemo = () => {
           resolve(result);
         },
         (_, err) => {
-          resolve([]);
-          Util.error(err);
-          return false;
+          reject(err);
         }
       );
     });
@@ -113,7 +102,7 @@ export const dropTable = () => {
         Util.log("Successfully Dropped");
       },
       function (db, error) {
-        Util.error("Could not delete");
+        Util.log("Could not delete");
       }
     );
   });
