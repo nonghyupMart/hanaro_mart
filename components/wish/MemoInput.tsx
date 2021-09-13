@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
+import { useAppDispatch } from "../../hooks";
 import * as memosActions from "../../store/actions/memo";
 import { BaseTextInput, ImageButton } from "../UI/BaseUI";
 

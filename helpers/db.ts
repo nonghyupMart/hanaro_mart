@@ -114,8 +114,6 @@ export const dropTable = () => {
       },
       function (db, error) {
         Util.error("Could not delete");
-        Updates.reloadAsync();
-        return false;
       }
     );
   });
