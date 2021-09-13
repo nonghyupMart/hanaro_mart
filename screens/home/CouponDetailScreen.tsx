@@ -179,7 +179,7 @@ const CouponDetailScreen = (props) => {
       {couponDetail && (
         <DetailContainer style={{ paddingBottom: 30 }}>
           <TopBox>
-            {!isUsed && !isNew && (
+            {!isUsed && (
               <>
                 <TopText
                   style={{
@@ -193,20 +193,6 @@ const CouponDetailScreen = (props) => {
                 </TopText>
                 <Image
                   source={require("../../assets/images/num_128.png")}
-                  resizeMode="cover"
-                  style={{
-                    width: SCREEN_WIDTH + SCREEN_WIDTH * 0.1,
-                    marginLeft: "-5%",
-                    marginTop: -2,
-                  }}
-                />
-              </>
-            )}
-            {!isUsed && isNew && (
-              <>
-                <TopText>쿠폰이 발급 되었습니다.</TopText>
-                <Image
-                  source={require("../../assets/images/nums_128.png")}
                   resizeMode="cover"
                   style={{
                     width: SCREEN_WIDTH + SCREEN_WIDTH * 0.1,
