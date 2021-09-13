@@ -52,7 +52,7 @@ const HomeEvent = () => {
       );
     }
   };
-  if (!event || !event.eventList) return <></>;
+  if (!event?.eventList) return <></>;
   // console.log("HomeEvent - " + Date.now());
   return (
     <RoundedContainer>

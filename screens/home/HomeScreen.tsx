@@ -112,7 +112,7 @@ const HomeScreen = (props: any) => {
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}
       renderItem={renderItem}
-      data={ homeProducts?.productList}
+      data={homeProducts?.productList}
       numColumns={2}
       keyExtractor={(item) => `${item.product_cd}`}
       query={{
@@ -129,10 +129,10 @@ const HomeScreen = (props: any) => {
         {...props}
       />
       <HomeBanner isFocused={isFocused} />
-      {!_.isEmpty(userStore) && <HomeEvent />}
-      { homeProducts?.productList.length > 0 && (
-        <HomeProductsHeader />
+      {!_.isEmpty(userStore) && (
+        <HomeEvent key={userStore?.storeInfo?.store_cd+""} />
       )}
+      {homeProducts?.productList.length > 0 && <HomeProductsHeader />}
       <ProductPopup
         item={currentItem.current}
         isVisible={isVisible}
