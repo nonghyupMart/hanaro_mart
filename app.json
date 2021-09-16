@@ -11,6 +11,9 @@
       "android"
     ],
     "icon": "./assets/icon.png",
+    "updates": {
+      "fallbackToCacheTimeout": 3000
+    },
     "assetBundlePatterns": [
       "assets/images/*",
       "assets/fonts/*"
