@@ -12,6 +12,7 @@ import * as RootNavigation from "../../navigation/RootNavigation";
 import * as authActions from "../../store/actions/auth";
 import * as CommonActions from "../../store/actions/common";
 import { setAlert, setIsLoading } from "../../store/actions/common";
+import { CHANGE_SHOP } from "../../store/actions/actionTypes";
 
 export const ExtendedWebView = (props) => {
   const dispatch = useAppDispatch();
@@ -114,15 +115,15 @@ export const ExtendedWebView = (props) => {
         if (pushToken) query.token = pushToken;
 
         if (!_.isEmpty(userInfo)) {
-          query.user_cd = userInfo.user_cd;
-          query.recommend = userInfo.recommend;
+          query.user_cd = userInfo?.user_cd;
+          query.recommend = userInfo?.recommend;
         }
         if (!_.isEmpty(userStore)) {
-          query.store_cd = userStore.storeInfo.store_cd;
+          query.store_cd = userStore?.storeInfo?.store_cd;
         }
         dispatch(authActions.loginWithUserCd(query)).then(async (data) => {
           if (data.userInfo) {
-            await dispatch({ type: actionTypes.CHANGE_SHOP });
+            await dispatch({ type: CHANGE_SHOP });
             await authActions.saveUserData(dispatch, data);
             if (isLoading) await dispatch(setIsLoading(false));
             if (!_.isEmpty(alert)) await dispatch(setAlert(null));
