@@ -1,4 +1,4 @@
-export const versionCompare = (v1, v2, options) => {
+export const versionCompare = (v1, v2, options?: any) => {
   var lexicographical = options?.lexicographical,
     zeroExtend = options?.zeroExtend,
     v1parts = v1.split("."),

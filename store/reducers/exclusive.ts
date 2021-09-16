@@ -1,6 +1,6 @@
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState = {
+export const initialState = {
   exclusive: null,
   exclusiveDetail: null,
 };

@@ -2,9 +2,10 @@ import _ from "lodash";
 import { Popup } from "../../models/Popup";
 import { UserInfo } from "../../models/UserInfo";
 import { UserStore } from "../../models/UserStore";
+import { UserData } from "../../models/UserData";
 import * as actionTypes from "../actions/actionTypes";
 
-const initialState: {
+export const initialState: {
   didTryAutoLogin: boolean;
   isJoined: Nullable<boolean>;
   hasUserStore: Nullable<boolean>;
@@ -13,6 +14,7 @@ const initialState: {
   location: Nullable<boolean>;
   userStore: Nullable<UserStore>;
   userInfo: Nullable<UserInfo>;
+  userData: Nullable<UserData>;
   agreedStatus: Nullable<object>;
   ci: Nullable<string>;
   updatePopup: Nullable<Popup>;
@@ -28,6 +30,7 @@ const initialState: {
   location: null,
   userStore: null,
   userInfo: null,
+  userData: null,
   agreedStatus: null,
   ci: null,
   updatePopup: null,
@@ -76,6 +79,12 @@ export default (state = initialState, action) => {
       result.isJoined = !_.isEmpty(userInfo);
       result.isJoinedUserHasStore = result.isJoined && result.hasUserStore;
       result.userInfo = userInfo;
+      return result;
+    }
+    case actionTypes.SET_USER_DATA: {
+      const result = { ...state };
+      const userData = { ...action.userData };
+      result.userData = userData;
       return result;
     }
     case actionTypes.SET_CI:

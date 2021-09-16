@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-const initialState = {
+export const initialState = {
   homeBanner: null,
   homeNotice: null,
   homeProducts: null,

@@ -14,7 +14,7 @@ import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import * as authActions from "../store/actions/auth";
-import { fetchUserInfo } from "../store/actions/auth";
+import { fetchUserData } from "../store/actions/auth";
 import { setAlert } from "../store/actions/common";
 import * as MyInfoScreen from "./MyInfoScreen";
 
@@ -29,7 +29,7 @@ const MyADAgreementScreen = (props) => {
 
   useEffect(() => {
     if (!_.isEmpty(userInfo)) {
-      fetchUserInfo({
+      fetchUserData({
         dispatch: dispatch,
         userInfo: userInfo,
         pushToken: pushToken,

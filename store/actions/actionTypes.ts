@@ -4,6 +4,7 @@ export const SET_PUSH_TOKEN = "SET_PUSH_TOKEN";
 export const SET_LOCATION = "SET_LOCATION";
 export const SET_USER_STORE = "SET_USER_STORE";
 export const SET_USER_INFO = "SET_USER_INFO";
+export const SET_USER_DATA = "SET_USER_DATA";
 export const SET_AGREED_STATUS = "SET_AGREED_STATUS";
 export const SET_IS_JOINED = "SET_IS_JOINED";
 export const SET_HAS_USER_STORE = "SET_HAS_USER_STORE";

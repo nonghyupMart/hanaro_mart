@@ -14,6 +14,10 @@ import {
 } from "./common";
 import * as actionTypes from "./actionTypes";
 import * as RootNavigation from "../../navigation/RootNavigation";
+import { UserData } from "../../models/UserData";
+import { UserStore } from "../../models/UserStore";
+import { UserInfo } from "../../models/UserInfo";
+import { AppDispatch } from "../../hooks";
 
 export const setIsAppUpdated = (isAppUpdated) => {
   return {
@@ -66,8 +70,8 @@ export const setLocation = (location) => {
   return { type: actionTypes.SET_LOCATION, location: location };
 };
 
-export const setUserInfo = (userInfo) => {
-  return async (dispatch) => {
+export const setUserInfo = (userInfo: UserInfo) => {
+  return async (dispatch: AppDispatch) => {
     if (!_.isEmpty(userInfo)) {
       await dispatch({
         type: actionTypes.SET_PUSH_CNT,
@@ -86,9 +90,15 @@ export const setCI = (ci) => {
   return { type: actionTypes.SET_CI, ci: ci };
 };
 
-export const saveUserStore = (userStore) => {
-  return async (dispatch) => {
+export const setUserStore = (userStore: UserStore) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({ type: actionTypes.SET_USER_STORE, userStore: userStore });
+  };
+};
+
+export const setUserData = (userData: UserData) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch({ type: actionTypes.SET_USER_DATA, userData: userData });
   };
 };
 
@@ -155,7 +165,7 @@ export const loginWithUserCd = (query, isNoLoading = false) => {
   };
 };
 
-export const setUserStore = (query, userStore) => {
+export const fetchUserStore = (query, userStore) => {
   const url = queryString.stringifyUrl({
     url: `/users`,
   });
@@ -164,7 +174,7 @@ export const setUserStore = (query, userStore) => {
     return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
       .patch(url, data)
       .then(async (response) => {
-        await dispatch(saveUserStore(userStore));
+        await dispatch(setUserStore(userStore));
         await saveUserStoreToStorage(userStore);
         return response.data;
       });
@@ -237,7 +247,7 @@ export const setReference = (query) => {
   };
 };
 
-export const fetchUserInfo = async ({
+export const fetchUserData = async ({
   dispatch,
   userInfo,
   pushToken,
@@ -263,9 +273,8 @@ export const fetchUserInfo = async ({
 
   return dispatch(loginWithUserCd(query, true)).then(async (data) => {
     if (
-      _.isEmpty(data.userInfo) ||
-      data.userInfo.user_cd !== userInfo.user_cd ||
-      !data.userInfo.recommend
+      data?.userInfo?.user_cd !== userInfo?.user_cd ||
+      !data?.userInfo?.recommend
     )
       return;
 
@@ -277,15 +286,21 @@ export const fetchUserInfo = async ({
     Sentry.Browser.setTags(data.userInfo);
     await Analytics.setUserProperty(
       "app_internal_version",
-      Constants.manifest.version
+      Constants.manifest?.version + ""
     );
-    // console.log(Analytics.userProperty);
-    if (!_.isEqual(data.userInfo, userInfo)) await saveUserData(dispatch, data);
+
+    if (
+      !_.isEqual(data.userInfo, userInfo) ||
+      userStore?.storeInfo?.store_cd !== data?.storeInfo?.store_cd
+    ) {
+      await saveUserData(dispatch, data);
+    }
     return data;
   });
 };
 
 export const saveUserData = async (dispatch, data) => {
+  await dispatch(setUserData(data));
   await dispatch(setUserInfo(data.userInfo));
   saveUserInfoToStorage(data.userInfo);
   saveUserTelToStorage(data.userInfo.tel);
@@ -294,7 +309,7 @@ export const saveUserData = async (dispatch, data) => {
   if (!_.isEmpty(data.storeInfo)) {
     obj = { storeInfo: data.storeInfo, menuList: data.menuList };
   }
-  await dispatch(saveUserStore(obj));
+  await dispatch(setUserStore(obj));
   await saveUserStoreToStorage(obj);
   if (_.isEmpty(obj)) {
     dispatch(setDidTryStorePopup(false));
@@ -398,6 +413,7 @@ export const loginWithID = (query) => {
       .then(async (response) => {
         let data = response.data;
         if (response.data.userInfo) {
+          await dispatch({ type: actionTypes.CHANGE_SHOP });
           await saveUserData(dispatch, data);
           await dispatch(setAlert(null));
           await dispatch(setDidTryStorePopup("Home"));

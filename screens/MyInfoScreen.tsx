@@ -18,7 +18,7 @@ import {
 import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { fetchUserInfo, setReference } from "../store/actions/auth";
+import { fetchUserData, setReference } from "../store/actions/auth";
 import { setAlert, setLink } from "../store/actions/common";
 import * as Util from "../utils";
 import { WhiteContainer } from "./snb/StoreChangeScreen";
@@ -75,7 +75,7 @@ const MyInfoScreen = (props) => {
               message: "추천인이 등록되었습니다.",
               onPressConfirm: () => {
                 dispatch(setAlert(null));
-                fetchUserInfo({
+                fetchUserData({
                   dispatch: dispatch,
                   userInfo: userInfo,
                   pushToken: pushToken,

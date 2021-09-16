@@ -1,6 +1,6 @@
 import { Menu } from "./Menu";
 
-export type UserStore = {
+export interface UserStore {
   menuList: Menu[];
   storeInfo: {
     addr: string;
@@ -19,4 +19,4 @@ export type UserStore = {
     support_tel: string;
     tel: string;
   };
-};
+}

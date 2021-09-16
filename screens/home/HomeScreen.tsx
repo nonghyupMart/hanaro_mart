@@ -47,7 +47,7 @@ const HomeScreen = (props: any) => {
   useEffect(() => {
     if (!isFocused) return;
     if (!hasUserAndStore(userInfo, userStore)) return;
-    authActions.fetchUserInfo({
+    authActions.fetchUserData({
       dispatch: dispatch,
       userInfo: userInfo,
       pushToken: pushToken,
@@ -128,10 +128,8 @@ const HomeScreen = (props: any) => {
         // key={appPopupKey}
         {...props}
       />
-      <HomeBanner isFocused={isFocused} />
-      {!_.isEmpty(userStore) && (
-        <HomeEvent key={userStore?.storeInfo?.store_cd+""} />
-      )}
+      <HomeBanner />
+      {!_.isEmpty(userStore) && <HomeEvent />}
       {homeProducts?.productList.length > 0 && <HomeProductsHeader />}
       <ProductPopup
         item={currentItem.current}

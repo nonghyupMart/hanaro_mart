@@ -1,6 +1,6 @@
 import { YN } from "./Types";
 
-export type UserInfo = {
+export interface UserInfo  {
   amnNo: string;
   ci: string;
   di: string;

@@ -122,6 +122,7 @@ export const ExtendedWebView = (props) => {
         }
         dispatch(authActions.loginWithUserCd(query)).then(async (data) => {
           if (data.userInfo) {
+            await dispatch({ type: actionTypes.CHANGE_SHOP });
             await authActions.saveUserData(dispatch, data);
             if (isLoading) await dispatch(setIsLoading(false));
             if (!_.isEmpty(alert)) await dispatch(setAlert(null));

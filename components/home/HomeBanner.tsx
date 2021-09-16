@@ -1,3 +1,4 @@
+import { useIsFocused } from "@react-navigation/native";
 import * as Linking from "expo-linking";
 import _ from "lodash";
 import React, { useEffect } from "react";
@@ -16,12 +17,13 @@ const HomeBanner = (props: any) => {
   const dispatch = useAppDispatch();
   const homeBanner = useAppSelector((state) => state.home.homeBanner);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (!props.isFocused) return;
+    if (!isFocused) return;
 
     dispatch(homeActions.fetchHomeBanner());
-  }, [props.isFocused]);
+  }, [isFocused]);
 
   const onPressMembershipBanner = () => {
     if (!!userInfo?.amnNo) {
@@ -39,7 +41,7 @@ const HomeBanner = (props: any) => {
       regiDesc: "01",
     });
   };
-  if (!userInfo || !homeBanner || !homeBanner.bannerList) return <></>;
+  if (!homeBanner?.bannerList) return <></>;
 
   return (
     <RoundedContainer>

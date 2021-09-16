@@ -18,9 +18,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as RootNavigation from "../../navigation/RootNavigation";
 import { CHANGE_SHOP } from "../../store/actions/actionTypes";
 import {
-  saveUserStore,
-  saveUserStoreToStorage,
   setUserStore,
+  saveUserStoreToStorage,
+  fetchUserStore,
 } from "../../store/actions/auth";
 import * as branchesActions from "../../store/actions/branches";
 import * as CommonActions from "../../store/actions/common";
@@ -78,7 +78,7 @@ const StoreChangeDetailScreen = (props) => {
     if (!branch || !branch.storeInfo) return;
     await dispatch({ type: CHANGE_SHOP });
     if (!isJoined) {
-      await dispatch(saveUserStore(branch));
+      await dispatch(setUserStore(branch));
       await saveUserStoreToStorage(branch);
       await dispatch(CommonActions.setBottomNavigation(true));
       await dispatch(CommonActions.setDidTryStorePopup(false));
@@ -86,7 +86,7 @@ const StoreChangeDetailScreen = (props) => {
     }
     let msg;
     dispatch(
-      setUserStore(
+      fetchUserStore(
         { user_cd: userInfo?.user_cd, store_cd: branch?.storeInfo?.store_cd },
         branch
       )

@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import colors from "../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as RootNavigation from "../../navigation/RootNavigation";
-import { setUserStore } from "../../store/actions/auth";
+import { fetchUserStore } from "../../store/actions/auth";
 import * as branchesActions from "../../store/actions/branches";
 import * as CommonActions from "../../store/actions/common";
 import { BaseText, BaseTouchable } from "../UI/BaseUI";
@@ -20,7 +20,7 @@ const StoreItem = ({ isMark, item, fetchBranches, fetchMarkedStores }) => {
     }
     dispatch(branchesActions.fetchBranch(item.store_cd)).then((data) => {
       dispatch(
-        setUserStore(
+        fetchUserStore(
           { user_cd: userInfo?.user_cd, store_cd: item.store_cd },
           data
         )

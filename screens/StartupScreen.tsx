@@ -83,7 +83,7 @@ const StartupScreen = (props) => {
     try {
       let userStoreData = await Util.getStorageItem("userStoreData");
       if (!userStoreData) userStoreData = {};
-      await dispatch(authActions.saveUserStore(userStoreData));
+      await dispatch(authActions.setUserStore(userStoreData));
     } catch (e) {
       console.log(e);
     }
@@ -124,12 +124,9 @@ const StartupScreen = (props) => {
       if (data.popupCnt <= 0) return;
       let obj = data.popupList[0];
       if (!obj.app_ver) return;
-      const index = Constants.manifest.version.indexOf(".", 2);
-      let versionCheck = Util.versionCompare(
-        Constants.manifest.version.slice(0, index),
-        obj.app_ver
-      );
-
+      const index = Constants?.manifest?.version?.indexOf(".", 2);
+      const currentVersion = Constants?.manifest?.version?.slice(0, index);
+      let versionCheck = Util.versionCompare(currentVersion, obj.app_ver);
       if (versionCheck < 0) {
         //버전이 낮을때만 업데이트 팝업 페이지로 이동
         dispatch(authActions.setIsAppUpdated(false));
@@ -147,7 +144,7 @@ const StartupScreen = (props) => {
     }
     dispatch(branchesActions.fetchBranchNear(query)).then(async (data) => {
       if (!data || !data.storeInfo || !_.isEmpty(userStore)) return finish();
-      dispatch(authActions.saveUserStore(data)).then(async (d) => {
+      dispatch(authActions.setUserStore(data)).then(async (d) => {
         finish();
       });
     });
@@ -175,8 +172,8 @@ export const defineShouldShowStorePopup = (
   userStore: UserStore
 ): boolean => {
   let setDate = moment().subtract(1, "days");
-  if (dateForStorePopup[userStore.storeInfo?.store_cd]) {
-    setDate = moment(dateForStorePopup[userStore.storeInfo?.store_cd]);
+  if (dateForStorePopup[userStore?.storeInfo?.store_cd]) {
+    setDate = moment(dateForStorePopup[userStore?.storeInfo?.store_cd]);
   }
 
   if (!moment(setDate).isBefore(moment(), "day")) {

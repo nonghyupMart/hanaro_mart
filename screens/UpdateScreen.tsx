@@ -26,7 +26,7 @@ const UpdateScreen = (props) => {
     return <></>;
   return (
     <Container>
-      {updatePopup.popupList.map((item, index) => {
+      {updatePopup?.popupList.map((item, index) => {
         return (
           <TouchableOpacity
             activeOpacity={0.8}

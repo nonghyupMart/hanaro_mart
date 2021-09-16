@@ -83,7 +83,7 @@ const AppNavigator = (props) => {
   }, []);
 
   const currentScreen = () => {
-    if (!isAppUpdated) return <UpdateScreen />;
+    if (isAppUpdated === false) return <UpdateScreen />;
     else if (!didTryAutoLogin) return <StartupScreen />;
     else if (didTryAutoLogin && !didTryStorePopup) return <StorePopupScreen />;
     else if (didTryAutoLogin && didTryStorePopup) return <MainNavigator />;
