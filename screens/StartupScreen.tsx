@@ -16,7 +16,6 @@ import * as Util from "../utils";
 const StartupScreen = (props) => {
   const dispatch = useAppDispatch();
   const permissionStatus = useRef();
-  const isJoined = useAppSelector((state) => state.auth.isJoined);
   const userStore = useAppSelector((state) => state.auth.userStore);
   const dateForStorePopup = useAppSelector(
     (state) => state.common.dateForStorePopup

@@ -6,9 +6,7 @@ import colors from "../../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import { withdrawalFinish } from "../../../store/actions/auth";
 import * as Util from "../../../utils";
-import {
-  BaseText
-} from "../BaseUI";
+import { BaseText } from "../BaseUI";
 
 const Footer = (props) => {
   const dispatch = useAppDispatch();
@@ -18,18 +16,18 @@ const Footer = (props) => {
     <BottomContainer>
       <GrayContainer>
         <Text1>
-          사업자명 : {Util.emptyPrint(userStore?.storeInfo.store_nm)}
+          사업자명 : {Util.emptyPrint(userStore?.storeInfo?.store_nm)}
         </Text1>
         <Text2>
           {`대표이사 : ${Util.emptyPrint(
-            userStore?.storeInfo.ceo
+            userStore?.storeInfo?.ceo
           )}\n사업자 등록 번호 ${Util.emptyPrint(
-            userStore?.storeInfo.biz_no
+            userStore?.storeInfo?.biz_no
           )}\n고객만족센터 : ${Util.emptyPrint(
-            userStore?.storeInfo.support_tel
+            userStore?.storeInfo?.support_tel
           )}\n개인정보관리책임자 : ${Util.emptyPrint(
-            userStore?.storeInfo.prv_manager
-          )}\n주소 : ${Util.emptyPrint(userStore?.storeInfo.addr)}`}
+            userStore?.storeInfo?.prv_manager
+          )}\n주소 : ${Util.emptyPrint(userStore?.storeInfo?.addr)}`}
         </Text2>
         <TextArea>
           <TouchableOpacity onPress={() => props.navigation.navigate("Terms")}>

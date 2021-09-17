@@ -28,7 +28,7 @@ export const MainNavigator = () => {
       width: drawerWidth,
     };
   }
-  if (_.isEmpty(userStore)) return <></>;
+
   return (
     <Drawer.Navigator
       edgeWidth={0}
