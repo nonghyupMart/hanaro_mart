@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import { Image } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useEffectAllDepsChange,
+} from "../../hooks";
 import * as eventActions from "../../store/actions/event";
 import * as Util from "../../utils";
 import { BaseText, SCREEN_WIDTH } from "../UI/BaseUI";
@@ -22,9 +26,10 @@ const HomeEvent = () => {
   const userStore = useAppSelector((state) => state.auth.userStore);
   const isFocused = useIsFocused();
 
-  useEffect(() => {
+  useEffectAllDepsChange(() => {
     if (!isFocused || _.isEmpty(userStore)) return;
-
+    setEvDate("");
+    setEvTitle(eventTitle1);
     let query = {
       store_cd: userStore?.storeInfo.store_cd,
       page: 1,

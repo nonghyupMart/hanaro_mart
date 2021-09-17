@@ -22,7 +22,11 @@ import {
   useRedirectToScreenByDidTryStorePopup,
   useRedirectToScreenByLink,
 } from "../../helpers";
-import { useAppDispatch, useAppSelector } from "../../hooks";
+import {
+  useAppDispatch,
+  useAppSelector,
+  useEffectAllDepsChange,
+} from "../../hooks";
 import * as actionTypes from "../../store/actions/actionTypes";
 import * as authActions from "../../store/actions/auth";
 import { changeWishState } from "../../store/actions/common";
@@ -57,8 +61,8 @@ const HomeScreen = (props: any) => {
     return () => {};
   }, [isFocused]);
 
-  useEffect(() => {
-    if (!userStore || !userInfo) return;
+  useEffectAllDepsChange(() => {
+    if (!isFocused || !userStore || !userInfo) return;
 
     let query = {
       store_cd: userStore.storeInfo.store_cd,
@@ -66,7 +70,7 @@ const HomeScreen = (props: any) => {
     };
     if (!_.isEmpty(userInfo)) query.user_cd = userInfo.user_cd;
     dispatch(homeActions.fetchHomeProducts(query));
-  }, [userStore, userInfo]);
+  }, [isFocused, userStore, userInfo]);
 
   const onPageChanged = (p) => {
     page.current = p;
