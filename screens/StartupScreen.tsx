@@ -38,9 +38,9 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
-      if (isJoined === null || !userStore) return;
-      if (isJoined || !_.isEmpty(userStore)) {
-        // 이미 가입한 경우 또는 이미 설정한 매장이 있는 경우 홈화면으로 이동
+      if (!userStore) return;
+      if (!_.isEmpty(userStore)) {
+        // 이미 설정한 매장이 있는 경우 홈화면으로 이동
         await finish();
         return;
       }
@@ -54,7 +54,7 @@ const StartupScreen = (props) => {
       let location = await Location.getLastKnownPositionAsync();
       fetchBranchNear(location);
     })();
-  }, [isJoined, userStore]);
+  }, [userStore]);
 
   useEffect(() => {
     if (!dateForStorePopup) return;
@@ -82,7 +82,7 @@ const StartupScreen = (props) => {
   const getUserStoreDataFromStorage = async () => {
     try {
       let userStoreData = await Util.getStorageItem("userStoreData");
-      if (!userStoreData) userStoreData = {};
+      // if (!userStoreData) userStoreData = {};
       await dispatch(authActions.setUserStore(userStoreData));
     } catch (e) {
       console.log(e);

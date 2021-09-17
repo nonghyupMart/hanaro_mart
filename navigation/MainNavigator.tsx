@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { SCREEN_WIDTH } from "../components/UI/BaseUI";
 import {
   CustomDrawerContent,
-  drawerStyle
+  drawerStyle,
 } from "../components/UI/CustomDrawerContent";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { HomeNavigator } from "./HomeNavigator";
@@ -37,7 +37,7 @@ export const MainNavigator = () => {
         CustomDrawerContent(
           props,
           dispatch,
-          userStore.menuList ? userStore.menuList : []
+          userStore?.menuList ? userStore?.menuList : []
         )
       }
     >
