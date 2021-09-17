@@ -41,7 +41,7 @@ export const MainNavigator = () => {
         )
       }
     >
-      <Drawer.Screen name="HomeTab" component={HomeNavigator} />
+      <Drawer.Screen name="HomeNavigator" component={HomeNavigator} />
     </Drawer.Navigator>
   );
 };
