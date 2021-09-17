@@ -1,6 +1,5 @@
 import axios from "axios";
 import { API_URL } from "../constants";
-import * as Util from ".";
 import {
   setAlert,
   setIsLoading,
@@ -8,6 +7,7 @@ import {
 } from "../store/actions/common";
 import * as actionTypes from "../store/actions/actionTypes";
 import { AppDispatch } from "../hooks";
+import { clearAllData } from "./storage";
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -63,7 +63,7 @@ axiosInstance.interceptors.response.use(
 
     if (response.data.code === "USE-0000") {
       //회원정보가 없는 경우 자동로그인 해제
-      await Util.clearAllData();
+      await clearAllData();
       return await _dispatch({ type: actionTypes.WITHDRAWAL });
     }
 

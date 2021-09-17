@@ -1,11 +1,9 @@
-import moment from "moment";
-import * as Util from "../../utils";
-import queryString from "query-string";
 import * as Updates from "expo-updates";
 import * as actionTypes from "./actionTypes";
 import * as Linking from "expo-linking";
 import { CATEGORY } from "../../constants";
 import _ from "lodash";
+import { setStorageItem } from "../../utils/storage";
 
 export const setLink = (link) => {
   return {
@@ -63,7 +61,7 @@ export const saveDateForStorePopupToStorage = (
     dateForStorePopup[store_cd] = expirationDate.toISOString();
     // console.warn("1일 닫기 ", isStorePopup);
     await dispatch(setDateForStorePopup(dateForStorePopup));
-    await Util.setStorageItem("dateForStorePopupData", dateForStorePopup);
+    await setStorageItem("dateForStorePopupData", dateForStorePopup);
   })();
 };
 
@@ -76,7 +74,7 @@ export const setShouldShowAppPopup = (shouldShowAppPopup: boolean) => {
 
 export const saveDateForAppPopupToStorage = () => {
   const expirationDate = new Date(new Date().getTime());
-  Util.setStorageItem("dateForAppPopupData", expirationDate.toISOString());
+  setStorageItem("dateForAppPopupData", expirationDate.toISOString());
 };
 
 export const setAlert = (alert) => {
@@ -89,7 +87,7 @@ export const setIsLoading = (isLoading) => {
 };
 
 export const saveNotificationToStorage = (data) => {
-  Util.setStorageItem("notificationData", data);
+  setStorageItem("notificationData", data);
 };
 
 export const updateExpo = async (dispatch) => {
