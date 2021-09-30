@@ -88,7 +88,9 @@ import LoginScreen, {
 import FindIDResultScreen, {
   screenOptions as FindIDResultScreenOptions,
 } from "./join/FindIDResultScreen";
-
+import WithdrawalMembershipScreen, {
+  screenOptions as WithdrawalMembershipScreenOptions,
+} from "./myPage/WithdrawalMembershipScreen";
 export {
   HomeScreen,
   HomeScreenOptions,
@@ -152,4 +154,6 @@ export {
   LoginScreenOptions,
   FindIDResultScreen,
   FindIDResultScreenOptions,
+  WithdrawalMembershipScreen,
+  WithdrawalMembershipScreenOptions,
 };

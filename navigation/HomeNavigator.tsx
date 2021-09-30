@@ -195,6 +195,11 @@ export const HomeNavigator = () => {
               component={Screens.LoginScreen}
               options={Screens.LoginScreenOptions}
             />
+            <HomeStackNavigator.Screen
+              name="Withdrawal"
+              component={Screens.WithdrawalMembershipScreen}
+              options={Screens.WithdrawalMembershipScreenOptions}
+            />
           </>
         )}
       </HomeStackNavigator.Navigator>
