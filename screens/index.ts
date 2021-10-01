@@ -39,27 +39,15 @@ import BarCodeScannerScreen, {
 import RingPickerScreen, {
   screenOptions as RingPickerScreenOptions,
 } from "./RingPickerScreen";
-import NoticeScreen, {
-  screenOptions as NoticeScreenOptions,
-} from "./snb/NoticeScreen";
-import InquiryScreen, {
-  screenOptions as InquiryScreenOptions,
-} from "./snb/InquiryScreen";
-import PrivacyScreen, {
-  screenOptions as PrivacyScreenOptions,
-} from "./snb/PrivacyScreen";
-import TermsScreen, {
-  screenOptions as TermsScreenOptions,
-} from "./snb/TermsScreen";
+import NoticeScreen from "./snb/NoticeScreen";
+import InquiryScreenOptions from "./snb/InquiryScreen";
+import PrivacyScreen from "./snb/PrivacyScreen";
+import TermsScreen from "./snb/TermsScreen";
 import MyPageScreen, {
   screenOptions as MyPageScreenOptions,
 } from "./MyPageScreen";
-import MyReviewsScreen, {
-  screenOptions as MyReviewsScreenOptions,
-} from "./myPage/MyReviewsScreen";
-import NotificationScreen, {
-  screenOptions as NotificationScreenOptions,
-} from "./NotificationScreen";
+import MyReviewsScreen from "./myPage/MyReviewsScreen";
+import NotificationScreen from "./NotificationScreen";
 import SearchProductScreen, {
   screenOptions as SearchProductScreenOptions,
 } from "./SearchProductScreen";
@@ -121,19 +109,13 @@ export {
   RingPickerScreen,
   RingPickerScreenOptions,
   NotificationScreen,
-  NotificationScreenOptions,
   NoticeScreen,
-  NoticeScreenOptions,
-  InquiryScreen,
   InquiryScreenOptions,
   PrivacyScreen,
-  PrivacyScreenOptions,
   TermsScreen,
-  TermsScreenOptions,
   MyPageScreen,
   MyPageScreenOptions,
   MyReviewsScreen,
-  MyReviewsScreenOptions,
   SearchProductScreen,
   SearchProductScreenOptions,
   WishProductScreen,
