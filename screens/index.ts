@@ -40,7 +40,7 @@ import RingPickerScreen, {
   screenOptions as RingPickerScreenOptions,
 } from "./RingPickerScreen";
 import NoticeScreen from "./snb/NoticeScreen";
-import InquiryScreenOptions from "./snb/InquiryScreen";
+import InquiryScreen from "./snb/InquiryScreen";
 import PrivacyScreen from "./snb/PrivacyScreen";
 import TermsScreen from "./snb/TermsScreen";
 import MyPageScreen, {
@@ -110,7 +110,7 @@ export {
   RingPickerScreenOptions,
   NotificationScreen,
   NoticeScreen,
-  InquiryScreenOptions,
+  InquiryScreen,
   PrivacyScreen,
   TermsScreen,
   MyPageScreen,

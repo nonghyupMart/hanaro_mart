@@ -481,7 +481,7 @@ const UseButton = (props) => {
             textAlign: "center",
           }}
         >
-          직원확인
+          POS확인
         </Text>
 
         <Image

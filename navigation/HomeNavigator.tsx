@@ -93,22 +93,18 @@ export const HomeNavigator = () => {
             <HomeStackNavigator.Screen
               name="Notice"
               component={Screens.NoticeScreen}
-              options={Screens.NoticeScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="Inquiry"
               component={Screens.InquiryScreen}
-              options={Screens.InquiryScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="Privacy"
               component={Screens.PrivacyScreen}
-              options={Screens.PrivacyScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="Terms"
               component={Screens.TermsScreen}
-              options={Screens.TermsScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="EventDetail"
@@ -123,12 +119,10 @@ export const HomeNavigator = () => {
             <HomeStackNavigator.Screen
               name="MyReviews"
               component={Screens.MyReviewsScreen}
-              options={Screens.MyReviewsScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="Notification"
               component={Screens.NotificationScreen}
-              options={Screens.NotificationScreenOptions}
             />
             <HomeStackNavigator.Screen
               name="SearchProduct"
