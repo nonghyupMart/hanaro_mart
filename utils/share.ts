@@ -1,7 +1,7 @@
 import { Share } from "react-native";
 import { SERVER_URL } from "../constants";
 
-export const sendShareLink = async (recommend) => {
+export const sendShareLink = async (recommend: string) => {
   try {
     let message = `모든 것을 하나로마트 - ${SERVER_URL}/web/about/appStore2.do`;
     if (recommend) {
@@ -19,7 +19,7 @@ export const sendShareLink = async (recommend) => {
     } else if (result.action === Share.dismissedAction) {
       // dismissed
     }
-  } catch (error) {
+  } catch (error: any) {
     alert(error.message);
   }
 };
