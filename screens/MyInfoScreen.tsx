@@ -2,18 +2,14 @@ import _ from "lodash";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 // import Barcode from "react-native-jsbarcode";
-import {
-  Image, StyleSheet
-} from "react-native";
+import { Image } from "react-native";
 import Modal from "react-native-modal";
 import QRCode from "react-native-qrcode-svg";
 import styled from "styled-components/native";
-import Barcode from "../components/Barcode";
 import BaseScreen from "../components/BaseScreen";
 import MemberInfoB from "../components/myPage/MemberInfoB";
 import {
-  BaseButtonContainer,
-  BaseText, SCREEN_WIDTH
+  BaseText
 } from "../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
@@ -175,16 +171,6 @@ const MyInfoScreen = (props) => {
             </Button>
           </BarcodeContainer>
         )}
-        <BarcodeContainer style={{ marginTop: 5 }}>
-          <Barcode
-            width={2}
-            height={100}
-            value={barcode}
-            format="CODE128"
-            flat={true}
-            onError={onError}
-          />
-        </BarcodeContainer>
         {!!userInfo?.mana_qr && (
           <MangerQRCodeContainer onPress={setIsVisible.bind(this, true)}>
             <Image source={require("../assets/images/adminqr.png")} />
@@ -236,7 +222,6 @@ const EditButton = styled.TouchableOpacity({
   alignSelf: "flex-end",
   marginBottom: 14,
 });
-const EditButtonWrap = styled.View({});
 const ReferenceInput = styled.TextInput({
   fontSize: 12,
   fontWeight: "normal",
@@ -289,8 +274,6 @@ const QRCodeContainer = styled.View({
 });
 const ModalTitle = styled(BaseText)({
   fontSize: 20,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 30,
   letterSpacing: 0,
   textAlign: "center",
@@ -345,8 +328,6 @@ export const MarginContainer = styled.View({
 });
 const BaseTextStyle = styled(BaseText)({
   fontSize: 16,
-  fontWeight: "500",
-  fontStyle: "normal",
   lineHeight: 24,
   letterSpacing: 0,
   textAlign: "left",
@@ -382,84 +363,7 @@ const BarcodeContainer = styled.View({
   paddingTop: 14,
   paddingBottom: 14,
 });
-const BlueButtonText = styled(BaseText)({
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.TRUE_WHITE,
-  marginLeft: 9,
-});
-const BlueButton = styled(BaseButtonContainer)({
-  marginTop: 5,
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  backgroundColor: colors.CERULEAN,
-  paddingTop: 8,
-  paddingBottom: 8,
-  flex: 1,
-  width: SCREEN_WIDTH - 24 * 2,
-  alignSelf: "center",
-  aspectRatio: 100 / 12.804,
-});
-const Warn = styled(BaseText)({
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: colors.GREYISH_BROWN,
-  marginLeft: 18,
-  flex: 1,
-});
-const WarnContainer = styled.View({
-  overflow: "hidden",
-  marginTop: 22,
-  flexDirection: "row",
-  marginLeft: 28,
-  marginRight: 28,
-  marginBottom: 22,
-  flex: 1,
-});
-const Now = styled(BaseText)({
-  color: colors.APPLE_GREEN,
-});
-const TimerText = styled(BaseText)({
-  marginTop: 45,
-  justifyContent: "flex-end",
-  alignItems: "flex-end",
-  fontSize: 16,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 24,
-  letterSpacing: 0,
-  textAlign: "right",
-  color: colors.GREYISH_BROWN,
-  marginBottom: 5,
-  flex: 1,
-  width: "100%",
-  marginRight: 35,
-});
-const TimerBar = styled.View({
-  width: (props) => {
-    return (props.elapsedTime * props.barContainerWidth) / 120;
-  },
-  flex: 1,
-  backgroundColor: colors.APPLE_GREEN,
-});
-const TimerBarContainer = styled.View({
-  overflow: "hidden",
 
-  marginBottom: 70,
-  width: SCREEN_WIDTH - 50,
-  aspectRatio: 100 / 7.042,
-  backgroundColor: colors.PINKISH_GREY,
-  borderRadius: 20,
-});
 const Container = styled.View({
   alignItems: "center",
   width: "100%",
@@ -478,13 +382,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export default MyInfoScreen;
