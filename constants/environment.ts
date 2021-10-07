@@ -18,14 +18,14 @@ const ENV = {
   },
   prod: {
     SERVER_URL: "https://www.hanaromartapp.com",
-    // Add other keys you want here
+    // Add other keys you want hereㅎ
   },
 };
-export const getEnv = (env = Constants.manifest.releaseChannel) => {
+export const getEnv = (env = Constants.manifest?.releaseChannel) => {
   return env;
 };
 
-const getEnvVars = (env = Constants.manifest.releaseChannel) => {
+const getEnvVars = (env = Constants.manifest?.releaseChannel) => {
   // What is __DEV__ ?
   // This variable is set to true when react-native is running in Dev mode.
   // __DEV__ is true when run locally, but false when published.
