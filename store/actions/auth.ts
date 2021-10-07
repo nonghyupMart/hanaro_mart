@@ -46,16 +46,14 @@ export const signUp = (query) => {
       url = queryString.stringifyUrl({
         url: `/v1/user_add`,
       });
-      return Util.http
-        .init({ dispatch: dispatch, isAutoOff: true })
+      return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
         .post(url, data)
         .then(async (response) => setResponse(response));
     } else {
       url = queryString.stringifyUrl({
         url: `/v1/user_modify`,
       });
-      return Util.http
-        .init({ dispatch: dispatch, isAutoOff: true })
+      return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
         .patch(url, data)
         .then(async (response) => setResponse(response));
     }
