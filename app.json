@@ -12,7 +12,7 @@
     ],
     "icon": "./assets/icon.png",
     "updates": {
-      "fallbackToCacheTimeout": 5000
+      "fallbackToCacheTimeout": 10000
     },
     "assetBundlePatterns": [
       "assets/images/*",
