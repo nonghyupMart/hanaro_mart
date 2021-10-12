@@ -1,6 +1,6 @@
 import { YN } from "./Types";
 
-export interface UserInfo  {
+export interface UserInfo {
   amnNo: string;
   ci: string;
   di: string;
@@ -12,6 +12,7 @@ export interface UserInfo  {
   recommend: string;
   recommend_apply: YN;
   reg_date: string;
+  nh_reg_date: string;
   sms_agree: YN;
   store_cd: number;
   store_type: string;
@@ -23,4 +24,4 @@ export interface UserInfo  {
   user_name: string;
   user_sex: string;
   wish_cnt: number;
-};
+}

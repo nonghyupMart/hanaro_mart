@@ -3,7 +3,7 @@
     "scheme": "hanaroplus",
     "name": "하나로마트앱",
     "slug": "hanaro-plus",
-    "version": "1.27.0",
+    "version": "1.27.1",
     "orientation": "portrait",
     "privacy": "unlisted",
     "platforms": [
@@ -58,7 +58,7 @@
       "userInterfaceStyle": "light"
     },
     "android": {
-      "versionCode": 40,
+      "versionCode": 41,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",

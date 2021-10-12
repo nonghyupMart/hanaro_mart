@@ -8,9 +8,7 @@ import QRCode from "react-native-qrcode-svg";
 import styled from "styled-components/native";
 import BaseScreen from "../components/BaseScreen";
 import MemberInfoB from "../components/myPage/MemberInfoB";
-import {
-  BaseText
-} from "../components/UI/BaseUI";
+import { BaseText } from "../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../components/UI/header";
 import colors from "../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -143,8 +141,20 @@ const MyInfoScreen = (props) => {
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/mypage_bt_off.png")} />
-          <Text1>가입일자</Text1>
-          <Text2>{moment(userInfo?.reg_date).format("YYYY.MM.DD")}</Text2>
+          {!!userInfo?.amnNo && (
+            <>
+              <Text1>가입일자(통합)</Text1>
+              <Text2>
+                {moment(userInfo?.nh_reg_date).format("YYYY.MM.DD")}
+              </Text2>
+            </>
+          )}
+          {!!!userInfo?.amnNo && (
+            <>
+              <Text1>가입일자(앱)</Text1>
+              <Text2>{moment(userInfo?.reg_date).format("YYYY.MM.DD")}</Text2>
+            </>
+          )}
         </TextContainer>
       </MarginContainer>
       <WhiteContainer style={{ marginTop: 10 }}>
