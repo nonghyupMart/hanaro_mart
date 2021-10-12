@@ -345,11 +345,10 @@ const BaseTextStyle = styled(BaseText)({
   alignSelf: "stretch",
 });
 const Text1 = styled(BaseTextStyle)({
-  width: "25%",
+  width: "30%",
   flexShrink: 0,
 });
 const Text2 = styled(BaseTextStyle)({
-  width: "55%",
   flexShrink: 0,
 });
 Text2.defaultProps = {
@@ -358,8 +357,8 @@ Text2.defaultProps = {
 
 const TextContainer = styled.View({
   flexDirection: "row",
-  marginLeft: 50,
-  marginRight: 50,
+  marginLeft: Util.normalize(40),
+  marginRight: Util.normalize(40),
   width: "100%",
   alignSelf: "stretch",
   alignItems: "center",
