@@ -1,19 +1,16 @@
 import _ from "lodash";
 import React, { useRef, useState } from "react";
-import {
-  Animated, Image,
-  Platform, TouchableOpacity
-} from "react-native";
+import { Animated, Image, Platform, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../../constants/Colors";
 import { useAppDispatch, useAppSelector } from "../../../hooks";
 import {
-  checkAuth, checkSetStore, withdrawalFinish
+  checkAuth,
+  checkSetStore,
+  withdrawalFinish,
 } from "../../../store/actions/auth";
 import * as Util from "../../../utils";
-import {
-  BaseText, BaseTouchable
-} from "../BaseUI";
+import { BaseText, BaseTouchable } from "../BaseUI";
 
 const MenuList = (props) => {
   const dispatch = useAppDispatch();
@@ -25,13 +22,6 @@ const MenuList = (props) => {
   const [bounceValue, setBounceValue] = useState(new Animated.Value(-30));
   return (
     <MenuContainer>
-      <MenuButtonContainer>
-        <MenuButton onPress={() => props.navigation.navigate("StoreChange")}>
-          <IconImage source={require("../../../assets/images/g2.png")} />
-
-          <MenuText>매장설정</MenuText>
-        </MenuButton>
-      </MenuButtonContainer>
       <MenuButtonContainer>
         <MenuButton
           onPress={() => {

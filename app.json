@@ -12,7 +12,7 @@
     ],
     "icon": "./assets/icon.png",
     "updates": {
-      "fallbackToCacheTimeout": 3500
+      "fallbackToCacheTimeout": 5000
     },
     "assetBundlePatterns": [
       "assets/images/*",
@@ -58,7 +58,7 @@
       "userInterfaceStyle": "light"
     },
     "android": {
-      "versionCode": 42,
+      "versionCode": 43,
       "splash": {
         "mdpi": "./assets/splash/ios/img1242x2436.png",
         "hdpi": "./assets/splash/ios/img1242x2436.png",

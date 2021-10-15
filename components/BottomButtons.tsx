@@ -20,9 +20,11 @@ const BottomButtons = () => {
     return (
       <ExtraContainer>
         <Container>
-          <ButtonContainer onPress={() => RootNavigation.navigate("Home")}>
-            <Image source={require("../assets/images/home_icon.png")} />
-            <IconText>홈</IconText>
+          <ButtonContainer
+            onPress={() => RootNavigation.navigate("StoreChange")}
+          >
+            <Image source={require("../assets/images/g23.png")} />
+            <IconText>매장설정</IconText>
           </ButtonContainer>
           <ButtonContainer
             onPress={async () => {
@@ -53,7 +55,7 @@ const BottomButtons = () => {
           <ButtonContainer
             onPress={async () => {
               if (await checkSetStore(dispatch, userStore)) {
-                Linking.openURL("tel:" + userStore.storeInfo.support_tel);
+                Linking.openURL("tel:" + userStore?.storeInfo?.support_tel);
               }
             }}
           >
@@ -75,7 +77,7 @@ const BottomButtons = () => {
               left: SCREEN_WIDTH / 2 - Util.normalize(23.5),
             },
           ]}
-          onPress={() => RootNavigation.navigate("RingPicker")}
+          onPress={() => RootNavigation.navigate("Home")}
         >
           <Image
             source={require("../assets/images/HANA_icon.png")}
