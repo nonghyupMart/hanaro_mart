@@ -15,8 +15,7 @@
       "fallbackToCacheTimeout": 5000
     },
     "assetBundlePatterns": [
-      "assets/images/*",
-      "assets/fonts/*"
+      "**/*"
     ],
     "notification": {
       "icon": "./assets/9696.png",
