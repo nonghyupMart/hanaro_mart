@@ -12,6 +12,7 @@ import * as authActions from "../store/actions/auth";
 import * as branchesActions from "../store/actions/branches";
 import * as CommonActions from "../store/actions/common";
 import * as Util from "../utils";
+import { showServiceErrorAlert } from "../store/actions/common";
 
 const StartupScreen = (props) => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ const StartupScreen = (props) => {
 
   useEffect(() => {
     (async () => {
+      await setTimerOut();
       await SplashScreen.hideAsync();
       if (!isUpdatedVersion()) return;
       await getExpoPushToken();
@@ -33,7 +35,19 @@ const StartupScreen = (props) => {
       await getDateForStorePopup(dispatch);
       await initAppPopupData();
     })();
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current;
+    };
   }, []);
+
+  const setTimerOut = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      showServiceErrorAlert(dispatch);
+    }, 5000);
+  };
 
   useEffect(() => {
     (async () => {
@@ -135,7 +149,7 @@ const StartupScreen = (props) => {
     });
   };
 
-  const fetchBranchNear = async (location) => {
+  const fetchBranchNear = async (location = null) => {
     let query = {};
     if (location) {
       query.lat = location.coords.latitude;
