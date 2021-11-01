@@ -59,6 +59,9 @@ export const screenOptions = () => {
     headerLeft: (props: any) => <BackButton {...props} />,
     headerTitle: (props: any) => <TextTitle {...props} />,
     headerRight: () => <></>,
+    contentStyle: {
+      paddingBottom: 0,
+    },
     // headerStyle: {
     //   backgroundColor: "#f4511e",
     // },
