@@ -5,6 +5,7 @@ import { StyleSheet } from "react-native";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import CouponItem from "../../components/coupon/CouponItem";
+import CouponRegistrationForm from "../../components/coupon/CouponRegistrationForm";
 import CategoryButtonSmallList from "../../components/UI/CategoryButtonSmallList";
 import ExtendedFlatList from "../../components/UI/ExtendedFlatList";
 import { BackButton, TextTitle } from "../../components/UI/header";
@@ -182,6 +183,7 @@ const CouponScreen = (props) => {
         value={gbn}
         setValue={setGbn}
       />
+      <CouponRegistrationForm/>
       {coupon && (
         <>
           <ScrollList
