@@ -131,8 +131,9 @@ const CouponScreen = (props) => {
       );
     }
   };
+
   if (!coupon || _.isEmpty(userStore)) return <></>;
-  if (routeName === "MyCoupon" && _.size(coupon.couponList) === 0)
+  if (_.size(coupon.couponList) === 0)
     return (
       <>
         <CategoryButtonSmallList
@@ -140,27 +141,29 @@ const CouponScreen = (props) => {
           value={gbn}
           setValue={setGbn}
         />
-        <NoList
-          source={require("../../assets/images/wallet.png")}
-          text={"나의 쿠폰"}
-          infoText="나의 쿠폰이 없습니다."
+        <CouponRegistrationForm
+          coupon={coupon}
+          style={{
+            paddingLeft: 24,
+            paddingRight: 24,
+          }}
         />
+        {routeName === "MyCoupon" && (
+          <NoList
+            source={require("../../assets/images/wallet.png")}
+            text={"나의 쿠폰"}
+            infoText="나의 쿠폰이 없습니다."
+          />
+        )}
+        {routeName === "Coupon" && (
+          <NoList
+            source={require("../../assets/images/ticketWhite.png")}
+            text={"쿠폰"}
+          />
+        )}
       </>
     );
-  if (routeName === "Coupon" && _.size(coupon.couponList) === 0)
-    return (
-      <>
-        <CategoryButtonSmallList
-          data={eventCategory}
-          value={gbn}
-          setValue={setGbn}
-        />
-        <NoList
-          source={require("../../assets/images/ticketWhite.png")}
-          text={"쿠폰"}
-        />
-      </>
-    );
+
   return (
     <BaseScreen
       style={styles.screen}
@@ -183,37 +186,33 @@ const CouponScreen = (props) => {
         value={gbn}
         setValue={setGbn}
       />
-      <CouponRegistrationForm/>
-      {coupon && (
-        <>
-          <ScrollList
-            listKey={1}
-            numColumns={2}
-            data={coupon.couponList}
-            keyExtractor={(item) =>
-              `${userStore?.storeInfo.store_cd}-${item.cou_cd}`
-            }
-            onEndReached={loadMore}
-            columnWrapperStyle={{
-              alignItems: "space-between",
-              justifyContent: "space-between",
-            }}
-            contentContainerStyle={{ flex: 1, width: "100%" }}
-            // ListHeaderComponent={() => {
-            //   return <View style={{ height: 6 }}></View>;
-            // }}
-            renderItem={({ item, index, separators }) => {
-              return (
-                <CouponItem
-                  item={item}
-                  index={index}
-                  onPress={onCouponItemPressed.bind(this, item)}
-                />
-              );
-            }}
-          />
-        </>
-      )}
+      <CouponRegistrationForm coupon={coupon} />
+      <ScrollList
+        listKey={1}
+        numColumns={2}
+        data={coupon.couponList}
+        keyExtractor={(item) =>
+          `${userStore?.storeInfo.store_cd}-${item.cou_cd}`
+        }
+        onEndReached={loadMore}
+        columnWrapperStyle={{
+          alignItems: "space-between",
+          justifyContent: "space-between",
+        }}
+        contentContainerStyle={{ flex: 1, width: "100%" }}
+        // ListHeaderComponent={() => {
+        //   return <View style={{ height: 6 }}></View>;
+        // }}
+        renderItem={({ item, index, separators }) => {
+          return (
+            <CouponItem
+              item={item}
+              index={index}
+              onPress={onCouponItemPressed.bind(this, item)}
+            />
+          );
+        }}
+      />
     </BaseScreen>
   );
 };

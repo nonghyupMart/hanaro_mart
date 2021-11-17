@@ -1,17 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
 import * as Util from "../../utils";
 import { BaseText, BaseTouchable } from "../UI/BaseUI";
 import { Image } from "react-native";
+import * as couponActions from "../../store/actions/coupon";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setAlert } from "../../store/actions/common";
 
-const CouponRegistrationForm = () => {
+const CouponRegistrationForm = (props) => {
+  const dispatch = useAppDispatch();
+  const userStore = useAppSelector((state) => state.auth.userStore);
+  const userInfo = useAppSelector((state) => state.auth.userInfo);
+  const [serialNumber, setSerialNumber] = useState("");
+
+  const onPress = () => {
+    // if (serialNumber.length <= 0) return;
+    dispatch(
+      couponActions.registerCoupon({
+        store_cd: userStore?.storeInfo.store_cd,
+        user_cd: userInfo?.user_cd,
+        barcode: serialNumber,
+        coupon: props.coupon,
+      })
+    ).then((data) => {
+      setSerialNumber("");
+      if (data?.couponList.length > 0) {
+        dispatch(
+          setAlert({
+            message: "쿠폰이 발급되었습니다.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
+      }
+    });
+  };
+
   return (
-    <>
+    <Container style={[props.style]}>
       <Container1 style={{ paddingTop: 25 }}>
         <Text1>쿠폰번호 등록하기</Text1>
-        <Input placeholder="쿠폰번호 입력"></Input>
-        <Button>
+        <Input
+          placeholder="쿠폰번호 입력"
+          onChangeText={(number) => setSerialNumber(number)}
+          value={serialNumber}
+          onSubmitEditing={onPress}
+        ></Input>
+        <Button onPress={onPress}>
           <BtnText>등록</BtnText>
         </Button>
       </Container1>
@@ -21,9 +58,14 @@ const CouponRegistrationForm = () => {
           10~35자 일련번호 "-" 제외 마트에서 발행한 쿠폰번호만 입력해주세요.
         </Desc>
       </Container1>
-    </>
+    </Container>
   );
 };
+
+const Container = styled.View({
+  alignSelf: "center",
+  width: "100%",
+});
 const Container1 = styled.View({
   flexDirection: "row",
   alignItems: "center",

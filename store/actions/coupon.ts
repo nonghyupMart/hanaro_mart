@@ -71,6 +71,38 @@ export const downloadCoupon = (query) => {
   };
 };
 
+export const registerCoupon = (query: any) => {
+  const coupon = { ...query.coupon };
+
+  const type =
+    coupon.user_yn === "Y" ? actionTypes.SET_MY_COUPON : actionTypes.SET_COUPON;
+  delete query.coupon;
+
+  const url = queryString.stringifyUrl({
+    url: `/coupon_barcode`,
+  });
+  const data = JSON.stringify(query);
+
+  return async (dispatch, getState) => {
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
+      .post(url, data)
+      .then(async (response) => {
+        switch (`${response["code"]}`) {
+          case "200":
+            const updatedCouponList = coupon.couponList.concat(
+              response.data.couponList
+            );
+            coupon.couponList = updatedCouponList;
+            break;
+          default:
+            break;
+        }
+        dispatch({ type: type, coupon: coupon });
+        return response.data;
+      });
+  };
+};
+
 export const useCoupon = (query) => {
   const coupon = { ...query.coupon };
   const index = query.index;
