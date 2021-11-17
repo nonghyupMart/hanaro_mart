@@ -7,14 +7,17 @@ import { Image } from "react-native";
 import * as couponActions from "../../store/actions/coupon";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setAlert } from "../../store/actions/common";
+import { checkAuth } from "../../store/actions/auth";
 
 const CouponRegistrationForm = (props) => {
   const dispatch = useAppDispatch();
+  const isJoined = useAppSelector((state) => state.auth.isJoined);
   const userStore = useAppSelector((state) => state.auth.userStore);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const [serialNumber, setSerialNumber] = useState("");
 
-  const onPress = () => {
+  const onPress = async () => {
+    if (!(await checkAuth(dispatch, isJoined))) return;
     // if (serialNumber.length <= 0) return;
     dispatch(
       couponActions.registerCoupon({
