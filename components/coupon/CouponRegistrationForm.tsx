@@ -18,27 +18,45 @@ const CouponRegistrationForm = (props) => {
 
   const onPress = async () => {
     if (!(await checkAuth(dispatch, isJoined))) return;
-    // if (serialNumber.length <= 0) return;
-    dispatch(
-      couponActions.registerCoupon({
-        store_cd: userStore?.storeInfo.store_cd,
-        user_cd: userInfo?.user_cd,
-        barcode: serialNumber,
-        coupon: props.coupon,
-      })
-    ).then((data) => {
+    try {
+      validate();
+      registerCoupon();
+    } catch (error) {
+      showErrorMessage(error.message);
+    }
+  };
+
+  const registerCoupon = () => {
+    const query = {
+      store_cd: userStore?.storeInfo.store_cd,
+      user_cd: userInfo?.user_cd,
+      barcode: serialNumber,
+      coupon: props.coupon,
+    };
+
+    dispatch(couponActions.registerCoupon(query)).then((data) => {
       setSerialNumber("");
       if (data?.couponList.length > 0) {
-        dispatch(
-          setAlert({
-            message: "쿠폰이 발급되었습니다.",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
+        showErrorMessage("쿠폰이 발급되었습니다.");
       }
     });
+  };
+
+  const validate = () => {
+    if (serialNumber.length <= 0) {
+      throw new Error("쿠폰번호를 입력해 주세요.");
+    }
+  };
+
+  const showErrorMessage = (message: string) => {
+    dispatch(
+      setAlert({
+        message: message,
+        onPressConfirm: () => {
+          dispatch(setAlert(null));
+        },
+      })
+    );
   };
 
   return (
