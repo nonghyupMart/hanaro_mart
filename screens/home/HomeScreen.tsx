@@ -133,7 +133,9 @@ const HomeScreen = (props: any) => {
         {...props}
       />
       <HomeBanner />
-      {!_.isEmpty(userStore) && <HomeEvent />}
+      {!_.isEmpty(userStore) && (
+        <HomeEvent key={userStore?.storeInfo?.store_cd} />
+      )}
       {homeProducts?.productList.length > 0 && <HomeProductsHeader />}
       <ProductPopup
         item={currentItem.current}
