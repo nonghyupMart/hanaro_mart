@@ -113,6 +113,7 @@ const HomeScreen = (props: any) => {
   if (!userStore) return <></>;
   return (
     <BaseScreen
+      key={`HomeScreen-${userStore?.storeInfo.store_cd}`}
       style={styles.screen}
       contentStyle={{ paddingTop: 0 }}
       renderItem={renderItem}
