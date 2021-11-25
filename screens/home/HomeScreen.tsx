@@ -134,7 +134,7 @@ const HomeScreen = (props: any) => {
       />
       <HomeBanner />
       {!_.isEmpty(userStore) && (
-        <HomeEvent key={userStore?.storeInfo?.store_cd} />
+        <HomeEvent key={`HomeEvent-${userStore?.storeInfo.store_cd}`} />
       )}
       {homeProducts?.productList.length > 0 && <HomeProductsHeader />}
       <ProductPopup
