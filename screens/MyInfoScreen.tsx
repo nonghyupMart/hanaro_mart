@@ -157,6 +157,14 @@ const MyInfoScreen = (props) => {
           )}
         </TextContainer>
       </MarginContainer>
+      {!!!userInfo?.amnNo && (
+        <JoinBtn
+          onPress={() => props.navigation.navigate("NHAHM", { regiDesc: "01" })}
+        >
+          <JoinBtnText>통합회원 전환하기</JoinBtnText>
+          <Image source={require("../assets/images/refresh_bt.png")} />
+        </JoinBtn>
+      )}
       <WhiteContainer style={{ marginTop: 10 }}>
         {userInfo?.recommend_apply !== "Y" && (
           <BarcodeContainer
@@ -212,6 +220,31 @@ const MyInfoScreen = (props) => {
     </BaseScreen>
   );
 };
+
+const JoinBtnText = styled(BaseText)({
+  fontSize: 16,
+  letterSpacing: -0.32,
+  color: colors.GRAPEFRUIT,
+  lineHeight: 23.5,
+});
+const JoinBtn = styled.TouchableOpacity({
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  borderRadius: 15,
+  backgroundColor: "#ffffff",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: colors.GRAPEFRUIT,
+  paddingLeft: 14,
+  paddingRight: 14,
+  paddingTop: 2.5,
+  paddingBottom: 2.5,
+  alignSelf: "center",
+  marginTop: 40,
+  marginBottom: 20,
+});
+
 const EditButtonText = styled(BaseText)({
   fontSize: 14.5,
   letterSpacing: -0.29,
