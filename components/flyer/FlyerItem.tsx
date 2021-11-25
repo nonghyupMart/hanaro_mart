@@ -7,7 +7,7 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 import styled from "styled-components/native";
 import colors from "../../constants/Colors";
@@ -89,7 +89,7 @@ const FlyerItem = ({
                 aspectRatio: 1 / 1,
               }}
               source={item.title_img}
-              defaultSource={require("../../assets/images/n_img501.png")}
+              defaultSource={require("../../assets/images/update.png")}
             />
             <WishButton
               wish_yn={item.wish_yn}

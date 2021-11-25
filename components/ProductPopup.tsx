@@ -5,7 +5,13 @@ import Modal from "react-native-modal";
 import styled from "styled-components/native";
 import colors from "../constants/Colors";
 import * as Util from "../utils";
-import { BaseImage, BaseSquareButtonContainer, BaseText, BaseTextInput, SCREEN_WIDTH } from "./UI/BaseUI";
+import {
+  BaseImage,
+  BaseSquareButtonContainer,
+  BaseText,
+  BaseTextInput,
+  SCREEN_WIDTH,
+} from "./UI/BaseUI";
 
 const ProductPopup = ({ item, isVisible, setIsVisible }) => {
   if (!item || !isVisible || _.isEmpty(item)) return <></>;
@@ -33,6 +39,7 @@ const ProductPopup = ({ item, isVisible, setIsVisible }) => {
             }}
             source={item.detail_img || item.title_img}
             resizeMode="cover"
+            defaultSource={require("../assets/images/updatelarge.png")}
           />
           <BorderLine />
           <Title>{item.title}</Title>
