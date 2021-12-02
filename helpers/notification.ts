@@ -80,7 +80,7 @@ export const processNotifications = () => {
 
     (async () => {
       const category = notification.request.content.data.category;
-      const store_cd = notification.request.content.data.store_cd;
+      const store_cd = parseInt(notification.request.content.data.store_cd);
       const store_nm = notification.request.content.data.store_nm;
       const cd = notification.request.content.data.cd;
 
