@@ -34,7 +34,7 @@ const MyInfoScreen = (props) => {
       setTimeout(async () => {
         await setRecommend(link.link_code);
         await dispatch(setLink(null));
-      }, 0);
+      }, 500);
     }
   }, [link]);
 

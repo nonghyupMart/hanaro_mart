@@ -39,7 +39,7 @@ const ExhibitionScreen = (props) => {
       setTimeout(async () => {
         await moveToDetail(link.link_code);
         await dispatch(CommonActions.setLink(null));
-      }, 0);
+      }, 500);
     }
   }, [link]);
 
