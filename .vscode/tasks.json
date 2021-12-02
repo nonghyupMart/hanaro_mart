@@ -70,6 +70,13 @@
       "problemMatcher": [],
       "label": "npm: upload:android",
       "detail": "expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api-8118189818183052496-280-3c18658bab02.json"
+    },
+    {
+      "type": "npm",
+      "script": "connect",
+      "problemMatcher": [],
+      "label": "npm: connect",
+      "detail": "adb connect 192.168.35.164:5555"
     }
   ]
 }

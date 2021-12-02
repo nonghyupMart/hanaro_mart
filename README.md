@@ -118,3 +118,8 @@ npm install
 ```bash
 expo start
 ```
+
+# android device wifi ADB connection 
+```
+adb connect 192.168.35.164:5555
+```

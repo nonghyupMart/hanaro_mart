@@ -13,7 +13,8 @@
     "build:android": "expo build:android --release-channel prod --no-wait -t app-bundle",
     "build:ios": "expo build:ios --release-channel prod --no-wait -t archive",
     "build": "expo build:android --release-channel prod --no-wait -t app-bundle && expo build:ios --release-channel prod --no-wait -t archive",
-    "upload:android": "expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api-8118189818183052496-280-3c18658bab02.json"
+    "upload:android": "expo upload:android --latest --key /Users/dominickim/Documents/HanaroPlus/pc-api-8118189818183052496-280-3c18658bab02.json",
+    "connect": "adb connect 192.168.35.164:5555"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^3.8.0",
