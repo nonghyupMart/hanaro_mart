@@ -17,6 +17,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import * as CommonActions from "../../store/actions/common";
 import { setAlert } from "../../store/actions/common";
 
+const MAXIMUM_TIME = 300;
+
 const BarcodeScreen = (props) => {
   const params = props.route.params;
   const dispatch = useAppDispatch();
@@ -50,11 +52,11 @@ const BarcodeScreen = (props) => {
   }, []);
   useEffect(() => {
     const timer = setInterval(() => {
-      if (elapsedTime < 120) {
+      if (elapsedTime < MAXIMUM_TIME) {
         setElapsedTime(() => elapsedTime + 1);
       }
 
-      if (elapsedTime >= 120) {
+      if (elapsedTime >= MAXIMUM_TIME) {
         clearInterval(timer);
         props.navigation.pop();
       }
@@ -83,7 +85,7 @@ const BarcodeScreen = (props) => {
     >
       <Container>
         <TimerText>
-          <Now>{elapsedTime}</Now>/120
+          <Now>{elapsedTime}</Now>/{MAXIMUM_TIME}
         </TimerText>
         <TimerBarContainer
           onLayout={(event) =>
@@ -184,7 +186,7 @@ const TimerText = styled(BaseText)({
 });
 const TimerBar = styled.View({
   width: (props) => {
-    return (props.elapsedTime * props.barContainerWidth) / 120;
+    return (props.elapsedTime * props.barContainerWidth) / MAXIMUM_TIME;
   },
   flex: 1,
   backgroundColor: colors.APPLE_GREEN,
