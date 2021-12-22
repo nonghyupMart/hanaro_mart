@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { PinchGestureHandler } from "react-native-gesture-handler";
 import ImageViewer from "react-native-image-zoom-viewer";
 import Modal from "react-native-modal";
 import styled from "styled-components/native";
 import BaseScreen from "../../components/BaseScreen";
 import {
-  BaseText, DetailContainer,
+  BaseText,
+  DetailContainer,
   ScaledImage,
-  SCREEN_WIDTH
+  SCREEN_WIDTH,
+  BlueButton,
+  BlueButtonText,
 } from "../../components/UI/BaseUI";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
@@ -22,7 +25,6 @@ import A from "./EventDetail/A";
 import B from "./EventDetail/B";
 import C from "./EventDetail/C";
 
-
 const EventDetailScreen = (props) => {
   const dispatch = useAppDispatch();
   const [scrollRef, setScrollRef] = useState();
@@ -30,6 +32,7 @@ const EventDetailScreen = (props) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const userStore = useAppSelector((state) => state.auth.userStore);
   const eventDetail = useAppSelector((state) => state.event.eventDetail);
+  console.log(eventDetail);
   const [key, setKey] = useState(Math.random());
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();
@@ -291,12 +294,22 @@ const EventDetailScreen = (props) => {
           {!!eventDetail.winner_memo && (
             <Text3>{eventDetail.winner_memo}</Text3>
           )}
+          {!!eventDetail?.link_url && (
+            <BackBtn onPress={() => props.navigation.pop()}>
+              <Image source={require("../../assets/images/forward.png")} />
+              <BlueButtonText>이동하기</BlueButtonText>
+            </BackBtn>
+          )}
         </DetailContainer>
       )}
     </BaseScreen>
   );
 };
 
+const BackBtn = styled(BlueButton)({
+  backgroundColor: colors.EMERALD,
+  marginTop: 45,
+});
 const Text3 = styled(BaseText)({
   fontSize: 20,
   lineHeight: 20,

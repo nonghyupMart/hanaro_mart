@@ -136,7 +136,7 @@ const MyInfoScreen = (props) => {
         </TextContainer>
         <TextContainer>
           <TitleIcon source={require("../assets/images/heart2black.png")} />
-          <Text1>추천인코드</Text1>
+          <Text1>나의 추천인코드</Text1>
           <Text2>{userInfo?.recommend}</Text2>
         </TextContainer>
         <TextContainer>
