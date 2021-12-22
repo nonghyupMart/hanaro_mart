@@ -32,7 +32,6 @@ const EventDetailScreen = (props) => {
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const userStore = useAppSelector((state) => state.auth.userStore);
   const eventDetail = useAppSelector((state) => state.event.eventDetail);
-  console.log(eventDetail);
   const [key, setKey] = useState(Math.random());
   const params = props.route.params;
   const [rcp_qr, setRcp_qr] = useState();

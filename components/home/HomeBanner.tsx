@@ -18,11 +18,13 @@ const HomeBanner = (props: any) => {
   const homeBanner = useAppSelector((state) => state.home.homeBanner);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
   const isFocused = useIsFocused();
+  const userStore = useAppSelector((state) => state.auth.userStore);
 
   useEffect(() => {
     if (!isFocused) return;
 
-    dispatch(homeActions.fetchHomeBanner());
+    const query = { store_cd: userStore?.storeInfo.store_cd };
+    dispatch(homeActions.fetchHomeBanner(query));
   }, [isFocused]);
 
   const onPressMembershipBanner = () => {
