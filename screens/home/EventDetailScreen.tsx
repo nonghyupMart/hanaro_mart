@@ -13,6 +13,7 @@ import {
   BlueButton,
   BlueButtonText,
 } from "../../components/UI/BaseUI";
+import * as Linking from "expo-linking";
 import { BackButton, TextTitle } from "../../components/UI/header";
 import { IMAGE_URL } from "../../constants";
 import colors from "../../constants/Colors";
@@ -294,7 +295,7 @@ const EventDetailScreen = (props) => {
             <Text3>{eventDetail.winner_memo}</Text3>
           )}
           {!!eventDetail?.link_url && (
-            <BackBtn onPress={() => props.navigation.pop()}>
+            <BackBtn onPress={() => Linking.openURL(eventDetail?.link_url)}>
               <Image source={require("../../assets/images/forward.png")} />
               <BlueButtonText>이동하기</BlueButtonText>
             </BackBtn>
