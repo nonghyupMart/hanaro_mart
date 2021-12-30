@@ -52,5 +52,7 @@ const colors = {
   WARM_GREY_TWO: "#7d7d7d",
   WARM_GREY_THREE: "#707070",
   WARM_GREY_FOUR: "#a2a2a2",
+  WATERMELON: "#f64f57",
+  LIGHT_ROSE: "#fecbd1",
 };
 export default colors;

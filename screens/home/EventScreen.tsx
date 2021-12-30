@@ -79,15 +79,15 @@ const EventScreen = (props: any) => {
     }
   };
 
-  const moveToDetail = async (event_cd) => {
+  const moveToDetail = async (event_cd, gbn = "") => {
     if (!userInfo?.ci) {
       checkAuth(dispatch, !!userInfo?.ci);
       return;
     }
-    await navigation.navigate("EventDetail", { event_cd: event_cd });
+    await navigation.navigate("EventDetail", { event_cd: event_cd, gbn: gbn });
   };
   const onPress = (item) => {
-    moveToDetail(item.event_cd);
+    moveToDetail(item.event_cd, item.gbn);
   };
   if (!event) return <></>;
   if (routeName === "MyEvent" && _.size(event.eventList) === 0)

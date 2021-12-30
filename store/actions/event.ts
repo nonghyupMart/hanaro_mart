@@ -70,6 +70,19 @@ export const applyEvent = (query) => {
   };
 };
 
+export const applyDailyCheck = (query) => {
+  const url = queryString.stringifyUrl({
+    url: `/daily-check`,
+  });
+  return async (dispatch, getState) => {
+    return Util.axiosInit({ dispatch: dispatch, isAutoOff: true })
+      .post(url, JSON.stringify(query))
+      .then(async (response) => {
+        return response.data;
+      });
+  };
+};
+
 export const applyStamp = (query) => {
   const url = queryString.stringifyUrl({
     url: `/stamp`,

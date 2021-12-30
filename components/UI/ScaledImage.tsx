@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
-import { Image } from "react-native";
+import { Image, ImageBackground } from "react-native";
 import { Image as CacheImage } from "react-native-expo-image-cache";
+
 import { IMAGE_URL } from "../../constants";
 import colors from "../../constants/Colors";
 
@@ -40,7 +41,7 @@ export default class ScaledImage extends Component<IProps, IState> {
   onLoadEnd = () => {
     // TODO: https://stackoverflow.com/questions/44277855/cannot-change-state-interface-in-reacttypescript
     this.state.color = "transparent";
-    if (this.props.onLoadEnd) this.props.onLoadEnd();
+    if (this.props.onLoadEnd) this.props.onLoadEnd(this.state);
     this.setState({ minHeight: 0 });
   };
 
@@ -93,7 +94,7 @@ export default class ScaledImage extends Component<IProps, IState> {
 
   render() {
     return (
-      <Image
+      <ImageBackground
         {...this.props}
         source={this.state.source}
         onLoadEnd={this.onLoadEnd}
@@ -106,7 +107,9 @@ export default class ScaledImage extends Component<IProps, IState> {
           },
           this.props.style,
         ]}
-      />
+      >
+        {this.props.children}
+      </ImageBackground>
     );
   }
 }

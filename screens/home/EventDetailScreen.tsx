@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { PinchGestureHandler } from "react-native-gesture-handler";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -25,9 +25,11 @@ import * as eventActions from "../../store/actions/event";
 import A from "./EventDetail/A";
 import B from "./EventDetail/B";
 import C from "./EventDetail/C";
+import D from "./EventDetail/D";
 
-const EventDetailScreen = (props) => {
+const EventDetailScreen = (props: any) => {
   const dispatch = useAppDispatch();
+
   const [scrollRef, setScrollRef] = useState();
   const [isZoom, setIsZoom] = useState(false);
   const userInfo = useAppSelector((state) => state.auth.userInfo);
@@ -35,6 +37,10 @@ const EventDetailScreen = (props) => {
   const eventDetail = useAppSelector((state) => state.event.eventDetail);
   const [key, setKey] = useState(Math.random());
   const params = props.route.params;
+  const [backgroundColor, setbackgroundColor] = useState(
+    params.gbn == "D" ? colors.WATERMELON : colors.TRUE_WHITE
+  );
+
   const [rcp_qr, setRcp_qr] = useState();
   const [reg_num, setReg_num] = useState();
   const [checkItem, setCheckItem] = useState({
@@ -47,7 +53,7 @@ const EventDetailScreen = (props) => {
     ],
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(CommonActions.setBottomNavigation(false));
     return () => {
       dispatch(CommonActions.setBottomNavigation(true));
@@ -55,9 +61,16 @@ const EventDetailScreen = (props) => {
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     requestEvent();
   }, [dispatch]);
+
+  useLayoutEffect(() => {
+    if (!eventDetail) return;
+    let bgColor =
+      eventDetail.gbn === "D" ? colors.WATERMELON : colors.TRUE_WHITE;
+    setbackgroundColor(bgColor);
+  }, [eventDetail]);
 
   const requestEvent = () => {
     return dispatch(
@@ -78,6 +91,29 @@ const EventDetailScreen = (props) => {
       })
     );
   };
+
+  const validateAgree = () => {
+    if (userInfo?.marketing_agree === "N") {
+      if (
+        !checkItem.isChecked ||
+        !checkItem.child[0].isChecked ||
+        !checkItem.child[1].isChecked
+      ) {
+        dispatch(
+          setAlert({
+            message: "행사안내 및 이벤트 수신동의에 동의해주세요.",
+            onPressConfirm: () => {
+              dispatch(setAlert(null));
+            },
+          })
+        );
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   const onExchangeStamp = (QRCode) => {
     // if (!checkQRLength(QRCode, 12)) return;
 
@@ -122,37 +158,10 @@ const EventDetailScreen = (props) => {
     if (userInfo?.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyStamp(query)).then((data) => {
       if (!data.eventInfo) return;
-      let userInfoTemp = { ...userInfo };
-      userInfoTemp.marketing_agree = "Y";
-
-      dispatch(authActions.setUserInfo(userInfoTemp));
-      authActions.saveUserInfoToStorage(userInfoTemp);
-
-      dispatch(eventActions.updateEventDetail(data.eventInfo));
-      alertSusscess(data.alert_msg);
+      afterApply(data);
     });
   };
-  const validateAgree = () => {
-    if (userInfo?.marketing_agree === "N") {
-      if (
-        !checkItem.isChecked ||
-        !checkItem.child[0].isChecked ||
-        !checkItem.child[1].isChecked
-      ) {
-        dispatch(
-          setAlert({
-            message: "행사안내 및 이벤트 수신동의에 동의해주세요.",
-            onPressConfirm: () => {
-              dispatch(setAlert(null));
-            },
-          })
-        );
-        return false;
-      }
-    }
 
-    return true;
-  };
   const onApply = (QRCode) => {
     if (!validateAgree()) return;
     if (QRCode) {
@@ -172,28 +181,56 @@ const EventDetailScreen = (props) => {
     if (userInfo?.marketing_agree === "N") query.marketing_agree = "Y";
     dispatch(eventActions.applyEvent(query)).then((data) => {
       if (!data.eventInfo) return;
-      dispatch(eventActions.updateEventDetail(data.eventInfo));
-      alertSusscess();
+      afterApply(data);
     });
   };
+  const onApplyDailyCheck = () => {
+    if (!validateAgree()) return;
+    let query = {
+      event_cd: params.event_cd,
+      user_cd: userInfo?.user_cd,
+    };
+    if (userInfo?.marketing_agree === "N") query.marketing_agree = "Y";
+
+    dispatch(eventActions.applyDailyCheck(query)).then((data) => {
+      if (!data.eventInfo) return;
+      afterApply(data);
+    });
+  };
+
+  const afterApply = (data) => {
+    let userInfoTemp = { ...userInfo };
+    userInfoTemp.marketing_agree = "Y";
+
+    dispatch(authActions.setUserInfo(userInfoTemp));
+    authActions.saveUserInfoToStorage(userInfoTemp);
+
+    dispatch(eventActions.updateEventDetail(data.eventInfo));
+    alertSusscess(data.alert_msg);
+  };
+
   const onScaledImageEnd = () => {
     setKey(Math.random());
   };
   if (!eventDetail) return <></>;
+
   return (
     <BaseScreen
       setScrollRef={setScrollRef}
-      style={{ backgroundColor: colors.TRUE_WHITE }}
+      style={{
+        backgroundColor: backgroundColor,
+      }}
       isPadding={false}
       contentStyle={{
         paddingTop: 0,
         paddingBottom: 0,
-        backgroundColor: colors.TRUE_WHITE,
+        backgroundColor: backgroundColor,
       }}
     >
       {eventDetail && (
         <DetailContainer
           style={{
+            backgroundColor: backgroundColor,
             paddingLeft: 0,
             paddingRight: 0,
             marginBottom: 0,
@@ -281,6 +318,18 @@ const EventDetailScreen = (props) => {
               setReg_num={setReg_num}
             />
           )}
+          {eventDetail.entry && eventDetail.gbn === "D" && (
+            <D
+              {...props}
+              scrollRef={scrollRef}
+              key={key}
+              onApply={onApplyDailyCheck}
+              eventDetail={eventDetail}
+              checkItem={checkItem}
+              setCheckItem={setCheckItem}
+              validateAgree={validateAgree}
+            />
+          )}
           {!!eventDetail.winner_img && (
             <View style={{ marginTop: 30 }}>
               <ScaledImage
@@ -330,13 +379,5 @@ export const screenOptions = ({ navigation }) => {
     headerRight: () => <></>,
   };
 };
-
-const styles = StyleSheet.create({
-  screen: {
-    paddingLeft: 0,
-    paddingRight: 0,
-    backgroundColor: colors.TRUE_WHITE,
-  },
-});
 
 export default EventDetailScreen;
