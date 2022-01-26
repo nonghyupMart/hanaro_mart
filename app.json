@@ -68,6 +68,9 @@
         "backgroundColor": "#ffffff",
         "resizeMode": "cover"
       },
+      "adaptiveIcon":{
+        "foregroundImage":"./assets/icon.png",
+      },
       "googleServicesFile": "./google-services.json",
       "package": "com.hanaroPlus.hanaroPlus",
       "useNextNotificationsApi": true,
