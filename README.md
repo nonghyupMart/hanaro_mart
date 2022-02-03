@@ -96,6 +96,10 @@ transporter 사용
 - https://docs.expo.dev/guides/using-sentry/
 - https://sentry.io/
 
+### github 계정
+
+- nonghyupmart@gmail.com
+- PW : nonghyup1234
 
 # Expo CLI 설치
 
